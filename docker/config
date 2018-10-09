@@ -1,0 +1,46 @@
+apiVersion: v1
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: https://127.0.0.1:6443
+  name: mn1
+contexts:
+- context:
+    cluster: mn1
+    namespace: user-shunta
+    user: dex.k8s.pfn.io
+  name: mn1
+current-context: mn1
+kind: Config
+preferences: {}
+users:
+- name: dex.k8s.pfn.io
+  user:
+    auth-provider:
+      config:
+        client-id: kubedex
+        client-secret: cah2quuzahm6vaequ1paiMielee1aht9aighoepei7pha9eToyae6phieng2faet
+        id-token: eyJhbGciOiJSUzI1NiIsImtpZCI6ImFjY2U5NWJhYTdkMTJlYWIyYTU0MWI4ZGNjOTU1ZDY2ZDUzMDViYmIifQ.eyJpc3MiOiJodHRwczovL2RleC5rOHMucGZuLmlvIiwic3ViIjoiQ2daemFIVnVkR0VTQkd4a1lYQSIsImF1ZCI6Imt1YmVkZXgiLCJleHAiOjE1MzA2MDMyODgsImlhdCI6MTUzMDUxNjg4OCwiYXRfaGFzaCI6ImlLakQ2Nlp6VjZ5aVpRMnVKdEFpR3ciLCJlbWFpbCI6InNodW50YUBwcmVmZXJyZWQuanAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZ3JvdXBzIjpbImRlZXBtdXhfdXNlciIsInByaiBzc2Q6IElTIiwiQWxsIFVzZXJzIC0gTERBUCIsInR5cGUgZnVsbHRpbWU6IElTIiwiazhzX2dlbmVyYWxfdXNlcnMiXSwibmFtZSI6IlNodW50YSBTYWl0byJ9.b2LVj7YNU0Q9KO3MzZaSKzHsjZvCvpC1pQNDbrlgKVoR4Txbrqs5itB4JjqQVO_9EF-IjfsZvWYMIPvn_1BnvuFilXs4yRHSt6JfT4zCnnzchM2v6jscSvsuq5Scapg_znH6shShd4rLpj3P_jZERxQrltL9Gbos_CkPdbg6mHoLHPSUUTFkb9moHSkwh-iO87F3_LyqJRyPTc1Z8AbBPFlfBWEWfnghg6PYi3Ing8-1YcWZl9cMydcfbm60iY7gl7t3UcLpONq7DQBj-kaQYgoMqELctcWUdlvhILB8DrN5dlUGKu9LB4sgnpzFfsO1fzAr1ocEzpdlEQRVfeBG0A
+        idp-issuer-url: https://dex.k8s.pfn.io
+        refresh-token: ChlmYnBvMmZscHZnZjVwemV1eHJ6Z2R4cXNlEhlta2o2ZWU3NGEza3RwNXF1NzZvZ2dsM3hi
+      name: oidc
+- name: https://dex.k8s.pfn.io
+  user:
+    auth-provider:
+      config:
+        client-id: kubedex
+        client-secret: cah2quuzahm6vaequ1paiMielee1aht9aighoepei7pha9eToyae6phieng2faet
+        id-token: eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc1ZTI0ZTUwMTllYjA4N2EwYTA0YTc4OGQ3ODYzYjRiZTc1ZjNjM2UifQ.eyJpc3MiOiJodHRwczovL2RleC5rOHMucGZuLmlvIiwic3ViIjoiQ2daemFIVnVkR0VTQkd4a1lYQSIsImF1ZCI6Imt1YmVkZXgiLCJleHAiOjE1MzkxODY5MDYsImlhdCI6MTUzOTEwMDUwNiwiYXRfaGFzaCI6IlhhOHM1Ulk5cUdkdzEyZHU1ZTFaTEEiLCJlbWFpbCI6InNodW50YUBwcmVmZXJyZWQuanAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZ3JvdXBzIjpbImRlZXBtdXhfdXNlciIsInByaiBzc2Q6IElTIiwiQWxsIFVzZXJzIC0gTERBUCIsInR5cGUgZnVsbHRpbWU6IElTIiwiazhzX2dlbmVyYWxfdXNlcnMiXSwibmFtZSI6IlNodW50YSBTYWl0byJ9.KfC9V-dNpyMsh381Vy2w1D8FBxSV5RsneOIGxsQDD2N6ZiIn2z8zBKqh2nnkNFBV7LbCYAR_bj722PquNsuDzoKIDEkSgWy7gyV_dayBJWURU3_eemhrplp9ocx9b7Yz_ZrINDV6E9dV6S0bgUk3hiRAqUNEIzj4GqCXvp0IAdYVYlDKCtQc9-BqFCNsx4ihC7BKWeWw_qaJRdlhNgb_ZqzbSvawz8thmrh070H0J1pRnGi8qpalIuykBTo5kDDpjakjBDt34woxtAOTtG-1xpSTFdBzFlFTyBJlWR-yafV711gEBDJZIFF4FAv2-Zd20EH5vC-zjLgC90WxwSGY4w
+        idp-issuer-url: https://dex.k8s.pfn.io
+        refresh-token: ChlsdGRmZzJyaG01ZndmdTRxNjZ6cmxsaWdpEhl1NmtvaGxibDNzcmFsaGxzd2Rndnl4ZG1p
+      name: oidc
+- name: shunta@preferred.jp
+  user:
+    auth-provider:
+      config:
+        client-id: kubedex
+        client-secret: cah2quuzahm6vaequ1paiMielee1aht9aighoepei7pha9eToyae6phieng2faet
+        id-token: eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg5ZDRkNTE0MzRlZjQ1ODM2NzBjODQxMjA1YjRkYTZjYmNlYjg3YmMifQ.eyJpc3MiOiJodHRwczovL2RleC5rOHMucGZuLmlvIiwic3ViIjoiQ2daemFIVnVkR0VTQkd4a1lYQSIsImF1ZCI6Imt1YmVkZXgiLCJleHAiOjE1MjMzMjU3NzEsImlhdCI6MTUyMzIzOTM3MSwiYXRfaGFzaCI6ImpfRW9pdE93UzgzSlBXNEhhY2ZndGciLCJlbWFpbCI6InNodW50YUBwcmVmZXJyZWQuanAiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZ3JvdXBzIjpbImRlZXBtdXhfdXNlciIsIkFsbCBVc2VycyAtIExEQVAiLCJ0eXBlIGZ1bGx0aW1lOiBJUyIsIms4c19nZW5lcmFsX3VzZXJzIl0sIm5hbWUiOiJTaHVudGEgU2FpdG8ifQ.f0rS1knZQOYIpaHODim2MPD-pr3ht0FInmW4jVetB3lIWkvwNNvc6V1kac2kEGCs_KQCPnBbb6UqA48aUzrfFbCmdaG9ZP7HI7A0ZkmmqhJ8oIXqgLHpblwJzhYk79ysw_TyrLcDTlQw3DX6FljCIpYlauxbpW_Vq7ChwZgw9UsUV4AIOJRJ2bDSA4vhWupDhXCbI6vrwjEJ3lLj7KZQAAtCZHqQtoTbkqLOrZyXASNIZUFd1awAfnz-nHuXaP1zgavTrjG_dw18HFAfkMiYFCCD7AiVHeLRtWgomNnLiOam2y4ZKM7yDq77Qcl3pUb7Q_UQ-Fr7-VJ0l22uxa8mOg
+        idp-issuer-url: https://dex.k8s.pfn.io
+        refresh-token: ChlncTdiYzRkd2dvZ3l3NGJoYzJ3YnpwdDc2EhliaWZqcnN1b3R5M3BybnB0ZnF2dHJsZGV2
+      name: oidc

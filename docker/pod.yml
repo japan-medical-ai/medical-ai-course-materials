@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: medical-ai
+spec:
+  restartPolicy: OnFailure
+  nodeSelector:
+    nvidia.k8s.pfn.io/gpu_model: Tesla-V100-PCIE-32GB
+  priorityClassName: preemptible
+  containers:
+    - name: tgan
+      image: harbor.pfn.io/tgan/tgan4:shunta
+      command: ["zsh"]
+      args: ["-c", "trap exit TERM; sleep infinity & wait"]
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+          # nvidia.com/gpu: "8"  # Use this line for V100
+          memory: "64Gi"
+      volumeMounts:
+        - name: netapp-vol01
+          mountPath: /mnt/netapp_vol01
+      ports:
+        - containerPort: 8080
+
+  imagePullSecrets:
+    - name: harbor-cred
+  volumes:
+    - name: netapp-vol01
+      hostPath:
+        path: /mnt/netapp_vol01
+
