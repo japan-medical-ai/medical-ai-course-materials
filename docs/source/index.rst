@@ -7,6 +7,7 @@ Welcome to medical-ai's documentation!
 ======================================
 
 .. toctree::
+    :maxdepth: 3
     :glob:
 
     notebooks/Image_Segmentation_with_Chainer
