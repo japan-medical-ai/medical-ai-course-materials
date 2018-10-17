@@ -2,8 +2,8 @@
 ===============================
 
 .. toctree::
-    :maxdepth: 3
-    :glob:
+    :maxdepth: 2
+    :numbered:
 
     notebooks/Image_Segmentation_with_Chainer
     notebooks/Blood_Cell_Detection
