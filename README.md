@@ -1,1 +1,2 @@
-# medical-ai-materials
+# メディカルAI学会認定資格向け教材
+
