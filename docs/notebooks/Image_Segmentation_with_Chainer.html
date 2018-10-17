@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Chainerハンズオン：画像セグメンテーション &mdash; medical-ai-course-materials  ドキュメント</title>
+  <title>実践編: CT/MRI画像のセグメンテーション &mdash; medical-ai-course-materials  ドキュメント</title>
   
 
   
@@ -79,8 +79,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Chainerハンズオン：画像セグメンテーション</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#環境">環境</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">実践編: CT/MRI画像のセグメンテーション</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">環境構築</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#1.-Semantic-Segmentationについて">1. Semantic Segmentationについて</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#2.-使用するデータセット">2. 使用するデータセット</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#3.-Chainerの概要">3. Chainerの概要</a><ul>
@@ -160,7 +160,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>Chainerハンズオン：画像セグメンテーション</li>
+      <li>実践編: CT/MRI画像のセグメンテーション</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -362,10 +362,10 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="Chainerハンズオン：画像セグメンテーション">
-<h1>Chainerハンズオン：画像セグメンテーション<a class="headerlink" href="#Chainerハンズオン：画像セグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p><a class="reference external" href="https://github.com/mitmul/chainer-handson/blob/master/segmentation-handson/Image_Segmentation_with_Chainer.ipynb">Open on
-Github</a></p>
+<div class="section" id="実践編:-CT/MRI画像のセグメンテーション">
+<h1>実践編: CT/MRI画像のセグメンテーション<a class="headerlink" href="#実践編:-CT/MRI画像のセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p><a class="reference external" href="https://colab.research.google.com/github/mitmul/medical-ai-course-materials/blob/master/docs/source/notebooks/Image_Segmentation_with_Chainer.ipynb">Open with
+Colab</a></p>
 <p>画像を対象とした深層学習の応用技術には様々なものがあります．例えば，画像の中の個別の物体の周りを矩形で囲むようにして検出する<strong>物体検出</strong>や，画像内で個別物体が占める領域を認識する<strong>画像セグメンテーション</strong>などがあります．</p>
 <p><strong>物体検出</strong>は，対象物体の<strong>「種類」と「位置」を認識する技術</strong>であるといえます．</p>
 <p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /> 物体検出の例．矩形で対象物体を囲い，そのクラスを答えるタスク．</p>
@@ -379,8 +379,8 @@ labeling
 タスクとも呼ばれます．これは，対象物体の<strong>「種類」と「位置」と「形」を認識する技術</strong>であるといえるでしょう．</p>
 <p>今回は，深層学習フレームワークChainerを用いて，このSemantic
 Segmentationタスクに取り組んでみましょう．</p>
-<div class="section" id="環境">
-<h2>環境<a class="headerlink" href="#環境" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="環境構築">
+<h2>環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここで用いるライブラリは，</p>
 <ul class="simple">
 <li>Chainer</li>
@@ -425,16 +425,20 @@ Colab上では，以下のようにしてインストールすることができ
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-49e18ac51f5d&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> chainer
-<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">import</span> cupy
-<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-green-fg">import</span> chainercv
-<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">import</span> matplotlib
-<span class="ansi-green-intense-fg ansi-bold">      5</span>
-
-<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;chainer&#39;
+Platform: Linux-4.4.0-116-generic-x86_64-with-debian-stretch-sid
+Chainer: 5.0.0rc1
+NumPy: 1.15.2
+CuPy:
+  CuPy Version          : 5.0.0rc1
+  CUDA Root             : /usr/local/cuda
+  CUDA Build Version    : 9020
+  CUDA Driver Version   : 9020
+  CUDA Runtime Version  : 9020
+  cuDNN Build Version   : 7201
+  cuDNN Version         : 7201
+  NCCL Build Version    : 2213
+ChainerCV: 0.10.0
+matplotlib: 3.0.0
 </pre></div></div>
 </div>
 </div>
@@ -460,14 +464,13 @@ Entropyをロス関数とします．2クラスの場合に出力の1チャネ�
 <p>下記にこのデータセットから抜き出した画像ペアの例を示します．下のセルを実行してみてください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/train.zip
-<span class="o">!</span>unzip train.zip <span class="o">&amp;&amp;</span> rm -rf train.zip
-<span class="o">!</span>curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/val.zip
-<span class="o">!</span>unzip val.zip <span class="o">&amp;&amp;</span> rm -rf val.zip
+<span></span><span class="o">!</span><span class="k">if</span> <span class="o">[</span> ! -d train <span class="o">]</span><span class="p">;</span> <span class="k">then</span> curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/train.zip <span class="o">&amp;&amp;</span> unzip train.zip <span class="o">&amp;&amp;</span> rm -rf train.zip<span class="p">;</span> <span class="k">fi</span>
+<span class="o">!</span><span class="k">if</span> <span class="o">[</span> ! -d val <span class="o">]</span><span class="p">;</span> <span class="k">then</span> curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/val.zip <span class="o">&amp;&amp;</span> unzip val.zip <span class="o">&amp;&amp;</span> rm -rf val.zip<span class="p">;</span> <span class="k">fi</span>
+<span class="o">!</span>ls -la train val
 </pre></div>
 </div>
 </div>
@@ -476,547 +479,24 @@ Entropyをロス関数とします．2クラスの場合に出力の1チャネ�
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   599    0   599    0     0    191      0 --:--:--  0:00:03 --:--:--   204
-100 7533k  100 7533k    0     0   784k      0  0:00:09  0:00:09 --:--:-- 1636k 0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
-Archive:  train.zip
-   creating: train/
-   creating: train/image/
-  inflating: train/image/000.png
-  inflating: train/image/001.png
-  inflating: train/image/002.png
-  inflating: train/image/003.png
-  inflating: train/image/004.png
-  inflating: train/image/005.png
-  inflating: train/image/006.png
-  inflating: train/image/007.png
-  inflating: train/image/008.png
-  inflating: train/image/009.png
-  inflating: train/image/010.png
-  inflating: train/image/011.png
-  inflating: train/image/012.png
-  inflating: train/image/013.png
-  inflating: train/image/014.png
-  inflating: train/image/015.png
-  inflating: train/image/016.png
-  inflating: train/image/017.png
-  inflating: train/image/018.png
-  inflating: train/image/019.png
-  inflating: train/image/020.png
-  inflating: train/image/021.png
-  inflating: train/image/022.png
-  inflating: train/image/023.png
-  inflating: train/image/024.png
-  inflating: train/image/025.png
-  inflating: train/image/026.png
-  inflating: train/image/027.png
-  inflating: train/image/028.png
-  inflating: train/image/029.png
-  inflating: train/image/030.png
-  inflating: train/image/031.png
-  inflating: train/image/032.png
-  inflating: train/image/033.png
-  inflating: train/image/034.png
-  inflating: train/image/035.png
-  inflating: train/image/036.png
-  inflating: train/image/037.png
-  inflating: train/image/038.png
-  inflating: train/image/039.png
-  inflating: train/image/040.png
-  inflating: train/image/041.png
-  inflating: train/image/042.png
-  inflating: train/image/043.png
-  inflating: train/image/044.png
-  inflating: train/image/045.png
-  inflating: train/image/046.png
-  inflating: train/image/047.png
-  inflating: train/image/048.png
-  inflating: train/image/049.png
-  inflating: train/image/050.png
-  inflating: train/image/051.png
-  inflating: train/image/052.png
-  inflating: train/image/053.png
-  inflating: train/image/054.png
-  inflating: train/image/055.png
-  inflating: train/image/056.png
-  inflating: train/image/057.png
-  inflating: train/image/058.png
-  inflating: train/image/059.png
-  inflating: train/image/060.png
-  inflating: train/image/061.png
-  inflating: train/image/062.png
-  inflating: train/image/063.png
-  inflating: train/image/064.png
-  inflating: train/image/065.png
-  inflating: train/image/066.png
-  inflating: train/image/067.png
-  inflating: train/image/068.png
-  inflating: train/image/069.png
-  inflating: train/image/070.png
-  inflating: train/image/071.png
-  inflating: train/image/072.png
-  inflating: train/image/073.png
-  inflating: train/image/074.png
-  inflating: train/image/075.png
-  inflating: train/image/076.png
-  inflating: train/image/077.png
-  inflating: train/image/078.png
-  inflating: train/image/079.png
-  inflating: train/image/080.png
-  inflating: train/image/081.png
-  inflating: train/image/082.png
-  inflating: train/image/083.png
-  inflating: train/image/084.png
-  inflating: train/image/085.png
-  inflating: train/image/086.png
-  inflating: train/image/087.png
-  inflating: train/image/088.png
-  inflating: train/image/089.png
-  inflating: train/image/090.png
-  inflating: train/image/091.png
-  inflating: train/image/092.png
-  inflating: train/image/093.png
-  inflating: train/image/094.png
-  inflating: train/image/095.png
-  inflating: train/image/096.png
-  inflating: train/image/097.png
-  inflating: train/image/098.png
-  inflating: train/image/099.png
-  inflating: train/image/100.png
-  inflating: train/image/101.png
-  inflating: train/image/102.png
-  inflating: train/image/103.png
-  inflating: train/image/104.png
-  inflating: train/image/105.png
-  inflating: train/image/106.png
-  inflating: train/image/107.png
-  inflating: train/image/108.png
-  inflating: train/image/109.png
-  inflating: train/image/110.png
-  inflating: train/image/111.png
-  inflating: train/image/112.png
-  inflating: train/image/113.png
-  inflating: train/image/114.png
-  inflating: train/image/115.png
-  inflating: train/image/116.png
-  inflating: train/image/117.png
-  inflating: train/image/118.png
-  inflating: train/image/119.png
-  inflating: train/image/120.png
-  inflating: train/image/121.png
-  inflating: train/image/122.png
-  inflating: train/image/123.png
-  inflating: train/image/124.png
-  inflating: train/image/125.png
-  inflating: train/image/126.png
-  inflating: train/image/127.png
-  inflating: train/image/128.png
-  inflating: train/image/129.png
-  inflating: train/image/130.png
-  inflating: train/image/131.png
-  inflating: train/image/132.png
-  inflating: train/image/133.png
-  inflating: train/image/134.png
-  inflating: train/image/135.png
-  inflating: train/image/136.png
-  inflating: train/image/137.png
-  inflating: train/image/138.png
-  inflating: train/image/139.png
-  inflating: train/image/140.png
-  inflating: train/image/141.png
-  inflating: train/image/142.png
-  inflating: train/image/143.png
-  inflating: train/image/144.png
-  inflating: train/image/145.png
-  inflating: train/image/146.png
-  inflating: train/image/147.png
-  inflating: train/image/148.png
-  inflating: train/image/149.png
-  inflating: train/image/150.png
-  inflating: train/image/151.png
-  inflating: train/image/152.png
-  inflating: train/image/153.png
-  inflating: train/image/154.png
-  inflating: train/image/155.png
- extracting: train/image/156.png
-  inflating: train/image/157.png
-  inflating: train/image/158.png
-  inflating: train/image/159.png
-  inflating: train/image/160.png
-  inflating: train/image/161.png
-  inflating: train/image/162.png
-  inflating: train/image/163.png
-  inflating: train/image/164.png
-  inflating: train/image/165.png
-  inflating: train/image/166.png
-  inflating: train/image/167.png
-  inflating: train/image/168.png
-  inflating: train/image/169.png
-  inflating: train/image/170.png
-  inflating: train/image/171.png
-  inflating: train/image/172.png
-  inflating: train/image/173.png
-  inflating: train/image/174.png
-  inflating: train/image/175.png
-  inflating: train/image/176.png
-  inflating: train/image/177.png
-  inflating: train/image/178.png
-  inflating: train/image/179.png
-  inflating: train/image/180.png
-  inflating: train/image/181.png
-  inflating: train/image/182.png
-  inflating: train/image/183.png
-  inflating: train/image/184.png
-  inflating: train/image/185.png
-  inflating: train/image/186.png
-  inflating: train/image/187.png
-  inflating: train/image/188.png
-  inflating: train/image/189.png
-  inflating: train/image/190.png
-  inflating: train/image/191.png
-  inflating: train/image/192.png
-  inflating: train/image/193.png
-  inflating: train/image/194.png
-  inflating: train/image/195.png
-  inflating: train/image/196.png
-  inflating: train/image/197.png
-  inflating: train/image/198.png
-  inflating: train/image/199.png
-  inflating: train/image/200.png
-  inflating: train/image/201.png
-  inflating: train/image/202.png
-  inflating: train/image/203.png
-  inflating: train/image/204.png
-  inflating: train/image/205.png
-  inflating: train/image/206.png
-  inflating: train/image/207.png
-  inflating: train/image/208.png
-  inflating: train/image/209.png
-  inflating: train/image/210.png
-  inflating: train/image/211.png
-  inflating: train/image/212.png
-  inflating: train/image/213.png
-  inflating: train/image/214.png
-  inflating: train/image/215.png
-  inflating: train/image/216.png
-  inflating: train/image/217.png
-  inflating: train/image/218.png
-  inflating: train/image/219.png
-  inflating: train/image/220.png
-  inflating: train/image/221.png
-  inflating: train/image/222.png
-  inflating: train/image/223.png
-  inflating: train/image/224.png
-  inflating: train/image/225.png
-  inflating: train/image/226.png
-  inflating: train/image/227.png
-  inflating: train/image/228.png
-  inflating: train/image/229.png
-  inflating: train/image/230.png
-  inflating: train/image/231.png
-  inflating: train/image/232.png
-  inflating: train/image/233.png
-   creating: train/label/
-  inflating: train/label/000.png
-  inflating: train/label/001.png
-  inflating: train/label/002.png
-  inflating: train/label/003.png
-  inflating: train/label/004.png
-  inflating: train/label/005.png
-  inflating: train/label/006.png
-  inflating: train/label/007.png
-  inflating: train/label/008.png
-  inflating: train/label/009.png
-  inflating: train/label/010.png
-  inflating: train/label/011.png
-  inflating: train/label/012.png
-  inflating: train/label/013.png
-  inflating: train/label/014.png
-  inflating: train/label/015.png
-  inflating: train/label/016.png
-  inflating: train/label/017.png
-  inflating: train/label/018.png
-  inflating: train/label/019.png
-  inflating: train/label/020.png
-  inflating: train/label/021.png
-  inflating: train/label/022.png
-  inflating: train/label/023.png
-  inflating: train/label/024.png
-  inflating: train/label/025.png
-  inflating: train/label/026.png
-  inflating: train/label/027.png
-  inflating: train/label/028.png
-  inflating: train/label/029.png
-  inflating: train/label/030.png
-  inflating: train/label/031.png
-  inflating: train/label/032.png
-  inflating: train/label/033.png
-  inflating: train/label/034.png
-  inflating: train/label/035.png
-  inflating: train/label/036.png
-  inflating: train/label/037.png
-  inflating: train/label/038.png
-  inflating: train/label/039.png
-  inflating: train/label/040.png
-  inflating: train/label/041.png
-  inflating: train/label/042.png
-  inflating: train/label/043.png
-  inflating: train/label/044.png
-  inflating: train/label/045.png
-  inflating: train/label/046.png
-  inflating: train/label/047.png
-  inflating: train/label/048.png
-  inflating: train/label/049.png
-  inflating: train/label/050.png
-  inflating: train/label/051.png
-  inflating: train/label/052.png
-  inflating: train/label/053.png
-  inflating: train/label/054.png
-  inflating: train/label/055.png
-  inflating: train/label/056.png
-  inflating: train/label/057.png
-  inflating: train/label/058.png
-  inflating: train/label/059.png
-  inflating: train/label/060.png
-  inflating: train/label/061.png
-  inflating: train/label/062.png
-  inflating: train/label/063.png
-  inflating: train/label/064.png
-  inflating: train/label/065.png
-  inflating: train/label/066.png
-  inflating: train/label/067.png
-  inflating: train/label/068.png
-  inflating: train/label/069.png
-  inflating: train/label/070.png
-  inflating: train/label/071.png
-  inflating: train/label/072.png
-  inflating: train/label/073.png
-  inflating: train/label/074.png
-  inflating: train/label/075.png
-  inflating: train/label/076.png
-  inflating: train/label/077.png
-  inflating: train/label/078.png
-  inflating: train/label/079.png
-  inflating: train/label/080.png
-  inflating: train/label/081.png
-  inflating: train/label/082.png
-  inflating: train/label/083.png
-  inflating: train/label/084.png
-  inflating: train/label/085.png
-  inflating: train/label/086.png
-  inflating: train/label/087.png
-  inflating: train/label/088.png
-  inflating: train/label/089.png
-  inflating: train/label/090.png
-  inflating: train/label/091.png
-  inflating: train/label/092.png
-  inflating: train/label/093.png
-  inflating: train/label/094.png
-  inflating: train/label/095.png
-  inflating: train/label/096.png
-  inflating: train/label/097.png
-  inflating: train/label/098.png
-  inflating: train/label/099.png
-  inflating: train/label/100.png
-  inflating: train/label/101.png
-  inflating: train/label/102.png
-  inflating: train/label/103.png
-  inflating: train/label/104.png
-  inflating: train/label/105.png
-  inflating: train/label/106.png
-  inflating: train/label/107.png
-  inflating: train/label/108.png
-  inflating: train/label/109.png
-  inflating: train/label/110.png
-  inflating: train/label/111.png
-  inflating: train/label/112.png
-  inflating: train/label/113.png
-  inflating: train/label/114.png
-  inflating: train/label/115.png
-  inflating: train/label/116.png
-  inflating: train/label/117.png
-  inflating: train/label/118.png
-  inflating: train/label/119.png
-  inflating: train/label/120.png
-  inflating: train/label/121.png
-  inflating: train/label/122.png
-  inflating: train/label/123.png
-  inflating: train/label/124.png
-  inflating: train/label/125.png
-  inflating: train/label/126.png
-  inflating: train/label/127.png
-  inflating: train/label/128.png
-  inflating: train/label/129.png
-  inflating: train/label/130.png
-  inflating: train/label/131.png
-  inflating: train/label/132.png
-  inflating: train/label/133.png
-  inflating: train/label/134.png
-  inflating: train/label/135.png
-  inflating: train/label/136.png
-  inflating: train/label/137.png
-  inflating: train/label/138.png
-  inflating: train/label/139.png
-  inflating: train/label/140.png
-  inflating: train/label/141.png
-  inflating: train/label/142.png
-  inflating: train/label/143.png
-  inflating: train/label/144.png
-  inflating: train/label/145.png
-  inflating: train/label/146.png
-  inflating: train/label/147.png
-  inflating: train/label/148.png
-  inflating: train/label/149.png
-  inflating: train/label/150.png
-  inflating: train/label/151.png
-  inflating: train/label/152.png
-  inflating: train/label/153.png
-  inflating: train/label/154.png
-  inflating: train/label/155.png
-  inflating: train/label/156.png
-  inflating: train/label/157.png
-  inflating: train/label/158.png
-  inflating: train/label/159.png
-  inflating: train/label/160.png
-  inflating: train/label/161.png
-  inflating: train/label/162.png
-  inflating: train/label/163.png
-  inflating: train/label/164.png
-  inflating: train/label/165.png
-  inflating: train/label/166.png
-  inflating: train/label/167.png
-  inflating: train/label/168.png
-  inflating: train/label/169.png
-  inflating: train/label/170.png
-  inflating: train/label/171.png
-  inflating: train/label/172.png
-  inflating: train/label/173.png
-  inflating: train/label/174.png
-  inflating: train/label/175.png
-  inflating: train/label/176.png
-  inflating: train/label/177.png
-  inflating: train/label/178.png
-  inflating: train/label/179.png
-  inflating: train/label/180.png
-  inflating: train/label/181.png
-  inflating: train/label/182.png
-  inflating: train/label/183.png
-  inflating: train/label/184.png
-  inflating: train/label/185.png
-  inflating: train/label/186.png
-  inflating: train/label/187.png
-  inflating: train/label/188.png
-  inflating: train/label/189.png
-  inflating: train/label/190.png
-  inflating: train/label/191.png
-  inflating: train/label/192.png
-  inflating: train/label/193.png
-  inflating: train/label/194.png
-  inflating: train/label/195.png
-  inflating: train/label/196.png
-  inflating: train/label/197.png
-  inflating: train/label/198.png
-  inflating: train/label/199.png
-  inflating: train/label/200.png
-  inflating: train/label/201.png
-  inflating: train/label/202.png
-  inflating: train/label/203.png
-  inflating: train/label/204.png
-  inflating: train/label/205.png
-  inflating: train/label/206.png
-  inflating: train/label/207.png
-  inflating: train/label/208.png
-  inflating: train/label/209.png
-  inflating: train/label/210.png
-  inflating: train/label/211.png
-  inflating: train/label/212.png
-  inflating: train/label/213.png
-  inflating: train/label/214.png
-  inflating: train/label/215.png
-  inflating: train/label/216.png
-  inflating: train/label/217.png
-  inflating: train/label/218.png
-  inflating: train/label/219.png
-  inflating: train/label/220.png
-  inflating: train/label/221.png
-  inflating: train/label/222.png
-  inflating: train/label/223.png
-  inflating: train/label/224.png
-  inflating: train/label/225.png
-  inflating: train/label/226.png
-  inflating: train/label/227.png
-  inflating: train/label/228.png
-  inflating: train/label/229.png
-  inflating: train/label/230.png
-  inflating: train/label/231.png
-  inflating: train/label/232.png
-  inflating: train/label/233.png
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   597    0   597    0     0    225      0 --:--:--  0:00:02 --:--:--   225
-100  886k  100  886k    0     0   121k      0  0:00:07  0:00:07 --:--:--  255k
-Archive:  val.zip
-   creating: val/
-   creating: val/image/
-  inflating: val/image/000.png
-  inflating: val/image/001.png
- extracting: val/image/002.png
-  inflating: val/image/003.png
-  inflating: val/image/004.png
-  inflating: val/image/005.png
-  inflating: val/image/006.png
-  inflating: val/image/007.png
-  inflating: val/image/008.png
-  inflating: val/image/009.png
-  inflating: val/image/010.png
-  inflating: val/image/011.png
-  inflating: val/image/012.png
-  inflating: val/image/013.png
-  inflating: val/image/014.png
-  inflating: val/image/015.png
-  inflating: val/image/016.png
-  inflating: val/image/017.png
-  inflating: val/image/018.png
-  inflating: val/image/019.png
-  inflating: val/image/020.png
-  inflating: val/image/021.png
-  inflating: val/image/022.png
-  inflating: val/image/023.png
-  inflating: val/image/024.png
-  inflating: val/image/025.png
-   creating: val/label/
-  inflating: val/label/000.png
-  inflating: val/label/001.png
-  inflating: val/label/002.png
-  inflating: val/label/003.png
-  inflating: val/label/004.png
-  inflating: val/label/005.png
-  inflating: val/label/006.png
-  inflating: val/label/007.png
-  inflating: val/label/008.png
-  inflating: val/label/009.png
-  inflating: val/label/010.png
-  inflating: val/label/011.png
-  inflating: val/label/012.png
-  inflating: val/label/013.png
-  inflating: val/label/014.png
-  inflating: val/label/015.png
-  inflating: val/label/016.png
-  inflating: val/label/017.png
-  inflating: val/label/018.png
-  inflating: val/label/019.png
-  inflating: val/label/020.png
-  inflating: val/label/021.png
-  inflating: val/label/022.png
-  inflating: val/label/023.png
-  inflating: val/label/024.png
-  inflating: val/label/025.png
+train:
+total 48
+drwxr-xr-x  4 shunta shunta  4096 Sep  6  2017 .
+drwxr-xr-x 10 shunta shunta  4096 Oct 17 12:51 ..
+drwxr-xr-x  2 shunta shunta 20480 Oct 17 11:40 image
+drwxr-xr-x  2 shunta shunta 20480 Oct 17 11:40 label
+
+val:
+total 16
+drwxr-xr-x  4 shunta shunta 4096 Sep  6  2017 .
+drwxr-xr-x 10 shunta shunta 4096 Oct 17 12:51 ..
+drwxr-xr-x  2 shunta shunta 4096 Oct 17 11:40 image
+drwxr-xr-x  2 shunta shunta 4096 Oct 17 11:40 label
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
