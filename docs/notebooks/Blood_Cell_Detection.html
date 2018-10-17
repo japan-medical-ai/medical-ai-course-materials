@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>2. 血液細胞の検出 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
+  <title>2. 実践編: 細胞画像からの細胞検出 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
   
 
   
@@ -79,10 +79,10 @@
             
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Image_Segmentation_with_Chainer.html">1. 実践編: CT/MRI画像のセグメンテーション</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">2. 血液細胞の検出</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#準備">2.1. 準備</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#データセットの準備">2.2. データセットの準備</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#データセットダウンロード">2.2.1. データセットダウンロード</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. 実践編: 細胞画像からの細胞検出</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#1.-環境構築">2.1. 1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#2.-データセットの準備">2.2. 2. データセットの準備</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#2.1-データセットダウンロード">2.2.1. 2.1 データセットダウンロード</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#データセットオブジェクト作成">2.2.2. データセットオブジェクト作成</a></li>
 </ul>
 </li>
@@ -135,7 +135,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>2. 血液細胞の検出</li>
+      <li>2. 実践編: 細胞画像からの細胞検出</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -337,8 +337,8 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="血液細胞の検出">
-<h1>2. 血液細胞の検出<a class="headerlink" href="#血液細胞の検出" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="実践編:-細胞画像からの細胞検出">
+<h1>2. 実践編: 細胞画像からの細胞検出<a class="headerlink" href="#実践編:-細胞画像からの細胞検出" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ここでは血液細胞の検出タスクに取り組みます。人の血液の顕微鏡画像が与えられたときに、赤血球（Red
 Blood Cell; RBC）・白血球（White Blood Cell;
 WBC）・血小板（Platelet）の3種の細胞をそれぞれ<strong>どの位置にあるか</strong>個別に認識します。これによって、画像内にそれらの細胞が何個づつあるか、ということが分かります。</p>
@@ -350,8 +350,8 @@ boxは、（矩形の左上のy座標, 矩形の左上のx座標, 矩形の右�
 矩形の右下のx座標）のような形式のタプルで定義されることが多く、クラスは物体の種類ごとに振られたIDで表されることが多いようです。</p>
 <p>今回は近年、物体検出によく用いられるSingle Shot Multibox
 Detector（通称SSD）というモデルを、血液細胞の検出に用いてみましょう。</p>
-<div class="section" id="準備">
-<h2>2.1. 準備<a class="headerlink" href="#準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="1.-環境構築">
+<h2>2.1. 1. 環境構築<a class="headerlink" href="#1.-環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まず環境構築のため以下のセルを実行してChainer, CuPy, ChainerCV,
 matplotlibといったPythonパッケージのインストールを済ませます。</p>
 <div class="nbinput nblast docutils container">
@@ -396,10 +396,10 @@ CuPy:
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="データセットの準備">
-<h2>2.2. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="データセットダウンロード">
-<h3>2.2.1. データセットダウンロード<a class="headerlink" href="#データセットダウンロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="2.-データセットの準備">
+<h2>2.2. 2. データセットの準備<a class="headerlink" href="#2.-データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="2.1-データセットダウンロード">
+<h3>2.2.1. 2.1 データセットダウンロード<a class="headerlink" href="#2.1-データセットダウンロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>今回は<a class="reference external" href="https://github.com/Shenggan/BCCD_Dataset">BCCD
 Dataset</a>という血液の顕微鏡画像と、画像それぞれに対してRBC,
 WBC, Plateletの3つの物体に対するbounding
