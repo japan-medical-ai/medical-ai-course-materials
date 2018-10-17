@@ -7,7 +7,7 @@
     "id": "7je53AV_Spq9"
    },
    "source": [
-    "# Chainerハンズオン：画像セグメンテーション\n",
+    "# 実践編: CT/MRI画像のセグメンテーション\n",
     "\n",
     "[Open on Github](https://github.com/mitmul/chainer-handson/blob/master/segmentation-handson/Image_Segmentation_with_Chainer.ipynb)\n",
     "\n",
@@ -326,13 +326,7 @@
       "replace train/image/150.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/150.png     \n",
       "replace train/image/151.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/151.png     \n",
       "replace train/image/152.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/152.png     \n",
-      "replace train/image/153.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/153.png     \n"
-     ]
-    },
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
+      "replace train/image/153.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/153.png     \n",
       "replace train/image/154.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/154.png     \n",
       "replace train/image/155.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/155.png     \n",
       "replace train/image/156.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:  extracting: train/image/156.png     \n",
@@ -667,13 +661,7 @@
       "replace train/label/233.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/233.png     \n",
       "yes: standard output: Broken pipe\n",
       "  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n",
-      "                                 Dload  Upload   Total   Spent    Left  Speed\n"
-     ]
-    },
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
+      "                                 Dload  Upload   Total   Spent    Left  Speed\n",
       "100   597    0   597    0     0    721      0 --:--:-- --:--:-- --:--:--   721\n",
       "100  886k  100  886k    0     0   306k      0  0:00:02  0:00:02 --:--:--  551k\n",
       "Archive:  val.zip\n",
