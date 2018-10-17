@@ -7,14 +7,13 @@ Welcome to medical-ai's documentation!
 ======================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :glob:
 
-
+    notebooks/Image_Segmentation_with_Chainer
+    notebooks/Blood_Cell_Detection
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`

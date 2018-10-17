@@ -16,6 +16,12 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import os
+import glob
+import shutil
+from distutils import dir_util
+
+dir_util.copy_tree('../../notebooks', './notebooks')
 
 # -- Project information -----------------------------------------------------
 
