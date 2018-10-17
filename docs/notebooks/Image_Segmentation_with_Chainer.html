@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="2. 実践編: 細胞画像からの細胞検出" href="Blood_Cell_Detection.html" />
+    <link rel="next" title="2. 実践編: 血液の顕微鏡画像からの細胞検出" href="Blood_Cell_Detection.html" />
     <link rel="prev" title="メディカルAI学会認定資格向け学習資料" href="../index.html" /> 
 
   
@@ -114,7 +114,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#References">1.9. References</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">2. 実践編: 細胞画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">2. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
 </ul>
 
             
@@ -405,7 +405,7 @@ Colab上では，以下のようにしてインストールすることができ
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンなどを確認します．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -464,7 +464,7 @@ Entropyをロス関数とします．2クラスの場合に出力の1チャネ�
 <p>下記にこのデータセットから抜き出した画像ペアの例を示します．下のセルを実行してみてください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -482,21 +482,21 @@ Entropyをロス関数とします．2クラスの場合に出力の1チャネ�
 train:
 total 48
 drwxr-xr-x  4 shunta shunta  4096 Sep  6  2017 .
-drwxr-xr-x 10 shunta shunta  4096 Oct 17 12:51 ..
+drwxr-xr-x 10 shunta shunta  4096 Oct 17 13:50 ..
 drwxr-xr-x  2 shunta shunta 20480 Oct 17 11:40 image
 drwxr-xr-x  2 shunta shunta 20480 Oct 17 11:40 label
 
 val:
 total 16
 drwxr-xr-x  4 shunta shunta 4096 Sep  6  2017 .
-drwxr-xr-x 10 shunta shunta 4096 Oct 17 12:51 ..
+drwxr-xr-x 10 shunta shunta 4096 Oct 17 13:50 ..
 drwxr-xr-x  2 shunta shunta 4096 Oct 17 11:40 image
 drwxr-xr-x  2 shunta shunta 4096 Oct 17 11:40 label
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -630,7 +630,7 @@ augmentationを簡単に実装することができます．ここでは，変�
 <p>ではこの関数を呼んでみましょう．下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -657,7 +657,7 @@ Dataset size:
 <p>次に，訓練するモデルの定義です．まずはじめは，最もシンプルな全結合型ネットワークを定義してみます．以下のコードを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -715,7 +715,7 @@ Dataset size:
 <p>を与えると，それに基づいて<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを作成して返してくれる<code class="docutils literal notranslate"><span class="pre">create_trainer</span></code>関数を定義しましょう．以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -772,7 +772,7 @@ extensions</a></p>
 <p>下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -782,44 +782,34 @@ extensions</a></p>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/home/shunta/.pyenv/versions/miniconda3-4.3.30/lib/python3.6/site-packages/chainer/iterators/multiprocess_iterator.py:31: TimeoutWarning: Stalled dataset is detected. See the documentation of MultiprocessIterator for common causes and workarounds:
-https://docs.chainer.org/en/stable/reference/generated/chainer.iterators.MultiprocessIterator.html
-  MultiprocessIterator.TimeoutWarning)
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy
-1           1.16116     0.516219       0.884883       0.540456
-2           0.769303    0.558988       0.666328       0.596586
-3           0.66078     0.609882       0.6418         0.641107
-4           0.620227    0.661099       0.57939        0.697155
-5           0.547391    0.722863       0.488097       0.766795
-6           0.463796    0.783587       0.407258       0.817102
-7           0.365253    0.840748       0.292452       0.878525
-8           0.253164    0.898304       0.189144       0.927717
-9           0.168333    0.936696       0.129739       0.952724
-10          0.108753    0.961309       0.077859       0.972872
-11          0.0670689   0.976987       0.051029       0.98176
-12          0.0471002   0.983069       0.0409248      0.984915
-13          0.0378352   0.9859         0.0344964      0.98636
-14          0.0337616   0.986778       0.0317519      0.986989
-15          0.0323231   0.986839       0.0305757      0.987178
-16          0.0302366   0.987415       0.0297527      0.987253
-17          0.029758    0.987453       0.0291033      0.987429
-18          0.0296114   0.987247       0.028735       0.987457
-19          0.0288326   0.987376       0.0283449      0.987592
-20          0.0282586   0.987818       0.0282267      0.987437
-CPU times: user 1min 6s, sys: 18.9 s, total: 1min 25s
-Wall time: 15min 52s
+1           1.04765     0.512336       0.773205       0.538657
+2           0.708193    0.568865       0.675132       0.609255
+3           0.666114    0.599717       0.647412       0.622323
+4           0.629755    0.643196       0.594569       0.678999
+5           0.566142    0.704299       0.513822       0.745347
+6           0.489457    0.762423       0.438465       0.795608
+7           0.397227    0.820602       0.327637       0.858828
+8           0.286042    0.880215       0.221025       0.911631
+9           0.196816    0.923334       0.155463       0.941455
+10          0.128674    0.952424       0.0930471      0.966265
+11          0.0770548   0.972445       0.0580262      0.979047
+12          0.0532083   0.981115       0.0443707      0.983565
+13          0.0393351   0.985288       0.0355182      0.986161
+14          0.035082    0.986523       0.0318217      0.987035
+15          0.0311886   0.987204       0.0305368      0.987265
+16          0.0293203   0.987851       0.0294078      0.987433
+17          0.0293747   0.987487       0.0287202      0.987559
+18          0.0289441   0.987652       0.0282911      0.987682
+19          0.0279163   0.987915       0.0279189      0.987712
+20          0.027562    0.988037       0.0275501      0.987835
+CPU times: user 53.2 s, sys: 11.2 s, total: 1min 4s
+Wall time: 1min 42s
 </pre></div></div>
 </div>
 <p>学習に15秒程度かかったと思います．表示されたのは<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>というExtensionが出力したログの情報です．現在のエポック数，ロス，精度（学習データセットに対してのものは<code class="docutils literal notranslate"><span class="pre">main/loss</span></code>,
@@ -828,7 +818,7 @@ Wall time: 15min 52s
 <p>それでは次に，<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．学習が終了したら，以下の2つのセルを実行してみてください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -838,7 +828,9 @@ Wall time: 15min 52s
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[11]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_with_Chainer_32_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_32_0.png" />
@@ -846,7 +838,7 @@ Wall time: 15min 52s
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -855,7 +847,9 @@ Wall time: 15min 52s
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[12]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_with_Chainer_33_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_33_0.png" />
@@ -884,7 +878,7 @@ Segmentationタスク用の評価指標計算のための関数を用いてみ�
 <p>以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -918,16 +912,8 @@ Segmentationタスク用の評価指標計算のための関数を用いてみ�
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-2-c7b8333b655e&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> chainer <span class="ansi-green-fg">import</span> cuda
-<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">from</span> chainercv <span class="ansi-green-fg">import</span> evaluations
-<span class="ansi-green-intense-fg ansi-bold">      3</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">def</span> evaluate<span class="ansi-blue-fg">(</span>trainer<span class="ansi-blue-fg">,</span> val<span class="ansi-blue-fg">,</span> device<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>     <span class="ansi-red-fg"># Trainerオブジェクトから学習済みモデルを取り出す</span>
-
-<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;chainer&#39;
+Pixel Accuracy: 0.9878352238581731
+mIou: 0.7014019690842325
 </pre></div></div>
 </div>
 <p>2つの数字が表示されました．</p>
@@ -956,7 +942,7 @@ positive」（白という予測が正解していた領域）の割合を見る
 が低い」ことの問題を確認してみましょう</strong>．以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -983,20 +969,26 @@ positive」（白という予測が正解していた領域）の割合を見る
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_0.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_1.png" />
+</div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-3-f34e96e26a26&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">     18</span>         plt<span class="ansi-blue-fg">.</span>show<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     19</span>
-<span class="ansi-green-fg">---&gt; 20</span><span class="ansi-red-fg"> </span>show_predicts<span class="ansi-blue-fg">(</span>trainer<span class="ansi-blue-fg">,</span> val<span class="ansi-blue-fg">,</span> device<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;trainer&#39; is not defined
-</pre></div></div>
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_2.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_2.png" />
+</div>
 </div>
 <p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）はかなり正解に対して小さめに出ています．これでも全体を平均してPixel
 Accuracy 99%以上ということは，Pixel
@@ -1056,7 +1048,7 @@ FIXME_5まで，5つの定数が含まれていますが，値が与えられて
 <p>と書き換えて，下のセルを実行してみましょう．入力チャンネル数は，<code class="docutils literal notranslate"><span class="pre">None</span></code>を与えておくと，実行時に自動的に決定してくれます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1070,7 +1062,7 @@ FIXME_5まで，5つの定数が含まれていますが，値が与えられて
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1138,7 +1130,7 @@ FIXME_5を書き換えた上で上のセルを実行すると，ネットワー�
 AccuracyだけでなくmIOUも追加するために，ロス関数を計算するClassifierクラスを，自分でカスタマイズしたものに置き換えます．それは，以下のように定義されます．下記のセルを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1184,7 +1176,7 @@ IoUの両方を計算して，報告するようにします．<code class="docu
 <p>では，これらのモデルとカスタムClassifierを使って，Trainerによる学習を行ってみましょう．以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1222,7 +1214,7 @@ Accuracy）だけでなく<code class="docutils literal notranslate"><span class
 <p>下記のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1238,14 +1230,28 @@ Accuracy）だけでなく<code class="docutils literal notranslate"><span class
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/miou   main/pa     val/main/loss  val/main/miou  val/main/pa
-10          0.205026    0.49207     0.98414     0.211009       0.491119       0.982238
-20          0.0755453   0.491809    0.983618    0.0825169      0.491152       0.982304
-30          0.0502206   0.492705    0.98278     0.0568561      0.493948       0.982295
-40          0.0441408   0.527285    0.984133    0.0474262      0.501581       0.982609
-50          0.0341481   0.628317    0.987373    0.0405631      0.629261       0.985693
-60          0.0292005   0.734436    0.990006    0.0321589      0.678898       0.98809
-70          0.0275883   0.65795     0.98914     0.0302435      0.76224        0.988245
-80          0.017457    0.832637    0.993795    0.0210762      0.805093       0.991731
+10          0.213945    0.491866    0.983732    0.208079       0.491143       0.982285
+20          0.0712252   0.491675    0.98335     0.0773316      0.491152       0.982304
+30          0.0456215   0.497415    0.983356    0.0524746      0.494608       0.982302
+40          0.0383471   0.665409    0.988104    0.0525883      0.500769       0.982593
+50          0.0302096   0.641644    0.988283    0.0360846      0.694606       0.986988
+60          0.023902    0.773714    0.991462    0.0269775      0.704972       0.989334
+70          0.0216385   0.744326    0.991641    0.023361       0.744115       0.990672
+80          0.0154492   0.833014    0.994017    0.0169145      0.822114       0.993142
+90          0.012737    0.854216    0.9949      0.0156518      0.843771       0.993475
+100         0.0125562   0.87353     0.994989    0.0155383      0.822914       0.993652
+110         0.0126936   0.879257    0.995105    0.0126934      0.871907       0.99481
+120         0.00830514  0.901747    0.996659    0.0115662      0.879918       0.99525
+130         0.0077065   0.899488    0.996845    0.0118022      0.868749       0.995181
+140         0.00746606  0.914914    0.996967    0.0105177      0.887883       0.995686
+150         0.0067234   0.922118    0.997293    0.0101634      0.892467       0.995855
+160         0.00678598  0.912036    0.997066    0.0122677      0.883054       0.995076
+170         0.00573144  0.926268    0.997679    0.00987537     0.897303       0.995932
+180         0.00582602  0.92261     0.997448    0.0111094      0.891947       0.995551
+190         0.00532147  0.937339    0.99783     0.00920096     0.900736       0.996291
+200         0.00544357  0.933824    0.997729    0.00896433     0.904957       0.996366
+CPU times: user 7min 46s, sys: 1min 43s, total: 9min 29s
+Wall time: 14min 57s
 </pre></div></div>
 </div>
 <p>学習が終了しました．<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>が出力した経過の値を見る限り，mIoUが少なくとも0.90近くまで到達していることがわかります．</p>
@@ -1253,9 +1259,9 @@ epoch       main/loss   main/miou   main/pa     val/main/loss  val/main/miou  va
 <div class="section" id="学習結果を見てみよう">
 <h3>1.6.6. 学習結果を見てみよう<a class="headerlink" href="#学習結果を見てみよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>では，今回の学習で<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．下記の3つのセルを実行してください．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1265,9 +1271,26 @@ epoch       main/loss   main/miou   main/pa     val/main/loss  val/main/miou  va
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Loss
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>Out[20]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_56_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_56_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1276,9 +1299,26 @@ epoch       main/loss   main/miou   main/pa     val/main/loss  val/main/miou  va
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+mean IoU
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>Out[21]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_57_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_57_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1287,17 +1327,64 @@ epoch       main/loss   main/miou   main/pa     val/main/loss  val/main/miou  va
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Pixel Accuracy
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[22]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_58_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_58_1.png" />
+</div>
+</div>
 <p>Pixel
 Accuracyが0.99以上であるだけでなく，mIoUも0.90近くまで上がっています．mIoUに注目すると，最初のモデル（0.68程度）と比べて随分精度が上がっていることがわかると思います．実際にvalidationデータに対して推論を行った際の予測ラベル画像を見て，結果を確認しましょう．以下のセルを実行してください．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">evaluate</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">show_predicts</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Pixel Accuracy: 0.9963660606971154
+mIou: 0.9049568755127222
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_2.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_2.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_3.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_3.png" />
 </div>
 </div>
 <p>一つ目のモデルの結果を確認した際と同じ画像が3つ並べられています．一つ目の結果よりも，特に3行目に注目すると，だいぶ正解ラベルに近い形のマスクを推定できていることがわかります．</p>
@@ -1390,7 +1477,7 @@ Open Source Software Competition, 2017</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Blood_Cell_Detection.html" class="btn btn-neutral float-right" title="2. 実践編: 細胞画像からの細胞検出" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Blood_Cell_Detection.html" class="btn btn-neutral float-right" title="2. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral" title="メディカルAI学会認定資格向け学習資料" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
