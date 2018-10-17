@@ -1,10 +1,5 @@
-.. medical-ai documentation master file, created by
-   sphinx-quickstart on Mon Oct 15 07:19:24 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to medical-ai's documentation!
-======================================
+メディカルAI学会認定資格向け学習資料
+===============================
 
 .. toctree::
     :maxdepth: 3
