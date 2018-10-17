@@ -8,8 +8,8 @@ spec:
     nvidia.k8s.pfn.io/gpu_model: Tesla-V100-PCIE-32GB
   priorityClassName: preemptible
   containers:
-    - name: tgan
-      image: harbor.pfn.io/tgan/tgan4:shunta
+    - name: playground
+      image: harbor.pfn.io/user-shunta/playground
       command: ["zsh"]
       args: ["-c", "trap exit TERM; sleep infinity & wait"]
       resources:

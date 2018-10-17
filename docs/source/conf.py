@@ -34,7 +34,6 @@ version = ''
 # The full version, including alpha/beta/rc tags
 release = ''
 
-
 # -- General configuration ---------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -48,7 +47,7 @@ extensions = [
     'nbsphinx',
     'sphinx.ext.mathjax',
 ]
-exclude_patterns = ['_build', '**.ipynb_checkpoints']
+exclude_patterns = ['build', '**.ipynb_checkpoints']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

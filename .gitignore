@@ -1,7 +1,14 @@
+.vscode/
+
 !docs/build/html/
+
 docs/source/notebooks/
 notebooks/BCCD_Dataset/
 notebooks/results/
+notebooks/result/
+notebooks/result_fcn/
+notebooks/train/
+notebooks/val/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -68,9 +75,6 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
-docs/_build/
-
 # PyBuilder
 target/
 
@@ -107,3 +111,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Sphinx documentation
+docs/_build/
