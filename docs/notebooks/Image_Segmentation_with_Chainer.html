@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>実践編: CT/MRI画像のセグメンテーション &mdash; medical-ai-course-materials  ドキュメント</title>
+  <title>Chainerハンズオン：画像セグメンテーション &mdash; medical-ai-course-materials  ドキュメント</title>
   
 
   
@@ -79,7 +79,7 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">実践編: CT/MRI画像のセグメンテーション</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chainerハンズオン：画像セグメンテーション</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#環境">環境</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#1.-Semantic-Segmentationについて">1. Semantic Segmentationについて</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#2.-使用するデータセット">2. 使用するデータセット</a></li>
@@ -160,7 +160,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>実践編: CT/MRI画像のセグメンテーション</li>
+      <li>Chainerハンズオン：画像セグメンテーション</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -362,8 +362,8 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="実践編:-CT/MRI画像のセグメンテーション">
-<h1>実践編: CT/MRI画像のセグメンテーション<a class="headerlink" href="#実践編:-CT/MRI画像のセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="Chainerハンズオン：画像セグメンテーション">
+<h1>Chainerハンズオン：画像セグメンテーション<a class="headerlink" href="#Chainerハンズオン：画像セグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p><a class="reference external" href="https://github.com/mitmul/chainer-handson/blob/master/segmentation-handson/Image_Segmentation_with_Chainer.ipynb">Open on
 Github</a></p>
 <p>画像を対象とした深層学習の応用技術には様々なものがあります．例えば，画像の中の個別の物体の周りを矩形で囲むようにして検出する<strong>物体検出</strong>や，画像内で個別物体が占める領域を認識する<strong>画像セグメンテーション</strong>などがあります．</p>
@@ -405,7 +405,7 @@ Colab上では，以下のようにしてインストールすることができ
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンなどを確認します．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -425,20 +425,16 @@ Colab上では，以下のようにしてインストールすることができ
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Platform: Linux-4.4.0-116-generic-x86_64-with-debian-stretch-sid
-Chainer: 5.0.0rc1
-NumPy: 1.15.2
-CuPy:
-  CuPy Version          : 5.0.0rc1
-  CUDA Root             : /usr/local/cuda
-  CUDA Build Version    : 9020
-  CUDA Driver Version   : 9020
-  CUDA Runtime Version  : 9020
-  cuDNN Build Version   : 7201
-  cuDNN Version         : 7201
-  NCCL Build Version    : 2213
-ChainerCV: 0.10.0
-matplotlib: 3.0.0
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-1-49e18ac51f5d&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> chainer
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">import</span> cupy
+<span class="ansi-green-intense-fg ansi-bold">      3</span> <span class="ansi-green-fg">import</span> chainercv
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">import</span> matplotlib
+<span class="ansi-green-intense-fg ansi-bold">      5</span>
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;chainer&#39;
 </pre></div></div>
 </div>
 </div>
@@ -469,9 +465,9 @@ Entropyをロス関数とします．2クラスの場合に出力の1チャネ�
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="o">!</span>curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/train.zip
-<span class="o">!</span>yes <span class="p">|</span> unzip train.zip <span class="o">&amp;&amp;</span> rm -rf train.zip
+<span class="o">!</span>unzip train.zip <span class="o">&amp;&amp;</span> rm -rf train.zip
 <span class="o">!</span>curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/val.zip
-<span class="o">!</span>yes <span class="p">|</span> unzip val.zip <span class="o">&amp;&amp;</span> rm -rf val.zip
+<span class="o">!</span>unzip val.zip <span class="o">&amp;&amp;</span> rm -rf val.zip
 </pre></div>
 </div>
 </div>
@@ -482,536 +478,540 @@ Entropyをロス関数とします．2クラスの場合に出力の1チャネ�
 <div class="highlight"><pre>
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   599    0   599    0     0    774      0 --:--:-- --:--:-- --:--:--   773
-100 7533k  100 7533k    0     0  1166k      0  0:00:06  0:00:06 --:--:-- 1617k
+100   599    0   599    0     0    191      0 --:--:--  0:00:03 --:--:--   204
+100 7533k  100 7533k    0     0   784k      0  0:00:09  0:00:09 --:--:-- 1636k 0    0     0    0     0      0      0 --:--:--  0:00:04 --:--:--     0
 Archive:  train.zip
-replace train/image/000.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/000.png
-replace train/image/001.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/001.png
-replace train/image/002.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/002.png
-replace train/image/003.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/003.png
-replace train/image/004.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/004.png
-replace train/image/005.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/005.png
-replace train/image/006.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/006.png
-replace train/image/007.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/007.png
-replace train/image/008.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/008.png
-replace train/image/009.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/009.png
-replace train/image/010.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/010.png
-replace train/image/011.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/011.png
-replace train/image/012.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/012.png
-replace train/image/013.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/013.png
-replace train/image/014.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/014.png
-replace train/image/015.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/015.png
-replace train/image/016.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/016.png
-replace train/image/017.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/017.png
-replace train/image/018.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/018.png
-replace train/image/019.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/019.png
-replace train/image/020.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/020.png
-replace train/image/021.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/021.png
-replace train/image/022.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/022.png
-replace train/image/023.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/023.png
-replace train/image/024.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/024.png
-replace train/image/025.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/025.png
-replace train/image/026.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/026.png
-replace train/image/027.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/027.png
-replace train/image/028.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/028.png
-replace train/image/029.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/029.png
-replace train/image/030.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/030.png
-replace train/image/031.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/031.png
-replace train/image/032.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/032.png
-replace train/image/033.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/033.png
-replace train/image/034.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/034.png
-replace train/image/035.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/035.png
-replace train/image/036.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/036.png
-replace train/image/037.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/037.png
-replace train/image/038.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/038.png
-replace train/image/039.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/039.png
-replace train/image/040.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/040.png
-replace train/image/041.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/041.png
-replace train/image/042.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/042.png
-replace train/image/043.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/043.png
-replace train/image/044.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/044.png
-replace train/image/045.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/045.png
-replace train/image/046.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/046.png
-replace train/image/047.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/047.png
-replace train/image/048.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/048.png
-replace train/image/049.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/049.png
-replace train/image/050.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/050.png
-replace train/image/051.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/051.png
-replace train/image/052.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/052.png
-replace train/image/053.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/053.png
-replace train/image/054.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/054.png
-replace train/image/055.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/055.png
-replace train/image/056.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/056.png
-replace train/image/057.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/057.png
-replace train/image/058.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/058.png
-replace train/image/059.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/059.png
-replace train/image/060.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/060.png
-replace train/image/061.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/061.png
-replace train/image/062.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/062.png
-replace train/image/063.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/063.png
-replace train/image/064.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/064.png
-replace train/image/065.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/065.png
-replace train/image/066.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/066.png
-replace train/image/067.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/067.png
-replace train/image/068.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/068.png
-replace train/image/069.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/069.png
-replace train/image/070.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/070.png
-replace train/image/071.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/071.png
-replace train/image/072.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/072.png
-replace train/image/073.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/073.png
-replace train/image/074.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/074.png
-replace train/image/075.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/075.png
-replace train/image/076.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/076.png
-replace train/image/077.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/077.png
-replace train/image/078.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/078.png
-replace train/image/079.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/079.png
-replace train/image/080.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/080.png
-replace train/image/081.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/081.png
-replace train/image/082.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/082.png
-replace train/image/083.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/083.png
-replace train/image/084.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/084.png
-replace train/image/085.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/085.png
-replace train/image/086.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/086.png
-replace train/image/087.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/087.png
-replace train/image/088.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/088.png
-replace train/image/089.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/089.png
-replace train/image/090.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/090.png
-replace train/image/091.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/091.png
-replace train/image/092.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/092.png
-replace train/image/093.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/093.png
-replace train/image/094.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/094.png
-replace train/image/095.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/095.png
-replace train/image/096.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/096.png
-replace train/image/097.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/097.png
-replace train/image/098.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/098.png
-replace train/image/099.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/099.png
-replace train/image/100.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/100.png
-replace train/image/101.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/101.png
-replace train/image/102.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/102.png
-replace train/image/103.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/103.png
-replace train/image/104.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/104.png
-replace train/image/105.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/105.png
-replace train/image/106.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/106.png
-replace train/image/107.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/107.png
-replace train/image/108.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/108.png
-replace train/image/109.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/109.png
-replace train/image/110.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/110.png
-replace train/image/111.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/111.png
-replace train/image/112.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/112.png
-replace train/image/113.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/113.png
-replace train/image/114.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/114.png
-replace train/image/115.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/115.png
-replace train/image/116.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/116.png
-replace train/image/117.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/117.png
-replace train/image/118.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/118.png
-replace train/image/119.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/119.png
-replace train/image/120.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/120.png
-replace train/image/121.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/121.png
-replace train/image/122.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/122.png
-replace train/image/123.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/123.png
-replace train/image/124.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/124.png
-replace train/image/125.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/125.png
-replace train/image/126.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/126.png
-replace train/image/127.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/127.png
-replace train/image/128.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/128.png
-replace train/image/129.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/129.png
-replace train/image/130.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/130.png
-replace train/image/131.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/131.png
-replace train/image/132.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/132.png
-replace train/image/133.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/133.png
-replace train/image/134.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/134.png
-replace train/image/135.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/135.png
-replace train/image/136.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/136.png
-replace train/image/137.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/137.png
-replace train/image/138.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/138.png
-replace train/image/139.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/139.png
-replace train/image/140.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/140.png
-replace train/image/141.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/141.png
-replace train/image/142.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/142.png
-replace train/image/143.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/143.png
-replace train/image/144.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/144.png
-replace train/image/145.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/145.png
-replace train/image/146.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/146.png
-replace train/image/147.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/147.png
-replace train/image/148.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/148.png
-replace train/image/149.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/149.png
-replace train/image/150.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/150.png
-replace train/image/151.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/151.png
-replace train/image/152.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/152.png
-replace train/image/153.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/153.png
-replace train/image/154.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/154.png
-replace train/image/155.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/155.png
-replace train/image/156.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:  extracting: train/image/156.png
-replace train/image/157.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/157.png
-replace train/image/158.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/158.png
-replace train/image/159.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/159.png
-replace train/image/160.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/160.png
-replace train/image/161.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/161.png
-replace train/image/162.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/162.png
-replace train/image/163.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/163.png
-replace train/image/164.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/164.png
-replace train/image/165.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/165.png
-replace train/image/166.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/166.png
-replace train/image/167.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/167.png
-replace train/image/168.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/168.png
-replace train/image/169.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/169.png
-replace train/image/170.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/170.png
-replace train/image/171.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/171.png
-replace train/image/172.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/172.png
-replace train/image/173.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/173.png
-replace train/image/174.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/174.png
-replace train/image/175.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/175.png
-replace train/image/176.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/176.png
-replace train/image/177.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/177.png
-replace train/image/178.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/178.png
-replace train/image/179.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/179.png
-replace train/image/180.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/180.png
-replace train/image/181.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/181.png
-replace train/image/182.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/182.png
-replace train/image/183.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/183.png
-replace train/image/184.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/184.png
-replace train/image/185.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/185.png
-replace train/image/186.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/186.png
-replace train/image/187.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/187.png
-replace train/image/188.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/188.png
-replace train/image/189.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/189.png
-replace train/image/190.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/190.png
-replace train/image/191.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/191.png
-replace train/image/192.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/192.png
-replace train/image/193.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/193.png
-replace train/image/194.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/194.png
-replace train/image/195.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/195.png
-replace train/image/196.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/196.png
-replace train/image/197.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/197.png
-replace train/image/198.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/198.png
-replace train/image/199.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/199.png
-replace train/image/200.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/200.png
-replace train/image/201.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/201.png
-replace train/image/202.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/202.png
-replace train/image/203.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/203.png
-replace train/image/204.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/204.png
-replace train/image/205.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/205.png
-replace train/image/206.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/206.png
-replace train/image/207.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/207.png
-replace train/image/208.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/208.png
-replace train/image/209.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/209.png
-replace train/image/210.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/210.png
-replace train/image/211.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/211.png
-replace train/image/212.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/212.png
-replace train/image/213.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/213.png
-replace train/image/214.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/214.png
-replace train/image/215.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/215.png
-replace train/image/216.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/216.png
-replace train/image/217.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/217.png
-replace train/image/218.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/218.png
-replace train/image/219.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/219.png
-replace train/image/220.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/220.png
-replace train/image/221.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/221.png
-replace train/image/222.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/222.png
-replace train/image/223.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/223.png
-replace train/image/224.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/224.png
-replace train/image/225.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/225.png
-replace train/image/226.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/226.png
-replace train/image/227.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/227.png
-replace train/image/228.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/228.png
-replace train/image/229.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/229.png
-replace train/image/230.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/230.png
-replace train/image/231.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/231.png
-replace train/image/232.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/232.png
-replace train/image/233.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/image/233.png
-replace train/label/000.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/000.png
-replace train/label/001.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/001.png
-replace train/label/002.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/002.png
-replace train/label/003.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/003.png
-replace train/label/004.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/004.png
-replace train/label/005.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/005.png
-replace train/label/006.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/006.png
-replace train/label/007.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/007.png
-replace train/label/008.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/008.png
-replace train/label/009.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/009.png
-replace train/label/010.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/010.png
-replace train/label/011.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/011.png
-replace train/label/012.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/012.png
-replace train/label/013.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/013.png
-replace train/label/014.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/014.png
-replace train/label/015.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/015.png
-replace train/label/016.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/016.png
-replace train/label/017.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/017.png
-replace train/label/018.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/018.png
-replace train/label/019.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/019.png
-replace train/label/020.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/020.png
-replace train/label/021.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/021.png
-replace train/label/022.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/022.png
-replace train/label/023.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/023.png
-replace train/label/024.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/024.png
-replace train/label/025.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/025.png
-replace train/label/026.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/026.png
-replace train/label/027.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/027.png
-replace train/label/028.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/028.png
-replace train/label/029.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/029.png
-replace train/label/030.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/030.png
-replace train/label/031.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/031.png
-replace train/label/032.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/032.png
-replace train/label/033.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/033.png
-replace train/label/034.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/034.png
-replace train/label/035.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/035.png
-replace train/label/036.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/036.png
-replace train/label/037.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/037.png
-replace train/label/038.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/038.png
-replace train/label/039.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/039.png
-replace train/label/040.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/040.png
-replace train/label/041.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/041.png
-replace train/label/042.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/042.png
-replace train/label/043.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/043.png
-replace train/label/044.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/044.png
-replace train/label/045.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/045.png
-replace train/label/046.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/046.png
-replace train/label/047.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/047.png
-replace train/label/048.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/048.png
-replace train/label/049.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/049.png
-replace train/label/050.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/050.png
-replace train/label/051.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/051.png
-replace train/label/052.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/052.png
-replace train/label/053.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/053.png
-replace train/label/054.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/054.png
-replace train/label/055.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/055.png
-replace train/label/056.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/056.png
-replace train/label/057.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/057.png
-replace train/label/058.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/058.png
-replace train/label/059.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/059.png
-replace train/label/060.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/060.png
-replace train/label/061.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/061.png
-replace train/label/062.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/062.png
-replace train/label/063.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/063.png
-replace train/label/064.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/064.png
-replace train/label/065.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/065.png
-replace train/label/066.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/066.png
-replace train/label/067.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/067.png
-replace train/label/068.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/068.png
-replace train/label/069.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/069.png
-replace train/label/070.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/070.png
-replace train/label/071.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/071.png
-replace train/label/072.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/072.png
-replace train/label/073.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/073.png
-replace train/label/074.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/074.png
-replace train/label/075.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/075.png
-replace train/label/076.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/076.png
-replace train/label/077.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/077.png
-replace train/label/078.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/078.png
-replace train/label/079.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/079.png
-replace train/label/080.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/080.png
-replace train/label/081.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/081.png
-replace train/label/082.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/082.png
-replace train/label/083.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/083.png
-replace train/label/084.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/084.png
-replace train/label/085.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/085.png
-replace train/label/086.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/086.png
-replace train/label/087.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/087.png
-replace train/label/088.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/088.png
-replace train/label/089.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/089.png
-replace train/label/090.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/090.png
-replace train/label/091.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/091.png
-replace train/label/092.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/092.png
-replace train/label/093.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/093.png
-replace train/label/094.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/094.png
-replace train/label/095.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/095.png
-replace train/label/096.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/096.png
-replace train/label/097.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/097.png
-replace train/label/098.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/098.png
-replace train/label/099.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/099.png
-replace train/label/100.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/100.png
-replace train/label/101.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/101.png
-replace train/label/102.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/102.png
-replace train/label/103.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/103.png
-replace train/label/104.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/104.png
-replace train/label/105.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/105.png
-replace train/label/106.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/106.png
-replace train/label/107.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/107.png
-replace train/label/108.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/108.png
-replace train/label/109.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/109.png
-replace train/label/110.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/110.png
-replace train/label/111.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/111.png
-replace train/label/112.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/112.png
-replace train/label/113.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/113.png
-replace train/label/114.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/114.png
-replace train/label/115.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/115.png
-replace train/label/116.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/116.png
-replace train/label/117.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/117.png
-replace train/label/118.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/118.png
-replace train/label/119.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/119.png
-replace train/label/120.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/120.png
-replace train/label/121.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/121.png
-replace train/label/122.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/122.png
-replace train/label/123.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/123.png
-replace train/label/124.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/124.png
-replace train/label/125.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/125.png
-replace train/label/126.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/126.png
-replace train/label/127.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/127.png
-replace train/label/128.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/128.png
-replace train/label/129.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/129.png
-replace train/label/130.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/130.png
-replace train/label/131.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/131.png
-replace train/label/132.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/132.png
-replace train/label/133.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/133.png
-replace train/label/134.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/134.png
-replace train/label/135.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/135.png
-replace train/label/136.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/136.png
-replace train/label/137.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/137.png
-replace train/label/138.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/138.png
-replace train/label/139.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/139.png
-replace train/label/140.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/140.png
-replace train/label/141.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/141.png
-replace train/label/142.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/142.png
-replace train/label/143.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/143.png
-replace train/label/144.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/144.png
-replace train/label/145.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/145.png
-replace train/label/146.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/146.png
-replace train/label/147.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/147.png
-replace train/label/148.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/148.png
-replace train/label/149.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/149.png
-replace train/label/150.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/150.png
-replace train/label/151.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/151.png
-replace train/label/152.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/152.png
-replace train/label/153.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/153.png
-replace train/label/154.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/154.png
-replace train/label/155.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/155.png
-replace train/label/156.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/156.png
-replace train/label/157.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/157.png
-replace train/label/158.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/158.png
-replace train/label/159.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/159.png
-replace train/label/160.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/160.png
-replace train/label/161.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/161.png
-replace train/label/162.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/162.png
-replace train/label/163.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/163.png
-replace train/label/164.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/164.png
-replace train/label/165.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/165.png
-replace train/label/166.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/166.png
-replace train/label/167.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/167.png
-replace train/label/168.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/168.png
-replace train/label/169.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/169.png
-replace train/label/170.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/170.png
-replace train/label/171.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/171.png
-replace train/label/172.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/172.png
-replace train/label/173.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/173.png
-replace train/label/174.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/174.png
-replace train/label/175.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/175.png
-replace train/label/176.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/176.png
-replace train/label/177.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/177.png
-replace train/label/178.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/178.png
-replace train/label/179.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/179.png
-replace train/label/180.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/180.png
-replace train/label/181.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/181.png
-replace train/label/182.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/182.png
-replace train/label/183.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/183.png
-replace train/label/184.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/184.png
-replace train/label/185.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/185.png
-replace train/label/186.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/186.png
-replace train/label/187.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/187.png
-replace train/label/188.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/188.png
-replace train/label/189.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/189.png
-replace train/label/190.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/190.png
-replace train/label/191.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/191.png
-replace train/label/192.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/192.png
-replace train/label/193.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/193.png
-replace train/label/194.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/194.png
-replace train/label/195.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/195.png
-replace train/label/196.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/196.png
-replace train/label/197.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/197.png
-replace train/label/198.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/198.png
-replace train/label/199.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/199.png
-replace train/label/200.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/200.png
-replace train/label/201.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/201.png
-replace train/label/202.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/202.png
-replace train/label/203.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/203.png
-replace train/label/204.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/204.png
-replace train/label/205.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/205.png
-replace train/label/206.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/206.png
-replace train/label/207.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/207.png
-replace train/label/208.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/208.png
-replace train/label/209.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/209.png
-replace train/label/210.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/210.png
-replace train/label/211.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/211.png
-replace train/label/212.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/212.png
-replace train/label/213.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/213.png
-replace train/label/214.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/214.png
-replace train/label/215.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/215.png
-replace train/label/216.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/216.png
-replace train/label/217.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/217.png
-replace train/label/218.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/218.png
-replace train/label/219.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/219.png
-replace train/label/220.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/220.png
-replace train/label/221.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/221.png
-replace train/label/222.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/222.png
-replace train/label/223.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/223.png
-replace train/label/224.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/224.png
-replace train/label/225.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/225.png
-replace train/label/226.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/226.png
-replace train/label/227.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/227.png
-replace train/label/228.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/228.png
-replace train/label/229.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/229.png
-replace train/label/230.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/230.png
-replace train/label/231.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/231.png
-replace train/label/232.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/232.png
-replace train/label/233.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: train/label/233.png
-yes: standard output: Broken pipe
+   creating: train/
+   creating: train/image/
+  inflating: train/image/000.png
+  inflating: train/image/001.png
+  inflating: train/image/002.png
+  inflating: train/image/003.png
+  inflating: train/image/004.png
+  inflating: train/image/005.png
+  inflating: train/image/006.png
+  inflating: train/image/007.png
+  inflating: train/image/008.png
+  inflating: train/image/009.png
+  inflating: train/image/010.png
+  inflating: train/image/011.png
+  inflating: train/image/012.png
+  inflating: train/image/013.png
+  inflating: train/image/014.png
+  inflating: train/image/015.png
+  inflating: train/image/016.png
+  inflating: train/image/017.png
+  inflating: train/image/018.png
+  inflating: train/image/019.png
+  inflating: train/image/020.png
+  inflating: train/image/021.png
+  inflating: train/image/022.png
+  inflating: train/image/023.png
+  inflating: train/image/024.png
+  inflating: train/image/025.png
+  inflating: train/image/026.png
+  inflating: train/image/027.png
+  inflating: train/image/028.png
+  inflating: train/image/029.png
+  inflating: train/image/030.png
+  inflating: train/image/031.png
+  inflating: train/image/032.png
+  inflating: train/image/033.png
+  inflating: train/image/034.png
+  inflating: train/image/035.png
+  inflating: train/image/036.png
+  inflating: train/image/037.png
+  inflating: train/image/038.png
+  inflating: train/image/039.png
+  inflating: train/image/040.png
+  inflating: train/image/041.png
+  inflating: train/image/042.png
+  inflating: train/image/043.png
+  inflating: train/image/044.png
+  inflating: train/image/045.png
+  inflating: train/image/046.png
+  inflating: train/image/047.png
+  inflating: train/image/048.png
+  inflating: train/image/049.png
+  inflating: train/image/050.png
+  inflating: train/image/051.png
+  inflating: train/image/052.png
+  inflating: train/image/053.png
+  inflating: train/image/054.png
+  inflating: train/image/055.png
+  inflating: train/image/056.png
+  inflating: train/image/057.png
+  inflating: train/image/058.png
+  inflating: train/image/059.png
+  inflating: train/image/060.png
+  inflating: train/image/061.png
+  inflating: train/image/062.png
+  inflating: train/image/063.png
+  inflating: train/image/064.png
+  inflating: train/image/065.png
+  inflating: train/image/066.png
+  inflating: train/image/067.png
+  inflating: train/image/068.png
+  inflating: train/image/069.png
+  inflating: train/image/070.png
+  inflating: train/image/071.png
+  inflating: train/image/072.png
+  inflating: train/image/073.png
+  inflating: train/image/074.png
+  inflating: train/image/075.png
+  inflating: train/image/076.png
+  inflating: train/image/077.png
+  inflating: train/image/078.png
+  inflating: train/image/079.png
+  inflating: train/image/080.png
+  inflating: train/image/081.png
+  inflating: train/image/082.png
+  inflating: train/image/083.png
+  inflating: train/image/084.png
+  inflating: train/image/085.png
+  inflating: train/image/086.png
+  inflating: train/image/087.png
+  inflating: train/image/088.png
+  inflating: train/image/089.png
+  inflating: train/image/090.png
+  inflating: train/image/091.png
+  inflating: train/image/092.png
+  inflating: train/image/093.png
+  inflating: train/image/094.png
+  inflating: train/image/095.png
+  inflating: train/image/096.png
+  inflating: train/image/097.png
+  inflating: train/image/098.png
+  inflating: train/image/099.png
+  inflating: train/image/100.png
+  inflating: train/image/101.png
+  inflating: train/image/102.png
+  inflating: train/image/103.png
+  inflating: train/image/104.png
+  inflating: train/image/105.png
+  inflating: train/image/106.png
+  inflating: train/image/107.png
+  inflating: train/image/108.png
+  inflating: train/image/109.png
+  inflating: train/image/110.png
+  inflating: train/image/111.png
+  inflating: train/image/112.png
+  inflating: train/image/113.png
+  inflating: train/image/114.png
+  inflating: train/image/115.png
+  inflating: train/image/116.png
+  inflating: train/image/117.png
+  inflating: train/image/118.png
+  inflating: train/image/119.png
+  inflating: train/image/120.png
+  inflating: train/image/121.png
+  inflating: train/image/122.png
+  inflating: train/image/123.png
+  inflating: train/image/124.png
+  inflating: train/image/125.png
+  inflating: train/image/126.png
+  inflating: train/image/127.png
+  inflating: train/image/128.png
+  inflating: train/image/129.png
+  inflating: train/image/130.png
+  inflating: train/image/131.png
+  inflating: train/image/132.png
+  inflating: train/image/133.png
+  inflating: train/image/134.png
+  inflating: train/image/135.png
+  inflating: train/image/136.png
+  inflating: train/image/137.png
+  inflating: train/image/138.png
+  inflating: train/image/139.png
+  inflating: train/image/140.png
+  inflating: train/image/141.png
+  inflating: train/image/142.png
+  inflating: train/image/143.png
+  inflating: train/image/144.png
+  inflating: train/image/145.png
+  inflating: train/image/146.png
+  inflating: train/image/147.png
+  inflating: train/image/148.png
+  inflating: train/image/149.png
+  inflating: train/image/150.png
+  inflating: train/image/151.png
+  inflating: train/image/152.png
+  inflating: train/image/153.png
+  inflating: train/image/154.png
+  inflating: train/image/155.png
+ extracting: train/image/156.png
+  inflating: train/image/157.png
+  inflating: train/image/158.png
+  inflating: train/image/159.png
+  inflating: train/image/160.png
+  inflating: train/image/161.png
+  inflating: train/image/162.png
+  inflating: train/image/163.png
+  inflating: train/image/164.png
+  inflating: train/image/165.png
+  inflating: train/image/166.png
+  inflating: train/image/167.png
+  inflating: train/image/168.png
+  inflating: train/image/169.png
+  inflating: train/image/170.png
+  inflating: train/image/171.png
+  inflating: train/image/172.png
+  inflating: train/image/173.png
+  inflating: train/image/174.png
+  inflating: train/image/175.png
+  inflating: train/image/176.png
+  inflating: train/image/177.png
+  inflating: train/image/178.png
+  inflating: train/image/179.png
+  inflating: train/image/180.png
+  inflating: train/image/181.png
+  inflating: train/image/182.png
+  inflating: train/image/183.png
+  inflating: train/image/184.png
+  inflating: train/image/185.png
+  inflating: train/image/186.png
+  inflating: train/image/187.png
+  inflating: train/image/188.png
+  inflating: train/image/189.png
+  inflating: train/image/190.png
+  inflating: train/image/191.png
+  inflating: train/image/192.png
+  inflating: train/image/193.png
+  inflating: train/image/194.png
+  inflating: train/image/195.png
+  inflating: train/image/196.png
+  inflating: train/image/197.png
+  inflating: train/image/198.png
+  inflating: train/image/199.png
+  inflating: train/image/200.png
+  inflating: train/image/201.png
+  inflating: train/image/202.png
+  inflating: train/image/203.png
+  inflating: train/image/204.png
+  inflating: train/image/205.png
+  inflating: train/image/206.png
+  inflating: train/image/207.png
+  inflating: train/image/208.png
+  inflating: train/image/209.png
+  inflating: train/image/210.png
+  inflating: train/image/211.png
+  inflating: train/image/212.png
+  inflating: train/image/213.png
+  inflating: train/image/214.png
+  inflating: train/image/215.png
+  inflating: train/image/216.png
+  inflating: train/image/217.png
+  inflating: train/image/218.png
+  inflating: train/image/219.png
+  inflating: train/image/220.png
+  inflating: train/image/221.png
+  inflating: train/image/222.png
+  inflating: train/image/223.png
+  inflating: train/image/224.png
+  inflating: train/image/225.png
+  inflating: train/image/226.png
+  inflating: train/image/227.png
+  inflating: train/image/228.png
+  inflating: train/image/229.png
+  inflating: train/image/230.png
+  inflating: train/image/231.png
+  inflating: train/image/232.png
+  inflating: train/image/233.png
+   creating: train/label/
+  inflating: train/label/000.png
+  inflating: train/label/001.png
+  inflating: train/label/002.png
+  inflating: train/label/003.png
+  inflating: train/label/004.png
+  inflating: train/label/005.png
+  inflating: train/label/006.png
+  inflating: train/label/007.png
+  inflating: train/label/008.png
+  inflating: train/label/009.png
+  inflating: train/label/010.png
+  inflating: train/label/011.png
+  inflating: train/label/012.png
+  inflating: train/label/013.png
+  inflating: train/label/014.png
+  inflating: train/label/015.png
+  inflating: train/label/016.png
+  inflating: train/label/017.png
+  inflating: train/label/018.png
+  inflating: train/label/019.png
+  inflating: train/label/020.png
+  inflating: train/label/021.png
+  inflating: train/label/022.png
+  inflating: train/label/023.png
+  inflating: train/label/024.png
+  inflating: train/label/025.png
+  inflating: train/label/026.png
+  inflating: train/label/027.png
+  inflating: train/label/028.png
+  inflating: train/label/029.png
+  inflating: train/label/030.png
+  inflating: train/label/031.png
+  inflating: train/label/032.png
+  inflating: train/label/033.png
+  inflating: train/label/034.png
+  inflating: train/label/035.png
+  inflating: train/label/036.png
+  inflating: train/label/037.png
+  inflating: train/label/038.png
+  inflating: train/label/039.png
+  inflating: train/label/040.png
+  inflating: train/label/041.png
+  inflating: train/label/042.png
+  inflating: train/label/043.png
+  inflating: train/label/044.png
+  inflating: train/label/045.png
+  inflating: train/label/046.png
+  inflating: train/label/047.png
+  inflating: train/label/048.png
+  inflating: train/label/049.png
+  inflating: train/label/050.png
+  inflating: train/label/051.png
+  inflating: train/label/052.png
+  inflating: train/label/053.png
+  inflating: train/label/054.png
+  inflating: train/label/055.png
+  inflating: train/label/056.png
+  inflating: train/label/057.png
+  inflating: train/label/058.png
+  inflating: train/label/059.png
+  inflating: train/label/060.png
+  inflating: train/label/061.png
+  inflating: train/label/062.png
+  inflating: train/label/063.png
+  inflating: train/label/064.png
+  inflating: train/label/065.png
+  inflating: train/label/066.png
+  inflating: train/label/067.png
+  inflating: train/label/068.png
+  inflating: train/label/069.png
+  inflating: train/label/070.png
+  inflating: train/label/071.png
+  inflating: train/label/072.png
+  inflating: train/label/073.png
+  inflating: train/label/074.png
+  inflating: train/label/075.png
+  inflating: train/label/076.png
+  inflating: train/label/077.png
+  inflating: train/label/078.png
+  inflating: train/label/079.png
+  inflating: train/label/080.png
+  inflating: train/label/081.png
+  inflating: train/label/082.png
+  inflating: train/label/083.png
+  inflating: train/label/084.png
+  inflating: train/label/085.png
+  inflating: train/label/086.png
+  inflating: train/label/087.png
+  inflating: train/label/088.png
+  inflating: train/label/089.png
+  inflating: train/label/090.png
+  inflating: train/label/091.png
+  inflating: train/label/092.png
+  inflating: train/label/093.png
+  inflating: train/label/094.png
+  inflating: train/label/095.png
+  inflating: train/label/096.png
+  inflating: train/label/097.png
+  inflating: train/label/098.png
+  inflating: train/label/099.png
+  inflating: train/label/100.png
+  inflating: train/label/101.png
+  inflating: train/label/102.png
+  inflating: train/label/103.png
+  inflating: train/label/104.png
+  inflating: train/label/105.png
+  inflating: train/label/106.png
+  inflating: train/label/107.png
+  inflating: train/label/108.png
+  inflating: train/label/109.png
+  inflating: train/label/110.png
+  inflating: train/label/111.png
+  inflating: train/label/112.png
+  inflating: train/label/113.png
+  inflating: train/label/114.png
+  inflating: train/label/115.png
+  inflating: train/label/116.png
+  inflating: train/label/117.png
+  inflating: train/label/118.png
+  inflating: train/label/119.png
+  inflating: train/label/120.png
+  inflating: train/label/121.png
+  inflating: train/label/122.png
+  inflating: train/label/123.png
+  inflating: train/label/124.png
+  inflating: train/label/125.png
+  inflating: train/label/126.png
+  inflating: train/label/127.png
+  inflating: train/label/128.png
+  inflating: train/label/129.png
+  inflating: train/label/130.png
+  inflating: train/label/131.png
+  inflating: train/label/132.png
+  inflating: train/label/133.png
+  inflating: train/label/134.png
+  inflating: train/label/135.png
+  inflating: train/label/136.png
+  inflating: train/label/137.png
+  inflating: train/label/138.png
+  inflating: train/label/139.png
+  inflating: train/label/140.png
+  inflating: train/label/141.png
+  inflating: train/label/142.png
+  inflating: train/label/143.png
+  inflating: train/label/144.png
+  inflating: train/label/145.png
+  inflating: train/label/146.png
+  inflating: train/label/147.png
+  inflating: train/label/148.png
+  inflating: train/label/149.png
+  inflating: train/label/150.png
+  inflating: train/label/151.png
+  inflating: train/label/152.png
+  inflating: train/label/153.png
+  inflating: train/label/154.png
+  inflating: train/label/155.png
+  inflating: train/label/156.png
+  inflating: train/label/157.png
+  inflating: train/label/158.png
+  inflating: train/label/159.png
+  inflating: train/label/160.png
+  inflating: train/label/161.png
+  inflating: train/label/162.png
+  inflating: train/label/163.png
+  inflating: train/label/164.png
+  inflating: train/label/165.png
+  inflating: train/label/166.png
+  inflating: train/label/167.png
+  inflating: train/label/168.png
+  inflating: train/label/169.png
+  inflating: train/label/170.png
+  inflating: train/label/171.png
+  inflating: train/label/172.png
+  inflating: train/label/173.png
+  inflating: train/label/174.png
+  inflating: train/label/175.png
+  inflating: train/label/176.png
+  inflating: train/label/177.png
+  inflating: train/label/178.png
+  inflating: train/label/179.png
+  inflating: train/label/180.png
+  inflating: train/label/181.png
+  inflating: train/label/182.png
+  inflating: train/label/183.png
+  inflating: train/label/184.png
+  inflating: train/label/185.png
+  inflating: train/label/186.png
+  inflating: train/label/187.png
+  inflating: train/label/188.png
+  inflating: train/label/189.png
+  inflating: train/label/190.png
+  inflating: train/label/191.png
+  inflating: train/label/192.png
+  inflating: train/label/193.png
+  inflating: train/label/194.png
+  inflating: train/label/195.png
+  inflating: train/label/196.png
+  inflating: train/label/197.png
+  inflating: train/label/198.png
+  inflating: train/label/199.png
+  inflating: train/label/200.png
+  inflating: train/label/201.png
+  inflating: train/label/202.png
+  inflating: train/label/203.png
+  inflating: train/label/204.png
+  inflating: train/label/205.png
+  inflating: train/label/206.png
+  inflating: train/label/207.png
+  inflating: train/label/208.png
+  inflating: train/label/209.png
+  inflating: train/label/210.png
+  inflating: train/label/211.png
+  inflating: train/label/212.png
+  inflating: train/label/213.png
+  inflating: train/label/214.png
+  inflating: train/label/215.png
+  inflating: train/label/216.png
+  inflating: train/label/217.png
+  inflating: train/label/218.png
+  inflating: train/label/219.png
+  inflating: train/label/220.png
+  inflating: train/label/221.png
+  inflating: train/label/222.png
+  inflating: train/label/223.png
+  inflating: train/label/224.png
+  inflating: train/label/225.png
+  inflating: train/label/226.png
+  inflating: train/label/227.png
+  inflating: train/label/228.png
+  inflating: train/label/229.png
+  inflating: train/label/230.png
+  inflating: train/label/231.png
+  inflating: train/label/232.png
+  inflating: train/label/233.png
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   597    0   597    0     0    721      0 --:--:-- --:--:-- --:--:--   721
-100  886k  100  886k    0     0   306k      0  0:00:02  0:00:02 --:--:--  551k
+100   597    0   597    0     0    225      0 --:--:--  0:00:02 --:--:--   225
+100  886k  100  886k    0     0   121k      0  0:00:07  0:00:07 --:--:--  255k
 Archive:  val.zip
-replace val/image/000.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/000.png
-replace val/image/001.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/001.png
-replace val/image/002.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:  extracting: val/image/002.png
-replace val/image/003.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/003.png
-replace val/image/004.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/004.png
-replace val/image/005.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/005.png
-replace val/image/006.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/006.png
-replace val/image/007.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/007.png
-replace val/image/008.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/008.png
-replace val/image/009.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/009.png
-replace val/image/010.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/010.png
-replace val/image/011.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/011.png
-replace val/image/012.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/012.png
-replace val/image/013.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/013.png
-replace val/image/014.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/014.png
-replace val/image/015.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/015.png
-replace val/image/016.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/016.png
-replace val/image/017.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/017.png
-replace val/image/018.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/018.png
-replace val/image/019.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/019.png
-replace val/image/020.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/020.png
-replace val/image/021.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/021.png
-replace val/image/022.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/022.png
-replace val/image/023.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/023.png
-replace val/image/024.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/024.png
-replace val/image/025.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/image/025.png
-replace val/label/000.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/000.png
-replace val/label/001.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/001.png
-replace val/label/002.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/002.png
-replace val/label/003.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/003.png
-replace val/label/004.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/004.png
-replace val/label/005.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/005.png
-replace val/label/006.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/006.png
-replace val/label/007.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/007.png
-replace val/label/008.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/008.png
-replace val/label/009.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/009.png
-replace val/label/010.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/010.png
-replace val/label/011.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/011.png
-replace val/label/012.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/012.png
-replace val/label/013.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/013.png
-replace val/label/014.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/014.png
-replace val/label/015.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/015.png
-replace val/label/016.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/016.png
-replace val/label/017.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/017.png
-replace val/label/018.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/018.png
-replace val/label/019.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/019.png
-replace val/label/020.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/020.png
-replace val/label/021.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/021.png
-replace val/label/022.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/022.png
-replace val/label/023.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/023.png
-replace val/label/024.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/024.png
-replace val/label/025.png? [y]es, [n]o, [A]ll, [N]one, [r]ename:   inflating: val/label/025.png
-yes: standard output: Broken pipe
+   creating: val/
+   creating: val/image/
+  inflating: val/image/000.png
+  inflating: val/image/001.png
+ extracting: val/image/002.png
+  inflating: val/image/003.png
+  inflating: val/image/004.png
+  inflating: val/image/005.png
+  inflating: val/image/006.png
+  inflating: val/image/007.png
+  inflating: val/image/008.png
+  inflating: val/image/009.png
+  inflating: val/image/010.png
+  inflating: val/image/011.png
+  inflating: val/image/012.png
+  inflating: val/image/013.png
+  inflating: val/image/014.png
+  inflating: val/image/015.png
+  inflating: val/image/016.png
+  inflating: val/image/017.png
+  inflating: val/image/018.png
+  inflating: val/image/019.png
+  inflating: val/image/020.png
+  inflating: val/image/021.png
+  inflating: val/image/022.png
+  inflating: val/image/023.png
+  inflating: val/image/024.png
+  inflating: val/image/025.png
+   creating: val/label/
+  inflating: val/label/000.png
+  inflating: val/label/001.png
+  inflating: val/label/002.png
+  inflating: val/label/003.png
+  inflating: val/label/004.png
+  inflating: val/label/005.png
+  inflating: val/label/006.png
+  inflating: val/label/007.png
+  inflating: val/label/008.png
+  inflating: val/label/009.png
+  inflating: val/label/010.png
+  inflating: val/label/011.png
+  inflating: val/label/012.png
+  inflating: val/label/013.png
+  inflating: val/label/014.png
+  inflating: val/label/015.png
+  inflating: val/label/016.png
+  inflating: val/label/017.png
+  inflating: val/label/018.png
+  inflating: val/label/019.png
+  inflating: val/label/020.png
+  inflating: val/label/021.png
+  inflating: val/label/022.png
+  inflating: val/label/023.png
+  inflating: val/label/024.png
+  inflating: val/label/025.png
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -1150,7 +1150,7 @@ augmentationを簡単に実装することができます．ここでは，変�
 <p>ではこの関数を呼んでみましょう．下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1177,7 +1177,7 @@ Dataset size:
 <p>次に，訓練するモデルの定義です．まずはじめは，最もシンプルな全結合型ネットワークを定義してみます．以下のコードを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1235,7 +1235,7 @@ Dataset size:
 <p>を与えると，それに基づいて<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを作成して返してくれる<code class="docutils literal notranslate"><span class="pre">create_trainer</span></code>関数を定義しましょう．以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1292,7 +1292,7 @@ extensions</a></p>
 <p>下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1302,34 +1302,44 @@ extensions</a></p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/home/shunta/.pyenv/versions/miniconda3-4.3.30/lib/python3.6/site-packages/chainer/iterators/multiprocess_iterator.py:31: TimeoutWarning: Stalled dataset is detected. See the documentation of MultiprocessIterator for common causes and workarounds:
+https://docs.chainer.org/en/stable/reference/generated/chainer.iterators.MultiprocessIterator.html
+  MultiprocessIterator.TimeoutWarning)
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy
-1           0.954884    0.514929       0.7761         0.540632
-2           0.710513    0.567392       0.675776       0.598905
-3           0.667125    0.603531       0.652234       0.620897
-4           0.633707    0.64235        0.598264       0.679529
-5           0.572108    0.702762       0.518542       0.744942
-6           0.495862    0.760842       0.444758       0.793095
-7           0.404465    0.817405       0.334949       0.85651
-8           0.295139    0.876969       0.230049       0.9083
-9           0.20787     0.918354       0.164317       0.937192
-10          0.139283    0.947838       0.10058        0.963327
-11          0.0842645   0.969879       0.0629547      0.97726
-12          0.0577495   0.979421       0.0476252      0.982594
-13          0.0431721   0.984175       0.0371678      0.985777
-14          0.0363817   0.98616        0.032618       0.987085
-15          0.0318716   0.987328       0.0310761      0.98721
-16          0.0310623   0.987286       0.0300111      0.987176
-17          0.0297642   0.987269       0.0292577      0.987422
-18          0.0292024   0.987672       0.029019       0.987431
-19          0.0295074   0.987224       0.028806       0.987399
-20          0.0286034   0.987629       0.0285977      0.987449
-CPU times: user 53.2 s, sys: 10.7 s, total: 1min 3s
-Wall time: 1min 41s
+1           1.16116     0.516219       0.884883       0.540456
+2           0.769303    0.558988       0.666328       0.596586
+3           0.66078     0.609882       0.6418         0.641107
+4           0.620227    0.661099       0.57939        0.697155
+5           0.547391    0.722863       0.488097       0.766795
+6           0.463796    0.783587       0.407258       0.817102
+7           0.365253    0.840748       0.292452       0.878525
+8           0.253164    0.898304       0.189144       0.927717
+9           0.168333    0.936696       0.129739       0.952724
+10          0.108753    0.961309       0.077859       0.972872
+11          0.0670689   0.976987       0.051029       0.98176
+12          0.0471002   0.983069       0.0409248      0.984915
+13          0.0378352   0.9859         0.0344964      0.98636
+14          0.0337616   0.986778       0.0317519      0.986989
+15          0.0323231   0.986839       0.0305757      0.987178
+16          0.0302366   0.987415       0.0297527      0.987253
+17          0.029758    0.987453       0.0291033      0.987429
+18          0.0296114   0.987247       0.028735       0.987457
+19          0.0288326   0.987376       0.0283449      0.987592
+20          0.0282586   0.987818       0.0282267      0.987437
+CPU times: user 1min 6s, sys: 18.9 s, total: 1min 25s
+Wall time: 15min 52s
 </pre></div></div>
 </div>
 <p>学習に15秒程度かかったと思います．表示されたのは<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>というExtensionが出力したログの情報です．現在のエポック数，ロス，精度（学習データセットに対してのものは<code class="docutils literal notranslate"><span class="pre">main/loss</span></code>,
@@ -1338,7 +1348,7 @@ Wall time: 1min 41s
 <p>それでは次に，<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．学習が終了したら，以下の2つのセルを実行してみてください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1348,9 +1358,7 @@ Wall time: 1min 41s
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[11]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_with_Chainer_32_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_32_0.png" />
@@ -1358,7 +1366,7 @@ Wall time: 1min 41s
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1367,9 +1375,7 @@ Wall time: 1min 41s
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[12]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_with_Chainer_33_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_33_0.png" />
@@ -1398,7 +1404,7 @@ Segmentationタスク用の評価指標計算のための関数を用いてみ�
 <p>以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1432,8 +1438,16 @@ Segmentationタスク用の評価指標計算のための関数を用いてみ�
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Pixel Accuracy: 0.9874490591195914
-mIou: 0.6884647787490408
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-2-c7b8333b655e&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> chainer <span class="ansi-green-fg">import</span> cuda
+<span class="ansi-green-intense-fg ansi-bold">      2</span> <span class="ansi-green-fg">from</span> chainercv <span class="ansi-green-fg">import</span> evaluations
+<span class="ansi-green-intense-fg ansi-bold">      3</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span class="ansi-green-fg">def</span> evaluate<span class="ansi-blue-fg">(</span>trainer<span class="ansi-blue-fg">,</span> val<span class="ansi-blue-fg">,</span> device<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     <span class="ansi-red-fg"># Trainerオブジェクトから学習済みモデルを取り出す</span>
+
+<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;chainer&#39;
 </pre></div></div>
 </div>
 <p>2つの数字が表示されました．</p>
@@ -1462,7 +1476,7 @@ positive」（白という予測が正解していた領域）の割合を見る
 が低い」ことの問題を確認してみましょう</strong>．以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1489,26 +1503,20 @@ positive」（白という予測が正解していた領域）の割合を見る
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_0.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_1.png" />
-</div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_2.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_2.png" />
-</div>
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-3-f34e96e26a26&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
+<span class="ansi-green-intense-fg ansi-bold">     18</span>         plt<span class="ansi-blue-fg">.</span>show<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     19</span>
+<span class="ansi-green-fg">---&gt; 20</span><span class="ansi-red-fg"> </span>show_predicts<span class="ansi-blue-fg">(</span>trainer<span class="ansi-blue-fg">,</span> val<span class="ansi-blue-fg">,</span> device<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;trainer&#39; is not defined
+</pre></div></div>
 </div>
 <p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）はかなり正解に対して小さめに出ています．これでも全体を平均してPixel
 Accuracy 99%以上ということは，Pixel
@@ -1568,7 +1576,7 @@ FIXME_5まで，5つの定数が含まれていますが，値が与えられて
 <p>と書き換えて，下のセルを実行してみましょう．入力チャンネル数は，<code class="docutils literal notranslate"><span class="pre">None</span></code>を与えておくと，実行時に自動的に決定してくれます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1582,7 +1590,7 @@ FIXME_5まで，5つの定数が含まれていますが，値が与えられて
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1650,7 +1658,7 @@ FIXME_5を書き換えた上で上のセルを実行すると，ネットワー�
 AccuracyだけでなくmIOUも追加するために，ロス関数を計算するClassifierクラスを，自分でカスタマイズしたものに置き換えます．それは，以下のように定義されます．下記のセルを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [17]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1696,7 +1704,7 @@ IoUの両方を計算して，報告するようにします．<code class="docu
 <p>では，これらのモデルとカスタムClassifierを使って，Trainerによる学習を行ってみましょう．以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [18]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1734,7 +1742,7 @@ Accuracy）だけでなく<code class="docutils literal notranslate"><span class
 <p>下記のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [19]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1750,28 +1758,14 @@ Accuracy）だけでなく<code class="docutils literal notranslate"><span class
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/miou   main/pa     val/main/loss  val/main/miou  val/main/pa
-10          0.208016    0.492142    0.984284    0.20759        0.491148       0.982297
-20          0.0630185   0.49166     0.98332     0.0721874      0.491152       0.982304
-30          0.0476501   0.496221    0.982701    0.0529044      0.500238       0.982452
-40          0.044536    0.507199    0.984478    0.0451235      0.573003       0.984072
-50          0.0327344   0.590102    0.987226    0.037667       0.654257       0.986215
-60          0.0255151   0.747493    0.990859    0.0327594      0.725624       0.987181
-70          0.0218077   0.73041     0.991431    0.0240603      0.742982       0.990166
-80          0.0170886   0.79877     0.993202    0.0203261      0.806875       0.991646
-90          0.0126663   0.867382    0.995123    0.0171457      0.82633        0.992645
-100         0.0121467   0.876022    0.99532     0.0154179      0.828365       0.993526
-110         0.00994494  0.885319    0.996051    0.0134575      0.852345       0.994325
-120         0.014882    0.825039    0.994005    0.0146887      0.855033       0.993788
-130         0.00990181  0.877806    0.995963    0.0126938      0.86859        0.994678
-140         0.00730111  0.914148    0.997066    0.0124169      0.872671       0.994799
-150         0.00683579  0.918896    0.997152    0.0115563      0.879354       0.995223
-160         0.00640199  0.92636     0.997388    0.0135497      0.870776       0.994438
-170         0.00674586  0.925691    0.997269    0.0111522      0.876841       0.995398
-180         0.00584312  0.92919     0.997602    0.0103288      0.890717       0.995787
-190         0.00542237  0.936159    0.997758    0.0102067      0.890203       0.995876
-200         0.00541473  0.931875    0.997701    0.00977729     0.897782       0.996096
-CPU times: user 6min 50s, sys: 1min 29s, total: 8min 19s
-Wall time: 13min 28s
+10          0.205026    0.49207     0.98414     0.211009       0.491119       0.982238
+20          0.0755453   0.491809    0.983618    0.0825169      0.491152       0.982304
+30          0.0502206   0.492705    0.98278     0.0568561      0.493948       0.982295
+40          0.0441408   0.527285    0.984133    0.0474262      0.501581       0.982609
+50          0.0341481   0.628317    0.987373    0.0405631      0.629261       0.985693
+60          0.0292005   0.734436    0.990006    0.0321589      0.678898       0.98809
+70          0.0275883   0.65795     0.98914     0.0302435      0.76224        0.988245
+80          0.017457    0.832637    0.993795    0.0210762      0.805093       0.991731
 </pre></div></div>
 </div>
 <p>学習が終了しました．<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>が出力した経過の値を見る限り，mIoUが少なくとも0.90近くまで到達していることがわかります．</p>
@@ -1779,9 +1773,9 @@ Wall time: 13min 28s
 <div class="section" id="5.6-学習結果を見てみよう">
 <h3>5.6 学習結果を見てみよう<a class="headerlink" href="#5.6-学習結果を見てみよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>では，今回の学習で<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．下記の3つのセルを実行してください．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [20]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1791,26 +1785,9 @@ Wall time: 13min 28s
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Loss
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[20]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_56_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_56_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1819,26 +1796,9 @@ Loss
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-mean IoU
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[21]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_57_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_57_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [22]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -1847,64 +1807,17 @@ mean IoU
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Pixel Accuracy
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[22]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_58_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_58_1.png" />
-</div>
-</div>
 <p>Pixel
 Accuracyが0.99以上であるだけでなく，mIoUも0.90近くまで上がっています．mIoUに注目すると，最初のモデル（0.68程度）と比べて随分精度が上がっていることがわかると思います．実際にvalidationデータに対して推論を行った際の予測ラベル画像を見て，結果を確認しましょう．以下のセルを実行してください．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [23]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span><span class="n">evaluate</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">show_predicts</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Pixel Accuracy: 0.9960955106295072
-mIou: 0.8977818419234833
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_1.png" />
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_2.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_2.png" />
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_3.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_3.png" />
 </div>
 </div>
 <p>一つ目のモデルの結果を確認した際と同じ画像が3つ並べられています．一つ目の結果よりも，特に3行目に注目すると，だいぶ正解ラベルに近い形のマスクを推定できていることがわかります．</p>
