@@ -80,9 +80,9 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Image_Segmentation_with_Chainer.html">1. 実践編: CT/MRI画像のセグメンテーション</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. 実践編: 細胞画像からの細胞検出</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#1.-環境構築">2.1. 1. 環境構築</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#2.-データセットの準備">2.2. 2. データセットの準備</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#2.1-データセットダウンロード">2.2.1. 2.1 データセットダウンロード</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">2.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データセットの準備">2.2. データセットの準備</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データセットダウンロード">2.2.1. データセットダウンロード</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#データセットオブジェクト作成">2.2.2. データセットオブジェクト作成</a></li>
 </ul>
 </li>
@@ -350,8 +350,8 @@ boxは、（矩形の左上のy座標, 矩形の左上のx座標, 矩形の右�
 矩形の右下のx座標）のような形式のタプルで定義されることが多く、クラスは物体の種類ごとに振られたIDで表されることが多いようです。</p>
 <p>今回は近年、物体検出によく用いられるSingle Shot Multibox
 Detector（通称SSD）というモデルを、血液細胞の検出に用いてみましょう。</p>
-<div class="section" id="1.-環境構築">
-<h2>2.1. 1. 環境構築<a class="headerlink" href="#1.-環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="環境構築">
+<h2>2.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まず環境構築のため以下のセルを実行してChainer, CuPy, ChainerCV,
 matplotlibといったPythonパッケージのインストールを済ませます。</p>
 <div class="nbinput nblast docutils container">
@@ -368,7 +368,7 @@ matplotlibといったPythonパッケージのインストールを済ませま�
 <p>環境のセットアップが成功したことを以下のセルを実行して確認しましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -383,7 +383,7 @@ matplotlibといったPythonパッケージのインストールを済ませま�
 <div class="highlight"><pre>
 Platform: Linux-4.4.0-116-generic-x86_64-with-debian-stretch-sid
 Chainer: 5.0.0rc1
-NumPy: 1.15.1
+NumPy: 1.15.2
 CuPy:
   CuPy Version          : 5.0.0rc1
   CUDA Root             : /usr/local/cuda
@@ -396,10 +396,10 @@ CuPy:
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="2.-データセットの準備">
-<h2>2.2. 2. データセットの準備<a class="headerlink" href="#2.-データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="2.1-データセットダウンロード">
-<h3>2.2.1. 2.1 データセットダウンロード<a class="headerlink" href="#2.1-データセットダウンロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="データセットの準備">
+<h2>2.2. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="データセットダウンロード">
+<h3>2.2.1. データセットダウンロード<a class="headerlink" href="#データセットダウンロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>今回は<a class="reference external" href="https://github.com/Shenggan/BCCD_Dataset">BCCD
 Dataset</a>という血液の顕微鏡画像と、画像それぞれに対してRBC,
 WBC, Plateletの3つの物体に対するbounding
@@ -409,11 +409,8 @@ boxのアノテーションが用意された小規模なデータセットを�
 <span></span>In [3]:
 </pre></div>
 </div>
-<div class="input_area highlight-bash notranslate"><div class="highlight"><pre>
-<span></span>%%bash
-<span class="k">if</span> <span class="o">[</span> ! -d BCCD_Dataset <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    git clone https://github.com/Shenggan/BCCD_Dataset.git
-<span class="k">fi</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span><span class="k">if</span> <span class="o">[</span> ! -d BCCD_Dataset <span class="o">]</span><span class="p">;</span> <span class="k">then</span> git clone https://github.com/Shenggan/BCCD_Dataset.git<span class="p">;</span> <span class="k">fi</span>
 </pre></div>
 </div>
 </div>

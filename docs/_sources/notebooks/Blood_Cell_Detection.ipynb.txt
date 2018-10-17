@@ -23,7 +23,7 @@
     "id": "mksH_eu3NxKB"
    },
    "source": [
-    "## 1. 環境構築\n",
+    "## 環境構築\n",
     "\n",
     "まず環境構築のため以下のセルを実行してChainer, CuPy, ChainerCV, matplotlibといったPythonパッケージのインストールを済ませます。"
    ]
@@ -54,7 +54,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 1,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -71,7 +71,7 @@
      "text": [
       "Platform: Linux-4.4.0-116-generic-x86_64-with-debian-stretch-sid\r\n",
       "Chainer: 5.0.0rc1\r\n",
-      "NumPy: 1.15.1\r\n",
+      "NumPy: 1.15.2\r\n",
       "CuPy:\r\n",
       "  CuPy Version          : 5.0.0rc1\r\n",
       "  CUDA Root             : /usr/local/cuda\r\n",
@@ -95,9 +95,9 @@
     "id": "wNTZ0qnEpvHr"
    },
    "source": [
-    "## 2. データセットの準備\n",
+    "## データセットの準備\n",
     "\n",
-    "### 2.1 データセットダウンロード\n",
+    "### データセットダウンロード\n",
     "\n",
     "今回は[BCCD Dataset](https://github.com/Shenggan/BCCD_Dataset)という血液の顕微鏡画像と、画像それぞれに対してRBC, WBC, Plateletの3つの物体に対するbounding boxのアノテーションが用意された小規模なデータセットを用います。このデータセットはGithubリポジトリで配布されていますので、以下のセルを実行してデータセットをダウンロードしましょう。"
    ]
@@ -116,10 +116,7 @@
    },
    "outputs": [],
    "source": [
-    "%%bash\n",
-    "if [ ! -d BCCD_Dataset ]; then\n",
-    "    git clone https://github.com/Shenggan/BCCD_Dataset.git\n",
-    "fi"
+    "!if [ ! -d BCCD_Dataset ]; then git clone https://github.com/Shenggan/BCCD_Dataset.git; fi"
    ]
   },
   {
