@@ -1,0 +1,285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to medical-ai&#39;s documentation! &mdash; medical-ai-course-materials  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="Chainerハンズオン：画像セグメンテーション" href="notebooks/Image_Segmentation_with_Chainer.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> medical-ai-course-materials
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html">Chainerハンズオン：画像セグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html">血液細胞の検出</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">medical-ai-course-materials</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to medical-ai's documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="welcome-to-medical-ai-s-documentation">
+<h1>Welcome to medical-ai's documentation!<a class="headerlink" href="#welcome-to-medical-ai-s-documentation" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html">Chainerハンズオン：画像セグメンテーション</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#環境">環境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#1.-Semantic-Segmentationについて">1. Semantic Segmentationについて</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#2.-使用するデータセット">2. 使用するデータセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#3.-Chainerの概要">3. Chainerの概要</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#3.1-Chainerを用いた学習の流れ">3.1 Chainerを用いた学習の流れ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#4.-三層パーセプトロンによるセグメンテーション">4. 三層パーセプトロンによるセグメンテーション</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#4.1-データセットの準備">4.1 データセットの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#4.2-モデルの定義">4.2 モデルの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#4.3-Trainerの定義">4.3 Trainerの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#4.4-学習開始">4.4 学習開始</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#4.5-評価">4.5 評価</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#5.-畳み込みネットワークを用いたセグメンテーション">5. 畳み込みネットワークを用いたセグメンテーション</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#5.1-Convolutionレイヤ">5.1 Convolutionレイヤ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#5.2-Deconvolutionレイヤ">5.2 Deconvolutionレイヤ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#5.3-全畳込みネットワーク">5.3 全畳込みネットワーク</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#5.4-Classifierクラスの改良">5.4 Classifierクラスの改良</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#5.5-新しいモデルを使った学習">5.5 新しいモデルを使った学習</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#5.6-学習結果を見てみよう">5.6 学習結果を見てみよう</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#6.-さらなる精度向上へのヒント">6. さらなる精度向上へのヒント</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#6.1-SegNet-[8]">6.1 SegNet [8]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#6.2-U-Net-[9]">6.2 U-Net [9]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#6.3-PSPNet-[10]">6.3 PSPNet [10]</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#7.-その他の参考資料">7. その他の参考資料</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Image_Segmentation_with_Chainer.html#References">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html">血液細胞の検出</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html#準備">準備</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html#データセットの準備">データセットの準備</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html#データセットダウンロード">データセットダウンロード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html#データセットオブジェクト作成">データセットオブジェクト作成</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html#Single-Shot-Multibox-Detector-(SSD)">Single Shot Multibox Detector (SSD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html#モデルの定義">モデルの定義</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="notebooks/Image_Segmentation_with_Chainer.html" class="btn btn-neutral float-right" title="Chainerハンズオン：画像セグメンテーション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Shunta Saito
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

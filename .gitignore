@@ -1,14 +1,21 @@
+source/source/notebooks/train/
+source/source/notebooks/val/
+source/source/notebooks/result/
+source/source/notebooks/results/
+source/source/notebooks/result_fcn/
+source/source/notebooks/BCCD_Dataset/
+
+notebooks/val/
+notebooks/train/
+notebooks/result/
+notebooks/results/
+notebooks/result_fcn/
+notebooks/BCCD_Dataset/
+
 .vscode/
 
 !docs/build/html/
 
-docs/source/notebooks/
-notebooks/BCCD_Dataset/
-notebooks/results/
-notebooks/result/
-notebooks/result_fcn/
-notebooks/train/
-notebooks/val/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

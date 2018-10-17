@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BCCD Dataset &mdash; medical-ai-course-materials  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> medical-ai-course-materials
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../Image_Segmentation_with_Chainer.html">Chainerハンズオン：画像セグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Blood_Cell_Detection.html">血液細胞の検出</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">medical-ai-course-materials</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>BCCD Dataset</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/notebooks/BCCD_Dataset/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="bccd-dataset">
+<span id="bccd-dataset"></span><h1>BCCD Dataset<a class="headerlink" href="#bccd-dataset" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>BCCD Dataset is a small-scale dataset for blood cells detection.</p>
+<p>Thanks the original data and annotations from <a class="reference external" href="https://github.com/cosmicad/dataset">cosmicad</a> and <a class="reference external" href="https://github.com/akshaylamba/all_CELL_data">akshaylamba</a>. The original dataset is re-organized into VOC format. BCCD Dataset is under <em><a class="reference external" href="https://github.com/rtfd/recommonmark/tree/master/doc/notebooks/BCCD_Dataset/LICENSE">MIT licence</a></em>.</p>
+<p>You can <a class="reference external" href="https://github.com/Shenggan/BCCD_Dataset/releases">download</a> the <code class="docutils literal notranslate"><span class="pre">.rec</span></code> format for mxnet directly. The <code class="docutils literal notranslate"><span class="pre">.rec</span></code> file can be load by <a class="reference external" href="http://mxnet.incubator.apache.org/api/python/image/image.html?highlight=imagedetiter#mxnet.image.ImageDetIter">mxnet.image.ImageDetIter</a>.</p>
+<div class="section" id="overview-of-dataset">
+<span id="overview-of-dataset"></span><h2>Overview of dataset<a class="headerlink" href="#overview-of-dataset" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul>
+<li><p class="first">You can see a example of the labeled cell image.</p>
+<p>We have three kind of labels :</p>
+<ul class="simple">
+<li>RBC (Red Blood Cell)</li>
+<li>WBC (White Blood Cell)</li>
+<li>Platelets (血小板)</li>
+</ul>
+<p><img alt="example" src="../../_images/example.jpg" /></p>
+</li>
+</ul>
+<ul>
+<li><p class="first">The structure of the <code class="docutils literal notranslate"><span class="pre">BCCD_dataset</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── BCCD
+│   ├── Annotations
+│   │       └── BloodImage_00XYZ.xml (364 items)
+│   ├── ImageSets       # Contain four Main/*.txt which split the dataset
+│   └── JPEGImages
+│       └── BloodImage_00XYZ.jpg (364 items)
+├── dataset
+│   └── mxnet           # Some preprocess scripts for mxnet
+├── scripts
+│   ├── split.py        # A script to generate four .txt in ImageSets
+│   └── visualize.py    # A script to generate labeled img like example.jpg
+├── example.jpg         # A example labeled img generated by visualize.py
+├── LICENSE
+└── README.md
+</pre></div>
+</div>
+</li>
+<li><p class="first">The  <code class="docutils literal notranslate"><span class="pre">JPEGImages</span></code>:</p>
+<ul class="simple">
+<li><strong>Image Type</strong> : <em>jpeg(JPEG)</em></li>
+<li><strong>Width</strong> x <strong>Height</strong> : <em>640 x 480</em></li>
+</ul>
+</li>
+<li><p class="first">The <code class="docutils literal notranslate"><span class="pre">Annotations</span></code> : The VOC format <code class="docutils literal notranslate"><span class="pre">.xml</span></code> for Object Detection, automatically generate by the label tools. Below is an example of <code class="docutils literal notranslate"><span class="pre">.xml</span></code> file.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;annotation&gt;</span>
+  <span class="nt">&lt;folder&gt;</span>JPEGImages<span class="nt">&lt;/folder&gt;</span>
+  <span class="nt">&lt;filename&gt;</span>BloodImage_00000.jpg<span class="nt">&lt;/filename&gt;</span>
+  <span class="nt">&lt;path&gt;</span>/home/pi/detection_dataset/JPEGImages/BloodImage_00000.jpg<span class="nt">&lt;/path&gt;</span>
+  <span class="nt">&lt;source&gt;</span>
+      <span class="nt">&lt;database&gt;</span>Unknown<span class="nt">&lt;/database&gt;</span>
+  <span class="nt">&lt;/source&gt;</span>
+  <span class="nt">&lt;size&gt;</span>
+      <span class="nt">&lt;width&gt;</span>640<span class="nt">&lt;/width&gt;</span>
+      <span class="nt">&lt;height&gt;</span>480<span class="nt">&lt;/height&gt;</span>
+      <span class="nt">&lt;depth&gt;</span>3<span class="nt">&lt;/depth&gt;</span>
+  <span class="nt">&lt;/size&gt;</span>
+  <span class="nt">&lt;segmented&gt;</span>0<span class="nt">&lt;/segmented&gt;</span>
+  <span class="nt">&lt;object&gt;</span>
+      <span class="nt">&lt;name&gt;</span>WBC<span class="nt">&lt;/name&gt;</span>
+      <span class="nt">&lt;pose&gt;</span>Unspecified<span class="nt">&lt;/pose&gt;</span>
+      <span class="nt">&lt;truncated&gt;</span>0<span class="nt">&lt;/truncated&gt;</span>
+      <span class="nt">&lt;difficult&gt;</span>0<span class="nt">&lt;/difficult&gt;</span>
+      <span class="nt">&lt;bndbox&gt;</span>
+          <span class="nt">&lt;xmin&gt;</span>260<span class="nt">&lt;/xmin&gt;</span>
+          <span class="nt">&lt;ymin&gt;</span>177<span class="nt">&lt;/ymin&gt;</span>
+          <span class="nt">&lt;xmax&gt;</span>491<span class="nt">&lt;/xmax&gt;</span>
+          <span class="nt">&lt;ymax&gt;</span>376<span class="nt">&lt;/ymax&gt;</span>
+      <span class="nt">&lt;/bndbox&gt;</span>
+  <span class="nt">&lt;/object&gt;</span>
+    ...
+  <span class="nt">&lt;object&gt;</span>
+      ...
+  <span class="nt">&lt;/object&gt;</span>
+<span class="nt">&lt;/annotation&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Shunta Saito
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
