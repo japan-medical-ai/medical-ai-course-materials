@@ -16,6 +16,7 @@ notebooks/BCCD_Dataset/
 
 !docs/build/html/
 
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
