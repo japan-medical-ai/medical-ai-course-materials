@@ -5,4 +5,4 @@ git config user.name "Travis-CI"
 
 git add -A
 git commit -m "Deploy to GitHub Pages"
-git push --force --quiet "https://${GH_TOKEN}@github.com/mitmul/medical-ai-course-materials.git" master:master > /dev/null 2>&1
+git push "https://${GH_TOKEN}@github.com/mitmul/medical-ai-course-materials.git" master:master
