@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
+  <title>5. 実践編：ディープラーニングを使った配列解析 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
   
 
   
@@ -77,11 +77,23 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Chainer_Beginner's_Hands_on.html">1. Deep Learningフレームワークの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Image_Segmentation_with_Chainer.html">2. 実践編: CT/MRI画像のセグメンテーション</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">3. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. 実践編：ディープラーニングを使った配列解析</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境">5.1. 環境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#配列解析について">5.2. 配列解析について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データセット">5.3. データセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Dilated-Convolutionを用いた解析">5.4. Dilated Convolutionを用いた解析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#配列解析の戦略">5.4.1. 配列解析の戦略</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Dilated-Convolution">5.4.2. Dilated Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ブロック">5.4.3. ブロック</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -127,7 +139,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>5. 実践編：ディープラーニングを使った配列解析</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -329,63 +341,31 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
+<div class="section" id="実践編：ディープラーニングを使った配列解析">
+<h1>5. 実践編：ディープラーニングを使った配列解析<a class="headerlink" href="#実践編：ディープラーニングを使った配列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>近年、次世代シーケンサ（NGS; Next Generation
+Sequencer）の発展により、遺伝子の塩基配列を高速、大量、安価に読み取ることができるようになってきました。</p>
+<p>ここではディープラーニングを用いて、DNA配列からエピジェネティックな影響や転写制御を予測する問題に取り組みます。この予測モデルを使うことで、ある遺伝子変異が遺伝子発現にどのような影響を与えるのかを予測することができるようになります。</p>
+<div class="section" id="環境">
+<h2>5.1. 環境<a class="headerlink" href="#環境" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここで用いるライブラリは</p>
+<ul class="simple">
+<li>Chainer</li>
+<li>Cupy</li>
+<li>matplotlib</li>
+</ul>
+<p>です。Google
+Colab上では、以下のようにしてインストールすることができます。以下のセルを実行（Shit+Enter）してください。</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!mkdir -p data
-!curl -o data/hg19.ml.fa https://storage.googleapis.com/basenji_tutorial_data/hg19.ml.fa
-!curl -o data/hg19.ml.fa.fai https://storage.googleapis.com/basenji_tutorial_data/hg19.ml.fa.fai
-!curl -o data/CNhs11760.bw https://storage.googleapis.com/basenji_tutorial_data/CNhs11760.bw
-!curl -o data/CNhs12843.bw https://storage.googleapis.com/basenji_tutorial_data/CNhs12843.bw
-!curl -o data/CNhs12856.bw https://storage.googleapis.com/basenji_tutorial_data/CNhs12856.bw
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 2943M  100 2943M    0     0  39.7M      0  0:01:14  0:01:14 --:--:-- 23.9M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   729  100   729    0     0   8476      0 --:--:-- --:--:-- --:--:--  8476
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 1563M  100 1563M    0     0  24.7M      0  0:01:03  0:01:03 --:--:-- 21.9M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 1236M  100 1236M    0     0  24.7M      0  0:00:49  0:00:49 --:--:-- 22.7M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 3484M  100 3484M    0     0  25.5M      0  0:02:16  0:02:16 --:--:-- 29.8M
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>with open(&#39;data/heart_wigs.txt&#39;, &#39;w&#39;) as f:
-  print(&#39;aorta\tdata/CNhs11760.bw&#39;, file=f)
-  print(&#39;artery\tdata/CNhs12843.bw&#39;, file=f)
-  print(&#39;pulmonic_valve\tdata/CNhs12856.bw&#39;, file=f)
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!ls -l
+<span></span>!set -ex
+!apt -y -q install cuda-libraries-dev-9-2
+!pip install cupy-cuda92 --pre
+!pip install chainer --pre
 </pre></div>
 </div>
 </div>
@@ -394,162 +374,36 @@ div.nboutput div.output_area.stderr {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 8
-drwxr-xr-x 2 root root 4096 Oct  4 01:07 data
-drwxr-xr-x 2 root root 4096 Oct  2 19:06 sample_data
+Reading package lists...
+Building dependency tree...
+Reading state information...
+cuda-libraries-dev-9-2 is already the newest version (9.2.148-1).
+0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.
+Requirement already satisfied: cupy-cuda92 in /usr/local/lib/python2.7/dist-packages (6.0.0a1)
+Requirement already satisfied: fastrlock&gt;=0.3 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (0.4)
+Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (1.14.6)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (1.11.0)
+Requirement already satisfied: chainer in /usr/local/lib/python2.7/dist-packages (6.0.0a1)
+Requirement already satisfied: filelock in /usr/local/lib/python2.7/dist-packages (from chainer) (3.0.10)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (3.6.1)
+Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (1.14.6)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (1.11.0)
+Requirement already satisfied: setuptools in /usr/local/lib/python2.7/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer) (40.5.0)
 </pre></div></div>
 </div>
+<p>インストールが完了したら、以下のセルを実行して、各ライブラリのバージョンを確認してください。</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!pip install h5py joblib matplotlib networkx numpy pandas pyBigWig pysam scipy seaborn scikit-learn statsmodels tensorflow
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Requirement already satisfied: h5py in /usr/local/lib/python3.6/dist-packages (2.8.0)
-Requirement already satisfied: joblib in /usr/local/lib/python3.6/dist-packages (0.12.5)
-Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (2.1.2)
-Requirement already satisfied: networkx in /usr/local/lib/python3.6/dist-packages (2.2)
-Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (1.14.6)
-Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (0.22.0)
-Collecting pyBigWig
-  Using cached https://files.pythonhosted.org/packages/d5/0d/8e2a1edb9524790c6a4d0b70bc800a8e4afee1bc7bdd048c54b8d9cf1c32/pyBigWig-0.3.12.tar.gz
-Collecting pysam
-  Using cached https://files.pythonhosted.org/packages/6f/f4/e12faf1618e977a868fe66d40288fc3dd989a10cc4c77603da33a7634a18/pysam-0.15.1-cp36-cp36m-manylinux1_x86_64.whl
-Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (0.19.1)
-Requirement already satisfied: seaborn in /usr/local/lib/python3.6/dist-packages (0.7.1)
-Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (0.19.2)
-Requirement already satisfied: statsmodels in /usr/local/lib/python3.6/dist-packages (0.8.0)
-Requirement already satisfied: tensorflow in /usr/local/lib/python3.6/dist-packages (1.11.0)
-Requirement already satisfied: six in /usr/local/lib/python3.6/dist-packages (from h5py) (1.11.0)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.2.2)
-Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2018.5)
-Requirement already satisfied: decorator&gt;=4.3.0 in /usr/local/lib/python3.6/dist-packages (from networkx) (4.3.0)
-Requirement already satisfied: patsy in /usr/local/lib/python3.6/dist-packages (from statsmodels) (0.5.0)
-Requirement already satisfied: protobuf&gt;=3.6.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (3.6.1)
-Requirement already satisfied: tensorboard&lt;1.12.0,&gt;=1.11.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (1.11.0)
-Requirement already satisfied: setuptools&lt;=39.1.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (39.1.0)
-Requirement already satisfied: termcolor&gt;=1.1.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (1.1.0)
-Requirement already satisfied: astor&gt;=0.6.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (0.7.1)
-Requirement already satisfied: gast&gt;=0.2.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (0.2.0)
-Requirement already satisfied: absl-py&gt;=0.1.6 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (0.5.0)
-Requirement already satisfied: wheel&gt;=0.26 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (0.32.0)
-Requirement already satisfied: keras-preprocessing&gt;=1.0.3 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (1.0.5)
-Requirement already satisfied: keras-applications&gt;=1.0.5 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (1.0.6)
-Requirement already satisfied: grpcio&gt;=1.8.6 in /usr/local/lib/python3.6/dist-packages (from tensorflow) (1.15.0)
-Requirement already satisfied: werkzeug&gt;=0.11.10 in /usr/local/lib/python3.6/dist-packages (from tensorboard&lt;1.12.0,&gt;=1.11.0-&gt;tensorflow) (0.14.1)
-Requirement already satisfied: markdown&gt;=2.6.8 in /usr/local/lib/python3.6/dist-packages (from tensorboard&lt;1.12.0,&gt;=1.11.0-&gt;tensorflow) (3.0.1)
-Building wheels for collected packages: pyBigWig
-  Running setup.py bdist_wheel for pyBigWig ... - \ | / - \ | / done
-  Stored in directory: /root/.cache/pip/wheels/8c/9d/da/696632dbd03ef4f9f1988851a411dad15781ac8aabffce49fc
-Successfully built pyBigWig
-Installing collected packages: pyBigWig, pysam
-Successfully installed pyBigWig-0.3.12 pysam-0.15.1
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!wget https://raw.githubusercontent.com/calico/basenji/master/bin/basenji_hdf5_single.py
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Redirecting output to ‘wget-log’.
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [28]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!pip install git+https://github.com/calico/basenji
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Collecting git+https://github.com/calico/basenji
-  Cloning https://github.com/calico/basenji to /tmp/pip-req-build-si7de2lx
-Requirement already satisfied (use --upgrade to upgrade): basenji==0.0.1 from git+https://github.com/calico/basenji in /usr/local/lib/python3.6/dist-packages
-Requirement already satisfied: h5py in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (2.8.0)
-Requirement already satisfied: joblib in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (0.12.5)
-Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (2.1.2)
-Requirement already satisfied: networkx in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (2.2)
-Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (1.14.6)
-Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (0.22.0)
-Requirement already satisfied: pyBigWig in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (0.3.12)
-Requirement already satisfied: pysam in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (0.15.1)
-Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (0.19.1)
-Requirement already satisfied: seaborn in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (0.7.1)
-Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (0.19.2)
-Requirement already satisfied: statsmodels in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (0.8.0)
-Requirement already satisfied: tensorflow in /usr/local/lib/python3.6/dist-packages (from basenji==0.0.1) (1.11.0)
-Requirement already satisfied: six in /usr/local/lib/python3.6/dist-packages (from h5py-&gt;basenji==0.0.1) (1.11.0)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;basenji==0.0.1) (0.10.0)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;basenji==0.0.1) (2.2.1)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;basenji==0.0.1) (2.5.3)
-Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;basenji==0.0.1) (2018.5)
-Requirement already satisfied: decorator&gt;=4.3.0 in /usr/local/lib/python3.6/dist-packages (from networkx-&gt;basenji==0.0.1) (4.3.0)
-Requirement already satisfied: patsy in /usr/local/lib/python3.6/dist-packages (from statsmodels-&gt;basenji==0.0.1) (0.5.0)
-Requirement already satisfied: setuptools&lt;=39.1.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (39.1.0)
-Requirement already satisfied: termcolor&gt;=1.1.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (1.1.0)
-Requirement already satisfied: protobuf&gt;=3.6.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (3.6.1)
-Requirement already satisfied: keras-applications&gt;=1.0.5 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (1.0.6)
-Requirement already satisfied: tensorboard&lt;1.12.0,&gt;=1.11.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (1.11.0)
-Requirement already satisfied: wheel&gt;=0.26 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (0.31.1)
-Requirement already satisfied: gast&gt;=0.2.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (0.2.0)
-Requirement already satisfied: grpcio&gt;=1.8.6 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (1.15.0)
-Requirement already satisfied: keras-preprocessing&gt;=1.0.3 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (1.0.5)
-Requirement already satisfied: absl-py&gt;=0.1.6 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (0.5.0)
-Requirement already satisfied: astor&gt;=0.6.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji==0.0.1) (0.7.1)
-Requirement already satisfied: werkzeug&gt;=0.11.10 in /usr/local/lib/python3.6/dist-packages (from tensorboard&lt;1.12.0,&gt;=1.11.0-&gt;tensorflow-&gt;basenji==0.0.1) (0.14.1)
-Requirement already satisfied: markdown&gt;=2.6.8 in /usr/local/lib/python3.6/dist-packages (from tensorboard&lt;1.12.0,&gt;=1.11.0-&gt;tensorflow-&gt;basenji==0.0.1) (3.0.1)
-Building wheels for collected packages: basenji
-  Running setup.py bdist_wheel for basenji ... - done
-  Stored in directory: /tmp/pip-ephem-wheel-cache-1ygqfuyw/wheels/ea/4f/91/eb0f882169a54469c94b7eb1d99d7a6ba32c4cfb61985c09d4
-Successfully built basenji
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!pip show basenji
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [58]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!pip install basenji
+<span></span>import chainer
+import cupy
+import matplotlib
+
+chainer.print_runtime_info()
+print(&#39;matplotlib:&#39;, matplotlib.__version__)
 </pre></div>
 </div>
 </div>
@@ -558,1094 +412,40 @@ Successfully built basenji
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Requirement already satisfied: basenji in /usr/local/lib/python3.6/dist-packages (0.0.1)
-Requirement already satisfied: tensorflow in /usr/local/lib/python3.6/dist-packages (from basenji) (1.11.0)
-Requirement already satisfied: networkx in /usr/local/lib/python3.6/dist-packages (from basenji) (2.2)
-Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (from basenji) (2.1.2)
-Requirement already satisfied: pysam in /usr/local/lib/python3.6/dist-packages (from basenji) (0.15.1)
-Requirement already satisfied: pandas in /usr/local/lib/python3.6/dist-packages (from basenji) (0.22.0)
-Requirement already satisfied: seaborn in /usr/local/lib/python3.6/dist-packages (from basenji) (0.7.1)
-Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (from basenji) (0.19.2)
-Requirement already satisfied: pyBigWig in /usr/local/lib/python3.6/dist-packages (from basenji) (0.3.12)
-Requirement already satisfied: statsmodels in /usr/local/lib/python3.6/dist-packages (from basenji) (0.8.0)
-Requirement already satisfied: scipy in /usr/local/lib/python3.6/dist-packages (from basenji) (0.19.1)
-Requirement already satisfied: h5py in /usr/local/lib/python3.6/dist-packages (from basenji) (2.8.0)
-Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from basenji) (1.14.6)
-Requirement already satisfied: joblib in /usr/local/lib/python3.6/dist-packages (from basenji) (0.12.5)
-Requirement already satisfied: keras-applications&gt;=1.0.5 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (1.0.6)
-Requirement already satisfied: protobuf&gt;=3.6.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (3.6.1)
-Requirement already satisfied: setuptools&lt;=39.1.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (39.1.0)
-Requirement already satisfied: termcolor&gt;=1.1.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (1.1.0)
-Requirement already satisfied: absl-py&gt;=0.1.6 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (0.5.0)
-Requirement already satisfied: tensorboard&lt;1.12.0,&gt;=1.11.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (1.11.0)
-Requirement already satisfied: wheel&gt;=0.26 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (0.31.1)
-Requirement already satisfied: keras-preprocessing&gt;=1.0.3 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (1.0.5)
-Requirement already satisfied: astor&gt;=0.6.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (0.7.1)
-Requirement already satisfied: gast&gt;=0.2.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (0.2.0)
-Requirement already satisfied: six&gt;=1.10.0 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (1.11.0)
-Requirement already satisfied: grpcio&gt;=1.8.6 in /usr/local/lib/python3.6/dist-packages (from tensorflow-&gt;basenji) (1.15.0)
-Requirement already satisfied: decorator&gt;=4.3.0 in /usr/local/lib/python3.6/dist-packages (from networkx-&gt;basenji) (4.3.0)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;basenji) (2.2.1)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;basenji) (2.5.3)
-Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;basenji) (2018.5)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib-&gt;basenji) (0.10.0)
-Requirement already satisfied: patsy in /usr/local/lib/python3.6/dist-packages (from statsmodels-&gt;basenji) (0.5.0)
-Requirement already satisfied: markdown&gt;=2.6.8 in /usr/local/lib/python3.6/dist-packages (from tensorboard&lt;1.12.0,&gt;=1.11.0-&gt;tensorflow-&gt;basenji) (3.0.1)
-Requirement already satisfied: werkzeug&gt;=0.11.10 in /usr/local/lib/python3.6/dist-packages (from tensorboard&lt;1.12.0,&gt;=1.11.0-&gt;tensorflow-&gt;basenji) (0.14.1)
+Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 6.0.0a1
+NumPy: 1.14.6
+CuPy:
+  CuPy Version          : 6.0.0a1
+  CUDA Root             : /usr/local/cuda
+  CUDA Build Version    : 9020
+  CUDA Driver Version   : 9020
+  CUDA Runtime Version  : 9020
+  cuDNN Build Version   : 7201
+  cuDNN Version         : 7201
+  NCCL Build Version    : 2213
+iDeep: Not Available
+(&#39;matplotlib:&#39;, &#39;2.1.2&#39;)
 </pre></div></div>
 </div>
+</div>
+<div class="section" id="配列解析について">
+<h2>5.2. 配列解析について<a class="headerlink" href="#配列解析について" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>次世代シーケンサの発展・普及とともに、大量の遺伝子配列が読み取られるようになりました。そうした中で、塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome
+Wide Association Study;
+ゲノムワイド関連解析）がされてきましたが、遺伝子変異だけでは全ての表現型の変化を説明できないことがわかってきています。特に、非翻訳領域が遺伝子発現に影響を与え、表現型の変化を生じさせていることが様々な実験結果からわかってきています。遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています。（以下図）</p>
+<p><img alt="代替テキスト" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/&#64;&#64;download/attachment/EncodeDatatypes2013-7.png" />[Encode Projectより引用]</p>
+<p>例えば、ChIP-Seq（クロマチン免疫沈降）は、転写調節因子やそのほかのタンパク質が直接の相互作用を起こすDNAの特定部位を分離し、それらをシーケンシングして同定し、どの程度出現していたかを定量化します。これにより、タンパク質のDNA中の結合部位を正確かつ効率的に同定することができます。</p>
+<p>このような技術で抽出された配列を学習データとして利用し、DNA配列のみからそこが結合部位かどうかだけでなく、どの程度、出現していたのかというカバレッチ値を推定することで、DNA配列のみから、転写因子、クロマチンアクセシビリティ、ヒストン修飾を予測することができるようになり、様々な遺伝子変異に対する有益な洞察を与えてくれます。</p>
+<p>一方で、DNA配列中のどの領域がそのような特徴を持つのかを調べるためには非常に遠距離のDNA配列もいる必要があり、これが機械学習による解析を困難としていました。今回紹介する手法はこのような遠距離の関係を捉えるため、10万超の長さのDNA配列を入力として受け取り、128bpごとにその領域がどの程度各手法で発現していたのか、カバレッジ値を予測するタスクを考えます。</p>
+</div>
+<div class="section" id="データセット">
+<h2>5.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここでは、データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します。ここでは前処理が既に終わって配列と、各位置ごとの推定カバレッジ値が記録されたデータを利用します。下のセルを実行してデータをダウンロードしてください。（TODO:
+公開の場所においてcurlで取得するようにする）</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [17]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!rm basenji_hdf5_single.py
-from google.colab import files
-uploaded = files.upload()
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-rm: cannot remove &#39;basenji_hdf5_single.py&#39;: No such file or directory
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<input type="file" id="files-47670dee-1c3d-48ec-bda8-6fcb198259d3" name="files[]" multiple disabled />
-<output id="result-47670dee-1c3d-48ec-bda8-6fcb198259d3">
- Upload widget is only available when the cell has been executed in the
- current browser session. Please rerun this cell to enable.
- </output>
- <script src="/nbextensions/google.colab/files.js"></script></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Saving basenji_hdf5_single.py to basenji_hdf5_single.py
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [67]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import sys
-sys.path.append(&#39;/usr/local/lib/python3.6/dist-packages&#39;)
-print(sys.path)
-import
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&#39;&#39;, &#39;/env/python&#39;, &#39;/usr/lib/python36.zip&#39;, &#39;/usr/lib/python3.6&#39;, &#39;/usr/lib/python3.6/lib-dynload&#39;, &#39;/usr/local/lib/python3.6/dist-packages&#39;, &#39;/usr/lib/python3/dist-packages&#39;, &#39;/usr/local/lib/python3.6/dist-packages/IPython/extensions&#39;, &#39;/root/.ipython&#39;, &#39;/usr/local/lib/python3.6/dist-packages&#39;, &#39;/usr/local/lib/python3.6/dist-packages&#39;, &#39;/usr/local/lib/python3.6/dist-packages&#39;, &#39;/usr/local/lib/python3.6/dist-packages&#39;, &#39;/usr/local/lib/python3.6/dist-packages&#39;]
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ModuleNotFoundError</span>                       Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-67-28ff04f5be45&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span> sys<span class="ansi-blue-fg">.</span>path<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;/usr/local/lib/python3.6/dist-packages&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span> print<span class="ansi-blue-fg">(</span>sys<span class="ansi-blue-fg">.</span>path<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">import</span> basenji
-
-<span class="ansi-red-fg">ModuleNotFoundError</span>: No module named &#39;basenji&#39;
-
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span><span class="ansi-green-fg">
-NOTE: If your import is failing due to a missing package, you can
-manually install dependencies using either !pip or !apt.
-
-To view examples of installing some common dependencies, click the
-&#34;Open Examples&#34; button below.
-</span><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [19]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!git clone https://github.com/calico/basenji.git
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Cloning into &#39;basenji&#39;...
-remote: Enumerating objects: 28, done.
-remote: Counting objects: 100% (28/28), done.
-remote: Compressing objects: 100% (20/20), done.
-remote: Total 4550 (delta 14), reused 16 (delta 8), pack-reused 4522
-Receiving objects: 100% (4550/4550), 143.44 MiB | 34.25 MiB/s, done.
-Resolving deltas: 100% (3276/3276), done.
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [20]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import os
-os.chdir(&#39;/content/basenji&#39;)
-!python ./setup.py install
-os.chdir(&#39;/content&#39;)
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-running install
-running bdist_egg
-running egg_info
-creating basenji.egg-info
-writing basenji.egg-info/PKG-INFO
-writing dependency_links to basenji.egg-info/dependency_links.txt
-writing requirements to basenji.egg-info/requires.txt
-writing top-level names to basenji.egg-info/top_level.txt
-writing manifest file &#39;basenji.egg-info/SOURCES.txt&#39;
-reading manifest file &#39;basenji.egg-info/SOURCES.txt&#39;
-writing manifest file &#39;basenji.egg-info/SOURCES.txt&#39;
-installing library code to build/bdist.linux-x86_64/egg
-running install_lib
-warning: install_lib: &#39;build/lib&#39; does not exist -- no Python modules to install
-
-creating build
-creating build/bdist.linux-x86_64
-creating build/bdist.linux-x86_64/egg
-creating build/bdist.linux-x86_64/egg/EGG-INFO
-copying basenji.egg-info/PKG-INFO -&gt; build/bdist.linux-x86_64/egg/EGG-INFO
-copying basenji.egg-info/SOURCES.txt -&gt; build/bdist.linux-x86_64/egg/EGG-INFO
-copying basenji.egg-info/dependency_links.txt -&gt; build/bdist.linux-x86_64/egg/EGG-INFO
-copying basenji.egg-info/requires.txt -&gt; build/bdist.linux-x86_64/egg/EGG-INFO
-copying basenji.egg-info/top_level.txt -&gt; build/bdist.linux-x86_64/egg/EGG-INFO
-zip_safe flag not set; analyzing archive contents...
-creating dist
-creating &#39;dist/basenji-0.0.1-py3.6.egg&#39; and adding &#39;build/bdist.linux-x86_64/egg&#39; to it
-removing &#39;build/bdist.linux-x86_64/egg&#39; (and everything under it)
-Processing basenji-0.0.1-py3.6.egg
-Copying basenji-0.0.1-py3.6.egg to /usr/local/lib/python3.6/dist-packages
-Adding basenji 0.0.1 to easy-install.pth file
-
-Installed /usr/local/lib/python3.6/dist-packages/basenji-0.0.1-py3.6.egg
-Processing dependencies for basenji==0.0.1
-Searching for tensorflow==1.11.0
-Best match: tensorflow 1.11.0
-Adding tensorflow 1.11.0 to easy-install.pth file
-Installing freeze_graph script to /usr/local/bin
-Installing saved_model_cli script to /usr/local/bin
-Installing tensorboard script to /usr/local/bin
-Installing tflite_convert script to /usr/local/bin
-Installing toco script to /usr/local/bin
-Installing toco_from_protos script to /usr/local/bin
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for statsmodels==0.8.0
-Best match: statsmodels 0.8.0
-Adding statsmodels 0.8.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for scikit-learn==0.19.2
-Best match: scikit-learn 0.19.2
-Adding scikit-learn 0.19.2 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for seaborn==0.7.1
-Best match: seaborn 0.7.1
-Adding seaborn 0.7.1 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for scipy==0.19.1
-Best match: scipy 0.19.1
-Adding scipy 0.19.1 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for pysam==0.15.1
-Best match: pysam 0.15.1
-Adding pysam 0.15.1 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for pyBigWig==0.3.12
-Best match: pyBigWig 0.3.12
-Adding pyBigWig 0.3.12 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for pandas==0.22.0
-Best match: pandas 0.22.0
-Adding pandas 0.22.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for numpy==1.14.6
-Best match: numpy 1.14.6
-Adding numpy 1.14.6 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for networkx==2.2
-Best match: networkx 2.2
-Adding networkx 2.2 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for matplotlib==2.1.2
-Best match: matplotlib 2.1.2
-Adding matplotlib 2.1.2 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for joblib==0.12.5
-Best match: joblib 0.12.5
-Adding joblib 0.12.5 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for h5py==2.8.0
-Best match: h5py 2.8.0
-Adding h5py 2.8.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for astor==0.7.1
-Best match: astor 0.7.1
-Adding astor 0.7.1 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for grpcio==1.15.0
-Best match: grpcio 1.15.0
-Adding grpcio 1.15.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for setuptools==39.1.0
-Best match: setuptools 39.1.0
-Adding setuptools 39.1.0 to easy-install.pth file
-Installing easy_install script to /usr/local/bin
-Installing easy_install-3.6 script to /usr/local/bin
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for absl-py==0.5.0
-Best match: absl-py 0.5.0
-Adding absl-py 0.5.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for gast==0.2.0
-Best match: gast 0.2.0
-Adding gast 0.2.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for wheel==0.32.0
-Best match: wheel 0.32.0
-Adding wheel 0.32.0 to easy-install.pth file
-Installing wheel script to /usr/local/bin
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for protobuf==3.6.1
-Best match: protobuf 3.6.1
-Adding protobuf 3.6.1 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for six==1.11.0
-Best match: six 1.11.0
-Adding six 1.11.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for Keras-Applications==1.0.6
-Best match: Keras-Applications 1.0.6
-Adding Keras-Applications 1.0.6 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for Keras-Preprocessing==1.0.5
-Best match: Keras-Preprocessing 1.0.5
-Adding Keras-Preprocessing 1.0.5 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for termcolor==1.1.0
-Best match: termcolor 1.1.0
-Adding termcolor 1.1.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for tensorboard==1.11.0
-Best match: tensorboard 1.11.0
-Adding tensorboard 1.11.0 to easy-install.pth file
-Installing tensorboard script to /usr/local/bin
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for patsy==0.5.0
-Best match: patsy 0.5.0
-Adding patsy 0.5.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for pytz==2018.5
-Best match: pytz 2018.5
-Adding pytz 2018.5 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for python-dateutil==2.5.3
-Best match: python-dateutil 2.5.3
-Adding python-dateutil 2.5.3 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for decorator==4.3.0
-Best match: decorator 4.3.0
-Adding decorator 4.3.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for pyparsing==2.2.2
-Best match: pyparsing 2.2.2
-Adding pyparsing 2.2.2 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for cycler==0.10.0
-Best match: cycler 0.10.0
-Adding cycler 0.10.0 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for Werkzeug==0.14.1
-Best match: Werkzeug 0.14.1
-Adding Werkzeug 0.14.1 to easy-install.pth file
-
-Using /usr/local/lib/python3.6/dist-packages
-Searching for Markdown==3.0.1
-Best match: Markdown 3.0.1
-Adding Markdown 3.0.1 to easy-install.pth file
-Installing markdown_py script to /usr/local/bin
-
-Using /usr/local/lib/python3.6/dist-packages
-Finished processing dependencies for basenji==0.0.1
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!chmod 744 ./basenji_hdf5_single.py
-! ./basenji_hdf5_single.py -d .2 -g basenji/tutorials/data/unmap_macro.bed -l 131072 -o data/heart_l131k.bed -p 4 -s 65536 -t chr9 -w 128 -v chr8 data/hg19.ml.fa data/heart_wigs.txt data/heart_l131k.h5
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-tcmalloc: large alloc 3681550336 bytes == 0xe52a2000 @  0x7f09f402b1e7 0x7f09ef224a41 0x7f09ef287c13 0x7f09ef28b0c4 0x7f09ef28b605 0x7f09ef322201 0x511b75 0x4f5277 0x510c78 0x5119bd 0x4f5277 0x4f3338 0x510fb0 0x5119bd 0x4f5277 0x4f3338 0x4f4ab3 0x640862 0x64091a 0x6429e0 0x634117 0x4b6e80 0x7f09f3c28b97 0x5bf75a
-7022 sequences one hot coded
-Reading and pre-processing bigwigs for 738 segments
-Tiling from chr11:76680786-77037939
-Tiling from chrX:37259843-37420898
-Tiling from chr8:69280152-69656090
-Tiling from chr15:62297852-64618849
-Tiling from chr11:23325708-24349490
-Tiling from chr3:166436956-166762567
-Tiling from chr3:41000644-41429012
-Tiling from chr3:107607099-107980333
-Tiling from chr2:145479207-145658609
-Tiling from chr13:86910324-87301230
-Tiling from chr3:148071168-148282458
-Tiling from chrX:128990445-129584324
-Tiling from chrX:2199840-2979517
-Tiling from chr2:175275182-176346667
-Tiling from chr22:43378529-47741983
-Tiling from chr5:88921725-89370596
-Tiling from chr8:65232190-65871080
-Tiling from chr8:75313683-75506462
-Tiling from chr3:30097741-30472251
-Tiling from chr7:91538989-91815516
-Tiling from chr14:48376380-48656275
-Tiling from chr10:110075513-110984342
-Tiling from chr18:54086614-54928944
-Tiling from chr1:114045857-114726952
-Tiling from chr1:90218583-90522835
-Tiling from chr6:34366899-38266783
-Tiling from chr4:98661497-99241575
-Tiling from chr1:50346815-51225766
-Tiling from chrX:107891378-108297348
-Tiling from chr2:150404704-150707955
-Tiling from chr13:114852694-115109878
-Tiling from chr7:104509553-105885059
-Tiling from chr1:108113707-108704410
-Tiling from chr4:66864764-67929735
-Tiling from chr14:30644957-30832737
-Tiling from chr3:14116266-15228288
-Tiling from chr3:166764574-167312429
-Tiling from chr4:126180363-126724891
-Tiling from chr14:60418475-61471864
-Tiling from chr2:29317713-29895028
-Tiling from chr14:54706476-56454889
-Tiling from chr6:113241488-113547682
-Tiling from chrX:149340276-149586199
-Tiling from chr17:25540322-26550057
-Tiling from chr1:87282842-88807520
-Tiling from chr20:24887219-25310880
-Tiling from chrX:10788674-11017235
-Tiling from chr6:3094309-4201819
-Tiling from chr10:106293398-106483493
-Tiling from chr5:140279067-141422206
-Tiling from chr7:97248987-97416863
-Tiling from chr11:29671706-29817317
-Tiling from chr19:37191532-37759473
-Tiling from chrX:131381400-132144341
-Tiling from chr7:54570894-55286750
-Tiling from chr3:188093126-188355571
-Tiling from chr4:13134850-13663621
-Tiling from chr9:116204715-119829001
-Tiling from chr6:95830543-96206293
-Tiling from chr18:18520356-19463042
-Tiling from chr16:82016012-82176696
-Tiling from chr3:178583744-182143872
-Tiling from chrX:34272002-34435359
-Tiling from chr2:185814408-186284147
-Tiling from chr5:41492891-42078680
-Tiling from chrX:53815992-54145110
-Tiling from chr3:130352889-131050661
-Tiling from chr14:105707250-106533006
-Tiling from chr8:967611-1346167
-Tiling from chr2:226386871-226578310
-Tiling from chr6:80850956-81201974
-Tiling from chr2:108587556-108952783
-Tiling from chr7:30484861-30678232
-Tiling from chr6:104162906-104900588
-Tiling from chr7:140413818-140732720
-Tiling from chr10:60007555-60413432
-Tiling from chr3:17141591-17899769
-Tiling from chr6:79182321-79359909
-Tiling from chr10:133727527-135290426
-Tiling from chr8:100707910-101867015
-Tiling from chr12:38531930-39193442
-Tiling from chr4:53410656-53684272
-Tiling from chr2:184717561-185812013
-Tiling from chr2:116880829-117781085
-Tiling from chr3:153718534-154628880
-Tiling from chr7:123540543-123734129
-Tiling from chr3:100234011-100830337
-Tiling from chr1:172029158-172951486
-Tiling from chr18:31917070-32132573
-Tiling from chrX:41869565-42061404
-Tiling from chr5:53102677-53493453
-Tiling from chr2:186289837-186706952
-Tiling from chr6:24817902-26906971
-Tiling from chr12:55883799-58040936
-Tiling from chr12:48716467-48869077
-Tiling from chr14:44496417-44790875
-Tiling from chr8:84363375-84927246
-Tiling from chr13:52849765-53667804
-Tiling from chr4:94648948-95714152
-Tiling from chrX:67962071-68558589
-Tiling from chr4:114415436-115070582
-Tiling from chr14:57809565-58134499
-Tiling from chr4:26929307-27071821
-Tiling from chrX:153919685-154168871
-Tiling from chr2:59491810-59783518
-Tiling from chr16:15459933-16441906
-Tiling from chr6:70725610-71028315
-Tiling from chr5:92602742-93187145
-Tiling from chr7:112903751-113173549
-Tiling from chr2:157632270-157819855
-Tiling from chrX:64275403-64408679
-Tiling from chr7:147545687-148229778
-Tiling from chr4:21836670-22149976
-Tiling from chr11:56495365-56706686
-Tiling from chr8:98604581-99273237
-Tiling from chr4:145716640-146287217
-Tiling from chr13:74815658-75000455
-Tiling from chr1:206506634-207382046
-Tiling from chr3:132191061-132514541
-Tiling from chr4:168269795-168781512
-Tiling from chr4:129947689-130216503
-Tiling from chr4:4960135-5441427
-Tiling from chr20:17097750-17257305
-Tiling from chr9:69080384-69224163
-Tiling from chr2:31133062-31720376
-Tiling from chr1:5736651-7471800
-Tiling from chr4:91602881-92707163
-Tiling from chr4:96590989-96836054
-Tiling from chr8:123344299-124872202
-Tiling from chr5:99390873-100444143
-Tiling from chr19:30683850-33078408
-Tiling from chr3:67956183-68125447
-Tiling from chr1:105759011-106201376
-Tiling from chr9:30109857-30427501
-Tiling from chr5:158929936-160022081
-Tiling from chr12:75914626-76123687
-Tiling from chr5:26481331-28196256
-Tiling from chr12:88368921-89102621
-Tiling from chr10:78580844-79327710
-Tiling from chr9:16467825-17256966
-Tiling from chr4:123037247-123416825
-Tiling from chrX:49830809-49974017
-Tiling from chr15:64624868-66742210
-Tiling from chr1:118268598-118824273
-Tiling from chrX:19438905-19958534
-Tiling from chr6:101696386-102237176
-Tiling from chr10:12327640-13196096
-Tiling from chr10:51472460-52670195
-Tiling from chr1:75366717-75572537
-Tiling from chr1:69394933-69580727
-Tiling from chr16:65729897-68617344
-Tiling from chr15:46400688-46653907
-Tiling from chr11:4323108-4954790
-Tiling from chr9:12340011-13040531
-Tiling from chr5:129603080-130067781
-Tiling from chr12:99863211-101031424
-Tiling from chr2:23453360-23960657
-Tiling from chr17:29308364-31005268
-Tiling from chr10:7184894-10000981
-Tiling from chr12:45770624-46814905
-Tiling from chr12:21578138-22289790
-Tiling from chrX:50483309-50755641
-Tiling from chr12:47246071-47823393
-Tiling from chr6:62481681-62771926
-Tiling from chr6:29035575-29244282
-Tiling from chr17:55868752-56208414
-Tiling from chr7:27546774-29620714
-Tiling from chr18:67632884-68413776
-Tiling from chr3:168072888-168485407
-Tiling from chr3:109839265-110160817
-Tiling from chr1:93981455-94256190
-Tiling from chr2:166348448-166589461
-Tiling from chr20:54439560-55932703
-Tiling from chr9:8004509-9931204
-Tiling from chr12:112271837-113058994
-Tiling from chr15:77557628-78478795
-Tiling from chr11:1212759-3514173
-Tiling from chr15:55224269-55356816
-Tiling from chr4:16950716-18095599
-Tiling from chr13:85302232-85697636
-Tiling from chr22:32696254-34945655
-Tiling from chr9:79289264-81489450
-Tiling from chr1:84524061-86108998
-Tiling from chr14:40394305-40795789
-Tiling from chr1:77471170-78334703
-Tiling from chr2:197392194-197770305
-Tiling from chr1:145367160-145833083
-Tiling from chr7:84038349-84879602
-Tiling from chr12:25693851-26823791
-Tiling from chr3:30474942-32305957
-Tiling from chr7:34034217-34209660
-Tiling from chr21:35303881-36866050
-Tiling from chr4:104752865-105609364
-Tiling from chr9:125356603-126667487
-Tiling from chr14:27516322-28143719
-Tiling from chr5:146876904-147095398
-Tiling from chr7:4482204-4622051
-Tiling from chr3:43112298-43608295
-Tiling from chr14:36658705-37361747
-Tiling from chr4:58253789-58428469
-Tiling from chrX:128183887-128378413
-Tiling from chr6:105191171-105692520
-Tiling from chr4:185135382-187031538
-Tiling from chr9:28353982-28554811
-Tiling from chr6:71985902-72536987
-Tiling from chr5:147100937-147321177
-Tiling from chr1:215348540-215976314
-Tiling from chr7:137115290-138898073
-Tiling from chr18:112233-537265
-Tiling from chr11:40938257-42454256
-Tiling from chr13:96983711-97809121
-Tiling from chr1:181251108-182477801
-Tiling from chr18:26002493-26730557
-Tiling from chr10:13198181-15706505
-Tiling from chr10:31400903-31573980
-Tiling from chr17:75158430-77546426
-Tiling from chrX:101946513-102128102
-Tiling from chrX:116399177-116861891
-Tiling from chr4:158098872-158338527
-Tiling from chr11:58786841-59816157
-Tiling from chr1:48621807-49471672
-Tiling from chr4:144818293-145158514
-Tiling from chr5:45525285-45660146
-Tiling from chr14:20754142-20973414
-Tiling from chr3:75172899-75323037
-Tiling from chr7:32510018-32722287
-Tiling from chr4:14762745-15175782
-Tiling from chr1:152406543-152806524
-Tiling from chr13:54624084-56545728
-Tiling from chr2:34865169-35331918
-Tiling from chr10:100702976-100913132
-Tiling from chr4:177858212-178765044
-Tiling from chr6:103944678-104157508
-Tiling from chr5:49782356-50546731
-Tiling from chr13:38400830-38688053
-Tiling from chr10:117125460-117342825
-Tiling from chr2:176630255-177664427
-Tiling from chr17:62460760-64592685
-Tiling from chr4:12694-1422902
-Tiling from chr3:182955897-185280330
-Tiling from chr1:75853886-76143853
-Tiling from chr5:99234501-99381556
-Tiling from chr16:68623381-69699084
-Tiling from chr1:78365157-78651634
-Tiling from chr13:57571163-57930714
-Tiling from chr9:46266430-46439636
-Tiling from chr8:111968010-113606227
-Tiling from chr11:79269701-81866901
-Tiling from chr2:5340019-8268749
-Tiling from chr22:16998526-17508905
-Tiling from chr13:102253390-103175046
-Tiling from chr15:100611273-100909190
-Tiling from chr10:94435748-95282065
-Tiling from chr2:144624535-145477040
-Tiling from chr4:112821962-113011307
-Tiling from chr6:148966122-150665074
-Tiling from chr4:83100476-84322560
-Tiling from chr3:137179795-137352542
-Tiling from chr14:67051937-67302140
-Tiling from chr7:103923111-104198093
-Tiling from chr10:55555911-55786458
-Tiling from chr12:55557859-55738024
-Tiling from chr4:91154299-91596835
-Tiling from chr9:72819825-73811934
-Tiling from chr16:9825324-10380572
-Tiling from chr8:57332303-58071196
-Tiling from chr19:36066810-36756398
-Tiling from chr5:70533206-70901704
-Tiling from chrX:31708749-32262299
-Tiling from chr2:110251337-110831490
-Tiling from chr2:5118788-5337035
-Tiling from chr11:14195042-14454341
-Tiling from chr14:68339931-68557389
-Tiling from chr8:103335307-104615208
-Tiling from chr7:68527788-69662309
-Tiling from chr3:151968674-152953665
-Tiling from chr11:81994512-83301130
-Tiling from chr5:8164674-9259732
-Tiling from chrX:51393680-51704856
-Tiling from chr9:87690219-88771995
-Tiling from chr18:64386725-65581105
-Tiling from chr1:158928534-159426249
-Tiling from chr2:233046120-233221341
-Tiling from chr8:128394352-129357845
-Tiling from chr11:109752698-110081631
-Tiling from chr2:14992590-15580037
-Tiling from chr11:14986463-15291562
-Tiling from chrX:106403545-106608297
-Tiling from chr9:111269374-112764704
-Tiling from chr4:170442653-171353487
-Tiling from chr4:120201253-120870161
-Tiling from chr14:37822945-38236163
-Tiling from chr4:159908654-160630655
-Tiling from chr10:47892476-48055672
-Tiling from chr17:59193620-60401790
-Tiling from chr4:157294422-157523948
-Tiling from chr11:14743290-14904196
-Tiling from chr16:53436801-54076001
-Tiling from chr10:133431404-133677492
-Tiling from chr17:60404706-62410725
-Tiling from chrX:81102662-82111482
-Tiling from chr5:102021416-102382824
-Tiling from chrX:42753602-43166200
-Tiling from chrX:51971224-52395879
-Tiling from chrX:65909113-66145170
-Tiling from chr8:132650672-132783436
-Tiling from chr12:109440755-112268280
-Tiling from chr14:86577437-86780139
-Tiling from chr5:34307823-35017740
-Tiling from chrX:18129013-19160778
-Tiling from chr12:29968664-30585764
-Tiling from chr11:17052690-18182825
-Tiling from chr9:135404886-136877033
-Tiling from chrX:32755025-34267319
-Tiling from chr6:124730626-125028104
-Tiling from chr12:19970712-20704285
-Tiling from chr8:1353672-1555739
-Tiling from chr3:4300951-4958214
-Tiling from chr2:143190349-143366820
-Tiling from chr17:53869664-54267367
-Tiling from chr15:54996382-55166640
-Tiling from chr3:115926660-116078839
-Tiling from chr10:106485841-107078387
-Tiling from chr13:80730530-81638211
-Tiling from chr6:49029561-49759177
-Tiling from chrX:128542331-128988442
-Tiling from chr1:160447869-161392048
-Tiling from chr1:104163860-104464618
-Tiling from chr8:124876669-126595127
-Tiling from chr9:17545057-18178008
-Tiling from chr7:106080428-107151293
-Tiling from chr5:63764867-64004853
-Tiling from chr3:41537363-41684097
-Tiling from chr18:44126593-44505680
-Tiling from chr1:234188086-235192176
-Tiling from chr1:237766764-238105345
-Tiling from chr5:73173672-73642964
-Tiling from chr3:63723830-64964594
-Tiling from chr11:7945354-8162356
-Tiling from chr13:109168814-110076444
-Tiling from chr5:113630493-114010382
-Tiling from chr8:135088988-136271679
-Tiling from chr6:156361271-156646097
-Tiling from chr6:75375569-75617274
-Tiling from chr15:79017738-79564972
-Tiling from chr12:96145019-96319101
-Tiling from chr13:81640711-82324015
-Tiling from chr18:29813105-30436603
-Tiling from chr13:52267302-52631776
-Tiling from chr2:80323362-81254743
-Tiling from chr10:47529169-47707798
-Tiling from chr8:34076995-35029360
-Tiling from chr3:36128882-37654444
-Tiling from chr10:75442379-75978240
-Tiling from chr9:28117830-28306859
-Tiling from chr9:75068502-75454496
-Tiling from chr2:178656249-178837796
-Tiling from chr1:164434463-165055771
-Tiling from chr19:16044663-20523317
-Tiling from chr12:105643337-106022031
-Tiling from chr5:3445148-4496451
-Tiling from chr18:13981861-14818353
-Tiling from chr15:26864806-27432864
-Tiling from chr19:44730341-44914313
-Tiling from chr4:103875578-104161293
-Tiling from chr8:92909480-94418646
-Tiling from chr5:62164176-63386622
-Tiling from chr10:79854204-80436371
-Tiling from chr15:23564853-23960824
-Tiling from chr1:82721491-83729634
-Tiling from chr15:20619598-20894598
-Tiling from chr10:19383518-19573174
-Tiling from chr9:30597285-30785033
-Tiling from chr7:112561801-112900018
-Tiling from chrX:116867366-117007945
-Tiling from chr17:31250834-32411508
-Tiling from chr8:24311432-24637736
-Tiling from chr3:163152997-163754324
-Tiling from chr9:24230160-24574510
-Tiling from chr8:90235218-90547463
-Tiling from chr19:21905118-22047536
-Tiling from chr4:15286293-15791962
-Tiling from chr6:81630639-82813342
-Tiling from chr12:65746784-65946111
-Tiling from chr11:121731872-122697276
-Tiling from chr11:95365485-96140284
-Tiling from chr18:61533624-61894597
-Tiling from chr10:128371038-128572054
-Tiling from chr4:27233114-27377304
-Tiling from chr17:51183763-53579249
-Tiling from chr11:43373143-43797127
-Tiling from chr13:77189617-77773300
-Tiling from chr11:96144757-96287549
-Tiling from chr7:93422962-95461269
-Tiling from chr1:117522958-117764061
-Tiling from chrX:63063363-63233124
-Tiling from chrX:120667867-120829353
-Tiling from chr6:159970812-160604759
-Tiling from chrX:68674217-68898677
-Tiling from chr18:666135-970842
-Tiling from chr4:89846700-90015249
-Tiling from chr7:65757843-68201468
-Tiling from chr6:87637027-88033839
-Tiling from chr15:53432979-53976963
-Tiling from chr1:238204829-239786781
-Tiling from chr6:126998107-127915542
-Tiling from chr3:34472236-34695510
-Tiling from chr4:117700864-118578084
-Tiling from chr8:115180971-115516612
-Tiling from chr3:18043935-18369543
-Tiling from chr3:54842214-55080124
-Tiling from chr9:40024796-40232994
-Tiling from chr15:73827726-76713353
-Tiling from chr3:139312061-139518617
-Tiling from chr20:25698605-26214304
-Tiling from chr9:21540855-22089823
-Tiling from chr1:79636737-79976928
-Tiling from chr6:167208379-167496716
-Tiling from chr9:30787109-31295328
-Tiling from chr11:89483354-89822860
-Tiling from chr9:27243366-27692575
-Tiling from chr11:89826956-90133206
-Tiling from chr16:52043545-53365178
-Tiling from chr2:198599196-199446695
-Tiling from chr4:156387314-157205717
-Tiling from chr2:211850178-212084726
-Tiling from chrX:62410188-62740440
-Tiling from chr14:63109404-63583415
-Tiling from chr3:139521041-141392801
-Tiling from chr1:45756108-46189627
-Tiling from chr12:76719482-77567153
-Tiling from chr4:69068779-69375509
-Tiling from chrX:109588713-109852385
-Tiling from chr3:16724238-16996780
-Tiling from chr5:174830777-175147000
-Tiling from chr14:40821515-41420214
-Tiling from chr14:82819882-83668220
-Tiling from chr18:43113826-43275847
-Tiling from chr3:122457804-125655637
-Tiling from chr14:39491300-39990734
-Tiling from chr7:57322964-57544726
-Tiling from chr4:144513867-144816106
-Tiling from chr7:110353051-110883562
-Tiling from chr6:53270831-54826345
-Tiling from chr16:34542632-34768782
-Tiling from chr14:25675851-26240513
-Tiling from chr1:183587469-184099688
-Tiling from chr10:18024675-18319709
-Tiling from chr6:19501464-19765118
-Tiling from chrX:32264901-32750004
-Tiling from chr7:152818903-153562927
-Tiling from chr13:68569170-70786406
-Tiling from chrX:19963257-20667424
-Tiling from chr9:115566410-116200667
-Tiling from chr6:168042073-168634452
-Tiling from chr18:2346452-2842252
-Tiling from chr4:124648663-125312610
-Tiling from chr2:119062667-119653326
-Tiling from chr12:41757545-42032074
-Tiling from chrX:96155022-96764505
-Tiling from chr7:135783102-136099756
-Tiling from chr5:57163281-57587420
-Tiling from chr10:56833278-57362959
-Tiling from chr11:33649181-34708505
-Tiling from chr5:83200310-83348628
-Tiling from chr2:140068606-140292310
-Tiling from chr12:7707919-9117596
-Tiling from chr15:47573836-49552525
-Tiling from chrX:1529261-1756251
-Tiling from chr4:167683050-167870896
-Tiling from chr8:6706612-7113668
-Tiling from chr6:126025210-126647742
-Tiling from chrX:84074290-84313867
-Tiling from chr5:165572667-166393760
-Tiling from chr2:37954210-40461254
-Tiling from chr2:157853580-158225041
-Tiling from chr12:41575449-41757383
-Tiling from chr7:113422180-114810703
-Tiling from chr1:163975586-164187777
-Tiling from chr9:76451196-77039182
-Tiling from chr9:40475834-40940303
-Tiling from chr5:138347148-138787038
-Tiling from chr8:75783581-76190596
-Tiling from chr16:8110796-8636886
-Tiling from chr10:52972929-53701674
-Tiling from chr11:90705441-91414851
-Tiling from chr5:110913329-111218155
-Tiling from chr6:148121725-148480618
-Tiling from chr10:48231254-49095501
-Tiling from chr3:28106157-29149598
-Tiling from chr14:90679119-91897207
-Tiling from chr2:154581961-156120500
-Tiling from chr9:90029843-91776505
-Tiling from chrX:116104473-116394656
-Tiling from chr19:434167-7345969
-Tiling from chr3:15233008-16720035
-Tiling from chr8:68506729-69218401
-Tiling from chr5:123097432-123265820
-Tiling from chr9:114082085-115275758
-Tiling from chr11:26992229-27241553
-Tiling from chr5:71149976-71875725
-Tiling from chr4:82459446-82854035
-Tiling from chr11:24355530-25162947
-Tiling from chr6:73512085-73698364
-Tiling from chr16:55637460-56188723
-Tiling from chr15:39080943-39712902
-Tiling from chr2:143848792-144420045
-Tiling from chr4:142804501-143175700
-7022 target sequences
-tcmalloc: large alloc 3271557120 bytes == 0x1c1272000 @  0x7f09f402b1e7 0x7f09ef224a41 0x7f09ef287c13 0x7f09ef287cda 0x7f09ef316cc4 0x7f09ef3170d0 0x4f55a6 0x4f3338 0x510fb0 0x5119bd 0x4f5277 0x4f3338 0x4f4ab3 0x640862 0x64091a 0x6429e0 0x634117 0x4b6e80 0x7f09f3c28b97 0x5bf75a
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!pip install -U -q PyDrive
-
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
-from google.colab import auth
-from oauth2client.client import GoogleCredentials
-
-auth.authenticate_user()
-gauth = GoogleAuth()
-gauth.credentials = GoogleCredentials.get_application_default()
-drive = GoogleDrive(gauth)
-
-upload_file = drive.CreateFile()
-upload_file.SetContentFile(&quot;data/heart_l131k.h5&quot;)
-upload_file.Upload()
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from google.colab import files
-
-!mkdir -p data
-!ls -lh data
-!files.download(&#39;data/heart_l131k.bed&#39;)
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-total 0
-/bin/bash: -c: line 0: syntax error near unexpected token `&#39;data/heart_l131k.bed&#39;&#39;
-/bin/bash: -c: line 0: `files.download(&#39;data/heart_l131k.bed&#39;)&#39;
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import h5py
-
-ml_h5 = h5py.File(&#39;data/heart_l131k.h5&#39;)
-print(list(ml_h5.keys()))
-
-print(&#39;train_in&#39;, ml_h5[&#39;train_in&#39;].shape)
-print(&#39;train_out&#39;, ml_h5[&#39;train_out&#39;].shape)
-
-print(&#39;valid_in&#39;, ml_h5[&#39;valid_in&#39;].shape)
-print(&#39;valid_out&#39;, ml_h5[&#39;valid_out&#39;].shape)
-
-print(&#39;test_in&#39;, ml_h5[&#39;test_in&#39;].shape)
-print(&#39;test_out&#39;, ml_h5[&#39;test_out&#39;].shape)
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">OSError</span>                                   Traceback (most recent call last)
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/h5py/_hl/files.py</span> in <span class="ansi-cyan-fg">make_fid</span><span class="ansi-blue-fg">(name, mode, userblock_size, fapl, fcpl, swmr)</span>
-<span class="ansi-green-intense-fg ansi-bold">    161</span>         <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 162</span><span class="ansi-red-fg">             </span>fid <span class="ansi-blue-fg">=</span> h5f<span class="ansi-blue-fg">.</span>open<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> h5f<span class="ansi-blue-fg">.</span>ACC_RDWR<span class="ansi-blue-fg">,</span> fapl<span class="ansi-blue-fg">=</span>fapl<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    163</span>         <span class="ansi-green-fg">except</span> IOError<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">h5py/_objects.pyx</span> in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-green-fg">h5py/_objects.pyx</span> in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-green-fg">h5py/h5f.pyx</span> in <span class="ansi-cyan-fg">h5py.h5f.open</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-red-fg">OSError</span>: Unable to open file (unable to open file: name = &#39;data/heart_l131k.h5&#39;, errno = 2, error message = &#39;No such file or directory&#39;, flags = 1, o_flags = 2)
-
-During handling of the above exception, another exception occurred:
-
-<span class="ansi-red-fg">OSError</span>                                   Traceback (most recent call last)
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/h5py/_hl/files.py</span> in <span class="ansi-cyan-fg">make_fid</span><span class="ansi-blue-fg">(name, mode, userblock_size, fapl, fcpl, swmr)</span>
-<span class="ansi-green-intense-fg ansi-bold">    164</span>             <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 165</span><span class="ansi-red-fg">                 </span>fid <span class="ansi-blue-fg">=</span> h5f<span class="ansi-blue-fg">.</span>open<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> h5f<span class="ansi-blue-fg">.</span>ACC_RDONLY<span class="ansi-blue-fg">,</span> fapl<span class="ansi-blue-fg">=</span>fapl<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    166</span>             <span class="ansi-green-fg">except</span> IOError<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">h5py/_objects.pyx</span> in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-green-fg">h5py/_objects.pyx</span> in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-green-fg">h5py/h5f.pyx</span> in <span class="ansi-cyan-fg">h5py.h5f.open</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-red-fg">OSError</span>: Unable to open file (unable to open file: name = &#39;data/heart_l131k.h5&#39;, errno = 2, error message = &#39;No such file or directory&#39;, flags = 0, o_flags = 0)
-
-During handling of the above exception, another exception occurred:
-
-<span class="ansi-red-fg">OSError</span>                                   Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-12-610f9e9e1672&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">import</span> h5py
-<span class="ansi-green-intense-fg ansi-bold">      2</span>
-<span class="ansi-green-fg">----&gt; 3</span><span class="ansi-red-fg"> </span>ml_h5 <span class="ansi-blue-fg">=</span> h5py<span class="ansi-blue-fg">.</span>File<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;data/heart_l131k.h5&#39;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> print<span class="ansi-blue-fg">(</span>list<span class="ansi-blue-fg">(</span>ml_h5<span class="ansi-blue-fg">.</span>keys<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/h5py/_hl/files.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, name, mode, driver, libver, userblock_size, swmr, **kwds)</span>
-<span class="ansi-green-intense-fg ansi-bold">    310</span>             <span class="ansi-green-fg">with</span> phil<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    311</span>                 fapl <span class="ansi-blue-fg">=</span> make_fapl<span class="ansi-blue-fg">(</span>driver<span class="ansi-blue-fg">,</span> libver<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwds<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 312</span><span class="ansi-red-fg">                 </span>fid <span class="ansi-blue-fg">=</span> make_fid<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> mode<span class="ansi-blue-fg">,</span> userblock_size<span class="ansi-blue-fg">,</span> fapl<span class="ansi-blue-fg">,</span> swmr<span class="ansi-blue-fg">=</span>swmr<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    313</span>
-<span class="ansi-green-intense-fg ansi-bold">    314</span>                 <span class="ansi-green-fg">if</span> swmr_support<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/h5py/_hl/files.py</span> in <span class="ansi-cyan-fg">make_fid</span><span class="ansi-blue-fg">(name, mode, userblock_size, fapl, fcpl, swmr)</span>
-<span class="ansi-green-intense-fg ansi-bold">    165</span>                 fid <span class="ansi-blue-fg">=</span> h5f<span class="ansi-blue-fg">.</span>open<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> h5f<span class="ansi-blue-fg">.</span>ACC_RDONLY<span class="ansi-blue-fg">,</span> fapl<span class="ansi-blue-fg">=</span>fapl<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    166</span>             <span class="ansi-green-fg">except</span> IOError<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 167</span><span class="ansi-red-fg">                 </span>fid <span class="ansi-blue-fg">=</span> h5f<span class="ansi-blue-fg">.</span>create<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> h5f<span class="ansi-blue-fg">.</span>ACC_EXCL<span class="ansi-blue-fg">,</span> fapl<span class="ansi-blue-fg">=</span>fapl<span class="ansi-blue-fg">,</span> fcpl<span class="ansi-blue-fg">=</span>fcpl<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    168</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    169</span>         <span class="ansi-green-fg">raise</span> ValueError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;Invalid mode; must be one of r, r+, w, w-, x, a&#34;</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">h5py/_objects.pyx</span> in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-green-fg">h5py/_objects.pyx</span> in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-green-fg">h5py/h5f.pyx</span> in <span class="ansi-cyan-fg">h5py.h5f.create</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-red-fg">OSError</span>: Unable to create file (unable to open file: name = &#39;data/heart_l131k.h5&#39;, errno = 2, error message = &#39;No such file or directory&#39;, flags = 15, o_flags = c2)
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>x = ml_h5[&#39;train_in&#39;][:]
-print(x.shape)
-print(x.dtype)
-print(x[0,0:100])
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [51]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!rm data.h5
-!ls -l data.h5
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-ls: cannot access &#39;data.h5&#39;: No such file or directory
-</pre></div></div>
-</div>
-<p>遺伝子型と表現型の関係を推定することは重要なタスクとなっています。一方でGWAS解析などの結果、遺伝子変異だけでは全ての表現型の変化を捉えられないことがわかってきています。様々な実験結果から、非翻訳領域が遺伝子発現に影響を与えていることがわかっています。遺伝子発現は細胞の種類や状態を決定するものであり、遺伝子発現は扱うことが可能な中間の表現型とみなすことができます。
-配列を用いたエピジェネティクス解析、転写プロファイル解析のディープラーニングを使った例を紹介します。配列から、DNASeqやChipSeqなどを用いて発現領域を求めることが可能となっています。今回は配列から、どこが発現領域かを推定するタスクを考えてみます。</p>
-<p>このタスクではエピジェネティックと転写制御を推定するのに1次元CNNを使います。また数百から数千と非常に遠距離にある塩基情報を扱うために、Dilated
-Convolutionとよばれる特別なCNNを使います。</p>
-<p>この学習ではbasenjiと呼ばれるツールセットを使って抽出された配列を利用します。</p>
-<p>はじめに、学習と検証に使うためのデータをダウンロードします。データはGoogle
-Drive上に置かれており、以下のコードを実行すると、自分のディレクトリにHDF5ファイル形式のデータがダウンロードされます。</p>
-<p>これらのデータはFANTOM5で行われたCAGE実験に含まれるデータからなります。これらから、長さ2^17baseからなる重複しない配列を抽出し、90%を学習用、5%を検証用、残る5%をテスト用として分割しています。これらのなかから、128bpごとに、その推定されたカバレッチ値の2を底とした対数を推定目標の値とします。</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [60]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1677,20 +477,91 @@ drive_file.GetContentFile(&quot;data.h5&quot;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 3640120
--rw-r--r-- 1 root root       2568 Oct 17 01:52 adc.json
--rw-r--r-- 1 root root 3727429632 Oct 17 04:44 data.h5
-drwxr-xr-x 2 root root      36864 Oct 17 04:27 out
-drwxr-xr-x 2 root root       4096 Oct 15 20:47 sample_data
+total 3640084
+-rw-r--r-- 1 root root       2610 Nov  6 07:40 adc.json
+-rw-r--r-- 1 root root 3727429632 Nov  6 08:17 data.h5
+drwxr-xr-x 2 root root       4096 Nov  6 08:06 out
+drwxr-xr-x 2 root root       4096 Nov  2 17:32 sample_data
 </pre></div></div>
 </div>
-<p>HDF5ファイル形式は様々な構造を持ったデータを階層的なデータとして保存することができるファイルです。様々な言語から使うことができるようなライブラリが公開されています。</p>
-<p>はじめに、このデータにどのようなデータが含まれているのかをみてみます。</p>
-<p>データは学習用データ（train）、検証用データ（valid）、テスト用データ（test）に分けられています。それぞれの接頭辞に続いてinが入力データ、outが出力データです。
-各データは(B, L,
-C)の3軸から構成されます。Bはデータに関する添字、Lはデータ中の位置に関する添字、Cは遺伝子の各文字に対応するチャンネルす。L=<code class="docutils literal notranslate"><span class="pre">1024*128=131072</span></code>であり、CはA,
-T, C,
-Gそれぞれに対応する値がTrueが入っており、それ以外がFalseとなります。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="mi">3640080</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span>       <span class="mi">2597</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">05</span><span class="p">:</span><span class="mi">38</span> <span class="n">adc</span><span class="o">.</span><span class="n">json</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">3727429632</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">05</span><span class="p">:</span><span class="mi">39</span> <span class="n">data</span><span class="o">.</span><span class="n">h5</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">root</span> <span class="n">root</span>       <span class="mi">4096</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">47</span> <span class="n">sample_data</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!ls -lh
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 3.5G
+-rw-r--r-- 1 root root 2.6K Nov  6 07:40 adc.json
+-rw-r--r-- 1 root root 3.5G Nov  6 08:23 data.h5
+drwxr-xr-x 2 root root 4.0K Nov  6 08:26 out
+drwxr-xr-x 2 root root 4.0K Nov  2 17:32 sample_data
+</pre></div></div>
+</div>
+<p>data.h5というファイルが正しくダウンロードされているかを確認してください。</p>
+<p>data.h5はHDF5形式でデータを格納したファイルです。HDF5ファイルは、ファイルシステムと同様に、階層的にデータを格納することができ、行列やテンソルデータをそれぞれの位置で名前付きで格納することができます。</p>
+<p>HDF5形式のファイルを操作するためにh5pyというライブラリがあります。h5pyのFile()でファイルを開き、keys()というAPIでその中に含まれているキーを列挙します。取得したキーを使って格納されている各データを参照することができます。</p>
+<p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます。</p>
+<p>以下のセルを実行して格納されているデータを確認してください。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import h5py
+
+with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
+  for key in hf.keys():
+    print(key, hf[key].shape)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(u&#39;pool_width&#39;, ())
+(u&#39;target_ids&#39;, (3,))
+(u&#39;target_labels&#39;, (3,))
+(u&#39;target_strands&#39;, (3,))
+(u&#39;test_in&#39;, (444, 131072, 4))
+(u&#39;test_out&#39;, (444, 1024, 3))
+(u&#39;test_out_full&#39;, (444, 1024, 3))
+(u&#39;train_in&#39;, (6240, 131072, 4))
+(u&#39;train_out&#39;, (6240, 1024, 3))
+(u&#39;valid_in&#39;, (338, 131072, 4))
+(u&#39;valid_out&#39;, (338, 1024, 3))
+</pre></div></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;pool_width&#39;</span><span class="p">,</span> <span class="p">())</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_ids&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_labels&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_strands&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">444</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">444</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_out_full&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">444</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">6240</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">6240</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">338</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">338</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1698,54 +569,84 @@ Gそれぞれに対応する値がTrueが入っており、それ以外がFalse�
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!ls -l
-import h5py
-
-with h5py.File(&#39;data.h5&#39;) as hf:
-  for key in hf.keys():
-    print(key, hf[key].shape)
-
-ml_h5 = h5py.File(&#39;data.h5&#39;)
-print(&#39;train_in&#39;, ml_h5[&#39;train_in&#39;].shape)
-print(&#39;train_out&#39;, ml_h5[&#39;train_out&#39;].shape)
-
-print(&#39;valid_in&#39;, ml_h5[&#39;valid_in&#39;].shape)
-print(&#39;valid_out&#39;, ml_h5[&#39;valid_out&#39;].shape)
-
-print(&#39;test_in&#39;, ml_h5[&#39;test_in&#39;].shape)
-print(&#39;test_out&#39;, ml_h5[&#39;test_out&#39;].shape)
 </pre></div>
 </div>
 </div>
-<p>次にChainerが使える環境を用意しましょう。
-以下のコマンドを実行するとChainerとそのインストールに必要なモジュールがインストールされます。</p>
-<div class="nbinput nblast docutils container">
+<p>h5py形式のファイルをnumpyデータとして扱うには、コピーする必要があります。以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し、そのデータを一部を表示します。</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!set -ex
-!apt -y -q install cuda-libraries-dev-9-2
-!pip install cupy-cuda92 --pre
-!pip install chainer --pre
+<span></span>with h5py.File(&#39;data.h5&#39;) as hf:
+  x = hf[&#39;train_in&#39;][:100]
+  print(x.shape, x.dtype)
+  print(x[0, 0:10])
+  y = hf[&#39;train_out&#39;][:100]
+  print(y.shape)
+  print(y.shape, y.dtype)
+  print(y[0, 0:10])
 </pre></div>
 </div>
 </div>
-<p>次にネットワークの定義にはいります。</p>
-<p>今から作るネットワークは大きく二つのパートに別れます。
-一つ目のパートは128bpにつき1つのベクトルを計算するように圧縮するパートです。convolutionの後にmax_poolingが続く構成を繰り返します。max_poolingのstrideが2や4の時に特徴マップのサイズは1/2、1/4となります。</p>
-<p>サイズを小さくすると同時にチャンネル数を増やすようにもします</p>
-<p>二つ目のパートは1024の配列に対してdilated
-convolutionを適用し、遠く離れた情報もあつけるようにります。</p>
-<div class="figure" id="id1">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+<span class="ansi-red-fg">NameError</span>Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-2-670d1f74f713&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">with</span> h5py<span class="ansi-blue-fg">.</span>File<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;data.h5&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> hf<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      2</span>   x <span class="ansi-blue-fg">=</span> hf<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;train_in&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-cyan-fg">100</span><span class="ansi-blue-fg">]</span>
+<span class="ansi-green-intense-fg ansi-bold">      3</span>   <span class="ansi-green-fg">print</span><span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">,</span> x<span class="ansi-blue-fg">.</span>dtype<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span>   <span class="ansi-green-fg">print</span><span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>   y <span class="ansi-blue-fg">=</span> hf<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;train_out&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-cyan-fg">100</span><span class="ansi-blue-fg">]</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;h5py&#39; is not defined
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Dilated-Convolutionを用いた解析">
+<h2>5.4. Dilated Convolutionを用いた解析<a class="headerlink" href="#Dilated-Convolutionを用いた解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="配列解析の戦略">
+<h3>5.4.1. 配列解析の戦略<a class="headerlink" href="#配列解析の戦略" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>配列データを扱うためには大きく３つの戦略があります。</p>
+<p>一つ目は、配列中の順序情報は捨てて、配列をその特徴の集合とみなすことです。これはBag
+of
+Words（BoW）表現とよびます。このBoW表現は特徴に十分情報が含まれていれば強力な手法ですがDNA配列のような4種類の文字からなる配列やその部分配列だけではその特徴を捉えることは困難です。</p>
+<p>二つ目は配列中の要素を左から右に順に読み込んでいき計算していく手法です。これはRNNを用いて解析します。このRNNの問題点はその計算が逐次的であり計算量が配列長に比例するという点です。現在の計算機は計算を並列化することで高速化を達成していますがRNNは計算を並列化することが困難です。もう一つの問題は遠距離間の関係を捉えることが難しいという点です。RNNはその計算方式から、計算の途中結果を全て状態ベクトルに格納する必要があります。遠距離間の関係を捉えようとすると、多くの情報を覚えておかなければなりませんが状態ベクトルサイズは有限なので、多くの情報を忘れなければなりません。</p>
+<p>三つ目は配列データを1次元の画像とみなし、画像処理の時と同様にCNNを用いて解析する手法です。CNNはRNNの場合と違って各位置の処理を独立に実行できるため並列に処理することができます。また、後述するDilated
+Convolutionを使うことで各位置の処理は遠距離にある情報を直接読み取ることができます。次の章でDilated
+Convolutionについてさらに詳しくみていきます。</p>
+</div>
+<div class="section" id="Dilated-Convolution">
+<h3>5.4.2. Dilated Convolution<a class="headerlink" href="#Dilated-Convolution" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>従来の畳み込み層を使って配列解析をする場合を考えてみます。
+以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません。どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され、カーネルサイズがKの時、Dだけ離れた距離にある情報を取得するためにはD/K層必要となります。今回の問題の場合Dは数百から数万、Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません。</p>
+<div class="figure" id="id8">
+<img alt="convolution" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png" />
+<p class="caption"><span class="caption-text">convolution</span></p>
+</div>
+<p>それに対し、Dilated Convolution（atrous convolutionやconvolution weith
+holesともよばれます）は読み取る場所をずらしたところからうけとります。例えばDilation=4の場合、4だけ離れた位置から情報を受け取ります。このDilatedを倍々にしていき、カーネルサイズを2とした場合、Dだけ離れた位置の情報を受取るには
+log_2
+D層だけ必要になります。今回のDが数百から数万の場合、10から20層程度あれば済むことになります。</p>
+<p>今回はこのDilated
+Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します。</p>
+<div class="figure" id="id9">
 <img alt="dilated convolution" src="http://musyoku.github.io/images/post/2016-09-17/dilated_conv.png" />
 <p class="caption"><span class="caption-text">dilated convolution</span></p>
 </div>
-<div class="figure" id="id2">
-<img alt="dilated_convolution_animation" src="http://musyoku.github.io/images/post/2016-09-17/dilated_conv.gif" />
-<p class="caption"><span class="caption-text">dilated_convolution_animation</span></p>
 </div>
-<p>最初に構成するのはブロックです。</p>
+<div class="section" id="ブロック">
+<h3>5.4.3. ブロック<a class="headerlink" href="#ブロック" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>それでは最初に、ネットワークの全体を設計します。
+このネットワークは二つのブロックから構成されます。</p>
+<p>１つ目のブロックは長さが2<sup>17から配列を長さが2</sup>10のベクトル列まで圧縮し、128bpにつき1つのベクトルが対応するにします。この圧縮はRootBlockが担当します。</p>
+<p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算する部分を担当します。</p>
+<p>以下のコードを実行してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1757,10 +658,80 @@ import chainer.functions as F
 import chainer.links as L
 import cupy as cp
 
-class RootBlock(chainer.Chain):
 
-  def __init__(self, out_ch, kerne, pool)
-    super(RootBlock, self).__init__()
+default_squeeze_params = [
+  # out_ch, kernel, pool
+  [32, 21, 2], #1 128 -&gt; 64
+  [32, 7, 4], #2 64 -&gt; 16
+  [48, 7, 4], #3 16 -&gt; 4
+  [64, 7, 4]  #4 4 -&gt; 1
+]
+
+
+default_dilated_params = [
+# out_ch, kernel, dilated
+  [8, 3, 1],
+  [8, 3, 2],
+  [8, 3, 4],
+  [8, 3, 8],
+  [8, 3, 16],
+  [8, 3, 32],
+  [8, 3, 64]
+]
+
+class Net(chainer.Chain):
+
+  def __init__(self, squeeze_params=default_squeeze_params, dilated_params=default_dilated_params, n_targets=3):
+    super(Net, self).__init__()
+    self._n_squeeze = len(squeeze_params)
+    self._n_dilated = len(dilated_params)
+    with self.init_scope():
+      for i, param in enumerate(squeeze_params):
+        out_ch, kernel, pool = param
+        setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(out_ch, kernel, pool))
+      for i, param in enumerate(dilated_params):
+        out_ch, kernel, dilated = param
+        setattr(self, &quot;d_{}&quot;.format(i), DilatedBlock(out_ch, kernel, dilated))
+      self.l = L.ConvolutionND(1, None, n_targets, 1)
+
+  def forward(self, x):
+    # x : (B, X, 4)
+    xp = cp.get_array_module(x)
+    h = xp.transpose(x, (0, 2, 1))
+    h = h[:, :, :]
+    h = h.astype(xp.float32)
+
+    for i in range(self._n_squeeze):
+      h = self[&quot;s_{}&quot;.format(i)](h)
+
+    hs = [h]
+    for i in range(self._n_dilated):
+      h = self[&quot;d_{}&quot;.format(i)](hs)
+      hs.append(h)
+
+    h = self.l(F.concat(hs))
+    h = xp.transpose(h, (0, 2, 1))
+    return h
+</pre></div>
+</div>
+</div>
+<p>このネットワークは初期化時の引数としてRootBlockに関するパラメータと、DilatedBlockに関するパラメータを受け取ります。</p>
+<p>それぞれ、出力チャンネル、カーネルサイズ、プーリングの三つ組からなるリストと、出力チャンネル、カーネルサイズ、dilatedサイズの三つ組からなるリストを受け取ります。</p>
+<p>次に、ブロックの定義をします。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer
+import chainer.functions as F
+import chainer.links as L
+import cupy as cp
+
+class SqueezeBlock(chainer.Chain):
+  def __init__(self, out_ch, kernel, pool):
+    super(SqueezeBlock, self).__init__()
 
     self.pool = pool
     with self.init_scope():
@@ -1771,7 +742,7 @@ class RootBlock(chainer.Chain):
   def forward(self, x):
     h = self.conv(x)
     h = self.bn(h)
-    h = F.max_pooling_nd(h, self.pool, self.pool, 0, cover_all=True)
+    h = F.max_pooling_nd(h, self.pool, self.pool, 0, cover_all=False)
     return F.relu(h)
 
 class DilatedBlock(chainer.Chain):
@@ -1781,117 +752,15 @@ class DilatedBlock(chainer.Chain):
       self.conv = L.ConvolutionND(1, None, out_ch, kernel, pad=dilate, nobias=True, dilate=dilate)
       self.bn = L.BatchNormalization(out_ch)
 
-  def forward(self, x):
-    h = self.conv(x)
+  def forward(self, xs):
+    h = self.conv(F.concat(xs))
     h = self.bn(h)
     return F.relu(h)
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import chainer
-import chainer.functions as F
-import chainer.links as L
-import cupy as cp
-
-default_params = [
-  # out_ch, dilate, kernel, pool
-  [128, 1, 21, 2], #1 128 -&gt; 64
-  [128, 1, 7, 4], #2 64 -&gt; 16
-  [192, 1, 7, 4], #3 16 -&gt; 4
-  [256, 1, 7, 4], #4 4 -&gt; 1
-  [256, 1, 3, 1], #5
-  [32, 2, 3, 0], # dilated 1
-  [32, 4, 3, 0], # dilated
-  [32, 8, 3, 0], # dilated
-  [32, 16, 3, 0],
-  [32, 32, 3, 0],
-  [32, 64, 3, 0],
-  [384, 1, 1, 0]
-]
-
-default_params2= [
-  # out_ch, kernel, pool
-  [32, 21, 2], #1 128 -&gt; 64
-  [32, 7, 4], #2 64 -&gt; 16
-  [48, 7, 4], #3 16 -&gt; 4
-  [64, 7, 4], #4 4 -&gt; 1
-  [64,  3, 1]  #5
-]
-
-default_dilated = [
-# out_ch, kernel, dilated
-  [8, 3, 2], # dilated 1
-  [8, 3, 4], # dilated
-  [8, 3, 8], # dilated
-  [8, 3, 16],
-  [8, 3, 32],
-  [8, 3, 64],
-  [96, 1, 1]
-]
-
-
-class Net(chainer.Chain):
-
-  def __init__(self, root_params=default_params2, dilated_params=default_dilated, n_targets=3):
-    super(Net, self).__init__()
-    self._n_root = len(root_params)
-    self._n_dialted = len(dilated_params)
-    with self.init_scope():
-      for i, param in enumerate(proot_arams):
-        out_ch, kernel, pool = param
-        setattr(self, &quot;r_{}&quot;.format(i), RootBlock(out_ch, kernel, pool))
-      for i, param in enumerate(dilated_arams):
-        out_ch, kernel, dilated = param
-        setattr(self, &quot;d_{}&quot;.format(i), RootBlock(out_ch, kernel, dilated))
-      self.l = L.ConvolutionND(1, None, n_targets, 1)
-
-  def forward(self, x):
-    # x : (B, X, 4)
-    xp = cp.get_array_module(x)
-    h = xp.transpose(x, (0, 2, 1))
-    h = h[:, :, :]
-    h = h.astype(xp.float32)
-
-    for i in range(self._n_root):
-      h = self[&quot;r_{}&quot;.format(i)](h)
-
-    for i in range(self._n_dilated):
-      h = self[&quot;d_{}&quot;.format(i)](h)
-
-
-    h = self.l(h)
-    h = xp.transpose(h, (0, 2, 1))
-    return h
-
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>size = 128 * 1024
-kernel = 21
-pad = kernel // 2
-stride = 1
-osize = (size + 2 * pad - kernel) // stride + 1
-# dilation = 3
-# dilation =2, kernel=3 -&gt; pad = 2
-#
-# osize = (size + 2 * pad - kernel - (kernel - 1) * (dilation - 2)) // stride + 1
-print(osize)
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
+<p>それでは、試しにネットワークを構築して、そこにサンプルデータを流してみましょう。</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -1903,9 +772,24 @@ size = 131072 # 128 * 1024
 batchsize = 4
 x = np.empty((batchsize, size, 4), dtype=np.bool)
 y = n.forward(x)
+print(y.shape)
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(4, 1024, 3)
+</pre></div></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>ここで、もともとB= 4, L=131072, C=4だった配列が計算後はB=4, L=1024,
+C=3の配列となりました。</p>
+<p>今回の学習では対数ポアソン損失関数を利用します。これはモデルはポアソン分布の唯一のパラメータである平均を出力し、そのポアソン分布を学習データを使った最尤推定をします。この際、学習対象パラメータ以外は無視しています。性能評価する際には、比較がしやすいように学習パラメータに依存しない項も含めた式を利用しています。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1932,79 +816,10 @@ def log_poisson_acc(log_x, t):
 </pre></div>
 </div>
 </div>
+<p>これで全部準備ができました。残りはchainerのtrainerを改造して学習するだけです。以下のコードを実行してください。30分程度で学習が完了します。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [37]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>log_x = np.array([0.5], dtype=np.float32)
-t = np.array([0], dtype=np.float32)
-print(log_poisson_acc(log_x, t))
-
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(1,)
-(1,)
-(1,)
-[ True]
-[variable(nan)]
-variable(1.6487212)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="stderr output_area docutils container">
-<div class="highlight"><pre>
-/usr/local/lib/python3.6/dist-packages/chainer/functions/math/exponential.py:52: RuntimeWarning: divide by zero encountered in log
-  return utils.force_array(numpy.log(x[0])),
-/usr/local/lib/python3.6/dist-packages/chainer/functions/math/basic_math.py:323: RuntimeWarning: invalid value encountered in multiply
-  return utils.force_array(x[0] * x[1]),
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [16]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import h5py
-
-ml_h5 = h5py.File(&#39;data.h5&#39;)
-print(list(ml_h5.keys()))
-
-train_x = ml_h5[&#39;train_in&#39;]
-train_y = ml_h5[&#39;train_out&#39;]
-
-valid_x = ml_h5[&#39;valid_in&#39;]
-valid_y = ml_h5[&#39;valid_out&#39;]
-
-test_x = ml_h5[&#39;test_in&#39;]
-test_y = ml_h5[&#39;test_out&#39;]
-
-print(valid_y[:].min())
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&#39;pool_width&#39;, &#39;target_ids&#39;, &#39;target_labels&#39;, &#39;target_strands&#39;, &#39;test_in&#39;, &#39;test_out&#39;, &#39;test_out_full&#39;, &#39;train_in&#39;, &#39;train_out&#39;, &#39;valid_in&#39;, &#39;valid_out&#39;]
-0.0
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [41]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2031,7 +846,10 @@ test_y = ml_h5[&#39;test_out&#39;]
 train = chainer.datasets.TupleDataset(train_x, train_y)
 val = chainer.datasets.TupleDataset(valid_x, valid_y)
 
-batchsize = 16
+train = train[:len(train)//10]
+val = val[:len(val)//10]
+
+batchsize = 8
 
 train_iter = chainer.iterators.SerialIterator(train, batchsize)
 val_iter = chainer.iterators.SerialIterator(val, batchsize, repeat=False, shuffle=False)
@@ -2046,22 +864,21 @@ optimizer.setup(model)
 updater = training.updaters.StandardUpdater(
   train_iter, optimizer, device=0)
 
-epoch = 2
+epoch = 4
 out = &quot;out&quot;
 trainer = training.Trainer(updater, (epoch, &#39;epoch&#39;), out=out)
 
 trainer.extend(extensions.Evaluator(val_iter, model, device = 0))
 trainer.extend(extensions.LogReport())
-trainer.extend(extensions.snapshot_object(model, &#39;model_iter_{.updater.iteration}&#39;), trigger=(100, &#39;iteration&#39;)
+trainer.extend(extensions.snapshot_object(model, &#39;model_iter_{.updater.iteration}&#39;), trigger=(100, &#39;iteration&#39;))
 
 trainer.extend(extensions.PrintReport(
-    [&#39;epoch&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;, &#39;elapsed_time&#39;]), trigger = (0.1, &#39;epoch&#39;))
+    [&#39;epoch&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;main/true_loss&#39;, &#39;validation/main/true_loss&#39;, &#39;elapsed_time&#39;]), trigger = (0.1, &#39;epoch&#39;))
 
 trainer.extend(extensions.ProgressBar())
 
 trainer.run()
 
-
 </pre></div>
 </div>
 </div>
@@ -2070,1078 +887,182 @@ trainer.run()
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[&#39;pool_width&#39;, &#39;target_ids&#39;, &#39;target_labels&#39;, &#39;target_strands&#39;, &#39;test_in&#39;, &#39;test_out&#39;, &#39;test_out_full&#39;, &#39;train_in&#39;, &#39;train_out&#39;, &#39;valid_in&#39;, &#39;valid_out&#39;]
-epoch       main/loss   validation/main/loss  main/accuracy  validation/main/accuracy  elapsed_time
-     total [######............................................] 12.82%
-this epoch [############......................................] 25.64%
-       100 iter, 0 epoch / 2 epochs
-       inf iters/sec. Estimated time to finish: 0:00:00.
-     total [############......................................] 25.64%
-this epoch [#########################.........................] 51.28%
-       200 iter, 0 epoch / 2 epochs
-   0.66927 iters/sec. Estimated time to finish: 0:14:26.614600.
-     total [###################...............................] 38.46%
-this epoch [######################################............] 76.92%
-       300 iter, 0 epoch / 2 epochs
-   0.66935 iters/sec. Estimated time to finish: 0:11:57.117400.
-1           0.509699    0.44297               0.673506       0.543782                  598.829
-     total [#########################.........................] 51.28%
-this epoch [#.................................................]  2.56%
-       400 iter, 1 epoch / 2 epochs
-   0.64639 iters/sec. Estimated time to finish: 0:09:47.879230.
-     total [################################..................] 64.10%
+[u&#39;pool_width&#39;, u&#39;target_ids&#39;, u&#39;target_labels&#39;, u&#39;target_strands&#39;, u&#39;test_in&#39;, u&#39;test_out&#39;, u&#39;test_out_full&#39;, u&#39;train_in&#39;, u&#39;train_out&#39;, u&#39;valid_in&#39;, u&#39;valid_out&#39;]
+epoch       main/loss   validation/main/loss  main/true_loss  validation/main/true_loss  elapsed_time
+1           0.567609    0.42473                                                          48.1003
+     total [################..................................] 32.05%
 this epoch [##############....................................] 28.21%
-       500 iter, 1 epoch / 2 epochs
-   0.65181 iters/sec. Estimated time to finish: 0:07:09.574651.
-     total [######################################............] 76.92%
-this epoch [##########################........................] 53.85%
-       600 iter, 1 epoch / 2 epochs
-   0.65504 iters/sec. Estimated time to finish: 0:04:34.793080.
-     total [############################################......] 89.74%
-this epoch [#######################################...........] 79.49%
-       700 iter, 1 epoch / 2 epochs
-   0.65734 iters/sec. Estimated time to finish: 0:02:01.702867.
-2           0.435963    0.416547              0.59977        0.517358                  1197.87
+       100 iter, 1 epoch / 4 epochs
+       inf iters/sec. Estimated time to finish: 0:00:00.
+2           0.399307    0.370479                                                         95.4976
+     total [################################..................] 64.10%
+this epoch [############################......................] 56.41%
+       200 iter, 2 epoch / 4 epochs
+    1.6536 iters/sec. Estimated time to finish: 0:01:07.729414.
+3           0.360114    0.355001                                                         142.914
+     total [################################################..] 96.15%
+this epoch [##########################################........] 84.62%
+       300 iter, 3 epoch / 4 epochs
+    1.6532 iters/sec. Estimated time to finish: 0:00:07.258632.
 
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [59]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!ls -l out/
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-total 180964
--rw-r--r-- 1 root root    591 Oct 17 04:27 log
--rw-r--r-- 1 root root 234845 Oct 17 04:08 model_iter_1
--rw-r--r-- 1 root root 236292 Oct 17 04:08 model_iter_10
--rw-r--r-- 1 root root 236366 Oct 17 04:10 model_iter_100
--rw-r--r-- 1 root root 236328 Oct 17 04:10 model_iter_101
--rw-r--r-- 1 root root 236323 Oct 17 04:10 model_iter_102
--rw-r--r-- 1 root root 236403 Oct 17 04:10 model_iter_103
--rw-r--r-- 1 root root 236413 Oct 17 04:10 model_iter_104
--rw-r--r-- 1 root root 236422 Oct 17 04:10 model_iter_105
--rw-r--r-- 1 root root 236409 Oct 17 04:10 model_iter_106
--rw-r--r-- 1 root root 236420 Oct 17 04:10 model_iter_107
--rw-r--r-- 1 root root 236387 Oct 17 04:10 model_iter_108
--rw-r--r-- 1 root root 236387 Oct 17 04:10 model_iter_109
--rw-r--r-- 1 root root 236271 Oct 17 04:08 model_iter_11
--rw-r--r-- 1 root root 236420 Oct 17 04:10 model_iter_110
--rw-r--r-- 1 root root 236391 Oct 17 04:10 model_iter_111
--rw-r--r-- 1 root root 236386 Oct 17 04:10 model_iter_112
--rw-r--r-- 1 root root 236438 Oct 17 04:10 model_iter_113
--rw-r--r-- 1 root root 236349 Oct 17 04:10 model_iter_114
--rw-r--r-- 1 root root 236341 Oct 17 04:10 model_iter_115
--rw-r--r-- 1 root root 236368 Oct 17 04:10 model_iter_116
--rw-r--r-- 1 root root 236421 Oct 17 04:10 model_iter_117
--rw-r--r-- 1 root root 236387 Oct 17 04:10 model_iter_118
--rw-r--r-- 1 root root 236409 Oct 17 04:10 model_iter_119
--rw-r--r-- 1 root root 236299 Oct 17 04:08 model_iter_12
--rw-r--r-- 1 root root 236348 Oct 17 04:10 model_iter_120
--rw-r--r-- 1 root root 236375 Oct 17 04:11 model_iter_121
--rw-r--r-- 1 root root 236434 Oct 17 04:11 model_iter_122
--rw-r--r-- 1 root root 236458 Oct 17 04:11 model_iter_123
--rw-r--r-- 1 root root 236386 Oct 17 04:11 model_iter_124
--rw-r--r-- 1 root root 236422 Oct 17 04:11 model_iter_125
--rw-r--r-- 1 root root 236454 Oct 17 04:11 model_iter_126
--rw-r--r-- 1 root root 236407 Oct 17 04:11 model_iter_127
--rw-r--r-- 1 root root 236383 Oct 17 04:11 model_iter_128
--rw-r--r-- 1 root root 236427 Oct 17 04:11 model_iter_129
--rw-r--r-- 1 root root 236341 Oct 17 04:08 model_iter_13
--rw-r--r-- 1 root root 236483 Oct 17 04:11 model_iter_130
--rw-r--r-- 1 root root 236449 Oct 17 04:11 model_iter_131
--rw-r--r-- 1 root root 236455 Oct 17 04:11 model_iter_132
--rw-r--r-- 1 root root 236397 Oct 17 04:11 model_iter_133
--rw-r--r-- 1 root root 236394 Oct 17 04:11 model_iter_134
--rw-r--r-- 1 root root 236419 Oct 17 04:11 model_iter_135
--rw-r--r-- 1 root root 236359 Oct 17 04:11 model_iter_136
--rw-r--r-- 1 root root 236446 Oct 17 04:11 model_iter_137
--rw-r--r-- 1 root root 236413 Oct 17 04:11 model_iter_138
--rw-r--r-- 1 root root 236359 Oct 17 04:11 model_iter_139
--rw-r--r-- 1 root root 236267 Oct 17 04:08 model_iter_14
--rw-r--r-- 1 root root 236458 Oct 17 04:11 model_iter_140
--rw-r--r-- 1 root root 236424 Oct 17 04:11 model_iter_141
--rw-r--r-- 1 root root 236338 Oct 17 04:11 model_iter_142
--rw-r--r-- 1 root root 236432 Oct 17 04:11 model_iter_143
--rw-r--r-- 1 root root 236401 Oct 17 04:11 model_iter_144
--rw-r--r-- 1 root root 236409 Oct 17 04:11 model_iter_145
--rw-r--r-- 1 root root 236410 Oct 17 04:11 model_iter_146
--rw-r--r-- 1 root root 236385 Oct 17 04:11 model_iter_147
--rw-r--r-- 1 root root 236373 Oct 17 04:11 model_iter_148
--rw-r--r-- 1 root root 236411 Oct 17 04:11 model_iter_149
--rw-r--r-- 1 root root 236286 Oct 17 04:08 model_iter_15
--rw-r--r-- 1 root root 236397 Oct 17 04:11 model_iter_150
--rw-r--r-- 1 root root 236422 Oct 17 04:11 model_iter_151
--rw-r--r-- 1 root root 236385 Oct 17 04:11 model_iter_152
--rw-r--r-- 1 root root 236344 Oct 17 04:11 model_iter_153
--rw-r--r-- 1 root root 236418 Oct 17 04:11 model_iter_154
--rw-r--r-- 1 root root 236381 Oct 17 04:11 model_iter_155
--rw-r--r-- 1 root root 236377 Oct 17 04:11 model_iter_156
--rw-r--r-- 1 root root 236377 Oct 17 04:11 model_iter_157
--rw-r--r-- 1 root root 236399 Oct 17 04:11 model_iter_158
--rw-r--r-- 1 root root 236361 Oct 17 04:11 model_iter_159
--rw-r--r-- 1 root root 236373 Oct 17 04:08 model_iter_16
--rw-r--r-- 1 root root 236404 Oct 17 04:11 model_iter_160
--rw-r--r-- 1 root root 236421 Oct 17 04:12 model_iter_161
--rw-r--r-- 1 root root 236405 Oct 17 04:12 model_iter_162
--rw-r--r-- 1 root root 236360 Oct 17 04:12 model_iter_163
--rw-r--r-- 1 root root 236398 Oct 17 04:12 model_iter_164
--rw-r--r-- 1 root root 236409 Oct 17 04:12 model_iter_165
--rw-r--r-- 1 root root 236392 Oct 17 04:12 model_iter_166
--rw-r--r-- 1 root root 236401 Oct 17 04:12 model_iter_167
--rw-r--r-- 1 root root 236441 Oct 17 04:12 model_iter_168
--rw-r--r-- 1 root root 236371 Oct 17 04:12 model_iter_169
--rw-r--r-- 1 root root 236321 Oct 17 04:08 model_iter_17
--rw-r--r-- 1 root root 236407 Oct 17 04:12 model_iter_170
--rw-r--r-- 1 root root 236374 Oct 17 04:12 model_iter_171
--rw-r--r-- 1 root root 236402 Oct 17 04:12 model_iter_172
--rw-r--r-- 1 root root 236309 Oct 17 04:12 model_iter_173
--rw-r--r-- 1 root root 236407 Oct 17 04:12 model_iter_174
--rw-r--r-- 1 root root 236394 Oct 17 04:12 model_iter_175
--rw-r--r-- 1 root root 236380 Oct 17 04:12 model_iter_176
--rw-r--r-- 1 root root 236356 Oct 17 04:12 model_iter_177
--rw-r--r-- 1 root root 236403 Oct 17 04:12 model_iter_178
--rw-r--r-- 1 root root 236435 Oct 17 04:12 model_iter_179
--rw-r--r-- 1 root root 236339 Oct 17 04:08 model_iter_18
--rw-r--r-- 1 root root 236410 Oct 17 04:12 model_iter_180
--rw-r--r-- 1 root root 236427 Oct 17 04:12 model_iter_181
--rw-r--r-- 1 root root 236399 Oct 17 04:12 model_iter_182
--rw-r--r-- 1 root root 236424 Oct 17 04:12 model_iter_183
--rw-r--r-- 1 root root 236405 Oct 17 04:12 model_iter_184
--rw-r--r-- 1 root root 236421 Oct 17 04:12 model_iter_185
--rw-r--r-- 1 root root 236390 Oct 17 04:12 model_iter_186
--rw-r--r-- 1 root root 236399 Oct 17 04:12 model_iter_187
--rw-r--r-- 1 root root 236396 Oct 17 04:12 model_iter_188
--rw-r--r-- 1 root root 236435 Oct 17 04:12 model_iter_189
--rw-r--r-- 1 root root 236310 Oct 17 04:08 model_iter_19
--rw-r--r-- 1 root root 236438 Oct 17 04:12 model_iter_190
--rw-r--r-- 1 root root 236470 Oct 17 04:12 model_iter_191
--rw-r--r-- 1 root root 236442 Oct 17 04:12 model_iter_192
--rw-r--r-- 1 root root 236451 Oct 17 04:12 model_iter_193
--rw-r--r-- 1 root root 236422 Oct 17 04:12 model_iter_194
--rw-r--r-- 1 root root 236455 Oct 17 04:12 model_iter_195
--rw-r--r-- 1 root root 236463 Oct 17 04:12 model_iter_196
--rw-r--r-- 1 root root 236414 Oct 17 04:12 model_iter_197
--rw-r--r-- 1 root root 236402 Oct 17 04:12 model_iter_198
--rw-r--r-- 1 root root 236496 Oct 17 04:12 model_iter_199
--rw-r--r-- 1 root root 236081 Oct 17 04:08 model_iter_2
--rw-r--r-- 1 root root 236366 Oct 17 04:08 model_iter_20
--rw-r--r-- 1 root root 236459 Oct 17 04:12 model_iter_200
--rw-r--r-- 1 root root 236466 Oct 17 04:13 model_iter_201
--rw-r--r-- 1 root root 236480 Oct 17 04:13 model_iter_202
--rw-r--r-- 1 root root 236383 Oct 17 04:13 model_iter_203
--rw-r--r-- 1 root root 236432 Oct 17 04:13 model_iter_204
--rw-r--r-- 1 root root 236476 Oct 17 04:13 model_iter_205
--rw-r--r-- 1 root root 236368 Oct 17 04:13 model_iter_206
--rw-r--r-- 1 root root 236468 Oct 17 04:13 model_iter_207
--rw-r--r-- 1 root root 236482 Oct 17 04:13 model_iter_208
--rw-r--r-- 1 root root 236384 Oct 17 04:13 model_iter_209
--rw-r--r-- 1 root root 236355 Oct 17 04:08 model_iter_21
--rw-r--r-- 1 root root 236442 Oct 17 04:13 model_iter_210
--rw-r--r-- 1 root root 236428 Oct 17 04:13 model_iter_211
--rw-r--r-- 1 root root 236439 Oct 17 04:13 model_iter_212
--rw-r--r-- 1 root root 236455 Oct 17 04:13 model_iter_213
--rw-r--r-- 1 root root 236417 Oct 17 04:13 model_iter_214
--rw-r--r-- 1 root root 236402 Oct 17 04:13 model_iter_215
--rw-r--r-- 1 root root 236459 Oct 17 04:13 model_iter_216
--rw-r--r-- 1 root root 236398 Oct 17 04:13 model_iter_217
--rw-r--r-- 1 root root 236417 Oct 17 04:13 model_iter_218
--rw-r--r-- 1 root root 236492 Oct 17 04:13 model_iter_219
--rw-r--r-- 1 root root 236350 Oct 17 04:08 model_iter_22
--rw-r--r-- 1 root root 236412 Oct 17 04:13 model_iter_220
--rw-r--r-- 1 root root 236463 Oct 17 04:13 model_iter_221
--rw-r--r-- 1 root root 236437 Oct 17 04:13 model_iter_222
--rw-r--r-- 1 root root 236462 Oct 17 04:13 model_iter_223
--rw-r--r-- 1 root root 236477 Oct 17 04:13 model_iter_224
--rw-r--r-- 1 root root 236431 Oct 17 04:13 model_iter_225
--rw-r--r-- 1 root root 236404 Oct 17 04:13 model_iter_226
--rw-r--r-- 1 root root 236421 Oct 17 04:13 model_iter_227
--rw-r--r-- 1 root root 236446 Oct 17 04:13 model_iter_228
--rw-r--r-- 1 root root 236400 Oct 17 04:13 model_iter_229
--rw-r--r-- 1 root root 236370 Oct 17 04:08 model_iter_23
--rw-r--r-- 1 root root 236404 Oct 17 04:13 model_iter_230
--rw-r--r-- 1 root root 236422 Oct 17 04:13 model_iter_231
--rw-r--r-- 1 root root 236429 Oct 17 04:13 model_iter_232
--rw-r--r-- 1 root root 236414 Oct 17 04:13 model_iter_233
--rw-r--r-- 1 root root 236437 Oct 17 04:13 model_iter_234
--rw-r--r-- 1 root root 236491 Oct 17 04:13 model_iter_235
--rw-r--r-- 1 root root 236464 Oct 17 04:13 model_iter_236
--rw-r--r-- 1 root root 236479 Oct 17 04:13 model_iter_237
--rw-r--r-- 1 root root 236491 Oct 17 04:13 model_iter_238
--rw-r--r-- 1 root root 236437 Oct 17 04:13 model_iter_239
--rw-r--r-- 1 root root 236310 Oct 17 04:08 model_iter_24
--rw-r--r-- 1 root root 236512 Oct 17 04:13 model_iter_240
--rw-r--r-- 1 root root 236443 Oct 17 04:13 model_iter_241
--rw-r--r-- 1 root root 236472 Oct 17 04:14 model_iter_242
--rw-r--r-- 1 root root 236462 Oct 17 04:14 model_iter_243
--rw-r--r-- 1 root root 236491 Oct 17 04:14 model_iter_244
--rw-r--r-- 1 root root 236442 Oct 17 04:14 model_iter_245
--rw-r--r-- 1 root root 236451 Oct 17 04:14 model_iter_246
--rw-r--r-- 1 root root 236423 Oct 17 04:14 model_iter_247
--rw-r--r-- 1 root root 236465 Oct 17 04:14 model_iter_248
--rw-r--r-- 1 root root 236501 Oct 17 04:14 model_iter_249
--rw-r--r-- 1 root root 236290 Oct 17 04:08 model_iter_25
--rw-r--r-- 1 root root 236479 Oct 17 04:14 model_iter_250
--rw-r--r-- 1 root root 236455 Oct 17 04:14 model_iter_251
--rw-r--r-- 1 root root 236456 Oct 17 04:14 model_iter_252
--rw-r--r-- 1 root root 236446 Oct 17 04:14 model_iter_253
--rw-r--r-- 1 root root 236463 Oct 17 04:14 model_iter_254
--rw-r--r-- 1 root root 236486 Oct 17 04:14 model_iter_255
--rw-r--r-- 1 root root 236438 Oct 17 04:14 model_iter_256
--rw-r--r-- 1 root root 236429 Oct 17 04:14 model_iter_257
--rw-r--r-- 1 root root 236428 Oct 17 04:14 model_iter_258
--rw-r--r-- 1 root root 236451 Oct 17 04:14 model_iter_259
--rw-r--r-- 1 root root 236357 Oct 17 04:08 model_iter_26
--rw-r--r-- 1 root root 236465 Oct 17 04:14 model_iter_260
--rw-r--r-- 1 root root 236447 Oct 17 04:14 model_iter_261
--rw-r--r-- 1 root root 236423 Oct 17 04:14 model_iter_262
--rw-r--r-- 1 root root 236397 Oct 17 04:14 model_iter_263
--rw-r--r-- 1 root root 236385 Oct 17 04:14 model_iter_264
--rw-r--r-- 1 root root 236437 Oct 17 04:14 model_iter_265
--rw-r--r-- 1 root root 236439 Oct 17 04:14 model_iter_266
--rw-r--r-- 1 root root 236380 Oct 17 04:14 model_iter_267
--rw-r--r-- 1 root root 236427 Oct 17 04:14 model_iter_268
--rw-r--r-- 1 root root 236425 Oct 17 04:14 model_iter_269
--rw-r--r-- 1 root root 236326 Oct 17 04:08 model_iter_27
--rw-r--r-- 1 root root 236470 Oct 17 04:14 model_iter_270
--rw-r--r-- 1 root root 236503 Oct 17 04:14 model_iter_271
--rw-r--r-- 1 root root 236476 Oct 17 04:14 model_iter_272
--rw-r--r-- 1 root root 236495 Oct 17 04:14 model_iter_273
--rw-r--r-- 1 root root 236419 Oct 17 04:14 model_iter_274
--rw-r--r-- 1 root root 236426 Oct 17 04:14 model_iter_275
--rw-r--r-- 1 root root 236417 Oct 17 04:14 model_iter_276
--rw-r--r-- 1 root root 236405 Oct 17 04:14 model_iter_277
--rw-r--r-- 1 root root 236425 Oct 17 04:14 model_iter_278
--rw-r--r-- 1 root root 236394 Oct 17 04:14 model_iter_279
--rw-r--r-- 1 root root 236298 Oct 17 04:08 model_iter_28
--rw-r--r-- 1 root root 236446 Oct 17 04:14 model_iter_280
--rw-r--r-- 1 root root 236410 Oct 17 04:14 model_iter_281
--rw-r--r-- 1 root root 236470 Oct 17 04:15 model_iter_282
--rw-r--r-- 1 root root 236415 Oct 17 04:15 model_iter_283
--rw-r--r-- 1 root root 236471 Oct 17 04:15 model_iter_284
--rw-r--r-- 1 root root 236450 Oct 17 04:15 model_iter_285
--rw-r--r-- 1 root root 236456 Oct 17 04:15 model_iter_286
--rw-r--r-- 1 root root 236447 Oct 17 04:15 model_iter_287
--rw-r--r-- 1 root root 236489 Oct 17 04:15 model_iter_288
--rw-r--r-- 1 root root 236437 Oct 17 04:15 model_iter_289
--rw-r--r-- 1 root root 236302 Oct 17 04:08 model_iter_29
--rw-r--r-- 1 root root 236478 Oct 17 04:15 model_iter_290
--rw-r--r-- 1 root root 236384 Oct 17 04:15 model_iter_291
--rw-r--r-- 1 root root 236394 Oct 17 04:15 model_iter_292
--rw-r--r-- 1 root root 236450 Oct 17 04:15 model_iter_293
--rw-r--r-- 1 root root 236469 Oct 17 04:15 model_iter_294
--rw-r--r-- 1 root root 236451 Oct 17 04:15 model_iter_295
--rw-r--r-- 1 root root 236502 Oct 17 04:15 model_iter_296
--rw-r--r-- 1 root root 236453 Oct 17 04:15 model_iter_297
--rw-r--r-- 1 root root 236440 Oct 17 04:15 model_iter_298
--rw-r--r-- 1 root root 236445 Oct 17 04:15 model_iter_299
--rw-r--r-- 1 root root 236167 Oct 17 04:08 model_iter_3
--rw-r--r-- 1 root root 236362 Oct 17 04:08 model_iter_30
--rw-r--r-- 1 root root 236408 Oct 17 04:15 model_iter_300
--rw-r--r-- 1 root root 236450 Oct 17 04:15 model_iter_301
--rw-r--r-- 1 root root 236417 Oct 17 04:15 model_iter_302
--rw-r--r-- 1 root root 236458 Oct 17 04:15 model_iter_303
--rw-r--r-- 1 root root 236424 Oct 17 04:15 model_iter_304
--rw-r--r-- 1 root root 236474 Oct 17 04:15 model_iter_305
--rw-r--r-- 1 root root 236414 Oct 17 04:15 model_iter_306
--rw-r--r-- 1 root root 236404 Oct 17 04:15 model_iter_307
--rw-r--r-- 1 root root 236454 Oct 17 04:15 model_iter_308
--rw-r--r-- 1 root root 236436 Oct 17 04:15 model_iter_309
--rw-r--r-- 1 root root 236375 Oct 17 04:08 model_iter_31
--rw-r--r-- 1 root root 236411 Oct 17 04:15 model_iter_310
--rw-r--r-- 1 root root 236488 Oct 17 04:15 model_iter_311
--rw-r--r-- 1 root root 236515 Oct 17 04:15 model_iter_312
--rw-r--r-- 1 root root 236508 Oct 17 04:15 model_iter_313
--rw-r--r-- 1 root root 236560 Oct 17 04:15 model_iter_314
--rw-r--r-- 1 root root 236510 Oct 17 04:15 model_iter_315
--rw-r--r-- 1 root root 236437 Oct 17 04:15 model_iter_316
--rw-r--r-- 1 root root 236509 Oct 17 04:15 model_iter_317
--rw-r--r-- 1 root root 236508 Oct 17 04:15 model_iter_318
--rw-r--r-- 1 root root 236470 Oct 17 04:15 model_iter_319
--rw-r--r-- 1 root root 236414 Oct 17 04:08 model_iter_32
--rw-r--r-- 1 root root 236446 Oct 17 04:15 model_iter_320
--rw-r--r-- 1 root root 236475 Oct 17 04:15 model_iter_321
--rw-r--r-- 1 root root 236570 Oct 17 04:16 model_iter_322
--rw-r--r-- 1 root root 236509 Oct 17 04:16 model_iter_323
--rw-r--r-- 1 root root 236475 Oct 17 04:16 model_iter_324
--rw-r--r-- 1 root root 236497 Oct 17 04:16 model_iter_325
--rw-r--r-- 1 root root 236516 Oct 17 04:16 model_iter_326
--rw-r--r-- 1 root root 236490 Oct 17 04:16 model_iter_327
--rw-r--r-- 1 root root 236491 Oct 17 04:16 model_iter_328
--rw-r--r-- 1 root root 236493 Oct 17 04:16 model_iter_329
--rw-r--r-- 1 root root 236321 Oct 17 04:08 model_iter_33
--rw-r--r-- 1 root root 236527 Oct 17 04:16 model_iter_330
--rw-r--r-- 1 root root 236507 Oct 17 04:16 model_iter_331
--rw-r--r-- 1 root root 236467 Oct 17 04:16 model_iter_332
--rw-r--r-- 1 root root 236552 Oct 17 04:16 model_iter_333
--rw-r--r-- 1 root root 236501 Oct 17 04:16 model_iter_334
--rw-r--r-- 1 root root 236525 Oct 17 04:16 model_iter_335
--rw-r--r-- 1 root root 236478 Oct 17 04:16 model_iter_336
--rw-r--r-- 1 root root 236502 Oct 17 04:16 model_iter_337
--rw-r--r-- 1 root root 236510 Oct 17 04:16 model_iter_338
--rw-r--r-- 1 root root 236476 Oct 17 04:16 model_iter_339
--rw-r--r-- 1 root root 236361 Oct 17 04:08 model_iter_34
--rw-r--r-- 1 root root 236543 Oct 17 04:16 model_iter_340
--rw-r--r-- 1 root root 236511 Oct 17 04:16 model_iter_341
--rw-r--r-- 1 root root 236496 Oct 17 04:16 model_iter_342
--rw-r--r-- 1 root root 236474 Oct 17 04:16 model_iter_343
--rw-r--r-- 1 root root 236504 Oct 17 04:16 model_iter_344
--rw-r--r-- 1 root root 236561 Oct 17 04:16 model_iter_345
--rw-r--r-- 1 root root 236518 Oct 17 04:16 model_iter_346
--rw-r--r-- 1 root root 236480 Oct 17 04:16 model_iter_347
--rw-r--r-- 1 root root 236535 Oct 17 04:16 model_iter_348
--rw-r--r-- 1 root root 236498 Oct 17 04:16 model_iter_349
--rw-r--r-- 1 root root 236323 Oct 17 04:08 model_iter_35
--rw-r--r-- 1 root root 236517 Oct 17 04:16 model_iter_350
--rw-r--r-- 1 root root 236473 Oct 17 04:16 model_iter_351
--rw-r--r-- 1 root root 236469 Oct 17 04:16 model_iter_352
--rw-r--r-- 1 root root 236519 Oct 17 04:16 model_iter_353
--rw-r--r-- 1 root root 236444 Oct 17 04:16 model_iter_354
--rw-r--r-- 1 root root 236432 Oct 17 04:16 model_iter_355
--rw-r--r-- 1 root root 236493 Oct 17 04:16 model_iter_356
--rw-r--r-- 1 root root 236490 Oct 17 04:16 model_iter_357
--rw-r--r-- 1 root root 236502 Oct 17 04:16 model_iter_358
--rw-r--r-- 1 root root 236497 Oct 17 04:16 model_iter_359
--rw-r--r-- 1 root root 236329 Oct 17 04:08 model_iter_36
--rw-r--r-- 1 root root 236440 Oct 17 04:16 model_iter_360
--rw-r--r-- 1 root root 236472 Oct 17 04:16 model_iter_361
--rw-r--r-- 1 root root 236471 Oct 17 04:17 model_iter_362
--rw-r--r-- 1 root root 236481 Oct 17 04:17 model_iter_363
--rw-r--r-- 1 root root 236458 Oct 17 04:17 model_iter_364
--rw-r--r-- 1 root root 236448 Oct 17 04:17 model_iter_365
--rw-r--r-- 1 root root 236517 Oct 17 04:17 model_iter_366
--rw-r--r-- 1 root root 236497 Oct 17 04:17 model_iter_367
--rw-r--r-- 1 root root 236537 Oct 17 04:17 model_iter_368
--rw-r--r-- 1 root root 236513 Oct 17 04:17 model_iter_369
--rw-r--r-- 1 root root 236289 Oct 17 04:08 model_iter_37
--rw-r--r-- 1 root root 236467 Oct 17 04:17 model_iter_370
--rw-r--r-- 1 root root 236516 Oct 17 04:17 model_iter_371
--rw-r--r-- 1 root root 236492 Oct 17 04:17 model_iter_372
--rw-r--r-- 1 root root 236477 Oct 17 04:17 model_iter_373
--rw-r--r-- 1 root root 236495 Oct 17 04:17 model_iter_374
--rw-r--r-- 1 root root 236485 Oct 17 04:17 model_iter_375
--rw-r--r-- 1 root root 236485 Oct 17 04:17 model_iter_376
--rw-r--r-- 1 root root 236493 Oct 17 04:17 model_iter_377
--rw-r--r-- 1 root root 236471 Oct 17 04:17 model_iter_378
--rw-r--r-- 1 root root 236538 Oct 17 04:17 model_iter_379
--rw-r--r-- 1 root root 236245 Oct 17 04:08 model_iter_38
--rw-r--r-- 1 root root 236576 Oct 17 04:17 model_iter_380
--rw-r--r-- 1 root root 236531 Oct 17 04:17 model_iter_381
--rw-r--r-- 1 root root 236522 Oct 17 04:17 model_iter_382
--rw-r--r-- 1 root root 236469 Oct 17 04:17 model_iter_383
--rw-r--r-- 1 root root 236489 Oct 17 04:17 model_iter_384
--rw-r--r-- 1 root root 236498 Oct 17 04:17 model_iter_385
--rw-r--r-- 1 root root 236498 Oct 17 04:17 model_iter_386
--rw-r--r-- 1 root root 236457 Oct 17 04:17 model_iter_387
--rw-r--r-- 1 root root 236495 Oct 17 04:17 model_iter_388
--rw-r--r-- 1 root root 236451 Oct 17 04:17 model_iter_389
--rw-r--r-- 1 root root 236347 Oct 17 04:08 model_iter_39
--rw-r--r-- 1 root root 236416 Oct 17 04:17 model_iter_390
--rw-r--r-- 1 root root 236476 Oct 17 04:17 model_iter_391
--rw-r--r-- 1 root root 236503 Oct 17 04:18 model_iter_392
--rw-r--r-- 1 root root 236500 Oct 17 04:18 model_iter_393
--rw-r--r-- 1 root root 236446 Oct 17 04:18 model_iter_394
--rw-r--r-- 1 root root 236518 Oct 17 04:18 model_iter_395
--rw-r--r-- 1 root root 236453 Oct 17 04:18 model_iter_396
--rw-r--r-- 1 root root 236463 Oct 17 04:18 model_iter_397
--rw-r--r-- 1 root root 236511 Oct 17 04:18 model_iter_398
--rw-r--r-- 1 root root 236457 Oct 17 04:18 model_iter_399
--rw-r--r-- 1 root root 236189 Oct 17 04:08 model_iter_4
--rw-r--r-- 1 root root 236293 Oct 17 04:08 model_iter_40
--rw-r--r-- 1 root root 236468 Oct 17 04:18 model_iter_400
--rw-r--r-- 1 root root 236506 Oct 17 04:18 model_iter_401
--rw-r--r-- 1 root root 236452 Oct 17 04:18 model_iter_402
--rw-r--r-- 1 root root 236474 Oct 17 04:18 model_iter_403
--rw-r--r-- 1 root root 236441 Oct 17 04:18 model_iter_404
--rw-r--r-- 1 root root 236512 Oct 17 04:18 model_iter_405
--rw-r--r-- 1 root root 236536 Oct 17 04:18 model_iter_406
--rw-r--r-- 1 root root 236500 Oct 17 04:18 model_iter_407
--rw-r--r-- 1 root root 236555 Oct 17 04:18 model_iter_408
--rw-r--r-- 1 root root 236558 Oct 17 04:18 model_iter_409
--rw-r--r-- 1 root root 236275 Oct 17 04:09 model_iter_41
--rw-r--r-- 1 root root 236520 Oct 17 04:18 model_iter_410
--rw-r--r-- 1 root root 236548 Oct 17 04:18 model_iter_411
--rw-r--r-- 1 root root 236505 Oct 17 04:18 model_iter_412
--rw-r--r-- 1 root root 236483 Oct 17 04:18 model_iter_413
--rw-r--r-- 1 root root 236413 Oct 17 04:18 model_iter_414
--rw-r--r-- 1 root root 236489 Oct 17 04:18 model_iter_415
--rw-r--r-- 1 root root 236502 Oct 17 04:18 model_iter_416
--rw-r--r-- 1 root root 236483 Oct 17 04:18 model_iter_417
--rw-r--r-- 1 root root 236513 Oct 17 04:18 model_iter_418
--rw-r--r-- 1 root root 236514 Oct 17 04:18 model_iter_419
--rw-r--r-- 1 root root 236300 Oct 17 04:09 model_iter_42
--rw-r--r-- 1 root root 236502 Oct 17 04:18 model_iter_420
--rw-r--r-- 1 root root 236584 Oct 17 04:18 model_iter_421
--rw-r--r-- 1 root root 236524 Oct 17 04:18 model_iter_422
--rw-r--r-- 1 root root 236538 Oct 17 04:18 model_iter_423
--rw-r--r-- 1 root root 236541 Oct 17 04:18 model_iter_424
--rw-r--r-- 1 root root 236523 Oct 17 04:18 model_iter_425
--rw-r--r-- 1 root root 236518 Oct 17 04:18 model_iter_426
--rw-r--r-- 1 root root 236457 Oct 17 04:18 model_iter_427
--rw-r--r-- 1 root root 236523 Oct 17 04:18 model_iter_428
--rw-r--r-- 1 root root 236470 Oct 17 04:18 model_iter_429
--rw-r--r-- 1 root root 236248 Oct 17 04:09 model_iter_43
--rw-r--r-- 1 root root 236528 Oct 17 04:18 model_iter_430
--rw-r--r-- 1 root root 236557 Oct 17 04:18 model_iter_431
--rw-r--r-- 1 root root 236578 Oct 17 04:19 model_iter_432
--rw-r--r-- 1 root root 236519 Oct 17 04:19 model_iter_433
--rw-r--r-- 1 root root 236512 Oct 17 04:19 model_iter_434
--rw-r--r-- 1 root root 236571 Oct 17 04:19 model_iter_435
--rw-r--r-- 1 root root 236562 Oct 17 04:19 model_iter_436
--rw-r--r-- 1 root root 236583 Oct 17 04:19 model_iter_437
--rw-r--r-- 1 root root 236543 Oct 17 04:19 model_iter_438
--rw-r--r-- 1 root root 236554 Oct 17 04:19 model_iter_439
--rw-r--r-- 1 root root 236308 Oct 17 04:09 model_iter_44
--rw-r--r-- 1 root root 236577 Oct 17 04:19 model_iter_440
--rw-r--r-- 1 root root 236547 Oct 17 04:19 model_iter_441
--rw-r--r-- 1 root root 236469 Oct 17 04:19 model_iter_442
--rw-r--r-- 1 root root 236502 Oct 17 04:19 model_iter_443
--rw-r--r-- 1 root root 236558 Oct 17 04:19 model_iter_444
--rw-r--r-- 1 root root 236498 Oct 17 04:19 model_iter_445
--rw-r--r-- 1 root root 236510 Oct 17 04:19 model_iter_446
--rw-r--r-- 1 root root 236470 Oct 17 04:19 model_iter_447
--rw-r--r-- 1 root root 236524 Oct 17 04:19 model_iter_448
--rw-r--r-- 1 root root 236485 Oct 17 04:19 model_iter_449
--rw-r--r-- 1 root root 236330 Oct 17 04:09 model_iter_45
--rw-r--r-- 1 root root 236478 Oct 17 04:19 model_iter_450
--rw-r--r-- 1 root root 236506 Oct 17 04:19 model_iter_451
--rw-r--r-- 1 root root 236536 Oct 17 04:19 model_iter_452
--rw-r--r-- 1 root root 236522 Oct 17 04:19 model_iter_453
--rw-r--r-- 1 root root 236538 Oct 17 04:19 model_iter_454
--rw-r--r-- 1 root root 236527 Oct 17 04:19 model_iter_455
--rw-r--r-- 1 root root 236531 Oct 17 04:19 model_iter_456
--rw-r--r-- 1 root root 236526 Oct 17 04:19 model_iter_457
--rw-r--r-- 1 root root 236485 Oct 17 04:19 model_iter_458
--rw-r--r-- 1 root root 236504 Oct 17 04:19 model_iter_459
--rw-r--r-- 1 root root 236377 Oct 17 04:09 model_iter_46
--rw-r--r-- 1 root root 236466 Oct 17 04:19 model_iter_460
--rw-r--r-- 1 root root 236479 Oct 17 04:19 model_iter_461
--rw-r--r-- 1 root root 236470 Oct 17 04:19 model_iter_462
--rw-r--r-- 1 root root 236455 Oct 17 04:19 model_iter_463
--rw-r--r-- 1 root root 236507 Oct 17 04:19 model_iter_464
--rw-r--r-- 1 root root 236522 Oct 17 04:19 model_iter_465
--rw-r--r-- 1 root root 236526 Oct 17 04:19 model_iter_466
--rw-r--r-- 1 root root 236523 Oct 17 04:19 model_iter_467
--rw-r--r-- 1 root root 236562 Oct 17 04:19 model_iter_468
--rw-r--r-- 1 root root 236606 Oct 17 04:19 model_iter_469
--rw-r--r-- 1 root root 236313 Oct 17 04:09 model_iter_47
--rw-r--r-- 1 root root 236544 Oct 17 04:19 model_iter_470
--rw-r--r-- 1 root root 236525 Oct 17 04:19 model_iter_471
--rw-r--r-- 1 root root 236565 Oct 17 04:20 model_iter_472
--rw-r--r-- 1 root root 236536 Oct 17 04:20 model_iter_473
--rw-r--r-- 1 root root 236522 Oct 17 04:20 model_iter_474
--rw-r--r-- 1 root root 236526 Oct 17 04:20 model_iter_475
--rw-r--r-- 1 root root 236531 Oct 17 04:20 model_iter_476
--rw-r--r-- 1 root root 236555 Oct 17 04:20 model_iter_477
--rw-r--r-- 1 root root 236569 Oct 17 04:20 model_iter_478
--rw-r--r-- 1 root root 236552 Oct 17 04:20 model_iter_479
--rw-r--r-- 1 root root 236337 Oct 17 04:09 model_iter_48
--rw-r--r-- 1 root root 236580 Oct 17 04:20 model_iter_480
--rw-r--r-- 1 root root 236546 Oct 17 04:20 model_iter_481
--rw-r--r-- 1 root root 236507 Oct 17 04:20 model_iter_482
--rw-r--r-- 1 root root 236496 Oct 17 04:20 model_iter_483
--rw-r--r-- 1 root root 236472 Oct 17 04:20 model_iter_484
--rw-r--r-- 1 root root 236544 Oct 17 04:20 model_iter_485
--rw-r--r-- 1 root root 236488 Oct 17 04:20 model_iter_486
--rw-r--r-- 1 root root 236519 Oct 17 04:20 model_iter_487
--rw-r--r-- 1 root root 236504 Oct 17 04:20 model_iter_488
--rw-r--r-- 1 root root 236503 Oct 17 04:20 model_iter_489
--rw-r--r-- 1 root root 236349 Oct 17 04:09 model_iter_49
--rw-r--r-- 1 root root 236480 Oct 17 04:20 model_iter_490
--rw-r--r-- 1 root root 236547 Oct 17 04:20 model_iter_491
--rw-r--r-- 1 root root 236508 Oct 17 04:20 model_iter_492
--rw-r--r-- 1 root root 236571 Oct 17 04:20 model_iter_493
--rw-r--r-- 1 root root 236594 Oct 17 04:20 model_iter_494
--rw-r--r-- 1 root root 236566 Oct 17 04:20 model_iter_495
--rw-r--r-- 1 root root 236551 Oct 17 04:20 model_iter_496
--rw-r--r-- 1 root root 236540 Oct 17 04:20 model_iter_497
--rw-r--r-- 1 root root 236489 Oct 17 04:20 model_iter_498
--rw-r--r-- 1 root root 236533 Oct 17 04:20 model_iter_499
--rw-r--r-- 1 root root 236226 Oct 17 04:08 model_iter_5
--rw-r--r-- 1 root root 236277 Oct 17 04:09 model_iter_50
--rw-r--r-- 1 root root 236552 Oct 17 04:20 model_iter_500
--rw-r--r-- 1 root root 236502 Oct 17 04:20 model_iter_501
--rw-r--r-- 1 root root 236486 Oct 17 04:20 model_iter_502
--rw-r--r-- 1 root root 236562 Oct 17 04:20 model_iter_503
--rw-r--r-- 1 root root 236518 Oct 17 04:20 model_iter_504
--rw-r--r-- 1 root root 236481 Oct 17 04:20 model_iter_505
--rw-r--r-- 1 root root 236505 Oct 17 04:20 model_iter_506
--rw-r--r-- 1 root root 236569 Oct 17 04:20 model_iter_507
--rw-r--r-- 1 root root 236486 Oct 17 04:20 model_iter_508
--rw-r--r-- 1 root root 236525 Oct 17 04:20 model_iter_509
--rw-r--r-- 1 root root 236358 Oct 17 04:09 model_iter_51
--rw-r--r-- 1 root root 236564 Oct 17 04:20 model_iter_510
--rw-r--r-- 1 root root 236545 Oct 17 04:20 model_iter_511
--rw-r--r-- 1 root root 236549 Oct 17 04:21 model_iter_512
--rw-r--r-- 1 root root 236599 Oct 17 04:21 model_iter_513
--rw-r--r-- 1 root root 236617 Oct 17 04:21 model_iter_514
--rw-r--r-- 1 root root 236593 Oct 17 04:21 model_iter_515
--rw-r--r-- 1 root root 236547 Oct 17 04:21 model_iter_516
--rw-r--r-- 1 root root 236580 Oct 17 04:21 model_iter_517
--rw-r--r-- 1 root root 236662 Oct 17 04:21 model_iter_518
--rw-r--r-- 1 root root 236583 Oct 17 04:21 model_iter_519
--rw-r--r-- 1 root root 236307 Oct 17 04:09 model_iter_52
--rw-r--r-- 1 root root 236560 Oct 17 04:21 model_iter_520
--rw-r--r-- 1 root root 236591 Oct 17 04:21 model_iter_521
--rw-r--r-- 1 root root 236582 Oct 17 04:21 model_iter_522
--rw-r--r-- 1 root root 236533 Oct 17 04:21 model_iter_523
--rw-r--r-- 1 root root 236617 Oct 17 04:21 model_iter_524
--rw-r--r-- 1 root root 236562 Oct 17 04:21 model_iter_525
--rw-r--r-- 1 root root 236561 Oct 17 04:21 model_iter_526
--rw-r--r-- 1 root root 236572 Oct 17 04:21 model_iter_527
--rw-r--r-- 1 root root 236578 Oct 17 04:21 model_iter_528
--rw-r--r-- 1 root root 236540 Oct 17 04:21 model_iter_529
--rw-r--r-- 1 root root 236377 Oct 17 04:09 model_iter_53
--rw-r--r-- 1 root root 236501 Oct 17 04:21 model_iter_530
--rw-r--r-- 1 root root 236509 Oct 17 04:21 model_iter_531
--rw-r--r-- 1 root root 236581 Oct 17 04:21 model_iter_532
--rw-r--r-- 1 root root 236518 Oct 17 04:21 model_iter_533
--rw-r--r-- 1 root root 236549 Oct 17 04:21 model_iter_534
--rw-r--r-- 1 root root 236528 Oct 17 04:21 model_iter_535
--rw-r--r-- 1 root root 236621 Oct 17 04:21 model_iter_536
--rw-r--r-- 1 root root 236537 Oct 17 04:21 model_iter_537
--rw-r--r-- 1 root root 236583 Oct 17 04:21 model_iter_538
--rw-r--r-- 1 root root 236619 Oct 17 04:21 model_iter_539
--rw-r--r-- 1 root root 236351 Oct 17 04:09 model_iter_54
--rw-r--r-- 1 root root 236625 Oct 17 04:21 model_iter_540
--rw-r--r-- 1 root root 236599 Oct 17 04:21 model_iter_541
--rw-r--r-- 1 root root 236610 Oct 17 04:21 model_iter_542
--rw-r--r-- 1 root root 236589 Oct 17 04:21 model_iter_543
--rw-r--r-- 1 root root 236566 Oct 17 04:21 model_iter_544
--rw-r--r-- 1 root root 236564 Oct 17 04:21 model_iter_545
--rw-r--r-- 1 root root 236587 Oct 17 04:21 model_iter_546
--rw-r--r-- 1 root root 236613 Oct 17 04:21 model_iter_547
--rw-r--r-- 1 root root 236608 Oct 17 04:21 model_iter_548
--rw-r--r-- 1 root root 236568 Oct 17 04:21 model_iter_549
--rw-r--r-- 1 root root 236307 Oct 17 04:09 model_iter_55
--rw-r--r-- 1 root root 236608 Oct 17 04:21 model_iter_550
--rw-r--r-- 1 root root 236568 Oct 17 04:21 model_iter_551
--rw-r--r-- 1 root root 236599 Oct 17 04:22 model_iter_552
--rw-r--r-- 1 root root 236604 Oct 17 04:22 model_iter_553
--rw-r--r-- 1 root root 236596 Oct 17 04:22 model_iter_554
--rw-r--r-- 1 root root 236595 Oct 17 04:22 model_iter_555
--rw-r--r-- 1 root root 236649 Oct 17 04:22 model_iter_556
--rw-r--r-- 1 root root 236567 Oct 17 04:22 model_iter_557
--rw-r--r-- 1 root root 236629 Oct 17 04:22 model_iter_558
--rw-r--r-- 1 root root 236605 Oct 17 04:22 model_iter_559
--rw-r--r-- 1 root root 236359 Oct 17 04:09 model_iter_56
--rw-r--r-- 1 root root 236608 Oct 17 04:22 model_iter_560
--rw-r--r-- 1 root root 236644 Oct 17 04:22 model_iter_561
--rw-r--r-- 1 root root 236635 Oct 17 04:22 model_iter_562
--rw-r--r-- 1 root root 236573 Oct 17 04:22 model_iter_563
--rw-r--r-- 1 root root 236612 Oct 17 04:22 model_iter_564
--rw-r--r-- 1 root root 236667 Oct 17 04:22 model_iter_565
--rw-r--r-- 1 root root 236632 Oct 17 04:22 model_iter_566
--rw-r--r-- 1 root root 236648 Oct 17 04:22 model_iter_567
--rw-r--r-- 1 root root 236613 Oct 17 04:22 model_iter_568
--rw-r--r-- 1 root root 236685 Oct 17 04:22 model_iter_569
--rw-r--r-- 1 root root 236403 Oct 17 04:09 model_iter_57
--rw-r--r-- 1 root root 236652 Oct 17 04:22 model_iter_570
--rw-r--r-- 1 root root 236586 Oct 17 04:22 model_iter_571
--rw-r--r-- 1 root root 236589 Oct 17 04:22 model_iter_572
--rw-r--r-- 1 root root 236649 Oct 17 04:22 model_iter_573
--rw-r--r-- 1 root root 236604 Oct 17 04:22 model_iter_574
--rw-r--r-- 1 root root 236609 Oct 17 04:22 model_iter_575
--rw-r--r-- 1 root root 236659 Oct 17 04:22 model_iter_576
--rw-r--r-- 1 root root 236635 Oct 17 04:22 model_iter_577
--rw-r--r-- 1 root root 236585 Oct 17 04:22 model_iter_578
--rw-r--r-- 1 root root 236645 Oct 17 04:22 model_iter_579
--rw-r--r-- 1 root root 236356 Oct 17 04:09 model_iter_58
--rw-r--r-- 1 root root 236676 Oct 17 04:22 model_iter_580
--rw-r--r-- 1 root root 236592 Oct 17 04:22 model_iter_581
--rw-r--r-- 1 root root 236576 Oct 17 04:22 model_iter_582
--rw-r--r-- 1 root root 236615 Oct 17 04:22 model_iter_583
--rw-r--r-- 1 root root 236650 Oct 17 04:22 model_iter_584
--rw-r--r-- 1 root root 236617 Oct 17 04:22 model_iter_585
--rw-r--r-- 1 root root 236631 Oct 17 04:22 model_iter_586
--rw-r--r-- 1 root root 236655 Oct 17 04:22 model_iter_587
--rw-r--r-- 1 root root 236618 Oct 17 04:22 model_iter_588
--rw-r--r-- 1 root root 236675 Oct 17 04:22 model_iter_589
--rw-r--r-- 1 root root 236372 Oct 17 04:09 model_iter_59
--rw-r--r-- 1 root root 236640 Oct 17 04:22 model_iter_590
--rw-r--r-- 1 root root 236694 Oct 17 04:22 model_iter_591
--rw-r--r-- 1 root root 236623 Oct 17 04:23 model_iter_592
--rw-r--r-- 1 root root 236727 Oct 17 04:23 model_iter_593
--rw-r--r-- 1 root root 236608 Oct 17 04:23 model_iter_594
--rw-r--r-- 1 root root 236616 Oct 17 04:23 model_iter_595
--rw-r--r-- 1 root root 236558 Oct 17 04:23 model_iter_596
--rw-r--r-- 1 root root 236679 Oct 17 04:23 model_iter_597
--rw-r--r-- 1 root root 236590 Oct 17 04:23 model_iter_598
--rw-r--r-- 1 root root 236639 Oct 17 04:23 model_iter_599
--rw-r--r-- 1 root root 236241 Oct 17 04:08 model_iter_6
--rw-r--r-- 1 root root 236319 Oct 17 04:09 model_iter_60
--rw-r--r-- 1 root root 236630 Oct 17 04:23 model_iter_600
--rw-r--r-- 1 root root 236601 Oct 17 04:23 model_iter_601
--rw-r--r-- 1 root root 236589 Oct 17 04:23 model_iter_602
--rw-r--r-- 1 root root 236670 Oct 17 04:23 model_iter_603
--rw-r--r-- 1 root root 236663 Oct 17 04:23 model_iter_604
--rw-r--r-- 1 root root 236649 Oct 17 04:23 model_iter_605
--rw-r--r-- 1 root root 236656 Oct 17 04:23 model_iter_606
--rw-r--r-- 1 root root 236660 Oct 17 04:23 model_iter_607
--rw-r--r-- 1 root root 236688 Oct 17 04:23 model_iter_608
--rw-r--r-- 1 root root 236642 Oct 17 04:23 model_iter_609
--rw-r--r-- 1 root root 236294 Oct 17 04:09 model_iter_61
--rw-r--r-- 1 root root 236641 Oct 17 04:23 model_iter_610
--rw-r--r-- 1 root root 236651 Oct 17 04:23 model_iter_611
--rw-r--r-- 1 root root 236685 Oct 17 04:23 model_iter_612
--rw-r--r-- 1 root root 236595 Oct 17 04:23 model_iter_613
--rw-r--r-- 1 root root 236591 Oct 17 04:23 model_iter_614
--rw-r--r-- 1 root root 236653 Oct 17 04:23 model_iter_615
--rw-r--r-- 1 root root 236706 Oct 17 04:23 model_iter_616
--rw-r--r-- 1 root root 236699 Oct 17 04:23 model_iter_617
--rw-r--r-- 1 root root 236695 Oct 17 04:23 model_iter_618
--rw-r--r-- 1 root root 236644 Oct 17 04:23 model_iter_619
--rw-r--r-- 1 root root 236321 Oct 17 04:09 model_iter_62
--rw-r--r-- 1 root root 236670 Oct 17 04:23 model_iter_620
--rw-r--r-- 1 root root 236716 Oct 17 04:23 model_iter_621
--rw-r--r-- 1 root root 236686 Oct 17 04:23 model_iter_622
--rw-r--r-- 1 root root 236710 Oct 17 04:23 model_iter_623
--rw-r--r-- 1 root root 236644 Oct 17 04:23 model_iter_624
--rw-r--r-- 1 root root 236663 Oct 17 04:23 model_iter_625
--rw-r--r-- 1 root root 236649 Oct 17 04:23 model_iter_626
--rw-r--r-- 1 root root 236647 Oct 17 04:23 model_iter_627
--rw-r--r-- 1 root root 236650 Oct 17 04:23 model_iter_628
--rw-r--r-- 1 root root 236638 Oct 17 04:23 model_iter_629
--rw-r--r-- 1 root root 236301 Oct 17 04:09 model_iter_63
--rw-r--r-- 1 root root 236717 Oct 17 04:23 model_iter_630
--rw-r--r-- 1 root root 236659 Oct 17 04:23 model_iter_631
--rw-r--r-- 1 root root 236659 Oct 17 04:24 model_iter_632
--rw-r--r-- 1 root root 236697 Oct 17 04:24 model_iter_633
--rw-r--r-- 1 root root 236633 Oct 17 04:24 model_iter_634
--rw-r--r-- 1 root root 236633 Oct 17 04:24 model_iter_635
--rw-r--r-- 1 root root 236636 Oct 17 04:24 model_iter_636
--rw-r--r-- 1 root root 236679 Oct 17 04:24 model_iter_637
--rw-r--r-- 1 root root 236708 Oct 17 04:24 model_iter_638
--rw-r--r-- 1 root root 236672 Oct 17 04:24 model_iter_639
--rw-r--r-- 1 root root 236263 Oct 17 04:09 model_iter_64
--rw-r--r-- 1 root root 236675 Oct 17 04:24 model_iter_640
--rw-r--r-- 1 root root 236659 Oct 17 04:24 model_iter_641
--rw-r--r-- 1 root root 236684 Oct 17 04:24 model_iter_642
--rw-r--r-- 1 root root 236629 Oct 17 04:24 model_iter_643
--rw-r--r-- 1 root root 236685 Oct 17 04:24 model_iter_644
--rw-r--r-- 1 root root 236684 Oct 17 04:24 model_iter_645
--rw-r--r-- 1 root root 236667 Oct 17 04:24 model_iter_646
--rw-r--r-- 1 root root 236626 Oct 17 04:24 model_iter_647
--rw-r--r-- 1 root root 236698 Oct 17 04:24 model_iter_648
--rw-r--r-- 1 root root 236659 Oct 17 04:24 model_iter_649
--rw-r--r-- 1 root root 236371 Oct 17 04:09 model_iter_65
--rw-r--r-- 1 root root 236756 Oct 17 04:24 model_iter_650
--rw-r--r-- 1 root root 236708 Oct 17 04:24 model_iter_651
--rw-r--r-- 1 root root 236700 Oct 17 04:24 model_iter_652
--rw-r--r-- 1 root root 236733 Oct 17 04:24 model_iter_653
--rw-r--r-- 1 root root 236753 Oct 17 04:24 model_iter_654
--rw-r--r-- 1 root root 236633 Oct 17 04:24 model_iter_655
--rw-r--r-- 1 root root 236700 Oct 17 04:24 model_iter_656
--rw-r--r-- 1 root root 236666 Oct 17 04:24 model_iter_657
--rw-r--r-- 1 root root 236711 Oct 17 04:24 model_iter_658
--rw-r--r-- 1 root root 236701 Oct 17 04:24 model_iter_659
--rw-r--r-- 1 root root 236367 Oct 17 04:09 model_iter_66
--rw-r--r-- 1 root root 236668 Oct 17 04:24 model_iter_660
--rw-r--r-- 1 root root 236674 Oct 17 04:24 model_iter_661
--rw-r--r-- 1 root root 236666 Oct 17 04:24 model_iter_662
--rw-r--r-- 1 root root 236698 Oct 17 04:24 model_iter_663
--rw-r--r-- 1 root root 236679 Oct 17 04:24 model_iter_664
--rw-r--r-- 1 root root 236726 Oct 17 04:24 model_iter_665
--rw-r--r-- 1 root root 236683 Oct 17 04:24 model_iter_666
--rw-r--r-- 1 root root 236678 Oct 17 04:24 model_iter_667
--rw-r--r-- 1 root root 236667 Oct 17 04:24 model_iter_668
--rw-r--r-- 1 root root 236705 Oct 17 04:24 model_iter_669
--rw-r--r-- 1 root root 236273 Oct 17 04:09 model_iter_67
--rw-r--r-- 1 root root 236667 Oct 17 04:24 model_iter_670
--rw-r--r-- 1 root root 236694 Oct 17 04:24 model_iter_671
--rw-r--r-- 1 root root 236675 Oct 17 04:25 model_iter_672
--rw-r--r-- 1 root root 236712 Oct 17 04:25 model_iter_673
--rw-r--r-- 1 root root 236683 Oct 17 04:25 model_iter_674
--rw-r--r-- 1 root root 236670 Oct 17 04:25 model_iter_675
--rw-r--r-- 1 root root 236751 Oct 17 04:25 model_iter_676
--rw-r--r-- 1 root root 236678 Oct 17 04:25 model_iter_677
--rw-r--r-- 1 root root 236707 Oct 17 04:25 model_iter_678
--rw-r--r-- 1 root root 236724 Oct 17 04:25 model_iter_679
--rw-r--r-- 1 root root 236367 Oct 17 04:09 model_iter_68
--rw-r--r-- 1 root root 236642 Oct 17 04:25 model_iter_680
--rw-r--r-- 1 root root 236695 Oct 17 04:25 model_iter_681
--rw-r--r-- 1 root root 236620 Oct 17 04:25 model_iter_682
--rw-r--r-- 1 root root 236660 Oct 17 04:25 model_iter_683
--rw-r--r-- 1 root root 236666 Oct 17 04:25 model_iter_684
--rw-r--r-- 1 root root 236742 Oct 17 04:25 model_iter_685
--rw-r--r-- 1 root root 236685 Oct 17 04:25 model_iter_686
--rw-r--r-- 1 root root 236713 Oct 17 04:25 model_iter_687
--rw-r--r-- 1 root root 236722 Oct 17 04:25 model_iter_688
--rw-r--r-- 1 root root 236701 Oct 17 04:25 model_iter_689
--rw-r--r-- 1 root root 236365 Oct 17 04:09 model_iter_69
--rw-r--r-- 1 root root 236643 Oct 17 04:25 model_iter_690
--rw-r--r-- 1 root root 236698 Oct 17 04:25 model_iter_691
--rw-r--r-- 1 root root 236740 Oct 17 04:25 model_iter_692
--rw-r--r-- 1 root root 236703 Oct 17 04:25 model_iter_693
--rw-r--r-- 1 root root 236621 Oct 17 04:25 model_iter_694
--rw-r--r-- 1 root root 236657 Oct 17 04:25 model_iter_695
--rw-r--r-- 1 root root 236727 Oct 17 04:25 model_iter_696
--rw-r--r-- 1 root root 236672 Oct 17 04:25 model_iter_697
--rw-r--r-- 1 root root 236708 Oct 17 04:25 model_iter_698
--rw-r--r-- 1 root root 236722 Oct 17 04:25 model_iter_699
--rw-r--r-- 1 root root 236290 Oct 17 04:08 model_iter_7
--rw-r--r-- 1 root root 236328 Oct 17 04:09 model_iter_70
--rw-r--r-- 1 root root 236701 Oct 17 04:25 model_iter_700
--rw-r--r-- 1 root root 236707 Oct 17 04:25 model_iter_701
--rw-r--r-- 1 root root 236703 Oct 17 04:25 model_iter_702
--rw-r--r-- 1 root root 236642 Oct 17 04:25 model_iter_703
--rw-r--r-- 1 root root 236676 Oct 17 04:25 model_iter_704
--rw-r--r-- 1 root root 236700 Oct 17 04:25 model_iter_705
--rw-r--r-- 1 root root 236676 Oct 17 04:25 model_iter_706
--rw-r--r-- 1 root root 236684 Oct 17 04:25 model_iter_707
--rw-r--r-- 1 root root 236660 Oct 17 04:25 model_iter_708
--rw-r--r-- 1 root root 236658 Oct 17 04:25 model_iter_709
--rw-r--r-- 1 root root 236295 Oct 17 04:09 model_iter_71
--rw-r--r-- 1 root root 236623 Oct 17 04:25 model_iter_710
--rw-r--r-- 1 root root 236663 Oct 17 04:25 model_iter_711
--rw-r--r-- 1 root root 236718 Oct 17 04:25 model_iter_712
--rw-r--r-- 1 root root 236643 Oct 17 04:26 model_iter_713
--rw-r--r-- 1 root root 236710 Oct 17 04:26 model_iter_714
--rw-r--r-- 1 root root 236670 Oct 17 04:26 model_iter_715
--rw-r--r-- 1 root root 236704 Oct 17 04:26 model_iter_716
--rw-r--r-- 1 root root 236671 Oct 17 04:26 model_iter_717
--rw-r--r-- 1 root root 236682 Oct 17 04:26 model_iter_718
--rw-r--r-- 1 root root 236702 Oct 17 04:26 model_iter_719
--rw-r--r-- 1 root root 236358 Oct 17 04:09 model_iter_72
--rw-r--r-- 1 root root 236704 Oct 17 04:26 model_iter_720
--rw-r--r-- 1 root root 236737 Oct 17 04:26 model_iter_721
--rw-r--r-- 1 root root 236750 Oct 17 04:26 model_iter_722
--rw-r--r-- 1 root root 236708 Oct 17 04:26 model_iter_723
--rw-r--r-- 1 root root 236751 Oct 17 04:26 model_iter_724
--rw-r--r-- 1 root root 236687 Oct 17 04:26 model_iter_725
--rw-r--r-- 1 root root 236834 Oct 17 04:26 model_iter_726
--rw-r--r-- 1 root root 236708 Oct 17 04:26 model_iter_727
--rw-r--r-- 1 root root 236739 Oct 17 04:26 model_iter_728
--rw-r--r-- 1 root root 236701 Oct 17 04:26 model_iter_729
--rw-r--r-- 1 root root 236329 Oct 17 04:09 model_iter_73
--rw-r--r-- 1 root root 236670 Oct 17 04:26 model_iter_730
--rw-r--r-- 1 root root 236731 Oct 17 04:26 model_iter_731
--rw-r--r-- 1 root root 236692 Oct 17 04:26 model_iter_732
--rw-r--r-- 1 root root 236734 Oct 17 04:26 model_iter_733
--rw-r--r-- 1 root root 236731 Oct 17 04:26 model_iter_734
--rw-r--r-- 1 root root 236761 Oct 17 04:26 model_iter_735
--rw-r--r-- 1 root root 236727 Oct 17 04:26 model_iter_736
--rw-r--r-- 1 root root 236716 Oct 17 04:26 model_iter_737
--rw-r--r-- 1 root root 236775 Oct 17 04:26 model_iter_738
--rw-r--r-- 1 root root 236732 Oct 17 04:26 model_iter_739
--rw-r--r-- 1 root root 236306 Oct 17 04:09 model_iter_74
--rw-r--r-- 1 root root 236742 Oct 17 04:26 model_iter_740
--rw-r--r-- 1 root root 236715 Oct 17 04:26 model_iter_741
--rw-r--r-- 1 root root 236768 Oct 17 04:26 model_iter_742
--rw-r--r-- 1 root root 236763 Oct 17 04:26 model_iter_743
--rw-r--r-- 1 root root 236764 Oct 17 04:26 model_iter_744
--rw-r--r-- 1 root root 236727 Oct 17 04:26 model_iter_745
--rw-r--r-- 1 root root 236747 Oct 17 04:26 model_iter_746
--rw-r--r-- 1 root root 236729 Oct 17 04:26 model_iter_747
--rw-r--r-- 1 root root 236761 Oct 17 04:26 model_iter_748
--rw-r--r-- 1 root root 236731 Oct 17 04:26 model_iter_749
--rw-r--r-- 1 root root 236306 Oct 17 04:09 model_iter_75
--rw-r--r-- 1 root root 236708 Oct 17 04:26 model_iter_750
--rw-r--r-- 1 root root 236719 Oct 17 04:26 model_iter_751
--rw-r--r-- 1 root root 236725 Oct 17 04:26 model_iter_752
--rw-r--r-- 1 root root 236759 Oct 17 04:27 model_iter_753
--rw-r--r-- 1 root root 236714 Oct 17 04:27 model_iter_754
--rw-r--r-- 1 root root 236739 Oct 17 04:27 model_iter_755
--rw-r--r-- 1 root root 236746 Oct 17 04:27 model_iter_756
--rw-r--r-- 1 root root 236697 Oct 17 04:27 model_iter_757
--rw-r--r-- 1 root root 236759 Oct 17 04:27 model_iter_758
--rw-r--r-- 1 root root 236774 Oct 17 04:27 model_iter_759
--rw-r--r-- 1 root root 236272 Oct 17 04:09 model_iter_76
--rw-r--r-- 1 root root 236719 Oct 17 04:27 model_iter_760
--rw-r--r-- 1 root root 236708 Oct 17 04:27 model_iter_761
--rw-r--r-- 1 root root 236806 Oct 17 04:27 model_iter_762
--rw-r--r-- 1 root root 236779 Oct 17 04:27 model_iter_763
--rw-r--r-- 1 root root 236722 Oct 17 04:27 model_iter_764
--rw-r--r-- 1 root root 236736 Oct 17 04:27 model_iter_765
--rw-r--r-- 1 root root 236783 Oct 17 04:27 model_iter_766
--rw-r--r-- 1 root root 236717 Oct 17 04:27 model_iter_767
--rw-r--r-- 1 root root 236753 Oct 17 04:27 model_iter_768
--rw-r--r-- 1 root root 236667 Oct 17 04:27 model_iter_769
--rw-r--r-- 1 root root 236321 Oct 17 04:09 model_iter_77
--rw-r--r-- 1 root root 236786 Oct 17 04:27 model_iter_770
--rw-r--r-- 1 root root 236739 Oct 17 04:27 model_iter_771
--rw-r--r-- 1 root root 236802 Oct 17 04:27 model_iter_772
--rw-r--r-- 1 root root 236708 Oct 17 04:27 model_iter_773
--rw-r--r-- 1 root root 236739 Oct 17 04:27 model_iter_774
--rw-r--r-- 1 root root 236786 Oct 17 04:27 model_iter_775
--rw-r--r-- 1 root root 236794 Oct 17 04:27 model_iter_776
--rw-r--r-- 1 root root 236757 Oct 17 04:27 model_iter_777
--rw-r--r-- 1 root root 236785 Oct 17 04:27 model_iter_778
--rw-r--r-- 1 root root 236772 Oct 17 04:27 model_iter_779
--rw-r--r-- 1 root root 236309 Oct 17 04:09 model_iter_78
--rw-r--r-- 1 root root 236725 Oct 17 04:27 model_iter_780
--rw-r--r-- 1 root root 236341 Oct 17 04:09 model_iter_79
--rw-r--r-- 1 root root 236360 Oct 17 04:08 model_iter_8
--rw-r--r-- 1 root root 236364 Oct 17 04:09 model_iter_80
--rw-r--r-- 1 root root 236378 Oct 17 04:10 model_iter_81
--rw-r--r-- 1 root root 236326 Oct 17 04:10 model_iter_82
--rw-r--r-- 1 root root 236357 Oct 17 04:10 model_iter_83
--rw-r--r-- 1 root root 236322 Oct 17 04:10 model_iter_84
--rw-r--r-- 1 root root 236322 Oct 17 04:10 model_iter_85
--rw-r--r-- 1 root root 236355 Oct 17 04:10 model_iter_86
--rw-r--r-- 1 root root 236258 Oct 17 04:10 model_iter_87
--rw-r--r-- 1 root root 236399 Oct 17 04:10 model_iter_88
--rw-r--r-- 1 root root 236408 Oct 17 04:10 model_iter_89
--rw-r--r-- 1 root root 236368 Oct 17 04:08 model_iter_9
--rw-r--r-- 1 root root 236383 Oct 17 04:10 model_iter_90
--rw-r--r-- 1 root root 236399 Oct 17 04:10 model_iter_91
--rw-r--r-- 1 root root 236404 Oct 17 04:10 model_iter_92
--rw-r--r-- 1 root root 236438 Oct 17 04:10 model_iter_93
--rw-r--r-- 1 root root 236410 Oct 17 04:10 model_iter_94
--rw-r--r-- 1 root root 236382 Oct 17 04:10 model_iter_95
--rw-r--r-- 1 root root 236436 Oct 17 04:10 model_iter_96
--rw-r--r-- 1 root root 236344 Oct 17 04:10 model_iter_97
--rw-r--r-- 1 root root 236350 Oct 17 04:10 model_iter_98
--rw-r--r-- 1 root root 236386 Oct 17 04:10 model_iter_99
-</pre></div></div>
-</div>
-<p>それでは結果を表示してみましょう。test_in,
-test_outには学習中には利用されていない領域の配列がふくまれています。この結果と、学習したモデルによる推定結果を比較してみることにします。</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [58]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from chainer import dataset
-
-model = Net()
-chainer.serializers.load_npz(&#39;out/model_iter_780&#39;, model)
-model.to_gpu()
-
-test = chainer.datasets.TupleDataset(test_x, test_y)
-test_iter = chainer.iterators.SerialIterator(test, batchsize, repeat=False, shuffle=False)
-
-for batch in test_iter:
-  in_arrays = dataset.concat_examples(batch, device=0)
-
-  y = model(*in_arrays)
-  print(data)
-
-
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">KeyError</span>                                  Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-58-38b01d0662f4&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span> model <span class="ansi-blue-fg">=</span> Net<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 4</span><span class="ansi-red-fg"> </span>chainer<span class="ansi-blue-fg">.</span>serializers<span class="ansi-blue-fg">.</span>load_npz<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;out/model_iter_780&#39;</span><span class="ansi-blue-fg">,</span> model<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span> model<span class="ansi-blue-fg">.</span>to_gpu<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/serializers/npz.py</span> in <span class="ansi-cyan-fg">load_npz</span><span class="ansi-blue-fg">(file, obj, path, strict, ignore_names)</span>
-<span class="ansi-green-intense-fg ansi-bold">    188</span>         d = NpzDeserializer(
-<span class="ansi-green-intense-fg ansi-bold">    189</span>             f, path=path, strict=strict, ignore_names=ignore_names)
-<span class="ansi-green-fg">--&gt; 190</span><span class="ansi-red-fg">         </span>d<span class="ansi-blue-fg">.</span>load<span class="ansi-blue-fg">(</span>obj<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/serializer.py</span> in <span class="ansi-cyan-fg">load</span><span class="ansi-blue-fg">(self, obj)</span>
-<span class="ansi-green-intense-fg ansi-bold">     81</span>
-<span class="ansi-green-intense-fg ansi-bold">     82</span>         &#34;&#34;&#34;
-<span class="ansi-green-fg">---&gt; 83</span><span class="ansi-red-fg">         </span>obj<span class="ansi-blue-fg">.</span>serialize<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/link.py</span> in <span class="ansi-cyan-fg">serialize</span><span class="ansi-blue-fg">(self, serializer)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1049</span>         d <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>__dict__
-<span class="ansi-green-intense-fg ansi-bold">   1050</span>         <span class="ansi-green-fg">for</span> name <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_children<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">-&gt; 1051</span><span class="ansi-red-fg">             </span>d<span class="ansi-blue-fg">[</span>name<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>serialize<span class="ansi-blue-fg">(</span>serializer<span class="ansi-blue-fg">[</span>name<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1052</span>
-<span class="ansi-green-intense-fg ansi-bold">   1053</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/link.py</span> in <span class="ansi-cyan-fg">serialize</span><span class="ansi-blue-fg">(self, serializer)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1049</span>         d <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>__dict__
-<span class="ansi-green-intense-fg ansi-bold">   1050</span>         <span class="ansi-green-fg">for</span> name <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_children<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">-&gt; 1051</span><span class="ansi-red-fg">             </span>d<span class="ansi-blue-fg">[</span>name<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>serialize<span class="ansi-blue-fg">(</span>serializer<span class="ansi-blue-fg">[</span>name<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1052</span>
-<span class="ansi-green-intense-fg ansi-bold">   1053</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/link.py</span> in <span class="ansi-cyan-fg">serialize</span><span class="ansi-blue-fg">(self, serializer)</span>
-<span class="ansi-green-intense-fg ansi-bold">    674</span>         <span class="ansi-green-fg">for</span> name <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_params<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    675</span>             param <span class="ansi-blue-fg">=</span> d<span class="ansi-blue-fg">[</span>name<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-fg">--&gt; 676</span><span class="ansi-red-fg">             </span>data <span class="ansi-blue-fg">=</span> serializer<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> param<span class="ansi-blue-fg">.</span>data<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    677</span>             <span class="ansi-green-fg">if</span> param<span class="ansi-blue-fg">.</span>data <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span> <span class="ansi-green-fg">and</span> data <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">not</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    678</span>                 <span class="ansi-red-fg"># Initialize the parameter here</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/serializers/npz.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, key, value)</span>
-<span class="ansi-green-intense-fg ansi-bold">    141</span>                     &#39;list of them.&#39;)
-<span class="ansi-green-intense-fg ansi-bold">    142</span>
-<span class="ansi-green-fg">--&gt; 143</span><span class="ansi-red-fg">         </span>dataset <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>npz<span class="ansi-blue-fg">[</span>key<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">    144</span>         <span class="ansi-green-fg">if</span> dataset<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">]</span> <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    145</span>             <span class="ansi-green-fg">return</span> <span class="ansi-green-fg">None</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/numpy/lib/npyio.py</span> in <span class="ansi-cyan-fg">__getitem__</span><span class="ansi-blue-fg">(self, key)</span>
-<span class="ansi-green-intense-fg ansi-bold">    237</span>                 <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>zip<span class="ansi-blue-fg">.</span>read<span class="ansi-blue-fg">(</span>key<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    238</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 239</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">raise</span> KeyError<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;%s is not a file in the archive&#34;</span> <span class="ansi-blue-fg">%</span> key<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    240</span>
-<span class="ansi-green-intense-fg ansi-bold">    241</span>     <span class="ansi-green-fg">def</span> __iter__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-red-fg">KeyError</span>: &#39;l_0/conv/W is not a file in the archive&#39;
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [30]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!ps f -o user,pgrp,pid,pcpu,pmem,start,time,command -p `lsof -n -w -t /dev/nvidia*`
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-/bin/bash: lsof: command not found
-error: list of process IDs must follow -p
-
-Usage:
- ps [options]
-
- Try &#39;ps --help &lt;simple|list|output|threads|misc|all&gt;&#39;
-  or &#39;ps --help &lt;s|l|o|t|m|a&gt;&#39;
- for additional help text.
-
-For more details see ps(1).
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!ls -l /usr/local/cuda-9.2
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-total 20
-drwxr-xr-x 2 root root 4096 Sep 28 22:08 doc
-lrwxrwxrwx 1 root root   24 Jun 18 18:58 lib64 -&gt; targets/x86_64-linux/lib
--rw-r--r-- 1 root root  365 Jun 18 18:56 LICENSE
--rw-r--r-- 1 root root  365 Jun 18 18:56 README
-drwxr-xr-x 1 root root 4096 Sep 28 22:08 targets
--rw-r--r-- 1 root root   21 Jun 18 18:56 version.txt
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import h5py
-with h5py.File(&#39;data2.h5&#39;, &#39;r&#39;) as f:
-  print(list(f.keys()))
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">OSError</span>                                   Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-1-8aaf9bffeb70&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-green-fg">import</span> h5py
-<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">with</span> h5py<span class="ansi-blue-fg">.</span>File<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;data2.h5&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;r&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>   print<span class="ansi-blue-fg">(</span>list<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">.</span>keys<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/h5py/_hl/files.py</span> in <span class="ansi-cyan-fg">__init__</span><span class="ansi-blue-fg">(self, name, mode, driver, libver, userblock_size, swmr, **kwds)</span>
-<span class="ansi-green-intense-fg ansi-bold">    310</span>             <span class="ansi-green-fg">with</span> phil<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    311</span>                 fapl <span class="ansi-blue-fg">=</span> make_fapl<span class="ansi-blue-fg">(</span>driver<span class="ansi-blue-fg">,</span> libver<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwds<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 312</span><span class="ansi-red-fg">                 </span>fid <span class="ansi-blue-fg">=</span> make_fid<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> mode<span class="ansi-blue-fg">,</span> userblock_size<span class="ansi-blue-fg">,</span> fapl<span class="ansi-blue-fg">,</span> swmr<span class="ansi-blue-fg">=</span>swmr<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    313</span>
-<span class="ansi-green-intense-fg ansi-bold">    314</span>                 <span class="ansi-green-fg">if</span> swmr_support<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/h5py/_hl/files.py</span> in <span class="ansi-cyan-fg">make_fid</span><span class="ansi-blue-fg">(name, mode, userblock_size, fapl, fcpl, swmr)</span>
-<span class="ansi-green-intense-fg ansi-bold">    140</span>         <span class="ansi-green-fg">if</span> swmr <span class="ansi-green-fg">and</span> swmr_support<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    141</span>             flags <span class="ansi-blue-fg">|=</span> h5f<span class="ansi-blue-fg">.</span>ACC_SWMR_READ
-<span class="ansi-green-fg">--&gt; 142</span><span class="ansi-red-fg">         </span>fid <span class="ansi-blue-fg">=</span> h5f<span class="ansi-blue-fg">.</span>open<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> flags<span class="ansi-blue-fg">,</span> fapl<span class="ansi-blue-fg">=</span>fapl<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    143</span>     <span class="ansi-green-fg">elif</span> mode <span class="ansi-blue-fg">==</span> <span class="ansi-blue-fg">&#39;r+&#39;</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    144</span>         fid <span class="ansi-blue-fg">=</span> h5f<span class="ansi-blue-fg">.</span>open<span class="ansi-blue-fg">(</span>name<span class="ansi-blue-fg">,</span> h5f<span class="ansi-blue-fg">.</span>ACC_RDWR<span class="ansi-blue-fg">,</span> fapl<span class="ansi-blue-fg">=</span>fapl<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">h5py/_objects.pyx</span> in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-green-fg">h5py/_objects.pyx</span> in <span class="ansi-cyan-fg">h5py._objects.with_phil.wrapper</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-green-fg">h5py/h5f.pyx</span> in <span class="ansi-cyan-fg">h5py.h5f.open</span><span class="ansi-blue-fg">()</span>
-
-<span class="ansi-red-fg">OSError</span>: Unable to open file (unable to open file: name = &#39;data2.h5&#39;, errno = 2, error message = &#39;No such file or directory&#39;, flags = 0, o_flags = 0)
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [6]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Collecting cupy-cuda92
-  Downloading https://files.pythonhosted.org/packages/ac/bf/5528c70a4e76117a9325ccb467b8ee1f25b361c4a4333f62f74fa99434a9/cupy_cuda92-5.0.0rc1-cp36-cp36m-manylinux1_x86_64.whl (261.1MB)
-    100% |████████████████████████████████| 261.1MB 103kB/s
-Collecting fastrlock&gt;=0.3 (from cupy-cuda92)
-  Downloading https://files.pythonhosted.org/packages/b5/93/a7efbd39eac46c137500b37570c31dedc2d31a8ff4949fcb90bda5bc5f16/fastrlock-0.4-cp36-cp36m-manylinux1_x86_64.whl
-Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from cupy-cuda92) (1.14.6)
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from cupy-cuda92) (1.11.0)
-Installing collected packages: fastrlock, cupy-cuda92
-Successfully installed cupy-cuda92-5.0.0rc1 fastrlock-0.4
-Requirement already satisfied: chainer in /usr/local/lib/python3.6/dist-packages (5.0.0rc1)
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer) (1.11.0)
-Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer) (1.14.6)
-Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer) (3.6.1)
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer) (3.0.9)
-Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer) (39.1.0)
-</pre></div></div>
-</div>
-<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span>import chainer
+import chainer.links as L
+%matplotlib inline
+import matplotlib.pyplot as plt
+
+model_iter = 300
+out_dir = &#39;out&#39;
+model = L.Classifier(Net(), lossfun=log_poisson_loss, accfun=log_poisson_acc)
+chainer.serializers.load_npz(&#39;{}/model_iter_{}&#39;.format(out_dir, model_iter), model)
+predictor = model.predictor
+
+print(len(test_x))
+with chainer.no_backprop_mode():
+  test_y_estimated = predictor(test_x[:1])
+print(test_y_estimated.shape)
+
+
+
+
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+444
+(1, 1024, 3)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>
+<span></span>def plot(y):
+  print(y.shape)
+  ret = np.reshape(np.transpose(y, (2, 1, 0)), (3, -1))
+  for i in range(3):
+    print(ret[i].shape, type(ret[i]))
+    plt.plot(range(len(ret[i])), ret[i])
+
+plot(test_y_estimated)
 </pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(1, 1024, 3)
+((1024,), &lt;type &#39;numpy.ndarray&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+<span class="ansi-red-fg">ValueError</span>Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-20-a24fdc71649d&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      6</span>     plt<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span>range<span class="ansi-blue-fg">(</span>len<span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span>
+<span class="ansi-green-fg">----&gt; 8</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">(</span>test_y_estimated<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-20-a24fdc71649d&gt;</span> in <span class="ansi-cyan-fg">plot</span><span class="ansi-blue-fg">(y)</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span>   <span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> range<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     <span class="ansi-green-fg">print</span><span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">,</span> type<span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg">     </span>plt<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span>range<span class="ansi-blue-fg">(</span>len<span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">      7</span>
+<span class="ansi-green-intense-fg ansi-bold">      8</span> plot<span class="ansi-blue-fg">(</span>test_y_estimated<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc</span> in <span class="ansi-cyan-fg">plot</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3259</span>                       mplDeprecation)
+<span class="ansi-green-intense-fg ansi-bold">   3260</span>     <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 3261</span><span class="ansi-red-fg">         </span>ret <span class="ansi-blue-fg">=</span> ax<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   3262</span>     <span class="ansi-green-fg">finally</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   3263</span>         ax<span class="ansi-blue-fg">.</span>_hold <span class="ansi-blue-fg">=</span> washold
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/__init__.pyc</span> in <span class="ansi-cyan-fg">inner</span><span class="ansi-blue-fg">(ax, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1715</span>                     warnings.warn(msg % (label_namer, func.__name__),
+<span class="ansi-green-intense-fg ansi-bold">   1716</span>                                   RuntimeWarning, stacklevel=2)
+<span class="ansi-green-fg">-&gt; 1717</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> func<span class="ansi-blue-fg">(</span>ax<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1718</span>         pre_doc <span class="ansi-blue-fg">=</span> inner<span class="ansi-blue-fg">.</span>__doc__
+<span class="ansi-green-intense-fg ansi-bold">   1719</span>         <span class="ansi-green-fg">if</span> pre_doc <span class="ansi-green-fg">is</span> None<span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_axes.pyc</span> in <span class="ansi-cyan-fg">plot</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1371</span>
+<span class="ansi-green-intense-fg ansi-bold">   1372</span>         <span class="ansi-green-fg">for</span> line <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_get_lines<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 1373</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>add_line<span class="ansi-blue-fg">(</span>line<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1374</span>             lines<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>line<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1375</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_base.pyc</span> in <span class="ansi-cyan-fg">add_line</span><span class="ansi-blue-fg">(self, line)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1777</span>             line<span class="ansi-blue-fg">.</span>set_clip_path<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>patch<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1778</span>
+<span class="ansi-green-fg">-&gt; 1779</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_update_line_limits<span class="ansi-blue-fg">(</span>line<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1780</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> line<span class="ansi-blue-fg">.</span>get_label<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1781</span>             line<span class="ansi-blue-fg">.</span>set_label<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;_line%d&#39;</span> <span class="ansi-blue-fg">%</span> len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>lines<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_base.pyc</span> in <span class="ansi-cyan-fg">_update_line_limits</span><span class="ansi-blue-fg">(self, line)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1799</span>         Figures out the data limit of the given line<span class="ansi-blue-fg">,</span> updating self<span class="ansi-blue-fg">.</span>dataLim<span class="ansi-blue-fg">.</span>
+<span class="ansi-green-intense-fg ansi-bold">   1800</span>         &#34;&#34;&#34;
+<span class="ansi-green-fg">-&gt; 1801</span><span class="ansi-red-fg">         </span>path <span class="ansi-blue-fg">=</span> line<span class="ansi-blue-fg">.</span>get_path<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1802</span>         <span class="ansi-green-fg">if</span> path<span class="ansi-blue-fg">.</span>vertices<span class="ansi-blue-fg">.</span>size <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">   1803</span>             <span class="ansi-green-fg">return</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/lines.pyc</span> in <span class="ansi-cyan-fg">get_path</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    955</span>         &#34;&#34;&#34;
+<span class="ansi-green-intense-fg ansi-bold">    956</span>         <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>_invalidy <span class="ansi-green-fg">or</span> self<span class="ansi-blue-fg">.</span>_invalidx<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 957</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>recache<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    958</span>         <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_path
+<span class="ansi-green-intense-fg ansi-bold">    959</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/lines.pyc</span> in <span class="ansi-cyan-fg">recache</span><span class="ansi-blue-fg">(self, always)</span>
+<span class="ansi-green-intense-fg ansi-bold">    661</span>         <span class="ansi-green-fg">if</span> always <span class="ansi-green-fg">or</span> self<span class="ansi-blue-fg">.</span>_invalidy<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    662</span>             yconv <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>convert_yunits<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_yorig<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 663</span><span class="ansi-red-fg">             </span>y <span class="ansi-blue-fg">=</span> _to_unmasked_float_array<span class="ansi-blue-fg">(</span>yconv<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>ravel<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    664</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    665</span>             y <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_y
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/cbook/__init__.pyc</span> in <span class="ansi-cyan-fg">_to_unmasked_float_array</span><span class="ansi-blue-fg">(x)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2005</span>         <span class="ansi-green-fg">return</span> np<span class="ansi-blue-fg">.</span>ma<span class="ansi-blue-fg">.</span>asarray<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> float<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>filled<span class="ansi-blue-fg">(</span>np<span class="ansi-blue-fg">.</span>nan<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2006</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">-&gt; 2007</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> np<span class="ansi-blue-fg">.</span>asarray<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> float<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   2008</span>
+<span class="ansi-green-intense-fg ansi-bold">   2009</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/numpy/core/numeric.pyc</span> in <span class="ansi-cyan-fg">asarray</span><span class="ansi-blue-fg">(a, dtype, order)</span>
+<span class="ansi-green-intense-fg ansi-bold">    490</span>
+<span class="ansi-green-intense-fg ansi-bold">    491</span>     &#34;&#34;&#34;
+<span class="ansi-green-fg">--&gt; 492</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> array<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">,</span> copy<span class="ansi-blue-fg">=</span>False<span class="ansi-blue-fg">,</span> order<span class="ansi-blue-fg">=</span>order<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    493</span>
+<span class="ansi-green-intense-fg ansi-bold">    494</span>
+
+<span class="ansi-red-fg">ValueError</span>: setting an array element with a sequence.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Basenji_37_2.png" src="../_images/notebooks_Basenji_37_2.png" />
+</div>
+</div>
+</div>
 </div>
 </div>
 
