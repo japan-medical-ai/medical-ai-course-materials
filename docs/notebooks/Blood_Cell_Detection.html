@@ -1,0 +1,1030 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. 実践編: 血液の顕微鏡画像からの細胞検出 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" href="Sequential_Data_Analysis_with_Deep_Learning.html" />
+    <link rel="prev" title="2. 実践編: CT/MRI画像のセグメンテーション" href="Image_Segmentation_with_Chainer.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> メディカルAI学会認定資格向け学習資料
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Chainer_Beginner's_Hands_on.html">1. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation_with_Chainer.html">2. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. 実践編: 血液の顕微鏡画像からの細胞検出</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">3.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Object-Detectionについて">3.2. Object Detectionについて</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データセットの準備">3.3. データセットの準備</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データセットダウンロード">3.3.1. データセットダウンロード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#データセットオブジェクト作成">3.3.2. データセットオブジェクト作成</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Single-Shot-Multibox-Detector-(SSD)">3.4. Single Shot Multibox Detector (SSD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#モデルの定義">3.5. モデルの定義</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-augmentationの実装">3.6. Data augmentationの実装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#学習の開始">3.7. 学習の開始</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">5. 実践編：ディープラーニングを使った配列解析</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">メディカルAI学会認定資格向け学習資料</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>3. 実践編: 血液の顕微鏡画像からの細胞検出</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notebooks/Blood_Cell_Detection.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="実践編:-血液の顕微鏡画像からの細胞検出">
+<h1>3. 実践編: 血液の顕微鏡画像からの細胞検出<a class="headerlink" href="#実践編:-血液の顕微鏡画像からの細胞検出" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ここでは血液細胞の検出タスクに取り組みます。人の血液の顕微鏡画像が与えられたときに、</p>
+<ul class="simple">
+<li>赤血球（Red Blood Cell; RBC）</li>
+<li>白血球（White Blood Cell; WBC）</li>
+<li>血小板（Platelet）</li>
+</ul>
+<p>の3種の細胞について、それぞれ<strong>何がどの位置にあるか</strong>を個別に認識します。これによって、与えられた画像内にそれらの細胞が何個づつあるか、また、どういう位置にあるか、ということが分かります。</p>
+<p>このようなタスクを一般に<strong>物体検出（object
+detection）</strong>と呼び、画像を入力として、対象の物体（ここでは例えば、上の3種の細胞）ごとに、別々に</p>
+<ol class="arabic simple">
+<li>四角い矩形（bounding boxと呼ばれる）</li>
+<li>「内側にある物体が何か」＝クラスラベル</li>
+</ol>
+<p>を出力していくことが目的となります。ただし、<strong>画像中にいくつの物体が含まれるかは事前に分からない</strong>ため、任意個（または十分な数）の物体の<strong>bounding
+boxとクラスラベルの予測値の組</strong>を出力できるような手法である必要があります。</p>
+<p>bounding
+box（bboxとよく略される）は、<code class="docutils literal notranslate"><span class="pre">[矩形の左上のy座標,</span> <span class="pre">矩形の左上のx座標,</span> <span class="pre">矩形の右下のy座標,</span> <span class="pre">矩形の右下のx座標]</span></code>のような形式で定義されることが多く、クラスは物体の種類ごとに割り振られたIDで表されることが多いようです。例えば、RBCは0、WBCは1、Plateletは2とします。</p>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/speed-accuracy-tradeoffs.png?raw=1" /> 血液の顕微鏡画像からRBC, WBC, Plateletを検出している例</p>
+<div class="section" id="環境構築">
+<h2>3.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>まず環境構築のためColab上で以下のセルを実行してChainer, CuPy, ChainerCV,
+matplotlibといったPythonパッケージのインストールを済ませます。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!curl https://colab.chainer.org/install | sh -
+!pip install chainercv matplotlib
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1379  100  1379    0     0  11120      0 --:--:-- --:--:-- --:--:-- 11032
++ apt -y -q install cuda-libraries-dev-9-2
+Reading package lists...
+Building dependency tree...
+Reading state information...
+cuda-libraries-dev-9-2 is already the newest version (9.2.148-1).
+0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.
++ pip install -q cupy-cuda92  chainer
++ set +ex
+Installation succeeded!
+Requirement already satisfied: chainercv in /usr/local/lib/python3.6/dist-packages (0.11.0)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (2.1.2)
+Requirement already satisfied: chainer&gt;=5.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (5.0.0)
+Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.0.0)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
+Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2018.7)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.0)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
+Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.11.0)
+Requirement already satisfied: numpy&gt;=1.7.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.0.10)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.6.1)
+Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer&gt;=5.0-&gt;chainercv) (40.5.0)
+</pre></div></div>
+</div>
+<p>環境のセットアップが成功したことを以下のセルを実行して確認しましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!python -c &#39;import chainer; chainer.print_runtime_info()&#39;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 5.0.0
+NumPy: 1.14.6
+CuPy:
+  CuPy Version          : 5.0.0
+  CUDA Root             : /usr/local/cuda
+  CUDA Build Version    : 9020
+  CUDA Driver Version   : 9020
+  CUDA Runtime Version  : 9020
+  cuDNN Build Version   : 7201
+  cuDNN Version         : 7201
+  NCCL Build Version    : 2213
+iDeep: Not Available
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Object-Detectionについて">
+<h2>3.2. Object Detectionについて<a class="headerlink" href="#Object-Detectionについて" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>物体検出（object detection）は、Computer
+Visionの分野で現在も活発に研究が行われているタスクの一つで、自動運転分野やロボティクスなど幅広い領域で重要な役割を果たす技術です。Semantic
+Segmentationと違い、物体の形（輪郭）までは認識しませんが、<strong>物の種類と位置を、物体ごとに個別に出力</strong>します。</p>
+<p>「物の種類」をクラスと呼ぶとき、そのクラスに属する個別の物体をインスタンスと呼ぶことができます。すると，犬が2匹写っている写真があるとき，それは「犬」というクラスに属すしている犬インスタンスが2個ある，という状態だと言えます．つまり，Semantic
+Segmentationではインスタンスごとに領域が区別されて出力されるわけではなかった一方で、物体検出の出力はインスタンスごとに別々のbounding
+boxが出力されるという違いがあります。</p>
+<p>ニューラルネットワークを用いた物体検出手法は、<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>という2014年に発表された手法を皮切りに、様々な改善手法が提案されています。まず一つ、重要なのは<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>,
+<a class="reference external" href="https://arxiv.org/abs/1504.08083">Fast R-CNN</a>, そして<a class="reference external" href="https://arxiv.org/abs/1506.01497">Faster
+R-CNN</a>という、同一の著者らを中心として提案されているConvolutional
+Neural Networks (CNN)をベースとした物体検出手法の発展流れです。現在two
+stageタイプと呼ばれているものはほぼこのFaster
+R-CNNをベースとしたものとなります。</p>
+<p>それに対して，single
+stageタイプと呼ばれる手法の流れが，<a class="reference external" href="https://arxiv.org/abs/1512.02325">SSD</a>や<a class="reference external" href="https://arxiv.org/abs/1506.02640">YOLO</a>，<a class="reference external" href="https://arxiv.org/abs/1612.08242">YOLOv2</a>，<a class="reference external" href="https://arxiv.org/abs/1804.02767">YOLOv3</a>などで，特にYOLOとその発展手法は処理のスピードに着目して工夫を行っています．一般的にsingle
+stageタイプの方がtwo
+stageタイプよりも処理速度は高速だが，精度が低いと言われていますが，最近は高い精度を達成しつつも高速に処理できるように工夫した手法（YOLOv3など）も出てきており，その限りではなくなってきています．</p>
+<p>今回は，SSDという手法を用いて，細胞画像のデータセットを使って</p>
+</div>
+<div class="section" id="データセットの準備">
+<h2>3.3. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="データセットダウンロード">
+<h3>3.3.1. データセットダウンロード<a class="headerlink" href="#データセットダウンロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>今回は<a class="reference external" href="https://github.com/Shenggan/BCCD_Dataset">BCCD
+Dataset</a>という血液の顕微鏡画像と、画像それぞれに対してRBC,
+WBC, Plateletの3つの物体に対するbounding
+boxのアノテーションが用意された小規模なデータセットを用います。このデータセットはGithubリポジトリで配布されていますので、以下のセルを実行してデータセットをダウンロードしましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!if [ ! -d BCCD_Dataset ]; then git clone https://github.com/Shenggan/BCCD_Dataset.git; fi
+</pre></div>
+</div>
+</div>
+<p>データセットは以下のようなファイル構成で配布されています。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>BCCD
+|-- Annotations
+|   |
+|   `-- BloodImage_00XYZ.xml (364 items)
+|
+|-- ImageSets
+|   |
+|   `-- Main
+|       |
+|       |-- test.txt
+|       |-- train.txt
+|       |-- trainval.txt
+|       `-- val.txt
+|
+`-- JPEGImages
+  |
+   `-- BloodImage_00XYZ.jpg (364 items)
+</pre></div>
+</div>
+<p>他にもディレクトリがありますが、今回用いるのは上記のファイルだけですので、こちらのみに着目しましょう。</p>
+<ul class="simple">
+<li><strong>Annotationsディレクトリ：</strong>VOC
+formatと呼ばれる形式で細胞画像それぞれに対して<strong>どの位置に何があるか</strong>という、一般的に画像からの物体検出タスクで必要となるラベルの情報が格納されています。</li>
+<li><strong>ImageSetsディレクトリ：</strong>学習用データセット・検証用データセット・テスト用データセットのそれぞれに用いる画像のリストが記されたテキストファイルが入っています。これを使ってデータセットの分割を行います。</li>
+<li><strong>JPEGImagesディレクトリ：</strong>実際に学習や検証・テストに用いる画像データが入っています。</li>
+</ul>
+</div>
+<div class="section" id="データセットオブジェクト作成">
+<h3>3.3.2. データセットオブジェクト作成<a class="headerlink" href="#データセットオブジェクト作成" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ChainerCVにはPascal
+VOCデータセットを簡単に読み込むための便利なクラスが用意されています。これを継承し、<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッドをオーバーライドして今回使用するデータセットに合わせて変更を加えます。変更が必要な行は１行だけです。<a class="reference external" href="https://github.com/chainer/chainercv/blob/v0.10.0/chainercv/datasets/voc/voc_bbox_dataset.py#L90-L115">こちら</a>から該当するコードをコピーしてきて、以下の変更を行い、<code class="docutils literal notranslate"><span class="pre">BCCDDataset</span></code>クラスを定義してみましょう。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">voc_utils</span><span class="o">.</span><span class="n">voc_bbox_label_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+<span class="o">+</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bccd_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import os
+import xml.etree.ElementTree as ET
+
+import numpy as np
+
+from chainercv.datasets import VOCBboxDataset
+
+
+bccd_labels = (&#39;rbc&#39;, &#39;wbc&#39;, &#39;platelets&#39;)
+
+
+class BCCDDataset(VOCBboxDataset):
+
+    def _get_annotations(self, i):
+        id_ = self.ids[i]
+
+        # Pascal VOC形式のアノテーションデータは、XML形式で配布されています
+        anno = ET.parse(
+            os.path.join(self.data_dir, &#39;Annotations&#39;, id_ + &#39;.xml&#39;))
+
+        bbox = []
+        label = []
+        difficult = []
+        for obj in anno.findall(&#39;object&#39;):
+            bndbox_anno = obj.find(&#39;bndbox&#39;)
+
+            # バウンディングボックスの
+            # subtract 1 to make pixel indexes 0-based
+            bbox.append([
+                int(bndbox_anno.find(tag).text) - 1
+                for tag in (&#39;ymin&#39;, &#39;xmin&#39;, &#39;ymax&#39;, &#39;xmax&#39;)])
+            name = obj.find(&#39;name&#39;).text.lower().strip()
+            label.append(bccd_labels.index(name))
+        bbox = np.stack(bbox).astype(np.float32)
+        label = np.stack(label).astype(np.int32)
+        # When `use_difficult==False`, all elements in `difficult` are False.
+        difficult = np.array(difficult, dtype=np.bool)
+        return bbox, label, difficult
+</pre></div>
+</div>
+</div>
+<p>これで、今回用いるデータセットクラスを定義することができました。では、これを用いて学習・検証・テスト用のデータセットオブジェクトを作成してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>train_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;train&#39;)
+valid_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;val&#39;)
+test_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;test&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.6/dist-packages/chainercv/datasets/voc/voc_bbox_dataset.py:63: UserWarning: please pick split from &#39;train&#39;, &#39;trainval&#39;, &#39;val&#39;for 2012 dataset. For 2007 dataset, you can pick &#39;test&#39; in addition to the above mentioned splits.
+  &#39;please pick split from \&#39;train\&#39;, \&#39;trainval\&#39;, \&#39;val\&#39;&#39;
+</pre></div></div>
+</div>
+<p>ではデータを可視化して確認してみましょう。trainデータセットから一つデータと対応するラベル情報（bounding
+boxとクラスの組）を取り出し、ChainerCVが用意している可視化用の便利な関数を使って、画像の上にbounding
+boxおよび対応するクラスラベルを表示してみます。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>%matplotlib inline
+from chainercv.visualizations import vis_bbox
+
+img, bbox, label = train_dataset[0]
+ax = vis_bbox(img, bbox, label, label_names=bccd_labels)
+ax.set_axis_off()
+ax.figure.tight_layout()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Blood_Cell_Detection_14_0.png" src="../_images/notebooks_Blood_Cell_Detection_14_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Single-Shot-Multibox-Detector-(SSD)">
+<h2>3.4. Single Shot Multibox Detector (SSD)<a class="headerlink" href="#Single-Shot-Multibox-Detector-(SSD)" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>データの準備が完了したので、今回訓練するモデルについて説明を行います。今回は、<a class="reference external" href="https://arxiv.org/abs/1512.02325">Single
+Shot MultiBox Detector
+(SSD)</a>というモデルを使ってみます。</p>
+<p>SSDは前述のようにsingle
+stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から特徴マップを抽出します．そのあと，予め特徴マップの空間方向にびっしりと候補領域を仮定しておき（default
+boxと呼ばれます），そのそれぞれについて「どの程度正解のbounding
+boxからずれているか」を計算し，これを最小化するように学習を行います．また，この位置の補正と同時にそれぞれが「どのクラスに属しているか」も予測させ，この間違いも少なくするよう学習を行います．</p>
+<p>一方，two stageタイプの手法，例えばFaster
+R-CNNでは，抽出された特徴マップに対してさらに別のネットワークが物体の候補領域（region
+proposal）を予測し，その結果を使って候補領域ごとの特徴ベクトルを作成し（RoI
+poolingと呼ばれる計算が用いられます），それらをクラス分類問題と候補領域の修正量を求める回帰問題を解くための2つの異なる小さなネットワークにさらに渡す，という構造をとります．</p>
+<p>このため，一般にsingle
+stageタイプのネットワークの方が高速であると言われます．一方，two
+stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては、これを調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy
+trade-offs for modern convolutional object
+detectors</a>）より、以下の図がしばしば参照されます．
+<img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/speed-accuracy-tradeoffs.png?raw=1" /></p>
+<p>今回用いるSSDという手法のネットワークアーキテクチャは，以下のような形をしています（SSD論文のFig.
+2より引用）．</p>
+<p><img alt="image1" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" /></p>
+<p>特徴抽出を行うVGG-16ネットワークの途中の出力に対してそれぞれ別々の畳み込み層を適用して検出結果（bounding
+boxの位置と、その中の物体のクラス）を出力していくことで，複数のスケールでの予測を起こっているのが特徴です．</p>
+</div>
+<div class="section" id="モデルの定義">
+<h2>3.5. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>SSDのネットワーク部分の実装は，ChainerCVが提供してくれています．ChainerCVの
+<code class="docutils literal notranslate"><span class="pre">chainercv.links.SSD300</span></code>
+というクラスは，縦横が300ピクセルの画像を入力にとるSSDのモデルを表していて，デフォルトで特徴抽出器にはVGG16が用いられます．</p>
+<p>学習に必要なロス関数を計算するクラスを用意しましょう．</p>
+<p>以下に定義するクラスは，まずSSDモデルのオブジェクトと，ロス計算のためのハイパーパラメータである
+<code class="docutils literal notranslate"><span class="pre">alpha</span></code> と <code class="docutils literal notranslate"><span class="pre">k</span></code> をコンストラクタで受け取っています．<code class="docutils literal notranslate"><span class="pre">alpha</span></code>
+は、位置の予測に対する誤差とクラスの予測に対する誤差それぞれの間の重み付けを行う係数です。<code class="docutils literal notranslate"><span class="pre">k</span></code>
+は hard negative mining
+のためのパラメータです．学習時，一つの正解bounding
+boxに対して，モデルは一つの近しい（positiveな）予測と，多くの間違った（negativeな）予測を出力します．この多くの間違った予測をconfidence
+score（モデルがどの程度確信を持ってその予測を出力しているかを表す値）によってソートした上で，上から
+positive : negative が 1:k になるように negative
+サンプルを選択し，ロスの計算に使用します．このバランスを決めているのが
+<code class="docutils literal notranslate"><span class="pre">k</span></code> というパラメータで、上記論文中では <span class="math notranslate nohighlight">\(k = 3\)</span>
+とされているため、ここでもデフォルトで3を使っています．</p>
+<p><code class="docutils literal notranslate"><span class="pre">forward</span></code>
+メソッドでは，入力画像と正解の位置・ラベルのリストを受け取って，実際にロスの計算を行っています．物体検出は，物体のlocalization（位置の予測）とclassification（種類（＝クラス）の予測）の二つの問題を同時に解きますが，SSDでは，localization
+lossとclassification lossを別々に計算します．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer
+
+from chainercv.links.model.ssd import multibox_loss
+
+
+class MultiboxTrainChain(chainer.Chain):
+
+    def __init__(self, model, alpha=1, k=3):
+        super(MultiboxTrainChain, self).__init__()
+        with self.init_scope():
+            self.model = model
+        self.alpha = alpha
+        self.k = k
+
+    def forward(self, imgs, gt_mb_locs, gt_mb_labels):
+        mb_locs, mb_confs = self.model(imgs)
+        loc_loss, conf_loss = multibox_loss(
+            mb_locs, mb_confs, gt_mb_locs, gt_mb_labels, self.k)
+        loss = loc_loss * self.alpha + conf_loss
+
+        chainer.reporter.report(
+            {&#39;loss&#39;: loss, &#39;loss/loc&#39;: loc_loss, &#39;loss/conf&#39;: conf_loss},
+            self)
+
+        return loss
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Data-augmentationの実装">
+<h2>3.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．今回は非常にコンパクトなデータセットを使ってとりあえず学習と結果利用のフローを体験することを目的としているため，実用に耐えうるような十分なバリエーションを持ったデータセットは使っていません．ただし，データを擬似的に増やすように様々な変換を画像とそれに付随するラベルに適用するテクニック（data
+augmentation）は，大量のデータを集めることができたとしても依然行われることで，ここでどのようにそれを行えばよいか見ておくことに損はないでしょう．</p>
+<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換しょりを記述したクラスを定義しておきます．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import copy
+
+import numpy as np
+
+from chainercv import transforms
+from chainercv.links.model.ssd import random_crop_with_bbox_constraints
+from chainercv.links.model.ssd import random_distort
+from chainercv.links.model.ssd import resize_with_random_interpolation
+
+
+class Transform(object):
+
+    def __init__(self, coder, size, mean):
+        # to send cpu, make a copy
+        self.coder = copy.copy(coder)
+        self.coder.to_cpu()
+
+        self.size = size
+        self.mean = mean
+
+    def __call__(self, in_data):
+        # There are five data augmentation steps
+        # 1. Color augmentation
+        # 2. Random expansion
+        # 3. Random cropping
+        # 4. Resizing with random interpolation
+        # 5. Random horizontal flipping
+
+        img, bbox, label = in_data
+
+        # 1. Color augmentation
+        img = random_distort(img)
+
+        # 2. Random expansion
+        if np.random.randint(2):
+            img, param = transforms.random_expand(
+                img, fill=self.mean, return_param=True)
+            bbox = transforms.translate_bbox(
+                bbox, y_offset=param[&#39;y_offset&#39;], x_offset=param[&#39;x_offset&#39;])
+
+        # 3. Random cropping
+        img, param = random_crop_with_bbox_constraints(
+            img, bbox, return_param=True)
+        bbox, param = transforms.crop_bbox(
+            bbox, y_slice=param[&#39;y_slice&#39;], x_slice=param[&#39;x_slice&#39;],
+            allow_outside_center=False, return_param=True)
+        label = label[param[&#39;index&#39;]]
+
+        # 4. Resizing with random interpolatation
+        _, H, W = img.shape
+        img = resize_with_random_interpolation(img, (self.size, self.size))
+        bbox = transforms.resize_bbox(bbox, (H, W), (self.size, self.size))
+
+        # 5. Random horizontal flipping
+        img, params = transforms.random_flip(
+            img, x_random=True, return_param=True)
+        bbox = transforms.flip_bbox(
+            bbox, (self.size, self.size), x_flip=params[&#39;x_flip&#39;])
+
+        # Preparation for SSD network
+        img -= self.mean
+        mb_loc, mb_label = self.coder.encode(bbox, label)
+
+        return img, mb_loc, mb_label
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="学習の開始">
+<h2>3.7. 学習の開始<a class="headerlink" href="#学習の開始" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>以下では，Chainerが用意するデータセットクラスの一つ，<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>を使って，事前に定義したデータ点ごとに適用したい変換を順次用いてくれるようにしています．</p>
+<p>基本的な流れはすでに学んだ画像分類やセグメンテーションなどを行うネットワークの訓練の仕方と多くが共通しています．どのような部分が異なっているか，コードを見ながら一つ一つ理解していくことで調べてみましょう．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import TransformDataset
+from chainer.optimizer_hooks import WeightDecay
+from chainer import serializers
+from chainer import training
+from chainer.training import extensions
+from chainer.training import triggers
+from chainercv.links import SSD300
+from chainercv.extensions import DetectionVOCEvaluator
+from chainercv.links.model.ssd import GradientScaling
+
+
+batchsize = 32
+gpu_id = 0
+out = &#39;results&#39;
+
+model = SSD300(n_fg_class=len(bccd_labels), pretrained_model=&#39;imagenet&#39;)
+model.nms_thresh = 0.5
+model.score_thresh = 0.6
+train_chain = MultiboxTrainChain(model)
+
+transformed_train_dataset = TransformDataset(train_dataset, Transform(model.coder, model.insize, model.mean))
+
+train_iter = chainer.iterators.MultiprocessIterator(transformed_train_dataset, batchsize)
+valid_iter = chainer.iterators.SerialIterator(valid_dataset, batchsize, repeat=False, shuffle=False)
+
+optimizer = chainer.optimizers.MomentumSGD(lr=0.004)
+optimizer.setup(train_chain)
+for param in train_chain.params():
+    if param.name == &#39;b&#39;:
+        param.update_rule.add_hook(GradientScaling(2))
+    else:
+        param.update_rule.add_hook(WeightDecay(0.0005))
+
+updater = training.updaters.StandardUpdater(
+    train_iter, optimizer, device=gpu_id)
+
+trainer = training.Trainer(updater, (100, &#39;epoch&#39;), out)
+# trainer.extend(
+#     extensions.ExponentialShift(&#39;lr&#39;, 0.1, init=1e-3),
+#     trigger=triggers.ManualScheduleTrigger([20, 25], &#39;epoch&#39;))
+
+trainer.extend(
+    DetectionVOCEvaluator(
+        valid_iter, model, use_07_metric=False,
+        label_names=bccd_labels),
+    trigger=(1, &#39;epoch&#39;))
+
+log_interval = 1, &#39;epoch&#39;
+trainer.extend(extensions.LogReport(trigger=log_interval))
+trainer.extend(extensions.observe_lr(), trigger=log_interval)
+trainer.extend(extensions.PrintReport(
+    [&#39;epoch&#39;, &#39;iteration&#39;, &#39;lr&#39;,
+     &#39;main/loss&#39;, &#39;main/loss/loc&#39;, &#39;main/loss/conf&#39;,
+     &#39;validation/main/map&#39;, &#39;elapsed_time&#39;]),
+    trigger=log_interval)
+# trainer.extend(extensions.ProgressBar(update_interval=10))
+trainer.extend(extensions.snapshot(), trigger=(10, &#39;epoch&#39;))
+
+trainer.run()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  validation/main/map  elapsed_time
+1           7           0.004       6505.62     790.954        5714.67         0                    38.9102
+2           13          0.004       nan         nan            nan             0                    67.7987
+3           20          0.004       nan         nan            nan             0                    100.385
+4           26          0.004       nan         nan            nan             0                    129.083
+5           33          0.004       nan         nan            nan             0                    161.738
+6           39          0.004       nan         nan            nan             0                    190.503
+7           45          0.004       nan         nan            nan             0                    219.169
+8           52          0.004       nan         nan            nan             0                    251.815
+9           58          0.004       nan         nan            nan             0                    280.531
+10          65          0.004       nan         nan            nan             0                    313.08
+11          71          0.004       nan         nan            nan             0                    347.974
+12          77          0.004       nan         nan            nan             0                    376.624
+13          84          0.004       nan         nan            nan             0                    409.275
+14          90          0.004       nan         nan            nan             0                    437.988
+15          97          0.004       nan         nan            nan             0                    470.713
+16          103         0.004       nan         nan            nan             0                    499.332
+17          109         0.004       nan         nan            nan             0                    528.079
+18          116         0.004       nan         nan            nan             0                    560.713
+19          122         0.004       nan         nan            nan             0                    589.441
+20          129         0.004       nan         nan            nan             0                    622.023
+21          135         0.004       nan         nan            nan             0                    657.228
+22          141         0.004       nan         nan            nan             0                    685.949
+23          148         0.004       nan         nan            nan             0                    718.616
+24          154         0.004       nan         nan            nan             0                    747.387
+25          161         0.004       nan         nan            nan             0                    779.927
+26          167         0.004       nan         nan            nan             0                    808.637
+27          173         0.004       nan         nan            nan             0                    837.197
+28          180         0.004       nan         nan            nan             0                    869.628
+29          186         0.004       nan         nan            nan             0                    898.17
+30          193         0.004       nan         nan            nan             0                    930.642
+31          199         0.004       nan         nan            nan             0                    965.447
+32          205         0.004       nan         nan            nan             0                    993.936
+33          212         0.004       nan         nan            nan             0                    1026.41
+34          218         0.004       nan         nan            nan             0                    1055.01
+35          225         0.004       nan         nan            nan             0                    1087.45
+36          231         0.004       nan         nan            nan             0                    1116.04
+37          238         0.004       nan         nan            nan             0                    1148.52
+38          244         0.004       nan         nan            nan             0                    1177.02
+39          250         0.004       nan         nan            nan             0                    1205.53
+40          257         0.004       nan         nan            nan             0                    1238.06
+41          263         0.004       nan         nan            nan             0                    1272.83
+42          270         0.004       nan         nan            nan             0                    1305.19
+43          276         0.004       nan         nan            nan             0                    1333.82
+44          282         0.004       nan         nan            nan             0                    1362.47
+45          289         0.004       nan         nan            nan             0                    1394.89
+46          295         0.004       nan         nan            nan             0                    1423.47
+47          302         0.004       nan         nan            nan             0                    1455.86
+48          308         0.004       nan         nan            nan             0                    1484.36
+49          314         0.004       nan         nan            nan             0                    1512.91
+50          321         0.004       nan         nan            nan             0                    1545.38
+51          327         0.004       nan         nan            nan             0                    1580.49
+52          334         0.004       nan         nan            nan             0                    1612.89
+53          340         0.004       nan         nan            nan             0                    1641.46
+54          346         0.004       nan         nan            nan             0                    1669.97
+55          353         0.004       nan         nan            nan             0                    1702.47
+56          359         0.004       nan         nan            nan             0                    1731.03
+57          366         0.004       nan         nan            nan             0                    1763.42
+58          372         0.004       nan         nan            nan             0                    1791.98
+59          378         0.004       nan         nan            nan             0                    1820.5
+60          385         0.004       nan         nan            nan             0                    1852.94
+61          391         0.004       nan         nan            nan             0                    1888.15
+62          398         0.004       nan         nan            nan             0                    1920.59
+63          404         0.004       nan         nan            nan             0                    1949.13
+64          410         0.004       nan         nan            nan             0                    1977.71
+65          417         0.004       nan         nan            nan             0                    2010.13
+66          423         0.004       nan         nan            nan             0                    2038.73
+67          430         0.004       nan         nan            nan             0                    2071.21
+68          436         0.004       nan         nan            nan             0                    2099.84
+69          443         0.004       nan         nan            nan             0                    2132.27
+70          449         0.004       nan         nan            nan             0                    2160.88
+71          455         0.004       nan         nan            nan             0                    2195.82
+72          462         0.004       nan         nan            nan             0                    2228.35
+73          468         0.004       nan         nan            nan             0                    2256.9
+74          475         0.004       nan         nan            nan             0                    2289.37
+75          481         0.004       nan         nan            nan             0                    2317.99
+76          487         0.004       nan         nan            nan             0                    2346.61
+77          494         0.004       nan         nan            nan             0                    2379.1
+78          500         0.004       nan         nan            nan             0                    2407.67
+79          507         0.004       nan         nan            nan             0                    2440.19
+80          513         0.004       nan         nan            nan             0                    2468.93
+81          519         0.004       nan         nan            nan             0                    2504.08
+82          526         0.004       nan         nan            nan             0                    2536.56
+83          532         0.004       nan         nan            nan             0                    2565.2
+84          539         0.004       nan         nan            nan             0                    2597.72
+85          545         0.004       nan         nan            nan             0                    2626.32
+86          551         0.004       nan         nan            nan             0                    2654.85
+87          558         0.004       nan         nan            nan             0                    2687.27
+88          564         0.004       nan         nan            nan             0                    2715.87
+89          571         0.004       nan         nan            nan             0                    2748.34
+90          577         0.004       nan         nan            nan             0                    2776.99
+91          583         0.004       nan         nan            nan             0                    2812.16
+92          590         0.004       nan         nan            nan             0                    2844.56
+93          596         0.004       nan         nan            nan             0                    2873.17
+94          603         0.004       nan         nan            nan             0                    2905.68
+95          609         0.004       nan         nan            nan             0                    2934.2
+96          615         0.004       nan         nan            nan             0                    2962.69
+97          622         0.004       nan         nan            nan             0                    2995.16
+98          628         0.004       nan         nan            nan             0                    3023.72
+99          635         0.004       nan         nan            nan             0                    3056.19
+100         641         0.004       nan         nan            nan             0                    3084.86
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Sequential_Data_Analysis_with_Deep_Learning.html" class="btn btn-neutral float-right" title="4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Image_Segmentation_with_Chainer.html" class="btn btn-neutral" title="2. 実践編: CT/MRI画像のセグメンテーション" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, キカガク, Preferred Networks
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
