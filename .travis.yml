@@ -20,8 +20,8 @@ env:
 script:
     - rm -rf docs
     - mkdir docs && touch docs/.nojekyll
-    - cd source && rm -rf source/notebooks && python -m sphinx source ../docs
+    - rm -rf source/source/notebooks && python -m sphinx source/source docs
 
 after_success:
-    - '[ "$TRAVIS_BRANCH" == master ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && bash ./deploy.sh'
+    - '[ "$TRAVIS_BRANCH" == master ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && bash deploy.sh'
 
