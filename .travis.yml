@@ -11,7 +11,7 @@ before_install:
 
 install:
     - conda install --yes sphinx
-    - pip install --user sphinx_rtd_theme nbsphinx
+    - pip install --user sphinx_rtd_theme nbsphinx recommonmark
 
 env:
     global:
