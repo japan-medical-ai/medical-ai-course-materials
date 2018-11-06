@@ -363,7 +363,8 @@ detection）</strong>と呼び、画像を入力として、対象の物体（�
 boxとクラスラベルの予測値の組</strong>を出力できるような手法である必要があります。</p>
 <p>bounding
 box（bboxとよく略される）は、<code class="docutils literal notranslate"><span class="pre">[矩形の左上のy座標,</span> <span class="pre">矩形の左上のx座標,</span> <span class="pre">矩形の右下のy座標,</span> <span class="pre">矩形の右下のx座標]</span></code>のような形式で定義されることが多く、クラスは物体の種類ごとに割り振られたIDで表されることが多いようです。例えば、RBCは0、WBCは1、Plateletは2とします。</p>
-<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/speed-accuracy-tradeoffs.png?raw=1" /> 血液の顕微鏡画像からRBC, WBC, Plateletを検出している例</p>
+<p><img alt="detection_sample.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png" /> 血液の顕微鏡画像からRBC, WBC,
+Plateletを検出している例</p>
 <div class="section" id="環境構築">
 <h2>3.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まず環境構築のためColab上で以下のセルを実行してChainer, CuPy, ChainerCV,
@@ -633,10 +634,13 @@ stageタイプのネットワークの方が高速であると言われます．
 stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては、これを調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy
 trade-offs for modern convolutional object
 detectors</a>）より、以下の図がしばしば参照されます．
-<img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/speed-accuracy-tradeoffs.png?raw=1" /></p>
+<img alt="speed-accuracy-tradeoffs.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" /></p>
 <p>今回用いるSSDという手法のネットワークアーキテクチャは，以下のような形をしています（SSD論文のFig.
 2より引用）．</p>
-<p><img alt="image1" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" /></p>
+<div class="figure" id="id8">
+<img alt="ssd-architecture.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/ssd-architecture.png" />
+<p class="caption"><span class="caption-text">ssd-architecture.png</span></p>
+</div>
 <p>特徴抽出を行うVGG-16ネットワークの途中の出力に対してそれぞれ別々の畳み込み層を適用して検出結果（bounding
 boxの位置と、その中の物体のクラス）を出力していくことで，複数のスケールでの予測を起こっているのが特徴です．</p>
 </div>
