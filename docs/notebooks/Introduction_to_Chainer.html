@@ -420,34 +420,34 @@ Networks社が開発を続けています。ここでは、柔軟性と直感的
 <p>まずはColab上で以下のセルを実行し、最新版のChainerをインストールしましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>curl https://colab.chainer.org/install <span class="p">|</span> sh -
-<span class="o">!</span>apt-get install -y graphviz
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!curl https://colab.chainer.org/install | sh -
+!apt-get install -y graphviz
 </pre></div>
 </div>
 </div>
 <p>もしColab上ではなく別な環境にChainerをインストールする場合にも、<code class="docutils literal notranslate"><span class="pre">pip</span></code>を使って簡単に行うことができます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>pip install chainer
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!pip install chainer
 </pre></div>
 </div>
 </div>
 <p>で完了です。ただ、これだけではGPUは使えません。GPUを使うためには、<strong>別途CuPyをインストールする必要があります。</strong>ただCuPyのインストールもとても簡単です。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>pip install cupy-cuda80
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!pip install cupy-cuda80
 </pre></div>
 </div>
 </div>
@@ -464,11 +464,11 @@ v4.0.0からwheelでのインストールが可能となりましたので、こ
 v4.0.0から<code class="docutils literal notranslate"><span class="pre">chainer.print_runtime_info()</span></code>という便利なメソッドが追加されました。以下のコマンドをターミナルで実行し、ChainerやCuPyが正しくインストールされたかを確認してみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>python -c <span class="s1">&#39;import chainer; chainer.print_runtime_info()&#39;</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!python -c &#39;import chainer; chainer.print_runtime_info()&#39;
 </pre></div>
 </div>
 </div>
@@ -497,8 +497,8 @@ CuPy:
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>pip install matplotlib
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!pip install matplotlib
 </pre></div>
 </div>
 </div>
@@ -513,14 +513,14 @@ CuPy:
 ChainerにはMNISTやCIFAR10/100のようなよく用いられるデータセットに対して、データをダウンロードしてくるところからそのような機能をもったオブジェクトを作るところまで自動的にやってくれる便利なメソッドがあるので、ここではひとまずこれを用いましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer.datasets</span> <span class="k">import</span> <span class="n">mnist</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import mnist
 
-<span class="c1"># データセットがダウンロード済みでなければ、ダウンロードも行う</span>
-<span class="n">train_val</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">get_mnist</span><span class="p">(</span><span class="n">withlabel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+# データセットがダウンロード済みでなければ、ダウンロードも行う
+train_val, test = mnist.get_mnist(withlabel=True, ndim=1)
 </pre></div>
 </div>
 </div>
@@ -530,20 +530,20 @@ ChainerにはMNISTやCIFAR10/100のようなよく用いられるデータセッ
 と同様のものになっています（<strong>実際ただのPythonリストもChainerのデータセットオブジェクトとして使えます</strong>）。では0番目のデータとラベルを取り出して、表示してみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># matplotlibを使ったグラフ描画結果がnotebook内に表示されるようにします。</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># matplotlibを使ったグラフ描画結果がnotebook内に表示されるようにします。
+%matplotlib inline
+import matplotlib.pyplot as plt
 
-<span class="c1"># データの例示</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">train_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 0番目の (data, label) を取り出す</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;label:&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+# データの例示
+x, t = train_val[0]  # 0番目の (data, label) を取り出す
+plt.imshow(x.reshape(28, 28), cmap=&#39;gray&#39;)
+plt.axis(&#39;off&#39;)
+plt.show()
+print(&#39;label:&#39;, t)
 </pre></div>
 </div>
 </div>
@@ -551,7 +551,7 @@ ChainerにはMNISTやCIFAR10/100のようなよく用いられるデータセッ
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_16_0.png" src="../_images/notebooks_Introduction_to_Chainer_16_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_17_0.png" src="../_images/notebooks_Introduction_to_Chainer_17_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -568,25 +568,25 @@ label: 5
 <p>次に、上で作成した<code class="docutils literal notranslate"><span class="pre">train_val</span></code>データセットを、Training用のデータセットとValidation用のデータセットに分割しましょう。これもChainerの便利な関数を使えば簡単にできます。元々60000個のデータが入っている<code class="docutils literal notranslate"><span class="pre">train</span></code>データセット50000個のデータをTraining用に、残りの10000個をValidation用にしてみます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer.datasets</span> <span class="k">import</span> <span class="n">split_dataset_random</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import split_dataset_random
 
-<span class="n">train</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">split_dataset_random</span><span class="p">(</span><span class="n">train_val</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+train, valid = split_dataset_random(train_val, 50000, seed=0)
 </pre></div>
 </div>
 </div>
 <p>これだけで元々の<code class="docutils literal notranslate"><span class="pre">train_val</span></code>を、ランダムに選んだ50000個の<code class="docutils literal notranslate"><span class="pre">train</span></code>データセットと<code class="docutils literal notranslate"><span class="pre">valid</span></code>データセットに分けることができました。何度も実行する際に異なる分け方になってしまわないよう、第3引数の<code class="docutils literal notranslate"><span class="pre">seed</span></code>を設定しておくことをオススメします。それでは、それぞれのデータセットの中に入っているデータの数を確認してみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training dataset size:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Validation dataset size:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid</span><span class="p">))</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print(&#39;Training dataset size:&#39;, len(train))
+print(&#39;Validation dataset size:&#39;, len(valid))
 </pre></div>
 </div>
 </div>
@@ -609,19 +609,19 @@ Gradient Descent
 <p>データセットオブジェクトからイテレータを作るには、以下のようにします。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">iterators</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import iterators
 
-<span class="n">batchsize</span> <span class="o">=</span> <span class="mi">128</span>
+batchsize = 128
 
-<span class="n">train_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
-<span class="n">valid_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span>
-    <span class="n">valid</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">test_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span>
-    <span class="n">test</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+train_iter = iterators.SerialIterator(train, batchsize)
+valid_iter = iterators.SerialIterator(
+    valid, batchsize, repeat=False, shuffle=False)
+test_iter = iterators.SerialIterator(
+    test, batchsize, repeat=False, shuffle=False)
 </pre></div>
 </div>
 </div>
@@ -673,21 +673,21 @@ IDとして-1を使うと、すなわちこれはCPUを意味します。</p>
 <p>ネットワークを書き始める前に、まずは乱数シードを固定して、本記事とほぼ同様の結果が再現できるようにしておきましょう。（cuDNNが有効になっている環境下でより厳密に計算結果の再現性を保証したい場合は、<code class="docutils literal notranslate"><span class="pre">chainer.config.cudnn_deterministic</span></code>というConfiguringオプションについて知る必要があります。こちらのドキュメントを参照してください：<a class="reference external" href="https://docs.chainer.org/en/stable/reference/configuration.html?highlight=chainer.config.cudnn_deterministic">chainer.config.cudnn_deterministic</a>。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">chainer</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import random
+import numpy
+import chainer
 
-<span class="k">def</span> <span class="nf">reset_seed</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-    <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">chainer</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">available</span><span class="p">:</span>
-        <span class="n">chainer</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">cupy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+def reset_seed(seed=0):
+    random.seed(seed)
+    numpy.random.seed(seed)
+    if chainer.cuda.available:
+        chainer.cuda.cupy.random.seed(seed)
 
-<span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+reset_seed(0)
 </pre></div>
 </div>
 </div>
@@ -697,37 +697,37 @@ IDとして-1を使うと、すなわちこれはCPUを意味します。</p>
 <p>いよいよネットワークを書いてみます！</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">chainer</span>
-<span class="kn">import</span> <span class="nn">chainer.links</span> <span class="k">as</span> <span class="nn">L</span>
-<span class="kn">import</span> <span class="nn">chainer.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer
+import chainer.links as L
+import chainer.functions as F
 
-<span class="k">class</span> <span class="nc">MLP</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+class MLP(chainer.Chain):
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MLP</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+    def __init__(self, n_mid_units=100, n_out=10):
+        super(MLP, self).__init__()
 
-        <span class="c1"># パラメータを持つ層の登録</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">l1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">l2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_mid_units</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">l3</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">n_mid_units</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span>
+        # パラメータを持つ層の登録
+        with self.init_scope():
+            self.l1 = L.Linear(None, n_mid_units)
+            self.l2 = L.Linear(n_mid_units, n_mid_units)
+            self.l3 = L.Linear(n_mid_units, n_out)
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="c1"># データを受け取った際のforward計算を書く</span>
-        <span class="n">h1</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="n">h2</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l2</span><span class="p">(</span><span class="n">h1</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">l3</span><span class="p">(</span><span class="n">h2</span><span class="p">)</span>
+    def __call__(self, x):
+        # データを受け取った際のforward計算を書く
+        h1 = F.relu(self.l1(x))
+        h2 = F.relu(self.l2(h1))
+        return self.l3(h2)
 
-<span class="n">gpu_id</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># CPUを用いる場合は、この値を-1にしてください</span>
+gpu_id = 0  # CPUを用いる場合は、この値を-1にしてください
 
-<span class="n">net</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span>
+net = MLP()
 
-<span class="k">if</span> <span class="n">gpu_id</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">(</span><span class="n">gpu_id</span><span class="p">)</span>
+if gpu_id &gt;= 0:
+    net.to_gpu(gpu_id)
 </pre></div>
 </div>
 </div>
@@ -745,12 +745,12 @@ IDとして-1を使うと、すなわちこれはCPUを意味します。</p>
 <p>様々な<code class="docutils literal notranslate"><span class="pre">Link</span></code>は、それぞれ学習対象となるパラメータを保持しています。それらの値は、NumPyの配列として簡単に取り出して見ることができます。例えば、上のモデル<code class="docutils literal notranslate"><span class="pre">MLP</span></code>は<code class="docutils literal notranslate"><span class="pre">l1</span></code>という名前の全結合層が登録されています。この全結合層は重み行列<code class="docutils literal notranslate"><span class="pre">W</span></code>とバイアス<code class="docutils literal notranslate"><span class="pre">b</span></code>という2つのパラメータを持ちます。これらには外から以下のようにしてアクセスすることができます：</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;1つ目の全結合相のバイアスパラメータの形は、&#39;</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">l1</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;初期化直後のその値は、&#39;</span><span class="p">,</span> <span class="n">net</span><span class="o">.</span><span class="n">l1</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print(&#39;1つ目の全結合相のバイアスパラメータの形は、&#39;, net.l1.b.shape)
+print(&#39;初期化直後のその値は、&#39;, net.l1.b.array)
 </pre></div>
 </div>
 </div>
@@ -770,11 +770,11 @@ IDとして-1を使うと、すなわちこれはCPUを意味します。</p>
 <p>しかしここで、<code class="docutils literal notranslate"><span class="pre">net.l1.W.array</span></code>の中身を同様に表示してみようとすると、<code class="docutils literal notranslate"><span class="pre">None</span></code>が返されます。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">l1</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print(net.l1.W.array)
 </pre></div>
 </div>
 </div>
@@ -802,13 +802,13 @@ None
 <code class="docutils literal notranslate"><span class="pre">Adam</span></code>などに変えるだけで、最適化手法の違いがどのような学習曲線（ロスカーブ）の違いを生むかなどを簡単に調べることができます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">optimizers</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import optimizers
 
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+optimizer = optimizers.SGD(lr=0.01).setup(net)
 </pre></div>
 </div>
 </div>
@@ -845,92 +845,92 @@ None
 <h4>1.2.6.2. 学習ループのコード<a class="headerlink" href="#学習ループのコード" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">chainer.dataset</span> <span class="k">import</span> <span class="n">concat_examples</span>
-<span class="kn">from</span> <span class="nn">chainer.cuda</span> <span class="k">import</span> <span class="n">to_cpu</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import numpy as np
+from chainer.dataset import concat_examples
+from chainer.cuda import to_cpu
 
-<span class="n">max_epoch</span> <span class="o">=</span> <span class="mi">10</span>
+max_epoch = 10
 
-<span class="k">while</span> <span class="n">train_iter</span><span class="o">.</span><span class="n">epoch</span> <span class="o">&lt;</span> <span class="n">max_epoch</span><span class="p">:</span>
+while train_iter.epoch &lt; max_epoch:
 
-    <span class="c1"># ---------- 学習の1イテレーション ----------</span>
-    <span class="n">train_batch</span> <span class="o">=</span> <span class="n">train_iter</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">concat_examples</span><span class="p">(</span><span class="n">train_batch</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">)</span>
+    # ---------- 学習の1イテレーション ----------
+    train_batch = train_iter.next()
+    x, t = concat_examples(train_batch, gpu_id)
 
-    <span class="c1"># 予測値の計算</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    # 予測値の計算
+    y = net(x)
 
-    <span class="c1"># ロスの計算</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax_cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    # ロスの計算
+    loss = F.softmax_cross_entropy(y, t)
 
-    <span class="c1"># 勾配の計算</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">cleargrads</span><span class="p">()</span>
-    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    # 勾配の計算
+    net.cleargrads()
+    loss.backward()
 
-    <span class="c1"># パラメータの更新</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-    <span class="c1"># --------------- ここまで ----------------</span>
+    # パラメータの更新
+    optimizer.update()
+    # --------------- ここまで ----------------
 
-    <span class="c1"># 1エポック終了ごとにValidationデータに対する予測精度を測って、</span>
-    <span class="c1"># モデルの汎化性能が向上していることをチェックしよう</span>
-    <span class="k">if</span> <span class="n">train_iter</span><span class="o">.</span><span class="n">is_new_epoch</span><span class="p">:</span>  <span class="c1"># 1 epochが終わったら</span>
+    # 1エポック終了ごとにValidationデータに対する予測精度を測って、
+    # モデルの汎化性能が向上していることをチェックしよう
+    if train_iter.is_new_epoch:  # 1 epochが終わったら
 
-        <span class="c1"># ロスの表示</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;epoch:</span><span class="si">{:02d}</span><span class="s1"> train_loss:</span><span class="si">{:.04f}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">train_iter</span><span class="o">.</span><span class="n">epoch</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="p">))),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        # ロスの表示
+        print(&#39;epoch:{:02d} train_loss:{:.04f} &#39;.format(
+            train_iter.epoch, float(to_cpu(loss.data))), end=&#39;&#39;)
 
-        <span class="n">valid_losses</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">valid_accuracies</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">valid_batch</span> <span class="o">=</span> <span class="n">valid_iter</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
-            <span class="n">x_valid</span><span class="p">,</span> <span class="n">t_valid</span> <span class="o">=</span> <span class="n">concat_examples</span><span class="p">(</span><span class="n">valid_batch</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">)</span>
+        valid_losses = []
+        valid_accuracies = []
+        while True:
+            valid_batch = valid_iter.next()
+            x_valid, t_valid = concat_examples(valid_batch, gpu_id)
 
-            <span class="c1"># Validationデータをforward</span>
-            <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> \
-                    <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-                <span class="n">y_valid</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x_valid</span><span class="p">)</span>
+            # Validationデータをforward
+            with chainer.using_config(&#39;train&#39;, False), \
+                    chainer.using_config(&#39;enable_backprop&#39;, False):
+                y_valid = net(x_valid)
 
-            <span class="c1"># ロスを計算</span>
-            <span class="n">loss_valid</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax_cross_entropy</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">t_valid</span><span class="p">)</span>
-            <span class="n">valid_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">loss_valid</span><span class="o">.</span><span class="n">array</span><span class="p">))</span>
+            # ロスを計算
+            loss_valid = F.softmax_cross_entropy(y_valid, t_valid)
+            valid_losses.append(to_cpu(loss_valid.array))
 
-            <span class="c1"># 精度を計算</span>
-            <span class="n">accuracy</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">t_valid</span><span class="p">)</span>
-            <span class="n">accuracy</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">()</span>
-            <span class="n">valid_accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+            # 精度を計算
+            accuracy = F.accuracy(y_valid, t_valid)
+            accuracy.to_cpu()
+            valid_accuracies.append(accuracy.array)
 
-            <span class="k">if</span> <span class="n">valid_iter</span><span class="o">.</span><span class="n">is_new_epoch</span><span class="p">:</span>
-                <span class="n">valid_iter</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-                <span class="k">break</span>
+            if valid_iter.is_new_epoch:
+                valid_iter.reset()
+                break
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;val_loss:</span><span class="si">{:.04f}</span><span class="s1"> val_accuracy:</span><span class="si">{:.04f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">valid_losses</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">valid_accuracies</span><span class="p">)))</span>
+        print(&#39;val_loss:{:.04f} val_accuracy:{:.04f}&#39;.format(
+            np.mean(valid_losses), np.mean(valid_accuracies)))
 
-<span class="c1"># テストデータでの評価</span>
-<span class="n">test_accuracies</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="n">test_batch</span> <span class="o">=</span> <span class="n">test_iter</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
-    <span class="n">x_test</span><span class="p">,</span> <span class="n">t_test</span> <span class="o">=</span> <span class="n">concat_examples</span><span class="p">(</span><span class="n">test_batch</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">)</span>
+# テストデータでの評価
+test_accuracies = []
+while True:
+    test_batch = test_iter.next()
+    x_test, t_test = concat_examples(test_batch, gpu_id)
 
-    <span class="c1"># テストデータをforward</span>
-    <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> \
-            <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="n">y_test</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+    # テストデータをforward
+    with chainer.using_config(&#39;train&#39;, False), \
+            chainer.using_config(&#39;enable_backprop&#39;, False):
+        y_test = net(x_test)
 
-    <span class="c1"># 精度を計算</span>
-    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">t_valid</span><span class="p">)</span>
-    <span class="n">accuracy</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">()</span>
-    <span class="n">test_accuracies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">accuracy</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+    # 精度を計算
+    accuracy = F.accuracy(y_valid, t_valid)
+    accuracy.to_cpu()
+    test_accuracies.append(accuracy.array)
 
-    <span class="k">if</span> <span class="n">test_iter</span><span class="o">.</span><span class="n">is_new_epoch</span><span class="p">:</span>
-        <span class="n">test_iter</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
-        <span class="k">break</span>
+    if test_iter.is_new_epoch:
+        test_iter.reset()
+        break
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test_accuracy:</span><span class="si">{:.04f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_accuracies</span><span class="p">)))</span>
+print(&#39;test_accuracy:{:.04f}&#39;.format(np.mean(test_accuracies)))
 </pre></div>
 </div>
 </div>
@@ -988,24 +988,24 @@ Chainer</a></p>
 <p>学習が終わったら、その結果を保存します。Chainerには、2種類のフォーマットで学習済みネットワークをシリアライズする機能が用意されています。一つはHDF5形式で、もう一つはNumPyのNPZ形式でネットワークを保存するものです。今回は、追加ライブラリのインストールが必要なHDF5ではなく、NumPy標準機能で提供されているシリアライズ機能（<code class="docutils literal notranslate"><span class="pre">numpy.savez()</span></code>）を利用したNPZ形式でのモデルの保存を行います。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">serializers</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import serializers
 
-<span class="n">serializers</span><span class="o">.</span><span class="n">save_npz</span><span class="p">(</span><span class="s1">&#39;my_mnist.model&#39;</span><span class="p">,</span> <span class="n">net</span><span class="p">)</span>
+serializers.save_npz(&#39;my_mnist.model&#39;, net)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># ちゃんと保存されていることを確認</span>
-<span class="o">%</span><span class="k">ls</span> -la my_mnist.model
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># ちゃんと保存されていることを確認
+%ls -la my_mnist.model
 </pre></div>
 </div>
 </div>
@@ -1023,61 +1023,61 @@ Chainer</a></p>
 <p>学習したネットワークを、それを使って数字の分類がしたい誰かに渡して、使ってもらうにはどうしたら良いでしょうか。もっともシンプルな方法は、ネットワークの定義がかかれたPythonファイルと、今しがた保存したNPZファイルを渡して、以下のように使うことです。以下のコードの前に、渡したネットワーク定義のファイルからネットワークのクラス（ここでは<code class="docutils literal notranslate"><span class="pre">MLP</span></code>）が読み込まれていることを前提とします。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># まず同じネットワークのオブジェクトを作る</span>
-<span class="n">infer_net</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># まず同じネットワークのオブジェクトを作る
+infer_net = MLP()
 
-<span class="c1"># そのオブジェクトに保存済みパラメータをロードする</span>
-<span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="s1">&#39;my_mnist.model&#39;</span><span class="p">,</span> <span class="n">infer_net</span><span class="p">)</span>
+# そのオブジェクトに保存済みパラメータをロードする
+serializers.load_npz(&#39;my_mnist.model&#39;, infer_net)
 </pre></div>
 </div>
 </div>
 <p>以上で準備が整いました。それでは、試しにテストデータの中から一つ目の画像を取ってきて、それに対する分類を行ってみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">gpu_id</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># CPUで計算をしたい場合は、-1を指定してください</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>gpu_id = 0  # CPUで計算をしたい場合は、-1を指定してください
 
-<span class="k">if</span> <span class="n">gpu_id</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">infer_net</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">(</span><span class="n">gpu_id</span><span class="p">)</span>
+if gpu_id &gt;= 0:
+    infer_net.to_gpu(gpu_id)
 
-<span class="c1"># 1つ目のテストデータを取り出します</span>
-<span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1">#  tは使わない</span>
+# 1つ目のテストデータを取り出します
+x, t = test[0]  #  tは使わない
 
-<span class="c1"># どんな画像か表示してみます</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+# どんな画像か表示してみます
+plt.imshow(x.reshape(28, 28), cmap=&#39;gray&#39;)
+plt.show()
 
-<span class="c1"># ミニバッチの形にする（複数の画像をまとめて推論に使いたい場合は、サイズnのミニバッチにしてまとめればよい）</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;元の形：&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; -&gt; &#39;</span><span class="p">)</span>
+# ミニバッチの形にする（複数の画像をまとめて推論に使いたい場合は、サイズnのミニバッチにしてまとめればよい）
+print(&#39;元の形：&#39;, x.shape, end=&#39; -&gt; &#39;)
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+x = x[None, ...]
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ミニバッチの形にしたあと：&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+print(&#39;ミニバッチの形にしたあと：&#39;, x.shape)
 
-<span class="c1"># ネットワークと同じデバイス上にデータを送る</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">infer_net</span><span class="o">.</span><span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+# ネットワークと同じデバイス上にデータを送る
+x = infer_net.xp.asarray(x)
 
-<span class="c1"># モデルのforward関数に渡す</span>
-<span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">infer_net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+# モデルのforward関数に渡す
+with chainer.using_config(&#39;train&#39;, False), chainer.using_config(&#39;enable_backprop&#39;, False):
+    y = infer_net(x)
 
-<span class="c1"># Variable形式で出てくるので中身を取り出す</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">array</span>
+# Variable形式で出てくるので中身を取り出す
+y = y.array
 
-<span class="c1"># 結果をCPUに送る</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">to_cpu</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+# 結果をCPUに送る
+y = to_cpu(y)
 
-<span class="c1"># 予測確率の最大値のインデックスを見る</span>
-<span class="n">pred_label</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+# 予測確率の最大値のインデックスを見る
+pred_label = y.argmax(axis=1)
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ネットワークの予測:&#39;</span><span class="p">,</span> <span class="n">pred_label</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+print(&#39;ネットワークの予測:&#39;, pred_label[0])
 </pre></div>
 </div>
 </div>
@@ -1085,7 +1085,7 @@ Chainer</a></p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_47_0.png" src="../_images/notebooks_Introduction_to_Chainer_47_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_48_0.png" src="../_images/notebooks_Introduction_to_Chainer_48_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1108,27 +1108,27 @@ Chainer</a></p>
 <p>これらはループを自分で書く場合と同じなので、まとめてしまいます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
 
-<span class="n">train_val</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">mnist</span><span class="o">.</span><span class="n">get_mnist</span><span class="p">()</span>
-<span class="n">train</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">split_dataset_random</span><span class="p">(</span><span class="n">train_val</span><span class="p">,</span> <span class="mi">50000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+train_val, test = mnist.get_mnist()
+train, valid = split_dataset_random(train_val, 50000, seed=0)
 
-<span class="n">batchsize</span> <span class="o">=</span> <span class="mi">128</span>
+batchsize = 128
 
-<span class="n">train_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
-<span class="n">valid_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-<span class="n">test_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+train_iter = iterators.SerialIterator(train, batchsize)
+valid_iter = iterators.SerialIterator(valid, batchsize, False, False)
+test_iter = iterators.SerialIterator(test, batchsize, False, False)
 
-<span class="n">gpu_id</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># CPUを用いたい場合は、-1を指定してください</span>
+gpu_id = 0  # CPUを用いたい場合は、-1を指定してください
 
-<span class="n">net</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span>
+net = MLP()
 
-<span class="k">if</span> <span class="n">gpu_id</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">(</span><span class="n">gpu_id</span><span class="p">)</span>
+if gpu_id &gt;= 0:
+    net.to_gpu(gpu_id)
 </pre></div>
 </div>
 </div>
@@ -1158,22 +1158,22 @@ Chainer</a></p>
 <code class="docutils literal notranslate"><span class="pre">Iterator</span></code>はデータセットオブジェクトを持っていて、そこからミニバッチを作り、<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>は最適化対象のネットワークを持っていて、それを使って前進計算とロスの計算・パラメータのアップデートをすることができます。そのため、この2つを渡しておけば、上記の処理を<code class="docutils literal notranslate"><span class="pre">Updater</span></code>内で全部行ってもらえるというわけです。では、<code class="docutils literal notranslate"><span class="pre">Updater</span></code>オブジェクトを作成してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [17]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">training</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import training
 
-<span class="n">gpu_id</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># CPUを使いたい場合は-1を指定してください</span>
+gpu_id = 0  # CPUを使いたい場合は-1を指定してください
 
-<span class="c1"># ネットワークをClassifierで包んで、ロスの計算などをモデルに含める</span>
-<span class="n">net</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+# ネットワークをClassifierで包んで、ロスの計算などをモデルに含める
+net = L.Classifier(net)
 
-<span class="c1"># 最適化手法の選択</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+# 最適化手法の選択
+optimizer = optimizers.SGD(lr=0.01).setup(net)
 
-<span class="c1"># UpdaterにIteratorとOptimizerを渡す</span>
-<span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span><span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">)</span>
+# UpdaterにIteratorとOptimizerを渡す
+updater = training.StandardUpdater(train_iter, optimizer, device=gpu_id)
 </pre></div>
 </div>
 </div>
@@ -1190,15 +1190,15 @@ iteration（1000回更新）で学習を終了してください、といった�
 <p>では、実際に<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを作ってみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [18]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">max_epoch</span> <span class="o">=</span> <span class="mi">10</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>max_epoch = 10
 
-<span class="c1"># TrainerにUpdaterを渡す</span>
-<span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
-    <span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">max_epoch</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;mnist_result&#39;</span><span class="p">)</span>
+# TrainerにUpdaterを渡す
+trainer = training.Trainer(
+    updater, (max_epoch, &#39;epoch&#39;), out=&#39;mnist_result&#39;)
 </pre></div>
 </div>
 </div>
@@ -1224,21 +1224,21 @@ iteration（1000回更新）で学習を終了してください、といった�
 <p>などなどの様々な便利な機能を簡単に利用することができる点があります。これらの機能を利用するには、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトに対して<code class="docutils literal notranslate"><span class="pre">extend</span></code>メソッドを使って追加したい<code class="docutils literal notranslate"><span class="pre">Extension</span></code>のオブジェクトを渡してやるだけです。では実際に幾つかの<code class="docutils literal notranslate"><span class="pre">Extension</span></code>を追加してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [19]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer.training</span> <span class="k">import</span> <span class="n">extensions</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.training import extensions
 
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">())</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;snapshot_epoch-{.updater.epoch}&#39;</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">valid_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">([</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;l1/W/data/std&#39;</span><span class="p">,</span> <span class="s1">&#39;elapsed_time&#39;</span><span class="p">]))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">ParameterStatistics</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">predictor</span><span class="o">.</span><span class="n">l1</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">}))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;l1/W/data/std&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;std.png&#39;</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;accuracy.png&#39;</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">dump_graph</span><span class="p">(</span><span class="s1">&#39;main/loss&#39;</span><span class="p">))</span>
+trainer.extend(extensions.LogReport())
+trainer.extend(extensions.snapshot(filename=&#39;snapshot_epoch-{.updater.epoch}&#39;))
+trainer.extend(extensions.Evaluator(valid_iter, net, device=gpu_id), name=&#39;val&#39;)
+trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/loss&#39;, &#39;main/accuracy&#39;, &#39;val/main/loss&#39;, &#39;val/main/accuracy&#39;, &#39;l1/W/data/std&#39;, &#39;elapsed_time&#39;]))
+trainer.extend(extensions.ParameterStatistics(net.predictor.l1, {&#39;std&#39;: np.std}))
+trainer.extend(extensions.PlotReport([&#39;l1/W/data/std&#39;], x_key=&#39;epoch&#39;, file_name=&#39;std.png&#39;))
+trainer.extend(extensions.PlotReport([&#39;main/loss&#39;, &#39;val/main/loss&#39;], x_key=&#39;epoch&#39;, file_name=&#39;loss.png&#39;))
+trainer.extend(extensions.PlotReport([&#39;main/accuracy&#39;, &#39;val/main/accuracy&#39;], x_key=&#39;epoch&#39;, file_name=&#39;accuracy.png&#39;))
+trainer.extend(extensions.dump_graph(&#39;main/loss&#39;))
 </pre></div>
 </div>
 </div>
@@ -1283,11 +1283,11 @@ extension一覧</a></li>
 <p>学習を開始するには、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">run</span></code>を呼ぶだけです！</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [20]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>trainer.run()
 </pre></div>
 </div>
 </div>
@@ -1313,73 +1313,67 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 <p>では、保存されているロスのグラフを確認してみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Image</span>
-<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;mnist_result/loss.png&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from IPython.display import Image
+Image(filename=&#39;mnist_result/loss.png&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[21]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_64_0.png" src="../_images/notebooks_Introduction_to_Chainer_64_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_65_0.png" src="../_images/notebooks_Introduction_to_Chainer_65_0.png" />
 </div>
 </div>
 <p>精度のグラフも見てみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [22]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;mnist_result/accuracy.png&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;mnist_result/accuracy.png&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[22]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_66_0.png" src="../_images/notebooks_Introduction_to_Chainer_66_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_67_0.png" src="../_images/notebooks_Introduction_to_Chainer_67_0.png" />
 </div>
 </div>
 <p>もう少し学習を続ければ、まだ多少精度の向上が図れそうな雰囲気がありますね。</p>
 <p>ついでに、<code class="docutils literal notranslate"><span class="pre">dump_graph</span></code>という<code class="docutils literal notranslate"><span class="pre">Extension</span></code>が出力した計算グラフを、<code class="docutils literal notranslate"><span class="pre">Graphviz</span></code>を使って画像化して見てみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [25]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>dot -Tpng mnist_result/cg.dot -o mnist_result/cg.png
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!dot -Tpng mnist_result/cg.dot -o mnist_result/cg.png
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;mnist_result/cg.png&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;mnist_result/cg.png&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[26]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_69_0.png" src="../_images/notebooks_Introduction_to_Chainer_69_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_70_0.png" src="../_images/notebooks_Introduction_to_Chainer_70_0.png" />
 </div>
 </div>
 <p>上から下へ向かって、データやパラメータがどのような<code class="docutils literal notranslate"><span class="pre">Function</span></code>に渡されて計算が行われ、ロスを表す<code class="docutils literal notranslate"><span class="pre">Variable</span></code>が出力されたかが分かります。</p>
@@ -1390,13 +1384,13 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 Extensionの一つであるEvaluatorは、Trainerと関係なく独立して使うこともできます。以下のようにして<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>とネットワークのオブジェクト（<code class="docutils literal notranslate"><span class="pre">net</span></code>）、使用するデバイスIDを渡してEvaluatorオブジェクトを作成し、これを関数として実行するだけです。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">test_evaluator</span> <span class="o">=</span> <span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">test_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">)</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">test_evaluator</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test accuracy:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">])</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>test_evaluator = extensions.Evaluator(test_iter, net, device=gpu_id)
+results = test_evaluator()
+print(&#39;Test accuracy:&#39;, results[&#39;main/accuracy&#39;])
 </pre></div>
 </div>
 </div>
@@ -1416,30 +1410,30 @@ Extensionのsnapshotが自動的に保存したネットワークのスナップ
 <p>ここで注意すべきは、snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため、extensionの内部のパラメータなども一緒に保存されています。これは、学習自体を再開するために必要だからです。しかし、今回はネットワークのパラメータだけを読み込めば良いので、<code class="docutils literal notranslate"><span class="pre">serializers.load_npz()</span></code>のpath引数にネットワーク部分までのパス（<code class="docutils literal notranslate"><span class="pre">updater/model:main/predictor/</span></code>）を指定しています。こうすることで、ネットワークのオブジェクトにパラメータだけを読み込むことができます。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [28]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
 
-<span class="n">infer_net</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span>
-<span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span>
-    <span class="s1">&#39;mnist_result/snapshot_epoch-10&#39;</span><span class="p">,</span>
-    <span class="n">infer_net</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;updater/model:main/predictor/&#39;</span><span class="p">)</span>
+infer_net = MLP()
+serializers.load_npz(
+    &#39;mnist_result/snapshot_epoch-10&#39;,
+    infer_net, path=&#39;updater/model:main/predictor/&#39;)
 
-<span class="k">if</span> <span class="n">gpu_id</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-    <span class="n">infer_net</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">(</span><span class="n">gpu_id</span><span class="p">)</span>
+if gpu_id &gt;= 0:
+    infer_net.to_gpu(gpu_id)
 
-<span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+x, t = test[0]
+plt.imshow(x.reshape(28, 28), cmap=&#39;gray&#39;)
+plt.show()
 
-<span class="n">x</span> <span class="o">=</span> <span class="n">infer_net</span><span class="o">.</span><span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
-<span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">infer_net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">to_cpu</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+x = infer_net.xp.asarray(x[None, ...])
+with chainer.using_config(&#39;train&#39;, False), chainer.using_config(&#39;enable_backprop&#39;, False):
+    y = infer_net(x)
+y = to_cpu(y.array)
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;予測ラベル:&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+print(&#39;予測ラベル:&#39;, y.argmax(axis=1)[0])
 </pre></div>
 </div>
 </div>
@@ -1447,7 +1441,7 @@ Extensionのsnapshotが自動的に保存したネットワークのスナップ
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_74_0.png" src="../_images/notebooks_Introduction_to_Chainer_74_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_75_0.png" src="../_images/notebooks_Introduction_to_Chainer_75_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1534,28 +1528,28 @@ ge19
 <p>ここでは、さきほど試した全結合層だけからなるネットワークではなく、畳込み層を持つネットワークを定義してみます。3つの畳み込み層を持ち、2つの全結合層がそのあとに続いています。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [29]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">MyNet</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class MyNet(chainer.Chain):
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_out</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MyNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc4</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc5</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span>
+    def __init__(self, n_out):
+        super(MyNet, self).__init__()
+        with self.init_scope():
+            self.conv1 = L.Convolution2D(None, 32, 3, 3, 1)
+            self.conv2 = L.Convolution2D(32, 64, 3, 3, 1)
+            self.conv3 = L.Convolution2D(64, 128, 3, 3, 1)
+            self.fc4 = L.Linear(None, 1000)
+            self.fc5 = L.Linear(1000, n_out)
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc4</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc5</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">h</span>
+    def __call__(self, x):
+        h = F.relu(self.conv1(x))
+        h = F.relu(self.conv2(h))
+        h = F.relu(self.conv3(h))
+        h = F.relu(self.fc4(h))
+        h = self.fc5(h)
+        return h
 </pre></div>
 </div>
 </div>
@@ -1577,69 +1571,69 @@ ge19
 <p>この<code class="docutils literal notranslate"><span class="pre">train</span></code>関数を用いて、上で定義した<code class="docutils literal notranslate"><span class="pre">MyModel</span></code>モデルを訓練してみます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [30]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer.datasets</span> <span class="k">import</span> <span class="n">cifar</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import cifar
 
 
-<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">network_object</span><span class="p">,</span> <span class="n">batchsize</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">gpu_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+def train(network_object, batchsize=128, gpu_id=0, max_epoch=20, train_dataset=None, valid_dataset=None, test_dataset=None, postfix=&#39;&#39;, base_lr=0.01, lr_decay=None):
 
-    <span class="c1"># 1. Dataset</span>
-    <span class="k">if</span> <span class="n">train_dataset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">valid_dataset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">test_dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">train_val</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">cifar</span><span class="o">.</span><span class="n">get_cifar10</span><span class="p">()</span>
-        <span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_val</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
-        <span class="n">train</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="n">split_dataset_random</span><span class="p">(</span><span class="n">train_val</span><span class="p">,</span> <span class="n">train_size</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">train</span><span class="p">,</span> <span class="n">valid</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="p">,</span> <span class="n">test_dataset</span>
+    # 1. Dataset
+    if train_dataset is None and valid_dataset is None and test_dataset is None:
+        train_val, test = cifar.get_cifar10()
+        train_size = int(len(train_val) * 0.9)
+        train, valid = split_dataset_random(train_val, train_size, seed=0)
+    else:
+        train, valid, test = train_dataset, valid_dataset, test_dataset
 
-    <span class="c1"># 2. Iterator</span>
-    <span class="n">train_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
-    <span class="n">valid_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">valid</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    # 2. Iterator
+    train_iter = iterators.MultiprocessIterator(train, batchsize)
+    valid_iter = iterators.MultiprocessIterator(valid, batchsize, False, False)
 
-    <span class="c1"># 3. Model</span>
-    <span class="n">net</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">network_object</span><span class="p">)</span>
+    # 3. Model
+    net = L.Classifier(network_object)
 
-    <span class="c1"># 4. Optimizer</span>
-    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">MomentumSGD</span><span class="p">(</span><span class="n">lr</span><span class="o">=</span><span class="n">base_lr</span><span class="p">)</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">add_hook</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">WeightDecay</span><span class="p">(</span><span class="mf">0.0005</span><span class="p">))</span>
+    # 4. Optimizer
+    optimizer = optimizers.MomentumSGD(lr=base_lr).setup(net)
+    optimizer.add_hook(chainer.optimizer.WeightDecay(0.0005))
 
-    <span class="c1"># 5. Updater</span>
-    <span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span><span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">)</span>
+    # 5. Updater
+    updater = training.StandardUpdater(train_iter, optimizer, device=gpu_id)
 
-    <span class="c1"># 6. Trainer</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">max_epoch</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_cifar10_</span><span class="si">{}</span><span class="s1">result&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_object</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">postfix</span><span class="p">))</span>
+    # 6. Trainer
+    trainer = training.Trainer(updater, (max_epoch, &#39;epoch&#39;), out=&#39;{}_cifar10_{}result&#39;.format(network_object.__class__.__name__, postfix))
 
-    <span class="c1"># 7. Trainer extensions</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">())</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">observe_lr</span><span class="p">())</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">valid_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">([</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;elapsed_time&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">]))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;accuracy.png&#39;</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">lr_decay</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExponentialShift</span><span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">lr_decay</span><span class="p">)</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
-    <span class="k">del</span> <span class="n">trainer</span>
+    # 7. Trainer extensions
+    trainer.extend(extensions.LogReport())
+    trainer.extend(extensions.observe_lr())
+    trainer.extend(extensions.Evaluator(valid_iter, net, device=gpu_id), name=&#39;val&#39;)
+    trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/loss&#39;, &#39;main/accuracy&#39;, &#39;val/main/loss&#39;, &#39;val/main/accuracy&#39;, &#39;elapsed_time&#39;, &#39;lr&#39;]))
+    trainer.extend(extensions.PlotReport([&#39;main/loss&#39;, &#39;val/main/loss&#39;], x_key=&#39;epoch&#39;, file_name=&#39;loss.png&#39;))
+    trainer.extend(extensions.PlotReport([&#39;main/accuracy&#39;, &#39;val/main/accuracy&#39;], x_key=&#39;epoch&#39;, file_name=&#39;accuracy.png&#39;))
+    if lr_decay is not None:
+        trainer.extend(extensions.ExponentialShift(&#39;lr&#39;, 0.1), trigger=lr_decay)
+    trainer.run()
+    del trainer
 
-    <span class="c1"># 8. Evaluation</span>
-    <span class="n">test_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
-    <span class="n">test_evaluator</span> <span class="o">=</span> <span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">test_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">test_evaluator</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test accuracy:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">])</span>
+    # 8. Evaluation
+    test_iter = iterators.MultiprocessIterator(test, batchsize, False, False)
+    test_evaluator = extensions.Evaluator(test_iter, net, device=gpu_id)
+    results = test_evaluator()
+    print(&#39;Test accuracy:&#39;, results[&#39;main/accuracy&#39;])
 
-    <span class="k">return</span> <span class="n">net</span>
+    return net
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [31]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">net</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">MyNet</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">gpu_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>net = train(MyNet(10), gpu_id=0)
 </pre></div>
 </div>
 </div>
@@ -1683,40 +1677,36 @@ Test accuracy: 0.6044304
 <p>学習が20エポックまで終わりました。ロスと精度のプロットを見てみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [32]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;MyNet_cifar10_result/loss.png&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;MyNet_cifar10_result/loss.png&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[32]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_82_0.png" src="../_images/notebooks_Introduction_to_Chainer_82_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_83_0.png" src="../_images/notebooks_Introduction_to_Chainer_83_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [33]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;MyNet_cifar10_result/accuracy.png&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;MyNet_cifar10_result/accuracy.png&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[33]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_83_0.png" src="../_images/notebooks_Introduction_to_Chainer_83_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_84_0.png" src="../_images/notebooks_Introduction_to_Chainer_84_0.png" />
 </div>
 </div>
 <p>学習データでの精度（<code class="docutils literal notranslate"><span class="pre">main/accuracy</span></code>)は77%程度まで到達していますが、テストデータでのロス（<code class="docutils literal notranslate"><span class="pre">val/main/loss</span></code>）は途中から下げ止まり、精度（<code class="docutils literal notranslate"><span class="pre">val/main/accuracy</span></code>）も60%前後で頭打ちになってしまっています。表示されたログの最後の行を見ると、テストデータでの精度も同様に60%程度だったようです。学習データでは良い精度が出ているが、
@@ -1727,27 +1717,27 @@ Test accuracy: 0.6044304
 <p>テスト精度は60%程度でしたが、試しにこの学習済みネットワークを使っていくつかのテスト画像を分類させてみましょう。あとで使いまわせるように<code class="docutils literal notranslate"><span class="pre">predict</span></code>関数を作っておきます。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [34]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">cls_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;airplane&#39;</span><span class="p">,</span> <span class="s1">&#39;automobile&#39;</span><span class="p">,</span> <span class="s1">&#39;bird&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;deer&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;frog&#39;</span><span class="p">,</span> <span class="s1">&#39;horse&#39;</span><span class="p">,</span> <span class="s1">&#39;ship&#39;</span><span class="p">,</span> <span class="s1">&#39;truck&#39;</span><span class="p">]</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>cls_names = [&#39;airplane&#39;, &#39;automobile&#39;, &#39;bird&#39;, &#39;cat&#39;, &#39;deer&#39;,
+             &#39;dog&#39;, &#39;frog&#39;, &#39;horse&#39;, &#39;ship&#39;, &#39;truck&#39;]
 
-<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">image_id</span><span class="p">):</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">cifar</span><span class="o">.</span><span class="n">get_cifar10</span><span class="p">()</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">image_id</span><span class="p">]</span>
-    <span class="n">net</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">predictor</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;predicted_label:&#39;</span><span class="p">,</span> <span class="n">cls_names</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;answer:&#39;</span><span class="p">,</span> <span class="n">cls_names</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+def predict(net, image_id):
+    _, test = cifar.get_cifar10()
+    x, t = test[image_id]
+    net.to_cpu()
+    with chainer.using_config(&#39;train&#39;, False), chainer.using_config(&#39;enable_backprop&#39;, False):
+        y = net.predictor(x[None, ...]).data.argmax(axis=1)[0]
+    print(&#39;predicted_label:&#39;, cls_names[y])
+    print(&#39;answer:&#39;, cls_names[t])
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    plt.imshow(x.transpose(1, 2, 0))
+    plt.show()
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">):</span>
-    <span class="n">predict</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+for i in range(10, 15):
+    predict(net, i)
 </pre></div>
 </div>
 </div>
@@ -1764,7 +1754,7 @@ answer: airplane
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_86_1.png" src="../_images/notebooks_Introduction_to_Chainer_86_1.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_87_1.png" src="../_images/notebooks_Introduction_to_Chainer_87_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1780,7 +1770,7 @@ answer: truck
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_86_3.png" src="../_images/notebooks_Introduction_to_Chainer_86_3.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_87_3.png" src="../_images/notebooks_Introduction_to_Chainer_87_3.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1796,7 +1786,7 @@ answer: dog
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_86_5.png" src="../_images/notebooks_Introduction_to_Chainer_86_5.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_87_5.png" src="../_images/notebooks_Introduction_to_Chainer_87_5.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1812,7 +1802,7 @@ answer: horse
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_86_7.png" src="../_images/notebooks_Introduction_to_Chainer_86_7.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_87_7.png" src="../_images/notebooks_Introduction_to_Chainer_87_7.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1828,7 +1818,7 @@ answer: truck
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_86_9.png" src="../_images/notebooks_Introduction_to_Chainer_86_9.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_87_9.png" src="../_images/notebooks_Introduction_to_Chainer_87_9.png" />
 </div>
 </div>
 <p>うまく分類できているものもあれば、そうでないものもありました。ネットワークの学習に使用したデータセット上ではほぼ百発百中で正解できるとしても、未知のデータ、すなわちテストデータセットにある画像に対して高精度な予測ができなければ、意味がありません[^NN]。テストデータでの精度は、モデルの<strong>汎化性能</strong>に関係していると言われます。</p>
@@ -1842,41 +1832,41 @@ answer: truck
 <p>まず、今目指している大きなネットワークの構成要素となる<code class="docutils literal notranslate"><span class="pre">ConvBlock</span></code>と<code class="docutils literal notranslate"><span class="pre">LinearBlock</span></code>を定義してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [35]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">ConvBlock</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class ConvBlock(chainer.Chain):
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_ch</span><span class="p">,</span> <span class="n">pool_drop</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">initializers</span><span class="o">.</span><span class="n">HeNormal</span><span class="p">()</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ConvBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_ch</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nobias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">initialW</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">bn</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">n_ch</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pool_drop</span> <span class="o">=</span> <span class="n">pool_drop</span>
+    def __init__(self, n_ch, pool_drop=False):
+        w = chainer.initializers.HeNormal()
+        super(ConvBlock, self).__init__()
+        with self.init_scope():
+            self.conv = L.Convolution2D(None, n_ch, 3, 1, 1, nobias=True, initialW=w)
+            self.bn = L.BatchNormalization(n_ch)
+        self.pool_drop = pool_drop
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_drop</span><span class="p">:</span>
-            <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pooling_2d</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">h</span>
+    def __call__(self, x):
+        h = F.relu(self.bn(self.conv(x)))
+        if self.pool_drop:
+            h = F.max_pooling_2d(h, 2, 2)
+            h = F.dropout(h, ratio=0.25)
+        return h
 
-<span class="k">class</span> <span class="nc">LinearBlock</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+class LinearBlock(chainer.Chain):
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">initializers</span><span class="o">.</span><span class="n">HeNormal</span><span class="p">()</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LinearBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">initialW</span><span class="o">=</span><span class="n">w</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">drop</span> <span class="o">=</span> <span class="n">drop</span>
+    def __init__(self, drop=False):
+        w = chainer.initializers.HeNormal()
+        super(LinearBlock, self).__init__()
+        with self.init_scope():
+            self.fc = L.Linear(None, 1024, initialW=w)
+        self.drop = drop
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop</span><span class="p">:</span>
-            <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">h</span>
+    def __call__(self, x):
+        h = F.relu(self.fc(x))
+        if self.drop:
+            h = F.dropout(h)
+        return h
 </pre></div>
 </div>
 </div>
@@ -1890,31 +1880,31 @@ PoolingとDropoutという関数を適用するようになっています。</p
 <p>次に、これらの小さなネットワークを構成要素として積み重ねて、大きなネットワークを定義してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [36]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">DeepCNN</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">ChainList</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class DeepCNN(chainer.ChainList):
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_output</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
-            <span class="n">ConvBlock</span><span class="p">(</span><span class="mi">64</span><span class="p">),</span>
-            <span class="n">ConvBlock</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
-            <span class="n">ConvBlock</span><span class="p">(</span><span class="mi">128</span><span class="p">),</span>
-            <span class="n">ConvBlock</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
-            <span class="n">ConvBlock</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
-            <span class="n">ConvBlock</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
-            <span class="n">ConvBlock</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
-            <span class="n">ConvBlock</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
-            <span class="n">LinearBlock</span><span class="p">(),</span>
-            <span class="n">LinearBlock</span><span class="p">(),</span>
-            <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_output</span><span class="p">)</span>
-        <span class="p">)</span>
+    def __init__(self, n_output):
+        super(DeepCNN, self).__init__(
+            ConvBlock(64),
+            ConvBlock(64, True),
+            ConvBlock(128),
+            ConvBlock(128, True),
+            ConvBlock(256),
+            ConvBlock(256),
+            ConvBlock(256),
+            ConvBlock(256, True),
+            LinearBlock(),
+            LinearBlock(),
+            L.Linear(None, n_output)
+        )
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span>
+    def __call__(self, x):
+        for f in self:
+            x = f(x)
+        return x
 </pre></div>
 </div>
 </div>
@@ -1928,12 +1918,12 @@ PoolingとDropoutという関数を適用するようになっています。</p
 <hr class="docutils" />
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [37]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">chainer</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_max_workspace_size</span><span class="p">(</span><span class="mi">512</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
-<span class="n">chainer</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">autotune</span> <span class="o">=</span> <span class="kc">True</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>chainer.cuda.set_max_workspace_size(512 * 1024 * 1024)
+chainer.config.autotune = True
 </pre></div>
 </div>
 </div>
@@ -1943,10 +1933,10 @@ PoolingとDropoutという関数を適用するようになっています。</p
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+model = train(DeepCNN(10), max_epoch=100, base_lr=0.1, lr_decay=(30, &#39;epoch&#39;))
 </pre></div>
 </div>
 </div>
@@ -2065,25 +2055,8 @@ Test accuracy: 0.8894383
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;DeepCNN_cifar10_result/loss.png&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_Introduction_to_Chainer_98_0.png" src="../_images/notebooks_Introduction_to_Chainer_98_0.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;DeepCNN_cifar10_result/accuracy.png&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;DeepCNN_cifar10_result/loss.png&#39;)
 </pre></div>
 </div>
 </div>
@@ -2092,6 +2065,23 @@ Test accuracy: 0.8894383
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_99_0.png" src="../_images/notebooks_Introduction_to_Chainer_99_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;DeepCNN_cifar10_result/accuracy.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_100_0.png" src="../_images/notebooks_Introduction_to_Chainer_100_0.png" />
 </div>
 </div>
 <p>先程よりも大幅にValidationデータに対する精度が向上したことが分かります。学習率を10分の1に下げるタイミングでロスががくっと減り、精度がガクッと上がっているのが分かります。最終的に、先程60%前後だったValidationデータでの精度が、90%程度まで上がりました。また、テストデータを用いた精度も、およそ90%程度となっています。しかし最新の研究成果では97%以上まで達成されています。さらに精度を上げるには、今回行ったようなネットワークの構造自体の改良ももちろんのこと、学習データを擬似的に増やす操作（Data
@@ -2119,42 +2109,42 @@ augmentation機能のついたデータセットクラスを作成してみま�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">CIFAR10Augmented</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">DatasetMixin</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class CIFAR10Augmented(chainer.dataset.DatasetMixin):
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">train_ratio</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
-        <span class="n">train_val</span><span class="p">,</span> <span class="n">test_data</span> <span class="o">=</span> <span class="n">cifar</span><span class="o">.</span><span class="n">get_cifar10</span><span class="p">()</span>
-        <span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_val</span><span class="p">)</span> <span class="o">*</span> <span class="n">train_ratio</span><span class="p">)</span>
-        <span class="n">train_data</span><span class="p">,</span> <span class="n">valid_data</span> <span class="o">=</span> <span class="n">split_dataset_random</span><span class="p">(</span><span class="n">train_val</span><span class="p">,</span> <span class="n">train_size</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">train_data</span>
-        <span class="k">elif</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;valid&#39;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">valid_data</span>
-        <span class="k">elif</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">test_data</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;split&#39; argument should be either &#39;train&#39;, &#39;valid&#39;, or &#39;test&#39;. But </span><span class="si">{}</span><span class="s2"> was given.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">split</span><span class="p">))</span>
+    def __init__(self, split=&#39;train&#39;, train_ratio=0.9):
+        train_val, test_data = cifar.get_cifar10()
+        train_size = int(len(train_val) * train_ratio)
+        train_data, valid_data = split_dataset_random(train_val, train_size, seed=0)
+        if split == &#39;train&#39;:
+            self.data = train_data
+        elif split == &#39;valid&#39;:
+            self.data = valid_data
+        elif split == &#39;test&#39;:
+            self.data = test_data
+        else:
+            raise ValueError(&quot;&#39;split&#39; argument should be either &#39;train&#39;, &#39;valid&#39;, or &#39;test&#39;. But {} was given.&quot;.format(split))
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">=</span> <span class="n">split</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">random_crop</span> <span class="o">=</span> <span class="mi">4</span>
+        self.split = split
+        self.random_crop = 4
 
-    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    def __len__(self):
+        return len(self.data)
 
-    <span class="k">def</span> <span class="nf">get_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
-            <span class="n">x_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_crop</span><span class="p">)</span>
-            <span class="n">y_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_crop</span><span class="p">)</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">y_offset</span><span class="p">:</span><span class="n">y_offset</span> <span class="o">+</span> <span class="n">h</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_crop</span><span class="p">,</span>
-                  <span class="n">x_offset</span><span class="p">:</span><span class="n">x_offset</span> <span class="o">+</span> <span class="n">w</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">random_crop</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    def get_example(self, i):
+        x, t = self.data[i]
+        if self.split == &#39;train&#39;:
+            x = x.transpose(1, 2, 0)
+            h, w, _ = x.shape
+            x_offset = np.random.randint(self.random_crop)
+            y_offset = np.random.randint(self.random_crop)
+            x = x[y_offset:y_offset + h - self.random_crop,
+                  x_offset:x_offset + w - self.random_crop]
+            if np.random.rand() &gt; 0.5:
+                x = np.fliplr(x)
+            x = x.transpose(2, 0, 1)
 
-        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span>
+        return x, t
 </pre></div>
 </div>
 </div>
@@ -2175,10 +2165,10 @@ augmentationの効果がどの程度あるのかを調べてみましょう。<c
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(),</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(</span><span class="s1">&#39;valid&#39;</span><span class="p">),</span> <span class="n">test_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">),</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">&#39;augmented_&#39;</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+model = train(DeepCNN(10), max_epoch=100, train_dataset=CIFAR10Augmented(), valid_dataset=CIFAR10Augmented(&#39;valid&#39;), test_dataset=CIFAR10Augmented(&#39;test&#39;), postfix=&#39;augmented_&#39;, base_lr=0.1, lr_decay=(30, &#39;epoch&#39;))
 </pre></div>
 </div>
 </div>
@@ -2219,8 +2209,8 @@ augmentationなしの場合は90%程度だったテスト精度が、学習デ�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;DeepCNN_cifar10_augmented_result/loss.png&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;DeepCNN_cifar10_augmented_result/loss.png&#39;)
 </pre></div>
 </div>
 </div>
@@ -2229,8 +2219,8 @@ augmentationなしの場合は90%程度だったテスト精度が、学習デ�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;DeepCNN_cifar10_augmented_result/accuracy.png&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;DeepCNN_cifar10_augmented_result/accuracy.png&#39;)
 </pre></div>
 </div>
 </div>
@@ -2246,32 +2236,32 @@ Augmentationといいます。上では、オリジナルのデータセット�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer.datasets</span> <span class="k">import</span> <span class="n">TransformDataset</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import TransformDataset
 
-<span class="n">train_val</span><span class="p">,</span> <span class="n">test_dataset</span> <span class="o">=</span> <span class="n">cifar</span><span class="o">.</span><span class="n">get_cifar10</span><span class="p">()</span>
-<span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_val</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
-<span class="n">train_dataset</span><span class="p">,</span> <span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">split_dataset_random</span><span class="p">(</span><span class="n">train_val</span><span class="p">,</span> <span class="n">train_size</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-
-<span class="c1"># 行いたい変換を関数の形で書く</span>
-<span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
-    <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">inputs</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">x_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">y_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">y_offset</span><span class="p">:</span><span class="n">y_offset</span> <span class="o">+</span> <span class="n">h</span> <span class="o">-</span> <span class="mi">4</span><span class="p">,</span>
-          <span class="n">x_offset</span><span class="p">:</span><span class="n">x_offset</span> <span class="o">+</span> <span class="n">w</span> <span class="o">-</span> <span class="mi">4</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span>
+train_val, test_dataset = cifar.get_cifar10()
+train_size = int(len(train_val) * 0.9)
+train_dataset, valid_dataset = split_dataset_random(train_val, train_size, seed=0)
 
 
-<span class="c1"># 各データをtransformにくぐらせたものを返すデータセットオブジェクト</span>
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
+# 行いたい変換を関数の形で書く
+def transform(inputs):
+    x, t = inputs
+    x = x.transpose(1, 2, 0)
+    h, w, _ = x.shape
+    x_offset = np.random.randint(4)
+    y_offset = np.random.randint(4)
+    x = x[y_offset:y_offset + h - 4,
+          x_offset:x_offset + w - 4]
+    if np.random.rand() &gt; 0.5:
+        x = np.fliplr(x)
+    x = x.transpose(2, 0, 1)
+
+    return x, t
+
+
+# 各データをtransformにくぐらせたものを返すデータセットオブジェクト
+train_dataset = TransformDataset(train_dataset, transform)
 </pre></div>
 </div>
 </div>
@@ -2288,8 +2278,8 @@ Vision向けの便利な機能を色々追加する補助パッケージ的な�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">!</span>pip install chainercv
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!pip install chainercv
 </pre></div>
 </div>
 </div>
@@ -2318,41 +2308,41 @@ Vision向けの便利な機能を色々追加する補助パッケージ的な�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">chainercv</span> <span class="k">import</span> <span class="n">transforms</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from functools import partial
+from chainercv import transforms
 
-<span class="n">train_val</span><span class="p">,</span> <span class="n">test_dataset</span> <span class="o">=</span> <span class="n">cifar</span><span class="o">.</span><span class="n">get_cifar10</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">255.</span><span class="p">)</span>
-<span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_val</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">)</span>
-<span class="n">train_dataset</span><span class="p">,</span> <span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">split_dataset_random</span><span class="p">(</span><span class="n">train_val</span><span class="p">,</span> <span class="n">train_size</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+train_val, test_dataset = cifar.get_cifar10(scale=255.)
+train_size = int(len(train_val) * 0.9)
+train_dataset, valid_dataset = split_dataset_random(train_val, train_size, seed=0)
 
-<span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">train_dataset</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">train_dataset</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+mean = np.mean([x for x, _ in train_dataset], axis=(0, 2, 3))
+std = np.std([x for x, _ in train_dataset], axis=(0, 2, 3))
 
 
-<span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">inputs</span>
-    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+def transform(inputs, train=True):
+    img, label = inputs
+    img = img.copy()
 
-    <span class="c1"># Color augmentation</span>
-    <span class="k">if</span> <span class="n">train</span><span class="p">:</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">pca_lighting</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mf">76.5</span><span class="p">)</span>
+    # Color augmentation
+    if train:
+        img = transforms.pca_lighting(img, 76.5)
 
-    <span class="c1"># Standardization</span>
-    <span class="n">img</span> <span class="o">-=</span> <span class="n">mean</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">img</span> <span class="o">/=</span> <span class="n">std</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+    # Standardization
+    img -= mean[:, None, None]
+    img /= std[:, None, None]
 
-    <span class="c1"># Random flip &amp; crop</span>
-    <span class="k">if</span> <span class="n">train</span><span class="p">:</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">random_flip</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">x_random</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">random_expand</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">max_ratio</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">random_crop</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
+    # Random flip &amp; crop
+    if train:
+        img = transforms.random_flip(img, x_random=True)
+        img = transforms.random_expand(img, max_ratio=1.5)
+        img = transforms.random_crop(img, (28, 28))
 
-    <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span>
+    return img, label
 
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+train_dataset = TransformDataset(train_dataset, partial(transform, train=True))
+valid_dataset = TransformDataset(valid_dataset, partial(transform, train=False))
+test_dataset = TransformDataset(test_dataset, partial(transform, train=False))
 </pre></div>
 </div>
 </div>
@@ -2364,10 +2354,10 @@ Lightingを追加した<code class="docutils literal notranslate"><span class="p
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">&#39;augmented2_&#39;</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+model = train(DeepCNN(10), max_epoch=100, train_dataset=train_dataset, valid_dataset=valid_dataset, test_dataset=test_dataset, postfix=&#39;augmented2_&#39;, base_lr=0.1, lr_decay=(30, &#39;epoch&#39;))
 </pre></div>
 </div>
 </div>
