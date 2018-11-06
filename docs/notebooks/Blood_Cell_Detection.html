@@ -91,6 +91,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Single-Shot-Multibox-Detector-(SSD)">3.4. Single Shot Multibox Detector (SSD)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#モデルの定義">3.5. モデルの定義</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-augmentationの実装">3.6. Data augmentationの実装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#学習の開始">3.7. 学習の開始</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
@@ -368,21 +370,54 @@ box（bboxとよく略される）は、<code class="docutils literal notranslat
 <h2>3.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まず環境構築のためColab上で以下のセルを実行してChainer, CuPy, ChainerCV,
 matplotlibといったPythonパッケージのインストールを済ませます。</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span># !curl https://colab.chainer.org/install | sh -
-# !pip install chainercv matplotlib
+<span></span>!curl https://colab.chainer.org/install | sh -
+!pip install chainercv matplotlib
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1379  100  1379    0     0  11120      0 --:--:-- --:--:-- --:--:-- 11032
++ apt -y -q install cuda-libraries-dev-9-2
+Reading package lists...
+Building dependency tree...
+Reading state information...
+cuda-libraries-dev-9-2 is already the newest version (9.2.148-1).
+0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.
++ pip install -q cupy-cuda92  chainer
++ set +ex
+Installation succeeded!
+Requirement already satisfied: chainercv in /usr/local/lib/python3.6/dist-packages (0.11.0)
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (2.1.2)
+Requirement already satisfied: chainer&gt;=5.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (5.0.0)
+Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.0.0)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
+Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2018.7)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.0)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
+Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.11.0)
+Requirement already satisfied: numpy&gt;=1.7.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.0.10)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.6.1)
+Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer&gt;=5.0-&gt;chainercv) (40.5.0)
+</pre></div></div>
 </div>
 <p>環境のセットアップが成功したことを以下のセルを実行して確認しましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -395,11 +430,11 @@ matplotlibといったPythonパッケージのインストールを済ませま�
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Platform: Linux-4.4.0-116-generic-x86_64-with-debian-stretch-sid
-Chainer: 5.0.0rc1
-NumPy: 1.15.2
+Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 5.0.0
+NumPy: 1.14.6
 CuPy:
-  CuPy Version          : 5.0.0rc1
+  CuPy Version          : 5.0.0
   CUDA Root             : /usr/local/cuda
   CUDA Build Version    : 9020
   CUDA Driver Version   : 9020
@@ -407,6 +442,7 @@ CuPy:
   cuDNN Build Version   : 7201
   cuDNN Version         : 7201
   NCCL Build Version    : 2213
+iDeep: Not Available
 </pre></div></div>
 </div>
 </div>
@@ -414,14 +450,21 @@ CuPy:
 <h2>3.2. Object Detectionについて<a class="headerlink" href="#Object-Detectionについて" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>物体検出（object detection）は、Computer
 Visionの分野で現在も活発に研究が行われているタスクの一つで、自動運転分野やロボティクスなど幅広い領域で重要な役割を果たす技術です。Semantic
-Segmentationと違い、物体の形（輪郭）までは認識しませんが、物の種類と位置を、物体ごとに個別に出力します。「物の種類」をクラスと呼ぶとき、そのクラスに属する個別の物体をインスタンスと呼ぶことができます。犬が2匹写っている写真があるとすれば、それは「犬」というクラスに属する個別の犬インスタンスが2個あるという状態だと言えます。つまり、Semantic
-Segmentationではインスタンスごとに区別される領域が出力されるわけではなかった一方で、物体検出の出力はインスタンスごとになるという違いがあります。</p>
+Segmentationと違い、物体の形（輪郭）までは認識しませんが、<strong>物の種類と位置を、物体ごとに個別に出力</strong>します。</p>
+<p>「物の種類」をクラスと呼ぶとき、そのクラスに属する個別の物体をインスタンスと呼ぶことができます。すると，犬が2匹写っている写真があるとき，それは「犬」というクラスに属すしている犬インスタンスが2個ある，という状態だと言えます．つまり，Semantic
+Segmentationではインスタンスごとに領域が区別されて出力されるわけではなかった一方で、物体検出の出力はインスタンスごとに別々のbounding
+boxが出力されるという違いがあります。</p>
 <p>ニューラルネットワークを用いた物体検出手法は、<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>という2014年に発表された手法を皮切りに、様々な改善手法が提案されています。まず一つ、重要なのは<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>,
 <a class="reference external" href="https://arxiv.org/abs/1504.08083">Fast R-CNN</a>, そして<a class="reference external" href="https://arxiv.org/abs/1506.01497">Faster
 R-CNN</a>という、同一の著者らを中心として提案されているConvolutional
-Neural Networks
-(CNN)をベースとした物体検出手法の発展流れです。現在two-streamタイプと呼ばれているものはほぼこのFaster
+Neural Networks (CNN)をベースとした物体検出手法の発展流れです。現在two
+stageタイプと呼ばれているものはほぼこのFaster
 R-CNNをベースとしたものとなります。</p>
+<p>それに対して，single
+stageタイプと呼ばれる手法の流れが，<a class="reference external" href="https://arxiv.org/abs/1512.02325">SSD</a>や<a class="reference external" href="https://arxiv.org/abs/1506.02640">YOLO</a>，<a class="reference external" href="https://arxiv.org/abs/1612.08242">YOLOv2</a>，<a class="reference external" href="https://arxiv.org/abs/1804.02767">YOLOv3</a>などで，特にYOLOとその発展手法は処理のスピードに着目して工夫を行っています．一般的にsingle
+stageタイプの方がtwo
+stageタイプよりも処理速度は高速だが，精度が低いと言われていますが，最近は高い精度を達成しつつも高速に処理できるように工夫した手法（YOLOv3など）も出てきており，その限りではなくなってきています．</p>
+<p>今回は，SSDという手法を用いて，細胞画像のデータセットを使って</p>
 </div>
 <div class="section" id="データセットの準備">
 <h2>3.3. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -441,7 +484,7 @@ boxのアノテーションが用意された小規模なデータセットを�
 </pre></div>
 </div>
 </div>
-<p>データセットは以下のうようなファイル構成で配布されています。</p>
+<p>データセットは以下のようなファイル構成で配布されています。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>BCCD
 |-- Annotations
 |   |
@@ -525,9 +568,9 @@ class BCCDDataset(VOCBboxDataset):
 </div>
 </div>
 <p>これで、今回用いるデータセットクラスを定義することができました。では、これを用いて学習・検証・テスト用のデータセットオブジェクトを作成してみましょう。</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -537,12 +580,21 @@ test_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;test&#39;)
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.6/dist-packages/chainercv/datasets/voc/voc_bbox_dataset.py:63: UserWarning: please pick split from &#39;train&#39;, &#39;trainval&#39;, &#39;val&#39;for 2012 dataset. For 2007 dataset, you can pick &#39;test&#39; in addition to the above mentioned splits.
+  &#39;please pick split from \&#39;train\&#39;, \&#39;trainval\&#39;, \&#39;val\&#39;&#39;
+</pre></div></div>
+</div>
 <p>ではデータを可視化して確認してみましょう。trainデータセットから一つデータと対応するラベル情報（bounding
 boxとクラスの組）を取り出し、ChainerCVが用意している可視化用の便利な関数を使って、画像の上にbounding
 boxおよび対応するクラスラベルを表示してみます。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -570,50 +622,46 @@ ax.figure.tight_layout()
 <p>データの準備が完了したので、今回訓練するモデルについて説明を行います。今回は、<a class="reference external" href="https://arxiv.org/abs/1512.02325">Single
 Shot MultiBox Detector
 (SSD)</a>というモデルを使ってみます。</p>
-<p>SSDは、single
-stageタイプと呼ばれる物体検出手法の一種で、<a class="reference external" href="https://arxiv.org/abs/1506.02640">YOLO</a>などもその一種とされます。これに対し、two
-stageタイプと呼ばれる手法としては<a class="reference external" href="https://arxiv.org/abs/1506.01497">Faster
-R-CNN</a>が有名です。</p>
-<p>これらは共通して、まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から特徴マップを抽出します。そのあと、single
-stageタイプのもの、例えばSSDでは、予め特徴マップの空間方向にびっしりと候補領域を仮定しておき（default
-boxと呼ばれます）、そのそれぞれについて「どの程度正解のbounding
-boxからずれているか」を計算し、これを最小化するように学習を行います。また、この位置の補正と同時にそれぞれが「どのクラスに属しているか」も予測させ、この間違いも少なくするよう学習を行います。</p>
-<p>一方、two stageタイプの手法、例えばFaster
-R-CNNでは、抽出された特徴マップに対してさらに別のネットワークが物体の候補領域（region
-proposal）を予測し、その結果を使って候補領域ごとの特徴ベクトルを作成し（RoI
-poolingと呼ばれる計算が用いられます）、それらをクラス分類問題と候補領域の修正量を求める回帰問題を解くための2つの異なる小さなネットワークにさらに渡す、という構造をとります。</p>
-<p>このため、一般にsingle
-stageタイプのネットワークの方が高速であると言われます。一方、two
-stageタイプのものの方が精度は高い、と言われます。このようなトレードオフについては、これを調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy
+<p>SSDは前述のようにsingle
+stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から特徴マップを抽出します．そのあと，予め特徴マップの空間方向にびっしりと候補領域を仮定しておき（default
+boxと呼ばれます），そのそれぞれについて「どの程度正解のbounding
+boxからずれているか」を計算し，これを最小化するように学習を行います．また，この位置の補正と同時にそれぞれが「どのクラスに属しているか」も予測させ，この間違いも少なくするよう学習を行います．</p>
+<p>一方，two stageタイプの手法，例えばFaster
+R-CNNでは，抽出された特徴マップに対してさらに別のネットワークが物体の候補領域（region
+proposal）を予測し，その結果を使って候補領域ごとの特徴ベクトルを作成し（RoI
+poolingと呼ばれる計算が用いられます），それらをクラス分類問題と候補領域の修正量を求める回帰問題を解くための2つの異なる小さなネットワークにさらに渡す，という構造をとります．</p>
+<p>このため，一般にsingle
+stageタイプのネットワークの方が高速であると言われます．一方，two
+stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては、これを調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy
 trade-offs for modern convolutional object
-detectors</a>）より、以下の図がしばしば参照されます。
+detectors</a>）より、以下の図がしばしば参照されます．
 <img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/speed-accuracy-tradeoffs.png?raw=1" /></p>
-<p>今回用いるSSDという手法のネットワークアーキテクチャは、SSD論文のFig.
-2より以下のような形をしています。</p>
-<p><img alt="image1" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/ssd-architecture.png?raw=1" /></p>
+<p>今回用いるSSDという手法のネットワークアーキテクチャは，以下のような形をしています（SSD論文のFig.
+2より引用）．</p>
+<p><img alt="image1" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" /></p>
 <p>特徴抽出を行うVGG-16ネットワークの途中の出力に対してそれぞれ別々の畳み込み層を適用して検出結果（bounding
-boxの位置と、その中の物体のクラス）を出力していくことで、複数のスケールでの予測を起こっているのが特徴です。</p>
+boxの位置と、その中の物体のクラス）を出力していくことで，複数のスケールでの予測を起こっているのが特徴です．</p>
 </div>
 <div class="section" id="モデルの定義">
 <h2>3.5. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>SSDのネットワーク部分の実装は、ChainerCVが提供してくれています。ChainerCVの
+<p>SSDのネットワーク部分の実装は，ChainerCVが提供してくれています．ChainerCVの
 <code class="docutils literal notranslate"><span class="pre">chainercv.links.SSD300</span></code>
-というクラスは、縦横が300ピクセルの画像を入力にとるSSDのモデルを表していて、デフォルトで特徴抽出器にはVGG16が用いられます。</p>
-<p>学習に必要なロス関数を計算するクラスを用意しましょう。</p>
-<p>以下に定義するクラスは、まずSSDモデルのオブジェクトと、ロス計算のためのハイパーパラメータである
-<code class="docutils literal notranslate"><span class="pre">alpha</span></code> と <code class="docutils literal notranslate"><span class="pre">k</span></code> をコンストラクタで受け取っています。<code class="docutils literal notranslate"><span class="pre">alpha</span></code>
+というクラスは，縦横が300ピクセルの画像を入力にとるSSDのモデルを表していて，デフォルトで特徴抽出器にはVGG16が用いられます．</p>
+<p>学習に必要なロス関数を計算するクラスを用意しましょう．</p>
+<p>以下に定義するクラスは，まずSSDモデルのオブジェクトと，ロス計算のためのハイパーパラメータである
+<code class="docutils literal notranslate"><span class="pre">alpha</span></code> と <code class="docutils literal notranslate"><span class="pre">k</span></code> をコンストラクタで受け取っています．<code class="docutils literal notranslate"><span class="pre">alpha</span></code>
 は、位置の予測に対する誤差とクラスの予測に対する誤差それぞれの間の重み付けを行う係数です。<code class="docutils literal notranslate"><span class="pre">k</span></code>
 は hard negative mining
-のためのパラメータです。学習時、一つの正解bounding
-boxに対して、モデルは一つの近しい（positiveな）予測と、多くの間違った（negativeな）予測を出力します。この多くの間違った予測をconfidence
-score（モデルがどの程度確信を持ってその予測を出力しているかを表す値）によってソートした上で、上から
+のためのパラメータです．学習時，一つの正解bounding
+boxに対して，モデルは一つの近しい（positiveな）予測と，多くの間違った（negativeな）予測を出力します．この多くの間違った予測をconfidence
+score（モデルがどの程度確信を持ってその予測を出力しているかを表す値）によってソートした上で，上から
 positive : negative が 1:k になるように negative
-サンプルを選択し、ロスの計算に使用します。このバランスを決めているのが
+サンプルを選択し，ロスの計算に使用します．このバランスを決めているのが
 <code class="docutils literal notranslate"><span class="pre">k</span></code> というパラメータで、上記論文中では <span class="math notranslate nohighlight">\(k = 3\)</span>
-とされているため、ここでもデフォルトで3を使っています。</p>
+とされているため、ここでもデフォルトで3を使っています．</p>
 <p><code class="docutils literal notranslate"><span class="pre">forward</span></code>
-メソッドでは、入力画像と正解の位置・ラベルのリストを受け取って、実際にロスの計算を行っています。物体検出は、物体のlocalization（位置の予測）とclassification（種類（＝クラス）の予測）の二つの問題を同時に解きます。SSDでは、localization
-lossとclassification lossを別々に計算します。</p>
+メソッドでは，入力画像と正解の位置・ラベルのリストを受け取って，実際にロスの計算を行っています．物体検出は，物体のlocalization（位置の予測）とclassification（種類（＝クラス）の予測）の二つの問題を同時に解きますが，SSDでは，localization
+lossとclassification lossを別々に計算します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -648,6 +696,12 @@ class MultiboxTrainChain(chainer.Chain):
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="Data-augmentationの実装">
+<h2>3.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．今回は非常にコンパクトなデータセットを使ってとりあえず学習と結果利用のフローを体験することを目的としているため，実用に耐えうるような十分なバリエーションを持ったデータセットは使っていません．ただし，データを擬似的に増やすように様々な変換を画像とそれに付随するラベルに適用するテクニック（data
+augmentation）は，大量のデータを集めることができたとしても依然行われることで，ここでどのようにそれを行えばよいか見ておくことに損はないでしょう．</p>
+<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換しょりを記述したクラスを定義しておきます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -721,9 +775,14 @@ class Transform(object):
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="学習の開始">
+<h2>3.7. 学習の開始<a class="headerlink" href="#学習の開始" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>以下では，Chainerが用意するデータセットクラスの一つ，<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>を使って，事前に定義したデータ点ごとに適用したい変換を順次用いてくれるようにしています．</p>
+<p>基本的な流れはすでに学んだ画像分類やセグメンテーションなどを行うネットワークの訓練の仕方と多くが共通しています．どのような部分が異なっているか，コードを見ながら一つ一つ理解していくことで調べてみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -752,7 +811,7 @@ transformed_train_dataset = TransformDataset(train_dataset, Transform(model.code
 train_iter = chainer.iterators.MultiprocessIterator(transformed_train_dataset, batchsize)
 valid_iter = chainer.iterators.SerialIterator(valid_dataset, batchsize, repeat=False, shuffle=False)
 
-optimizer = chainer.optimizers.MomentumSGD(lr=0.001)
+optimizer = chainer.optimizers.MomentumSGD(lr=0.004)
 optimizer.setup(train_chain)
 for param in train_chain.params():
     if param.name == &#39;b&#39;:
@@ -795,106 +854,106 @@ trainer.run()
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  validation/main/map  elapsed_time
-1           7           0.001       11.8782     3.23653        8.64165         0.0980714            71.9904
-2           13          0.001       9.16868     2.56908        6.5996          0.165262             107.619
-3           20          0.001       7.63901     2.20711        5.4319          0.0392458            141.407
-4           26          0.001       6.77472     2.02828        4.74645         0.0625553            172.973
-5           33          0.001       6.00165     1.92091        4.08074         0.01575              209.684
-6           39          0.001       5.72283     1.90063        3.8222          0.0375237            243.523
-7           45          0.001       5.46967     1.90054        3.56913         0.192544             277.311
-8           52          0.001       5.02496     1.8396         3.18536         0.0783293            315.223
-9           58          0.001       4.7914      1.79555        2.99585         0.0229994            349.747
-10          65          0.001       4.47251     1.68303        2.78948         0.184961             391.085
-11          71          0.001       4.25388     1.64025        2.61363         0.0331558            444.477
-12          77          0.001       4.31887     1.71153        2.60734         0.0626426            479.472
-13          84          0.001       4.13904     1.60035        2.53869         0.101018             515.848
-14          90          0.001       4.10636     1.59019        2.51616         0.0832518            548.074
-15          97          0.001       4.11546     1.59837        2.51709         0.0867705            587.419
-16          103         0.001       3.89917     1.48416        2.415           0.115205             623.181
-17          109         0.001       3.86355     1.47014        2.3934          0.100266             658.764
-18          116         0.001       3.86995     1.45616        2.41379         0.0989513            695.319
-19          122         0.001       3.86198     1.45437        2.40761         0.0871414            726.346
-20          129         0.001       3.72478     1.38095        2.34383         0.19373              765.663
-21          135         0.001       3.61199     1.32303        2.28895         0.192676             820.075
-22          141         0.001       3.5567      1.27821        2.27849         0.203297             853.449
-23          148         0.001       3.54244     1.25287        2.28957         0.181341             889.78
-24          154         0.001       3.58337     1.28987        2.2935          0.220468             921.073
-25          161         0.001       3.52916     1.25276        2.2764          0.232689             963.104
-26          167         0.001       3.49038     1.24806        2.24232         0.384777             997.44
-27          173         0.001       3.46042     1.22845        2.23197         0.269057             1032.77
-28          180         0.001       3.37256     1.17553        2.19703         0.374551             1071.3
-29          186         0.001       3.31132     1.13068        2.18064         0.345331             1103.81
-30          193         0.001       3.26747     1.10303        2.16444         0.511601             1140.19
-31          199         0.001       3.20539     1.0804         2.12499         0.509968             1190.94
-32          205         0.001       3.31584     1.13581        2.18003         0.513901             1223.47
-33          212         0.001       3.22962     1.0787         2.15092         0.583382             1260.78
-34          218         0.001       3.13557     1.0356         2.09997         0.544041             1293.8
-35          225         0.001       3.12583     1.02284        2.10298         0.658161             1330.79
-36          231         0.001       3.06385     0.986989       2.07686         0.615888             1363.57
-37          238         0.001       3.08662     1.00355        2.08308         0.558108             1401.43
-38          244         0.001       3.14251     1.01848        2.12403         0.62947              1434.4
-39          250         0.001       3.08935     0.996988       2.09236         0.607305             1468.81
-40          257         0.001       3.08343     1.00345        2.07999         0.559888             1509.66
-41          263         0.001       3.08997     1.02132        2.06864         0.602576             1566.16
-42          270         0.001       3.07386     1.01009        2.06377         0.563735             1604.57
-43          276         0.001       2.96419     0.950791       2.0134          0.63316              1638.12
-44          282         0.001       2.89678     0.900299       1.99648         0.624261             1673.83
-45          289         0.001       2.92591     0.935856       1.99005         0.661047             1713.96
-46          295         0.001       2.87614     0.893266       1.98287         0.6215               1749.92
-47          302         0.001       2.88201     0.898596       1.98342         0.664016             1792.47
-48          308         0.001       2.9655      0.959246       2.00625         0.644537             1830.21
-49          314         0.001       2.86308     0.905211       1.95787         0.634526             1867.88
-50          321         0.001       2.9902      0.972136       2.01807         0.641891             1910.76
-51          327         0.001       3.00249     0.997949       2.00454         0.603342             1967.01
-52          334         0.001       2.94919     0.956403       1.99279         0.606005             2007.27
-53          340         0.001       2.93272     0.932038       2.00068         0.660515             2043.4
-54          346         0.001       2.82625     0.859792       1.96646         0.664095             2078.26
-55          353         0.001       2.77573     0.845684       1.93004         0.610805             2114.95
-56          359         0.001       2.87067     0.879248       1.99142         0.696267             2145.69
-57          366         0.001       2.84074     0.873552       1.96719         0.68861              2182.42
-58          372         0.001       2.83281     0.861554       1.97126         0.669522             2218.69
-59          378         0.001       2.84461     0.889716       1.95489         0.636267             2256.1
-60          385         0.001       2.82032     0.866435       1.95389         0.665094             2297.38
-61          391         0.001       2.79179     0.867727       1.92407         0.680844             2348.31
-62          398         0.001       2.80361     0.86265        1.94096         0.70237              2387.17
-63          404         0.001       2.81777     0.857976       1.9598          0.659083             2422.43
-64          410         0.001       2.65247     0.773944       1.87853         0.637573             2457
-65          417         0.001       2.84679     0.887051       1.95974         0.701297             2498.3
-66          423         0.001       2.83364     0.862742       1.97089         0.707915             2533.33
-67          430         0.001       2.74856     0.828725       1.91983         0.694727             2572.22
-68          436         0.001       2.69787     0.815684       1.88219         0.65534              2608.67
-69          443         0.001       2.75005     0.83338        1.91667         0.666714             2648.36
-70          449         0.001       2.7552      0.842554       1.91264         0.677461             2682.24
-71          455         0.001       2.74273     0.839133       1.9036          0.708858             2737.39
-72          462         0.001       2.76378     0.865904       1.89787         0.707195             2782.54
-73          468         0.001       2.75783     0.870711       1.88712         0.704631             2820.99
-74          475         0.001       2.66259     0.801817       1.86077         0.658652             2862.03
-75          481         0.001       2.8216      0.89393        1.92767         0.665332             2900.35
-76          487         0.001       2.83334     0.887237       1.9461          0.66194              2938.25
-77          494         0.001       2.65268     0.798555       1.85413         0.683943             2979.56
-78          500         0.001       2.73477     0.829035       1.90574         0.693721             3012.28
-79          507         0.001       2.64163     0.773723       1.86791         0.694821             3051.28
-80          513         0.001       2.59643     0.747141       1.84929         0.690146             3084.5
-81          519         0.001       2.5978      0.743915       1.85389         0.723527             3137.85
-82          526         0.001       2.65733     0.790018       1.86731         0.715197             3176.41
-83          532         0.001       2.59824     0.741599       1.85664         0.695787             3210.59
-84          539         0.001       2.62904     0.769579       1.85946         0.700843             3252.15
-85          545         0.001       2.6041      0.756013       1.84809         0.694008             3287.26
-86          551         0.001       2.67289     0.79024        1.88265         0.714115             3320.19
-87          558         0.001       2.55346     0.731702       1.82176         0.710323             3359.39
-88          564         0.001       2.56855     0.736754       1.8318          0.717852             3394.12
-89          571         0.001       2.60706     0.767257       1.83981         0.699169             3435.02
-90          577         0.001       2.52976     0.727263       1.8025          0.702023             3470.06
-91          583         0.001       2.49689     0.704674       1.79222         0.707821             3523.85
-92          590         0.001       2.49338     0.705096       1.78828         0.701372             3563.18
-93          596         0.001       2.50495     0.696262       1.80869         0.716217             3596.64
-94          603         0.001       2.4497      0.677967       1.77173         0.748874             3634.02
-95          609         0.001       2.4561      0.678888       1.77722         0.732009             3666.91
-96          615         0.001       2.50889     0.70419        1.80471         0.719306             3699.48
-97          622         0.001       2.50843     0.696823       1.81161         0.715291             3736.77
-98          628         0.001       2.42557     0.671169       1.7544          0.721482             3770.33
-99          635         0.001       2.45225     0.677589       1.77466         0.722778             3808.45
-100         641         0.001       2.48838     0.692238       1.79614         0.726167             3841.66
+1           7           0.004       6505.62     790.954        5714.67         0                    38.9102
+2           13          0.004       nan         nan            nan             0                    67.7987
+3           20          0.004       nan         nan            nan             0                    100.385
+4           26          0.004       nan         nan            nan             0                    129.083
+5           33          0.004       nan         nan            nan             0                    161.738
+6           39          0.004       nan         nan            nan             0                    190.503
+7           45          0.004       nan         nan            nan             0                    219.169
+8           52          0.004       nan         nan            nan             0                    251.815
+9           58          0.004       nan         nan            nan             0                    280.531
+10          65          0.004       nan         nan            nan             0                    313.08
+11          71          0.004       nan         nan            nan             0                    347.974
+12          77          0.004       nan         nan            nan             0                    376.624
+13          84          0.004       nan         nan            nan             0                    409.275
+14          90          0.004       nan         nan            nan             0                    437.988
+15          97          0.004       nan         nan            nan             0                    470.713
+16          103         0.004       nan         nan            nan             0                    499.332
+17          109         0.004       nan         nan            nan             0                    528.079
+18          116         0.004       nan         nan            nan             0                    560.713
+19          122         0.004       nan         nan            nan             0                    589.441
+20          129         0.004       nan         nan            nan             0                    622.023
+21          135         0.004       nan         nan            nan             0                    657.228
+22          141         0.004       nan         nan            nan             0                    685.949
+23          148         0.004       nan         nan            nan             0                    718.616
+24          154         0.004       nan         nan            nan             0                    747.387
+25          161         0.004       nan         nan            nan             0                    779.927
+26          167         0.004       nan         nan            nan             0                    808.637
+27          173         0.004       nan         nan            nan             0                    837.197
+28          180         0.004       nan         nan            nan             0                    869.628
+29          186         0.004       nan         nan            nan             0                    898.17
+30          193         0.004       nan         nan            nan             0                    930.642
+31          199         0.004       nan         nan            nan             0                    965.447
+32          205         0.004       nan         nan            nan             0                    993.936
+33          212         0.004       nan         nan            nan             0                    1026.41
+34          218         0.004       nan         nan            nan             0                    1055.01
+35          225         0.004       nan         nan            nan             0                    1087.45
+36          231         0.004       nan         nan            nan             0                    1116.04
+37          238         0.004       nan         nan            nan             0                    1148.52
+38          244         0.004       nan         nan            nan             0                    1177.02
+39          250         0.004       nan         nan            nan             0                    1205.53
+40          257         0.004       nan         nan            nan             0                    1238.06
+41          263         0.004       nan         nan            nan             0                    1272.83
+42          270         0.004       nan         nan            nan             0                    1305.19
+43          276         0.004       nan         nan            nan             0                    1333.82
+44          282         0.004       nan         nan            nan             0                    1362.47
+45          289         0.004       nan         nan            nan             0                    1394.89
+46          295         0.004       nan         nan            nan             0                    1423.47
+47          302         0.004       nan         nan            nan             0                    1455.86
+48          308         0.004       nan         nan            nan             0                    1484.36
+49          314         0.004       nan         nan            nan             0                    1512.91
+50          321         0.004       nan         nan            nan             0                    1545.38
+51          327         0.004       nan         nan            nan             0                    1580.49
+52          334         0.004       nan         nan            nan             0                    1612.89
+53          340         0.004       nan         nan            nan             0                    1641.46
+54          346         0.004       nan         nan            nan             0                    1669.97
+55          353         0.004       nan         nan            nan             0                    1702.47
+56          359         0.004       nan         nan            nan             0                    1731.03
+57          366         0.004       nan         nan            nan             0                    1763.42
+58          372         0.004       nan         nan            nan             0                    1791.98
+59          378         0.004       nan         nan            nan             0                    1820.5
+60          385         0.004       nan         nan            nan             0                    1852.94
+61          391         0.004       nan         nan            nan             0                    1888.15
+62          398         0.004       nan         nan            nan             0                    1920.59
+63          404         0.004       nan         nan            nan             0                    1949.13
+64          410         0.004       nan         nan            nan             0                    1977.71
+65          417         0.004       nan         nan            nan             0                    2010.13
+66          423         0.004       nan         nan            nan             0                    2038.73
+67          430         0.004       nan         nan            nan             0                    2071.21
+68          436         0.004       nan         nan            nan             0                    2099.84
+69          443         0.004       nan         nan            nan             0                    2132.27
+70          449         0.004       nan         nan            nan             0                    2160.88
+71          455         0.004       nan         nan            nan             0                    2195.82
+72          462         0.004       nan         nan            nan             0                    2228.35
+73          468         0.004       nan         nan            nan             0                    2256.9
+74          475         0.004       nan         nan            nan             0                    2289.37
+75          481         0.004       nan         nan            nan             0                    2317.99
+76          487         0.004       nan         nan            nan             0                    2346.61
+77          494         0.004       nan         nan            nan             0                    2379.1
+78          500         0.004       nan         nan            nan             0                    2407.67
+79          507         0.004       nan         nan            nan             0                    2440.19
+80          513         0.004       nan         nan            nan             0                    2468.93
+81          519         0.004       nan         nan            nan             0                    2504.08
+82          526         0.004       nan         nan            nan             0                    2536.56
+83          532         0.004       nan         nan            nan             0                    2565.2
+84          539         0.004       nan         nan            nan             0                    2597.72
+85          545         0.004       nan         nan            nan             0                    2626.32
+86          551         0.004       nan         nan            nan             0                    2654.85
+87          558         0.004       nan         nan            nan             0                    2687.27
+88          564         0.004       nan         nan            nan             0                    2715.87
+89          571         0.004       nan         nan            nan             0                    2748.34
+90          577         0.004       nan         nan            nan             0                    2776.99
+91          583         0.004       nan         nan            nan             0                    2812.16
+92          590         0.004       nan         nan            nan             0                    2844.56
+93          596         0.004       nan         nan            nan             0                    2873.17
+94          603         0.004       nan         nan            nan             0                    2905.68
+95          609         0.004       nan         nan            nan             0                    2934.2
+96          615         0.004       nan         nan            nan             0                    2962.69
+97          622         0.004       nan         nan            nan             0                    2995.16
+98          628         0.004       nan         nan            nan             0                    3023.72
+99          635         0.004       nan         nan            nan             0                    3056.19
+100         641         0.004       nan         nan            nan             0                    3084.86
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
