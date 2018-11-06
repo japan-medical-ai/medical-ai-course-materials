@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>実践編: ディープラーニングを使ったモニタリングデータの時系列解析 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
+  <title>4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
   
 
   
@@ -27,7 +27,9 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="検索" href="../search.html" /> 
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="Basenji.html" />
+    <link rel="prev" title="3. 実践編: 血液の顕微鏡画像からの細胞検出" href="Blood_Cell_Detection.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -76,11 +78,32 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Chainer_Beginner's_Hands_on.html">1. Deep Learningフレームワークの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Image_Segmentation_with_Chainer.html">2. 実践編: CT/MRI画像のセグメンテーション</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">3. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#目次">4.1. 目次</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">4.2. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">4.3. 使用するデータセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データ前処理">4.4. データ前処理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#DLを用いた時系列データ解析">4.5. DLを用いた時系列データ解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#精度向上に向けて">4.6. 精度向上に向けて</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#クラス不均衡データへの対応">4.6.1. クラス不均衡データへの対応</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Undersampling">4.6.1.1. Undersampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#損失関数の工夫">4.6.1.2. 損失関数の工夫</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#特徴抽出方法の変更">4.6.2. 特徴抽出方法の変更</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#入力サイズ(セグメント長)-変更">4.6.2.1. 入力サイズ(セグメント長) 変更</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ネットワーク構造の変更">4.6.2.2. ネットワーク構造の変更</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ノイズ除去の効果検証">4.6.3. ノイズ除去の効果検証</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -126,13 +149,13 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>実践編: ディープラーニングを使ったモニタリングデータの時系列解析</li>
+      <li>4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/notebooks/Sequential-Data-Analysis-with-Deep-Learning.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/notebooks/Sequential_Data_Analysis_with_Deep_Learning.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -329,7 +352,7 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="実践編:-ディープラーニングを使ったモニタリングデータの時系列解析">
-<h1>実践編: ディープラーニングを使ったモニタリングデータの時系列解析<a class="headerlink" href="#実践編:-ディープラーニングを使ったモニタリングデータの時系列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1>4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析<a class="headerlink" href="#実践編:-ディープラーニングを使ったモニタリングデータの時系列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <ul class="simple">
 <li>近年, 健康意識の高まり, 運動人口の増加に伴って,
 活動量計などのウェアラブルデバイスが普及し始めている.</li>
@@ -342,9 +365,8 @@ div.nboutput div.output_area.stderr {
 </li>
 <li>もう少し充実させる</li>
 </ul>
-</div>
 <div class="section" id="目次">
-<h1>目次<a class="headerlink" href="#目次" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h2>4.1. 目次<a class="headerlink" href="#目次" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ol class="arabic simple">
 <li>環境構築</li>
 <li>使用するデータセット</li>
@@ -355,8 +377,9 @@ div.nboutput div.output_area.stderr {
 <li>特徴抽出方法の変更 1. 入力サイズ(セグメント長) 1. ネットワーク構造</li>
 <li>ノイズ除去の効果検証</li>
 </ol>
+</div>
 <div class="section" id="環境構築">
-<h2>環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.2. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>はじめに, 下記の必要ライブラリをインストールします.</p>
 <ul class="simple">
 <li>Cupy</li>
@@ -372,7 +395,7 @@ div.nboutput div.output_area.stderr {
 <p>以下のセルを実行 (Shift + Enter) して下さい.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -527,7 +550,7 @@ Successfully installed imbalanced-learn-0.4.2 scikit-learn-0.20.0
 各ライブラリのインポート、及びバージョン確認を行って下さい.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -574,7 +597,7 @@ iDeep: Not Available
 </div>
 </div>
 <div class="section" id="使用するデータセット">
-<h2>使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>今回は、ECGデータとして有名なMIT-BIH Arrhythmia Databaseを使用します. -
 TODO: 説明 - MIT-BIH DBについて - TODO: 説明 -
 python-wfdbを用いてデータをダウンロード</p>
@@ -592,7 +615,7 @@ download_dir = os.path.join(dataset_root, &#39;download&#39;)
 <p>※エラーが出た際は, 再度実行して下さい. ↓</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -615,7 +638,7 @@ Finished downloading files
 </ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -633,7 +656,7 @@ Finished downloading files
 </div>
 </div>
 <div class="section" id="データ前処理">
-<h2>データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.4. データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li>TODO: 説明 - ベーシックな前処理として、以下の処理を行う</li>
 </ul>
@@ -832,7 +855,7 @@ y_test = np.load(os.path.join(dataset_root, &#39;test&#39;, &#39;y.npy&#39;))
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -854,7 +877,7 @@ X_test.shape =  (25617, 720)    y_test.shape =  (25617,)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -873,7 +896,7 @@ y_train count each labels:  {0: 42771, 1: 1678, 2: 3643}
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -892,7 +915,7 @@ y_val count each labels:  {0: 20093, 1: 931, 2: 1067}
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -925,7 +948,7 @@ import matplotlib.pyplot as plt
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -935,9 +958,7 @@ plt.plot(X_train[idx_n[0]])
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[15]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x7f48497690b8&gt;]
@@ -948,12 +969,12 @@ plt.plot(X_train[idx_n[0]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_33_1.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_33_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_33_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_33_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -963,9 +984,7 @@ plt.plot(X_train[idx_s[0]])
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[16]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x7f4846ef7b70&gt;]
@@ -976,12 +995,12 @@ plt.plot(X_train[idx_s[0]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_34_1.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_34_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_34_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_34_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [17]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -991,9 +1010,7 @@ plt.plot(X_train[idx_v[1]])
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[17]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x7f4846e6f048&gt;]
@@ -1004,12 +1021,12 @@ plt.plot(X_train[idx_v[1]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_35_1.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_35_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_35_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_35_1.png" />
 </div>
 </div>
 </div>
 <div class="section" id="DLを用いた時系列データ解析">
-<h2>DLを用いた時系列データ解析<a class="headerlink" href="#DLを用いた時系列データ解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.5. DLを用いた時系列データ解析<a class="headerlink" href="#DLを用いた時系列データ解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li>TODO: 説明 - 3種類のクラス(“N”, “S”,
 “V”)を正しく識別するモデルを構築する</li>
@@ -1242,7 +1259,7 @@ def create_trainer(batchsize, train_dataset, validation_dataset, device=0, lossf
 <p>それでは学習を開始しましょう.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [23]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1346,7 +1363,7 @@ def print_scores(gt_labels, pred_labels):
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1358,12 +1375,12 @@ def print_scores(gt_labels, pred_labels):
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_53_0.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_53_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_53_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_53_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [28]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1413,7 +1430,7 @@ accuracy:  0.906432483816939
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [30]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1425,12 +1442,12 @@ accuracy:  0.906432483816939
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_57_0.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_57_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_57_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_57_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [31]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1467,9 +1484,9 @@ accuracy:  0.9695124331498615
 </div>
 </div>
 <div class="section" id="精度向上に向けて">
-<h2>精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.6. 精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="クラス不均衡データへの対応">
-<h3>クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.6.1. クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
 <li>予測スコア(Accuracy)は高かったが、単に全てのデータを’N’と予測してもValidationで90.95%、Testで90.88%の精度が出ることになる.</li>
 <li>クラス不均衡なデータで学習させると、大多数を占めるラベルに予測結果が偏ってしまう傾向にある
@@ -1481,7 +1498,7 @@ accuracy:  0.9695124331498615
 </li>
 </ul>
 <div class="section" id="Undersampling">
-<h4>Undersampling<a class="headerlink" href="#Undersampling" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.6.1.1. Undersampling<a class="headerlink" href="#Undersampling" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1536,7 +1553,7 @@ def create_undersampled_datasets(root_path):
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [41]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1578,7 +1595,7 @@ epoch       iteration   main/loss   main/accuracy  val/main/loss  val/main/accur
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [43]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1590,12 +1607,12 @@ epoch       iteration   main/loss   main/accuracy  val/main/loss  val/main/accur
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_68_0.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_68_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_68_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_68_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [44]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1633,7 +1650,7 @@ accuracy:  0.8641980897197954
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [46]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1645,12 +1662,12 @@ accuracy:  0.8641980897197954
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_71_0.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_71_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_71_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_71_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [47]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1678,7 +1695,7 @@ accuracy:  0.8935862903540618
 </div>
 </div>
 <div class="section" id="損失関数の工夫">
-<h4>損失関数の工夫<a class="headerlink" href="#損失関数の工夫" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.6.1.2. 損失関数の工夫<a class="headerlink" href="#損失関数の工夫" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>TODO: コード - 動かないので動くようにする</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1724,7 +1741,7 @@ accuracy:  0.8935862903540618
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [56]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1882,9 +1899,9 @@ Actual: &lt;class &#39;NoneType&#39;&gt;
 </div>
 </div>
 <div class="section" id="特徴抽出方法の変更">
-<h3>特徴抽出方法の変更<a class="headerlink" href="#特徴抽出方法の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.6.2. 特徴抽出方法の変更<a class="headerlink" href="#特徴抽出方法の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="section" id="入力サイズ(セグメント長)-変更">
-<h4>入力サイズ(セグメント長) 変更<a class="headerlink" href="#入力サイズ(セグメント長)-変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.6.2.1. 入力サイズ(セグメント長) 変更<a class="headerlink" href="#入力サイズ(セグメント長)-変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>TODO: 説明 -
 より広範囲の入力情報を与えることでより特徴抽出し識別精度が向上するかを確認</p>
 <div class="nbinput nblast docutils container">
@@ -1924,7 +1941,7 @@ y_test = np.load(os.path.join(dataset_root, &#39;test&#39;, &#39;y.npy&#39;))
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [60]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1946,7 +1963,7 @@ X_test.shape =  (25589, 1440)   y_test.shape =  (25589,)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [64]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1956,9 +1973,7 @@ plt.plot(X_train[idx_n[0]])
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[64]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x7f4841ad2470&gt;]
@@ -1969,12 +1984,12 @@ plt.plot(X_train[idx_n[0]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_86_1.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_86_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_86_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_86_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [65]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1984,9 +1999,7 @@ plt.plot(X_train[idx_s[0]])
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[65]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x7f482f8347f0&gt;]
@@ -1997,12 +2010,12 @@ plt.plot(X_train[idx_s[0]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_87_1.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_87_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_87_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_87_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [66]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2012,9 +2025,7 @@ plt.plot(X_train[idx_v[1]])
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[66]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x7f482f8b79b0&gt;]
@@ -2025,7 +2036,7 @@ plt.plot(X_train[idx_v[1]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_88_1.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_88_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_88_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_88_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -2051,7 +2062,7 @@ test_dataset = create_test_dataset(dataset_root)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [69]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2115,7 +2126,7 @@ epoch       iteration   main/loss   main/accuracy  val/main/loss  val/main/accur
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [72]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2127,12 +2138,12 @@ epoch       iteration   main/loss   main/accuracy  val/main/loss  val/main/accur
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_93_0.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_93_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_93_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_93_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [73]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2170,7 +2181,7 @@ accuracy:  0.9023793337865398
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [77]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2182,12 +2193,12 @@ accuracy:  0.9023793337865398
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_96_0.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_96_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_96_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_96_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [78]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2215,7 +2226,7 @@ accuracy:  0.932705459377076
 </div>
 </div>
 <div class="section" id="ネットワーク構造の変更">
-<h4>ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.6.2.2. ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -2235,7 +2246,8 @@ accuracy:  0.932705459377076
             for i in range(n_resblock):
                 resblock = ResBlock()
                 setattr(self, &#39;res{}&#39;.format(str(i)), resblock)
-            self.lstm = L.LSTM(None, 128)
+            self.lstm1 = L.LSTM(None, 128)
+            self.lstm2 = L.LSTM(None, 128)
             self.fc1 = L.Linear(None, 32)
             self.fc2 = L.Linear(32, 3)
 
@@ -2243,7 +2255,8 @@ accuracy:  0.932705459377076
         h = self.conv(x)
         for i in range(self.n_resblock):
             h = getattr(self, &#39;res{}&#39;.format(str(i)))(h)
-        h = self.lstm(h)
+        h = self.lstm1(h)
+        h = self.lstm2(h)
         h = F.relu(self.fc1(h))
         h = self.fc2(h)
         return h
@@ -2329,9 +2342,9 @@ accuracy:  0.932705459377076
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [93]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2339,54 +2352,86 @@ accuracy:  0.932705459377076
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
 </div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-epoch       iteration   main/loss   main/accuracy  val/main/loss  val/main/accuracy
-0           5           0.644585    0.783
-0           10          0.389658    0.895          0.360272       0.909012
-0           15          0.377343    0.896
-0           20          0.360176    0.898          0.351408       0.909012
-0           25          0.375249    0.886
-0           30          0.384464    0.885          0.342897       0.909012
-0           35          0.367198    0.884
-0           40          0.331554    0.896          0.336573       0.909012
-0           45          0.36811     0.882
-0           50          0.380142    0.87           0.327479       0.909012
-0           55          0.36939     0.866
-0           60          0.34694     0.885          0.321072       0.909012
-0           65          0.3125      0.891
-0           70          0.287413    0.899          0.308775       0.909012
-0           75          0.321652    0.89
-0           80          0.269123    0.898          0.303876       0.909012
-0           85          0.259442    0.897
-0           90          0.242391    0.909          0.301325       0.909012
-0           95          0.275385    0.889
-0           100         0.261308    0.891          0.300896       0.909012
-0           105         0.25766     0.898
-0           110         0.236837    0.905          0.295819       0.909012
-0           115         0.247357    0.887
-0           120         0.259136    0.884          0.298163       0.909057
-0           125         0.260499    0.897
-0           130         0.24276     0.889          0.294649       0.909328
-0           135         0.262689    0.893
-0           140         0.230817    0.905          0.286692       0.909643
-0           145         0.258621    0.88
-0           150         0.21257     0.908          0.284076       0.910904
-0           155         0.266811    0.9
-0           160         0.251942    0.919          0.288913       0.912723
-0           165         0.215532    0.948
-0           170         0.268479    0.942          0.285938       0.917277
-0           175         0.21655     0.957
-0           180         0.235989    0.951          0.285063       0.916331
-</pre></div></div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>test_dataset = create_test_dataset(dataset_root)
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li>TODO: 説明 - validationセットの評価</li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>pred_labels_val, gt_labels_val = evaluate(trainer, validation_dataset, 0)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print_confusion_matrix(gt_labels_val, pred_labels_val)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print_scores(gt_labels_val, pred_labels_val)
+</pre></div>
+</div>
+</div>
+<ul class="simple">
+<li>TODO: 説明文 - テストセットの評価</li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>pred_labels_test, gt_labels_test = evaluate(trainer, test_dataset, 0)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print_confusion_matrix(gt_labels_test, pred_labels_test)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print_scores(gt_labels_test, pred_labels_test)
+</pre></div>
+</div>
 </div>
 </div>
 </div>
 <div class="section" id="ノイズ除去の効果検証">
-<h3>ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.6.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
 <li>TODO: 説明 - 心電図波形には高周波ノイズ(筋電図ノイズ(Electromyogram
 noise)、加算性白色ガウスノイズ(Additive white Gaussian
@@ -2560,7 +2605,7 @@ y_val_d = np.load(os.path.join(dataset_root, &#39;validation&#39;, &#39;y.npy&#3
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [41]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2577,13 +2622,13 @@ plt.show()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_111_0.png" src="../_images/notebooks_Sequential-Data-Analysis-with-Deep-Learning_111_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_120_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_120_0.png" />
 </div>
 </div>
 <p>左図がフィルタリング前、右図がフィルタリング後</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [42]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2637,7 +2682,7 @@ epoch       iteration   main/loss   main/accuracy  val/main/loss  val/main/accur
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [44]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2664,7 +2709,7 @@ accuracy:  0.8879634240188312
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [45]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2708,6 +2753,15 @@ accuracy:  0.893898582972245
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Basenji.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Blood_Cell_Detection.html" class="btn btn-neutral" title="3. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

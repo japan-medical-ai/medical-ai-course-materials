@@ -3,9 +3,21 @@
   "nbformat_minor": 0,
   "metadata": {
     "colab": {
-      "name": "モニタリングデータの時系列解析",
+      "name": "Sequential-Data-Analysis-with-Deep-Learning",
       "version": "0.3.2",
       "provenance": [],
+      "collapsed_sections": [
+        "AzQYVT4NSmr2",
+        "kQEqTIlmTxPw",
+        "YZK61esDYVYO",
+        "KPTsLjqklF30",
+        "u6tD0TqYYt1D",
+        "0LtXj5nrpztA",
+        "PRMXPtNqvKya",
+        "mPshO_o3Zn6r",
+        "7rMWg57rvdI6",
+        "QUZQOrwaY1iA"
+      ],
       "include_colab_link": true
     },
     "kernelspec": {
@@ -22,7 +34,7 @@
         "colab_type": "text"
       },
       "source": [
-        "<a href=\"https://colab.research.google.com/github/mitmul/medical-ai-course-materials/blob/master/notebooks/Sequential-Data-Analysis-with-Deep-Learning.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+        "<a href=\"https://colab.research.google.com/github/mitmul/medical-ai-course-materials/blob/master/notebooks/Sequential_Data_Analysis_with_Deep_Learning.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
       ]
     },
     {
@@ -56,7 +68,7 @@
       },
       "cell_type": "markdown",
       "source": [
-        "# 目次"
+        "## 目次"
       ]
     },
     {
@@ -147,7 +159,7 @@
         "!pip install scipy matplotlib seaborn pandas wfdb\n",
         "!pip install imbalanced-learn"
       ],
-      "execution_count": 1,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -327,7 +339,7 @@
         "print(sklearn.__version__)\n",
         "print(imblearn.__version__)"
       ],
-      "execution_count": 2,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -412,7 +424,7 @@
       "source": [
         "wfdb.dl_database('mitdb', dl_dir=download_dir)"
       ],
-      "execution_count": 4,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -449,7 +461,7 @@
       "source": [
         "print(sorted(os.listdir(download_dir)))"
       ],
-      "execution_count": 5,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -709,7 +721,7 @@
         "print(\"X_val.shape = \", X_val.shape, \"\\ty_val.shape = \", y_val.shape)\n",
         "print(\"X_test.shape = \", X_test.shape, \"\\ty_test.shape = \", y_test.shape)"
       ],
-      "execution_count": 10,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -737,7 +749,7 @@
         "uniq_train, counts_train = np.unique(y_train, return_counts=True)\n",
         "print(\"y_train count each labels: \", dict(zip(uniq_train, counts_train)))"
       ],
-      "execution_count": 11,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -763,7 +775,7 @@
         "uniq_val, counts_val = np.unique(y_val, return_counts=True)\n",
         "print(\"y_val count each labels: \", dict(zip(uniq_val, counts_val)))"
       ],
-      "execution_count": 12,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -789,7 +801,7 @@
         "uniq_test, counts_test = np.unique(y_test, return_counts=True)\n",
         "print(\"y_test count each labels: \", dict(zip(uniq_test, counts_test)))"
       ],
-      "execution_count": 13,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -839,7 +851,7 @@
         "idx_n = np.where(y_train == 0)[0]\n",
         "plt.plot(X_train[idx_n[0]])"
       ],
-      "execution_count": 15,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "execute_result",
@@ -882,7 +894,7 @@
         "idx_s = np.where(y_train == 1)[0]\n",
         "plt.plot(X_train[idx_s[0]])"
       ],
-      "execution_count": 16,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "execute_result",
@@ -925,7 +937,7 @@
         "idx_v = np.where(y_train == 2)[0]\n",
         "plt.plot(X_train[idx_v[1]])"
       ],
-      "execution_count": 17,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "execute_result",
@@ -1260,7 +1272,7 @@
       "source": [
         "trainer.run()"
       ],
-      "execution_count": 23,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -1383,17 +1395,17 @@
       "metadata": {
         "id": "2jyHkIMQHnkT",
         "colab_type": "code",
+        "outputId": "ec7417b3-d0f1-4ce3-ee14-2ebb8fe20789",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 211
-        },
-        "outputId": "ec7417b3-d0f1-4ce3-ee14-2ebb8fe20789"
+        }
       },
       "cell_type": "code",
       "source": [
         "print_confusion_matrix(gt_labels_val, pred_labels_val)"
       ],
-      "execution_count": 27,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "display_data",
@@ -1423,7 +1435,7 @@
       "source": [
         "print_scores(gt_labels_val, pred_labels_val)"
       ],
-      "execution_count": 28,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -1479,17 +1491,17 @@
       "metadata": {
         "id": "o1hGRaQ2HuLN",
         "colab_type": "code",
+        "outputId": "73a6380a-8b18-4f2c-937f-c9fc978132e1",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 211
-        },
-        "outputId": "73a6380a-8b18-4f2c-937f-c9fc978132e1"
+        }
       },
       "cell_type": "code",
       "source": [
         "print_confusion_matrix(gt_labels_test, pred_labels_test)"
       ],
-      "execution_count": 30,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "display_data",
@@ -1519,7 +1531,7 @@
       "source": [
         "print_scores(gt_labels_test, pred_labels_test)"
       ],
-      "execution_count": 31,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -1659,17 +1671,17 @@
       "metadata": {
         "id": "UpyvYJMyoxOM",
         "colab_type": "code",
+        "outputId": "58c1dea5-2512-45c9-9431-2799deb0b72a",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 272
-        },
-        "outputId": "58c1dea5-2512-45c9-9431-2799deb0b72a"
+        }
       },
       "cell_type": "code",
       "source": [
         "trainer.run()"
       ],
-      "execution_count": 41,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -1711,17 +1723,17 @@
       "metadata": {
         "id": "tnVa0rmFpkwF",
         "colab_type": "code",
+        "outputId": "67a2a98d-ac4d-40e9-f6b8-aa4cba79dbf6",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 211
-        },
-        "outputId": "67a2a98d-ac4d-40e9-f6b8-aa4cba79dbf6"
+        }
       },
       "cell_type": "code",
       "source": [
         "print_confusion_matrix(gt_labels_val, pred_labels_val)"
       ],
-      "execution_count": 43,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "display_data",
@@ -1741,17 +1753,17 @@
       "metadata": {
         "id": "CN0fBQmwpkt9",
         "colab_type": "code",
+        "outputId": "d4819fe1-fdc8-4cf2-d0a4-6c32d109117c",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 204
-        },
-        "outputId": "d4819fe1-fdc8-4cf2-d0a4-6c32d109117c"
+        }
       },
       "cell_type": "code",
       "source": [
         "print_scores(gt_labels_val, pred_labels_val)"
       ],
-      "execution_count": 44,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -1789,17 +1801,17 @@
       "metadata": {
         "id": "ThK6B8xppt8W",
         "colab_type": "code",
+        "outputId": "3c02b983-29ac-4ba7-d4a0-fd65ab1914bf",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 211
-        },
-        "outputId": "3c02b983-29ac-4ba7-d4a0-fd65ab1914bf"
+        }
       },
       "cell_type": "code",
       "source": [
         "print_confusion_matrix(gt_labels_test, pred_labels_test)"
       ],
-      "execution_count": 46,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "display_data",
@@ -1819,17 +1831,17 @@
       "metadata": {
         "id": "DM8aI7hOpuA1",
         "colab_type": "code",
+        "outputId": "14c1c392-d512-4463-f61a-7da3af59d7f4",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 204
-        },
-        "outputId": "14c1c392-d512-4463-f61a-7da3af59d7f4"
+        }
       },
       "cell_type": "code",
       "source": [
         "print_scores(gt_labels_test, pred_labels_test)"
       ],
-      "execution_count": 47,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -1925,17 +1937,17 @@
       "metadata": {
         "id": "xfgBxkaZ6sGm",
         "colab_type": "code",
+        "outputId": "26af2fed-60ec-4bfd-c21c-562bae235fcf",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 2327
-        },
-        "outputId": "26af2fed-60ec-4bfd-c21c-562bae235fcf"
+        }
       },
       "cell_type": "code",
       "source": [
         "trainer.run()"
       ],
-      "execution_count": 56,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -2088,7 +2100,7 @@
         "print(\"X_val.shape = \", X_val.shape, \"\\ty_val.shape = \", y_val.shape)\n",
         "print(\"X_test.shape = \", X_test.shape, \"\\ty_test.shape = \", y_test.shape)"
       ],
-      "execution_count": 60,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -2116,7 +2128,7 @@
         "idx_n = np.where(y_train == 0)[0]\n",
         "plt.plot(X_train[idx_n[0]])"
       ],
-      "execution_count": 64,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "execute_result",
@@ -2159,7 +2171,7 @@
         "idx_s = np.where(y_train == 1)[0]\n",
         "plt.plot(X_train[idx_s[0]])"
       ],
-      "execution_count": 65,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "execute_result",
@@ -2202,7 +2214,7 @@
         "idx_v = np.where(y_train == 2)[0]\n",
         "plt.plot(X_train[idx_v[1]])"
       ],
-      "execution_count": 66,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "execute_result",
@@ -2261,17 +2273,17 @@
       "metadata": {
         "id": "mfiE5z7QiM9j",
         "colab_type": "code",
+        "outputId": "21c57b20-544b-4e56-a47a-04bb8e9c0e88",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 646
-        },
-        "outputId": "21c57b20-544b-4e56-a47a-04bb8e9c0e88"
+        }
       },
       "cell_type": "code",
       "source": [
         "trainer.run()"
       ],
-      "execution_count": 69,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -2345,7 +2357,7 @@
       "source": [
         "print_confusion_matrix(gt_labels_val, pred_labels_val)"
       ],
-      "execution_count": 72,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "display_data",
@@ -2375,7 +2387,7 @@
       "source": [
         "print_scores(gt_labels_val, pred_labels_val)"
       ],
-      "execution_count": 73,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -2423,7 +2435,7 @@
       "source": [
         "print_confusion_matrix(gt_labels_test, pred_labels_test)"
       ],
-      "execution_count": 77,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "display_data",
@@ -2453,7 +2465,7 @@
       "source": [
         "print_scores(gt_labels_test, pred_labels_test)"
       ],
-      "execution_count": 78,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -2505,7 +2517,8 @@
         "            for i in range(n_resblock):\n",
         "                resblock = ResBlock()\n",
         "                setattr(self, 'res{}'.format(str(i)), resblock)\n",
-        "            self.lstm = L.LSTM(None, 128)\n",
+        "            self.lstm1 = L.LSTM(None, 128)\n",
+        "            self.lstm2 = L.LSTM(None, 128)\n",
         "            self.fc1 = L.Linear(None, 32)\n",
         "            self.fc2 = L.Linear(32, 3)\n",
         "\n",
@@ -2513,7 +2526,8 @@
         "        h = self.conv(x)\n",
         "        for i in range(self.n_resblock):\n",
         "            h = getattr(self, 'res{}'.format(str(i)))(h)\n",
-        "        h = self.lstm(h)\n",
+        "        h = self.lstm1(h)\n",
+        "        h = self.lstm2(h)\n",
         "        h = F.relu(self.fc1(h))\n",
         "        h = self.fc2(h)\n",
         "        return h\n"
@@ -2612,62 +2626,125 @@
       "metadata": {
         "id": "kawTWjlNKZTA",
         "colab_type": "code",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 646
-        },
-        "outputId": "0259557d-5368-4f44-c91a-5d264f3fec6d"
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
         "trainer.run()"
       ],
-      "execution_count": 93,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "epoch       iteration   main/loss   main/accuracy  val/main/loss  val/main/accuracy\n",
-            "\u001b[J0           5           0.644585    0.783                                            \n",
-            "\u001b[J0           10          0.389658    0.895          0.360272       0.909012           \n",
-            "\u001b[J0           15          0.377343    0.896                                            \n",
-            "\u001b[J0           20          0.360176    0.898          0.351408       0.909012           \n",
-            "\u001b[J0           25          0.375249    0.886                                            \n",
-            "\u001b[J0           30          0.384464    0.885          0.342897       0.909012           \n",
-            "\u001b[J0           35          0.367198    0.884                                            \n",
-            "\u001b[J0           40          0.331554    0.896          0.336573       0.909012           \n",
-            "\u001b[J0           45          0.36811     0.882                                            \n",
-            "\u001b[J0           50          0.380142    0.87           0.327479       0.909012           \n",
-            "\u001b[J0           55          0.36939     0.866                                            \n",
-            "\u001b[J0           60          0.34694     0.885          0.321072       0.909012           \n",
-            "\u001b[J0           65          0.3125      0.891                                            \n",
-            "\u001b[J0           70          0.287413    0.899          0.308775       0.909012           \n",
-            "\u001b[J0           75          0.321652    0.89                                             \n",
-            "\u001b[J0           80          0.269123    0.898          0.303876       0.909012           \n",
-            "\u001b[J0           85          0.259442    0.897                                            \n",
-            "\u001b[J0           90          0.242391    0.909          0.301325       0.909012           \n",
-            "\u001b[J0           95          0.275385    0.889                                            \n",
-            "\u001b[J0           100         0.261308    0.891          0.300896       0.909012           \n",
-            "\u001b[J0           105         0.25766     0.898                                            \n",
-            "\u001b[J0           110         0.236837    0.905          0.295819       0.909012           \n",
-            "\u001b[J0           115         0.247357    0.887                                            \n",
-            "\u001b[J0           120         0.259136    0.884          0.298163       0.909057           \n",
-            "\u001b[J0           125         0.260499    0.897                                            \n",
-            "\u001b[J0           130         0.24276     0.889          0.294649       0.909328           \n",
-            "\u001b[J0           135         0.262689    0.893                                            \n",
-            "\u001b[J0           140         0.230817    0.905          0.286692       0.909643           \n",
-            "\u001b[J0           145         0.258621    0.88                                             \n",
-            "\u001b[J0           150         0.21257     0.908          0.284076       0.910904           \n",
-            "\u001b[J0           155         0.266811    0.9                                              \n",
-            "\u001b[J0           160         0.251942    0.919          0.288913       0.912723           \n",
-            "\u001b[J0           165         0.215532    0.948                                            \n",
-            "\u001b[J0           170         0.268479    0.942          0.285938       0.917277           \n",
-            "\u001b[J0           175         0.21655     0.957                                            \n",
-            "\u001b[J0           180         0.235989    0.951          0.285063       0.916331           \n"
-          ],
-          "name": "stdout"
-        }
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "colab_type": "code",
+        "id": "d9f1Sr7QPLgL",
+        "colab": {}
+      },
+      "cell_type": "code",
+      "source": [
+        "test_dataset = create_test_dataset(dataset_root)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "colab_type": "text",
+        "id": "l_M9geyFPLgO"
+      },
+      "cell_type": "markdown",
+      "source": [
+        "- TODO: 説明 - validationセットの評価"
       ]
+    },
+    {
+      "metadata": {
+        "colab_type": "code",
+        "id": "C_7Qhz7RPLgP",
+        "colab": {}
+      },
+      "cell_type": "code",
+      "source": [
+        "pred_labels_val, gt_labels_val = evaluate(trainer, validation_dataset, 0)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "colab_type": "code",
+        "id": "R4C-mFzBPLgQ",
+        "colab": {}
+      },
+      "cell_type": "code",
+      "source": [
+        "print_confusion_matrix(gt_labels_val, pred_labels_val)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "colab_type": "code",
+        "id": "n3z2ygYkPLgU",
+        "colab": {}
+      },
+      "cell_type": "code",
+      "source": [
+        "print_scores(gt_labels_val, pred_labels_val)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "colab_type": "text",
+        "id": "j6I9vlzVPLgX"
+      },
+      "cell_type": "markdown",
+      "source": [
+        "- TODO: 説明文 - テストセットの評価"
+      ]
+    },
+    {
+      "metadata": {
+        "colab_type": "code",
+        "id": "7Ywx3uWWPLgZ",
+        "colab": {}
+      },
+      "cell_type": "code",
+      "source": [
+        "pred_labels_test, gt_labels_test = evaluate(trainer, test_dataset, 0)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "colab_type": "code",
+        "id": "6__ydaA_PLgd",
+        "colab": {}
+      },
+      "cell_type": "code",
+      "source": [
+        "print_confusion_matrix(gt_labels_test, pred_labels_test)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "metadata": {
+        "colab_type": "code",
+        "id": "TGFyzW2_PLgh",
+        "colab": {}
+      },
+      "cell_type": "code",
+      "source": [
+        "print_scores(gt_labels_test, pred_labels_test)"
+      ],
+      "execution_count": 0,
+      "outputs": []
     },
     {
       "metadata": {
@@ -2888,7 +2965,7 @@
         "plt.plot(X_train_d[idx_n[0]])\n",
         "plt.show()"
       ],
-      "execution_count": 41,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "display_data",
@@ -2930,7 +3007,7 @@
         "trainer = create_trainer(200, train_dataset, validation_dataset, 0)\n",
         "trainer.run()"
       ],
-      "execution_count": 42,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -2993,7 +3070,7 @@
         "pred_labels_val, gt_labels_val = evaluate(trainer, validation_dataset, 0)\n",
         "print_scores(gt_labels_val, pred_labels_val)"
       ],
-      "execution_count": 44,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
@@ -3027,7 +3104,7 @@
         "pred_labels_test, gt_labels_test = evaluate(trainer, test_dataset, 0)\n",
         "print_scores(gt_labels_test, pred_labels_test)"
       ],
-      "execution_count": 45,
+      "execution_count": 0,
       "outputs": [
         {
           "output_type": "stream",
