@@ -5,8 +5,8 @@
     :maxdepth: 2
     :numbered:
 
-    notebooks/Chainer_Beginner's_Hands_on
-    notebooks/Image_Segmentation_with_Chainer
+    notebooks/Introduction_to_Chainer
+    notebooks/Image_Segmentation
     notebooks/Blood_Cell_Detection
     notebooks/Sequential_Data_Analysis_with_Deep_Learning
     notebooks/Basenji

@@ -29,7 +29,7 @@
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="next" title="3. 実践編: 血液の顕微鏡画像からの細胞検出" href="Blood_Cell_Detection.html" />
-    <link rel="prev" title="1. Deep Learningフレームワークの基礎" href="Chainer_Beginner&#39;s_Hands_on.html" /> 
+    <link rel="prev" title="1. Deep Learningフレームワークの基礎" href="Introduction_to_Chainer.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -79,7 +79,7 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Chainer_Beginner's_Hands_on.html">1. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">1. Deep Learningフレームワークの基礎</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. 実践編: CT/MRI画像のセグメンテーション</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#環境構築">2.1. 環境構築</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Semantic-Segmentationについて">2.2. Semantic Segmentationについて</a></li>
@@ -169,7 +169,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/notebooks/Image_Segmentation_with_Chainer.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/notebooks/Image_Segmentation.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -528,7 +528,7 @@ drwxr-xr-x  2 shunta shunta 4096 Oct 17 11:40 label
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_8_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_8_0.png" />
+<img alt="../_images/notebooks_Image_Segmentation_8_0.png" src="../_images/notebooks_Image_Segmentation_8_0.png" />
 </div>
 </div>
 <p>左側がMRI画像，右側がそれに対し専門家が作成した左心室の部分のマスク画像となっています．右側のマスク画像のうち，<strong>白く塗りつぶされている領域が，今回見つけ出したい左心室の領域となっています</strong>．左心室の大きさは，画像ごとに異なっており，形もまた様々です．ただし，<strong>画像全体に対して左心室が占める領域は比較的小さい</strong>ということは共通しています．</p>
@@ -836,7 +836,7 @@ Wall time: 1min 42s
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_32_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_32_0.png" />
+<img alt="../_images/notebooks_Image_Segmentation_32_0.png" src="../_images/notebooks_Image_Segmentation_32_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -855,7 +855,7 @@ Wall time: 1min 42s
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_33_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_33_0.png" />
+<img alt="../_images/notebooks_Image_Segmentation_33_0.png" src="../_images/notebooks_Image_Segmentation_33_0.png" />
 </div>
 </div>
 <p>うまく学習が進んでいるようです．Training loss, Validation
@@ -976,21 +976,21 @@ positive」（白という予測が正解していた領域）の割合を見る
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_0.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_0.png" />
+<img alt="../_images/notebooks_Image_Segmentation_38_0.png" src="../_images/notebooks_Image_Segmentation_38_0.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_1.png" />
+<img alt="../_images/notebooks_Image_Segmentation_38_1.png" src="../_images/notebooks_Image_Segmentation_38_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_38_2.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_38_2.png" />
+<img alt="../_images/notebooks_Image_Segmentation_38_2.png" src="../_images/notebooks_Image_Segmentation_38_2.png" />
 </div>
 </div>
 <p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）はかなり正解に対して小さめに出ています．これでも全体を平均してPixel
@@ -1288,7 +1288,7 @@ Loss
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_56_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_56_1.png" />
+<img alt="../_images/notebooks_Image_Segmentation_56_1.png" src="../_images/notebooks_Image_Segmentation_56_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1316,7 +1316,7 @@ mean IoU
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_57_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_57_1.png" />
+<img alt="../_images/notebooks_Image_Segmentation_57_1.png" src="../_images/notebooks_Image_Segmentation_57_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1344,7 +1344,7 @@ Pixel Accuracy
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_58_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_58_1.png" />
+<img alt="../_images/notebooks_Image_Segmentation_58_1.png" src="../_images/notebooks_Image_Segmentation_58_1.png" />
 </div>
 </div>
 <p>Pixel
@@ -1373,21 +1373,21 @@ mIou: 0.9049568755127222
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_1.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_1.png" />
+<img alt="../_images/notebooks_Image_Segmentation_60_1.png" src="../_images/notebooks_Image_Segmentation_60_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_2.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_2.png" />
+<img alt="../_images/notebooks_Image_Segmentation_60_2.png" src="../_images/notebooks_Image_Segmentation_60_2.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Image_Segmentation_with_Chainer_60_3.png" src="../_images/notebooks_Image_Segmentation_with_Chainer_60_3.png" />
+<img alt="../_images/notebooks_Image_Segmentation_60_3.png" src="../_images/notebooks_Image_Segmentation_60_3.png" />
 </div>
 </div>
 <p>一つ目のモデルの結果を確認した際と同じ画像が3つ並べられています．一つ目の結果よりも，特に3行目に注目すると，だいぶ正解ラベルに近い形のマスクを推定できていることがわかります．</p>
@@ -1483,7 +1483,7 @@ Open Source Software Competition, 2017</p>
         <a href="Blood_Cell_Detection.html" class="btn btn-neutral float-right" title="3. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Chainer_Beginner&#39;s_Hands_on.html" class="btn btn-neutral" title="1. Deep Learningフレームワークの基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Introduction_to_Chainer.html" class="btn btn-neutral" title="1. Deep Learningフレームワークの基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

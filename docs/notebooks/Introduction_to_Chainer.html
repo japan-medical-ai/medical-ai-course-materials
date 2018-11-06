@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="2. 実践編: CT/MRI画像のセグメンテーション" href="Image_Segmentation_with_Chainer.html" />
+    <link rel="next" title="2. 実践編: CT/MRI画像のセグメンテーション" href="Image_Segmentation.html" />
     <link rel="prev" title="メディカルAI学会認定資格向け学習資料" href="../index.html" /> 
 
   
@@ -158,7 +158,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation_with_Chainer.html">2. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">2. 実践編: CT/MRI画像のセグメンテーション</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">3. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Basenji.html">5. 実践編：ディープラーニングを使った配列解析</a></li>
@@ -213,7 +213,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/notebooks/Chainer_Beginner&#39;s_Hands_on.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/notebooks/Introduction_to_Chainer.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -551,7 +551,7 @@ ChainerにはMNISTやCIFAR10/100のようなよく用いられるデータセッ
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_16_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_16_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_16_0.png" src="../_images/notebooks_Introduction_to_Chainer_16_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1085,7 +1085,7 @@ Chainer</a></p>
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_47_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_47_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_47_0.png" src="../_images/notebooks_Introduction_to_Chainer_47_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1328,7 +1328,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_64_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_64_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_64_0.png" src="../_images/notebooks_Introduction_to_Chainer_64_0.png" />
 </div>
 </div>
 <p>精度のグラフも見てみましょう。</p>
@@ -1348,7 +1348,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_66_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_66_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_66_0.png" src="../_images/notebooks_Introduction_to_Chainer_66_0.png" />
 </div>
 </div>
 <p>もう少し学習を続ければ、まだ多少精度の向上が図れそうな雰囲気がありますね。</p>
@@ -1379,7 +1379,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_69_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_69_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_69_0.png" src="../_images/notebooks_Introduction_to_Chainer_69_0.png" />
 </div>
 </div>
 <p>上から下へ向かって、データやパラメータがどのような<code class="docutils literal notranslate"><span class="pre">Function</span></code>に渡されて計算が行われ、ロスを表す<code class="docutils literal notranslate"><span class="pre">Variable</span></code>が出力されたかが分かります。</p>
@@ -1447,7 +1447,7 @@ Extensionのsnapshotが自動的に保存したネットワークのスナップ
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_74_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_74_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_74_0.png" src="../_images/notebooks_Introduction_to_Chainer_74_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1697,7 +1697,7 @@ Test accuracy: 0.6044304
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_82_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_82_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_82_0.png" src="../_images/notebooks_Introduction_to_Chainer_82_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1716,7 +1716,7 @@ Test accuracy: 0.6044304
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_83_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_83_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_83_0.png" src="../_images/notebooks_Introduction_to_Chainer_83_0.png" />
 </div>
 </div>
 <p>学習データでの精度（<code class="docutils literal notranslate"><span class="pre">main/accuracy</span></code>)は77%程度まで到達していますが、テストデータでのロス（<code class="docutils literal notranslate"><span class="pre">val/main/loss</span></code>）は途中から下げ止まり、精度（<code class="docutils literal notranslate"><span class="pre">val/main/accuracy</span></code>）も60%前後で頭打ちになってしまっています。表示されたログの最後の行を見ると、テストデータでの精度も同様に60%程度だったようです。学習データでは良い精度が出ているが、
@@ -1764,7 +1764,7 @@ answer: airplane
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_86_1.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_86_1.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_86_1.png" src="../_images/notebooks_Introduction_to_Chainer_86_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1780,7 +1780,7 @@ answer: truck
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_86_3.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_86_3.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_86_3.png" src="../_images/notebooks_Introduction_to_Chainer_86_3.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1796,7 +1796,7 @@ answer: dog
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_86_5.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_86_5.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_86_5.png" src="../_images/notebooks_Introduction_to_Chainer_86_5.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1812,7 +1812,7 @@ answer: horse
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_86_7.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_86_7.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_86_7.png" src="../_images/notebooks_Introduction_to_Chainer_86_7.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1828,7 +1828,7 @@ answer: truck
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_86_9.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_86_9.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_86_9.png" src="../_images/notebooks_Introduction_to_Chainer_86_9.png" />
 </div>
 </div>
 <p>うまく分類できているものもあれば、そうでないものもありました。ネットワークの学習に使用したデータセット上ではほぼ百発百中で正解できるとしても、未知のデータ、すなわちテストデータセットにある画像に対して高精度な予測ができなければ、意味がありません[^NN]。テストデータでの精度は、モデルの<strong>汎化性能</strong>に関係していると言われます。</p>
@@ -2074,7 +2074,7 @@ Test accuracy: 0.8894383
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_98_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_98_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_98_0.png" src="../_images/notebooks_Introduction_to_Chainer_98_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2091,7 +2091,7 @@ Test accuracy: 0.8894383
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Beginner's_Hands_on_99_0.png" src="../_images/notebooks_Chainer_Beginner's_Hands_on_99_0.png" />
+<img alt="../_images/notebooks_Introduction_to_Chainer_99_0.png" src="../_images/notebooks_Introduction_to_Chainer_99_0.png" />
 </div>
 </div>
 <p>先程よりも大幅にValidationデータに対する精度が向上したことが分かります。学習率を10分の1に下げるタイミングでロスががくっと減り、精度がガクッと上がっているのが分かります。最終的に、先程60%前後だったValidationデータでの精度が、90%程度まで上がりました。また、テストデータを用いた精度も、およそ90%程度となっています。しかし最新の研究成果では97%以上まで達成されています。さらに精度を上げるには、今回行ったようなネットワークの構造自体の改良ももちろんのこと、学習データを擬似的に増やす操作（Data
@@ -2402,7 +2402,7 @@ Competition, pp.1213-1216, 2017.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Image_Segmentation_with_Chainer.html" class="btn btn-neutral float-right" title="2. 実践編: CT/MRI画像のセグメンテーション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Image_Segmentation.html" class="btn btn-neutral float-right" title="2. 実践編: CT/MRI画像のセグメンテーション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral" title="メディカルAI学会認定資格向け学習資料" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
