@@ -8,6 +8,7 @@
     notebooks/Chainer_Beginner's_Hands_on
     notebooks/Image_Segmentation_with_Chainer
     notebooks/Blood_Cell_Detection
+    notebooks/Sequential-Data-Analysis-with-Deep-Learning
     notebooks/Basenji
 
 索引と検索
