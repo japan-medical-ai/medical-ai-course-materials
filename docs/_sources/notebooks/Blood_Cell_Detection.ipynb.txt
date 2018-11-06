@@ -36,8 +36,6 @@
       "source": [
         "# 実践編: 血液の顕微鏡画像からの細胞検出\n",
         "\n",
-        "[Open with Colab](https://colab.research.google.com/github/mitmul/medical-ai-course-materials/blob/master/docs/source/notebooks/Blood_Cell_Detection.ipynb)\n",
-        "\n",
         "ここでは血液細胞の検出タスクに取り組みます。人の血液の顕微鏡画像が与えられたときに、\n",
         "\n",
         "- 赤血球（Red Blood Cell; RBC）\n",
