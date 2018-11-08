@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3. 実践編: 血液の顕微鏡画像からの細胞検出 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
+  <title>7. 実践編: 血液の顕微鏡画像からの細胞検出 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" href="Sequential_Data_Analysis_with_Deep_Learning.html" />
-    <link rel="prev" title="2. 実践編: CT/MRI画像のセグメンテーション" href="Image_Segmentation.html" /> 
+    <link rel="next" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" href="Sequential_Data_Analysis_with_Deep_Learning.html" />
+    <link rel="prev" title="6. 実践編: CT/MRI画像のセグメンテーション" href="Image_Segmentation.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -79,24 +79,28 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">1. Deep Learningフレームワークの基礎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">2. 実践編: CT/MRI画像のセグメンテーション</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3. 実践編: 血液の顕微鏡画像からの細胞検出</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#環境構築">3.1. 環境構築</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Object-Detectionについて">3.2. Object Detectionについて</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#データセットの準備">3.3. データセットの準備</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#データセットダウンロード">3.3.1. データセットダウンロード</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#データセットオブジェクト作成">3.3.2. データセットオブジェクト作成</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chainer_Basics.html">4. Chainer入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. 実践編: 血液の顕微鏡画像からの細胞検出</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">7.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Object-Detectionについて">7.2. Object Detectionについて</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データセットの準備">7.3. データセットの準備</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データセットダウンロード">7.3.1. データセットダウンロード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#データセットオブジェクト作成">7.3.2. データセットオブジェクト作成</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Single-Shot-Multibox-Detector-(SSD)">3.4. Single Shot Multibox Detector (SSD)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#モデルの定義">3.5. モデルの定義</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Data-augmentationの実装">3.6. Data augmentationの実装</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#学習の開始">3.7. 学習の開始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Single-Shot-Multibox-Detector-(SSD)">7.4. Single Shot Multibox Detector (SSD)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#モデルの定義">7.5. モデルの定義</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-augmentationの実装">7.6. Data augmentationの実装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#学習の開始">7.7. 学習の開始</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Basenji.html">5. 実践編：ディープラーニングを使った配列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
 </ul>
 
             
@@ -142,7 +146,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>3. 実践編: 血液の顕微鏡画像からの細胞検出</li>
+      <li>7. 実践編: 血液の顕微鏡画像からの細胞検出</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -345,7 +349,7 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="実践編:-血液の顕微鏡画像からの細胞検出">
-<h1>3. 実践編: 血液の顕微鏡画像からの細胞検出<a class="headerlink" href="#実践編:-血液の顕微鏡画像からの細胞検出" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1>7. 実践編: 血液の顕微鏡画像からの細胞検出<a class="headerlink" href="#実践編:-血液の顕微鏡画像からの細胞検出" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ここでは血液細胞の検出タスクに取り組みます。人の血液の顕微鏡画像が与えられたときに、</p>
 <ul class="simple">
 <li>赤血球（Red Blood Cell; RBC）</li>
@@ -366,7 +370,7 @@ box（bboxとよく略される）は、<code class="docutils literal notranslat
 <p><img alt="detection_sample.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png" /> 血液の顕微鏡画像からRBC, WBC,
 Plateletを検出している例</p>
 <div class="section" id="環境構築">
-<h2>3.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まず環境構築のためColab上で以下のセルを実行してChainer, CuPy, ChainerCV,
 matplotlibといったPythonパッケージのインストールを済ませます。</p>
 <div class="nbinput docutils container">
@@ -446,7 +450,7 @@ iDeep: Not Available
 </div>
 </div>
 <div class="section" id="Object-Detectionについて">
-<h2>3.2. Object Detectionについて<a class="headerlink" href="#Object-Detectionについて" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.2. Object Detectionについて<a class="headerlink" href="#Object-Detectionについて" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>物体検出（object detection）は、Computer
 Visionの分野で現在も活発に研究が行われているタスクの一つで、自動運転分野やロボティクスなど幅広い領域で重要な役割を果たす技術です。Semantic
 Segmentationと違い、物体の形（輪郭）までは認識しませんが、<strong>物の種類と位置を、物体ごとに個別に出力</strong>します。</p>
@@ -466,9 +470,9 @@ stageタイプよりも処理速度は高速だが，精度が低いと言われ
 <p>今回は，SSDという手法を用いて，細胞画像のデータセットを使って</p>
 </div>
 <div class="section" id="データセットの準備">
-<h2>3.3. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.3. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="データセットダウンロード">
-<h3>3.3.1. データセットダウンロード<a class="headerlink" href="#データセットダウンロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>7.3.1. データセットダウンロード<a class="headerlink" href="#データセットダウンロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>今回は<a class="reference external" href="https://github.com/Shenggan/BCCD_Dataset">BCCD
 Dataset</a>という血液の顕微鏡画像と、画像それぞれに対してRBC,
 WBC, Plateletの3つの物体に対するbounding
@@ -512,7 +516,7 @@ formatと呼ばれる形式で細胞画像それぞれに対して<strong>どの
 </ul>
 </div>
 <div class="section" id="データセットオブジェクト作成">
-<h3>3.3.2. データセットオブジェクト作成<a class="headerlink" href="#データセットオブジェクト作成" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>7.3.2. データセットオブジェクト作成<a class="headerlink" href="#データセットオブジェクト作成" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ChainerCVにはPascal
 VOCデータセットを簡単に読み込むための便利なクラスが用意されています。これを継承し、<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッドをオーバーライドして今回使用するデータセットに合わせて変更を加えます。変更が必要な行は１行だけです。<a class="reference external" href="https://github.com/chainer/chainercv/blob/v0.10.0/chainercv/datasets/voc/voc_bbox_dataset.py#L90-L115">こちら</a>から該当するコードをコピーしてきて、以下の変更を行い、<code class="docutils literal notranslate"><span class="pre">BCCDDataset</span></code>クラスを定義してみましょう。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">voc_utils</span><span class="o">.</span><span class="n">voc_bbox_label_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
@@ -617,7 +621,7 @@ ax.figure.tight_layout()
 </div>
 </div>
 <div class="section" id="Single-Shot-Multibox-Detector-(SSD)">
-<h2>3.4. Single Shot Multibox Detector (SSD)<a class="headerlink" href="#Single-Shot-Multibox-Detector-(SSD)" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.4. Single Shot Multibox Detector (SSD)<a class="headerlink" href="#Single-Shot-Multibox-Detector-(SSD)" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>データの準備が完了したので、今回訓練するモデルについて説明を行います。今回は、<a class="reference external" href="https://arxiv.org/abs/1512.02325">Single
 Shot MultiBox Detector
 (SSD)</a>というモデルを使ってみます。</p>
@@ -645,7 +649,7 @@ detectors</a>）より、以下の図がしばしば参照されます．
 boxの位置と、その中の物体のクラス）を出力していくことで，複数のスケールでの予測を起こっているのが特徴です．</p>
 </div>
 <div class="section" id="モデルの定義">
-<h2>3.5. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.5. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>SSDのネットワーク部分の実装は，ChainerCVが提供してくれています．ChainerCVの
 <code class="docutils literal notranslate"><span class="pre">chainercv.links.SSD300</span></code>
 というクラスは，縦横が300ピクセルの画像を入力にとるSSDのモデルを表していて，デフォルトで特徴抽出器にはVGG16が用いられます．</p>
@@ -700,7 +704,7 @@ class MultiboxTrainChain(chainer.Chain):
 </div>
 </div>
 <div class="section" id="Data-augmentationの実装">
-<h2>3.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．今回は非常にコンパクトなデータセットを使ってとりあえず学習と結果利用のフローを体験することを目的としているため，実用に耐えうるような十分なバリエーションを持ったデータセットは使っていません．ただし，データを擬似的に増やすように様々な変換を画像とそれに付随するラベルに適用するテクニック（data
 augmentation）は，大量のデータを集めることができたとしても依然行われることで，ここでどのようにそれを行えばよいか見ておくことに損はないでしょう．</p>
 <p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換しょりを記述したクラスを定義しておきます．</p>
@@ -779,7 +783,7 @@ class Transform(object):
 </div>
 </div>
 <div class="section" id="学習の開始">
-<h2>3.7. 学習の開始<a class="headerlink" href="#学習の開始" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.7. 学習の開始<a class="headerlink" href="#学習の開始" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>以下では，Chainerが用意するデータセットクラスの一つ，<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>を使って，事前に定義したデータ点ごとに適用したい変換を順次用いてくれるようにしています．</p>
 <p>基本的な流れはすでに学んだ画像分類やセグメンテーションなどを行うネットワークの訓練の仕方と多くが共通しています．どのような部分が異なっているか，コードを見ながら一つ一つ理解していくことで調べてみましょう．</p>
 <div class="nbinput docutils container">
@@ -979,10 +983,10 @@ epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  v
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Sequential_Data_Analysis_with_Deep_Learning.html" class="btn btn-neutral float-right" title="4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Sequential_Data_Analysis_with_Deep_Learning.html" class="btn btn-neutral float-right" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Image_Segmentation.html" class="btn btn-neutral" title="2. 実践編: CT/MRI画像のセグメンテーション" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Image_Segmentation.html" class="btn btn-neutral" title="6. 実践編: CT/MRI画像のセグメンテーション" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
