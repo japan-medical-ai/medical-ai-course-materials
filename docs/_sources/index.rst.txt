@@ -25,13 +25,11 @@
 本資料はコースの受講者以外も誰でも自由に無料で使うことができます。
 
 
-本資料の作成者
-^^^^^^^^^^^^^^
-本資料は株式会社Preferred Networksの岡野原 大輔、齋藤 俊太、菅原 洋平、その他多くの有志、そして株式会社キカガクが中心となって作成しました。
-
+資料もくじ
+^^^^^^^^^^
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
     :numbered:
     
     notebooks/Basic_Math_for_ML
@@ -43,6 +41,10 @@
     notebooks/Blood_Cell_Detection
     notebooks/Sequential_Data_Analysis_with_Deep_Learning
     notebooks/Basenji
+
+本資料の作成者
+^^^^^^^^^^^^^^
+本資料は株式会社Preferred Networksの岡野原 大輔、齋藤 俊太、菅原 洋平、その他多くの有志、そして株式会社キカガクが中心となって作成しました。
 
 索引と検索
 ==========

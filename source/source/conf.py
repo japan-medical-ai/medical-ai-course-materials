@@ -25,9 +25,9 @@ dir_util.copy_tree('../../notebooks', './notebooks')
 
 # -- Project information -----------------------------------------------------
 
-project = 'メディカルAI学会認定資格向け学習資料'
-copyright = '2018, キカガク, Preferred Networks'
-author = 'Kikagaku, Daisuke Okanohara, Yohei Sugawara, Shunta Saito'
+project = 'メディカルAIコース オンライン講義資料<Paste>'
+copyright = '2018, Preferred Networks & キカガク'
+author = 'Daisuke Okanohara, Shunta Saito, Yohei Sugawara, Kikagaku'
 
 # The short X.Y version
 version = ''
