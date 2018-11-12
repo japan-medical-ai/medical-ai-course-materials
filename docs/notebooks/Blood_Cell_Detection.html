@@ -367,7 +367,7 @@ detection）</strong>と呼び、画像を入力として、対象の物体（�
 <p>を出力していくことが目的となります。ただし、<strong>画像中にいくつの物体が含まれるかは事前に分からない</strong>ため、任意個（または十分な数）の物体の<strong>bounding
 boxとクラスラベルの予測値の組</strong>を出力できるような手法である必要があります。</p>
 <p>bounding
-box（bboxとよく略される）は、<code class="docutils literal notranslate"><span class="pre">[矩形の左上のy座標,</span> <span class="pre">矩形の左上のx座標,</span> <span class="pre">矩形の右下のy座標,</span> <span class="pre">矩形の右下のx座標]</span></code>のような形式で定義されることが多く、クラスは物体の種類ごとに割り振られたIDで表されることが多いようです。例えば、RBCは0、WBCは1、Plateletは2とします。</p>
+box（bboxとよく略される）は、<code class="docutils literal notranslate"><span class="pre">[矩形の左上のy座標,</span> <span class="pre">矩形の左上のx座標,</span> <span class="pre">矩形の右下のy座標,</span> <span class="pre">矩形の右下のx座標]</span></code>のような形式で定義されることが多く、クラスは物体の種類ごとに割り振られたIDで表されることが多いようです。例えば、RBCは0、WBCは1、Plateletは2といったように一つの整数が割り当てられます．</p>
 <p><img alt="detection_sample.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png" /> 血液の顕微鏡画像からRBC, WBC,
 Plateletを検出している例</p>
 <div class="section" id="環境構築">
@@ -392,30 +392,94 @@ matplotlibといったPythonパッケージのインストールを済ませま�
 <div class="highlight"><pre>
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  1379  100  1379    0     0  11786      0 --:--:-- --:--:-- --:--:-- 11786
+100  1379  100  1379    0     0   8565      0 --:--:-- --:--:-- --:--:--  8565
 + apt -y -q install cuda-libraries-dev-9-2
 Reading package lists...
 Building dependency tree...
 Reading state information...
-cuda-libraries-dev-9-2 is already the newest version (9.2.148-1).
-0 upgraded, 0 newly installed, 0 to remove and 5 not upgraded.
+The following additional packages will be installed:
+  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
+  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-npp-dev-9-2
+  cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
+The following NEW packages will be installed:
+  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
+  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-libraries-dev-9-2
+  cuda-npp-dev-9-2 cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
+0 upgraded, 9 newly installed, 0 to remove and 5 not upgraded.
+Need to get 332 MB of archives.
+After this operation, 972 MB of additional disk space will be used.
+Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cublas-dev-9-2 9.2.148.1-1 [50.4 MB]
+Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cufft-dev-9-2 9.2.148-1 [106 MB]
+Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-curand-dev-9-2 9.2.148-1 [57.8 MB]
+Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusolver-dev-9-2 9.2.148-1 [8,184 kB]
+Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusparse-dev-9-2 9.2.148-1 [27.8 MB]
+Get:6 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvrtc-dev-9-2 9.2.148-1 [9,348 B]
+Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvgraph-dev-9-2 9.2.148-1 [30.1 MB]
+Get:8 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-npp-dev-9-2 9.2.148-1 [52.0 MB]
+Get:9 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-libraries-dev-9-2 9.2.148-1 [2,598 B]
+Fetched 332 MB in 7s (50.4 MB/s)
+Selecting previously unselected package cuda-cublas-dev-9-2.
+(Reading database ... 22280 files and directories currently installed.)
+Preparing to unpack .../0-cuda-cublas-dev-9-2_9.2.148.1-1_amd64.deb ...
+Unpacking cuda-cublas-dev-9-2 (9.2.148.1-1) ...
+Selecting previously unselected package cuda-cufft-dev-9-2.
+Preparing to unpack .../1-cuda-cufft-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cufft-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-curand-dev-9-2.
+Preparing to unpack .../2-cuda-curand-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-curand-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-cusolver-dev-9-2.
+Preparing to unpack .../3-cuda-cusolver-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cusolver-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-cusparse-dev-9-2.
+Preparing to unpack .../4-cuda-cusparse-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cusparse-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-nvrtc-dev-9-2.
+Preparing to unpack .../5-cuda-nvrtc-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-nvrtc-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-nvgraph-dev-9-2.
+Preparing to unpack .../6-cuda-nvgraph-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-nvgraph-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-npp-dev-9-2.
+Preparing to unpack .../7-cuda-npp-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-npp-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-libraries-dev-9-2.
+Preparing to unpack .../8-cuda-libraries-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-libraries-dev-9-2 (9.2.148-1) ...
+Setting up cuda-npp-dev-9-2 (9.2.148-1) ...
+Setting up cuda-curand-dev-9-2 (9.2.148-1) ...
+Setting up cuda-nvrtc-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cusolver-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cufft-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cusparse-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cublas-dev-9-2 (9.2.148.1-1) ...
+Setting up cuda-nvgraph-dev-9-2 (9.2.148-1) ...
+Setting up cuda-libraries-dev-9-2 (9.2.148-1) ...
 + pip install -q cupy-cuda92  chainer
 + set +ex
 Installation succeeded!
-Requirement already satisfied: chainercv in /usr/local/lib/python3.6/dist-packages (0.11.0)
+Collecting chainercv
+  Downloading https://files.pythonhosted.org/packages/bb/1c/cee12630628d0acd4d6c5d7a3ba196a3aa079a863baa3dc74eb70d8494c5/chainercv-0.11.0.tar.gz (223kB)
+    100% |████████████████████████████████| 225kB 5.2MB/s
 Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (2.1.2)
-Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.0.0)
 Requirement already satisfied: chainer&gt;=5.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (5.0.0)
+Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.0.0)
 Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.11.0)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
-Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2018.7)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.0)
 Requirement already satisfied: numpy&gt;=1.7.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)
 Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.0)
-Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.0.10)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
+Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2018.7)
 Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.6.1)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.0.10)
+Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
 Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer&gt;=5.0-&gt;chainercv) (40.5.0)
+Building wheels for collected packages: chainercv
+  Running setup.py bdist_wheel for chainercv ... - \ | / - \ | / done
+  Stored in directory: /root/.cache/pip/wheels/95/24/5a/1611db416857b5e092962bc22a70722315881e03970c7fa966
+Successfully built chainercv
+Installing collected packages: chainercv
+Successfully installed chainercv-0.11.0
 </pre></div></div>
 </div>
 <p>環境のセットアップが成功したことを以下のセルを実行して確認しましょう。</p>
@@ -455,20 +519,20 @@ iDeep: Not Available
 <p>物体検出（object detection）は、Computer
 Visionの分野で現在も活発に研究が行われているタスクの一つで、自動運転分野やロボティクスなど幅広い領域で重要な役割を果たす技術です。Semantic
 Segmentationと違い、物体の形（輪郭）までは認識しませんが、<strong>物の種類と位置を、物体ごとに個別に出力</strong>します。</p>
-<p>「物の種類」をクラスと呼ぶとき、そのクラスに属する個別の物体をインスタンスと呼ぶことができます。すると，犬が2匹写っている写真があるとき，それは「犬」というクラスに属すしている犬インスタンスが2個ある，という状態だと言えます．つまり，Semantic
+<p>「物の種類」をクラスと呼ぶとき、そのクラスに属する個別の物体をインスタンスと呼ぶことができます。すると，犬が2匹写っている写真があるとき，それは「犬」というクラスに属している犬インスタンスが2個ある，という状態だと言えます．つまり，Semantic
 Segmentationではインスタンスごとに領域が区別されて出力されるわけではなかった一方で、物体検出の出力はインスタンスごとに別々のbounding
 boxが出力されるという違いがあります。</p>
 <p>ニューラルネットワークを用いた物体検出手法は、<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>という2014年に発表された手法を皮切りに、様々な改善手法が提案されています。まず一つ、重要なのは<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>,
 <a class="reference external" href="https://arxiv.org/abs/1504.08083">Fast R-CNN</a>, そして<a class="reference external" href="https://arxiv.org/abs/1506.01497">Faster
 R-CNN</a>という、同一の著者らを中心として提案されているConvolutional
-Neural Networks (CNN)をベースとした物体検出手法の発展流れです。現在two
+Neural Networks (CNN)をベースとした物体検出手法の発展の流れです。現在two
 stageタイプと呼ばれているものはほぼこのFaster
 R-CNNをベースとしたものとなります。</p>
 <p>それに対して，single
 stageタイプと呼ばれる手法の流れが，<a class="reference external" href="https://arxiv.org/abs/1512.02325">SSD</a>や<a class="reference external" href="https://arxiv.org/abs/1506.02640">YOLO</a>，<a class="reference external" href="https://arxiv.org/abs/1612.08242">YOLOv2</a>，<a class="reference external" href="https://arxiv.org/abs/1804.02767">YOLOv3</a>などで，特にYOLOとその発展手法は処理のスピードに着目して工夫を行っています．一般的にsingle
 stageタイプの方がtwo
-stageタイプよりも処理速度は高速だが，精度が低いと言われていますが，最近は高い精度を達成しつつも高速に処理できるように工夫した手法（YOLOv3など）も出てきており，その限りではなくなってきています．</p>
-<p>今回は，SSDという手法を用いて，細胞画像のデータセットを使って</p>
+stageタイプよりも処理速度は高速だが，精度が低いと言われています．ただし，最近は高い精度を達成しつつも高速に処理できるように工夫した手法（YOLOv3など）も出てきており，その限りではなくなってきています．</p>
+<p>今回は，SSDという手法を用いて，細胞画像のデータセットを使って三種類の細胞の位置と種類を抽出するニューラルネットワークを訓練してみましょう．</p>
 </div>
 <div class="section" id="データセットの準備">
 <h2>7.3. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -478,15 +542,27 @@ stageタイプよりも処理速度は高速だが，精度が低いと言われ
 Dataset</a>という血液の顕微鏡画像と、画像それぞれに対してRBC,
 WBC, Plateletの3つの物体に対するbounding
 boxのアノテーションが用意された小規模なデータセットを用います。このデータセットはGithubリポジトリで配布されていますので、以下のセルを実行してデータセットをダウンロードしましょう。</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!if [ ! -d BCCD_Dataset ]; then git clone https://github.com/Shenggan/BCCD_Dataset.git; fi
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Cloning into &#39;BCCD_Dataset&#39;...
+remote: Enumerating objects: 770, done.
+remote: Total 770 (delta 0), reused 0 (delta 0), pack-reused 770
+Receiving objects: 100% (770/770), 7.33 MiB | 21.02 MiB/s, done.
+Resolving deltas: 100% (367/367), done.
+</pre></div></div>
 </div>
 <p>データセットは以下のようなファイル構成で配布されています。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>BCCD
@@ -616,7 +692,7 @@ ax.figure.tight_layout()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_14_0.png" src="../_images/notebooks_Blood_Cell_Detection_14_0.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_13_0.png" src="../_images/notebooks_Blood_Cell_Detection_13_0.png" />
 </div>
 </div>
 </div>
@@ -834,9 +910,9 @@ training_epoch = 300
 <p>まずは，モデルオブジェクトを作成します．ベースとなるモデルの実装はChainerCVが提供しているSSD300（入力画像サイズが300
 x
 300のSSDアーキテクチャ）を使用します．重みの初期値として，特徴抽出に用いる部分のネットワークをImageNetデータセットを用いてpre-trainingしたものを使用するよう，<code class="docutils literal notranslate"><span class="pre">pretrained_model</span></code>というオプションに<code class="docutils literal notranslate"><span class="pre">'imagenet'</span></code>という文字列を渡しています．最後に，SSDのロス関数計算は少し特殊ですが，必要な後処理などを隠蔽してくれる<code class="docutils literal notranslate"><span class="pre">MultiboxTrainChain</span></code>というクラスでモデルをラップし，<code class="docutils literal notranslate"><span class="pre">train_chain</span></code>というオブジェクトを作成しています．これを学習中はパラメータ更新対象のChainとします．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -844,6 +920,18 @@ x
 train_chain = MultiboxTrainChain(model)
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Downloading ...
+From: https://chainercv-models.preferred.jp/ssd_vgg16_imagenet_converted_2017_06_09.npz
+To: /root/.chainer/dataset/_dl_cache/b4130ae0aa259c095b50ff95d81c32ee
+  %   Total    Recv       Speed  Time left
+100   76MiB   76MiB   4042KiB/s    0:00:00
+</pre></div></div>
 </div>
 <p>上のセルを実行すると，自動的にImageNetでVGG16というネットワークを訓練した際の重みがダウンロードされると思います．このように，ChainerCVではいくつかのpre-trained
 modelを非常に簡単に使い始めることができるような形で提供しています．</p>
@@ -881,17 +969,26 @@ for param in train_chain.params():
 </pre></div>
 </div>
 </div>
-<p>最後にUpdaterとTrainerのオブジェクトを作成し，学習を開始してみます．パラメータを変更して再度学習を回す場合は，モデルのオブジェクトを定義したセルから順に実行し直してみてください．</p>
+<p>次にUpdaterのオブジェクトを作成します．今回はUpdaterに最もシンプルな<code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>を用いました．CPUもしくはシングルGPUを用いて学習を行う際には，このUpdaterを使います．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>updater = training.updaters.StandardUpdater(
+    train_iter, optimizer, device=gpu_id)
+</pre></div>
+</div>
+</div>
+<p>最後に，Trainerオブジェクトを作成します．Trainerの初期化時には，コンストラクタの第１引数に上で作成した<code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>オブジェクトの<code class="docutils literal notranslate"><span class="pre">updater</span></code>を渡します．第２引数には，いつ学習を終了するのかを表すTriggerを渡します．これは，</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>updater = training.updaters.StandardUpdater(
-    train_iter, optimizer, device=gpu_id)
-
-trainer = training.Trainer(updater, (training_epoch, &#39;epoch&#39;), out)
+<span></span>trainer = training.Trainer(updater, (training_epoch, &#39;epoch&#39;), out)
 trainer.extend(
     extensions.ExponentialShift(&#39;lr&#39;, 0.1, init=initial_lr),
     trigger=triggers.ManualScheduleTrigger([200, 250], &#39;epoch&#39;))
@@ -926,106 +1023,45 @@ trainer.run()
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  validation/main/map  elapsed_time
-10          65          0.001       6.72062     2.05654        4.66409         0.109654             224.223
-20          129         0.001       4.15275     1.56339        2.58937         0.0938605            438.155
-30          193         0.001       3.55006     1.27036        2.2797          0.211957             651.868
-40          257         0.001       3.20303     1.07597        2.12706         0.499611             868.318
-50          321         0.001       3.00565     0.960505       2.04515         0.615598             1084.63
-60          385         0.001       2.88604     0.894898       1.99114         0.640079             1301.96
-70          449         0.001       2.77694     0.834332       1.94261         0.660564             1518.05
-80          513         0.001       2.67957     0.78986        1.88971         0.675259             1734.78
-90          577         0.001       2.61087     0.757876       1.85299         0.688093             1951.51
-100         641         0.001       2.57445     0.738322       1.83612         0.694879             2167.75
-110         705         0.0001      2.48146     0.685462       1.796           0.710251             2384.03
-120         769         0.0001      2.41924     0.661702       1.75754         0.702076             2599.75
-130         833         0.0001      2.4132      0.660281       1.75291         0.701863             2815.79
-140         897         0.0001      2.39775     0.655648       1.7421          0.702437             3032.88
-150         961         0.0001      2.36765     0.639021       1.72863         0.700345             3249.04
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-14-f3b3121dd665&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     23</span> trainer<span class="ansi-blue-fg">.</span>extend<span class="ansi-blue-fg">(</span>extensions<span class="ansi-blue-fg">.</span>snapshot<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> trigger<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;epoch&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     24</span>
-<span class="ansi-green-fg">---&gt; 25</span><span class="ansi-red-fg"> </span>trainer<span class="ansi-blue-fg">.</span>run<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/training/trainer.py</span> in <span class="ansi-cyan-fg">run</span><span class="ansi-blue-fg">(self, show_loop_exception_msg)</span>
-<span class="ansi-green-intense-fg ansi-bold">    316</span>                     <span class="ansi-green-fg">for</span> name<span class="ansi-blue-fg">,</span> entry <span class="ansi-green-fg">in</span> extensions<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    317</span>                         <span class="ansi-green-fg">if</span> entry<span class="ansi-blue-fg">.</span>trigger<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 318</span><span class="ansi-red-fg">                             </span>entry<span class="ansi-blue-fg">.</span>extension<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    319</span>         <span class="ansi-green-fg">except</span> Exception <span class="ansi-green-fg">as</span> e<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    320</span>             <span class="ansi-green-fg">if</span> show_loop_exception_msg<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/training/extensions/_snapshot.py</span> in <span class="ansi-cyan-fg">snapshot</span><span class="ansi-blue-fg">(trainer)</span>
-<span class="ansi-green-intense-fg ansi-bold">     74</span>     <span class="ansi-blue-fg">@</span>extension<span class="ansi-blue-fg">.</span>make_extension<span class="ansi-blue-fg">(</span>trigger<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;epoch&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> priority<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">100</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     75</span>     <span class="ansi-green-fg">def</span> snapshot<span class="ansi-blue-fg">(</span>trainer<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 76</span><span class="ansi-red-fg">         </span>_snapshot_object<span class="ansi-blue-fg">(</span>trainer<span class="ansi-blue-fg">,</span> trainer<span class="ansi-blue-fg">,</span> filename<span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>trainer<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> savefun<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     77</span>
-<span class="ansi-green-intense-fg ansi-bold">     78</span>     <span class="ansi-green-fg">return</span> snapshot
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/training/extensions/_snapshot.py</span> in <span class="ansi-cyan-fg">_snapshot_object</span><span class="ansi-blue-fg">(trainer, target, filename, savefun)</span>
-<span class="ansi-green-intense-fg ansi-bold">     85</span>     <span class="ansi-green-fg">with</span> utils<span class="ansi-blue-fg">.</span>tempdir<span class="ansi-blue-fg">(</span>prefix<span class="ansi-blue-fg">=</span>prefix<span class="ansi-blue-fg">,</span> dir<span class="ansi-blue-fg">=</span>trainer<span class="ansi-blue-fg">.</span>out<span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> tmpdir<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     86</span>         tmppath <span class="ansi-blue-fg">=</span> os<span class="ansi-blue-fg">.</span>path<span class="ansi-blue-fg">.</span>join<span class="ansi-blue-fg">(</span>tmpdir<span class="ansi-blue-fg">,</span> fn<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">---&gt; 87</span><span class="ansi-red-fg">         </span>savefun<span class="ansi-blue-fg">(</span>tmppath<span class="ansi-blue-fg">,</span> target<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     88</span>         shutil<span class="ansi-blue-fg">.</span>move<span class="ansi-blue-fg">(</span>tmppath<span class="ansi-blue-fg">,</span> os<span class="ansi-blue-fg">.</span>path<span class="ansi-blue-fg">.</span>join<span class="ansi-blue-fg">(</span>trainer<span class="ansi-blue-fg">.</span>out<span class="ansi-blue-fg">,</span> fn<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/serializers/npz.py</span> in <span class="ansi-cyan-fg">save_npz</span><span class="ansi-blue-fg">(file, obj, compression)</span>
-<span class="ansi-green-intense-fg ansi-bold">     72</span>     <span class="ansi-green-fg">if</span> isinstance<span class="ansi-blue-fg">(</span>file<span class="ansi-blue-fg">,</span> six<span class="ansi-blue-fg">.</span>string_types<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     73</span>         <span class="ansi-green-fg">with</span> open<span class="ansi-blue-fg">(</span>file<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;wb&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> f<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 74</span><span class="ansi-red-fg">             </span>save_npz<span class="ansi-blue-fg">(</span>f<span class="ansi-blue-fg">,</span> obj<span class="ansi-blue-fg">,</span> compression<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     75</span>         <span class="ansi-green-fg">return</span>
-<span class="ansi-green-intense-fg ansi-bold">     76</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/chainer/serializers/npz.py</span> in <span class="ansi-cyan-fg">save_npz</span><span class="ansi-blue-fg">(file, obj, compression)</span>
-<span class="ansi-green-intense-fg ansi-bold">     78</span>     s<span class="ansi-blue-fg">.</span>save<span class="ansi-blue-fg">(</span>obj<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     79</span>     <span class="ansi-green-fg">if</span> compression<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 80</span><span class="ansi-red-fg">         </span>numpy<span class="ansi-blue-fg">.</span>savez_compressed<span class="ansi-blue-fg">(</span>file<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>s<span class="ansi-blue-fg">.</span>target<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     81</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     82</span>         numpy<span class="ansi-blue-fg">.</span>savez<span class="ansi-blue-fg">(</span>file<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>s<span class="ansi-blue-fg">.</span>target<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/numpy/lib/npyio.py</span> in <span class="ansi-cyan-fg">savez_compressed</span><span class="ansi-blue-fg">(file, *args, **kwds)</span>
-<span class="ansi-green-intense-fg ansi-bold">    657</span>
-<span class="ansi-green-intense-fg ansi-bold">    658</span>     &#34;&#34;&#34;
-<span class="ansi-green-fg">--&gt; 659</span><span class="ansi-red-fg">     </span>_savez<span class="ansi-blue-fg">(</span>file<span class="ansi-blue-fg">,</span> args<span class="ansi-blue-fg">,</span> kwds<span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">True</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    660</span>
-<span class="ansi-green-intense-fg ansi-bold">    661</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/numpy/lib/npyio.py</span> in <span class="ansi-cyan-fg">_savez</span><span class="ansi-blue-fg">(file, args, kwds, compress, allow_pickle, pickle_kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    696</span>                 format.write_array(fid, val,
-<span class="ansi-green-intense-fg ansi-bold">    697</span>                                    allow_pickle<span class="ansi-blue-fg">=</span>allow_pickle<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">--&gt; 698</span><span class="ansi-red-fg">                                    pickle_kwargs=pickle_kwargs)
-</span><span class="ansi-green-intense-fg ansi-bold">    699</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    700</span>         <span class="ansi-red-fg"># Stage arrays in a temporary file on disk, before writing to zip.</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/numpy/lib/format.py</span> in <span class="ansi-cyan-fg">write_array</span><span class="ansi-blue-fg">(fp, array, version, allow_pickle, pickle_kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    600</span>                     array<span class="ansi-blue-fg">,</span> flags<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;external_loop&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;buffered&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;zerosize_ok&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    601</span>                     buffersize=buffersize, order=&#39;C&#39;):
-<span class="ansi-green-fg">--&gt; 602</span><span class="ansi-red-fg">                 </span>fp<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span>chunk<span class="ansi-blue-fg">.</span>tobytes<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;C&#39;</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    603</span>
-<span class="ansi-green-intense-fg ansi-bold">    604</span>
-
-<span class="ansi-green-fg">/usr/lib/python3.6/zipfile.py</span> in <span class="ansi-cyan-fg">write</span><span class="ansi-blue-fg">(self, data)</span>
-<span class="ansi-green-intense-fg ansi-bold">    988</span>         self<span class="ansi-blue-fg">.</span>_crc <span class="ansi-blue-fg">=</span> crc32<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>_crc<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    989</span>         <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>_compressor<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 990</span><span class="ansi-red-fg">             </span>data <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_compressor<span class="ansi-blue-fg">.</span>compress<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    991</span>             self<span class="ansi-blue-fg">.</span>_compress_size <span class="ansi-blue-fg">+=</span> len<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    992</span>         self<span class="ansi-blue-fg">.</span>_fileobj<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span>data<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">KeyboardInterrupt</span>:
+epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  validation/main/map  elapsed_time
+10          65          0.001       6.75134     2.08291        4.66843         0.118168             230.543
+20          129         0.001       4.12112     1.58375        2.53737         0.181493             435.038
+30          193         0.001       3.59885     1.31919        2.27966         0.279919             635.634
+40          257         0.001       3.1998      1.07375        2.12605         0.573733             835.256
+50          321         0.001       2.94131     0.926096       2.01522         0.657611             1034.6
+60          385         0.001       2.86323     0.887698       1.97553         0.670849             1233.12
+70          449         0.001       2.73648     0.819021       1.91746         0.696257             1428.25
+80          513         0.001       2.63796     0.765831       1.87212         0.692361             1625.98
+90          577         0.001       2.55598     0.738259       1.81773         0.711002             1821.58
+100         641         0.001       2.49245     0.701536       1.79092         0.713163             2019.14
+110         705         0.001       2.46662     0.68411        1.78251         0.719259             2215.34
+120         769         0.001       2.42422     0.668462       1.75576         0.716902             2410.75
+130         833         0.001       2.38509     0.651328       1.73376         0.72674              2609.16
+140         897         0.001       2.32725     0.62762        1.69963         0.734795             2809.84
+150         961         0.001       2.28612     0.609401       1.67672         0.731203             3012.42
+160         1025        0.001       2.26408     0.602341       1.66174         0.737827             3208.94
+170         1090        0.001       2.26435     0.602011       1.66234         0.739109             3415.94
+180         1154        0.001       2.20838     0.580387       1.62799         0.73633              3619
+190         1218        0.001       2.1549      0.558059       1.59684         0.738508             3823.92
+200         1282        0.001       2.1479      0.557085       1.59082         0.735312             4022.46
+210         1346        0.0001      2.15193     0.566057       1.58587         0.743703             4218.82
+220         1410        0.0001      2.06368     0.525004       1.53867         0.746575             4421.17
+230         1474        0.0001      2.03127     0.510777       1.52049         0.748318             4629.21
+240         1538        0.0001      2.03743     0.517596       1.51984         0.748923             4836.61
+250         1602        0.0001      2.01771     0.50665        1.51106         0.74621              5044.15
+260         1666        1e-05       1.9999      0.500324       1.49958         0.750594             5251.47
+270         1730        1e-05       2.0164      0.502952       1.51345         0.749446             5459.1
+280         1794        1e-05       2.0113      0.504592       1.50671         0.750496             5667.54
+290         1858        1e-05       2.0113      0.507134       1.50417         0.750217             5871.16
+300         1922        1e-05       1.99649     0.49963        1.49686         0.750274             6071.73
 </pre></div></div>
 </div>
+<p>パラメータを変更して再度学習を回す場合は，モデルのオブジェクトを定義したセルから順に実行し直してみてください．</p>
 </div>
 <div class="section" id="学習結果を用いた推論">
 <h2>7.8. 学習結果を用いた推論<a class="headerlink" href="#学習結果を用いた推論" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -1033,7 +1069,7 @@ epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  v
 extensionによってファイルに保存されています．保存先は，デフォルトではTrainerオブジェクト初期化時に渡した<code class="docutils literal notranslate"><span class="pre">out</span></code>という引数によって指定されたディレクトリ以下となります．今回は，<code class="docutils literal notranslate"><span class="pre">results</span></code>以下にあるはずです．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [18]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1046,25 +1082,76 @@ extensionによってファイルに保存されています．保存先は，�
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 2454820
-drwxr-xr-x 2 root root      4096 Nov 12 02:29 .
-drwxr-xr-x 1 root root      4096 Nov 12 00:26 ..
--rw-r--r-- 1 root root      7061 Nov 12 02:29 log
--rw-r--r-- 1 root root 179445211 Nov 12 01:42 snapshot_iter_129
--rw-r--r-- 1 root root 179578012 Nov 12 01:46 snapshot_iter_193
--rw-r--r-- 1 root root 179566395 Nov 12 01:50 snapshot_iter_257
--rw-r--r-- 1 root root 179581812 Nov 12 01:53 snapshot_iter_321
--rw-r--r-- 1 root root 179573083 Nov 12 01:57 snapshot_iter_385
--rw-r--r-- 1 root root 179576472 Nov 12 02:00 snapshot_iter_449
--rw-r--r-- 1 root root 179596937 Nov 12 02:04 snapshot_iter_513
--rw-r--r-- 1 root root 179546414 Nov 12 02:08 snapshot_iter_577
--rw-r--r-- 1 root root 179577853 Nov 12 02:11 snapshot_iter_641
--rw-r--r-- 1 root root 179321460 Nov 12 01:39 snapshot_iter_65
--rw-r--r-- 1 root root 179589070 Nov 12 02:15 snapshot_iter_705
--rw-r--r-- 1 root root 179573168 Nov 12 02:18 snapshot_iter_769
--rw-r--r-- 1 root root 179576886 Nov 12 02:22 snapshot_iter_833
--rw-r--r-- 1 root root 179586357 Nov 12 02:26 snapshot_iter_897
+total 5262416
+drwxr-xr-x 2 root root      4096 Nov 12 04:56 .
+drwxr-xr-x 1 root root      4096 Nov 12 03:14 ..
+-rw-r--r-- 1 root root     16459 Nov 12 04:56 accuracy.png
+-rw-r--r-- 1 root root     14212 Nov 12 04:56 log
+-rw-r--r-- 1 root root     19224 Nov 12 04:56 loss.png
+-rw-r--r-- 1 root root 179359510 Nov 12 03:19 snapshot_epoch_10
+-rw-r--r-- 1 root root 179635488 Nov 12 03:48 snapshot_epoch_100
+-rw-r--r-- 1 root root 179658565 Nov 12 03:52 snapshot_epoch_110
+-rw-r--r-- 1 root root 179626119 Nov 12 03:55 snapshot_epoch_120
+-rw-r--r-- 1 root root 179621515 Nov 12 03:58 snapshot_epoch_130
+-rw-r--r-- 1 root root 179599718 Nov 12 04:02 snapshot_epoch_140
+-rw-r--r-- 1 root root 179622100 Nov 12 04:05 snapshot_epoch_150
+-rw-r--r-- 1 root root 179636744 Nov 12 04:08 snapshot_epoch_160
+-rw-r--r-- 1 root root 179623075 Nov 12 04:12 snapshot_epoch_170
+-rw-r--r-- 1 root root 179632764 Nov 12 04:15 snapshot_epoch_180
+-rw-r--r-- 1 root root 179642466 Nov 12 04:18 snapshot_epoch_190
+-rw-r--r-- 1 root root 179506936 Nov 12 03:22 snapshot_epoch_20
+-rw-r--r-- 1 root root 179624125 Nov 12 04:22 snapshot_epoch_200
+-rw-r--r-- 1 root root 179639467 Nov 12 04:25 snapshot_epoch_210
+-rw-r--r-- 1 root root 179628299 Nov 12 04:28 snapshot_epoch_220
+-rw-r--r-- 1 root root 179620996 Nov 12 04:32 snapshot_epoch_230
+-rw-r--r-- 1 root root 179638472 Nov 12 04:35 snapshot_epoch_240
+-rw-r--r-- 1 root root 179629934 Nov 12 04:39 snapshot_epoch_250
+-rw-r--r-- 1 root root 179675574 Nov 12 04:42 snapshot_epoch_260
+-rw-r--r-- 1 root root 179645967 Nov 12 04:46 snapshot_epoch_270
+-rw-r--r-- 1 root root 179647990 Nov 12 04:49 snapshot_epoch_280
+-rw-r--r-- 1 root root 179653491 Nov 12 04:53 snapshot_epoch_290
+-rw-r--r-- 1 root root 179631960 Nov 12 03:25 snapshot_epoch_30
+-rw-r--r-- 1 root root 179644245 Nov 12 04:56 snapshot_epoch_300
+-rw-r--r-- 1 root root 179620105 Nov 12 03:29 snapshot_epoch_40
+-rw-r--r-- 1 root root 179647628 Nov 12 03:32 snapshot_epoch_50
+-rw-r--r-- 1 root root 179614063 Nov 12 03:35 snapshot_epoch_60
+-rw-r--r-- 1 root root 179642325 Nov 12 03:38 snapshot_epoch_70
+-rw-r--r-- 1 root root 179633721 Nov 12 03:42 snapshot_epoch_80
+-rw-r--r-- 1 root root 179581645 Nov 12 03:45 snapshot_epoch_90
 </pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [20]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from google.colab import drive
+drive.mount(&#39;/content/gdrive&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Go to this URL in a browser: https://accounts.google.com/o/oauth2/auth?client_id=947318989803-6bn6qk8qdgf4n4g3pfee6491hc0brc4i.apps.googleusercontent.com&amp;redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&amp;scope=email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocs.test%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.photos.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpeopleapi.readonly&amp;response_type=code
+
+Enter your authorization code:
+··········
+Mounted at /content/gdrive
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!cp -r results /content/gdrive/My\ Drive/Colab-results/
+</pre></div>
+</div>
 </div>
 <p>以上のようなシェルコマンドを実行してみると，いくつか<code class="docutils literal notranslate"><span class="pre">.npz</span></code>という拡張子で終わるファイルが見つかりました．これらはそれぞれ，学習中にTrainerの中にあった学習を再開するために必要なパラメータをまとまて保存したものです．今回は推論に必要なモデルのパラメータだけを取り出して使います．</p>
 <p>モデルのパラメータを取り出す方法としては，<code class="docutils literal notranslate"><span class="pre">chainer.serializers.load_npz</span></code>を用いて<code class="docutils literal notranslate"><span class="pre">.npz</span></code>ファイルをモデルオブジェクトにロードする際に，<code class="docutils literal notranslate"><span class="pre">.npz</span></code>ファイルのキーに対してある階層以下のものだけ見るように指定する方法があります．Trainerオブジェクト全体のスナップショットをとった場合には，Optimizerが持つiteration回数の情報など，モデル内部のパラメータ以外のものも格納されていますが，<code class="docutils literal notranslate"><span class="pre">updater/model:main/model</span></code>というprefixを渡せば，モデルのパラメータ部分のみを取り出すことだできます．</p>
@@ -1080,14 +1167,14 @@ model = SSD300(n_fg_class=len(bccd_labels), pretrained_model=&#39;imagenet&#39;)
 
 # Load parameters to the model
 chainer.serializers.load_npz(
-    &#39;results/snapshot_iter_897&#39;, model, path=&#39;updater/model:main/model/&#39;)
+    &#39;results/snapshot_epoch_300&#39;, model, path=&#39;updater/model:main/model/&#39;)
 </pre></div>
 </div>
 </div>
 <p>では，学習済みの重みをロードしたモデルを使って，テスト画像の一つに対して細胞の検出処理を行ってみます．以下のコードでは，画像の読み込み，推論の実行，そして結果の可視化までをChainerCVを用いて順に行っています．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [31]:
+<span></span>In [17]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1113,7 +1200,17 @@ ax.figure.tight_layout()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_39_0.png" src="../_images/notebooks_Blood_Cell_Detection_39_0.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_43_0.png" src="../_images/notebooks_Blood_Cell_Detection_43_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
 </div>
 </div>
 </div>

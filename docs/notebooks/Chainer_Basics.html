@@ -380,11 +380,12 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
+<p>変更テスト</p>
 <div class="section" id="Chainer入門">
 <h1>4. Chainer入門<a class="headerlink" href="#Chainer入門" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="Chainerとは？">
 <h2>4.1. Chainerとは？<a class="headerlink" href="#Chainerとは？" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p><img alt="image0" src="notebooks/images/3-5/img03.png" /></p>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
 <p><a class="reference external" href="https://chainer.org/">Chainer</a>は、日本企業の<a class="reference external" href="https://www.preferred-networks.jp/ja/">Preferred
 Networks社</a>が開発を進めています。
 ディープラーニング（ニューラルネットワーク）に特化した、Pythonで使用できるフレームワークです。</p>
@@ -407,29 +408,27 @@ Slack受付フォーム</a>からメールアドレスを登録して、Slackに
 <p>Chainerの読み込みは、Pythonの他のモジュールと全く同じです。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer
 </pre></div>
 </div>
 </div>
 <p>使用しているChainerのバージョンも確認しておきましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">chainer</span><span class="o">.</span><span class="n">__version__</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>chainer.__version__
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[2]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&#39;5.0.0&#39;
@@ -443,14 +442,14 @@ Slack受付フォーム</a>からメールアドレスを登録して、Slackに
 <p>数学においてもプログラミングにおいても、全結合層（fully-connected
 layer）では、2層で1セットとして扱います。
 まずは、３ノードの入力層と２ノードの出力層の部分を表現していきましょう。</p>
-<p><img alt="image0" src="notebooks/images/3-5/img03.png" /></p>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">chainer.links</span> <span class="k">as</span> <span class="nn">L</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer.links as L
 </pre></div>
 </div>
 </div>
@@ -458,11 +457,11 @@ layer）では、2層で1セットとして扱います。
 layerの略）として、以下のように宣言します。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fc</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc = L.Linear(3, 2)
 </pre></div>
 </div>
 </div>
@@ -471,18 +470,16 @@ layerの略）として、以下のように宣言します。</p>
 <p>宣言したリンクの<strong>重み（W）</strong>と<strong>バイアス（b）</strong>はランダムに初期化されています。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fc</span><span class="o">.</span><span class="n">W</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc.W
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[5]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable W([[-1.4219915 ,  0.40851608,  0.13933963],
@@ -492,18 +489,16 @@ layerの略）として、以下のように宣言します。</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fc</span><span class="o">.</span><span class="n">b</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc.b
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[6]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable b([0., 0.])
@@ -522,21 +517,21 @@ layerの略）として、以下のように宣言します。</p>
 <p>実際に、乱数のシードを固定してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import numpy as np
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>np.random.seed(3)
 </pre></div>
 </div>
 </div>
@@ -545,18 +540,16 @@ layerの略）として、以下のように宣言します。</p>
 <p>乱数のシードを固定した後で重みを確認してみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fc</span><span class="o">.</span><span class="n">W</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc.W
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[9]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable W([[-1.4219915 ,  0.40851608,  0.13933963],
@@ -566,18 +559,16 @@ layerの略）として、以下のように宣言します。</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">fc</span><span class="o">.</span><span class="n">b</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc.b
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[10]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable b([0., 0.])
@@ -592,21 +583,21 @@ layerの略）として、以下のように宣言します。</p>
 uの値は<code class="docutils literal notranslate"><span class="pre">chainer.links.Linear</span></code>の中に準備されているため、以下のようにNumpyの形式で渡すことで計算が完了します。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1, 2, 3]])
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">u</span> <span class="o">=</span> <span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u = fc(x)
 </pre></div>
 </div>
 </div>
@@ -691,28 +682,26 @@ Actual: i != f
 <p>そこで、入力するデータをfloat型で宣言して使用しましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [13]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1,2,3]])
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[14]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>dtype(&#39;int32&#39;)
@@ -724,28 +713,26 @@ Actual: i != f
 <p>こちらをfloat型で定義しなおしましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1,2,3]], dtype=np.float)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [16]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[16]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>dtype(&#39;float64&#39;)
@@ -755,11 +742,11 @@ Actual: i != f
 <p>それでは計算しなおしてみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [17]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">u</span> <span class="o">=</span> <span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u = fc(x)
 </pre></div>
 </div>
 </div>
@@ -839,28 +826,26 @@ Actual: float32 != float64
 <p>Chainerではデフォルトで32bitを扱うことになっているため、覚えておきましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [18]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1, 2, 3]], dtype=np.float32)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [19]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[19]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>dtype(&#39;float32&#39;)
@@ -870,28 +855,26 @@ Actual: float32 != float64
 <p>また、Chainerのサンプルコードにも出てくるのですが、以下のように省略形で記述することができます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [20]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1, 2, 3]], &#39;f&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[21]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>dtype(&#39;float32&#39;)
@@ -901,28 +884,26 @@ Actual: float32 != float64
 <p>これで線形変換を計算してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [22]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">u</span> <span class="o">=</span> <span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u = fc(x)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [23]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">u</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[23]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable([[-0.18694043,  3.3996208 ]])
@@ -936,38 +917,36 @@ Actual: float32 != float64
 chainerで使用する関数は全てfunctionsにあります</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [24]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">chainer.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer.functions as F
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [25]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">z</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>z = F.relu(u)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">z</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>z
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[26]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable([[0.       , 3.3996208]])
@@ -996,53 +975,51 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <h4>4.2.6.2. 解答<a class="headerlink" href="#解答" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#シードの固定</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [28]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># リンクの宣言</span>
-<span class="n">fc1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">fc2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>#シードの固定
+np.random.seed(3)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [29]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 入力変数</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># リンクの宣言
+fc1 = L.Linear(3, 2)
+fc2 = L.Linear(2, 1)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 入力変数
+x = np.array([[1, 2, 3]], &#39;f&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [30]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">u1</span> <span class="o">=</span> <span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">u1</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u1 = fc1(x)
+u1
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[30]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable([[ 1.7038419, -2.010649 ]])
@@ -1051,19 +1028,17 @@ chainerで使用する関数は全てfunctionsにあります</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [31]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">z1</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span>
-<span class="n">z1</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>z1 = F.relu(u1)
+z1
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[31]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable([[1.7038419, 0.       ]])
@@ -1072,19 +1047,17 @@ chainerで使用する関数は全てfunctionsにあります</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [32]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">fc2</span><span class="p">(</span><span class="n">z1</span><span class="p">)</span>
-<span class="n">y</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>y = fc2(z1)
+y
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[32]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable([[-0.09968679]])
@@ -1100,31 +1073,29 @@ chainerで使用する関数は全てfunctionsにあります</p>
 先の入力に対する教師データが<code class="docutils literal notranslate"><span class="pre">t=3</span></code>だとすると、以下のように計算できます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [33]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 教師データ</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">]],</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 教師データ
+t = np.array([[3]], &#39;f&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [34]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 平均二乗誤差の計算</span>
-<span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">loss</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 平均二乗誤差の計算
+loss = F.mean_squared_error(t, y)
+loss
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[34]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable(9.608059)
@@ -1154,40 +1125,38 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <p>今回はCSVファイルで用意されているため、データの取り扱いはPythonのデータ操作で一般的な<strong>Pandas</strong>を使って行いましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [35]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import pandas as pd
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [36]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># データの読み込み（df: data frame）</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/wine_class.csv&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># データの読み込み（df: data frame）
+df = pd.read_csv(&#39;data/wine_class.csv&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [37]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># データの表示（先頭の３件）</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># データの表示（先頭の３件）
+df.head(3)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[37]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div>
@@ -1275,34 +1244,32 @@ chainerで使用する関数は全てfunctionsにあります</p>
 こちらは、毎回行うため、スムーズに出来るように練習しておくことをおすすめします。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [38]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 教師データ（先頭のClass）</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 教師データ（先頭のClass）
+t = df.iloc[:, 0]
 
-<span class="c1"># 入力変数（1番目から最後まで）</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+# 入力変数（1番目から最後まで）
+x = df.iloc[:, 1:]
 </pre></div>
 </div>
 </div>
 <p>こちらのように、正しく切り分けられているかデータの中身を表示して確認しておきましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [39]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 表示して確認</span>
-<span class="n">x</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 表示して確認
+x.head(3)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[39]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div>
@@ -1381,19 +1348,17 @@ chainerで使用する関数は全てfunctionsにあります</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [40]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># サイズの確認</span>
-<span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># サイズの確認
+x.shape
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[40]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(178, 10)
@@ -1417,18 +1382,16 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <p>Pandasで読み込んだ場合、Pandasの形式となっています。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [41]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>type(x)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[41]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>pandas.core.frame.DataFrame
@@ -1438,18 +1401,16 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <p>そのため、こちらをNumpyの形式に変換するのは、<code class="docutils literal notranslate"><span class="pre">.values</span></code>とつければOKです。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [42]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>type(x.values)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[42]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>numpy.ndarray
@@ -1463,18 +1424,16 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <code class="docutils literal notranslate"><span class="pre">min</span></code>と<code class="docutils literal notranslate"><span class="pre">max</span></code>で確認すると良いでしょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [43]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t.min()
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[43]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>1
@@ -1483,18 +1442,16 @@ chainerで使用する関数は全てfunctionsにあります</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [44]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t.max()
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[44]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>3
@@ -1506,30 +1463,28 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <p>Numpyでは、全体に対する引き算もサポートしているため、<code class="docutils literal notranslate"><span class="pre">t-1</span></code>とすればラベル全体に1が引かれ、<code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">2</span></code>となります。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [45]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Numpyにデータ型を変換し、ラベルを0から始める</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="mi">1</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">values</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># Numpyにデータ型を変換し、ラベルを0から始める
+t = t.values - 1
+x = x.values
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [46]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>type(t)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[46]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>numpy.ndarray
@@ -1538,18 +1493,16 @@ chainerで使用する関数は全てfunctionsにあります</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [47]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>type(x)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[47]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>numpy.ndarray
@@ -1562,18 +1515,16 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <p>ここで、現状のデータ型を確認してみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [48]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[48]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>dtype(&#39;float64&#39;)
@@ -1582,18 +1533,16 @@ chainerで使用する関数は全てfunctionsにあります</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [49]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="o">.</span><span class="n">dtype</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t.dtype
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[49]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>dtype(&#39;int64&#39;)
@@ -1605,30 +1554,28 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <p>Numpy側で準備されている<code class="docutils literal notranslate"><span class="pre">.astype()</span></code>を使用して、32bitへと変換しておきましょう。Chainer初心者でほぼ必ず遭遇するエラーですので、気をつけましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [50]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 32bitに変換</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int32&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 32bitに変換
+x = x.astype(&#39;float32&#39;)
+t = t.astype(&#39;int32&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [51]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[51]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>dtype(&#39;float32&#39;)
@@ -1637,18 +1584,16 @@ chainerで使用する関数は全てfunctionsにあります</p>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [52]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">t</span><span class="o">.</span><span class="n">dtype</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t.dtype
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[52]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>dtype(&#39;int32&#39;)
@@ -1660,15 +1605,15 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <div class="section" id="Chainerで使用するデータセットの形式">
 <h3>4.3.4. Chainerで使用するデータセットの形式<a class="headerlink" href="#Chainerで使用するデータセットの形式" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>メモリに乗る程度の小規模なデータの場合は、<strong>入力変数と教師データをタプルで１セット</strong>にし、それを<strong>リスト化</strong>しておくことがChainer推奨の形式です。</p>
-<p><img alt="image0" src="notebooks/images/3-5/img03.png" /></p>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [53]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># Chainerで使用できるデータセットの形式</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># Chainerで使用できるデータセットの形式
+dataset = list(zip(x, t))
 </pre></div>
 </div>
 </div>
@@ -1682,24 +1627,22 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 ランダムでなく、前半の70%を訓練、後半の30%を検証といった分割が良い場合は、<code class="docutils literal notranslate"><span class="pre">chainer.datasets.split_dataset</span></code>を使用することができます。
 ※
 詳しくは<a class="reference external" href="https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.split_dataset_random.html#chainer.datasets.split_dataset_random">こちら</a>のリファレンス参照</p>
-<p><img alt="image0" src="notebooks/images/3-5/img03.png" /></p>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
 <p>Prameterには<code class="docutils literal notranslate"><span class="pre">dataset</span></code>（先ほど作成した形式）、<code class="docutils literal notranslate"><span class="pre">first_size</span></code>と指定されています。</p>
 <p><code class="docutils literal notranslate"><span class="pre">first_size</span></code>では訓練データのサイズを指定するのですが、このとき全体の70%を訓練データにしようと決めておくと、記述が簡単かつ汎用性の高いプログラムになります。</p>
 <p>全体のサイズを取得する時には<code class="docutils literal notranslate"><span class="pre">len()</span></code>が便利です。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [54]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>len(dataset)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[54]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>178
@@ -1709,15 +1652,15 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 <p><code class="docutils literal notranslate"><span class="pre">split_dataset_random</span></code>を使用した<code class="docutils literal notranslate"><span class="pre">train</span></code>と<code class="docutils literal notranslate"><span class="pre">test</span></code>の分割は以下のようになります。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [55]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 訓練データのサンプル数</span>
-<span class="n">n_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 訓練データのサンプル数
+n_train = int(len(dataset) * 0.7)
 
-<span class="c1"># 訓練データ(train)と検証データ(test)に分割</span>
-<span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">split_dataset_random</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">n_train</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+# 訓練データ(train)と検証データ(test)に分割
+train, test = chainer.datasets.split_dataset_random(dataset, n_train, seed=1)
 </pre></div>
 </div>
 </div>
@@ -1726,18 +1669,16 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 <p>出力として得られる<code class="docutils literal notranslate"><span class="pre">train</span></code>と<code class="docutils literal notranslate"><span class="pre">test</span></code>を確認してみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [56]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>train
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[56]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;chainer.datasets.sub_dataset.SubDataset at 0x7fdd37e7a518&gt;
@@ -1746,18 +1687,16 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [57]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">test</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>test
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[57]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;chainer.datasets.sub_dataset.SubDataset at 0x7fdd37e7a4a8&gt;
@@ -1768,18 +1707,16 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 このあたりは、なかなかリファレンスがないため、挙動を確認しながら進めていくことが必要です。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [58]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>train[0]
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[58]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(array([1.369e+01, 2.540e+00, 2.000e+01, 1.070e+02, 1.830e+00, 5.600e-01,
@@ -1789,18 +1726,16 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [59]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>len(train)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[59]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>124
@@ -1809,18 +1744,16 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [60]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>len(test)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[60]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>54
@@ -1832,25 +1765,25 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 <h3>4.3.6. ニューラルネットワークのモデルを定義<a class="headerlink" href="#ニューラルネットワークのモデルを定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [61]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">NN</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
 
-    <span class="c1"># モデルの構造</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># 10 → 5</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># 5 → 3</span>
+    # モデルの構造
+    def __init__(self):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(10, 5)  # 10 → 5
+            self.fc2 = L.Linear(5, 3)  # 5 → 3
 
-    <span class="c1"># 順伝播</span>
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">u1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">z1</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span>
-        <span class="n">u2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">z1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">u2</span>
+    # 順伝播
+    def __call__(self, x):
+        u1 = self.fc1(x)
+        z1 = F.relu(u1)
+        u2 = self.fc2(z1)
+        return u2
 </pre></div>
 </div>
 </div>
@@ -1860,25 +1793,25 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 <p>下記のように変数の初期値も設定しておくと、インスタンス化の際に何も指定しない場合にデフォルトの値が使用され便利です。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [62]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">NN</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
 
-    <span class="c1"># モデルの構造</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="p">)</span>  <span class="c1"># 変数で置き換え</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span>  <span class="c1"># 変数で置き換え</span>
+    # モデルの構造
+    def __init__(self, n_mid_units=5, n_out=3):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(10, n_mid_units)  # 変数で置き換え
+            self.fc2 = L.Linear(5, n_out)  # 変数で置き換え
 
-    <span class="c1"># 順伝播</span>
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">u1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">z1</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span>
-        <span class="n">u2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">z1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">u2</span>
+    # 順伝播
+    def __call__(self, x):
+        u1 = self.fc1(x)
+        z1 = F.relu(u1)
+        u2 = self.fc2(z1)
+        return u2
 </pre></div>
 </div>
 </div>
@@ -1887,72 +1820,72 @@ Chainerでは<code class="docutils literal notranslate"><span class="pre">chaine
 Neural Networkなどでは、この機能が活躍します。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [63]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">NN</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
 
-    <span class="c1"># モデルの構造</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="p">)</span>  <span class="c1"># 10 → None で自動推定</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span>  <span class="c1"># 5 → None で自動推定</span>
+    # モデルの構造
+    def __init__(self, n_mid_units=5, n_out=3):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(None, n_mid_units)  # 10 → None で自動推定
+            self.fc2 = L.Linear(None, n_out)  # 5 → None で自動推定
 
-    <span class="c1"># 順伝播</span>
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">u1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">z1</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">u1</span><span class="p">)</span>
-        <span class="n">u2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">z1</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">u2</span>
+    # 順伝播
+    def __call__(self, x):
+        u1 = self.fc1(x)
+        z1 = F.relu(u1)
+        u2 = self.fc2(z1)
+        return u2
 </pre></div>
 </div>
 </div>
 <p>さらに、順伝播の計算は層の数がさらに増えてくると、変数名の管理が難しくなってくるため、<code class="docutils literal notranslate"><span class="pre">h</span></code>という変数で受け渡し続けると管理する部分が減ります。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [64]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">NN</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
 
-    <span class="c1"># モデルの構造</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span>
+    # モデルの構造
+    def __init__(self, n_mid_units=5, n_out=3):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(None, n_mid_units)
+            self.fc2 = L.Linear(None, n_out)
 
-    <span class="c1"># 順伝播</span>
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># hで置きかえ</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>  <span class="c1"># hで置きかえ</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>  <span class="c1"># hで置きかえ</span>
-        <span class="k">return</span> <span class="n">h</span>
+    # 順伝播
+    def __call__(self, x):
+        h = self.fc1(x)  # hで置きかえ
+        h = F.relu(h)  # hで置きかえ
+        h = self.fc2(h)  # hで置きかえ
+        return h
 </pre></div>
 </div>
 </div>
 <p>モデルの定義が完了したため、インスタンス化しておきましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [65]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">nn</span> <span class="o">=</span> <span class="n">NN</span><span class="p">()</span>  <span class="c1"># 引数を指定しないため、デフォルトの n_mid_units=5, n_out=3 が使用される</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>nn = NN()  # 引数を指定しないため、デフォルトの n_mid_units=5, n_out=3 が使用される
 </pre></div>
 </div>
 </div>
 <p>もし、引数にデフォルトの値を使用しない場合は下記のように指定します。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [66]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">nn</span> <span class="o">=</span> <span class="n">NN</span><span class="p">(</span><span class="n">n_mid_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>nn = NN(n_mid_units=10, n_out=3)
 </pre></div>
 </div>
 </div>
@@ -1961,11 +1894,11 @@ Neural Networkなどでは、この機能が活躍します。</p>
 で準備されているため、こちらで宣言したモデルをラップしてあげるだけで学習のための準備が完了します。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [67]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">nn</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>model = L.Classifier(nn)
 </pre></div>
 </div>
 </div>
@@ -1976,22 +1909,22 @@ Neural Networkなどでは、この機能が活躍します。</p>
 しかし、忘れる前にインスタンス化のタイミングでシードを固定しておくと安全です。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [68]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>np.random.seed(1)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [69]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">nn</span> <span class="o">=</span> <span class="n">NN</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">nn</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>nn = NN()
+model = L.Classifier(nn)
 </pre></div>
 </div>
 </div>
@@ -2002,29 +1935,27 @@ Neural Networkなどでは、この機能が活躍します。</p>
 各最適化のアルゴリズムには<strong>ハイパーパラメータ</strong>と呼ばれる定数を設定することもできますが、まだここでは触れず、後ほどしっかりと見ていきましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [70]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">SGD</span><span class="p">()</span>  <span class="c1"># 確率的勾配降下法（SGD）を使用</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>optimizer = chainer.optimizers.SGD()  # 確率的勾配降下法（SGD）を使用
 </pre></div>
 </div>
 </div>
 <p>optimizerを単体で定義するだけでは、先ほど宣言した<code class="docutils literal notranslate"><span class="pre">model</span></code>と結びつかないため、下記のように設定を行います。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [71]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">optimizer</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>optimizer.setup(model)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[71]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;chainer.optimizers.sgd.SGD at 0x7fdd37e7aa58&gt;
@@ -2045,22 +1976,22 @@ Neural Networkなどでは、この機能が活躍します。</p>
 <p>今回は<strong>バッチサイズ</strong>を10と設定しましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [72]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">batchsize</span> <span class="o">=</span> <span class="mi">10</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>batchsize = 10
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [73]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">train_iter</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
-<span class="n">test_iter</span>  <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">test</span><span class="p">,</span>  <span class="n">batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>train_iter = chainer.iterators.SerialIterator(train, batchsize)
+test_iter  = chainer.iterators.SerialIterator(test,  batchsize, repeat=False, shuffle=False)
 </pre></div>
 </div>
 </div>
@@ -2075,21 +2006,21 @@ Neural Networkなどでは、この機能が活躍します。</p>
 <p><code class="docutils literal notranslate"><span class="pre">device</span></code>を指定しない場合は、CPUが使用されます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [74]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">training</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import training
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [75]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span><span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>updater = training.StandardUpdater(train_iter, optimizer, device=-1)
 </pre></div>
 </div>
 </div>
@@ -2099,42 +2030,42 @@ Neural Networkなどでは、この機能が活躍します。</p>
 <p>Trainerでは、<strong>エポック（ミニバッチを全て処理して１エポック）</strong>の回数や、そのextensionsでオプションを指定することにより、<strong>結果をログ出力</strong>や<strong>標準出力</strong>（インタラクティブに表示）できます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [76]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">chainer.training</span> <span class="k">import</span> <span class="n">extensions</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [77]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># エポックの数</span>
-<span class="n">epoch</span> <span class="o">=</span> <span class="mi">50</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.training import extensions
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [78]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># trainerの宣言</span>
-<span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;result/wine&#39;</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># エポックの数
+epoch = 50
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># trainerの宣言
+trainer = training.Trainer(updater, (epoch, &#39;epoch&#39;), out=&#39;result/wine&#39;)
 
-<span class="c1"># 検証データで評価</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">test_iter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+# 検証データで評価
+trainer.extend(extensions.Evaluator(test_iter, model, device=-1))
 
-<span class="c1"># 学習の経過をtrainerのoutで指定したフォルダにlogというファイル名で記録する</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">)))</span>
+# 学習の経過をtrainerのoutで指定したフォルダにlogというファイル名で記録する
+trainer.extend(extensions.LogReport(trigger=(1, &#39;epoch&#39;)))
 
-<span class="c1"># １エポックごと（trigger）に、trainデータに対するlossと、testデータに対するloss、経過時間（elapsed_time）を標準出力させる</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">([</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;elapsed_time&#39;</span><span class="p">]),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+# １エポックごと（trigger）に、trainデータに対するlossと、testデータに対するloss、経過時間（elapsed_time）を標準出力させる
+trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;elapsed_time&#39;]), trigger=(1, &#39;epoch&#39;))
 </pre></div>
 </div>
 </div>
@@ -2144,11 +2075,11 @@ Neural Networkなどでは、この機能が活躍します。</p>
 <p>設定が完了すると、下記のコマンドで学習を実行して、その結果をレポーティングしてくれます。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [79]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>trainer.run()
 </pre></div>
 </div>
 </div>
@@ -2219,42 +2150,40 @@ Trainerを使用すると、<code class="docutils literal notranslate"><span cla
 <p>まずは、logのファイルをPythonで読み込みましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [80]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">json</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import json
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [81]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># logファイルから結果の読み込み</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;result/wine/log&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">logs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">logs</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># logファイルから結果の読み込み
+with open(&#39;result/wine/log&#39;) as f:
+    logs = json.load(f)
+    results = pd.DataFrame(logs)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [82]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 結果の確認</span>
-<span class="n">results</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 結果の確認
+results
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[82]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div>
@@ -2794,29 +2723,27 @@ Pandasのプロットでは、Maptlotlibをベースにしており、Jupyter
 Notebook上でインライン表示ができるように設定しておきましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [83]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>%matplotlib inline
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [84]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># accuracy（精度）を表示</span>
-<span class="n">results</span><span class="p">[[</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/accuracy&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># accuracy（精度）を表示
+results[[&#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;]].plot()
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[84]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fdd362734e0&gt;
@@ -2827,24 +2754,22 @@ Notebook上でインライン表示ができるように設定しておきまし
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Basics_142_1.png" src="../_images/notebooks_Chainer_Basics_142_1.png" />
+<img alt="../_images/notebooks_Chainer_Basics_143_1.png" src="../_images/notebooks_Chainer_Basics_143_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [85]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># loss（損失関数）を表示</span>
-<span class="n">results</span><span class="p">[[</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/loss&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># loss（損失関数）を表示
+results[[&#39;main/loss&#39;, &#39;validation/main/loss&#39;]].plot()
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[85]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fdd36211898&gt;
@@ -2855,7 +2780,7 @@ Notebook上でインライン表示ができるように設定しておきまし
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Basics_143_1.png" src="../_images/notebooks_Chainer_Basics_143_1.png" />
+<img alt="../_images/notebooks_Chainer_Basics_144_1.png" src="../_images/notebooks_Chainer_Basics_144_1.png" />
 </div>
 </div>
 <p>こちらのように、精度が訓練データに対して約40%強、検証データに対して約35%程度にとどまっています。
@@ -2870,72 +2795,72 @@ Notebook上でインライン表示ができるように設定しておきまし
 <p>宣言していたニューラルネットワークのクラスを以下のように変更して、もう一度学習を行ってみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [86]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="k">class</span> <span class="nc">NN</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
 
-    <span class="c1"># モデルの構造</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_mid_units</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">bn</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Batch Normalizationは平均と分散がパラメータ</span>
+    # モデルの構造
+    def __init__(self, n_mid_units=5, n_out=3):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(None, n_mid_units)
+            self.fc2 = L.Linear(None, n_out)
+            self.bn = L.BatchNormalization(10)  # Batch Normalizationは平均と分散がパラメータ
 
-    <span class="c1"># 順伝播</span>
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># Batch Normalizationの処理を追加</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">h</span>
+    # 順伝播
+    def __call__(self, x):
+        h = self.bn(x)  # Batch Normalizationの処理を追加
+        h = self.fc1(h)
+        h = F.relu(h)
+        h = self.fc2(h)
+        return h
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [87]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 乱数のシードを固定</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 乱数のシードを固定
+np.random.seed(1)
 
-<span class="c1"># モデルのインスタンス化</span>
-<span class="n">nn</span> <span class="o">=</span> <span class="n">NN</span><span class="p">()</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">nn</span><span class="p">)</span>
+# モデルのインスタンス化
+nn = NN()
+model = L.Classifier(nn)
 
-<span class="c1"># Optimizerの定義</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">SGD</span><span class="p">()</span>
-<span class="n">optimizer</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>  <span class="c1"># modelと紐付ける</span>
+# Optimizerの定義
+optimizer = chainer.optimizers.SGD()
+optimizer.setup(model)  # modelと紐付ける
 
-<span class="c1"># Iteratorの定義</span>
-<span class="n">batchsize</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">train_iter</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
-<span class="n">test_iter</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+# Iteratorの定義
+batchsize = 10
+train_iter = chainer.iterators.SerialIterator(train, batchsize)
+test_iter = chainer.iterators.SerialIterator(test, batchsize, repeat=False, shuffle=False)
 
-<span class="c1"># Updaterの定義</span>
-<span class="n">updater</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span><span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+# Updaterの定義
+updater = chainer.training.StandardUpdater(train_iter, optimizer, device=-1)
 
-<span class="c1"># trainerとそのextensionsの設定</span>
-<span class="n">epoch</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;result/wine&#39;</span><span class="p">)</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">test_iter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">)))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">([</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;elapsed_time&#39;</span><span class="p">]),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+# trainerとそのextensionsの設定
+epoch = 50
+trainer = training.Trainer(updater, (epoch, &#39;epoch&#39;), out=&#39;result/wine&#39;)
+trainer.extend(extensions.Evaluator(test_iter, model, device=-1))
+trainer.extend(extensions.LogReport(trigger=(1, &#39;epoch&#39;)))
+trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;elapsed_time&#39;]), trigger=(1, &#39;epoch&#39;))
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [88]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 学習の実行</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 学習の実行
+trainer.run()
 </pre></div>
 </div>
 </div>
@@ -2999,32 +2924,30 @@ epoch       main/accuracy  validation/main/accuracy  main/loss   validation/main
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [89]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># logファイルから結果の読み込み</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;result/wine/log&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">logs</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">logs</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># logファイルから結果の読み込み
+with open(&#39;result/wine/log&#39;) as f:
+    logs = json.load(f)
+    results = pd.DataFrame(logs)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [90]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># accuracy（精度）を表示</span>
-<span class="n">results</span><span class="p">[[</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/accuracy&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># accuracy（精度）を表示
+results[[&#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;]].plot()
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[90]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fdd3392f400&gt;
@@ -3035,24 +2958,22 @@ epoch       main/accuracy  validation/main/accuracy  main/loss   validation/main
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Basics_150_1.png" src="../_images/notebooks_Chainer_Basics_150_1.png" />
+<img alt="../_images/notebooks_Chainer_Basics_151_1.png" src="../_images/notebooks_Chainer_Basics_151_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [91]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># loss（損失関数）を表示</span>
-<span class="n">results</span><span class="p">[[</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/loss&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># loss（損失関数）を表示
+results[[&#39;main/loss&#39;, &#39;validation/main/loss&#39;]].plot()
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[91]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fdd338dc2b0&gt;
@@ -3063,7 +2984,7 @@ epoch       main/accuracy  validation/main/accuracy  main/loss   validation/main
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Chainer_Basics_151_1.png" src="../_images/notebooks_Chainer_Basics_151_1.png" />
+<img alt="../_images/notebooks_Chainer_Basics_152_1.png" src="../_images/notebooks_Chainer_Basics_152_1.png" />
 </div>
 </div>
 <p>上記のようにAccuracyの値がぐっと良くなっていれば成功です。</p>
@@ -3079,11 +3000,11 @@ Trainerのextensionsでsnapshotを取ることも可能ですが、今回は手�
 保存の際には、モデルの名前と学習済みモデルを指定しましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [92]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">chainer</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">save_npz</span><span class="p">(</span><span class="s1">&#39;models/wine.npz&#39;</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>chainer.serializers.save_npz(&#39;models/wine.npz&#39;, model)
 </pre></div>
 </div>
 </div>
@@ -3097,21 +3018,21 @@ Trainerのextensionsでsnapshotを取ることも可能ですが、今回は手�
 <p>学習済みモデルは単にファイルをロードするだけでなく、まずはモデルの構造を明示しておき、そのモデルに対して、パラメータの値を当てはめながらロードしていくことになります。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [93]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">NN</span><span class="p">())</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>model = L.Classifier(NN())
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [94]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">chainer</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="s1">&#39;models/wine.npz&#39;</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>chainer.serializers.load_npz(&#39;models/wine.npz&#39;, model)
 </pre></div>
 </div>
 </div>
@@ -3121,28 +3042,26 @@ Trainerのextensionsでsnapshotを取ることも可能ですが、今回は手�
 <p>今回は一番最初のサンプルに対する予測値を計算してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [95]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x_new</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x_new = x[0]
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [96]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x_new</span><span class="o">.</span><span class="n">shape</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x_new.shape
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[96]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(10,)
@@ -3151,12 +3070,12 @@ Trainerのextensionsでsnapshotを取ることも可能ですが、今回は手�
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [97]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 予測値の計算</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predictor</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 予測値の計算
+y = model.predictor(x_new)
 </pre></div>
 </div>
 </div>
@@ -3239,28 +3158,26 @@ Actual: 1 &lt; 2
 今回であれば、<code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">10)</span></code>が望ましいデータの形といえます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [98]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x_new</span> <span class="o">=</span> <span class="n">x_new</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x_new = x_new[np.newaxis]
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [99]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">x_new</span><span class="o">.</span><span class="n">shape</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x_new.shape
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[99]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(1, 10)
@@ -3269,13 +3186,13 @@ Actual: 1 &lt; 2
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [100]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># 予測値の計算</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predictor</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span>
-<span class="n">y</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 予測値の計算
+y = model.predictor(x_new)
+y
 </pre></div>
 </div>
 </div>
@@ -3289,9 +3206,7 @@ Actual: 1 &lt; 2
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[100]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable([[-0.5496615 ,  0.19866087, -0.40578216]])
@@ -3300,19 +3215,17 @@ Actual: 1 &lt; 2
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [101]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="n">y</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>y = F.softmax(y)
+y
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[101]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>variable([[0.234291  , 0.49516267, 0.27054632]])
@@ -3321,18 +3234,16 @@ Actual: 1 &lt; 2
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [102]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">y</span><span class="o">.</span><span class="n">array</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>y.array
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[102]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>array([[0.234291  , 0.49516267, 0.27054632]], dtype=float32)
@@ -3341,18 +3252,16 @@ Actual: 1 &lt; 2
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [103]:
+<span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>np.argmax(y.array)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[103]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>1
@@ -3365,7 +3274,7 @@ Actual: 1 &lt; 2
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
 </div>
