@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7. 実践編: 血液の顕微鏡画像からの細胞検出 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
+  <title>7. 実践編: 血液の顕微鏡画像からの細胞検出 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
   
 
   
@@ -48,7 +48,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home"> メディカルAI学会認定資格向け学習資料
+            <a href="../index.html" class="icon icon-home"> メディカルAIコース オンライン講義資料<Paste>
           
 
           
@@ -97,6 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#モデルの定義">7.5. モデルの定義</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#Data-augmentationの実装">7.6. Data augmentationの実装</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#学習の開始">7.7. 学習の開始</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#学習結果を用いた推論">7.8. 学習結果を用いた推論</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
@@ -115,7 +116,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">メディカルAI学会認定資格向け学習資料</a>
+          <a href="../index.html">メディカルAIコース オンライン講義資料<Paste></a>
         
       </nav>
 
@@ -366,7 +367,7 @@ detection）</strong>と呼び、画像を入力として、対象の物体（�
 <p>を出力していくことが目的となります。ただし、<strong>画像中にいくつの物体が含まれるかは事前に分からない</strong>ため、任意個（または十分な数）の物体の<strong>bounding
 boxとクラスラベルの予測値の組</strong>を出力できるような手法である必要があります。</p>
 <p>bounding
-box（bboxとよく略される）は、<code class="docutils literal notranslate"><span class="pre">[矩形の左上のy座標,</span> <span class="pre">矩形の左上のx座標,</span> <span class="pre">矩形の右下のy座標,</span> <span class="pre">矩形の右下のx座標]</span></code>のような形式で定義されることが多く、クラスは物体の種類ごとに割り振られたIDで表されることが多いようです。例えば、RBCは0、WBCは1、Plateletは2とします。</p>
+box（bboxとよく略される）は、<code class="docutils literal notranslate"><span class="pre">[矩形の左上のy座標,</span> <span class="pre">矩形の左上のx座標,</span> <span class="pre">矩形の右下のy座標,</span> <span class="pre">矩形の右下のx座標]</span></code>のような形式で定義されることが多く、クラスは物体の種類ごとに割り振られたIDで表されることが多いようです。例えば、RBCは0、WBCは1、Plateletは2といったように一つの整数が割り当てられます．</p>
 <p><img alt="detection_sample.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png" /> 血液の顕微鏡画像からRBC, WBC,
 Plateletを検出している例</p>
 <div class="section" id="環境構築">
@@ -391,30 +392,94 @@ matplotlibといったPythonパッケージのインストールを済ませま�
 <div class="highlight"><pre>
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100  1379  100  1379    0     0  11120      0 --:--:-- --:--:-- --:--:-- 11032
+100  1379  100  1379    0     0   8565      0 --:--:-- --:--:-- --:--:--  8565
 + apt -y -q install cuda-libraries-dev-9-2
 Reading package lists...
 Building dependency tree...
 Reading state information...
-cuda-libraries-dev-9-2 is already the newest version (9.2.148-1).
-0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.
+The following additional packages will be installed:
+  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
+  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-npp-dev-9-2
+  cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
+The following NEW packages will be installed:
+  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
+  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-libraries-dev-9-2
+  cuda-npp-dev-9-2 cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
+0 upgraded, 9 newly installed, 0 to remove and 5 not upgraded.
+Need to get 332 MB of archives.
+After this operation, 972 MB of additional disk space will be used.
+Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cublas-dev-9-2 9.2.148.1-1 [50.4 MB]
+Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cufft-dev-9-2 9.2.148-1 [106 MB]
+Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-curand-dev-9-2 9.2.148-1 [57.8 MB]
+Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusolver-dev-9-2 9.2.148-1 [8,184 kB]
+Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusparse-dev-9-2 9.2.148-1 [27.8 MB]
+Get:6 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvrtc-dev-9-2 9.2.148-1 [9,348 B]
+Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvgraph-dev-9-2 9.2.148-1 [30.1 MB]
+Get:8 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-npp-dev-9-2 9.2.148-1 [52.0 MB]
+Get:9 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-libraries-dev-9-2 9.2.148-1 [2,598 B]
+Fetched 332 MB in 7s (50.4 MB/s)
+Selecting previously unselected package cuda-cublas-dev-9-2.
+(Reading database ... 22280 files and directories currently installed.)
+Preparing to unpack .../0-cuda-cublas-dev-9-2_9.2.148.1-1_amd64.deb ...
+Unpacking cuda-cublas-dev-9-2 (9.2.148.1-1) ...
+Selecting previously unselected package cuda-cufft-dev-9-2.
+Preparing to unpack .../1-cuda-cufft-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cufft-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-curand-dev-9-2.
+Preparing to unpack .../2-cuda-curand-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-curand-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-cusolver-dev-9-2.
+Preparing to unpack .../3-cuda-cusolver-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cusolver-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-cusparse-dev-9-2.
+Preparing to unpack .../4-cuda-cusparse-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cusparse-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-nvrtc-dev-9-2.
+Preparing to unpack .../5-cuda-nvrtc-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-nvrtc-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-nvgraph-dev-9-2.
+Preparing to unpack .../6-cuda-nvgraph-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-nvgraph-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-npp-dev-9-2.
+Preparing to unpack .../7-cuda-npp-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-npp-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-libraries-dev-9-2.
+Preparing to unpack .../8-cuda-libraries-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-libraries-dev-9-2 (9.2.148-1) ...
+Setting up cuda-npp-dev-9-2 (9.2.148-1) ...
+Setting up cuda-curand-dev-9-2 (9.2.148-1) ...
+Setting up cuda-nvrtc-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cusolver-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cufft-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cusparse-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cublas-dev-9-2 (9.2.148.1-1) ...
+Setting up cuda-nvgraph-dev-9-2 (9.2.148-1) ...
+Setting up cuda-libraries-dev-9-2 (9.2.148-1) ...
 + pip install -q cupy-cuda92  chainer
 + set +ex
 Installation succeeded!
-Requirement already satisfied: chainercv in /usr/local/lib/python3.6/dist-packages (0.11.0)
+Collecting chainercv
+  Downloading https://files.pythonhosted.org/packages/bb/1c/cee12630628d0acd4d6c5d7a3ba196a3aa079a863baa3dc74eb70d8494c5/chainercv-0.11.0.tar.gz (223kB)
+    100% |████████████████████████████████| 225kB 5.2MB/s
 Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (2.1.2)
 Requirement already satisfied: chainer&gt;=5.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (5.0.0)
 Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.0.0)
+Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.11.0)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.0)
+Requirement already satisfied: numpy&gt;=1.7.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
 Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
 Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2018.7)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.0)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
-Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.11.0)
-Requirement already satisfied: numpy&gt;=1.7.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.0.10)
 Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.6.1)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.0.10)
 Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
 Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer&gt;=5.0-&gt;chainercv) (40.5.0)
+Building wheels for collected packages: chainercv
+  Running setup.py bdist_wheel for chainercv ... - \ | / - \ | / done
+  Stored in directory: /root/.cache/pip/wheels/95/24/5a/1611db416857b5e092962bc22a70722315881e03970c7fa966
+Successfully built chainercv
+Installing collected packages: chainercv
+Successfully installed chainercv-0.11.0
 </pre></div></div>
 </div>
 <p>環境のセットアップが成功したことを以下のセルを実行して確認しましょう。</p>
@@ -454,20 +519,20 @@ iDeep: Not Available
 <p>物体検出（object detection）は、Computer
 Visionの分野で現在も活発に研究が行われているタスクの一つで、自動運転分野やロボティクスなど幅広い領域で重要な役割を果たす技術です。Semantic
 Segmentationと違い、物体の形（輪郭）までは認識しませんが、<strong>物の種類と位置を、物体ごとに個別に出力</strong>します。</p>
-<p>「物の種類」をクラスと呼ぶとき、そのクラスに属する個別の物体をインスタンスと呼ぶことができます。すると，犬が2匹写っている写真があるとき，それは「犬」というクラスに属すしている犬インスタンスが2個ある，という状態だと言えます．つまり，Semantic
+<p>「物の種類」をクラスと呼ぶとき、そのクラスに属する個別の物体をインスタンスと呼ぶことができます。すると，犬が2匹写っている写真があるとき，それは「犬」というクラスに属している犬インスタンスが2個ある，という状態だと言えます．つまり，Semantic
 Segmentationではインスタンスごとに領域が区別されて出力されるわけではなかった一方で、物体検出の出力はインスタンスごとに別々のbounding
 boxが出力されるという違いがあります。</p>
 <p>ニューラルネットワークを用いた物体検出手法は、<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>という2014年に発表された手法を皮切りに、様々な改善手法が提案されています。まず一つ、重要なのは<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>,
 <a class="reference external" href="https://arxiv.org/abs/1504.08083">Fast R-CNN</a>, そして<a class="reference external" href="https://arxiv.org/abs/1506.01497">Faster
 R-CNN</a>という、同一の著者らを中心として提案されているConvolutional
-Neural Networks (CNN)をベースとした物体検出手法の発展流れです。現在two
+Neural Networks (CNN)をベースとした物体検出手法の発展の流れです。現在two
 stageタイプと呼ばれているものはほぼこのFaster
 R-CNNをベースとしたものとなります。</p>
 <p>それに対して，single
 stageタイプと呼ばれる手法の流れが，<a class="reference external" href="https://arxiv.org/abs/1512.02325">SSD</a>や<a class="reference external" href="https://arxiv.org/abs/1506.02640">YOLO</a>，<a class="reference external" href="https://arxiv.org/abs/1612.08242">YOLOv2</a>，<a class="reference external" href="https://arxiv.org/abs/1804.02767">YOLOv3</a>などで，特にYOLOとその発展手法は処理のスピードに着目して工夫を行っています．一般的にsingle
 stageタイプの方がtwo
-stageタイプよりも処理速度は高速だが，精度が低いと言われていますが，最近は高い精度を達成しつつも高速に処理できるように工夫した手法（YOLOv3など）も出てきており，その限りではなくなってきています．</p>
-<p>今回は，SSDという手法を用いて，細胞画像のデータセットを使って</p>
+stageタイプよりも処理速度は高速だが，精度が低いと言われています．ただし，最近は高い精度を達成しつつも高速に処理できるように工夫した手法（YOLOv3など）も出てきており，その限りではなくなってきています．</p>
+<p>今回は，SSDという手法を用いて，細胞画像のデータセットを使って三種類の細胞の位置と種類を抽出するニューラルネットワークを訓練してみましょう．</p>
 </div>
 <div class="section" id="データセットの準備">
 <h2>7.3. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -477,15 +542,27 @@ stageタイプよりも処理速度は高速だが，精度が低いと言われ
 Dataset</a>という血液の顕微鏡画像と、画像それぞれに対してRBC,
 WBC, Plateletの3つの物体に対するbounding
 boxのアノテーションが用意された小規模なデータセットを用います。このデータセットはGithubリポジトリで配布されていますので、以下のセルを実行してデータセットをダウンロードしましょう。</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!if [ ! -d BCCD_Dataset ]; then git clone https://github.com/Shenggan/BCCD_Dataset.git; fi
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Cloning into &#39;BCCD_Dataset&#39;...
+remote: Enumerating objects: 770, done.
+remote: Total 770 (delta 0), reused 0 (delta 0), pack-reused 770
+Receiving objects: 100% (770/770), 7.33 MiB | 21.02 MiB/s, done.
+Resolving deltas: 100% (367/367), done.
+</pre></div></div>
 </div>
 <p>データセットは以下のようなファイル構成で配布されています。</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>BCCD
@@ -615,7 +692,7 @@ ax.figure.tight_layout()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_14_0.png" src="../_images/notebooks_Blood_Cell_Detection_14_0.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_13_0.png" src="../_images/notebooks_Blood_Cell_Detection_13_0.png" />
 </div>
 </div>
 </div>
@@ -641,7 +718,7 @@ detectors</a>）より、以下の図がしばしば参照されます．
 <img alt="speed-accuracy-tradeoffs.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" /></p>
 <p>今回用いるSSDという手法のネットワークアーキテクチャは，以下のような形をしています（SSD論文のFig.
 2より引用）．</p>
-<div class="figure" id="id8">
+<div class="figure" id="id9">
 <img alt="ssd-architecture.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/ssd-architecture.png" />
 <p class="caption"><span class="caption-text">ssd-architecture.png</span></p>
 </div>
@@ -707,7 +784,7 @@ class MultiboxTrainChain(chainer.Chain):
 <h2>7.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．今回は非常にコンパクトなデータセットを使ってとりあえず学習と結果利用のフローを体験することを目的としているため，実用に耐えうるような十分なバリエーションを持ったデータセットは使っていません．ただし，データを擬似的に増やすように様々な変換を画像とそれに付随するラベルに適用するテクニック（data
 augmentation）は，大量のデータを集めることができたとしても依然行われることで，ここでどのようにそれを行えばよいか見ておくことに損はないでしょう．</p>
-<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換しょりを記述したクラスを定義しておきます．</p>
+<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -785,10 +862,11 @@ class Transform(object):
 <div class="section" id="学習の開始">
 <h2>7.7. 学習の開始<a class="headerlink" href="#学習の開始" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>以下では，Chainerが用意するデータセットクラスの一つ，<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>を使って，事前に定義したデータ点ごとに適用したい変換を順次用いてくれるようにしています．</p>
-<p>基本的な流れはすでに学んだ画像分類やセグメンテーションなどを行うネットワークの訓練の仕方と多くが共通しています．どのような部分が異なっているか，コードを見ながら一つ一つ理解していくことで調べてみましょう．</p>
-<div class="nbinput docutils container">
+<p>基本的な流れはすでに学んだ画像分類やセグメンテーションなどを行うネットワークの訓練の仕方と多くが共通しています．</p>
+<p>まずは必要なモジュール類をインポートしておきます．ここではChainerCVが提供しているSSD300を学習するニューラルネットワークに採用し，その実装を利用することにします．</p>
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -802,36 +880,118 @@ from chainercv.links import SSD300
 from chainercv.extensions import DetectionVOCEvaluator
 from chainercv.links.model.ssd import GradientScaling
 
-
-batchsize = 32
+chainer.cuda.set_max_workspace_size(1024 * 1024 * 1024)
+chainer.config.autotune = True
+</pre></div>
+</div>
+</div>
+<p>次に，以下の設定項目をあとから変更が容易なように，ここで変数に代入しておきます．</p>
+<ul class="simple">
+<li>バッチサイズ</li>
+<li>使用するGPUのID</li>
+<li>結果の出力ディレクトリ名</li>
+<li>学習率の初期値</li>
+<li>学習を行うエポック数</li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>batchsize = 32
 gpu_id = 0
 out = &#39;results&#39;
-
-model = SSD300(n_fg_class=len(bccd_labels), pretrained_model=&#39;imagenet&#39;)
-model.nms_thresh = 0.5
-model.score_thresh = 0.6
+initial_lr = 0.001
+training_epoch = 300
+</pre></div>
+</div>
+</div>
+<p>まずは，モデルオブジェクトを作成します．ベースとなるモデルの実装はChainerCVが提供しているSSD300（入力画像サイズが300
+x
+300のSSDアーキテクチャ）を使用します．重みの初期値として，特徴抽出に用いる部分のネットワークをImageNetデータセットを用いてpre-trainingしたものを使用するよう，<code class="docutils literal notranslate"><span class="pre">pretrained_model</span></code>というオプションに<code class="docutils literal notranslate"><span class="pre">'imagenet'</span></code>という文字列を渡しています．最後に，SSDのロス関数計算は少し特殊ですが，必要な後処理などを隠蔽してくれる<code class="docutils literal notranslate"><span class="pre">MultiboxTrainChain</span></code>というクラスでモデルをラップし，<code class="docutils literal notranslate"><span class="pre">train_chain</span></code>というオブジェクトを作成しています．これを学習中はパラメータ更新対象のChainとします．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>model = SSD300(n_fg_class=len(bccd_labels), pretrained_model=&#39;imagenet&#39;)
 train_chain = MultiboxTrainChain(model)
-
-transformed_train_dataset = TransformDataset(train_dataset, Transform(model.coder, model.insize, model.mean))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Downloading ...
+From: https://chainercv-models.preferred.jp/ssd_vgg16_imagenet_converted_2017_06_09.npz
+To: /root/.chainer/dataset/_dl_cache/b4130ae0aa259c095b50ff95d81c32ee
+  %   Total    Recv       Speed  Time left
+100   76MiB   76MiB   4042KiB/s    0:00:00
+</pre></div></div>
+</div>
+<p>上のセルを実行すると，自動的にImageNetでVGG16というネットワークを訓練した際の重みがダウンロードされると思います．このように，ChainerCVではいくつかのpre-trained
+modelを非常に簡単に使い始めることができるような形で提供しています．</p>
+<p>次に，データセットクラスやイテレータを作成しましょう．こちらはすでに学んだ画像分類の場合などと同様です．データセットから取り出されるデータ点は，それぞれ事前に定義しておいた<code class="docutils literal notranslate"><span class="pre">Transform</span></code>クラスで定義した変換処理にて変換されます．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>transformed_train_dataset = TransformDataset(train_dataset, Transform(model.coder, model.insize, model.mean))
 
 train_iter = chainer.iterators.MultiprocessIterator(transformed_train_dataset, batchsize)
 valid_iter = chainer.iterators.SerialIterator(valid_dataset, batchsize, repeat=False, shuffle=False)
-
-optimizer = chainer.optimizers.MomentumSGD(lr=0.004)
+</pre></div>
+</div>
+</div>
+<p>次にOptimizerを作成します．今回はMomentum
+SGDという手法を用いてモデルのパラメータの最適化を行います．その際に，モデルの中にある線形変換が持つバイアスのパラメータに対しては勾配が2倍の大きさになるように<code class="docutils literal notranslate"><span class="pre">update_rule</span></code>に対してフックを設定します．また，バイアスパラメータの場合にはweight
+decayは行わず，バイアスパラメータ以外のパラメータに対してはweight
+decayを行うように設定しています．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>optimizer = chainer.optimizers.MomentumSGD()
 optimizer.setup(train_chain)
 for param in train_chain.params():
     if param.name == &#39;b&#39;:
         param.update_rule.add_hook(GradientScaling(2))
     else:
         param.update_rule.add_hook(WeightDecay(0.0005))
-
-updater = training.updaters.StandardUpdater(
+</pre></div>
+</div>
+</div>
+<p>次にUpdaterのオブジェクトを作成します．今回はUpdaterに最もシンプルな<code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>を用いました．CPUもしくはシングルGPUを用いて学習を行う際には，このUpdaterを使います．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>updater = training.updaters.StandardUpdater(
     train_iter, optimizer, device=gpu_id)
-
-trainer = training.Trainer(updater, (100, &#39;epoch&#39;), out)
-# trainer.extend(
-#     extensions.ExponentialShift(&#39;lr&#39;, 0.1, init=1e-3),
-#     trigger=triggers.ManualScheduleTrigger([20, 25], &#39;epoch&#39;))
+</pre></div>
+</div>
+</div>
+<p>最後に，Trainerオブジェクトを作成します．Trainerの初期化時には，コンストラクタの第１引数に上で作成した<code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>オブジェクトの<code class="docutils literal notranslate"><span class="pre">updater</span></code>を渡します．第２引数には，いつ学習を終了するのかを表すTriggerを渡します．これは，</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>trainer = training.Trainer(updater, (training_epoch, &#39;epoch&#39;), out)
+trainer.extend(
+    extensions.ExponentialShift(&#39;lr&#39;, 0.1, init=initial_lr),
+    trigger=triggers.ManualScheduleTrigger([200, 250], &#39;epoch&#39;))
 
 trainer.extend(
     DetectionVOCEvaluator(
@@ -839,7 +999,7 @@ trainer.extend(
         label_names=bccd_labels),
     trigger=(1, &#39;epoch&#39;))
 
-log_interval = 1, &#39;epoch&#39;
+log_interval = 10, &#39;epoch&#39;
 trainer.extend(extensions.LogReport(trigger=log_interval))
 trainer.extend(extensions.observe_lr(), trigger=log_interval)
 trainer.extend(extensions.PrintReport(
@@ -847,8 +1007,17 @@ trainer.extend(extensions.PrintReport(
      &#39;main/loss&#39;, &#39;main/loss/loc&#39;, &#39;main/loss/conf&#39;,
      &#39;validation/main/map&#39;, &#39;elapsed_time&#39;]),
     trigger=log_interval)
-# trainer.extend(extensions.ProgressBar(update_interval=10))
-trainer.extend(extensions.snapshot(), trigger=(10, &#39;epoch&#39;))
+if extensions.PlotReport.available():
+    trainer.extend(
+        extensions.PlotReport(
+            [&#39;main/loss&#39;, &#39;main/loss/loc&#39;, &#39;main/loss/conf&#39;],
+            &#39;epoch&#39;, file_name=&#39;loss.png&#39;))
+    trainer.extend(
+        extensions.PlotReport(
+            [&#39;validation/main/map&#39;],
+            &#39;epoch&#39;, file_name=&#39;accuracy.png&#39;))
+trainer.extend(extensions.snapshot(
+    filename=&#39;snapshot_epoch_{.updater.epoch}&#39;), trigger=(10, &#39;epoch&#39;))
 
 trainer.run()
 </pre></div>
@@ -860,107 +1029,179 @@ trainer.run()
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  validation/main/map  elapsed_time
-1           7           0.004       6505.62     790.954        5714.67         0                    38.9102
-2           13          0.004       nan         nan            nan             0                    67.7987
-3           20          0.004       nan         nan            nan             0                    100.385
-4           26          0.004       nan         nan            nan             0                    129.083
-5           33          0.004       nan         nan            nan             0                    161.738
-6           39          0.004       nan         nan            nan             0                    190.503
-7           45          0.004       nan         nan            nan             0                    219.169
-8           52          0.004       nan         nan            nan             0                    251.815
-9           58          0.004       nan         nan            nan             0                    280.531
-10          65          0.004       nan         nan            nan             0                    313.08
-11          71          0.004       nan         nan            nan             0                    347.974
-12          77          0.004       nan         nan            nan             0                    376.624
-13          84          0.004       nan         nan            nan             0                    409.275
-14          90          0.004       nan         nan            nan             0                    437.988
-15          97          0.004       nan         nan            nan             0                    470.713
-16          103         0.004       nan         nan            nan             0                    499.332
-17          109         0.004       nan         nan            nan             0                    528.079
-18          116         0.004       nan         nan            nan             0                    560.713
-19          122         0.004       nan         nan            nan             0                    589.441
-20          129         0.004       nan         nan            nan             0                    622.023
-21          135         0.004       nan         nan            nan             0                    657.228
-22          141         0.004       nan         nan            nan             0                    685.949
-23          148         0.004       nan         nan            nan             0                    718.616
-24          154         0.004       nan         nan            nan             0                    747.387
-25          161         0.004       nan         nan            nan             0                    779.927
-26          167         0.004       nan         nan            nan             0                    808.637
-27          173         0.004       nan         nan            nan             0                    837.197
-28          180         0.004       nan         nan            nan             0                    869.628
-29          186         0.004       nan         nan            nan             0                    898.17
-30          193         0.004       nan         nan            nan             0                    930.642
-31          199         0.004       nan         nan            nan             0                    965.447
-32          205         0.004       nan         nan            nan             0                    993.936
-33          212         0.004       nan         nan            nan             0                    1026.41
-34          218         0.004       nan         nan            nan             0                    1055.01
-35          225         0.004       nan         nan            nan             0                    1087.45
-36          231         0.004       nan         nan            nan             0                    1116.04
-37          238         0.004       nan         nan            nan             0                    1148.52
-38          244         0.004       nan         nan            nan             0                    1177.02
-39          250         0.004       nan         nan            nan             0                    1205.53
-40          257         0.004       nan         nan            nan             0                    1238.06
-41          263         0.004       nan         nan            nan             0                    1272.83
-42          270         0.004       nan         nan            nan             0                    1305.19
-43          276         0.004       nan         nan            nan             0                    1333.82
-44          282         0.004       nan         nan            nan             0                    1362.47
-45          289         0.004       nan         nan            nan             0                    1394.89
-46          295         0.004       nan         nan            nan             0                    1423.47
-47          302         0.004       nan         nan            nan             0                    1455.86
-48          308         0.004       nan         nan            nan             0                    1484.36
-49          314         0.004       nan         nan            nan             0                    1512.91
-50          321         0.004       nan         nan            nan             0                    1545.38
-51          327         0.004       nan         nan            nan             0                    1580.49
-52          334         0.004       nan         nan            nan             0                    1612.89
-53          340         0.004       nan         nan            nan             0                    1641.46
-54          346         0.004       nan         nan            nan             0                    1669.97
-55          353         0.004       nan         nan            nan             0                    1702.47
-56          359         0.004       nan         nan            nan             0                    1731.03
-57          366         0.004       nan         nan            nan             0                    1763.42
-58          372         0.004       nan         nan            nan             0                    1791.98
-59          378         0.004       nan         nan            nan             0                    1820.5
-60          385         0.004       nan         nan            nan             0                    1852.94
-61          391         0.004       nan         nan            nan             0                    1888.15
-62          398         0.004       nan         nan            nan             0                    1920.59
-63          404         0.004       nan         nan            nan             0                    1949.13
-64          410         0.004       nan         nan            nan             0                    1977.71
-65          417         0.004       nan         nan            nan             0                    2010.13
-66          423         0.004       nan         nan            nan             0                    2038.73
-67          430         0.004       nan         nan            nan             0                    2071.21
-68          436         0.004       nan         nan            nan             0                    2099.84
-69          443         0.004       nan         nan            nan             0                    2132.27
-70          449         0.004       nan         nan            nan             0                    2160.88
-71          455         0.004       nan         nan            nan             0                    2195.82
-72          462         0.004       nan         nan            nan             0                    2228.35
-73          468         0.004       nan         nan            nan             0                    2256.9
-74          475         0.004       nan         nan            nan             0                    2289.37
-75          481         0.004       nan         nan            nan             0                    2317.99
-76          487         0.004       nan         nan            nan             0                    2346.61
-77          494         0.004       nan         nan            nan             0                    2379.1
-78          500         0.004       nan         nan            nan             0                    2407.67
-79          507         0.004       nan         nan            nan             0                    2440.19
-80          513         0.004       nan         nan            nan             0                    2468.93
-81          519         0.004       nan         nan            nan             0                    2504.08
-82          526         0.004       nan         nan            nan             0                    2536.56
-83          532         0.004       nan         nan            nan             0                    2565.2
-84          539         0.004       nan         nan            nan             0                    2597.72
-85          545         0.004       nan         nan            nan             0                    2626.32
-86          551         0.004       nan         nan            nan             0                    2654.85
-87          558         0.004       nan         nan            nan             0                    2687.27
-88          564         0.004       nan         nan            nan             0                    2715.87
-89          571         0.004       nan         nan            nan             0                    2748.34
-90          577         0.004       nan         nan            nan             0                    2776.99
-91          583         0.004       nan         nan            nan             0                    2812.16
-92          590         0.004       nan         nan            nan             0                    2844.56
-93          596         0.004       nan         nan            nan             0                    2873.17
-94          603         0.004       nan         nan            nan             0                    2905.68
-95          609         0.004       nan         nan            nan             0                    2934.2
-96          615         0.004       nan         nan            nan             0                    2962.69
-97          622         0.004       nan         nan            nan             0                    2995.16
-98          628         0.004       nan         nan            nan             0                    3023.72
-99          635         0.004       nan         nan            nan             0                    3056.19
-100         641         0.004       nan         nan            nan             0                    3084.86
+10          65          0.001       6.75134     2.08291        4.66843         0.118168             230.543
+20          129         0.001       4.12112     1.58375        2.53737         0.181493             435.038
+30          193         0.001       3.59885     1.31919        2.27966         0.279919             635.634
+40          257         0.001       3.1998      1.07375        2.12605         0.573733             835.256
+50          321         0.001       2.94131     0.926096       2.01522         0.657611             1034.6
+60          385         0.001       2.86323     0.887698       1.97553         0.670849             1233.12
+70          449         0.001       2.73648     0.819021       1.91746         0.696257             1428.25
+80          513         0.001       2.63796     0.765831       1.87212         0.692361             1625.98
+90          577         0.001       2.55598     0.738259       1.81773         0.711002             1821.58
+100         641         0.001       2.49245     0.701536       1.79092         0.713163             2019.14
+110         705         0.001       2.46662     0.68411        1.78251         0.719259             2215.34
+120         769         0.001       2.42422     0.668462       1.75576         0.716902             2410.75
+130         833         0.001       2.38509     0.651328       1.73376         0.72674              2609.16
+140         897         0.001       2.32725     0.62762        1.69963         0.734795             2809.84
+150         961         0.001       2.28612     0.609401       1.67672         0.731203             3012.42
+160         1025        0.001       2.26408     0.602341       1.66174         0.737827             3208.94
+170         1090        0.001       2.26435     0.602011       1.66234         0.739109             3415.94
+180         1154        0.001       2.20838     0.580387       1.62799         0.73633              3619
+190         1218        0.001       2.1549      0.558059       1.59684         0.738508             3823.92
+200         1282        0.001       2.1479      0.557085       1.59082         0.735312             4022.46
+210         1346        0.0001      2.15193     0.566057       1.58587         0.743703             4218.82
+220         1410        0.0001      2.06368     0.525004       1.53867         0.746575             4421.17
+230         1474        0.0001      2.03127     0.510777       1.52049         0.748318             4629.21
+240         1538        0.0001      2.03743     0.517596       1.51984         0.748923             4836.61
+250         1602        0.0001      2.01771     0.50665        1.51106         0.74621              5044.15
+260         1666        1e-05       1.9999      0.500324       1.49958         0.750594             5251.47
+270         1730        1e-05       2.0164      0.502952       1.51345         0.749446             5459.1
+280         1794        1e-05       2.0113      0.504592       1.50671         0.750496             5667.54
+290         1858        1e-05       2.0113      0.507134       1.50417         0.750217             5871.16
+300         1922        1e-05       1.99649     0.49963        1.49686         0.750274             6071.73
 </pre></div></div>
+</div>
+<p>パラメータを変更して再度学習を回す場合は，モデルのオブジェクトを定義したセルから順に実行し直してみてください．</p>
+</div>
+<div class="section" id="学習結果を用いた推論">
+<h2>7.8. 学習結果を用いた推論<a class="headerlink" href="#学習結果を用いた推論" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>学習を行った結果得られるモデルのパラメータは，<code class="docutils literal notranslate"><span class="pre">extensions.snapshot()</span></code>というTrainer
+extensionによってファイルに保存されています．保存先は，デフォルトではTrainerオブジェクト初期化時に渡した<code class="docutils literal notranslate"><span class="pre">out</span></code>という引数によって指定されたディレクトリ以下となります．今回は，<code class="docutils literal notranslate"><span class="pre">results</span></code>以下にあるはずです．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!ls -la results/
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 5262416
+drwxr-xr-x 2 root root      4096 Nov 12 04:56 .
+drwxr-xr-x 1 root root      4096 Nov 12 03:14 ..
+-rw-r--r-- 1 root root     16459 Nov 12 04:56 accuracy.png
+-rw-r--r-- 1 root root     14212 Nov 12 04:56 log
+-rw-r--r-- 1 root root     19224 Nov 12 04:56 loss.png
+-rw-r--r-- 1 root root 179359510 Nov 12 03:19 snapshot_epoch_10
+-rw-r--r-- 1 root root 179635488 Nov 12 03:48 snapshot_epoch_100
+-rw-r--r-- 1 root root 179658565 Nov 12 03:52 snapshot_epoch_110
+-rw-r--r-- 1 root root 179626119 Nov 12 03:55 snapshot_epoch_120
+-rw-r--r-- 1 root root 179621515 Nov 12 03:58 snapshot_epoch_130
+-rw-r--r-- 1 root root 179599718 Nov 12 04:02 snapshot_epoch_140
+-rw-r--r-- 1 root root 179622100 Nov 12 04:05 snapshot_epoch_150
+-rw-r--r-- 1 root root 179636744 Nov 12 04:08 snapshot_epoch_160
+-rw-r--r-- 1 root root 179623075 Nov 12 04:12 snapshot_epoch_170
+-rw-r--r-- 1 root root 179632764 Nov 12 04:15 snapshot_epoch_180
+-rw-r--r-- 1 root root 179642466 Nov 12 04:18 snapshot_epoch_190
+-rw-r--r-- 1 root root 179506936 Nov 12 03:22 snapshot_epoch_20
+-rw-r--r-- 1 root root 179624125 Nov 12 04:22 snapshot_epoch_200
+-rw-r--r-- 1 root root 179639467 Nov 12 04:25 snapshot_epoch_210
+-rw-r--r-- 1 root root 179628299 Nov 12 04:28 snapshot_epoch_220
+-rw-r--r-- 1 root root 179620996 Nov 12 04:32 snapshot_epoch_230
+-rw-r--r-- 1 root root 179638472 Nov 12 04:35 snapshot_epoch_240
+-rw-r--r-- 1 root root 179629934 Nov 12 04:39 snapshot_epoch_250
+-rw-r--r-- 1 root root 179675574 Nov 12 04:42 snapshot_epoch_260
+-rw-r--r-- 1 root root 179645967 Nov 12 04:46 snapshot_epoch_270
+-rw-r--r-- 1 root root 179647990 Nov 12 04:49 snapshot_epoch_280
+-rw-r--r-- 1 root root 179653491 Nov 12 04:53 snapshot_epoch_290
+-rw-r--r-- 1 root root 179631960 Nov 12 03:25 snapshot_epoch_30
+-rw-r--r-- 1 root root 179644245 Nov 12 04:56 snapshot_epoch_300
+-rw-r--r-- 1 root root 179620105 Nov 12 03:29 snapshot_epoch_40
+-rw-r--r-- 1 root root 179647628 Nov 12 03:32 snapshot_epoch_50
+-rw-r--r-- 1 root root 179614063 Nov 12 03:35 snapshot_epoch_60
+-rw-r--r-- 1 root root 179642325 Nov 12 03:38 snapshot_epoch_70
+-rw-r--r-- 1 root root 179633721 Nov 12 03:42 snapshot_epoch_80
+-rw-r--r-- 1 root root 179581645 Nov 12 03:45 snapshot_epoch_90
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [20]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from google.colab import drive
+drive.mount(&#39;/content/gdrive&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Go to this URL in a browser: https://accounts.google.com/o/oauth2/auth?client_id=947318989803-6bn6qk8qdgf4n4g3pfee6491hc0brc4i.apps.googleusercontent.com&amp;redirect_uri=urn%3Aietf%3Awg%3Aoauth%3A2.0%3Aoob&amp;scope=email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdocs.test%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.photos.readonly%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fpeopleapi.readonly&amp;response_type=code
+
+Enter your authorization code:
+··········
+Mounted at /content/gdrive
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!cp -r results /content/gdrive/My\ Drive/Colab-results/
+</pre></div>
+</div>
+</div>
+<p>以上のようなシェルコマンドを実行してみると，いくつか<code class="docutils literal notranslate"><span class="pre">.npz</span></code>という拡張子で終わるファイルが見つかりました．これらはそれぞれ，学習中にTrainerの中にあった学習を再開するために必要なパラメータをまとまて保存したものです．今回は推論に必要なモデルのパラメータだけを取り出して使います．</p>
+<p>モデルのパラメータを取り出す方法としては，<code class="docutils literal notranslate"><span class="pre">chainer.serializers.load_npz</span></code>を用いて<code class="docutils literal notranslate"><span class="pre">.npz</span></code>ファイルをモデルオブジェクトにロードする際に，<code class="docutils literal notranslate"><span class="pre">.npz</span></code>ファイルのキーに対してある階層以下のものだけ見るように指定する方法があります．Trainerオブジェクト全体のスナップショットをとった場合には，Optimizerが持つiteration回数の情報など，モデル内部のパラメータ以外のものも格納されていますが，<code class="docutils literal notranslate"><span class="pre">updater/model:main/model</span></code>というprefixを渡せば，モデルのパラメータ部分のみを取り出すことだできます．</p>
+<p>では，学習に用いたのとは別の場所で，このスナップショットとモデルの定義のコードだけが渡された状況を想定して，新しいモデルオブジェクトを作成し，そこに学習済みパラメータをロードしてみましょう．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># Create a model object
+model = SSD300(n_fg_class=len(bccd_labels), pretrained_model=&#39;imagenet&#39;)
+
+# Load parameters to the model
+chainer.serializers.load_npz(
+    &#39;results/snapshot_epoch_300&#39;, model, path=&#39;updater/model:main/model/&#39;)
+</pre></div>
+</div>
+</div>
+<p>では，学習済みの重みをロードしたモデルを使って，テスト画像の一つに対して細胞の検出処理を行ってみます．以下のコードでは，画像の読み込み，推論の実行，そして結果の可視化までをChainerCVを用いて順に行っています．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [17]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainercv import utils
+
+# Load a test image
+img = utils.read_image(&#39;BCCD_Dataset/BCCD/JPEGImages/BloodImage_00007.jpg&#39;, color=True)
+
+# Perform inference
+bboxes, labels, scores = model.predict([img])
+
+# Extract the results
+bbox, label, score = bboxes[0], labels[0], scores[0]
+
+# Visualize the detection results
+ax = vis_bbox(img, bbox, label, label_names=bccd_labels)
+ax.set_axis_off()
+ax.figure.tight_layout()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Blood_Cell_Detection_43_0.png" src="../_images/notebooks_Blood_Cell_Detection_43_0.png" />
+</div>
 </div>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -995,7 +1236,7 @@ epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  v
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2018, キカガク, Preferred Networks
+        &copy; Copyright 2018, Preferred Networks &amp; キカガク
 
     </p>
   </div>
