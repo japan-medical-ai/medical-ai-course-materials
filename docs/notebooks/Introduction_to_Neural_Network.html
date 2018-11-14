@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>3. ニューラルネットワーク &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="4. Chainer入門" href="Chainer_Basics.html" />
+    <link rel="prev" title="2. 機械学習ライブラリの基礎" href="Introduction_to_ML_libs.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> メディカルAI学会認定資格向け学習資料
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. ニューラルネットワーク</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#step1">3.1. Step1. モデルを決める</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#">3.1.1. 線形変換</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#">3.1.2. 非線形変換</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#">3.1.3. 数値例で流れを確認</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#step2">3.2. Step2. 目的関数を決める</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#step3">3.3. Step3. パラメータを最適化する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#">3.4. 勾配が消失する問題</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#">3.5. 誤差逆伝播法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Chainer_Basics.html">4. Chainer入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">メディカルAI学会認定資格向け学習資料</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>3. ニューラルネットワーク</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notebooks/Introduction_to_Neural_Network.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="">
+<span id="id1"></span><h1>3.5. ニューラルネットワーク<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ここでは、ディープラーニングの基礎となっているニューラルネットワークについて紹介する。いくつかの参考書を読み、ディープラーニングとニューラルネットワークの境界線を明確に定義しているものは見つからなかったが、歴史学者としては明確な定義が必要かもしれないが、読者の皆さんにとっては、第二次AIブームで使わていたものと、現在到来している第三次AIブームで使われているものではないだろうか。この章ではニューラルネットワークと題して、第二次AIブームで使われていた3層までのニューラルネットワークを扱い、次の章では多層のニューラルネットワークや学習の工夫、データの取り扱いなど第三次AIブームで使われている手法や工夫についてディープラーニングと題して紹介することとする。このように区別することで、技術がどのように進展してきたかを感じることができ、またこれから取り組む際にどの手法を選択すれば良いかが明確になるであろう。</p>
+<div class="section" id="step1">
+<span id="step1"></span><h2>3.1. Step1. モデルを決める<a class="headerlink" href="#step1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ニューラルネットワークでは、以下のような構造となっている。</p>
+<p><img alt="" src="notebooks/images/8/01.png" /></p>
+<p>一つ一つの丸のことをノードと呼び、そのノードの集まりを層と呼ぶ。入力層から始まり、中間層へ、そして出力層へと計算を進めていく。このモデルは3層構造となっており、中間層の数を増やすことで多層のニューラルネットワークとなる。すべてのノードが結合されているため、<strong>全結合のニューラルネットワーク</strong>とも呼ぶ。これはディープラーニングの章で紹介する他のニューラルネットワークの構造と対比するための呼び方である。</p>
+<p>入力変数の扱い方はこれまでと同様であるが、出力変数の扱い方がこれまでと異なる。例えば、上図では白ワインと赤ワインを分類するような問題を例に挙げているが、これまで2つのカテゴリの分類の場合、$y \in {-1, 1}$ のようにひとつの出力変数のとる値で属するカテゴリを指定していた。それに対して、ニューラルネットワークでは、白ワイン用の出力変数 $y_{1}$ と赤ワイン用の出力変数 $y_{2}$ のそれぞれが準備されている。なぜこのような構造となっているのだろうか。</p>
+<p><img alt="" src="notebooks/images/8/02.png" /></p>
+<p>この答えの前に、最終的にニューラルネットワークではどのような出力が得られるかを見てみる。例えば、年数が3年物でアルコール度数が14度、$[0, 1]$の値を取る白さ、黒さがそれぞれ0.2と0.8だとする。読者の皆さんの経験では、これは白ワインか赤ワインのどちらであろうか。多くの方が赤ワインだと答えるであろう。内部の計算は後述するが、このようなデータをニューラルネットワークに与えると、白ワイン $y_{1} = 0.15$, 赤ワイン $y_{2}= 0.85$ という値が得られる。そして、最も大きな値である赤ワインを分類の結果として採用する。ここで出力の値に注目すると、合計すると1になっている。そのため、すべての候補を足し合わせると1になるという性質から確率の議論を適用することができる。この詳細も後述する。いま注目して欲しい点としては、パーセプトロンのような分類の手法では、白ワインか赤ワインかといったどのカテゴリに属するかしかわからなかったものの、ニューラルネットワークでは、どのクラスにどのくらいの確率で属すかまで知ることができる。前者の境界線だけを求める手法を<strong>識別関数</strong>、後者の各カテゴリに属する確率まで求める手法を<strong>識別モデル</strong>という。また、これと並んで確率の知見を取り入れてデータの分布を直接求める手法を<strong>生成モデル</strong>と呼ぶが、これは本書の後半で登場する。</p>
+<p>そして、もう一点確認したいこととして、ニューラルネットワークは回帰か分類どちらを扱う手法だろうか。答えは両方扱うことができる。ただし、最終的な出力は連続値となっていることから、ニューラルネットワークは基本的には回帰の手法であり、この値を使って分類も行えるということである。また、ニューラルネットワークでは数式もプログラミングも<strong>2層で1セット</strong>として扱うことを覚えておいてほしい。多いものだと100層を超えるため全体で考えると複雑になりすぎるため、2層ごとに分割してその連結という風に考えると、取り扱いやすいものとなる。</p>
+<p>それでは具体的な手順を解説していく。以下の図のような前半の2層をまず切り出す。内部では<strong>線形変換</strong>と<strong>非線形変換</strong>の2つの処理が行われており、それぞれ紹介する。</p>
+<p><img alt="" src="notebooks/images/8/03.png" /></p>
+<div class="section" id="">
+<span id="id2"></span><h3>3.5. 線形変換<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>重回帰分析と同様に、重み×入力+バイアスの計算を行う。
+$$
+\begin{aligned}
+u_{11}=w_{11}h_{01}+w_{12}h_{02}+w_{13}h_{03}+w_{14}h_{04}+b_{1}\
+u_{12}=w_{21}h_{01}+w_{22}h_{02}+w_{23}h_{03}+w_{24}h_{04}+b_{2}\
+u_{13}=w_{31}h_{01}+w_{32}h_{02}+w_{33}h_{03}+w_{34}h_{04}+b_{2}
+\end{aligned}
+$$
+のように計算を行う。これを行列でまとめると、
+$$
+\begin{aligned}
+\begin{bmatrix}
+u_{11} \
+u_{12} \
+u_{13}
+\end{bmatrix}&amp;=\begin{bmatrix}
+w_{11} &amp; w_{12} &amp; w_{13} &amp; w_{14} \
+w_{21} &amp; w_{22} &amp; w_{23} &amp; w_{24} \
+w_{31} &amp; w_{32} &amp; w_{33} &amp; w_{34}
+\end{bmatrix}\begin{bmatrix}
+h_{01} \
+h_{02} \
+h_{03} \
+h_{04}
+\end{bmatrix}+\begin{bmatrix}
+b_{1} \
+b_{2} \
+b_{3}
+\end{bmatrix}\
+u_{1}&amp;=Wh_{0}+b
+\end{aligned}
+$$
+のようになる。本来は$W$や$b$にも添え字をつけるべきではあるが、記号が複雑になってくるため、細かい判断が必要な場合にのみ付けることとする。厳密な定義としては $u = Wh$ が線形変換であるが、バイアス $b$ を $W$ に包含すればこのような式でも表現できるため、この $u = Wh + b$ の計算を線形変換と呼ぶ。</p>
+</div>
+<div class="section" id="">
+<span id="id3"></span><h3>3.5. 非線形変換<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><img alt="" src="notebooks/images/8/04.png" /></p>
+<p>これまでは、上図左側のように $y = wx + b$ で扱える範囲の手法のみ紹介していたが、実データでは右のように入出力間の関係が直線（や超平面）では表現できない非線形なデータ構造も存在する。この場合、どのように対処すれば良いだろうか。後の章で紹介するサポートベクターマシンではカーネルトリックという方法を使うが、ニューラルネットワークでは内部に非線形変換の関数を取り入れる。これにより、入出力間の非線形性に対応できると考えたのである。この非線形変換を行う関数を <strong>活性化関数</strong> と呼ぶ。</p>
+<p><img alt="" src="notebooks/images/8/05.png" /></p>
+<p>ニューラルネットワークでは一般的にこの<strong>シグモイド関数</strong>
+$$
+h = f(u) = \dfrac{1}{1+e^{-u}}
+$$
+が用いられてきた。少し前まではどの参考書にも載っていたが、最近ではあまり見かけないものとなっている。これは絶対値的に大きな値に対して、+1 もしくは -1 に近似していき、入力となる値の大きさによる出力の値の変化が薄くなってしまう性質と、後述する<strong>勾配が消失する</strong>問題があるためである。前者はスケーリングによってある程度解決することができるが、後者の問題は多層ニューラルネットワークの学習に対する大きな障害となってしまうのである。</p>
+<p><img alt="" src="notebooks/images/8/06.png" /></p>
+<p>最近では標準的に上図の <strong>Relu関数</strong>
+$$
+h = f(u) = \max(0, u)
+$$
+を使用する。この関数は負の値では出力が0で、正の値はそのまま出力する。シグモイド関数における絶対値的に大きな値で変化が薄れていく問題を解決していることは直感的にわかるが、本当に注目されるべき点としては、このRelu関数は勾配が消失する問題を解決している。この関数は第三次AIブーム以降標準的に使われるようになって手法であるため、次の章で紹介すべきであるが、この後の数値例でシグモイド関数を手計算することが厳しいため、ここで先に紹介している。</p>
+</div>
+<div class="section" id="">
+<span id="id4"></span><h3>3.5. 数値例で流れを確認<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><img alt="" src="notebooks/images/8/07.png" /></p>
+<p>数式が多くイメージが湧きにくいため、上図の数値例で出力$y$までの計算の流れを確認していく。今回は計算を簡略化するためバイアス $b$ は省略している。$x^{T} = \begin{bmatrix} 2 &amp; 3 &amp; 1 \end{bmatrix}$ が与えられた時の出力 $y$ を計算してみる。</p>
+<p>まずどこから計算を始めるかが肝心であるが、パラメータ $W$ の値が具体的な数値として決まっていないと計算を始めることができない。これはパーセプトロンの時も同様であった。そこで、パラメータ $W$ の値を乱数で決定し、今回は上図のような値となったとする。ここで、あくまでこのパラメータの初期値は乱数であり、予測にとって良いパラメータではなく、パーセプトロン同様、これらのパラメータを調整していくことが学習である。</p>
+<p>パラメータの初期値に対して、線形変換を計算すると、
+$$
+\begin{aligned}
+u_{11}&amp;=3\times 2+1\times 3+2\times 1=11\
+u_{12}&amp;=-2\times 2-3\times 3-1\times 1=-11
+\end{aligned}
+$$
+となり、Relu関数を活性化関数とすると非線形変換は
+$$
+\begin{aligned}
+h_{11} &amp;= \max(0, 11) = 11 \
+h_{12} &amp;= \max(0, -11)  = 0
+\end{aligned}
+$$
+となる。理論的には難しく感じたかもしれないが、実際の計算は簡単である。そして、同様に出力y（今回は活性化関数なし）を計算すると、
+$$
+y = 3 \times 11 + 2 \times 0 = 33
+$$
+となる。</p>
+</div>
+</div>
+<div class="section" id="step2">
+<span id="step2"></span><h2>3.2. Step2. 目的関数を決める<a class="headerlink" href="#step2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ニューラルネットワークでは、回帰と分類によって目的関数が異なる。</p>
+<p>まず回帰では重回帰分析と同様に二乗誤差を使用する。一般にフレームワークで実装されているものは、<strong>平均二乗誤差</strong>
+$$
+\mathcal{L} = \dfrac{1}{N} \sum_{n=1}^{N}(t_{n} - y_{n})^{2}
+$$
+である。これまでの総和を平均に変更しただけである。</p>
+<p>つぎに、分類では<strong>クロスエントロピー</strong>
+$$
+\mathcal{L} = \dfrac{1}{N}\sum_{n=1}^{N}t_{n}\log y_{n}
+$$
+を目的関数として採用する。この式を見るに直感的に理解できるものではなく前提知識も必要となるため、これは情報量の章で説明することとする。現状では二乗誤差と同様、分類による間違いを定量評価できる関数であるとの認識程度で大丈夫である。</p>
+<p>それでは簡単な練習ではあるが、先ほどの例題に対して、教師データ $t = 20$ の場合、平均二乗誤差は
+$$
+\mathcal{L} = \dfrac{1}{1} (20 - 33)^2 = 169
+$$
+となる。</p>
+</div>
+<div class="section" id="step3">
+<span id="step3"></span><h2>3.3. Step3. パラメータを最適化する<a class="headerlink" href="#step3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>確認のため、ニューラルネットワークのパラメータは、各層における $W$ と $b$ である。Relu関数などを活性化関数を使用する場合、パーセプトロンと同様に、パラメータが与えられるまで計算ができない。そのため、各パラメータに対して微分を行い、最急降下法などでその傾きの逆方向に移動していき、最良となるパラメータを探索する。ニューラルネットワークでは、これまでのモデルよりも複雑であるため、微分の計算に多少の慣れが必要である。</p>
+<p><img alt="" src="notebooks/images/8/08.png" /></p>
+<p>まずここでは簡単な例を元に、微分の計算方法を考えていく。ニューラルネットワークでは<strong>誤差逆伝播法</strong>という美しく計算できる方法もあるが、これは慣れてきてから紹介するとして、まずは計算のイメージをつかめるよう、上図の$w1$ と $w_{2}$ の2点での微分を考えることとする。</p>
+<p>$w_{1}$ での微分から考える。はじめに、目的関数からターゲットとなっている $w_{1}$ までの計算を洗い出すと、
+$$
+\begin{aligned}
+\mathcal{L} &amp;= \dfrac{1}{N}\sum_{n=1}^{N}(t_n - y_{n})^{2} \
+y_{n} &amp;= w_{1}h_{11} + \cdots
+\end{aligned}
+$$
+のようになる。ポイントとして、$w_{1}$ に関係しない項は $w_{1}$ で偏微分すると0になるため、「$\cdots$」のように書いておくと良い。この目的関数を$w_{1}$で微分すると、
+$$
+\begin{aligned}
+\dfrac {\partial \mathcal{L}}{\partial w_{1}}&amp;=\dfrac {\partial y_{n}}{\partial w_{1}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\
+\dfrac {\partial y_{n}}{\partial w_{1}}&amp;=h_{11} = 11 \
+\dfrac {\partial \mathcal{L}}{\partial y_{n}}&amp;=\dfrac {1}{N}\sum ^{N}<em>{n=1}2\left( t</em>{n}-y_{n}\right) \times \left( -1\right) \
+&amp;=-\dfrac {2}{N}\sum_{n=1}^{N}\left( t_{n}-y_{n}\right) \
+&amp;= -2 \times (20 - 33) = 26\
+\dfrac {\partial \mathcal{L}}{\partial w_{1}}&amp;=\dfrac {\partial y_{n}}{\partial w_{1}}\dfrac {\partial \mathcal{L}}{\partial y_{n}} = 11 \times 26 =286 \
+\end{aligned}
+$$
+となる。次に、$w_{2}$ について考えていく。目的関数からターゲットとなっている $w_{2}$ までの計算を洗い出すと、
+$$
+\begin{aligned}
+\mathcal{L} &amp;= \dfrac{1}{N}\sum_{n=1}^{N}(t_n - y_{n})^{2} \
+y_{n} &amp;= w_{1}h_{11} + \cdots \
+&amp;= w_{1} f(u_{11})  + \cdots \
+u_{11}&amp;=w_{2}x_{1} + \cdots
+\end{aligned}
+$$
+となる。これをもとに $w_{2}$ で微分すると、
+$$
+\begin{aligned}
+\dfrac {\partial \mathcal{L}}{\partial w_{2}}&amp;=\dfrac {\partial y_{n}}{\partial w_{2}}\dfrac {\partial L}{\partial y_{n}}\
+&amp;=\dfrac {\partial u_{11}}{\partial w_{2}}\dfrac {\partial y_{n}}{\partial u_{11}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\
+\dfrac {\partial u_{11}}{\partial w_2}&amp;=x_{1}=2\
+\dfrac {\partial y_{n}}{\partial u_{11}}&amp;=w_{1}f'\left( u_{11}\right) \
+\dfrac {\partial \mathcal{L}}{\partial y_{n}}&amp;=-\dfrac {2}{N}\sum ^{N}<em>{n=1}\left( t</em>{n}-y_{n}\right) =26
+\end{aligned}
+$$
+ここで、$f'(u_{11})$ のところで、活性化関数であるRelu関数の微分が必要となり、
+$$
+f'\left( u\right) =
+\begin{cases}
+1 \quad u &gt;0\
+0 \quad u\leq 0\end{cases}
+$$
+のように、入力される $u$ の場合分けで考えればよく、
+$$
+\begin{aligned}
+\dfrac {\partial y_{n}}{\partial u_{11}}&amp;=w_{1}f'\left( u_{11}\right) =3\times 1=3\
+\end{aligned}
+$$
+となることから、
+$$
+\begin{aligned}
+\dfrac {\partial \mathcal{L}}{\partial w_{2}}&amp;=\dfrac {\partial u_{11}}{\partial w_{2}}\dfrac {\partial y_{n}}{\partial u_{11}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\
+&amp;= 2 \times 3 \times 26 = 156
+\end{aligned}
+$$
+となる。学習係数 $\rho=0.01$ として最急降下法によりパラメータを更新すると、更新後の $w_{1}^{(1)}$ は更新前の $w_{1}^{(0)}$ を使って、
+$$
+w_{1}^{(1)} = w_{1}^{(0)} - \rho\dfrac{\partial \mathcal{L}}{\partial w_{1}} \
+\Rightarrow w_{1}^{(1)} = 3 - 0.01 \times 286 \
+\Rightarrow w_{1}^{(1)} = 0.14
+$$
+となる。また、更新後の $w_{2}^{(1)}$ は更新前の $w_{2}^{(0)}$ を使って、
+$$
+w_{2}^{(1)} = w_{2}^{(0)} - \rho\dfrac{\partial \mathcal{L}}{\partial w_{2}} \
+\Rightarrow w_{1}^{(1)} = 3 - 0.01 \times 156 \
+\Rightarrow w_{1}^{(1)} = 1.44
+$$
+となる。このように、パラメータの更新を行い。また、更新後のパラメータで予測値の計算および評価関数の計算を行い、微分を求めてパラメータの更新と繰り返していく。</p>
+</div>
+<div class="section" id="">
+<span id="id5"></span><h2>3.5. 勾配が消失する問題<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここで、活性化関数であるシグモイド関数が使われなくなったと解説していたが、なぜシグモイド関数ではなくRelu関数が標準的に使われるようになったのだろうか。数値例で実際に計算したところ、$w_{2}$ の微分を計算するさいに、
+$$
+\dfrac {\partial y_{n}}{\partial u_{11}}=w_{1}f'\left( u_{11}\right)
+$$
+の計算が登場し、特に $f'(u_{11})$ のように活性化関数の微分ができている。</p>
+<p>ここで、シグモイド関数を活性化関数として採用した場合を考え、シグモイド関数の微分を行うと、
+$$
+\begin{aligned}
+f\left( u\right) &amp;=\dfrac {1}{1+e^{-u}}=\left( 1+e^{-u}\right) ^{-1}\
+f'\left( u\right) &amp;=-1\times \left( 1+e^{-u}\right) ^{-2}\times \left( -e^{-u}\right) \
+&amp;=\dfrac {e^{-u}}{\left( 1+e^{-u}\right) ^{2}}\
+&amp;=\dfrac {1+e^{-u}-1}{\left( 1+e^{-u}\right) ^{2}}\
+&amp;=\dfrac {1+e^{-u}}{\left( 1+e^{-u}\right) ^{2}}-\dfrac {1}{\left( 1+e^{-u}\right) ^{2}} \
+&amp;=\dfrac {1}{1+e^{-u}}-\left( \dfrac {1}{1+e^{-u}}\right) ^{2}\
+&amp;=f\left( u\right) -\left( f\left( u\right) \right) ^{2}\
+&amp;=f\left( u\right) \left( 1-f\left( u\right) \right)
+\end{aligned}
+$$
+となり、グラフは下記のようになる。</p>
+<p><img alt="" src="notebooks/images/8/09.png" /></p>
+<p>このように、シグモイド関数の微分を計算してみると、シグモイド関数の微分の最大値は0.25であることがわかる。それに対し、Relu関数の微分の最大値は1である。</p>
+<p>これにどのような意味があるかというと、各パラメータで微分した際に、活性化関数の微分が式中に現れるが、もしシグモイド関数を使用すると、最低でも0.25倍されてしまうこととなり、勾配の値が小さくなることがわかる。今回は3層であったため、気にならない程度であるが、もし4層の場合、一番後ろの層のパラメータの微分を行う場合、最低でも $0.25 \times 0.25 = 0.0625$ とさらに勾配の値が小さくなる項が存在することとなる。つまり、ディープラーニングのように多層のニューラルネットワークの場合にシグモイド関数を使用すると、後ろの層に行くほど勾配情報が極端に小さくなっていき、パラメータの更新が実質行えないような状況となるのである。これが<strong>勾配が消失する</strong>という問題の正体である。</p>
+<p>そして、シグモイド関数に対し、Relu関数では微分の最大値が1であるため、何層あって勾配の値が小さくなっていくことがなく、勾配が消失する問題に対処することができるのである。</p>
+</div>
+<div class="section" id="">
+<span id="id6"></span><h2>3.5. 誤差逆伝播法<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>それではこの章最後の大きなトピックとして、ニューラルネットワークの計算の中で最も繁雑な計算を要する誤差逆伝播法について解説する。ここまでの数学で厳しいようであれば誤差逆伝播法の解説は二周目にとっておいてもらっても構わない。なぜなら、最近使用されているディープラーニング向けのフレームワークではこの誤差逆伝播法の計算は内部で自動化されており、プログラムを組む時には基本的に不要だからである。その代わり、新しい手法を試したり、細かい調整を行う場合に必要となるため、それまでに習得しておけば問題ない。</p>
+<p><img alt="" src="notebooks/images/8/10.png" /></p>
+<p>それでは上記のように、4層のニューラルネットワークにおける $w_{ij}$ までの勾配の値を求めることがゴールである。</p>
+<p>まずは、$w_{kl}$ について考えると、
+$$
+\begin{aligned}
+\mathcal{L} &amp;= f_{\rm loss}\left( y_{1}, \ldots, y_{l}, \ldots, y_{L}\right) \
+y_{l}&amp;=f\left( u_{l}\right) \
+u_{l}&amp;=\cdots +w_{kl}h_{k}+\cdots
+\end{aligned}
+$$
+となることから、
+$$
+\begin{aligned}
+\dfrac {\partial L}{\partial w_{kl}}&amp;=\dfrac {\partial y_{l}}{\partial w_{kl}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}\
+&amp;=\dfrac {\partial u_{l}}{\partial w_{kl}}\dfrac {\partial y_{l}}{\partial u_{l}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}
+\end{aligned}
+$$
+のように得られる。ここで、それぞれの微分についてはすでに数値例で紹介しているため省略する。</p>
+<p>後述の計算のため、
+$$
+\delta_{l} = \dfrac {\partial y_{l}}{\partial u_{l}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}
+$$
+とすると、
+$$
+\begin{aligned}
+\dfrac {\partial L}{\partial w_{kl}}&amp;=\dfrac {\partial y_{l}}{\partial w_{kl}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}\
+&amp;=\dfrac {\partial u_{l}}{\partial w_{kl}}\delta_{l}
+\end{aligned}
+$$
+のように記述しておく。最初に関係性を明示しておけば、あとはチェインルールに従って微分をしていくだけである。</p>
+<p><img alt="" src="notebooks/images/8/11.png" /></p>
+<p>つぎに、$w_{jk}$ の微分を考える。$w_{kl}$ の場合と同様に $w_{jk}$ にたどり着くまでの流れを考えていくが、ここで、上図で示す通り、$w_{jk}$ にたどり着くまでに $y_{1}, y_{2}, \ldots, y_{l}, \ldots, y_L$ と複数の出力からの微分を考慮する必要があることに気を付けると、
+$$
+\begin{aligned}
+\mathcal{L} &amp;= f_{\rm loss}\left( y_{1}, \ldots, y_{l}, \ldots, y_{L}\right) \
+y_{l}&amp;=f\left( u_{l}\right) \
+u_{l}&amp;=\cdots +w_{kl}h_{k}+\cdots \
+h_{k}&amp;=f\left( u_{j}\right) \
+u_{k}&amp;=w_{jk}h_{j}
+\end{aligned}
+$$
+となり、勾配の値は
+$$
+\begin{aligned}
+\dfrac {\partial L}{\partial w <em>{jk}}&amp;=\sum ^{L}</em>{l=1}\dfrac {\partial y_{l}}{\partial w_{jk}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}\
+&amp;=\sum ^{N}<em>{l=1}\dfrac {\partial u</em>{l}}{\partial w_{jk}}\dfrac {\partial y_{l}}{\partial u_{l}}\dfrac{\partial \mathcal{L}}{\partial y_{l}}\
+&amp;=\sum ^{N}<em>{l= 1}\dfrac {\partial h</em>{k}}{\partial w_{jk}}\dfrac {\partial u_{l}}{\partial h_{k}}\dfrac {\partial y_{l}}{\partial u_{l}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}\
+&amp;=\sum ^{N}<em>{l=1}\dfrac {\partial u</em>{k}}{\partial w_{jk}}\dfrac{\partial h_{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}
+\underbrace{
+\dfrac {\partial y_{l}}{\partial u_{l}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}
+}<em>{\delta</em>{l}} \
+&amp;=\sum ^{N}<em>{l=1}\dfrac {\partial u</em>{k}}{\partial w_{jk}}\dfrac{\partial h_{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}\delta_{l} \
+&amp;=\dfrac {\partial u_{k}}{\partial w_{jk}} \sum ^{N}<em>{l=1}\dfrac{\partial h</em>{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}\delta_{l}
+\end{aligned}
+$$
+ここで、
+$$
+\delta_{k} =\sum_{l=1}^{L} \dfrac{\partial h_{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}\delta_{l}
+$$
+とおくと、
+$$
+\begin{aligned}
+\dfrac {\partial \mathcal{L}}{\partial w <em>{jk}}
+&amp;=\dfrac {\partial u</em>{k}}{\partial w_{jk}}\sum ^{L}<em>{l=1}\dfrac{\partial h</em>{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}\delta_{l} \
+&amp;=\dfrac {\partial u_{k}}{\partial w_{jk}}\delta_{k}
+\end{aligned}
+$$
+のような結果が得られる。$\delta_{k}$ の計算からわかるように、前の層で計算した $\delta_{l}$ の値を次の層の勾配を計算する際に流用している。このように勾配情報の一部を伝播させていきながら計算していくため誤差逆伝播法と名づけられている。</p>
+<p>同様に考えると、
+$$
+\begin{aligned}
+\dfrac {\partial \mathcal{L}}{\partial w_{ij}}
+&amp;=\dfrac {\partial u_{i}}{\partial w_{ij}}\delta <em>{j}\
+\delta <em>{j}&amp;=\sum ^{K}</em>{k=1}\dfrac {\partial h</em>{j}}{\partial u_{j}}\dfrac {\partial u_{k}}{\partial h_{j}}\delta <em>{k}
+\end{aligned}
+$$
+のように、$w</em>{ij}$ の勾配を計算することができる。式が煩雑になるため本書では割愛するが時間に余裕があれば、この式展開も手計算で確認してほしい。</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Chainer_Basics.html" class="btn btn-neutral float-right" title="4. Chainer入門" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Introduction_to_ML_libs.html" class="btn btn-neutral" title="2. 機械学習ライブラリの基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, キカガク, Preferred Networks
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

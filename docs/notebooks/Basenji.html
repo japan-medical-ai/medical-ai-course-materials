@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5. 実践編：ディープラーニングを使った配列解析 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
+  <title>9. 実践編：ディープラーニングを使った配列解析 &mdash; メディカルAI学会認定資格向け学習資料  ドキュメント</title>
   
 
   
@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="prev" title="4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" href="Sequential_Data_Analysis_with_Deep_Learning.html" /> 
+    <link rel="prev" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" href="Sequential_Data_Analysis_with_Deep_Learning.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -78,18 +78,22 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">1. Deep Learningフレームワークの基礎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">2. 実践編: CT/MRI画像のセグメンテーション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">3. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">5. 実践編：ディープラーニングを使った配列解析</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#環境">5.1. 環境</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#配列解析について">5.2. 配列解析について</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#データセット">5.3. データセット</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Dilated-Convolutionを用いた解析">5.4. Dilated Convolutionを用いた解析</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#配列解析の戦略">5.4.1. 配列解析の戦略</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Dilated-Convolution">5.4.2. Dilated Convolution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ブロック">5.4.3. ブロック</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chainer_Basics.html">4. Chainer入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">9. 実践編：ディープラーニングを使った配列解析</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境">9.1. 環境</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#配列解析について">9.2. 配列解析について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データセット">9.3. データセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Dilated-Convolutionを用いた解析">9.4. Dilated Convolutionを用いた解析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#配列解析の戦略">9.4.1. 配列解析の戦略</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Dilated-Convolution">9.4.2. Dilated Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ブロック">9.4.3. ブロック</a></li>
 </ul>
 </li>
 </ul>
@@ -139,7 +143,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>5. 実践編：ディープラーニングを使った配列解析</li>
+      <li>9. 実践編：ディープラーニングを使った配列解析</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -342,12 +346,12 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="実践編：ディープラーニングを使った配列解析">
-<h1>5. 実践編：ディープラーニングを使った配列解析<a class="headerlink" href="#実践編：ディープラーニングを使った配列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1>9. 実践編：ディープラーニングを使った配列解析<a class="headerlink" href="#実践編：ディープラーニングを使った配列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>近年、次世代シーケンサ（NGS; Next Generation
 Sequencer）の発展により、遺伝子の塩基配列を高速、大量、安価に読み取ることができるようになってきました。</p>
 <p>ここではディープラーニングを用いて、DNA配列からエピジェネティックな影響や転写制御を予測する問題に取り組みます。この予測モデルを使うことで、ある遺伝子変異が遺伝子発現にどのような影響を与えるのかを予測することができるようになります。</p>
 <div class="section" id="環境">
-<h2>5.1. 環境<a class="headerlink" href="#環境" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>9.1. 環境<a class="headerlink" href="#環境" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここで用いるライブラリは</p>
 <ul class="simple">
 <li>Chainer</li>
@@ -430,7 +434,7 @@ iDeep: Not Available
 </div>
 </div>
 <div class="section" id="配列解析について">
-<h2>5.2. 配列解析について<a class="headerlink" href="#配列解析について" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>9.2. 配列解析について<a class="headerlink" href="#配列解析について" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>次世代シーケンサの発展・普及とともに、大量の遺伝子配列が読み取られるようになりました。そうした中で、塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome
 Wide Association Study;
 ゲノムワイド関連解析）がされてきましたが、遺伝子変異だけでは全ての表現型の変化を説明できないことがわかってきています。特に、非翻訳領域が遺伝子発現に影響を与え、表現型の変化を生じさせていることが様々な実験結果からわかってきています。遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています。（以下図）</p>
@@ -440,7 +444,7 @@ Wide Association Study;
 <p>一方で、DNA配列中のどの領域がそのような特徴を持つのかを調べるためには非常に遠距離のDNA配列もいる必要があり、これが機械学習による解析を困難としていました。今回紹介する手法はこのような遠距離の関係を捉えるため、10万超の長さのDNA配列を入力として受け取り、128bpごとにその領域がどの程度各手法で発現していたのか、カバレッジ値を予測するタスクを考えます。</p>
 </div>
 <div class="section" id="データセット">
-<h2>5.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>9.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは、データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します。ここでは前処理が既に終わって配列と、各位置ごとの推定カバレッジ値が記録されたデータを利用します。下のセルを実行してデータをダウンロードしてください。（TODO:
 公開の場所においてcurlで取得するようにする）</p>
 <div class="nbinput docutils container">
@@ -609,9 +613,9 @@ with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
 </div>
 </div>
 <div class="section" id="Dilated-Convolutionを用いた解析">
-<h2>5.4. Dilated Convolutionを用いた解析<a class="headerlink" href="#Dilated-Convolutionを用いた解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>9.4. Dilated Convolutionを用いた解析<a class="headerlink" href="#Dilated-Convolutionを用いた解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="配列解析の戦略">
-<h3>5.4.1. 配列解析の戦略<a class="headerlink" href="#配列解析の戦略" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>9.4.1. 配列解析の戦略<a class="headerlink" href="#配列解析の戦略" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>配列データを扱うためには大きく３つの戦略があります。</p>
 <p>一つ目は、配列中の順序情報は捨てて、配列をその特徴の集合とみなすことです。これはBag
 of
@@ -622,7 +626,7 @@ Convolutionを使うことで各位置の処理は遠距離にある情報を直
 Convolutionについてさらに詳しくみていきます。</p>
 </div>
 <div class="section" id="Dilated-Convolution">
-<h3>5.4.2. Dilated Convolution<a class="headerlink" href="#Dilated-Convolution" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>9.4.2. Dilated Convolution<a class="headerlink" href="#Dilated-Convolution" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>従来の畳み込み層を使って配列解析をする場合を考えてみます。
 以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません。どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され、カーネルサイズがKの時、Dだけ離れた距離にある情報を取得するためにはD/K層必要となります。今回の問題の場合Dは数百から数万、Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません。</p>
 <div class="figure" id="id8">
@@ -641,7 +645,7 @@ Convolutionを使うことで遠距離にある情報を考慮できるモデル
 </div>
 </div>
 <div class="section" id="ブロック">
-<h3>5.4.3. ブロック<a class="headerlink" href="#ブロック" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>9.4.3. ブロック<a class="headerlink" href="#ブロック" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは最初に、ネットワークの全体を設計します。
 このネットワークは二つのブロックから構成されます。</p>
 <p>１つ目のブロックは長さが2<sup>17から配列を長さが2</sup>10のベクトル列まで圧縮し、128bpにつき1つのベクトルが対応するにします。この圧縮はRootBlockが担当します。</p>
@@ -1075,7 +1079,7 @@ plot(test_y_estimated)
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="Sequential_Data_Analysis_with_Deep_Learning.html" class="btn btn-neutral" title="4. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Sequential_Data_Analysis_with_Deep_Learning.html" class="btn btn-neutral" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

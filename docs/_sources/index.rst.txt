@@ -4,7 +4,11 @@
 .. toctree::
     :maxdepth: 2
     :numbered:
-
+    
+    notebooks/Basic_Math_for_ML
+    notebooks/Introduction_to_ML_libs
+    notebooks/Introduction_to_Neural_Network
+    notebooks/Chainer_Basics
     notebooks/Introduction_to_Chainer
     notebooks/Image_Segmentation
     notebooks/Blood_Cell_Detection
