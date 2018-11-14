@@ -5,12 +5,18 @@
 ^^^^^^^^^^^^^^^^^^
 
 本ページは **日本メディカルAI学会公認資格：メディカルAIコースのオンライン講義資料（以下本資料）** です．
-本講義資料を読むことで，医療で人工知能技術を使う際に最低限必要な知識や実践方法を学ぶことができます．
+本講料を読むことで，医療で人工知能技術を使う際に最低限必要な知識や実践方法を学ぶことができます．
 
 想定受講者
 ^^^^^^^^^^
 
 受講想定者として大学生，大学院生，医療従事者を想定しています．
+また，Python，Google Colaboratoryの基本的な使い方を知っていることを想定しています．
+Python, Google Colaboratoryについては様々な参考資料や解説サイトがあります。例えば、以下のような資料も参考にしてください。
+
+* `Python学習サイト集 <https://qiita.com/kita33/items/8891c7c04b664e7669bf>`_
+* `ゼロからはじめるPython第26回 (Colaboratorの使い方について） <https://news.mynavi.jp/article/zeropython-26/>`_
+* `Google colaboratory FAQ <https://research.google.com/colaboratory/faq.html>`_
 
 内容について
 ^^^^^^^^^^^^
