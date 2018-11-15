@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>メディカルAIコース オンライン講義資料 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="検索" href="search.html" />
+    <link rel="next" title="1. 機械学習に必要な数学の基礎" href="notebooks/Basic_Math_for_ML.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> メディカルAIコース オンライン講義資料<Paste>
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Chainer_Basics.html">4. Chainer入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">メディカルAIコース オンライン講義資料<Paste></a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>メディカルAIコース オンライン講義資料</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="ai">
+<h1>メディカルAIコース オンライン講義資料<a class="headerlink" href="#ai" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id1">
+<h2>本講義資料について<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>本ページは <strong>日本メディカルAI学会公認資格：メディカルAIコースのオンライン講義資料（以下本資料）</strong> です．
+本講料を読むことで，医療で人工知能技術を使う際に最低限必要な知識や実践方法を学ぶことができます．</p>
+</div>
+<div class="section" id="id2">
+<h2>想定受講者<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>受講想定者として大学生，大学院生，医療従事者を想定しています．
+また，Python，Google Colaboratoryの基本的な使い方を知っていることを想定しています．
+Python, Google Colaboratoryについては様々な参考資料や解説サイトがあります。例えば、以下のような資料も参考にしてください。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://qiita.com/kita33/items/8891c7c04b664e7669bf">Python学習サイト集</a></li>
+<li><a class="reference external" href="https://news.mynavi.jp/article/zeropython-26/">ゼロからはじめるPython第26回 (Colaboratorの使い方について）</a></li>
+<li><a class="reference external" href="https://research.google.com/colaboratory/faq.html">Google colaboratory FAQ</a></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>内容について<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>線形代数，統計，確率の基礎，機械学習，DeepLearning（深層学習）の基礎や実践を学んでいきます．</li>
+<li>実践では，Google Colaboratory上で動くJupyter Notebookを使って，ブラウザ上で実際にプログラムを書き，実行結果を確認しながら進めていきます．</li>
+<li>本資料は全部で7章からなり，各章を終えるのにそれぞれ1〜2時間程度を想定しています．すでに知っている部分がある方は本資料を確認程度でスキップして進めていくこともできます．</li>
+<li>各章の最後に問題が２つずつ設定されています．この問題に正解した人が合格となります（合格基準は非公開です）．</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>利用<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>本資料はコースの受講者以外も誰でも自由に無料で使うことができます．</p>
+</div>
+<div class="section" id="id5">
+<h2>資料もくじ<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Chainer_Basics.html">4. Chainer入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks/Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>本資料の作成者<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>本資料は株式会社Preferred Networksの岡野原 大輔，齋藤 俊太，菅原 洋平，その他多くの有志，そして株式会社キカガクが中心となって作成しました．</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h1>索引と検索<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">索引</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">検索ページ</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="notebooks/Basic_Math_for_ML.html" class="btn btn-neutral float-right" title="1. 機械学習に必要な数学の基礎" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Preferred Networks &amp; キカガク
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

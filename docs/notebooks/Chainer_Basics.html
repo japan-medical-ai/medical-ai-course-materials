@@ -1,0 +1,3346 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4. Chainer入門 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="5. Deep Learningフレームワークの基礎" href="Introduction_to_Chainer.html" />
+    <link rel="prev" title="3. ニューラルネットワーク" href="Introduction_to_Neural_Network.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> メディカルAIコース オンライン講義資料<Paste>
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Chainer入門</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Chainerとは？">4.1. Chainerとは？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Chainerの基礎">4.2. Chainerの基礎</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Chainerの読み込み">4.2.1. Chainerの読み込み</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#リンクの定義">4.2.2. リンクの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#乱数のシードを固定して再現性を確保">4.2.3. 乱数のシードを固定して再現性を確保</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#線形変換の値を計算しよう">4.2.4. 線形変換の値を計算しよう</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#非線形変換の計算">4.2.5. 非線形変換の計算</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#実践課題">4.2.6. 実践課題</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#問題設定">4.2.6.1. 問題設定</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#解答">4.2.6.2. 解答</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#損失関数（loss-function）の値を計算しよう">4.2.7. 損失関数（loss function）の値を計算しよう</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chainer.links（L）とchainer.functions（F）の違い">4.2.8. chainer.links（L）とchainer.functions（F）の違い</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Chainerでクラス分類">4.3. Chainerでクラス分類</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データの読み込み">4.3.1. データの読み込み</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#入力変数と教師データ（出力変数）に切り分ける">4.3.2. 入力変数と教師データ（出力変数）に切り分ける</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Chainerで計算できるデータ形式に変換">4.3.3. Chainerで計算できるデータ形式に変換</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Numpyに変換">4.3.3.1. Numpyに変換</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#分類で使用するラベルを0から始める">4.3.3.2. 分類で使用するラベルを0から始める</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#データ型を変更">4.3.3.3. データ型を変更</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Chainerで使用するデータセットの形式">4.3.4. Chainerで使用するデータセットの形式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#訓練データと検証データを分割しよう">4.3.5. 訓練データと検証データを分割しよう</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ニューラルネットワークのモデルを定義">4.3.6. ニューラルネットワークのモデルを定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Optimizerの定義">4.3.7. Optimizerの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Iteratorの定義">4.3.8. Iteratorの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Updaterの定義">4.3.9. Updaterの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Trainerとextensionsの設定">4.3.10. Trainerとextensionsの設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習の実行">4.3.11. 学習の実行</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#結果の確認">4.3.12. 結果の確認</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#実践のヒント">4.3.13. 実践のヒント</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#学習済みモデルを保存">4.4. 学習済みモデルを保存</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#学習済みモデルを使用した推論">4.5. 学習済みモデルを使用した推論</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#学習済みモデルのロード">4.5.1. 学習済みモデルのロード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#予測値の計算">4.5.2. 予測値の計算</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">メディカルAIコース オンライン講義資料<Paste></a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>4. Chainer入門</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notebooks/Chainer_Basics.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<p>変更テスト</p>
+<div class="section" id="Chainer入門">
+<h1>4. Chainer入門<a class="headerlink" href="#Chainer入門" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="Chainerとは？">
+<h2>4.1. Chainerとは？<a class="headerlink" href="#Chainerとは？" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
+<p><a class="reference external" href="https://chainer.org/">Chainer</a>は、日本企業の<a class="reference external" href="https://www.preferred-networks.jp/ja/">Preferred
+Networks社</a>が開発を進めています。
+ディープラーニング（ニューラルネットワーク）に特化した、Pythonで使用できるフレームワークです。</p>
+<p>Chainerの魅力は次の２点。</p>
+<ul class="simple">
+<li>習得が簡単なインターフェースで作られている</li>
+<li>ディープラーニングの開発を論文レベルにカスタマイズする際とても柔軟に対応できる</li>
+</ul>
+<p>Chainerの大きな特徴である<strong>Define by
+Run</strong>と呼ばれる仕組みが、GoogleのTensorFlowなど他のフレームワークとの大きな違いです。
+初心者にとって<strong>学習途中に数値やサイズの確認が出来る</strong>という<strong>デバックの容易さ</strong>がメリットです。</p>
+<p>Chainerでわからないことがあれば、Slackで質問できます。
+PFNの開発者へ直接質問できるSlackがあり、<a class="reference external" href="https://docs.google.com/forms/d/e/1FAIpQLSfqL9XjnqZUIwLOz4K9Oxm8-Ce246IRP51-vZa7HOrofJT9rA/viewform">こちらのChainer
+Slack受付フォーム</a>からメールアドレスを登録して、Slackに招待してもらいましょう。</p>
+</div>
+<div class="section" id="Chainerの基礎">
+<h2>4.2. Chainerの基礎<a class="headerlink" href="#Chainerの基礎" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="Chainerの読み込み">
+<h3>4.2.1. Chainerの読み込み<a class="headerlink" href="#Chainerの読み込み" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Chainerの読み込みは、Pythonの他のモジュールと全く同じです。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer
+</pre></div>
+</div>
+</div>
+<p>使用しているChainerのバージョンも確認しておきましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>chainer.__version__
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&#39;5.0.0&#39;
+</pre></div>
+</div>
+</div>
+<p>2018年11月時点で最新版がChainerのバージョンが5系となっています。</p>
+</div>
+<div class="section" id="リンクの定義">
+<h3>4.2.2. リンクの定義<a class="headerlink" href="#リンクの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>数学においてもプログラミングにおいても、全結合層（fully-connected
+layer）では、2層で1セットとして扱います。
+まずは、３ノードの入力層と２ノードの出力層の部分を表現していきましょう。</p>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer.links as L
+</pre></div>
+</div>
+</div>
+<p>3 → 2 のリンクを<code class="docutils literal notranslate"><span class="pre">fc</span></code>（fully-connected
+layerの略）として、以下のように宣言します。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc = L.Linear(3, 2)
+</pre></div>
+</div>
+</div>
+<p>これだけで完了です。
+<code class="docutils literal notranslate"><span class="pre">L.Linear</span></code>は、みなさんが勉強された重回帰分析の<strong>線形結合</strong>という意味です。</p>
+<p>宣言したリンクの<strong>重み（W）</strong>と<strong>バイアス（b）</strong>はランダムに初期化されています。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc.W
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable W([[-1.4219915 ,  0.40851608,  0.13933963],
+            [-0.11678611,  0.13321629,  1.0833248 ]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc.b
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable b([0., 0.])
+</pre></div>
+</div>
+</div>
+<p>このパラメータを最適化の初期値に使用します。</p>
+</div>
+<div class="section" id="乱数のシードを固定して再現性を確保">
+<h3>4.2.3. 乱数のシードを固定して再現性を確保<a class="headerlink" href="#乱数のシードを固定して再現性を確保" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ここで１つ問題があります。
+重みやバイアスのパラメータの値がランダムに初期化されるため、実行する毎に結果が異なってしまうことです。
+これでは、今日と明日でも結果が異なり、チーム間でも結果が異なってしまいます。</p>
+<p>そこで、<strong>乱数のシードを固定</strong>するという方法を使います。
+これにより<strong>再現性の確保</strong>ができます。</p>
+<p>実際に、乱数のシードを固定してみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import numpy as np
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>np.random.seed(3)
+</pre></div>
+</div>
+</div>
+<p>Chainerは<strong>Numpy</strong>と呼ばれる数値計算用のライブラリをベースに作られているため、Numpy上で乱数のシードを固定することにより、<strong>再現性の確保</strong>を実現できます。</p>
+<p>※GPUを使用する場合は、Numpyではなく<strong>Cupy</strong>をベースに計算しているため、Cupyで乱数のシードを固定する必要があります。</p>
+<p>乱数のシードを固定した後で重みを確認してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc.W
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable W([[-1.4219915 ,  0.40851608,  0.13933963],
+            [-0.11678611,  0.13321629,  1.0833248 ]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>fc.b
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable b([0., 0.])
+</pre></div>
+</div>
+</div>
+<p>この値と同じになっていれば、乱数のシードがうまく固定できていることがわかります。</p>
+</div>
+<div class="section" id="線形変換の値を計算しよう">
+<h3>4.2.4. 線形変換の値を計算しよう<a class="headerlink" href="#線形変換の値を計算しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>手計算で練習した、uの値を計算してみましょう。
+uの値は<code class="docutils literal notranslate"><span class="pre">chainer.links.Linear</span></code>の中に準備されているため、以下のようにNumpyの形式で渡すことで計算が完了します。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1, 2, 3]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u = fc(x)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">-----------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">InvalidType</span>               Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-12-d2620a228d16&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>u <span class="ansi-yellow-intense-fg ansi-bold">=</span> fc<span class="ansi-yellow-intense-fg ansi-bold">(</span>x<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\link.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-intense-fg ansi-bold">(self, *args, **kwargs)</span>
+<span class="ansi-green-fg">    240</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> forward <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    241</span>             forward <span class="ansi-yellow-intense-fg ansi-bold">=</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>forward
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 242</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>out <span class="ansi-yellow-intense-fg ansi-bold">=</span> forward<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>args<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">**</span>kwargs<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    243</span>
+<span class="ansi-green-fg">    244</span>         <span class="ansi-red-intense-fg ansi-bold"># Call forward_postprocess hook</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\links\connection\linear.py</span> in <span class="ansi-cyan-fg">forward</span><span class="ansi-blue-intense-fg ansi-bold">(self, x, n_batch_axes)</span>
+<span class="ansi-green-fg">    136</span>             in_size <span class="ansi-yellow-intense-fg ansi-bold">=</span> functools<span class="ansi-yellow-intense-fg ansi-bold">.</span>reduce<span class="ansi-yellow-intense-fg ansi-bold">(</span>operator<span class="ansi-yellow-intense-fg ansi-bold">.</span>mul<span class="ansi-yellow-intense-fg ansi-bold">,</span> x<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">:</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    137</span>             self<span class="ansi-yellow-intense-fg ansi-bold">.</span>_initialize_params<span class="ansi-yellow-intense-fg ansi-bold">(</span>in_size<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 138</span><span class="ansi-yellow-intense-fg ansi-bold">         </span><span class="ansi-green-intense-fg ansi-bold">return</span> linear<span class="ansi-yellow-intense-fg ansi-bold">.</span>linear<span class="ansi-yellow-intense-fg ansi-bold">(</span>x<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>W<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>b<span class="ansi-yellow-intense-fg ansi-bold">,</span> n_batch_axes<span class="ansi-yellow-intense-fg ansi-bold">=</span>n_batch_axes<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\functions\connection\linear.py</span> in <span class="ansi-cyan-fg">linear</span><span class="ansi-blue-intense-fg ansi-bold">(x, W, b, n_batch_axes)</span>
+<span class="ansi-green-fg">    287</span>         args <span class="ansi-yellow-intense-fg ansi-bold">=</span> x<span class="ansi-yellow-intense-fg ansi-bold">,</span> W<span class="ansi-yellow-intense-fg ansi-bold">,</span> b
+<span class="ansi-green-fg">    288</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 289</span><span class="ansi-yellow-intense-fg ansi-bold">     </span>y<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">=</span> LinearFunction<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>apply<span class="ansi-yellow-intense-fg ansi-bold">(</span>args<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    290</span>     <span class="ansi-green-intense-fg ansi-bold">if</span> n_batch_axes <span class="ansi-yellow-intense-fg ansi-bold">&gt;</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    291</span>         y <span class="ansi-yellow-intense-fg ansi-bold">=</span> y<span class="ansi-yellow-intense-fg ansi-bold">.</span>reshape<span class="ansi-yellow-intense-fg ansi-bold">(</span>batch_shape <span class="ansi-yellow-intense-fg ansi-bold">+</span> <span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">-</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\function_node.py</span> in <span class="ansi-cyan-fg">apply</span><span class="ansi-blue-intense-fg ansi-bold">(self, inputs)</span>
+<span class="ansi-green-fg">    243</span>
+<span class="ansi-green-fg">    244</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> configuration<span class="ansi-yellow-intense-fg ansi-bold">.</span>config<span class="ansi-yellow-intense-fg ansi-bold">.</span>type_check<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 245</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>_check_data_type_forward<span class="ansi-yellow-intense-fg ansi-bold">(</span>in_data<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    246</span>
+<span class="ansi-green-fg">    247</span>         hooks <span class="ansi-yellow-intense-fg ansi-bold">=</span> chainer<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_function_hooks<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\function_node.py</span> in <span class="ansi-cyan-fg">_check_data_type_forward</span><span class="ansi-blue-intense-fg ansi-bold">(self, in_data)</span>
+<span class="ansi-green-fg">    328</span>         in_type <span class="ansi-yellow-intense-fg ansi-bold">=</span> type_check<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_types<span class="ansi-yellow-intense-fg ansi-bold">(</span>in_data<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#39;in_types&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-green-intense-fg ansi-bold">False</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    329</span>         <span class="ansi-green-intense-fg ansi-bold">with</span> type_check<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_function_check_context<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 330</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>check_type_forward<span class="ansi-yellow-intense-fg ansi-bold">(</span>in_type<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    331</span>
+<span class="ansi-green-fg">    332</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> check_type_forward<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> in_types<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\functions\connection\linear.py</span> in <span class="ansi-cyan-fg">check_type_forward</span><span class="ansi-blue-intense-fg ansi-bold">(self, in_types)</span>
+<span class="ansi-green-fg">     25</span>             x_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>ndim <span class="ansi-yellow-intense-fg ansi-bold">==</span> <span class="ansi-cyan-intense-fg ansi-bold">2</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-fg">     26</span>             w_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>ndim <span class="ansi-yellow-intense-fg ansi-bold">==</span> <span class="ansi-cyan-intense-fg ansi-bold">2</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 27</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>x_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-yellow-intense-fg ansi-bold">==</span> w_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-fg">     28</span>         )
+<span class="ansi-green-fg">     29</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> type_check<span class="ansi-yellow-intense-fg ansi-bold">.</span>eval<span class="ansi-yellow-intense-fg ansi-bold">(</span>n_in<span class="ansi-yellow-intense-fg ansi-bold">)</span> <span class="ansi-yellow-intense-fg ansi-bold">==</span> <span class="ansi-cyan-intense-fg ansi-bold">3</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\utils\type_check.py</span> in <span class="ansi-cyan-fg">expect</span><span class="ansi-blue-intense-fg ansi-bold">(*bool_exprs)</span>
+<span class="ansi-green-fg">    544</span>         <span class="ansi-green-intense-fg ansi-bold">for</span> expr <span class="ansi-green-intense-fg ansi-bold">in</span> bool_exprs<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    545</span>             <span class="ansi-green-intense-fg ansi-bold">assert</span> isinstance<span class="ansi-yellow-intense-fg ansi-bold">(</span>expr<span class="ansi-yellow-intense-fg ansi-bold">,</span> Testable<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 546</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>expr<span class="ansi-yellow-intense-fg ansi-bold">.</span>expect<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    547</span>
+<span class="ansi-green-fg">    548</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\utils\type_check.py</span> in <span class="ansi-cyan-fg">expect</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
+<span class="ansi-green-fg">    481</span>             raise InvalidType(
+<span class="ansi-green-fg">    482</span>                 <span class="ansi-blue-intense-fg ansi-bold">&#39;{0} {1} {2}&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>format<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>lhs<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>exp<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>rhs<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 483</span><span class="ansi-yellow-intense-fg ansi-bold">                 &#39;{0} {1} {2}&#39;.format(left, self.inv, right))
+</span><span class="ansi-green-fg">    484</span>
+<span class="ansi-green-fg">    485</span>
+
+<span class="ansi-red-intense-fg ansi-bold">InvalidType</span>:
+Invalid operation is performed in: LinearFunction (Forward)
+
+Expect: x.dtype.kind == f
+Actual: i != f
+</pre></div></div>
+</div>
+<p>本来であれば、このように計算できます。
+これは<code class="docutils literal notranslate"><span class="pre">chainer.links.Linear</span></code>というクラスの<code class="docutils literal notranslate"><span class="pre">call</span></code>関数を呼び出しているわけです。
+これで計算ができることを、今は覚えておいてください。</p>
+<p>しかし、多くの方はこれでエラーが起きます。
+エラーの原因は一番下に書いてあるため、まずは原因の確認を行いましょう。</p>
+<p>Chainerが初めての方には、非常にわかりにくく、一番最初に悩むエラーです。
+これは「int型（i）ではなく、float型（f）で宣言しないといけない」という内容を示しています。</p>
+<p>そこで、入力するデータをfloat型で宣言して使用しましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1,2,3]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>dtype(&#39;int32&#39;)
+</pre></div>
+</div>
+</div>
+<p>Numpyでのデータ型は <code class="docutils literal notranslate"><span class="pre">.dtype</span></code> で確認を行うことができます。
+初期状態だと整数を扱うint型の32bitで定義されていることがわかります。</p>
+<p>こちらをfloat型で定義しなおしましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1,2,3]], dtype=np.float)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>dtype(&#39;float64&#39;)
+</pre></div>
+</div>
+</div>
+<p>それでは計算しなおしてみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u = fc(x)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-intense-fg ansi-bold">-----------------------------------------------------------</span>
+<span class="ansi-red-intense-fg ansi-bold">InvalidType</span>               Traceback (most recent call last)
+<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-17-d2620a228d16&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
+<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>u <span class="ansi-yellow-intense-fg ansi-bold">=</span> fc<span class="ansi-yellow-intense-fg ansi-bold">(</span>x<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\link.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-intense-fg ansi-bold">(self, *args, **kwargs)</span>
+<span class="ansi-green-fg">    240</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> forward <span class="ansi-green-intense-fg ansi-bold">is</span> <span class="ansi-green-intense-fg ansi-bold">None</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    241</span>             forward <span class="ansi-yellow-intense-fg ansi-bold">=</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>forward
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 242</span><span class="ansi-yellow-intense-fg ansi-bold">         </span>out <span class="ansi-yellow-intense-fg ansi-bold">=</span> forward<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">*</span>args<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">**</span>kwargs<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    243</span>
+<span class="ansi-green-fg">    244</span>         <span class="ansi-red-intense-fg ansi-bold"># Call forward_postprocess hook</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\links\connection\linear.py</span> in <span class="ansi-cyan-fg">forward</span><span class="ansi-blue-intense-fg ansi-bold">(self, x, n_batch_axes)</span>
+<span class="ansi-green-fg">    136</span>             in_size <span class="ansi-yellow-intense-fg ansi-bold">=</span> functools<span class="ansi-yellow-intense-fg ansi-bold">.</span>reduce<span class="ansi-yellow-intense-fg ansi-bold">(</span>operator<span class="ansi-yellow-intense-fg ansi-bold">.</span>mul<span class="ansi-yellow-intense-fg ansi-bold">,</span> x<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">:</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    137</span>             self<span class="ansi-yellow-intense-fg ansi-bold">.</span>_initialize_params<span class="ansi-yellow-intense-fg ansi-bold">(</span>in_size<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 138</span><span class="ansi-yellow-intense-fg ansi-bold">         </span><span class="ansi-green-intense-fg ansi-bold">return</span> linear<span class="ansi-yellow-intense-fg ansi-bold">.</span>linear<span class="ansi-yellow-intense-fg ansi-bold">(</span>x<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>W<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>b<span class="ansi-yellow-intense-fg ansi-bold">,</span> n_batch_axes<span class="ansi-yellow-intense-fg ansi-bold">=</span>n_batch_axes<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\functions\connection\linear.py</span> in <span class="ansi-cyan-fg">linear</span><span class="ansi-blue-intense-fg ansi-bold">(x, W, b, n_batch_axes)</span>
+<span class="ansi-green-fg">    287</span>         args <span class="ansi-yellow-intense-fg ansi-bold">=</span> x<span class="ansi-yellow-intense-fg ansi-bold">,</span> W<span class="ansi-yellow-intense-fg ansi-bold">,</span> b
+<span class="ansi-green-fg">    288</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 289</span><span class="ansi-yellow-intense-fg ansi-bold">     </span>y<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-yellow-intense-fg ansi-bold">=</span> LinearFunction<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>apply<span class="ansi-yellow-intense-fg ansi-bold">(</span>args<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    290</span>     <span class="ansi-green-intense-fg ansi-bold">if</span> n_batch_axes <span class="ansi-yellow-intense-fg ansi-bold">&gt;</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    291</span>         y <span class="ansi-yellow-intense-fg ansi-bold">=</span> y<span class="ansi-yellow-intense-fg ansi-bold">.</span>reshape<span class="ansi-yellow-intense-fg ansi-bold">(</span>batch_shape <span class="ansi-yellow-intense-fg ansi-bold">+</span> <span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">-</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">,</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\function_node.py</span> in <span class="ansi-cyan-fg">apply</span><span class="ansi-blue-intense-fg ansi-bold">(self, inputs)</span>
+<span class="ansi-green-fg">    243</span>
+<span class="ansi-green-fg">    244</span>         <span class="ansi-green-intense-fg ansi-bold">if</span> configuration<span class="ansi-yellow-intense-fg ansi-bold">.</span>config<span class="ansi-yellow-intense-fg ansi-bold">.</span>type_check<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 245</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>_check_data_type_forward<span class="ansi-yellow-intense-fg ansi-bold">(</span>in_data<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    246</span>
+<span class="ansi-green-fg">    247</span>         hooks <span class="ansi-yellow-intense-fg ansi-bold">=</span> chainer<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_function_hooks<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\function_node.py</span> in <span class="ansi-cyan-fg">_check_data_type_forward</span><span class="ansi-blue-intense-fg ansi-bold">(self, in_data)</span>
+<span class="ansi-green-fg">    328</span>         in_type <span class="ansi-yellow-intense-fg ansi-bold">=</span> type_check<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_types<span class="ansi-yellow-intense-fg ansi-bold">(</span>in_data<span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-blue-intense-fg ansi-bold">&#39;in_types&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-green-intense-fg ansi-bold">False</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    329</span>         <span class="ansi-green-intense-fg ansi-bold">with</span> type_check<span class="ansi-yellow-intense-fg ansi-bold">.</span>get_function_check_context<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 330</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>check_type_forward<span class="ansi-yellow-intense-fg ansi-bold">(</span>in_type<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    331</span>
+<span class="ansi-green-fg">    332</span>     <span class="ansi-green-intense-fg ansi-bold">def</span> check_type_forward<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">,</span> in_types<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">:</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\functions\connection\linear.py</span> in <span class="ansi-cyan-fg">check_type_forward</span><span class="ansi-blue-intense-fg ansi-bold">(self, in_types)</span>
+<span class="ansi-green-fg">     33</span>                 b_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>dtype <span class="ansi-yellow-intense-fg ansi-bold">==</span> x_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>dtype<span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-fg">     34</span>                 b_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>ndim <span class="ansi-yellow-intense-fg ansi-bold">==</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-intense-fg ansi-bold">---&gt; 35</span><span class="ansi-yellow-intense-fg ansi-bold">                 </span>b_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span> <span class="ansi-yellow-intense-fg ansi-bold">==</span> w_type<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-fg">     36</span>             )
+<span class="ansi-green-fg">     37</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\utils\type_check.py</span> in <span class="ansi-cyan-fg">expect</span><span class="ansi-blue-intense-fg ansi-bold">(*bool_exprs)</span>
+<span class="ansi-green-fg">    544</span>         <span class="ansi-green-intense-fg ansi-bold">for</span> expr <span class="ansi-green-intense-fg ansi-bold">in</span> bool_exprs<span class="ansi-yellow-intense-fg ansi-bold">:</span>
+<span class="ansi-green-fg">    545</span>             <span class="ansi-green-intense-fg ansi-bold">assert</span> isinstance<span class="ansi-yellow-intense-fg ansi-bold">(</span>expr<span class="ansi-yellow-intense-fg ansi-bold">,</span> Testable<span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 546</span><span class="ansi-yellow-intense-fg ansi-bold">             </span>expr<span class="ansi-yellow-intense-fg ansi-bold">.</span>expect<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
+<span class="ansi-green-fg">    547</span>
+<span class="ansi-green-fg">    548</span>
+
+<span class="ansi-green-intense-fg ansi-bold">~\Anaconda3\lib\site-packages\chainer\utils\type_check.py</span> in <span class="ansi-cyan-fg">expect</span><span class="ansi-blue-intense-fg ansi-bold">(self)</span>
+<span class="ansi-green-fg">    481</span>             raise InvalidType(
+<span class="ansi-green-fg">    482</span>                 <span class="ansi-blue-intense-fg ansi-bold">&#39;{0} {1} {2}&#39;</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>format<span class="ansi-yellow-intense-fg ansi-bold">(</span>self<span class="ansi-yellow-intense-fg ansi-bold">.</span>lhs<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>exp<span class="ansi-yellow-intense-fg ansi-bold">,</span> self<span class="ansi-yellow-intense-fg ansi-bold">.</span>rhs<span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span>
+<span class="ansi-green-intense-fg ansi-bold">--&gt; 483</span><span class="ansi-yellow-intense-fg ansi-bold">                 &#39;{0} {1} {2}&#39;.format(left, self.inv, right))
+</span><span class="ansi-green-fg">    484</span>
+<span class="ansi-green-fg">    485</span>
+
+<span class="ansi-red-intense-fg ansi-bold">InvalidType</span>:
+Invalid operation is performed in: LinearFunction (Forward)
+
+Expect: b.dtype == x.dtype
+Actual: float32 != float64
+</pre></div></div>
+</div>
+<p>しかし、float型に変換しても、またエラーが起きてしまいました。
+今度のエラーの内容としては、<code class="docutils literal notranslate"><span class="pre">float64</span></code>ではなく、<code class="docutils literal notranslate"><span class="pre">float32</span></code>が望まれると記載されています。</p>
+<p>Chainerではデフォルトで32bitを扱うことになっているため、覚えておきましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1, 2, 3]], dtype=np.float32)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>dtype(&#39;float32&#39;)
+</pre></div>
+</div>
+</div>
+<p>また、Chainerのサンプルコードにも出てくるのですが、以下のように省略形で記述することができます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x = np.array([[1, 2, 3]], &#39;f&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>dtype(&#39;float32&#39;)
+</pre></div>
+</div>
+</div>
+<p>これで線形変換を計算してみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u = fc(x)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable([[-0.18694043,  3.3996208 ]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="非線形変換の計算">
+<h3>4.2.5. 非線形変換の計算<a class="headerlink" href="#非線形変換の計算" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>先ほど勉強した活性化関数として、<strong>Relu関数</strong>をかける場合は以下のように記述します。
+chainerで使用する関数は全てfunctionsにあります</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer.functions as F
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>z = F.relu(u)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>z
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable([[0.       , 3.3996208]])
+</pre></div>
+</div>
+</div>
+<p>このように、正の値はそのままで負の値は0となるRelu関数が、正しく適用できていることがわかります。</p>
+</div>
+<div class="section" id="実践課題">
+<h3>4.2.6. 実践課題<a class="headerlink" href="#実践課題" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="問題設定">
+<h4>4.2.6.1. 問題設定<a class="headerlink" href="#問題設定" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>先の知見を活かし、手書きのノートで紹介した「3 → 2 →
+1」のニューラルネットワークにおいて、入力<code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>に対する出力<code class="docutils literal notranslate"><span class="pre">y</span></code>の値を計算してください。</p>
+<p>以下の構成で計算してみましょう。</p>
+<ul class="simple">
+<li>左側のリンク：fc1 → (3, 2)</li>
+<li>右側のリンク：fc2 → (2, 1)</li>
+<li>fc1の線形変換 → u1</li>
+<li>fc1の非線形変換（Relu）→ z1</li>
+<li>fc2の線形変換 → 出力y</li>
+</ul>
+<p>なお、計算する前に<strong>シードの固定</strong>（<code class="docutils literal notranslate"><span class="pre">np.random.seed(3)</span></code>）を忘れないようにしてください。</p>
+</div>
+<div class="section" id="解答">
+<h4>4.2.6.2. 解答<a class="headerlink" href="#解答" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>#シードの固定
+np.random.seed(3)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># リンクの宣言
+fc1 = L.Linear(3, 2)
+fc2 = L.Linear(2, 1)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 入力変数
+x = np.array([[1, 2, 3]], &#39;f&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>u1 = fc1(x)
+u1
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable([[ 1.7038419, -2.010649 ]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>z1 = F.relu(u1)
+z1
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable([[1.7038419, 0.       ]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>y = fc2(z1)
+y
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable([[-0.09968679]])
+</pre></div>
+</div>
+</div>
+<p>この値が計算できれば正解です。</p>
+</div>
+</div>
+<div class="section" id="損失関数（loss-function）の値を計算しよう">
+<h3>4.2.7. 損失関数（loss function）の値を計算しよう<a class="headerlink" href="#損失関数（loss-function）の値を計算しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>出力の予測値が計算できたので、損失関数の値も計算してみましょう。
+先の入力に対する教師データが<code class="docutils literal notranslate"><span class="pre">t=3</span></code>だとすると、以下のように計算できます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 教師データ
+t = np.array([[3]], &#39;f&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 平均二乗誤差の計算
+loss = F.mean_squared_error(t, y)
+loss
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable(9.608059)
+</pre></div>
+</div>
+</div>
+<p>こちらのように評価関数に関しても、Chainerではchainer.functions（F）の中に定義されているため、特別発展的な内容でない限りはこちらを使用して進めていくと良いでしょう。</p>
+</div>
+<div class="section" id="chainer.links（L）とchainer.functions（F）の違い">
+<h3>4.2.8. chainer.links（L）とchainer.functions（F）の違い<a class="headerlink" href="#chainer.links（L）とchainer.functions（F）の違い" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>これまで、Chainerの機能である<code class="docutils literal notranslate"><span class="pre">L</span></code>と<code class="docutils literal notranslate"><span class="pre">F</span></code>が何回か登場しましたが、どのように使い分けているかは以下の通りです。</p>
+<ul class="simple">
+<li>chainer.links（L）：調整すべきパラメータを持つ関数</li>
+<li>chainer.functions（F）：調整すべきパラメータを持たない関数</li>
+</ul>
+<p>具体的には、<code class="docutils literal notranslate"><span class="pre">L.Linear</span></code>のように内部で重み<code class="docutils literal notranslate"><span class="pre">W</span></code>やバイアス<code class="docutils literal notranslate"><span class="pre">b</span></code>のパラメータを持つ場合はchainer.linksで用意されています。
+逆にRelu関数では、<span class="math notranslate nohighlight">\(f(u) = \max(0, u)\)</span>
+のように、内部でパラメータを持たないため、chainer.functionsで用意されています。</p>
+</div>
+</div>
+<div class="section" id="Chainerでクラス分類">
+<h2>4.3. Chainerでクラス分類<a class="headerlink" href="#Chainerでクラス分類" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="データの読み込み">
+<h3>4.3.1. データの読み込み<a class="headerlink" href="#データの読み込み" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>今回はdataフォルダに格納されている<code class="docutils literal notranslate"><span class="pre">wine_class.csv</span></code>を使用してクラス分類の実装を練習してみましょう。
+どのような形式でデータを準備しておくと良いのかといった参考になるため、格納されている生のデータも確認しておきましょう。</p>
+<p>今回はCSVファイルで用意されているため、データの取り扱いはPythonのデータ操作で一般的な<strong>Pandas</strong>を使って行いましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import pandas as pd
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># データの読み込み（df: data frame）
+df = pd.read_csv(&#39;data/wine_class.csv&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># データの表示（先頭の３件）
+df.head(3)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Class</th>
+      <th>Alcohol</th>
+      <th>Ash</th>
+      <th>Alcalinity of ash</th>
+      <th>Magnesium</th>
+      <th>Total phenols</th>
+      <th>Flavanoids</th>
+      <th>Nonflavanoid phenols</th>
+      <th>Color intensity</th>
+      <th>Hue</th>
+      <th>Proline</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>14.23</td>
+      <td>2.43</td>
+      <td>15.6</td>
+      <td>127</td>
+      <td>2.80</td>
+      <td>3.06</td>
+      <td>0.28</td>
+      <td>5.64</td>
+      <td>1.04</td>
+      <td>1065</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>13.20</td>
+      <td>2.14</td>
+      <td>11.2</td>
+      <td>100</td>
+      <td>2.65</td>
+      <td>2.76</td>
+      <td>0.26</td>
+      <td>4.38</td>
+      <td>1.05</td>
+      <td>1050</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>13.16</td>
+      <td>2.67</td>
+      <td>18.6</td>
+      <td>101</td>
+      <td>2.80</td>
+      <td>3.24</td>
+      <td>0.30</td>
+      <td>5.68</td>
+      <td>1.03</td>
+      <td>1185</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+</div>
+<div class="section" id="入力変数と教師データ（出力変数）に切り分ける">
+<h3>4.3.2. 入力変数と教師データ（出力変数）に切り分ける<a class="headerlink" href="#入力変数と教師データ（出力変数）に切り分ける" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>機械学習のプログラミングを行う上での最初のお題として、入力変数と教師データ（出力変数）の切り分けがあります。
+こちらは、毎回行うため、スムーズに出来るように練習しておくことをおすすめします。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 教師データ（先頭のClass）
+t = df.iloc[:, 0]
+
+# 入力変数（1番目から最後まで）
+x = df.iloc[:, 1:]
+</pre></div>
+</div>
+</div>
+<p>こちらのように、正しく切り分けられているかデータの中身を表示して確認しておきましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 表示して確認
+x.head(3)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Alcohol</th>
+      <th>Ash</th>
+      <th>Alcalinity of ash</th>
+      <th>Magnesium</th>
+      <th>Total phenols</th>
+      <th>Flavanoids</th>
+      <th>Nonflavanoid phenols</th>
+      <th>Color intensity</th>
+      <th>Hue</th>
+      <th>Proline</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>14.23</td>
+      <td>2.43</td>
+      <td>15.6</td>
+      <td>127</td>
+      <td>2.80</td>
+      <td>3.06</td>
+      <td>0.28</td>
+      <td>5.64</td>
+      <td>1.04</td>
+      <td>1065</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>13.20</td>
+      <td>2.14</td>
+      <td>11.2</td>
+      <td>100</td>
+      <td>2.65</td>
+      <td>2.76</td>
+      <td>0.26</td>
+      <td>4.38</td>
+      <td>1.05</td>
+      <td>1050</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>13.16</td>
+      <td>2.67</td>
+      <td>18.6</td>
+      <td>101</td>
+      <td>2.80</td>
+      <td>3.24</td>
+      <td>0.30</td>
+      <td>5.68</td>
+      <td>1.03</td>
+      <td>1185</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># サイズの確認
+x.shape
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(178, 10)
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">.shape</span></code>を使うことで、サンプル数（今回は178）と入力変数の数（今回は10）を確認することができます。</p>
+</div>
+<div class="section" id="Chainerで計算できるデータ形式に変換">
+<h3>4.3.3. Chainerで計算できるデータ形式に変換<a class="headerlink" href="#Chainerで計算できるデータ形式に変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Chainerで計算を行うために、下記の３点を満たしているか確認を行っておきましょう。
+こちらが指定された形式となっていない場合、学習の際にエラーが出てしまいます。</p>
+<ul class="simple">
+<li>入力変数や教師データがNumpyで定義されているか</li>
+<li>分類の場合、ラベルが0から始まっているか</li>
+<li>入力変数が float32、教師データが回帰の場合 float32、分類の場合 int32
+で定義されているか</li>
+</ul>
+<div class="section" id="Numpyに変換">
+<h4>4.3.3.1. Numpyに変換<a class="headerlink" href="#Numpyに変換" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Pandasで読み込んだ場合、Pandasの形式となっています。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>type(x)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>pandas.core.frame.DataFrame
+</pre></div>
+</div>
+</div>
+<p>そのため、こちらをNumpyの形式に変換するのは、<code class="docutils literal notranslate"><span class="pre">.values</span></code>とつければOKです。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>type(x.values)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>numpy.ndarray
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="分類で使用するラベルを0から始める">
+<h4>4.3.3.2. 分類で使用するラベルを0から始める<a class="headerlink" href="#分類で使用するラベルを0から始める" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>今回準備されている教師データのラベルを確認してみましょう。
+<code class="docutils literal notranslate"><span class="pre">min</span></code>と<code class="docutils literal notranslate"><span class="pre">max</span></code>で確認すると良いでしょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t.min()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>1
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t.max()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>3
+</pre></div>
+</div>
+</div>
+<p>今回はラベルが<code class="docutils literal notranslate"><span class="pre">1</span></code>から始まって<code class="docutils literal notranslate"><span class="pre">3</span></code>で終わっているため、<code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3</span></code>というラベルが割り振られた3クラスの分類であることがわかります。
+0から始める必要があるため、<code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3</span></code> → <code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">2</span></code> としましょう。</p>
+<p>Numpyでは、全体に対する引き算もサポートしているため、<code class="docutils literal notranslate"><span class="pre">t-1</span></code>とすればラベル全体に1が引かれ、<code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">2</span></code>となります。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># Numpyにデータ型を変換し、ラベルを0から始める
+t = t.values - 1
+x = x.values
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>type(t)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>numpy.ndarray
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>type(x)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>numpy.ndarray
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="データ型を変更">
+<h4>4.3.3.3. データ型を変更<a class="headerlink" href="#データ型を変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>ここで、現状のデータ型を確認してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>dtype(&#39;float64&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t.dtype
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>dtype(&#39;int64&#39;)
+</pre></div>
+</div>
+</div>
+<p>こちらのように、<code class="docutils literal notranslate"><span class="pre">.dtype</span></code>のコマンドで確認することができます。
+このように、本来であれば32bitで指定しないといけないところを64bit版のコンピュータであれば、デフォルトが64bitで定義されてしまうため、変更する必要がでてきます。</p>
+<p>Numpy側で準備されている<code class="docutils literal notranslate"><span class="pre">.astype()</span></code>を使用して、32bitへと変換しておきましょう。Chainer初心者でほぼ必ず遭遇するエラーですので、気をつけましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 32bitに変換
+x = x.astype(&#39;float32&#39;)
+t = t.astype(&#39;int32&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x.dtype
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>dtype(&#39;float32&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>t.dtype
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>dtype(&#39;int32&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="Chainerで使用するデータセットの形式">
+<h3>4.3.4. Chainerで使用するデータセットの形式<a class="headerlink" href="#Chainerで使用するデータセットの形式" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>メモリに乗る程度の小規模なデータの場合は、<strong>入力変数と教師データをタプルで１セット</strong>にし、それを<strong>リスト化</strong>しておくことがChainer推奨の形式です。</p>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># Chainerで使用できるデータセットの形式
+dataset = list(zip(x, t))
+</pre></div>
+</div>
+</div>
+<p>このように、<code class="docutils literal notranslate"><span class="pre">zip(x,</span> <span class="pre">t)</span></code>で入力変数と教師データをタプル化した後、それを<code class="docutils literal notranslate"><span class="pre">list</span></code>でリスト化します。
+毎回同じ記述のため、このように書くと覚えればOKです。</p>
+</div>
+<div class="section" id="訓練データと検証データを分割しよう">
+<h3>4.3.5. 訓練データと検証データを分割しよう<a class="headerlink" href="#訓練データと検証データを分割しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>機械学習には欠かせない訓練データと検証データの分割です。
+Chainerでは<code class="docutils literal notranslate"><span class="pre">chainer.datasets.split_dataset_random</span></code>にその機能が準備されています。
+ランダムでなく、前半の70%を訓練、後半の30%を検証といった分割が良い場合は、<code class="docutils literal notranslate"><span class="pre">chainer.datasets.split_dataset</span></code>を使用することができます。
+※
+詳しくは<a class="reference external" href="https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.split_dataset_random.html#chainer.datasets.split_dataset_random">こちら</a>のリファレンス参照</p>
+<p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
+<p>Prameterには<code class="docutils literal notranslate"><span class="pre">dataset</span></code>（先ほど作成した形式）、<code class="docutils literal notranslate"><span class="pre">first_size</span></code>と指定されています。</p>
+<p><code class="docutils literal notranslate"><span class="pre">first_size</span></code>では訓練データのサイズを指定するのですが、このとき全体の70%を訓練データにしようと決めておくと、記述が簡単かつ汎用性の高いプログラムになります。</p>
+<p>全体のサイズを取得する時には<code class="docutils literal notranslate"><span class="pre">len()</span></code>が便利です。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>len(dataset)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>178
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">split_dataset_random</span></code>を使用した<code class="docutils literal notranslate"><span class="pre">train</span></code>と<code class="docutils literal notranslate"><span class="pre">test</span></code>の分割は以下のようになります。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 訓練データのサンプル数
+n_train = int(len(dataset) * 0.7)
+
+# 訓練データ(train)と検証データ(test)に分割
+train, test = chainer.datasets.split_dataset_random(dataset, n_train, seed=1)
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">n_train</span></code>を計算する際<code class="docutils literal notranslate"><span class="pre">int</span></code>と付けていますが、サイズは整数値しか受け付けません。小数が出たときは<code class="docutils literal notranslate"><span class="pre">int</span></code>によって小数値の切り捨てを行っています。</p>
+<p><code class="docutils literal notranslate"><span class="pre">seed=1</span></code>は、乱数のシードを1で固定しますという意味で、何度か出てきた<strong>再現性確保</strong>のためです。</p>
+<p>出力として得られる<code class="docutils literal notranslate"><span class="pre">train</span></code>と<code class="docutils literal notranslate"><span class="pre">test</span></code>を確認してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>train
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chainer.datasets.sub_dataset.SubDataset at 0x7fdd37e7a518&gt;
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>test
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chainer.datasets.sub_dataset.SubDataset at 0x7fdd37e7a4a8&gt;
+</pre></div>
+</div>
+</div>
+<p>こちらのように数値が表示されず、どのような形式であるか迷いますが、<code class="docutils literal notranslate"><span class="pre">train[0]</span></code>のようにリストの要素番号を指定すると数値が表示され、リスト形式で保存されていることがわかります。
+このあたりは、なかなかリファレンスがないため、挙動を確認しながら進めていくことが必要です。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>train[0]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(array([1.369e+01, 2.540e+00, 2.000e+01, 1.070e+02, 1.830e+00, 5.600e-01,
+        5.000e-01, 5.880e+00, 9.600e-01, 6.800e+02], dtype=float32), 2)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>len(train)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>124
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>len(test)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>54
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ニューラルネットワークのモデルを定義">
+<h3>4.3.6. ニューラルネットワークのモデルを定義<a class="headerlink" href="#ニューラルネットワークのモデルを定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
+
+    # モデルの構造
+    def __init__(self):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(10, 5)  # 10 → 5
+            self.fc2 = L.Linear(5, 3)  # 5 → 3
+
+    # 順伝播
+    def __call__(self, x):
+        u1 = self.fc1(x)
+        z1 = F.relu(u1)
+        u2 = self.fc2(z1)
+        return u2
+</pre></div>
+</div>
+</div>
+<p>こちらのように、<code class="docutils literal notranslate"><span class="pre">__init__</span></code>にパラメータを持つリンクを宣言しておき、<code class="docutils literal notranslate"><span class="pre">__call__</span></code>の中で順伝播の計算を記述します。</p>
+<p>これが一番簡単な書き方ですが、さらに上級者向けの書き方にブラッシュアップしていきましょう。
+まずは、ノードの数を変更するためにはクラス内部を変更する必要がありますが、ここを変数で置き換えて、インスタンス化のタイミングで自由に変更できるようにしておきましょう。</p>
+<p>下記のように変数の初期値も設定しておくと、インスタンス化の際に何も指定しない場合にデフォルトの値が使用され便利です。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
+
+    # モデルの構造
+    def __init__(self, n_mid_units=5, n_out=3):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(10, n_mid_units)  # 変数で置き換え
+            self.fc2 = L.Linear(5, n_out)  # 変数で置き換え
+
+    # 順伝播
+    def __call__(self, x):
+        u1 = self.fc1(x)
+        z1 = F.relu(u1)
+        u2 = self.fc2(z1)
+        return u2
+</pre></div>
+</div>
+</div>
+<p>つぎに、<code class="docutils literal notranslate"><span class="pre">L.Linear</span></code>の最初の引数は、<code class="docutils literal notranslate"><span class="pre">None</span></code>と指定することで、入力されるデータから自動的に判断することができるため、手動で入力しなくても良いです。
+今回はノードの数を簡単に把握することができるため、その恩恵は少ないのですが、この後登場する画像向けのConvolutional
+Neural Networkなどでは、この機能が活躍します。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
+
+    # モデルの構造
+    def __init__(self, n_mid_units=5, n_out=3):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(None, n_mid_units)  # 10 → None で自動推定
+            self.fc2 = L.Linear(None, n_out)  # 5 → None で自動推定
+
+    # 順伝播
+    def __call__(self, x):
+        u1 = self.fc1(x)
+        z1 = F.relu(u1)
+        u2 = self.fc2(z1)
+        return u2
+</pre></div>
+</div>
+</div>
+<p>さらに、順伝播の計算は層の数がさらに増えてくると、変数名の管理が難しくなってくるため、<code class="docutils literal notranslate"><span class="pre">h</span></code>という変数で受け渡し続けると管理する部分が減ります。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
+
+    # モデルの構造
+    def __init__(self, n_mid_units=5, n_out=3):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(None, n_mid_units)
+            self.fc2 = L.Linear(None, n_out)
+
+    # 順伝播
+    def __call__(self, x):
+        h = self.fc1(x)  # hで置きかえ
+        h = F.relu(h)  # hで置きかえ
+        h = self.fc2(h)  # hで置きかえ
+        return h
+</pre></div>
+</div>
+</div>
+<p>モデルの定義が完了したため、インスタンス化しておきましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>nn = NN()  # 引数を指定しないため、デフォルトの n_mid_units=5, n_out=3 が使用される
+</pre></div>
+</div>
+</div>
+<p>もし、引数にデフォルトの値を使用しない場合は下記のように指定します。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>nn = NN(n_mid_units=10, n_out=3)
+</pre></div>
+</div>
+</div>
+<p>また、この後に学習を行う際、評価関数やレポーティングの機能などは
+<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>
+で準備されているため、こちらで宣言したモデルをラップしてあげるだけで学習のための準備が完了します。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>model = L.Classifier(nn)
+</pre></div>
+</div>
+</div>
+<p>ここで、一点忘れてはいけないこととして、乱数のシードの固定です。
+モデルを宣言するタイミングでパラメータの値が初期化されるため、その前にシードを固定しておきましょう。</p>
+<p>厳密には一番最初のデータが投入された際に <code class="docutils literal notranslate"><span class="pre">None</span></code>
+で宣言した部分のノード数などが推定されて具体的なモデルが決定します。
+しかし、忘れる前にインスタンス化のタイミングでシードを固定しておくと安全です。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>np.random.seed(1)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>nn = NN()
+model = L.Classifier(nn)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Optimizerの定義">
+<h3>4.3.7. Optimizerの定義<a class="headerlink" href="#Optimizerの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Optimizerではパラメータの最適化を行うための最適化のアルゴリズムを選択します。
+各最適化のアルゴリズムには<strong>ハイパーパラメータ</strong>と呼ばれる定数を設定することもできますが、まだここでは触れず、後ほどしっかりと見ていきましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>optimizer = chainer.optimizers.SGD()  # 確率的勾配降下法（SGD）を使用
+</pre></div>
+</div>
+</div>
+<p>optimizerを単体で定義するだけでは、先ほど宣言した<code class="docutils literal notranslate"><span class="pre">model</span></code>と結びつかないため、下記のように設定を行います。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>optimizer.setup(model)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;chainer.optimizers.sgd.SGD at 0x7fdd37e7aa58&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Iteratorの定義">
+<h3>4.3.8. Iteratorの定義<a class="headerlink" href="#Iteratorの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><strong>Iterator</strong>では「<strong>バッチサイズ</strong>」を決めることができます。</p>
+<p>順伝播で評価関数を計算するとき全てのサンプルを使用するのではなく、<strong>ミニバッチ</strong>と呼ばれるサンプルの一部のデータセットのみで評価関数の計算を行い、逆伝播で勾配情報を計算し、最適化アルゴリズム（SGDやAdam等）によるパラメータの学習を行います。</p>
+<blockquote>
+<div><p><strong>ミニバッチを採用する理由</strong></p>
+<p>例えば、10万サンプルある場合「10万回順伝播を計算しようやく1回パラメータ更新できる」というような、サンプル数が多いほどパラメータ更新にかかる時間が長くなるという問題を避けられます。
+バッチサイズを10としておけば、ほとんど同じ計算負荷で1万回のパラメータ更新を行うことができます。（厳密には逆伝播が毎回走るため同じ計算負荷ではない）</p>
+<p>もう一つの理由として、ミニバッチに分けて最適化を行うことで局所最適解に陥ることを避けられると言われています。</p>
+</div></blockquote>
+<p>今回は<strong>バッチサイズ</strong>を10と設定しましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>batchsize = 10
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>train_iter = chainer.iterators.SerialIterator(train, batchsize)
+test_iter  = chainer.iterators.SerialIterator(test,  batchsize, repeat=False, shuffle=False)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Updaterの定義">
+<h3>4.3.9. Updaterの定義<a class="headerlink" href="#Updaterの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><strong>Updater</strong>では、<strong>Optimizer</strong>の設定や使用するデバイス（CPUやGPU）の設定を行えます。</p>
+<ul class="simple">
+<li>CPUを使用する場合には<code class="docutils literal notranslate"><span class="pre">device=-1</span></code>とオプションに指定しましょう。</li>
+<li>GPUを使用する場合には<code class="docutils literal notranslate"><span class="pre">device=0</span></code>（GPUを複数枚指している場合は<code class="docutils literal notranslate"><span class="pre">device=1</span></code>なども存在）とオプションで明示しておきましょう。</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">device</span></code>を指定しない場合は、CPUが使用されます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import training
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>updater = training.StandardUpdater(train_iter, optimizer, device=-1)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Trainerとextensionsの設定">
+<h3>4.3.10. Trainerとextensionsの設定<a class="headerlink" href="#Trainerとextensionsの設定" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Trainerでは、<strong>エポック（ミニバッチを全て処理して１エポック）</strong>の回数や、そのextensionsでオプションを指定することにより、<strong>結果をログ出力</strong>や<strong>標準出力</strong>（インタラクティブに表示）できます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.training import extensions
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># エポックの数
+epoch = 50
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># trainerの宣言
+trainer = training.Trainer(updater, (epoch, &#39;epoch&#39;), out=&#39;result/wine&#39;)
+
+# 検証データで評価
+trainer.extend(extensions.Evaluator(test_iter, model, device=-1))
+
+# 学習の経過をtrainerのoutで指定したフォルダにlogというファイル名で記録する
+trainer.extend(extensions.LogReport(trigger=(1, &#39;epoch&#39;)))
+
+# １エポックごと（trigger）に、trainデータに対するlossと、testデータに対するloss、経過時間（elapsed_time）を標準出力させる
+trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;elapsed_time&#39;]), trigger=(1, &#39;epoch&#39;))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="学習の実行">
+<h3>4.3.11. 学習の実行<a class="headerlink" href="#学習の実行" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>設定が完了すると、下記のコマンドで学習を実行して、その結果をレポーティングしてくれます。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>trainer.run()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       main/accuracy  validation/main/accuracy  main/loss   validation/main/loss  elapsed_time
+1           0.392308       0.341667                  54.0227     1.09851               0.0838952
+2           0.408333       0.341667                  1.09675     1.09853               0.107586
+3           0.423077       0.341667                  1.095       1.0986                0.132338
+4           0.425          0.341667                  1.09292     1.09875               0.157441
+5           0.416667       0.341667                  1.0927      1.0989                0.180843
+6           0.438462       0.341667                  1.08944     1.09918               0.205588
+7           0.391667       0.341667                  1.09269     1.09935               0.228848
+8           0.438462       0.341667                  1.08715     1.09971               0.253859
+9           0.4            0.341667                  1.09034     1.09996               0.277414
+10          0.425          0.341667                  1.0867      1.10029               0.305134
+11          0.407692       0.341667                  1.08658     1.10068               0.330089
+12          0.425          0.341667                  1.0862      1.10101               0.353375
+13          0.430769       0.341667                  1.08562     1.10134               0.381007
+14          0.416667       0.341667                  1.08215     1.10182               0.404768
+15          0.416667       0.341667                  1.08526     1.10215               0.42862
+16          0.430769       0.341667                  1.08059     1.10268               0.453811
+17          0.408333       0.341667                  1.08527     1.10298               0.477348
+18          0.430769       0.341667                  1.07938     1.10353               0.502497
+19          0.4            0.341667                  1.08684     1.10374               0.52966
+20          0.425          0.341667                  1.08092     1.10415               0.55528
+21          0.423077       0.341667                  1.08133     1.10457               0.582715
+22          0.408333       0.341667                  1.08287     1.1049                0.607548
+23          0.430769       0.341667                  1.07833     1.10539               0.633265
+24          0.416667       0.341667                  1.08094     1.10576               0.657938
+25          0.416667       0.341667                  1.08067     1.1061                0.682981
+26          0.423077       0.341667                  1.07868     1.10655               0.708941
+27          0.416667       0.341667                  1.08165     1.10683               0.735531
+28          0.415385       0.341667                  1.07957     1.10722               0.76274
+29          0.425          0.341667                  1.07837     1.10761               0.787045
+30          0.416667       0.341667                  1.07987     1.10793               0.812019
+31          0.415385       0.341667                  1.07916     1.1083                0.838868
+32          0.416667       0.341667                  1.08099     1.10855               0.865626
+33          0.446154       0.341667                  1.07157     1.10917               0.89501
+34          0.391667       0.341667                  1.08715     1.10917               0.920375
+35          0.425          0.341667                  1.07586     1.10958               0.948092
+36          0.407692       0.341667                  1.08455     1.10964               0.976731
+37          0.425          0.341667                  1.07591     1.11003               1.0026
+38          0.430769       0.341667                  1.07522     1.11045               1.0288
+39          0.425          0.341667                  1.07363     1.11089               1.05366
+40          0.408333       0.341667                  1.08196     1.111                 1.08297
+41          0.423077       0.341667                  1.07644     1.11134               1.11031
+42          0.416667       0.341667                  1.07867     1.11157               1.13651
+43          0.4            0.341667                  1.08609     1.11149               1.16737
+44          0.425          0.341667                  1.07322     1.1119                1.1954
+45          0.433333       0.341667                  1.07488     1.11223               1.22152
+46          0.4            0.341667                  1.083       1.11226               1.24877
+47          0.441667       0.341667                  1.07309     1.11264               1.27817
+48          0.430769       0.341667                  1.07278     1.11306               1.30599
+49          0.4            0.341667                  1.0877      1.11288               1.33153
+50          0.425          0.341667                  1.07275     1.11325               1.36121
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="結果の確認">
+<h3>4.3.12. 結果の確認<a class="headerlink" href="#結果の確認" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>最後に今回のモデルでの予測結果を確認しておきましょう。
+Trainerを使用すると、<code class="docutils literal notranslate"><span class="pre">result/wine</span></code>というフォルダができ、この中に<code class="docutils literal notranslate"><span class="pre">log</span></code>というファイルが自動的に生成されます。
+こちらに、学習結果が全て保存されており、後で学習の状況を可視化して確認したりできます。</p>
+<p>まずは、logのファイルをPythonで読み込みましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import json
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># logファイルから結果の読み込み
+with open(&#39;result/wine/log&#39;) as f:
+    logs = json.load(f)
+    results = pd.DataFrame(logs)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 結果の確認
+results
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>elapsed_time</th>
+      <th>epoch</th>
+      <th>iteration</th>
+      <th>main/accuracy</th>
+      <th>main/loss</th>
+      <th>validation/main/accuracy</th>
+      <th>validation/main/loss</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.083895</td>
+      <td>1</td>
+      <td>13</td>
+      <td>0.392308</td>
+      <td>54.022660</td>
+      <td>0.341667</td>
+      <td>1.098510</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.107586</td>
+      <td>2</td>
+      <td>25</td>
+      <td>0.408333</td>
+      <td>1.096746</td>
+      <td>0.341667</td>
+      <td>1.098532</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.132338</td>
+      <td>3</td>
+      <td>38</td>
+      <td>0.423077</td>
+      <td>1.095000</td>
+      <td>0.341667</td>
+      <td>1.098596</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.157441</td>
+      <td>4</td>
+      <td>50</td>
+      <td>0.425000</td>
+      <td>1.092917</td>
+      <td>0.341667</td>
+      <td>1.098753</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.180843</td>
+      <td>5</td>
+      <td>62</td>
+      <td>0.416667</td>
+      <td>1.092705</td>
+      <td>0.341667</td>
+      <td>1.098903</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>0.205588</td>
+      <td>6</td>
+      <td>75</td>
+      <td>0.438462</td>
+      <td>1.089438</td>
+      <td>0.341667</td>
+      <td>1.099179</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.228848</td>
+      <td>7</td>
+      <td>87</td>
+      <td>0.391667</td>
+      <td>1.092686</td>
+      <td>0.341667</td>
+      <td>1.099351</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.253859</td>
+      <td>8</td>
+      <td>100</td>
+      <td>0.438462</td>
+      <td>1.087147</td>
+      <td>0.341667</td>
+      <td>1.099714</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.277414</td>
+      <td>9</td>
+      <td>112</td>
+      <td>0.400000</td>
+      <td>1.090339</td>
+      <td>0.341667</td>
+      <td>1.099957</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>0.305134</td>
+      <td>10</td>
+      <td>124</td>
+      <td>0.425000</td>
+      <td>1.086703</td>
+      <td>0.341667</td>
+      <td>1.100286</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>0.330089</td>
+      <td>11</td>
+      <td>137</td>
+      <td>0.407692</td>
+      <td>1.086583</td>
+      <td>0.341667</td>
+      <td>1.100678</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>0.353375</td>
+      <td>12</td>
+      <td>149</td>
+      <td>0.425000</td>
+      <td>1.086195</td>
+      <td>0.341667</td>
+      <td>1.101006</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>0.381007</td>
+      <td>13</td>
+      <td>162</td>
+      <td>0.430769</td>
+      <td>1.085618</td>
+      <td>0.341667</td>
+      <td>1.101335</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>0.404768</td>
+      <td>14</td>
+      <td>174</td>
+      <td>0.416667</td>
+      <td>1.082146</td>
+      <td>0.341667</td>
+      <td>1.101823</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>0.428620</td>
+      <td>15</td>
+      <td>186</td>
+      <td>0.416667</td>
+      <td>1.085265</td>
+      <td>0.341667</td>
+      <td>1.102153</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>0.453811</td>
+      <td>16</td>
+      <td>199</td>
+      <td>0.430769</td>
+      <td>1.080586</td>
+      <td>0.341667</td>
+      <td>1.102679</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0.477348</td>
+      <td>17</td>
+      <td>211</td>
+      <td>0.408333</td>
+      <td>1.085265</td>
+      <td>0.341667</td>
+      <td>1.102984</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>0.502497</td>
+      <td>18</td>
+      <td>224</td>
+      <td>0.430769</td>
+      <td>1.079380</td>
+      <td>0.341667</td>
+      <td>1.103525</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>0.529660</td>
+      <td>19</td>
+      <td>236</td>
+      <td>0.400000</td>
+      <td>1.086844</td>
+      <td>0.341667</td>
+      <td>1.103739</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>0.555280</td>
+      <td>20</td>
+      <td>248</td>
+      <td>0.425000</td>
+      <td>1.080922</td>
+      <td>0.341667</td>
+      <td>1.104153</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>0.582715</td>
+      <td>21</td>
+      <td>261</td>
+      <td>0.423077</td>
+      <td>1.081330</td>
+      <td>0.341667</td>
+      <td>1.104570</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>0.607548</td>
+      <td>22</td>
+      <td>273</td>
+      <td>0.408333</td>
+      <td>1.082865</td>
+      <td>0.341667</td>
+      <td>1.104903</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>0.633265</td>
+      <td>23</td>
+      <td>286</td>
+      <td>0.430769</td>
+      <td>1.078326</td>
+      <td>0.341667</td>
+      <td>1.105393</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>0.657938</td>
+      <td>24</td>
+      <td>298</td>
+      <td>0.416667</td>
+      <td>1.080940</td>
+      <td>0.341667</td>
+      <td>1.105757</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>0.682981</td>
+      <td>25</td>
+      <td>310</td>
+      <td>0.416667</td>
+      <td>1.080675</td>
+      <td>0.341667</td>
+      <td>1.106102</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>0.708941</td>
+      <td>26</td>
+      <td>323</td>
+      <td>0.423077</td>
+      <td>1.078684</td>
+      <td>0.341667</td>
+      <td>1.106548</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>0.735531</td>
+      <td>27</td>
+      <td>335</td>
+      <td>0.416667</td>
+      <td>1.081647</td>
+      <td>0.341667</td>
+      <td>1.106831</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>0.762740</td>
+      <td>28</td>
+      <td>348</td>
+      <td>0.415385</td>
+      <td>1.079566</td>
+      <td>0.341667</td>
+      <td>1.107223</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>0.787045</td>
+      <td>29</td>
+      <td>360</td>
+      <td>0.425000</td>
+      <td>1.078369</td>
+      <td>0.341667</td>
+      <td>1.107608</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>0.812019</td>
+      <td>30</td>
+      <td>372</td>
+      <td>0.416667</td>
+      <td>1.079872</td>
+      <td>0.341667</td>
+      <td>1.107932</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>0.838868</td>
+      <td>31</td>
+      <td>385</td>
+      <td>0.415385</td>
+      <td>1.079161</td>
+      <td>0.341667</td>
+      <td>1.108303</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>0.865626</td>
+      <td>32</td>
+      <td>397</td>
+      <td>0.416667</td>
+      <td>1.080995</td>
+      <td>0.341667</td>
+      <td>1.108546</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>0.895010</td>
+      <td>33</td>
+      <td>410</td>
+      <td>0.446154</td>
+      <td>1.071573</td>
+      <td>0.341667</td>
+      <td>1.109174</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>0.920375</td>
+      <td>34</td>
+      <td>422</td>
+      <td>0.391667</td>
+      <td>1.087154</td>
+      <td>0.341667</td>
+      <td>1.109171</td>
+    </tr>
+    <tr>
+      <th>34</th>
+      <td>0.948092</td>
+      <td>35</td>
+      <td>434</td>
+      <td>0.425000</td>
+      <td>1.075857</td>
+      <td>0.341667</td>
+      <td>1.109576</td>
+    </tr>
+    <tr>
+      <th>35</th>
+      <td>0.976731</td>
+      <td>36</td>
+      <td>447</td>
+      <td>0.407692</td>
+      <td>1.084554</td>
+      <td>0.341667</td>
+      <td>1.109642</td>
+    </tr>
+    <tr>
+      <th>36</th>
+      <td>1.002603</td>
+      <td>37</td>
+      <td>459</td>
+      <td>0.425000</td>
+      <td>1.075910</td>
+      <td>0.341667</td>
+      <td>1.110033</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>1.028802</td>
+      <td>38</td>
+      <td>472</td>
+      <td>0.430769</td>
+      <td>1.075224</td>
+      <td>0.341667</td>
+      <td>1.110446</td>
+    </tr>
+    <tr>
+      <th>38</th>
+      <td>1.053658</td>
+      <td>39</td>
+      <td>484</td>
+      <td>0.425000</td>
+      <td>1.073628</td>
+      <td>0.341667</td>
+      <td>1.110888</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>1.082971</td>
+      <td>40</td>
+      <td>496</td>
+      <td>0.408333</td>
+      <td>1.081960</td>
+      <td>0.341667</td>
+      <td>1.111004</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>1.110315</td>
+      <td>41</td>
+      <td>509</td>
+      <td>0.423077</td>
+      <td>1.076441</td>
+      <td>0.341667</td>
+      <td>1.111342</td>
+    </tr>
+    <tr>
+      <th>41</th>
+      <td>1.136511</td>
+      <td>42</td>
+      <td>521</td>
+      <td>0.416667</td>
+      <td>1.078673</td>
+      <td>0.341667</td>
+      <td>1.111572</td>
+    </tr>
+    <tr>
+      <th>42</th>
+      <td>1.167366</td>
+      <td>43</td>
+      <td>534</td>
+      <td>0.400000</td>
+      <td>1.086085</td>
+      <td>0.341667</td>
+      <td>1.111493</td>
+    </tr>
+    <tr>
+      <th>43</th>
+      <td>1.195397</td>
+      <td>44</td>
+      <td>546</td>
+      <td>0.425000</td>
+      <td>1.073220</td>
+      <td>0.341667</td>
+      <td>1.111902</td>
+    </tr>
+    <tr>
+      <th>44</th>
+      <td>1.221522</td>
+      <td>45</td>
+      <td>558</td>
+      <td>0.433333</td>
+      <td>1.074877</td>
+      <td>0.341667</td>
+      <td>1.112229</td>
+    </tr>
+    <tr>
+      <th>45</th>
+      <td>1.248769</td>
+      <td>46</td>
+      <td>571</td>
+      <td>0.400000</td>
+      <td>1.083000</td>
+      <td>0.341667</td>
+      <td>1.112259</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>1.278170</td>
+      <td>47</td>
+      <td>583</td>
+      <td>0.441667</td>
+      <td>1.073086</td>
+      <td>0.341667</td>
+      <td>1.112637</td>
+    </tr>
+    <tr>
+      <th>47</th>
+      <td>1.305985</td>
+      <td>48</td>
+      <td>596</td>
+      <td>0.430769</td>
+      <td>1.072776</td>
+      <td>0.341667</td>
+      <td>1.113060</td>
+    </tr>
+    <tr>
+      <th>48</th>
+      <td>1.331528</td>
+      <td>49</td>
+      <td>608</td>
+      <td>0.400000</td>
+      <td>1.087705</td>
+      <td>0.341667</td>
+      <td>1.112877</td>
+    </tr>
+    <tr>
+      <th>49</th>
+      <td>1.361215</td>
+      <td>50</td>
+      <td>620</td>
+      <td>0.425000</td>
+      <td>1.072748</td>
+      <td>0.341667</td>
+      <td>1.113252</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Pandasの機能を使って、数値だけでなく可視化も行いましょう。
+Pandasのプロットでは、Maptlotlibをベースにしており、Jupyter
+Notebook上でインライン表示ができるように設定しておきましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>%matplotlib inline
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># accuracy（精度）を表示
+results[[&#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;]].plot()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fdd362734e0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Chainer_Basics_143_1.png" src="../_images/notebooks_Chainer_Basics_143_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># loss（損失関数）を表示
+results[[&#39;main/loss&#39;, &#39;validation/main/loss&#39;]].plot()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fdd36211898&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Chainer_Basics_144_1.png" src="../_images/notebooks_Chainer_Basics_144_1.png" />
+</div>
+</div>
+<p>こちらのように、精度が訓練データに対して約40%強、検証データに対して約35%程度にとどまっています。
+検証データが運用した際に得られる精度の目安になるため、運用後は良くても35％程度しか正解しないようなモデルであることがわかります。</p>
+</div>
+<div class="section" id="実践のヒント">
+<h3>4.3.13. 実践のヒント<a class="headerlink" href="#実践のヒント" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>今回は一通りの流れを説明しましたが、まだまだ精度が良くないと不満に思った方もいるかと思います。
+ここからは試行錯誤の世界になるのですが、まずいちばん手っ取り早く精度を上げることが出来る方法として、<strong>BatchNormalization</strong>が挙げられます。</p>
+<p>実装としては、各バッチ毎に、平均と標準偏差を定めて正規化を行うといった非常に簡単な手法なのですが、これをかませることによって、各変数感のスケールによる差を吸収できます。</p>
+<p>それでは、BatchNormazliationがある場合で試してみましょう。</p>
+<p>宣言していたニューラルネットワークのクラスを以下のように変更して、もう一度学習を行ってみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class NN(chainer.Chain):
+
+    # モデルの構造
+    def __init__(self, n_mid_units=5, n_out=3):
+        super().__init__()
+        with self.init_scope():
+            self.fc1 = L.Linear(None, n_mid_units)
+            self.fc2 = L.Linear(None, n_out)
+            self.bn = L.BatchNormalization(10)  # Batch Normalizationは平均と分散がパラメータ
+
+    # 順伝播
+    def __call__(self, x):
+        h = self.bn(x)  # Batch Normalizationの処理を追加
+        h = self.fc1(h)
+        h = F.relu(h)
+        h = self.fc2(h)
+        return h
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 乱数のシードを固定
+np.random.seed(1)
+
+# モデルのインスタンス化
+nn = NN()
+model = L.Classifier(nn)
+
+# Optimizerの定義
+optimizer = chainer.optimizers.SGD()
+optimizer.setup(model)  # modelと紐付ける
+
+# Iteratorの定義
+batchsize = 10
+train_iter = chainer.iterators.SerialIterator(train, batchsize)
+test_iter = chainer.iterators.SerialIterator(test, batchsize, repeat=False, shuffle=False)
+
+# Updaterの定義
+updater = chainer.training.StandardUpdater(train_iter, optimizer, device=-1)
+
+# trainerとそのextensionsの設定
+epoch = 50
+trainer = training.Trainer(updater, (epoch, &#39;epoch&#39;), out=&#39;result/wine&#39;)
+trainer.extend(extensions.Evaluator(test_iter, model, device=-1))
+trainer.extend(extensions.LogReport(trigger=(1, &#39;epoch&#39;)))
+trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;elapsed_time&#39;]), trigger=(1, &#39;epoch&#39;))
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 学習の実行
+trainer.run()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       main/accuracy  validation/main/accuracy  main/loss   validation/main/loss  elapsed_time
+1           0.415385       0.341667                  1.10392     1.21442               0.0324014
+2           0.575          0.475                     1.0031      0.993539              0.0635639
+3           0.553846       0.608333                  0.942188    0.922005              0.0964929
+4           0.641667       0.625                     0.848846    0.856451              0.126369
+5           0.65           0.625                     0.81297     0.80548               0.159143
+6           0.684615       0.608333                  0.74872     0.771339              0.190904
+7           0.675          0.625                     0.719701    0.728936              0.22096
+8           0.753846       0.625                     0.704584    0.70214               0.255656
+9           0.716667       0.641667                  0.688909    0.673809              0.288155
+10          0.8            0.683333                  0.594708    0.65686               0.320836
+11          0.784615       0.7                       0.588698    0.634453              0.35252
+12          0.758333       0.75                      0.626121    0.602156              0.381661
+13          0.8            0.791667                  0.560623    0.590054              0.413213
+14          0.866667       0.808333                  0.480577    0.576962              0.442442
+15          0.858333       0.808333                  0.556047    0.550731              0.473163
+16          0.869231       0.808333                  0.506974    0.541605              0.504492
+17          0.866667       0.808333                  0.478951    0.521063              0.53473
+18          0.861538       0.825                     0.471306    0.507851              0.56626
+19          0.9            0.841667                  0.441507    0.490725              0.595704
+20          0.866667       0.841667                  0.471907    0.481671              0.625229
+21          0.876923       0.916667                  0.452109    0.463697              0.656747
+22          0.883333       0.9                       0.453664    0.445717              0.687249
+23          0.892308       0.9                       0.380661    0.433952              0.718971
+24          0.875          0.916667                  0.410088    0.419765              0.748346
+25          0.9            0.9                       0.374395    0.397687              0.777901
+26          0.915385       0.9                       0.352433    0.387938              0.810841
+27          0.916667       0.933333                  0.364845    0.367715              0.841276
+28          0.930769       0.916667                  0.306647    0.355292              0.875592
+29          0.933333       0.95                      0.325068    0.348403              0.90916
+30          0.875          0.966667                  0.388985    0.329933              0.940931
+31          0.938462       0.966667                  0.311822    0.315558              0.97363
+32          0.933333       0.95                      0.316743    0.310268              1.00606
+33          0.961538       0.966667                  0.290442    0.294099              1.04096
+34          0.925          0.95                      0.273505    0.283344              1.07346
+35          0.95           0.966667                  0.25971     0.270989              1.10541
+36          0.915385       0.95                      0.283717    0.258128              1.14092
+37          0.908333       0.966667                  0.324117    0.250026              1.17347
+38          0.938462       0.966667                  0.257327    0.239251              1.20741
+39          0.95           0.983333                  0.234977    0.230012              1.23908
+40          0.958333       0.966667                  0.194902    0.226905              1.27157
+41          0.976923       0.966667                  0.196919    0.222974              1.30445
+42          0.908333       0.983333                  0.278829    0.208401              1.338
+43          0.938462       0.966667                  0.229717    0.207539              1.37272
+44          0.933333       0.966667                  0.236867    0.199324              1.40843
+45          0.933333       0.966667                  0.206753    0.191793              1.44096
+46          0.915385       0.966667                  0.281936    0.190416              1.47434
+47          0.958333       0.983333                  0.207116    0.180302              1.50772
+48          0.946154       0.983333                  0.241741    0.170533              1.5417
+49          0.925          0.983333                  0.310244    0.16517               1.57297
+50          0.975          0.966667                  0.185174    0.16843               1.60785
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># logファイルから結果の読み込み
+with open(&#39;result/wine/log&#39;) as f:
+    logs = json.load(f)
+    results = pd.DataFrame(logs)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># accuracy（精度）を表示
+results[[&#39;main/accuracy&#39;, &#39;validation/main/accuracy&#39;]].plot()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fdd3392f400&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Chainer_Basics_151_1.png" src="../_images/notebooks_Chainer_Basics_151_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># loss（損失関数）を表示
+results[[&#39;main/loss&#39;, &#39;validation/main/loss&#39;]].plot()
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x7fdd338dc2b0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Chainer_Basics_152_1.png" src="../_images/notebooks_Chainer_Basics_152_1.png" />
+</div>
+</div>
+<p>上記のようにAccuracyの値がぐっと良くなっていれば成功です。</p>
+<p>このように、ディープラーニングでは、BatchNormalizationを含めた細かなポイントがあったりするため、調べながら進めてみてください。
+Chainerでは、ほとんどの機能がすでに実装されているため、上記のコードのように少し付け加えるだけでその効果を検証できるため、非常に便利です。</p>
+</div>
+</div>
+<div class="section" id="学習済みモデルを保存">
+<h2>4.4. 学習済みモデルを保存<a class="headerlink" href="#学習済みモデルを保存" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>学習が終わると、学習済みモデルが得られます。
+Trainerのextensionsでsnapshotを取ることも可能ですが、今回は手動で学習済みモデルを保存する方法を紹介します。</p>
+<p>chainerで準備されている<code class="docutils literal notranslate"><span class="pre">serializers</span></code>のモジュールを使用すれば保存できます。
+保存の際には、モデルの名前と学習済みモデルを指定しましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>chainer.serializers.save_npz(&#39;models/wine.npz&#39;, model)
+</pre></div>
+</div>
+</div>
+<p>こちらでmodelsのフォルダ内に <code class="docutils literal notranslate"><span class="pre">wine.npz</span></code>
+というファイルができていれば学習済みモデルの保存が完了です。</p>
+</div>
+<div class="section" id="学習済みモデルを使用した推論">
+<h2>4.5. 学習済みモデルを使用した推論<a class="headerlink" href="#学習済みモデルを使用した推論" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="学習済みモデルのロード">
+<h3>4.5.1. 学習済みモデルのロード<a class="headerlink" href="#学習済みモデルのロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>学習済みモデルは単にファイルをロードするだけでなく、まずはモデルの構造を明示しておき、そのモデルに対して、パラメータの値を当てはめながらロードしていくことになります。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>model = L.Classifier(NN())
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>chainer.serializers.load_npz(&#39;models/wine.npz&#39;, model)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="予測値の計算">
+<h3>4.5.2. 予測値の計算<a class="headerlink" href="#予測値の計算" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>今回は一番最初のサンプルに対する予測値を計算してみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x_new = x[0]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x_new.shape
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(10,)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 予測値の計算
+y = model.predictor(x_new)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">InvalidType</span>                               Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-97-755be9e0f1f2&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-red-fg"># 予測値の計算</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span>y <span class="ansi-blue-fg">=</span> model<span class="ansi-blue-fg">.</span>predictor<span class="ansi-blue-fg">(</span>x_new<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">&lt;ipython-input-86-73aafd83ba18&gt;</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, x)</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span>     <span class="ansi-red-fg"># 順伝播</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span>     <span class="ansi-green-fg">def</span> __call__<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> x<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 13</span><span class="ansi-red-fg">         </span>h <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>bn<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">)</span>  <span class="ansi-red-fg"># Batch Normalizationの処理を追加</span>
+<span class="ansi-green-intense-fg ansi-bold">     14</span>         h <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>fc1<span class="ansi-blue-fg">(</span>h<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     15</span>         h <span class="ansi-blue-fg">=</span> F<span class="ansi-blue-fg">.</span>relu<span class="ansi-blue-fg">(</span>h<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.5/dist-packages/chainer/links/normalization/batch_normalization.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, x, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    142</span>             ret = functions.batch_normalization(
+<span class="ansi-green-intense-fg ansi-bold">    143</span>                 x<span class="ansi-blue-fg">,</span> gamma<span class="ansi-blue-fg">,</span> beta<span class="ansi-blue-fg">,</span> eps<span class="ansi-blue-fg">=</span>self<span class="ansi-blue-fg">.</span>eps<span class="ansi-blue-fg">,</span> running_mean<span class="ansi-blue-fg">=</span>self<span class="ansi-blue-fg">.</span>avg_mean<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">--&gt; 144</span><span class="ansi-red-fg">                 running_var=self.avg_var, decay=decay)
+</span><span class="ansi-green-intense-fg ansi-bold">    145</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    146</span>             <span class="ansi-red-fg"># Use running average statistics or fine-tuned statistics.</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.5/dist-packages/chainer/functions/normalization/batch_normalization.py</span> in <span class="ansi-cyan-fg">batch_normalization</span><span class="ansi-blue-fg">(x, gamma, beta, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    718</span>
+<span class="ansi-green-intense-fg ansi-bold">    719</span>     return BatchNormalization(eps, running_mean, running_var, decay).apply(
+<span class="ansi-green-fg">--&gt; 720</span><span class="ansi-red-fg">         (x, gamma, beta))[0]
+</span><span class="ansi-green-intense-fg ansi-bold">    721</span>
+<span class="ansi-green-intense-fg ansi-bold">    722</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.5/dist-packages/chainer/function_node.py</span> in <span class="ansi-cyan-fg">apply</span><span class="ansi-blue-fg">(self, inputs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    241</span>
+<span class="ansi-green-intense-fg ansi-bold">    242</span>         <span class="ansi-green-fg">if</span> configuration<span class="ansi-blue-fg">.</span>config<span class="ansi-blue-fg">.</span>type_check<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 243</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_check_data_type_forward<span class="ansi-blue-fg">(</span>in_data<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    244</span>
+<span class="ansi-green-intense-fg ansi-bold">    245</span>         hooks <span class="ansi-blue-fg">=</span> chainer<span class="ansi-blue-fg">.</span>get_function_hooks<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.5/dist-packages/chainer/function_node.py</span> in <span class="ansi-cyan-fg">_check_data_type_forward</span><span class="ansi-blue-fg">(self, in_data)</span>
+<span class="ansi-green-intense-fg ansi-bold">    326</span>         in_type <span class="ansi-blue-fg">=</span> type_check<span class="ansi-blue-fg">.</span>get_types<span class="ansi-blue-fg">(</span>in_data<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">&#39;in_types&#39;</span><span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">False</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    327</span>         <span class="ansi-green-fg">with</span> type_check<span class="ansi-blue-fg">.</span>get_function_check_context<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 328</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>check_type_forward<span class="ansi-blue-fg">(</span>in_type<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    329</span>
+<span class="ansi-green-intense-fg ansi-bold">    330</span>     <span class="ansi-green-fg">def</span> check_type_forward<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> in_types<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.5/dist-packages/chainer/functions/normalization/batch_normalization.py</span> in <span class="ansi-cyan-fg">check_type_forward</span><span class="ansi-blue-fg">(self, in_types)</span>
+<span class="ansi-green-intense-fg ansi-bold">     48</span>             gamma_type<span class="ansi-blue-fg">.</span>dtype <span class="ansi-blue-fg">==</span> x_type<span class="ansi-blue-fg">.</span>dtype<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     49</span>             beta_type<span class="ansi-blue-fg">.</span>dtype <span class="ansi-blue-fg">==</span> x_type<span class="ansi-blue-fg">.</span>dtype<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">---&gt; 50</span><span class="ansi-red-fg">             </span>gamma_type<span class="ansi-blue-fg">.</span>shape <span class="ansi-blue-fg">==</span> beta_type<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     51</span>         )
+<span class="ansi-green-intense-fg ansi-bold">     52</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.5/dist-packages/chainer/utils/type_check.py</span> in <span class="ansi-cyan-fg">expect</span><span class="ansi-blue-fg">(*bool_exprs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    522</span>         <span class="ansi-green-fg">for</span> expr <span class="ansi-green-fg">in</span> bool_exprs<span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    523</span>             <span class="ansi-green-fg">assert</span> isinstance<span class="ansi-blue-fg">(</span>expr<span class="ansi-blue-fg">,</span> Testable<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 524</span><span class="ansi-red-fg">             </span>expr<span class="ansi-blue-fg">.</span>expect<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    525</span>
+<span class="ansi-green-intense-fg ansi-bold">    526</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.5/dist-packages/chainer/utils/type_check.py</span> in <span class="ansi-cyan-fg">expect</span><span class="ansi-blue-fg">(self)</span>
+<span class="ansi-green-intense-fg ansi-bold">    480</span>             raise InvalidType(
+<span class="ansi-green-intense-fg ansi-bold">    481</span>                 <span class="ansi-blue-fg">&#39;{0} {1} {2}&#39;</span><span class="ansi-blue-fg">.</span>format<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>lhs<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>exp<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>rhs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">--&gt; 482</span><span class="ansi-red-fg">                 &#39;{0} {1} {2}&#39;.format(left, self.inv, right))
+</span><span class="ansi-green-intense-fg ansi-bold">    483</span>
+<span class="ansi-green-intense-fg ansi-bold">    484</span>
+
+<span class="ansi-red-fg">InvalidType</span>:
+Invalid operation is performed in: BatchNormalization (Forward)
+
+Expect: in_types[0].ndim &gt;= in_types[1].ndim + 1
+Actual: 1 &lt; 2
+</pre></div></div>
+</div>
+<p>推論で使用する際には、<code class="docutils literal notranslate"><span class="pre">(バッチサイズ,</span> <span class="pre">入力変数の数)</span></code>
+という形式となっていないとエラーが起きます。
+今回であれば、<code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">10)</span></code>が望ましいデータの形といえます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x_new = x_new[np.newaxis]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>x_new.shape
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(1, 10)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># 予測値の計算
+y = model.predictor(x_new)
+y
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.5/dist-packages/chainer/functions/normalization/batch_normalization.py:67: UserWarning: A batch with no more than one sample has been given to F.batch_normalization. F.batch_normalization will always output a zero tensor for such batches. This could be caused by incorrect configuration in your code (such as running evaluation while chainer.config.train=True), but could also happen in the last batch of training if non-repeating iterator is used.
+  UserWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable([[-0.5496615 ,  0.19866087, -0.40578216]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>y = F.softmax(y)
+y
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>variable([[0.234291  , 0.49516267, 0.27054632]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>y.array
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([[0.234291  , 0.49516267, 0.27054632]], dtype=float32)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>np.argmax(y.array)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>1
+</pre></div>
+</div>
+</div>
+<p>このように学習済みモデルを使用した推論を実行できました。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Introduction_to_Chainer.html" class="btn btn-neutral float-right" title="5. Deep Learningフレームワークの基礎" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Introduction_to_Neural_Network.html" class="btn btn-neutral" title="3. ニューラルネットワーク" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Preferred Networks &amp; キカガク
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

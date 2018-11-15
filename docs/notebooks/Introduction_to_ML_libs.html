@@ -1,0 +1,3824 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. 機械学習ライブラリの基礎 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="3. ニューラルネットワーク" href="Introduction_to_Neural_Network.html" />
+    <link rel="prev" title="1. 機械学習に必要な数学の基礎" href="Basic_Math_for_ML.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> メディカルAIコース オンライン講義資料<Paste>
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. 機械学習ライブラリの基礎</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#単回帰分析">2.1. 単回帰分析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#問題設定">2.1.1. 問題設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step1.-モデルを決める">2.1.2. Step1. モデルを決める</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step2.-目的関数を決める">2.1.3. Step2. 目的関数を決める</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step3.-最適なパラメータを求める">2.1.4. Step3. 最適なパラメータを求める</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#重回帰分析">2.2. 重回帰分析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#問題設定">2.2.1. 問題設定</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step1.-モデルを決める">2.2.2. Step1. モデルを決める</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step2.-目的関数を決める">2.2.3. Step2. 目的関数を決める</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step3.-パラメータを最適化する">2.2.4. Step3. パラメータを最適化する</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Numpyによる実装">2.3. Numpyによる実装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Scikit-learnによる本格的な実装">2.4. Scikit-learnによる本格的な実装</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Scikit-learn基礎編">2.4.1. Scikit-learn基礎編</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Scikit-learn応用編">2.4.2. Scikit-learn応用編</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#実用的な機械学習アルゴリズムの紹介">2.5. 実用的な機械学習アルゴリズムの紹介</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Support-Vector-Machine-(SVM)">2.5.1. Support Vector Machine (SVM)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Support-Vector-Regression-(SVR)">2.5.1.1. Support Vector Regression (SVR)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Support-Vector-Classification-(SVC)">2.5.1.2. Support Vector Classification (SVC)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Random-Forest">2.5.2. Random Forest</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#回帰-(Regression)">2.5.2.1. 回帰 (Regression)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#分類-(Classification)">2.5.2.2. 分類 (Classification)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ロジスティック回帰">2.5.3. ロジスティック回帰</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#k-means">2.5.4. k-means</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chainer_Basics.html">4. Chainer入門</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">メディカルAIコース オンライン講義資料<Paste></a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>2. 機械学習ライブラリの基礎</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notebooks/Introduction_to_ML_libs.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="機械学習ライブラリの基礎">
+<h1>2. 機械学習ライブラリの基礎<a class="headerlink" href="#機械学習ライブラリの基礎" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ここでは、代表的な機械学習アルゴリズムの紹介とチューニングのポイントをその数学的な背景と合わせて紹介します。
+機械学習の考え方を身に着ける練習として、単回帰分析と重回帰分析のアルゴリズムを一緒に考えていきましょう。これらを学ぶことで微分と線形代数、統計に関する知識が大幅に深まります。</p>
+<div class="section" id="単回帰分析">
+<h2>2.1. 単回帰分析<a class="headerlink" href="#単回帰分析" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>機械学習アルゴリズムの第一弾として、最も基礎的な単回帰分析について紹介する。ほかの書籍では、基礎的な数学を前半で紹介して、後半で機械学習アルゴリズムを紹介するものも多いが、単回帰分析を学びながら具体的な微分の計算が身につくため、本書では基礎的な数学とそれに対応する機械学習アルゴリズムを交互に学びながら、知識を深めていくこととする。</p>
+<p>単回帰分析は教師あり学習の一種である。その中でも、数値（厳密には連続値）を予測する<strong>回帰</strong>を取り扱う手法である。単回帰分析は、ひとつの入力変数からひとつの出力変数を予測する機械学習アルゴリズムである。</p>
+<div class="section" id="問題設定">
+<h3>2.2.1. 問題設定<a class="headerlink" href="#問題設定" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>身近な例で想像がつきやすいものとして、家賃の予測を考えることとする。つまり家賃が出力変数
+<span class="math notranslate nohighlight">\(y\)</span> となる。</p>
+<p>次に考えるべき問題としては、入力変数として何を採用するかである。機械学習では、データをもとに学習するが、一番最初にどのデータを使ってどの値を予測させるかは人間側で決めないといけない。そのため、入力変数として何を採用するかといった問題は、人間側の経験に依存する。例えば、今回で言えば、部屋の広さか、駅からの距離か、それとも犯罪発生率を入力変数として採用するか悩ましいところである。今回は私の経験上、重要そうだと感じる部屋の広さを入力変数<span class="math notranslate nohighlight">\(x\)</span>として採用することとする。実際には、このように複数の候補があった際に、それらすべてを扱うことができるようなモデル化が一般的であり、この次の重回帰分析以降で紹介していく。</p>
+<p>機械学習アルゴリズムは、どの手法も大きく分けて3つのステップで成り立っており、この3つのステップが1セットでひとつのアルゴリズムである。</p>
+<ul class="simple">
+<li>モデルを決める</li>
+<li>目的関数を決める</li>
+<li>最適なパラメータを求める</li>
+</ul>
+</div>
+<div class="section" id="Step1.-モデルを決める">
+<h3>2.2.2. Step1. モデルを決める<a class="headerlink" href="#Step1.-モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>まず<strong>Step1</strong>は<strong>モデル</strong>を決める。このモデルとは一見もっともらしい用語ではあるが、具体的には何であるのか。それは、出力変数<span class="math notranslate nohighlight">\(y\)</span>と入力変数<span class="math notranslate nohighlight">\(x\)</span>の関係性を定式化したものである。家賃の予測値を<span class="math notranslate nohighlight">\(y\)</span>とした際に、どのように定式化すればうまく予測することができるのか。このモデルは残念ながら機械が自動的に決めてくれるわけではなく、人間が経験と勘で決める作業になる。</p>
+<p><img alt="image0" src="../_images/01.png" /></p>
+<p>例えば、与えられたデータセットにおいて、家賃と部屋の広さの関係性が次のようになっている。数値は実際の家賃ではなく計算が簡単にできるように設定しているが、部屋の広さが広くなるほど、家賃が高くなるという設定である。このデータを見た際に、どのように予測のための線を描けば良いかと考えると、このように直線を引く人が多いのではないだろうか。</p>
+<p><img alt="image1" src="../_images/02.png" /></p>
+<p>直線の式は中学の数学でもおさらいしたが、<span class="math notranslate nohighlight">\(y=ax+b\)</span>
+である。<span class="math notranslate nohighlight">\(a\)</span> を傾き、<span class="math notranslate nohighlight">\(b\)</span> を切片と呼んでいた。</p>
+<p>今回、このデータセットに対して、直線を引くことが適切であると（人間側の経験で）判断したため、以下のようにモデルを決める。</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  y = wx + b\\傾き :math:`a` の箇所が :math:`w`\end{aligned}\end{align} \]</div>
+<p>となっているが、一般的に機械学習では、傾きの箇所を<strong>重み (weight)</strong>
+<span class="math notranslate nohighlight">\(w\)</span>, 切片 <span class="math notranslate nohighlight">\(b\)</span> の箇所を<strong>バイアス (bias)</strong> <span class="math notranslate nohighlight">\(b\)</span>
+で記述することが多いので覚えておいてほしい。</p>
+<p>単回帰分析では、このように直線 <span class="math notranslate nohighlight">\(y = wx + b\)</span>
+と決めて、その重みとバイアスの値をデータにうまくフィットするように調整していくのである。この調整すべき変数のことを<strong>パラメータ</strong>と呼ぶ。つまり、今回は
+<span class="math notranslate nohighlight">\(w\)</span> と <span class="math notranslate nohighlight">\(b\)</span>
+がパラメータである。これより、この単回帰分析含めた機械学習の（学習工程の）ゴールとしては、与えられたデータセットに基づいて、最適なパラメータを求めることである。ここで与えられたデータセットとは、部屋の広さ
+<span class="math notranslate nohighlight">\(x\)</span> と教師データとなる家賃 <span class="math notranslate nohighlight">\(t\)</span>
+のことであり、<span class="math notranslate nohighlight">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span>
+として表す。ここで、添え字 <span class="math notranslate nohighlight">\(n\)</span>
+(<span class="math notranslate nohighlight">\(n=1,2,\ldots,N\)</span>)は<span class="math notranslate nohighlight">\(n\)</span>番目の物件という意味であり、<span class="math notranslate nohighlight">\(N\)</span>は全体の物件数のことである。この<span class="math notranslate nohighlight">\(N\)</span>を<strong>サンプル数</strong>という。</p>
+<p>ここで、この後の計算を楽に進めるために、<strong>データの中心化</strong>というテクニックを紹介する。図に示すように、部屋の広さと家賃は両方とも正の値であるため、左のグラフのような形になる。これは当然のことで問題はないが、これを中心化では、平均を0とした中央に配置するように変換の処理を施す。この中心化はどのアルゴリズムでも前処理として行うことが一般的である（厳密には正規化がよく用いられ、〇〇章で解説する）。</p>
+<p><img alt="image2" src="notebooks/C:/Users/ryosu/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/ml_statup/src/images/3/03.png" /></p>
+<p>この中心化の処理自体はそれほど難しいものではないが、なぜこのような処理を行うのかが問題である。それはデータの中心化によって、バイアス
+<span class="math notranslate nohighlight">\(b\)</span> が0となり、<span class="math notranslate nohighlight">\(y_{c} = wx_{c}\)</span>
+とすることができ、調整すべきパラメータを2つから1つに減らすことができる。</p>
+<p><img alt="image3" src="notebooks/C:/Users/ryosu/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/ml_statup/src/images/3/04.png" /></p>
+<p>今回は、2つのパラメータを手計算で求めることを楽にするために、このデータの標準化を前処理として使用することとする。一般に、数式を変形していく際に、バイアス
+<span class="math notranslate nohighlight">\(b\)</span>
+を省略できたほうが計算が楽なケースが多く、そのような場合は、前処理としてデータの標準化を行ったこととして、議論を進めることが多いため、この処理も覚えておいてほしい。</p>
+<p>さて、データの中心化の目的は明確となったところで、このデータの中心化が難しければ、まったく意味がない。何かを簡単にするために、複雑な処理を挟んでしまっては本末転倒である。しかし、データの中心化は非常に簡単であり、入出力の平均をデータの全体から引くだけでよい。つまり、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  x_{c} &amp;= x - \bar{x} \\
+  t_{c} &amp;= t - \bar{t}
+  \end{aligned}\end{split}\\となる。\end{aligned}\end{align} \]</div>
+<p><img alt="image4" src="notebooks/C:/Users/ryosu/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/ml_statup/src/images/3/05.png" /></p>
+<p>例えば、具体的な数値で見ると、下図となる。</p>
+<p><img alt="image5" src="notebooks/C:/Users/ryosu/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/ml_statup/src/images/3/06.png" /></p>
+<p>この処理をプログラムで書くことは非常に容易である。</p>
+<p>添え字の <span class="math notranslate nohighlight">\(c\)</span>
+に関して、この先も書いていくと表現が冗長となるため、今後はこの添え字を省略し、データの中心化を事前に行っていることを前提とする。この時、モデルは</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  y = wx\\となる。このとき、単回帰分析のゴールは、データセット\end{aligned}\end{align} \]</div>
+<p><span class="math notranslate nohighlight">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span>
+に基づいて、パラメータ<span class="math notranslate nohighlight">\(w\)</span> を適切に調整することである。</p>
+</div>
+<div class="section" id="Step2.-目的関数を決める">
+<h3>2.2.3. Step2. 目的関数を決める<a class="headerlink" href="#Step2.-目的関数を決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Step1では決めたゴールには曖昧さが残っていた。それは「適切」という言葉である。一見もっともらしくも聞こえるが、適切の定義を決めていない中で適切は存在しない。そこで、適切の定義を決める必要があり、これを関数として定義したものを<strong>目的関数</strong>と呼ぶ。領域によっては評価関数と呼ばれることもある。</p>
+<p>さて、今回はどのように目的関数を決めれば良いか。それは微分の時にもすでに紹介しているが、教師データと予測値の二乗誤差が小さければ小さいほど、適切と呼べるのではないだろうか。理想的には二乗誤差が0となれば、t
+= y となり、完璧な予測といえる。そのため、<span class="math notranslate nohighlight">\(n\)</span>
+番目の物件に対する教師データ<span class="math notranslate nohighlight">\(t_{n}\)</span>
+と予測値<span class="math notranslate nohighlight">\(y_{n}\)</span>の二乗誤差は</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  (t{_n} - y_{n})^{2}\\となる。これを全物件で考慮する必要があるため、最終的な目的関数は\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \mathcal{L}&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + (t_{N}-y_{N})^{2} \\
+  &amp;=\sum^{N}_{n=1}\left( t_{n}-y_{n}\right)^{2}\\
+  \end{aligned}\end{split}\\となる。また、Step1で決めたモデルより、\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  y_{n} = wx_{n}\\となるため、目的関数は\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}=\sum^{N}_{n=1}\left( t_{n}-wx_{n}\right)^{2}\]</div>
+<p>とパラメータを含んだ形式で表現することができる。目的関数の中でも、教師データと予測値の差（損失）を考慮したんものを<strong>損失関数</strong>と呼ぶ。損失関数は常に最小化したいというモチベーションでパラメータの最適化を行う。</p>
+</div>
+<div class="section" id="Step3.-最適なパラメータを求める">
+<h3>2.1.4. Step3. 最適なパラメータを求める<a class="headerlink" href="#Step3.-最適なパラメータを求める" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>モデルと目的関数が決まると、あとは目的関数を最小化するようなパラメータを求めるだけである。ここで、ある関数を最小化する点を求める方法としては微分が使えることをすでに学んでいる。そのため微分して「傾き0」となる点が最適なパラメータである。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dfrac{\partial }{\partial w} \mathcal{L}  &amp;= \dfrac{\partial}{\partial w} { \sum^{N}_{n=1} ( t_{n}-wx_{n})^{2} }\\
+\end{aligned}\end{split}\]</div>
+<p>ここで、微分は線形性の性質を持っており、わかりにくいかもしれないが、現状ではすべての足し算を終えた後に微分を行っているが、これはそれぞれ微分した後に、それを足し算することでも同じ結果であった。これより、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  \dfrac{\partial}{\partial w} \mathcal{L}=\sum^{N}_{n=1}\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}\\も同じである。この微分と総和 :math:`\sum`\end{aligned}\end{align} \]</div>
+<p>の記号が入れ替わる場面はよくあるので、この理由もしっかりと覚えておきたい。とりあえず入れ替えられるではなく、式変形の裏側には必ず理由がある。そして、</p>
+<div class="math notranslate nohighlight">
+\[\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}\]</div>
+<p>の部分は合成関数になっていることがわかる。<span class="math notranslate nohighlight">\(u_{n} = t_{n} - wx_{n}\)</span>
+とおくと、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2} &amp;=  \dfrac {\partial }{\partial w} f(u_{n}) \\ \because f(u_{n}) &amp;= u_{n}^{2}\\
+  \Rightarrow \dfrac {\partial }{\partial w} f(u_{n}) &amp;= \dfrac {\partial u_{n}}{\partial w} \dfrac{\partial f(u_{n})}{\partial w} \\
+  &amp;=-x_{n} \times 2 \left( t_{n}-wx_{n}\right)  \\
+  &amp;= -2x_{n}( t_{n}-wx_{n} )
+  \end{aligned}\end{split}\\が得られる。これより、\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \dfrac{\partial }{\partial w} \mathcal{L}
+  &amp;=\sum^{N}_{n=1}\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}
+  \\&amp;=-\sum^{N}_{n=1}2x_{n}\left( t_{n}-wx_{n}\right)
+  \end{aligned}\end{split}\\となる。この微分の値が0となるように\ :math:`w`\ を決めていくと、\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \dfrac {\partial }{\partial w} \mathcal{L} &amp;=0\\
+  -2\sum^{N}_{n=1}x_{n}\left( t_{n}-wx_{n}\right) &amp;=0\\
+  -2 \sum^{N}_{n=1}x_{n}t_{n} + 2\sum^{n}_{n=1}wx^{2}_{n}&amp;=0\\
+  -2\sum^{N}_{n=1}x_{n}t_{n}+2w\sum^{N}_{n=1}x^{2}_{n}&amp;=0\\
+  w\sum^{N}_{n=1}x^{2}_{n}&amp;=\sum^{n}_{n=1}x_{n}t_{n}\\
+  \Rightarrow w&amp;=\dfrac {\displaystyle  \sum^{N}_{n=1}x_{n}t_{n}}{\displaystyle  \sum^{N}_{n=1}x^{2}_{n}}
+  \end{aligned}\end{split}\\となる。この求まったパラメータを確認すると、データセット\end{aligned}\end{align} \]</div>
+<p><span class="math notranslate nohighlight">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span>
+のみから決定できていることがわかる。</p>
+<p>数式での議論を進めることができたため、もう少し具体的なイメージを持つために、例題にあげていた数値例でパラメータ
+<span class="math notranslate nohighlight">\(w\)</span> を求めてみる。まずは、データの中心化が必要である。</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \bar{x} &amp;= \dfrac{1}{3} (1 + 2 + 3) = 2 \\
+  \bar{t} &amp;= \dfrac{1}{3}(2 + 3.9 + 6.1) = 4
+  \end{aligned}\end{split}\\そして、各変数に対して前処理として、平均を引く中心化の処理を施す。\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  x_{1} &amp;= 1 - 2 = -1 \\
+  x_{2} &amp;= 2 -2 = 0 \\
+  x_{3} &amp;= 3- 2 = 1\\
+  t_{1} &amp;= 2 - 4 = -2\\
+  t_{2} &amp;= 3.9 - 4 = -0.1\\
+  t_{3} &amp;= 6.1 - 4 = 2.1
+  \end{aligned}\end{split}\\そして、中心化後の値を用いて、最適なパラメータ\ :math:`w`\ を導出する。\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+w &amp;= \dfrac{\displaystyle \sum_{n=1}^{N}x_{n}t_{n}}{\displaystyle  \sum_{n=1}^{N}x_{n}^{2}} \\
+&amp;= \dfrac{x_{1}t_{1} + x_{2}t_{2} + x_{3}t_{3}}{x_{1}^{2} + x_{2}^{2} + x_{3}^{2}} \\
+&amp;= \dfrac{-1 \times (-2) + 0 \times 0.1 + 1 \times 2.1}{(-1)^{2} + 0^2 + 1^2} \\
+&amp;= 2.05
+\end{aligned}\end{split}\]</div>
+<p>これで単回帰分析の学習の手順が完了した。この求まったパラメータを使用したモデルが学習済みモデルである。</p>
+<p>ただし、機械学習は学習済みモデルを使用して推論を行うことで初めて活用であることを忘れてはならない。例えば、<span class="math notranslate nohighlight">\(x_{q}=1.5\)</span>
+となるデータが新たなサンプルとして与えられた時の推論を行うと、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+y_{q} - \bar{t} &amp;= w(x_{q}-\bar{x}) \\
+\Rightarrow y_{q} &amp;= w(x_{q}-\bar{x}) + \bar{t} \\
+&amp;= 2.05 \times (1.5 - 2) + 4 \\
+&amp;= 2.975
+\end{aligned}\end{split}\]</div>
+<p>のように新たなサンプルに対する予測値が求まった。これが機械学習の一連の手順である。単回帰分析自体は本書の中で最もシンプルな方法であるが、全体像を把握することと、微分の使いどころを把握するために、とても良い学びとなったと思う。</p>
+</div>
+</div>
+<div class="section" id="重回帰分析">
+<h2>2.2. 重回帰分析<a class="headerlink" href="#重回帰分析" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>多変数の入力変数を扱う際にその基礎となるアルゴリズムが重回帰分析。そして、この重回帰分析を学ぶことで線形代数に関する知識が大幅に深まる。</p>
+<p>重回帰分析は単回帰分析と同様に教師あり学習の一種であり、回帰を取り扱う手法である。問題設定に関しては、ほとんど単回帰分析と同じであるが、重回帰分析では入力変数の数が複数となる。つまり、複数の入力変数から複数の出力変数を予測できる機械学習アルゴリズムである。</p>
+<div class="section" id="問題設定">
+<span id="id5"></span><h3>2.2.1. 問題設定<a class="headerlink" href="#問題設定" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ここでは単回帰分析の場合と同様、身近な例で想像がつきやすい家賃の予測を考えることとする。つまり家賃が出力変数<span class="math notranslate nohighlight">\(y\)</span>となる。そして、入力変数としては、前回の単回帰分析では考慮しきれていなかった駅からの距離や犯罪発生率なども考慮していく。例えば、部屋の広さ<span class="math notranslate nohighlight">\(x_{1}\)</span>,
+駅からの距離<span class="math notranslate nohighlight">\(x_{2}\)</span>, …, 犯罪さっ成立<span class="math notranslate nohighlight">\(x_{M}\)</span> のように
+<span class="math notranslate nohighlight">\(M\)</span> 個の入力変数がある前提で話を進めていくこととする。</p>
+<p>単回帰分析でも紹介したが、どの手法も大きく分けて以下の3つのステップで成り立っている。</p>
+<ul class="simple">
+<li>モデルを決める</li>
+<li>目的関数を決める</li>
+<li>最適なパラメータを求める</li>
+</ul>
+</div>
+<div class="section" id="Step1.-モデルを決める">
+<span id="step1-1"></span><h3>2.2.2. Step1. モデルを決める<a class="headerlink" href="#Step1.-モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>単回帰分析のモデルは、</p>
+<div class="math notranslate nohighlight">
+\[y = wx + b\]</div>
+<p>であった。ここで、<span class="math notranslate nohighlight">\(w\)</span>を重み（weight）、<span class="math notranslate nohighlight">\(b\)</span>をバイアス(bias)と呼んだ。重回帰分析では、この式を複数の入力変数に拡張し、</p>
+<div class="math notranslate nohighlight">
+\[y=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+b\]</div>
+<p>のような線形結合の形で表す。果たして、このような定式化が実際の問題にうまくいくのだろうか。実問題では、このような定式化ではうまく表現できないような問題も多数存在する。この点もしっかりと押さえておく必要がある。参考書で紹介されると、その方法が良いように感じるが、良い場合と悪い場合とある。<strong>ノーフリーランチ定理</strong>という有名な定理で述べられているが、すべての問題に対して、高性能なアルゴリズムは存在しない。そのため、どの手法に関しても一長一短があり、各問題に合わせて取捨選択をするる必要がある。重回帰分析は数式がシンプルで理解しやすく、計算量が少ないといったメリットを持つ反面、データ構造が複雑になっているケースに関しては、うまく適合できないといったデメリットがある。重回帰分析ではうまくいかないような場合の機械学習アルゴリズムは今後紹介していくので安心してほしい。それでは、まず重回帰分析からしっかり理解していきたい。</p>
+<p>重回帰分析のモデルでは、規則性を持っているため、きれいに書くことができる。例えば、</p>
+<div class="math notranslate nohighlight">
+\[y = \sum_{m=1}^{M} w_{m} x_{m} + b\]</div>
+<p>のように書くのはどうだろうか。このようにすっきりと書くことができるが、私はこの書き方があまり好きではない。線形代数で学んだ事項を使うと、もっとすっきりと直感的な式でかけるためである。</p>
+<p>まず、バイアス<span class="math notranslate nohighlight">\(b\)</span>がきれいな規則性に沿っていないため、この取り扱いについて考える。単回帰分析では、データの中心化によって、バイアス<span class="math notranslate nohighlight">\(b\)</span>を無視できように式変形を行ったが、前回はそれによって、求めるべきパラメータが<span class="math notranslate nohighlight">\(w\)</span>の１つだけになり、手計算の量が減るというメリットがあったが、今回<span class="math notranslate nohighlight">\(b\)</span>が省略できたところで、パラメータの数が<span class="math notranslate nohighlight">\(M+1\)</span>個から<span class="math notranslate nohighlight">\(M\)</span>個に減るだけでほとんどメリットがない。そこで、下記のように、バイアス<span class="math notranslate nohighlight">\(b\)</span>を<span class="math notranslate nohighlight">\(w\)</span>で表現して、同じ規則性で包含できるようにする。</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  y&amp;=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+b\\
+  &amp;=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+w_{0} x_{0}\\
+  &amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
+  \end{aligned}\end{split}\\ただし、\ :math:`x_{0}=1`,\end{aligned}\end{align} \]</div>
+<p><span class="math notranslate nohighlight">\(w_{0}=b\)</span>である。このようにバイアス<span class="math notranslate nohighlight">\(b\)</span>を包含するテクニックは機械学習を学ぶ上、そして本書でも何度も登場するため、しっかりと覚えてほしい。そして、この式を整理していくと、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+y&amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
+&amp;=\begin{bmatrix}
+w_{0} &amp; w_{1} &amp; \ldots  &amp; w_{n}
+\end{bmatrix}\begin{bmatrix}
+x_{0} \\
+x_{1} \\
+\vdots  \\
+x_{M}
+\end{bmatrix}\\
+&amp;=w^{T}x
+\end{aligned}\end{split}\]</div>
+<p>のように、線形結合で表される場合、ベクトルの内積で表現することができる。また、今後取り扱う際には、<span class="math notranslate nohighlight">\(x\)</span>が前に来ているほうが何かと便利なことから、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  y&amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
+  &amp;=\begin{bmatrix}
+  x_{0} &amp; x_{1} &amp; \ldots  &amp; x_{n}
+  \end{bmatrix}\begin{bmatrix}
+  w_{0} \\
+  w_{1} \\
+  \vdots  \\
+  w_{M}
+  \end{bmatrix}\\
+  &amp;=x^{T}w
+  \end{aligned}\end{split}\\として表すこともできる。今回はこちらで進めていく。\end{aligned}\end{align} \]</div>
+</div>
+<div class="section" id="Step2.-目的関数を決める">
+<span id="step2-1"></span><h3>2.2.3. Step2. 目的関数を決める<a class="headerlink" href="#Step2.-目的関数を決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>単回帰分析では、教師データ<span class="math notranslate nohighlight">\(t\)</span>と予測値<span class="math notranslate nohighlight">\(y\)</span>の二乗誤差を小さくできるほど、良い予測であると定義して、この総和を目的関数として定めた。さて、重回帰分析では、これと問題設定が変わるだろうか。単回帰分析でも重回帰分析でも、予測値<span class="math notranslate nohighlight">\(y\)</span>を求めるということは同じであるため、同じ目的関数で良い。そのため、</p>
+<div class="math notranslate nohighlight">
+\[\begin{aligned}
+L&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + \left( t_{N}-y_{N}\right)^{2}
+\end{aligned}\]</div>
+<p>のように、二乗誤差の総和を単回帰分析同様、目的関数として採用する。単回帰分析では、これを</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}=\sum^{N}_{n=1} ( t_{n} - y_{n})^{2}\]</div>
+<p>のように、総和の記号を使ってまとめていたが、ここでも線形代数で学んだテクニックを活かして、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+L&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + \left( t_{N}-y_{N}\right)^{2}\\
+&amp;=\begin{bmatrix} t_{1} - y_{1} &amp; t_{2}-y_{2} &amp; \ldots &amp; t_{N}-y_{N} \end{bmatrix} \begin{bmatrix}
+t_{1}-y_{1} \\
+t_{2}-y_{2} \\
+\vdots \\
+t_{N}-y_{N}
+\end{bmatrix}\\
+&amp;=\left( t-y\right)^{T}\left( t-y\right)
+\end{aligned}\end{split}\]</div>
+<p>のようにベクトルの内積で表現する。また、<span class="math notranslate nohighlight">\(y\)</span>に関して、Step3に入る前に式を整理しておくと、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+y=\begin{bmatrix}
+y_{1} \\
+y_{2} \\
+\vdots \\
+y_{N}
+\end{bmatrix}=\begin{bmatrix}
+x_{1}^{T}w \\
+x_{2}^{T}w \\
+\vdots  \\
+x_{N}^{T}w
+\end{bmatrix}
+=\begin{bmatrix}
+x_{1}^{T} \\
+x_{2}^{T} \\
+\vdots  \\
+x_{N}^{T}
+\end{bmatrix}
+w
+\end{aligned}\end{split}\]</div>
+<p>のように、書くことができ、中の構造の抽象度が高まりわかりにくくなってきたため一度分解すると、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+y&amp;=
+\begin{bmatrix}
+x_{10} &amp; x_{11} &amp; x_{12} &amp; \ldots  &amp; x_{1M} \\
+x_{20} &amp; x_{21} &amp; x_{22} &amp; \ldots  &amp; x_{2M} \\
+\vdots  &amp; \vdots  &amp; \ddots  &amp; \vdots  \\
+x_{N0} &amp; x_{N1} &amp; x_{N{2}} &amp; \ldots  &amp; x_{NM}
+\end{bmatrix}\begin{bmatrix}
+w_{1} \\
+w_{2} \\
+\vdots  \\
+w_{M}
+\end{bmatrix}\\
+\Rightarrow y&amp;=Xw
+\end{aligned}\end{split}\]</div>
+<p>となっている。ここで、行（横）方向がサンプルを表しており、例えば各物件に相当する。列（縦）方向が入力変数を表しており、例えば、部屋の広さ駅からの距離などが入っている。もう少し具体的な数値で考え、部屋の広さ50m<span class="math notranslate nohighlight">\(^{2}\)</span>で駅からの距離600m,
+犯罪発生率2%のような物件の場合、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  x^{T} = \begin{bmatrix}
+  1 &amp; 50 &amp; 600 &amp; \cdots &amp; 0.02
+  \end{bmatrix}\\のようにデータが行方向格納されているイメージである。先頭の :math:`1`\end{aligned}\end{align} \]</div>
+<p>はバイアスを包含する際に使用している<span class="math notranslate nohighlight">\(x_{0}\)</span>であることに注意されたい。</p>
+</div>
+<div class="section" id="Step3.-パラメータを最適化する">
+<h3>2.2.4. Step3. パラメータを最適化する<a class="headerlink" href="#Step3.-パラメータを最適化する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>それでは、Step1で定めたモデルのパラメータを、Step2で定めた目的関数を最小化するように決めていく。</p>
+<p>まずは目的関数に関して、パラメータ<span class="math notranslate nohighlight">\(w\)</span>で表現できるように式変形を行うと、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \mathcal{L}&amp;=\left( t-y\right)^{T}\left( t-y\right) \\
+  &amp;=\left( t-Xw\right)^{T}\left( t-Xw\right) \\
+  &amp;= \left\{ t^{T}-(Xw)^{T}\right\}\left( t-Xw\right) \\
+  &amp;=\left( t^{T}-w^{T}X^{T}\right)\left( t-Xw\right)
+  \end{aligned}\end{split}\\となり、転置の公式 :math:`(AB)^{T} = B^{T}A^{T}`\end{aligned}\end{align} \]</div>
+<p>を使っている。さらに分配法則を使って展開を進めていくと、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\mathcal{L}&amp;=t^{T}t-t^{T}Xw-w^{T}X^{T}t + w^{T}X^{T}Xw\\
+\end{aligned}\end{split}\]</div>
+<p>となる。ここに対して微分をしていくのも良いがさらにもう少し整理することができる。この整理には少しテクニックが必要である。</p>
+<div class="math notranslate nohighlight">
+\[(1)^T = 1\]</div>
+<p>というように、当然であるが、スカラーは転置しても同じであることがわかる。さて、上式の中で出てくる
+<span class="math notranslate nohighlight">\(t^{T}Xw\)</span>
+はスカラー・ベクトル・行列のどれに対応するであろうか。忘れた方はサイズ感のページで確認していただきたい。これはスカラーである。そのため、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  (t^{T}Xw)^{T} = t^{T}Xw\\が成り立つはずである。さらに、転置の公式 :math:`(ABC)^T = A^TB^TC^T`\end{aligned}\end{align} \]</div>
+<p>より、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  (t^{T}Xw)^T = w^{T} X^{T} t\\も成り立つ。これより、\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  (t^{T}Xw)^{T} = t^{T}Xw = w^{T} X^{T} t\\を導くことができ、目的関数が、\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\mathcal{L}=t^{T}t-2t^{T}Xw + w^{T}X^{T}Xw\\
+\end{aligned}\end{split}\]</div>
+<p>とまとめることができる。ここで、今回は<span class="math notranslate nohighlight">\(w\)</span>に関する偏微分を行っていくため、ひとまず<span class="math notranslate nohighlight">\(w\)</span>に以外の定数項をまとめると、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+L&amp;=t^{T}t-2t^{T}Xw+w^{T}X^{T}Xw\\
+&amp;=t^{T}t-2\left( X^{T}t\right)^{T} w+w^{T}X^{T}Xw \\
+&amp;=c+b^{T}w+w^{T}Aw
+\end{aligned}\end{split}\]</div>
+<p>のように、線形代数で学んだ<span class="math notranslate nohighlight">\(w\)</span>に関する二次関数となっており、<span class="math notranslate nohighlight">\(A= X^{T}X, \ b =-2 X^{T}t, \ c=t^{T}t\)</span>
+である。ここで、<span class="math notranslate nohighlight">\(b\)</span>
+を転置の形式にした理由は、線形代数で学んだベクトルで微分の公式の形式に合わせるためである。</p>
+<p>それでは、目的関数を最小化することができるパラメータ<span class="math notranslate nohighlight">\(w\)</span>の求め方を考える。先述の通り、目的関数はパラメータ<span class="math notranslate nohighlight">\(w\)</span>に関して二次関数である。例えば、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  w = \begin{bmatrix}
+  w_{1} \\ w_{2}
+  \end{bmatrix},
+  A=\begin{bmatrix}
+  1 &amp; 2 \\
+  3 &amp; 4
+  \end{bmatrix},b=\begin{bmatrix}
+  1 \\
+  2
+  \end{bmatrix},C=1
+  \end{aligned}\end{split}\\のように具体的な数値例で考えてみると、\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \mathcal{L} &amp;=
+  w^{T}Aw+b^{T}w+c\\
+  &amp;=
+  \begin{bmatrix}
+  w_{1} &amp; w_{2}
+  \end{bmatrix}\begin{bmatrix}
+  1 &amp; 2 \\
+  3 &amp; 4
+  \end{bmatrix}\begin{bmatrix}
+  w_{1} \\
+  w_{2}
+  \end{bmatrix}
+  +\begin{bmatrix}
+  1 &amp; 2
+  \end{bmatrix}\begin{bmatrix}
+  w_{1} \\
+  w_{2}
+  \end{bmatrix}+1\\
+  &amp;=
+  \begin{bmatrix}
+  w_{1} &amp; w_{2}
+  \end{bmatrix}
+  \begin{bmatrix}
+  w_{1}+2w_{2} \\
+  3w_{1}+4w_{2}
+  \end{bmatrix}+w_{1}+2w_{2}+1\\
+  &amp;=w_{1}\left( w_{1}+2w_{2}\right) +w_{1}\left( 3w_{1}+4w_{2}\right) +w _{1}+2w_{2}+1\\
+  &amp;=w^{2}_{1}+5w_{1}w_{2}+4w^{2}_{2}+w_{1}+2w_{2}+1 \\
+  \end{aligned}\end{split}\\となり、\ :math:`w_{1}, w_{2}`\ に関してそれぞれまとめると、\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\mathcal{L}
+&amp;=w^{2}_{1}+\left( 5w_{2}+1\right) w_{1} +
+\left( 4w^{2}_{2}+2w_{2}+1\right) \\
+&amp;=w^{2}_{2}+\left( 5w_{1}+2\right) w_{2}+\left( w^{2}_{1}+w_{1}+1\right) \end{aligned}\end{split}\]</div>
+<p>のようにそれぞれの二次関数であることがわかる。ただし、<span class="math notranslate nohighlight">\(w_{1}\)</span>と<span class="math notranslate nohighlight">\(w_{2}\)</span>が独立であるといった仮定もあるが、詳細な仮定は数式が複雑になるため、ひとまず置いておくとする。</p>
+<p>そして、二次関数であれば、このような形となることがわかる。</p>
+<p><img alt="image6" src="notebooks/C:/Users/ryosu/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/ml_statup/src/images/5/01.png" /></p>
+<p>これを3次元でイメージすると、下図のようになる。</p>
+<p><img alt="image7" src="notebooks/C:/Users/ryosu/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/ml_statup/src/images/5/02.png" /></p>
+<p>そして、各変数で微分して傾きが0となる位置において、目的関数である二乗誤差の総和が最小となる点である。</p>
+<p><img alt="image8" src="notebooks/C:/Users/ryosu/OneDrive/%E3%83%87%E3%82%B9%E3%82%AF%E3%83%88%E3%83%83%E3%83%97/ml_statup/src/images/5/03.png" /></p>
+<p>この例では、<span class="math notranslate nohighlight">\(w_{1}\)</span> と <span class="math notranslate nohighlight">\(w_{2}\)</span>
+の２つのパラメータの場合で考えたが、これは <span class="math notranslate nohighlight">\(w_{1}\)</span>, <span class="math notranslate nohighlight">\(w_{2}\)</span>,
+<span class="math notranslate nohighlight">\(\ldots\)</span>, <span class="math notranslate nohighlight">\(w_{M}\)</span>
+の場合でも同様に考えることができ、目的関数が最小となる点は</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{cases}
+  \dfrac {\partial }{\partial w_{0}}\mathcal{L}=0\\
+  \dfrac {\partial }{\partial w_{1}}\mathcal{L}=0\\
+  \ \ \ \ \ \vdots \\
+  \dfrac {\partial }{\partial w_{M}}\mathcal{L}=0\\
+  \end{cases}\end{split}\\となり、これをまとめると、\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\begin{bmatrix}
+\dfrac {\partial}{\partial w_{0}} \mathcal{L} \\
+\dfrac {\partial}{\partial w_{1}} \mathcal{L} \\
+\vdots  \\
+\dfrac {\partial}{\partial w_{M}} \mathcal{L} \\
+\end{bmatrix}&amp;=\begin{bmatrix}
+0 \\
+0 \\
+\vdots  \\
+0 \\
+\end{bmatrix} \\
+\Rightarrow \dfrac {\partial}{\partial w} \mathcal{L} &amp;= 0 \\
+\end{aligned}\end{split}\]</div>
+<p>のように表される。あとは、上式を満たすように<span class="math notranslate nohighlight">\(w\)</span>を決めていけばよい。下記の計算にはベクトルの微分をはじめとして、線形代数で学んだ内容をフル活用しているため、計算途中がわからなくなった場合は、線形代数の章を確認されたい。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dfrac {\partial }{\partial w}\mathcal{L} =\dfrac {\partial }{aw}\left( c+b^{T}w+w^{T}Aw\right) \\
+\Rightarrow \dfrac {\partial }{\partial u}\left( c\right) +\dfrac {\partial }{\partial w}\left( b^{T}w\right) +\dfrac {\partial }{\partial w}\left( w^{T}Aw\right)
+=0\\
+\Rightarrow 0+b+\left( A+A^{T}\right) w =0\\
+\Rightarrow -2X^{T}t+\left\{ X^{T}X^{T}\left( X^{T}X\right)^{T}\right\} w
+=0\\
+\Rightarrow -2X^{T}t+2X^{T}Xw=0\\
+\Rightarrow X^{T}Xw=X^{T}t\\
+\Rightarrow \left( X^{T}X\right)^{-1}X^{T}X w =\left( X^{T}X\right)^{-1}X^{T}t \\
+Iw=\left( X^{T}X\right)^{-1}X^{T}t \\
+w=\left( X^{T}X\right)^{-1}X^{T}t
+\end{aligned}\end{split}\]</div>
+<p>ここで、<span class="math notranslate nohighlight">\(I\)</span>は単位行列である。このように、最適なパラメータが与えられているデータセット
+<span class="math notranslate nohighlight">\(X, t\)</span>
+で求まることがわかる。また、式変形の際に気を付ける点として、</p>
+<div class="math notranslate nohighlight">
+\[w = \dfrac{X^{T}t}{X^{T}X}\]</div>
+<p>のような分数にはならない。これは行列の計算には割り算がないためである。そのため、逆行列を使って行列積のみで計算できるように工夫する。</p>
+<p>また、もうひとつよくある間違いとして、</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+X^{T}Xw&amp;=X^{T}t\\
+\Rightarrow \left( X^{T}\right) ^{-1}X^{T}Xw&amp;=\left( X^{T}\right) ^{-1}X^{T}t\\
+\Rightarrow Xw&amp;=t\\
+\Rightarrow X^{-1}Xw&amp;=X^{-1}t\\
+\Rightarrow w&amp;=X^{-1}t
+\end{aligned}\end{split}\]</div>
+<p>のように式変形できないのかといった意見もある。しかし、これは一般的には成立しない。その理由として、線形代数の章で説明した逆行列を持つための条件として、正方行列であることが満たされないためである。バイアス<span class="math notranslate nohighlight">\(b\)</span>を<span class="math notranslate nohighlight">\(w\)</span>に包含することを無視する場合
+<span class="math notranslate nohighlight">\(X \in \mathcal{R}^{N \times M}\)</span>
+であり、バイアスの包含を考慮する場合は
+<span class="math notranslate nohighlight">\(X \in \mathcal{R}^{N \times (M+1)}\)</span>
+である。一般的に、サンプル数<span class="math notranslate nohighlight">\(N\)</span>と入力変数の数<span class="math notranslate nohighlight">\(M\)</span>は等しくないため、<span class="math notranslate nohighlight">\(X\)</span>は正方行列ではなく、逆行列をもたない。それに対し、<span class="math notranslate nohighlight">\(X \in \mathcal{R}^{N \times M}\)</span>
+の場合、<span class="math notranslate nohighlight">\(X^{T}X \in \mathcal{R}^{M\times M}\)</span>
+となり、サンプル数に依存することなく、常に正方行列となるのである。ほかにも逆行列となるためには、さらに厳しい条件等もあるが、これも複雑になりすぎるため、後の章で説明することとする。</p>
+<p>推論の際は学習で得られたパラメータ<span class="math notranslate nohighlight">\(w\)</span>を用いて、</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  y = w^{T}x\\のように計算すれば良い。\end{aligned}\end{align} \]</div>
+</div>
+</div>
+<div class="section" id="Numpyによる実装">
+<h2>2.3. Numpyによる実装<a class="headerlink" href="#Numpyによる実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>それでは、重回帰分析の実装を行おう。PythonにはNumpyと呼ばれる線形代数を簡単に扱えるライブラリが存在し、これを使うことが標準となっている。次の章で紹介するChainerの中でもNumpyは多用されている。</p>
+<p>Pythonの文法に関しては把握していることを前提に進めている。具体的には、変数（数値・文字列、リスト、タプル、辞書）、制御構文（for、if）、関数、クラスを理解している必要がある。</p>
+<p>重回帰分析では、最終的に最適なパラメータ <span class="math notranslate nohighlight">\(w\)</span> が</p>
+<div class="math notranslate nohighlight">
+\[w=\left( X^{T}X\right)^{-1}X^{T}t\]</div>
+<p>で求まる。この最適なパラメータを求めるためには、以下の5つを扱える必要がある。</p>
+<ul class="simple">
+<li>ベクトルの定義</li>
+<li>行列の定義</li>
+<li>転置</li>
+<li>行列積</li>
+<li>逆行列</li>
+</ul>
+<p>具体的に、以下のようなデータセットが与えられているケースを想定してみましょう。</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}X =
+\begin{bmatrix}
+1 &amp; 2 &amp; 3 \\
+1 &amp; 2 &amp; 5 \\
+1 &amp; 3 &amp; 4 \\
+1 &amp; 5 &amp; 9
+\end{bmatrix}, \
+t =
+\begin{bmatrix}
+1 \\ 5 \\ 6 \\ 8
+\end{bmatrix}\end{split}\]</div>
+<p>それぞれの実装について、見ていきましょう。まずは、Numpyの読み込みから始めます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+<p>ベクトルの定義は以下のように行います。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">]])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[1]
+ [5]
+ [6]
+ [8]]
+</pre></div></div>
+</div>
+<p>つぎに、行列の定義も行いましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[1 2 3]
+ [1 2 5]
+ [1 3 4]
+ [1 5 9]]
+</pre></div></div>
+</div>
+<p>それで、Xの転置を行おう。Numpyの<code class="docutils literal notranslate"><span class="pre">array</span></code>で定義されている場合、<code class="docutils literal notranslate"><span class="pre">.T</span></code>をつけるだけで転置ができる。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[1 1 1 1]
+ [2 2 3 5]
+ [3 5 4 9]]
+</pre></div></div>
+</div>
+<p>縦と横が入れ替わっていることを確認できた。</p>
+<p>次に、行列積は以下のように <code class="docutils literal notranslate"><span class="pre">np.dot</span></code> によって実現できる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">XX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">XX</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[  4  12  21]
+ [ 12  42  73]
+ [ 21  73 131]]
+</pre></div></div>
+</div>
+<p>つぎに、この逆行列を求めるには、<code class="docutils literal notranslate"><span class="pre">np.linalg.inv</span></code> を用いる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">XX_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">XX</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">XX_inv</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[ 1.76530612 -0.39795918 -0.06122449]
+ [-0.39795918  0.84693878 -0.40816327]
+ [-0.06122449 -0.40816327  0.24489796]]
+</pre></div></div>
+</div>
+<p>これで重回帰分析のために必要な演算がそろった。最適なパラメータを求めると、</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Xt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">Xt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[ 20]
+ [ 70]
+ [124]]
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">XX_inv</span><span class="p">,</span> <span class="n">Xt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[-0.14285714]
+ [ 0.71428571]
+ [ 0.57142857]]
+</pre></div></div>
+</div>
+<p>このように求まる。Numpyを使うことで、数式とプログラミングの間にあったギャップを簡単に埋めることができるのである。</p>
+</div>
+<div class="section" id="Scikit-learnによる本格的な実装">
+<h2>2.4. Scikit-learnによる本格的な実装<a class="headerlink" href="#Scikit-learnによる本格的な実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>重回帰分析であればNumpyで簡単に実装することができたが、本格的に使用していくアルゴリズムは複雑なことが多く、初学者が一から書くには難しいことが多い。PythonではScikit-learnと呼ばれる機械学習用のフレームワークが公開されており、初学者でも簡単に扱うことができる。</p>
+<p>まずは重回帰分析をScikit-learnによって実装してみよう。</p>
+<div class="section" id="Scikit-learn基礎編">
+<h3>2.4.1. Scikit-learn基礎編<a class="headerlink" href="#Scikit-learn基礎編" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Scikit-learnは<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>という名前で呼び出すことができる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sklearn</span>
+</pre></div>
+</div>
+</div>
+<p>たとえば、重回帰分析を使用する場合は以下のように呼び出す。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LinearRegression</span>
+</pre></div>
+</div>
+</div>
+<p>これは<a class="reference external" href="http://scikit-learn.org/">公式のリファレンス</a>を見ながらどこに格納されているか調べても良いが、「重回帰分析
+Scikit-learn」と検索して、実例のソースコードを見るほうが早い場合が多い。</p>
+<p>アルゴリズムがクラスとして定義されており、まずはインスタンス化を行う。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>この一行で重回帰分析を使用するための準備が完了である。そして、パラメータの学習も以下のように行える。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[22]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+</pre></div>
+</div>
+</div>
+<p>最後にどのような結果が得られたかの検証も一行で行える。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[23]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.6923076923076926
+</pre></div>
+</div>
+</div>
+<p>回帰では<strong>決定係数</strong>と呼ばれる指標で、分類の場合は<strong>精度</strong>が自動的に計算されるようになっている。
+このように、非常に簡単なインターフェースでやり取りができるようになっている。Scikit-learnの良い点は最初にアルゴリズムを決めてしまえば、一からの実装が難しいアルゴリズムでも、<code class="docutils literal notranslate"><span class="pre">.fit</span></code>で学習、<code class="docutils literal notranslate"><span class="pre">.score</span></code>で検証が行える点である。</p>
+<p>また、アルゴリズムによって内容は多少異なるが、パラメータもインスタンス変数として格納されているため、学習後に確認することができる。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># パラメータw</span>
+<span class="n">model</span><span class="o">.</span><span class="n">coef_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[24]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([[0.        , 0.71428571, 0.57142857]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># バイアスb</span>
+<span class="n">model</span><span class="o">.</span><span class="n">intercept_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[26]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([-0.14285714])
+</pre></div>
+</div>
+</div>
+<p>この例からわかるように、Scikit-learnでは、パラメータとバイアスがそれぞれ準備されているため、入力変数<span class="math notranslate nohighlight">\(X\)</span>の左端の列に1を格納した変数を入れる必要がない。</p>
+</div>
+<div class="section" id="Scikit-learn応用編">
+<h3>2.4.2. Scikit-learn応用編<a class="headerlink" href="#Scikit-learn応用編" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Scikit-learnは機械学習の実装を支援する多くの機能を兼ね備えており、基礎編では紹介していなかったが、実務では必ず使う機能を紹介する。</p>
+<p>まず最初にサンプルのデータセットの取り扱いを紹介する。Scikit-learnには学び始めでテストするために、データセットがいくつか提供されている。今回は、この提供されているデータセットで話を進めていく。今回は<code class="docutils literal notranslate"><span class="pre">load_boston</span></code>というボストン近郊の家賃に関するデータセットである。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="k">import</span> <span class="n">load_boston</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">boston</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>変数の<code class="docutils literal notranslate"><span class="pre">boston</span></code>には辞書と同じ形式で格納されており、変数の中身を見ながら入力変数と教師データに対応するものを見つけていく。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[6.3200e-03 1.8000e+01 2.3100e+00 ... 1.5300e+01 3.9690e+02 4.9800e+00]
+ [2.7310e-02 0.0000e+00 7.0700e+00 ... 1.7800e+01 3.9690e+02 9.1400e+00]
+ [2.7290e-02 0.0000e+00 7.0700e+00 ... 1.7800e+01 3.9283e+02 4.0300e+00]
+ ...
+ [6.0760e-02 0.0000e+00 1.1930e+01 ... 2.1000e+01 3.9690e+02 5.6400e+00]
+ [1.0959e-01 0.0000e+00 1.1930e+01 ... 2.1000e+01 3.9345e+02 6.4800e+00]
+ [4.7410e-02 0.0000e+00 1.1930e+01 ... 2.1000e+01 3.9690e+02 7.8800e+00]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[24.  21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 15.  18.9 21.7 20.4
+ 18.2 19.9 23.1 17.5 20.2 18.2 13.6 19.6 15.2 14.5 15.6 13.9 16.6 14.8
+ 18.4 21.  12.7 14.5 13.2 13.1 13.5 18.9 20.  21.  24.7 30.8 34.9 26.6
+ 25.3 24.7 21.2 19.3 20.  16.6 14.4 19.4 19.7 20.5 25.  23.4 18.9 35.4
+ 24.7 31.6 23.3 19.6 18.7 16.  22.2 25.  33.  23.5 19.4 22.  17.4 20.9
+ 24.2 21.7 22.8 23.4 24.1 21.4 20.  20.8 21.2 20.3 28.  23.9 24.8 22.9
+ 23.9 26.6 22.5 22.2 23.6 28.7 22.6 22.  22.9 25.  20.6 28.4 21.4 38.7
+ 43.8 33.2 27.5 26.5 18.6 19.3 20.1 19.5 19.5 20.4 19.8 19.4 21.7 22.8
+ 18.8 18.7 18.5 18.3 21.2 19.2 20.4 19.3 22.  20.3 20.5 17.3 18.8 21.4
+ 15.7 16.2 18.  14.3 19.2 19.6 23.  18.4 15.6 18.1 17.4 17.1 13.3 17.8
+ 14.  14.4 13.4 15.6 11.8 13.8 15.6 14.6 17.8 15.4 21.5 19.6 15.3 19.4
+ 17.  15.6 13.1 41.3 24.3 23.3 27.  50.  50.  50.  22.7 25.  50.  23.8
+ 23.8 22.3 17.4 19.1 23.1 23.6 22.6 29.4 23.2 24.6 29.9 37.2 39.8 36.2
+ 37.9 32.5 26.4 29.6 50.  32.  29.8 34.9 37.  30.5 36.4 31.1 29.1 50.
+ 33.3 30.3 34.6 34.9 32.9 24.1 42.3 48.5 50.  22.6 24.4 22.5 24.4 20.
+ 21.7 19.3 22.4 28.1 23.7 25.  23.3 28.7 21.5 23.  26.7 21.7 27.5 30.1
+ 44.8 50.  37.6 31.6 46.7 31.5 24.3 31.7 41.7 48.3 29.  24.  25.1 31.5
+ 23.7 23.3 22.  20.1 22.2 23.7 17.6 18.5 24.3 20.5 24.5 26.2 24.4 24.8
+ 29.6 42.8 21.9 20.9 44.  50.  36.  30.1 33.8 43.1 48.8 31.  36.5 22.8
+ 30.7 50.  43.5 20.7 21.1 25.2 24.4 35.2 32.4 32.  33.2 33.1 29.1 35.1
+ 45.4 35.4 46.  50.  32.2 22.  20.1 23.2 22.3 24.8 28.5 37.3 27.9 23.9
+ 21.7 28.6 27.1 20.3 22.5 29.  24.8 22.  26.4 33.1 36.1 28.4 33.4 28.2
+ 22.8 20.3 16.1 22.1 19.4 21.6 23.8 16.2 17.8 19.8 23.1 21.  23.8 23.1
+ 20.4 18.5 25.  24.6 23.  22.2 19.3 22.6 19.8 17.1 19.4 22.2 20.7 21.1
+ 19.5 18.5 20.6 19.  18.7 32.7 16.5 23.9 31.2 17.5 17.2 23.1 24.5 26.6
+ 22.9 24.1 18.6 30.1 18.2 20.6 17.8 21.7 22.7 22.6 25.  19.9 20.8 16.8
+ 21.9 27.5 21.9 23.1 50.  50.  50.  50.  50.  13.8 13.8 15.  13.9 13.3
+ 13.1 10.2 10.4 10.9 11.3 12.3  8.8  7.2 10.5  7.4 10.2 11.5 15.1 23.2
+  9.7 13.8 12.7 13.1 12.5  8.5  5.   6.3  5.6  7.2 12.1  8.3  8.5  5.
+ 11.9 27.9 17.2 27.5 15.  17.2 17.9 16.3  7.   7.2  7.5 10.4  8.8  8.4
+ 16.7 14.2 20.8 13.4 11.7  8.3 10.2 10.9 11.   9.5 14.5 14.1 16.1 14.3
+ 11.7 13.4  9.6  8.7  8.4 12.8 10.5 17.1 18.4 15.4 10.8 11.8 14.9 12.6
+ 14.1 13.  13.4 15.2 16.1 17.8 14.9 14.1 12.7 13.5 14.9 20.  16.4 17.7
+ 19.5 20.2 21.4 19.9 19.  19.1 19.1 20.1 19.9 19.6 23.2 29.8 13.8 13.3
+ 16.7 12.  14.6 21.4 23.  23.7 25.  21.8 20.6 21.2 19.1 20.6 15.2  7.
+  8.1 13.6 20.1 21.8 24.5 23.1 19.7 18.3 21.2 17.5 16.8 22.4 20.6 23.9
+ 22.  11.9]
+</pre></div></div>
+</div>
+<p>Numpyの形式で入力変数と教師データが格納されており、<code class="docutils literal notranslate"><span class="pre">.shape</span></code>を使うことで行と列の数を確認できる。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[79]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(506, 13)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">t</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[80]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(506,)
+</pre></div>
+</div>
+</div>
+<p>つぎに、訓練データと検証データの分割である。先ほどは、すべてのデータを訓練に使って、すべてのデータを検証に使った。しかし、応用を考えた場合、これで良いだろうか。たとえば、受験勉強のために10年分の過去問を購入した場合、10年分を使って勉強して、実力試し用にまた同じ10年分を使うだろうか。そうではなく、例えば7年分を勉強用に使って、残りの3年分を実力試し用に置いておくはずである。機械学習もこの考え方と全く同じで、勉強用を訓練データ、実力試しを検証データとして分けて用いる。このように分割して検証することを<strong>ホールドアウト法</strong>という。</p>
+<p>Scikit-learnではもちろんこの訓練用と検証用を分割する機能が準備されている。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">t_train</span><span class="p">,</span> <span class="n">t_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[83]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(354, 13)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[84]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(152, 13)
+</pre></div>
+</div>
+</div>
+<p>引数の<code class="docutils literal notranslate"><span class="pre">test_size</span></code>は検証用に使うデータの比率であり、0.3と指定すると全体の30%が検証データとなる。また、<code class="docutils literal notranslate"><span class="pre">random_state</span></code>は乱数のシードであり、再現性を確保するためのものである。なぜ乱数が登場するかというと、前から70%を訓練用、残りを検証用とするのではなく、全体からランダムに選択した70%を訓練用、残り30%を検証用と並びにかかわらず選択できるようになっているためである。</p>
+<p>そして、パラメータの学習には訓練データを用いる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [85]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [86]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[86]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+</pre></div>
+</div>
+</div>
+<p>検証を行う場合は、訓練データと検証データの両方に対してチェックしておくと良い。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [87]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 訓練データ</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[87]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.7644563391821222
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [88]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証データ</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[88]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.673528086534723
+</pre></div>
+</div>
+</div>
+<p>検証データだけでなく、訓練データでも検証することに意味はある。
+実務を行うときには、以下のような結果のどれかが得られる。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">訓練データ</th>
+<th class="head">検証データ</th>
+<th class="head">結果</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>×</td>
+<td>×</td>
+<td>アンダーフィッティング</td>
+</tr>
+<tr class="row-odd"><td>〇</td>
+<td>×</td>
+<td>オーバーフィッティング</td>
+</tr>
+<tr class="row-even"><td>〇</td>
+<td>〇</td>
+<td>ＯＫ</td>
+</tr>
+</tbody>
+</table>
+<p>訓練データに対して悪く、検証データで良好な結果が得られている場合はたまたまであり、再現性が低いため考えていない。</p>
+<p><strong>アンダーフィッティング</strong>の場合は、現状の機械学習アルゴリズムでうまくデータの特徴を捉えられていないと考えられ、アルゴリズムを変更したり、入力となるデータの特徴を表せるような変換を考える。逆に<strong>オーバーフィッティング</strong>の時は、そのアルゴリズムで特徴を捉えられていることはわかっているため、<strong>ハイパーパラメータ</strong>と呼ばれる各アルゴリズムに固有の値を調整していくことで解決できることがある。このハイパーパラメータの調整は後述するが、望ましい結果が得られない中にも、それぞれの状況を把握し、次に打つべき対策が変わってくるため、訓練データと検証データの両方に対する検証を行うことは重要である。</p>
+<p>また、Scikit-learnでは、スケーリングも行うことができる。例えば、平均0、標準偏差1に変換するデータの正規化を行う場合は以下のようになる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [89]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [90]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># インスタンス化</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [91]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 平均の分散（標準偏差）を学習</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[91]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>StandardScaler(copy=True, with_mean=True, with_std=True)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [92]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 変換</span>
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [93]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[-0.20416267 -0.49997924  1.54801583 ...  1.2272573   0.42454294
+   3.10807269]
+ [-0.38584317  0.34677427 -0.58974728 ...  0.05696346  0.40185312
+  -0.66643035]
+ [-0.33266283 -0.49997924  1.54801583 ...  1.2272573   0.39846135
+   0.63936662]
+ ...
+ [-0.38147768 -0.49997924 -0.15303077 ... -0.30312696  0.39659002
+  -0.30284441]
+ [-0.3720831  -0.49997924 -0.59690657 ... -0.25811566  0.37588849
+   0.89967717]
+ [-0.38289844 -0.49997924 -1.00641779 ... -0.84326258  0.42454294
+   0.31822262]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [94]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[-0.39152624 -0.49997924 -1.12239824 ... -0.70822867  0.17086147
+  -0.72160487]
+ [ 0.70825498 -0.49997924  1.00534187 ...  0.77714428  0.0648977
+  -0.41177872]
+ [-0.38588517 -0.49997924  0.4025299  ... -0.93328518  0.38758427
+  -0.27454978]
+ ...
+ [ 1.6177735  -0.49997924  1.00534187 ...  0.77714428  0.42454294
+   2.59876943]
+ [-0.34043865 -0.49997924 -0.1687812  ... -0.03305915  0.42454294
+  -1.11772962]
+ [-0.39601293 -0.49997924 -1.27417512 ...  0.10197476  0.39202867
+  -1.02294263]]
+</pre></div></div>
+</div>
+</div>
+</div>
+<div class="section" id="実用的な機械学習アルゴリズムの紹介">
+<h2>2.5. 実用的な機械学習アルゴリズムの紹介<a class="headerlink" href="#実用的な機械学習アルゴリズムの紹介" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これまでは重回帰分析の紹介にとどまっていたが、ここからは実務でもよく用いられる機械学習アルゴリズムについて特徴とともに紹介していく。数式を詳細に紹介していくと長くなりすぎてしまうため、気になったアルゴリズムがあれば、参考図書を見て学びを深めてほしい。</p>
+<p>Scikit-learnを使うことによって実装は非常に手軽に行うことができるが、数式を理解していないがゆえに、うまくいかないときの対処法がわからないという問題がある。この問題につまずかないように、実務でチューニングを行うハイパーパラメータとその探索する値の相場も併せて紹介する。</p>
+<div class="section" id="Support-Vector-Machine-(SVM)">
+<h3>2.5.1. Support Vector Machine (SVM)<a class="headerlink" href="#Support-Vector-Machine-(SVM)" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>SVMは実用的によく使われる手法の一つであり、入出力間の非線形性も捉えることができる。<span class="math notranslate nohighlight">\(y=x^2\)</span>
+や <span class="math notranslate nohighlight">\(y = \sin(x)\)</span> のように、<span class="math notranslate nohighlight">\(y=wx + b\)</span>
+の直線ではないモデル化を行うことができる。ただし、非線形なモデルの定式化は非常に難しい。なぜなら、<span class="math notranslate nohighlight">\(y=wx^2\)</span>
+が良いのか、<span class="math notranslate nohighlight">\(y=w\sin(x)\)</span>
+が良いのか、それともその重ね合わせが良いのかと組み合わせの候補が無限に存在するためである。物理現象に基づいて入出力間の関係性が把握できていれば定式化のアイディアも存在するが、そのような事前知識がある場合は多くない。そこで、SVMでは<strong>カーネルトリック</strong>と呼ばれるテクニックを駆使して、入出力間の関係性が非線形な場合の定式化も可能にしている。この数学は非常に興味深いが、難易度が高いため、ある程度機械学習の数学に慣れてから取り組んでほしい。</p>
+<p>SVMには連続値を予測する<strong>回帰 (Regression)</strong>
+とカテゴリを予測する<strong>分類 (Classification)</strong>
+の両方に対応した手法を持っている。それぞれ、Support Vector Regression
+(SVR) と Support Vector Classification (SVC)
+と呼ぶ。まずは回帰の問題設定で紹介していき、前回のボストン近郊の家賃の予測の例題を取り扱う。</p>
+<div class="section" id="Support-Vector-Regression-(SVR)">
+<h4>2.5.1.1. Support Vector Regression (SVR)<a class="headerlink" href="#Support-Vector-Regression-(SVR)" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [103]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># データの準備</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="k">import</span> <span class="n">load_boston</span>
+
+<span class="n">boston</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [104]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 訓練と検証データの分割</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">t_train</span><span class="p">,</span> <span class="n">t_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [105]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># モデルのインスタンス化、学習</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVR</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">SVR</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[105]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=&#39;auto&#39;,
+  kernel=&#39;rbf&#39;, max_iter=-1, shrinking=True, tol=0.001, verbose=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [106]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[106]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.14680479454958428
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [107]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[107]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.01018093344367077
+</pre></div>
+</div>
+</div>
+<p>このように数式は非常に難しいとされるSVRでも、重回帰分析のケースとほとんど同じように実装できる。</p>
+<p>ここで、結果に着目すると、訓練データに対しても検証データに対しても良い結果が得られているとは言い難い。
+話題に上がっていたハイパーパラメータを調整すれば良くなるのか、それともSVRではそもそもダメなのかと迷うところである。
+実はハイパーパラメータの調整の前に、スケーリングを行うことで改善ができることが多い。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [109]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [110]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># スケーリング後のデータを使って学習</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[110]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=&#39;auto&#39;,
+  kernel=&#39;rbf&#39;, max_iter=-1, shrinking=True, tol=0.001, verbose=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [111]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[111]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.697669153907031
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [112]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[112]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.5540391127752358
+</pre></div>
+</div>
+</div>
+<p>このように、大幅に結果を改善することができた。理由は数式を理解しておかないと説明が難しいが、スケーリングの影響を大きく受けるアルゴリズムと受けないアルゴリズムがあり、SVRを含むSVMは影響を受けるアルゴリズムである。</p>
+<p>最後に、さらに精度を高められないかとハイパーパラメータの調整を行う。ハイパーパラメータの調整を行うときにはひとつ注意すべき点がある。訓練データ（train）はパラメータの調整に用いるが、検証データ（test）を見ながらハイパーパラーメータの調整を行うべきだろうか。検証データはあくまで未知の状態に対する推論能力の検証を行うためのものであるため、ハイパーパラメータの調整に使用してしまうとそれは学習に使ってしまうことになる。</p>
+<p>そこで、ハイパーパラメータの調整用にバリデーションデータ
+（val）を追加することが一般的である。</p>
+<p><img alt="image0" src="../_images/01.png" /></p>
+<p>また、このバリデーションデータの追加と一緒に導入されるものとして、<strong>交差検証法（クロスバリデーション）</strong>がある。話の始まりとしては、trainとtestを分けた時点で学習に使えるサンプル数が少なくなってしまっている中、さらにvalも分けると学習に使えるサンプル数がさらに減ってしまう。そうなると、valのサンプル数を少なくしたいが、バリデーションに使うサンプル数が少ないと、たまたまうまくいっているのか、どのサンプルに対してもうまくいくのかがわからなくなる。そこで、下図に示すような交差検証法が用いられる。</p>
+<p><img alt="image1" src="../_images/02.png" /></p>
+<p>trainとvalの分割を1パターンだけでなく、複数パターン分けて行い、その平均をとる方法である。この分割数
+<span class="math notranslate nohighlight">\(K\)</span> として、K-fold Cross Validation
+(CV)と呼ばれることが多いため、この名称も覚えてほしい。上記の例だと
+<span class="math notranslate nohighlight">\(K=3\)</span> である。</p>
+<p>それでは、SVRのハイパーパラメータ調整を交差検証法も使いながら行う。Scikit-learnではハイパーパラメータ調整のための機能も<code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>という名前で準備されている。グリッドサーチとは各組合せをすべて試す探索方法である。それ以外の方法として、ランダムサーチとベイズ最適化による探索があるが、ここは余裕がでてきた段階でさらに深める内容のひとつとしてほしい。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [120]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [121]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 調整を行うハイパーパラメータの値の候補</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [122]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 交差検証法を使用したハイパーパラメータの各組合せでの学習</span>
+<span class="n">model_cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">SVR</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[122]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
+       estimator=SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=&#39;auto&#39;,
+  kernel=&#39;rbf&#39;, max_iter=-1, shrinking=True, tol=0.001, verbose=False),
+       fit_params=None, iid=True, n_jobs=1,
+       param_grid=[{&#39;C&#39;: [1, 10, 100], &#39;gamma&#39;: [0.01, 0.1, 1, 10]}],
+       pre_dispatch=&#39;2*n_jobs&#39;, refit=True, return_train_score=&#39;warn&#39;,
+       scoring=&#39;neg_mean_squared_error&#39;, verbose=0)
+</pre></div>
+</div>
+</div>
+<p>交差検証法とハイパーパラメータのグリッドサーチもこれだけで完了である。各ハイパーパラメータでの結果ももちろん確認することができ、最も結果の良かったハイパーパラメータの値を引き継いだモデルの選択もできる。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [126]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 結果の確認 (valの対する結果)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">grid_scores_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:762: DeprecationWarning: The grid_scores_ attribute was deprecated in version 0.18 in favor of the more elaborate cv_results_ attribute. The grid_scores_ attribute will not be available from 0.20
+  DeprecationWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[126]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[mean: -40.88957, std: 12.03388, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 0.01},
+ mean: -34.94548, std: 12.18057, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 0.1},
+ mean: -72.62060, std: 15.99632, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 1},
+ mean: -86.25200, std: 16.38372, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 10},
+ mean: -17.67763, std: 6.48783, params: {&#39;C&#39;: 10, &#39;gamma&#39;: 0.01},
+ mean: -16.46703, std: 7.03969, params: {&#39;C&#39;: 10, &#39;gamma&#39;: 0.1},
+ mean: -43.71719, std: 13.22953, params: {&#39;C&#39;: 10, &#39;gamma&#39;: 1},
+ mean: -81.13324, std: 15.21847, params: {&#39;C&#39;: 10, &#39;gamma&#39;: 10},
+ mean: -13.83363, std: 3.54540, params: {&#39;C&#39;: 100, &#39;gamma&#39;: 0.01},
+ mean: -14.61609, std: 7.20850, params: {&#39;C&#39;: 100, &#39;gamma&#39;: 0.1},
+ mean: -37.47299, std: 9.87515, params: {&#39;C&#39;: 100, &#39;gamma&#39;: 1},
+ mean: -77.95797, std: 12.36436, params: {&#39;C&#39;: 100, &#39;gamma&#39;: 10}]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [161]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータ</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[161]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>{&#39;C&#39;: 10, &#39;gamma&#39;: 0.01}
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [129]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータの値を設定したモデル</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model_cv</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [130]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[130]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.7685336670918761
+</pre></div>
+</div>
+</div>
+<p>ここまでがアルゴリズムの調整である。実際には特徴量の選択や外れ値除去など前処理も込みで行うため、ここまでシンプルに完了できるものではないが、まずはこの流れを覚えていただきたい。</p>
+<ol class="arabic simple">
+<li>スケーリング無　score:0.010</li>
+<li>スケーリング有　score:0.554</li>
+<li>スケーリング＋ハイパーパラメータの調整有　0.7685</li>
+</ol>
+</div>
+<div class="section" id="Support-Vector-Classification-(SVC)">
+<h4>2.5.1.2. Support Vector Classification (SVC)<a class="headerlink" href="#Support-Vector-Classification-(SVC)" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>次に、SVMの分類であるSVCも同様にスケーリングからハイパーパラメータの調整まで行う。分類の例題では、乳がんの患者か否かといったこれもScikit-learn側で準備されているデータセットを使用する。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [134]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># データセットの準備</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="k">import</span> <span class="n">load_breast_cancer</span>
+
+<span class="n">breast_cancer</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">breast_cancer</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">breast_cancer</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [137]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[137]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(569, 30)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [135]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[1.799e+01 1.038e+01 1.228e+02 ... 2.654e-01 4.601e-01 1.189e-01]
+ [2.057e+01 1.777e+01 1.329e+02 ... 1.860e-01 2.750e-01 8.902e-02]
+ [1.969e+01 2.125e+01 1.300e+02 ... 2.430e-01 3.613e-01 8.758e-02]
+ ...
+ [1.660e+01 2.808e+01 1.083e+02 ... 1.418e-01 2.218e-01 7.820e-02]
+ [2.060e+01 2.933e+01 1.401e+02 ... 2.650e-01 4.087e-01 1.240e-01]
+ [7.760e+00 2.454e+01 4.792e+01 ... 0.000e+00 2.871e-01 7.039e-02]]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [136]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 1 0 0 0 0 0 0 0 0 1 0 1 1 1 1 1 0 0 1 0 0 1 1 1 1 0 1 0 0 1 1 1 1 0 1 0 0
+ 1 0 1 0 0 1 1 1 0 0 1 0 0 0 1 1 1 0 1 1 0 0 1 1 1 0 0 1 1 1 1 0 1 1 0 1 1
+ 1 1 1 1 1 1 0 0 0 1 0 0 1 1 1 0 0 1 0 1 0 0 1 0 0 1 1 0 1 1 0 1 1 1 1 0 1
+ 1 1 1 1 1 1 1 1 0 1 1 1 1 0 0 1 0 1 1 0 0 1 1 0 0 1 1 1 1 0 1 1 0 0 0 1 0
+ 1 0 1 1 1 0 1 1 0 0 1 0 0 0 0 1 0 0 0 1 0 1 0 1 1 0 1 0 0 0 0 1 1 0 0 1 1
+ 1 0 1 1 1 1 1 0 0 1 1 0 1 1 0 0 1 0 1 1 1 1 0 1 1 1 1 1 0 1 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 1 0 1 1 0 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 0 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0 1 0 1 1 1 1 0 0 0 1 1
+ 1 1 0 1 0 1 0 1 1 1 0 1 1 1 1 1 1 1 0 0 0 1 1 1 1 1 1 1 1 1 1 1 0 0 1 0 0
+ 0 1 0 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 0 1 1 0 0 1 1 1 1 1 1 0 1 1 1 1 1 1
+ 1 0 1 1 1 1 1 0 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 1 0 1 1 1 1 1 0 1 1
+ 0 1 0 1 1 0 1 0 1 1 1 1 1 1 1 1 0 0 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0 1
+ 1 1 1 1 1 1 0 1 0 1 1 0 1 1 1 1 1 0 0 1 0 1 0 1 1 1 1 1 0 1 1 0 1 0 1 0 0
+ 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 0 0 0 0 0 0 1]
+</pre></div></div>
+</div>
+<p>上記からわかるように、入力変数のスケールは統一されていないことがわかる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [138]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 訓練データと検証データに分割</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">t_train</span><span class="p">,</span> <span class="n">t_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [139]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># スケーリング無で学習</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVC</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[139]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;auto&#39;, kernel=&#39;rbf&#39;,
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [140]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[140]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>1.0
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [141]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[141]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.631578947368421
+</pre></div>
+</div>
+</div>
+<p>分類では精度 (Accuracy)
+と呼ばれる指標の結果が得られる。例えば、100問中3問間違えると、Accuracyは0.97となる。</p>
+<p>次にスケーリングを行った後に学習させる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [144]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># スケーリング</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span>  <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [148]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># スケーリングしたデータを用いて学習</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[148]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;auto&#39;, kernel=&#39;rbf&#39;,
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [149]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[149]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9824120603015075
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [150]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[150]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9766081871345029
+</pre></div>
+</div>
+</div>
+<p>このように精度が大幅に高まったことがわかる。最後にハイパーパラメータのチューニングを行う。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [151]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [152]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 調整を行うハイパーパラメータの値の候補</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [156]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 交差検証法を使用したハイパーパラメータの各組合せでの学習</span>
+<span class="n">model_cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">SVC</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[156]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
+       estimator=SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;auto&#39;, kernel=&#39;rbf&#39;,
+  max_iter=-1, probability=False, random_state=None, shrinking=True,
+  tol=0.001, verbose=False),
+       fit_params=None, iid=True, n_jobs=1,
+       param_grid=[{&#39;C&#39;: [1, 10, 100], &#39;gamma&#39;: [0.01, 0.1, 1, 10]}],
+       pre_dispatch=&#39;2*n_jobs&#39;, refit=True, return_train_score=&#39;warn&#39;,
+       scoring=None, verbose=0)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [157]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 結果の確認 (valの対する結果)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">grid_scores_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:762: DeprecationWarning: The grid_scores_ attribute was deprecated in version 0.18 in favor of the more elaborate cv_results_ attribute. The grid_scores_ attribute will not be available from 0.20
+  DeprecationWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[157]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[mean: 0.96482, std: 0.01272, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 0.01},
+ mean: 0.95226, std: 0.01543, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 0.1},
+ mean: 0.62814, std: 0.00310, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 1},
+ mean: 0.62563, std: 0.00223, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 10},
+ mean: 0.97487, std: 0.01972, params: {&#39;C&#39;: 10, &#39;gamma&#39;: 0.01},
+ mean: 0.94472, std: 0.02474, params: {&#39;C&#39;: 10, &#39;gamma&#39;: 0.1},
+ mean: 0.63065, std: 0.00132, params: {&#39;C&#39;: 10, &#39;gamma&#39;: 1},
+ mean: 0.62563, std: 0.00223, params: {&#39;C&#39;: 10, &#39;gamma&#39;: 10},
+ mean: 0.94975, std: 0.01981, params: {&#39;C&#39;: 100, &#39;gamma&#39;: 0.01},
+ mean: 0.94472, std: 0.02474, params: {&#39;C&#39;: 100, &#39;gamma&#39;: 0.1},
+ mean: 0.63065, std: 0.00132, params: {&#39;C&#39;: 100, &#39;gamma&#39;: 1},
+ mean: 0.62563, std: 0.00223, params: {&#39;C&#39;: 100, &#39;gamma&#39;: 10}]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [162]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータ</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[162]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>{&#39;C&#39;: 10, &#39;gamma&#39;: 0.01}
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [163]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータの値を設定したモデル</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model_cv</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [164]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[164]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9883040935672515
+</pre></div>
+</div>
+</div>
+<p>ハイパーパラメータの調整により、多少であるが改善することができた。</p>
+</div>
+</div>
+<div class="section" id="Random-Forest">
+<h3>2.5.2. Random Forest<a class="headerlink" href="#Random-Forest" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>つぎに、決定木 (Dicision Tree)
+のアンサンブル学習であるランダムフォレストを紹介する。こちらも実用上良く使われる手法である。ランダムフォレスト含めた決定木系の手法では入力変数のスケールの違いによる影響はほとんど受けない。また、<strong>カテゴリカル変数</strong>と呼ばれる定量評価を行うことが難しい変数（例えば、男性
+or
+女性）も定量化を気にすることなく扱うことができるメリットがある。回帰と分類と両方準備されているため、それぞれについて紹介する。</p>
+<div class="section" id="回帰-(Regression)">
+<h4>2.5.2.1. 回帰 (Regression)<a class="headerlink" href="#回帰-(Regression)" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [214]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># データの準備</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="k">import</span> <span class="n">load_boston</span>
+
+<span class="n">boston</span> <span class="o">=</span> <span class="n">load_boston</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [215]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 訓練と検証データの分割</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">t_train</span><span class="p">,</span> <span class="n">t_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [216]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># モデルのインスタンス化、学習</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[216]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=None,
+           max_features=&#39;auto&#39;, max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+           oob_score=False, random_state=None, verbose=0, warm_start=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [217]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[217]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9683509759630142
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [218]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[218]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.8244110898822086
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [219]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [220]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># スケーリング後のデータを使って学習</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[220]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=None,
+           max_features=&#39;auto&#39;, max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+           oob_score=False, random_state=None, verbose=0, warm_start=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [221]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[221]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.980773304078463
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [222]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[222]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.7568763837538154
+</pre></div>
+</div>
+</div>
+<p>このように、スケーリングによる影響はほとんどないことが経験的にもわかる。
+また、Random
+Forest含めた決定木系の手法では、まずは条件分岐させる数である
+<code class="docutils literal notranslate"><span class="pre">max_depth</span></code> をハイパーパラメータとして調整することが多い。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [223]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [224]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 調整を行うハイパーパラメータの値の候補</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [225]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 交差検証法を使用したハイパーパラメータの各組合せでの学習</span>
+<span class="n">model_cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">RandomForestRegressor</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_squared_error&#39;</span><span class="p">)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[225]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
+       estimator=RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=None,
+           max_features=&#39;auto&#39;, max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+           oob_score=False, random_state=None, verbose=0, warm_start=False),
+       fit_params=None, iid=True, n_jobs=1,
+       param_grid=[{&#39;max_depth&#39;: [1, 2, 3, 4, 5, 6]}],
+       pre_dispatch=&#39;2*n_jobs&#39;, refit=True, return_train_score=&#39;warn&#39;,
+       scoring=&#39;neg_mean_squared_error&#39;, verbose=0)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [226]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 結果の確認 (valの対する結果)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">grid_scores_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:762: DeprecationWarning: The grid_scores_ attribute was deprecated in version 0.18 in favor of the more elaborate cv_results_ attribute. The grid_scores_ attribute will not be available from 0.20
+  DeprecationWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[226]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[mean: -41.89307, std: 9.40057, params: {&#39;max_depth&#39;: 1},
+ mean: -25.95305, std: 8.05238, params: {&#39;max_depth&#39;: 2},
+ mean: -23.11041, std: 4.68079, params: {&#39;max_depth&#39;: 3},
+ mean: -17.92487, std: 4.42161, params: {&#39;max_depth&#39;: 4},
+ mean: -19.30415, std: 7.51230, params: {&#39;max_depth&#39;: 5},
+ mean: -17.16534, std: 8.32303, params: {&#39;max_depth&#39;: 6}]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [227]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータ</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[227]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>{&#39;max_depth&#39;: 6}
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [228]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータの値を設定したモデル</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model_cv</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [229]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[229]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.8065343207878718
+</pre></div>
+</div>
+</div>
+<p>今回はもともとオーバーフィッティングしていなかったため、ハイパーパラメータの調整によって改善することはなかったが、もちろんオーバーフィッティングしているケースには有効な施策である。</p>
+<p>またランダムフォレストを含めた決定木系の手法の大きなメリットとして、各入力変数がどの程度重要であるかを定量評価した値が得られる。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [230]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 各入力変数の重要度</span>
+<span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[230]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([0.03498355, 0.00122218, 0.00721576, 0.00092089, 0.00898805,
+       0.39898526, 0.01894469, 0.04598164, 0.00571163, 0.01607173,
+       0.01889314, 0.00701622, 0.43506524])
+</pre></div>
+</div>
+</div>
+<p>重要度の総和が1になっており、この値を使って考察したり説明できるため、実務でよく見るポイントの一つである。</p>
+</div>
+<div class="section" id="分類-(Classification)">
+<h4>2.5.2.2. 分類 (Classification)<a class="headerlink" href="#分類-(Classification)" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [231]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># データの準備</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="k">import</span> <span class="n">load_boston</span>
+
+<span class="n">breast_cancer</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">breast_cancer</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">breast_cancer</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [232]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 訓練と検証データの分割</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">t_train</span><span class="p">,</span> <span class="n">t_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [233]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># モデルのインスタンス化、学習</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[233]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>RandomForestClassifier(bootstrap=True, class_weight=None, criterion=&#39;gini&#39;,
+            max_depth=None, max_features=&#39;auto&#39;, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [234]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[234]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9949748743718593
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [235]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[235]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9415204678362573
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [236]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [237]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># スケーリング後のデータを使って学習</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[237]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>RandomForestClassifier(bootstrap=True, class_weight=None, criterion=&#39;gini&#39;,
+            max_depth=None, max_features=&#39;auto&#39;, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [238]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[238]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>1.0
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [239]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[239]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9473684210526315
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [240]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [241]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 調整を行うハイパーパラメータの値の候補</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [242]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 交差検証法を使用したハイパーパラメータの各組合せでの学習</span>
+<span class="n">model_cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[242]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
+       estimator=RandomForestClassifier(bootstrap=True, class_weight=None, criterion=&#39;gini&#39;,
+            max_depth=None, max_features=&#39;auto&#39;, max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False),
+       fit_params=None, iid=True, n_jobs=1,
+       param_grid=[{&#39;max_depth&#39;: [1, 2, 3, 4, 5, 6]}],
+       pre_dispatch=&#39;2*n_jobs&#39;, refit=True, return_train_score=&#39;warn&#39;,
+       scoring=None, verbose=0)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [243]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 結果の確認 (valの対する結果)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">grid_scores_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:762: DeprecationWarning: The grid_scores_ attribute was deprecated in version 0.18 in favor of the more elaborate cv_results_ attribute. The grid_scores_ attribute will not be available from 0.20
+  DeprecationWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[243]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[mean: 0.91206, std: 0.01259, params: {&#39;max_depth&#39;: 1},
+ mean: 0.93467, std: 0.01763, params: {&#39;max_depth&#39;: 2},
+ mean: 0.93467, std: 0.01265, params: {&#39;max_depth&#39;: 3},
+ mean: 0.95226, std: 0.01543, params: {&#39;max_depth&#39;: 4},
+ mean: 0.93970, std: 0.02119, params: {&#39;max_depth&#39;: 5},
+ mean: 0.93970, std: 0.01632, params: {&#39;max_depth&#39;: 6}]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [244]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータ</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[244]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>{&#39;max_depth&#39;: 4}
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [245]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータの値を設定したモデル</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model_cv</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [246]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[246]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9590643274853801
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [247]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 各入力変数の重要度</span>
+<span class="n">model</span><span class="o">.</span><span class="n">feature_importances_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[247]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([4.55728165e-03, 4.80674523e-03, 7.04751333e-02, 6.67175039e-02,
+       0.00000000e+00, 6.38391868e-03, 1.44783793e-01, 2.56851226e-02,
+       1.01592678e-03, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+       7.17633429e-03, 3.57428435e-02, 5.48903143e-05, 7.63635594e-03,
+       8.65354259e-03, 3.50041088e-03, 4.29368206e-03, 4.42019691e-03,
+       8.32478506e-02, 1.93259510e-02, 1.79759936e-01, 8.96864960e-02,
+       4.76915506e-03, 2.20744844e-02, 6.78042092e-02, 1.24987366e-01,
+       4.10480850e-03, 8.33606129e-03])
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="ロジスティック回帰">
+<h3>2.5.3. ロジスティック回帰<a class="headerlink" href="#ロジスティック回帰" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>シンプルであるが良く使われる手法のひとつである。回帰という名前がついているが、問題設定としては分類に使用する点に注意されたい。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [273]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># データの準備</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="k">import</span> <span class="n">load_boston</span>
+
+<span class="n">breast_cancer</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">breast_cancer</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">breast_cancer</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [274]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 訓練と検証データの分割</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">t_train</span><span class="p">,</span> <span class="n">t_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [278]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># モデルのインスタンス化、学習</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LogisticRegression</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[278]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class=&#39;ovr&#39;, n_jobs=1,
+          penalty=&#39;l2&#39;, random_state=None, solver=&#39;liblinear&#39;, tol=0.0001,
+          verbose=0, warm_start=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [279]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[279]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.957286432160804
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [280]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[280]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9649122807017544
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [281]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="n">X_train_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_s</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [282]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># スケーリング後のデータを使って学習</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[282]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class=&#39;ovr&#39;, n_jobs=1,
+          penalty=&#39;l2&#39;, random_state=None, solver=&#39;liblinear&#39;, tol=0.0001,
+          verbose=0, warm_start=False)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [283]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（訓練データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[283]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9899497487437185
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [284]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[284]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9766081871345029
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [285]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [286]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 調整を行うハイパーパラメータの値の候補</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [287]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 交差検証法を使用したハイパーパラメータの各組合せでの学習</span>
+<span class="n">model_cv</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">LogisticRegression</span><span class="p">(),</span> <span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_s</span><span class="p">,</span> <span class="n">t_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[287]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
+       estimator=LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class=&#39;ovr&#39;, n_jobs=1,
+          penalty=&#39;l2&#39;, random_state=None, solver=&#39;liblinear&#39;, tol=0.0001,
+          verbose=0, warm_start=False),
+       fit_params=None, iid=True, n_jobs=1,
+       param_grid=[{&#39;C&#39;: [0.01, 0.1, 1, 10]}], pre_dispatch=&#39;2*n_jobs&#39;,
+       refit=True, return_train_score=&#39;warn&#39;, scoring=None, verbose=0)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [288]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 結果の確認 (valの対する結果)</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">grid_scores_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:762: DeprecationWarning: The grid_scores_ attribute was deprecated in version 0.18 in favor of the more elaborate cv_results_ attribute. The grid_scores_ attribute will not be available from 0.20
+  DeprecationWarning)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[288]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[mean: 0.96985, std: 0.01223, params: {&#39;C&#39;: 0.01},
+ mean: 0.97990, std: 0.00935, params: {&#39;C&#39;: 0.1},
+ mean: 0.98492, std: 0.01624, params: {&#39;C&#39;: 1},
+ mean: 0.97236, std: 0.02323, params: {&#39;C&#39;: 10}]
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [289]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータ</span>
+<span class="n">model_cv</span><span class="o">.</span><span class="n">best_params_</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[289]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>{&#39;C&#39;: 1}
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [290]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 最も結果が良かったハイパーパラメータの値を設定したモデル</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model_cv</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [291]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 検証（検証データ）</span>
+<span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test_s</span><span class="p">,</span> <span class="n">t_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[291]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>0.9766081871345029
+</pre></div>
+</div>
+</div>
+<p>ロジスティック回帰の特徴は推論の時に出てくる。これまでの分類の手法であれば、新しいサンプルが得られた際の予測値は0か1かのカテゴリの値が得られる。Scikit-learnでは推論には<code class="docutils literal notranslate"><span class="pre">predict</span></code>を使用する。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [297]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 訓練データの一番最初のサンプルで試しに推論</span>
+<span class="n">x_pred</span> <span class="o">=</span> <span class="p">[</span><span class="n">X_train_s</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [298]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1]
+</pre></div></div>
+</div>
+<p>この結果はどの手法でも同じであるが、ロジスティック回帰を含めた<strong>識別モデル</strong>系の手法では、各カテゴリに属する確率まで求めることができる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [299]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [300]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[[0.00160119 0.99839881]]
+</pre></div></div>
+</div>
+<p>総和が1となっており、確率が大きいほうのカテゴリ1が選ばれたことがわかる。異常か異常でないかといった分類の場合、異常or異常でないだけでなく、どのくらい異常そうであるかの確率までわかることで、閾値を設けやすくなる。この特性は次の章で紹介するニューラルネットワークでも同じである。</p>
+</div>
+<div class="section" id="k-means">
+<h3>2.5.4. k-means<a class="headerlink" href="#k-means" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>最後は教師なし学習である<strong>クラスタリング</strong>の手法として有名なk-meansを紹介する。分類では教師データとしてどのカテゴリに属しているかがわかっていたが、クラスタリングではその教師データがない状況で学習を行う。基本的には距離的に近いものをまとめる。</p>
+<p>例題では2つのクラスターをあらかじめ用意しておき、正しく分けられるかを確認する。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [336]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [337]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [338]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># 結合</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [339]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[339]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(100, 2)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [340]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [341]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[341]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.PathCollection at 0x28640957438&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_ML_libs_184_1.png" src="../_images/notebooks_Introduction_to_ML_libs_184_1.png" />
+</div>
+</div>
+<p>それでは、k-meansを用いてクラスタリングを行う。クラスタリングでは基本的にはわけるクラスターの数がハイパーパラメータとして必要である。<code class="docutils literal notranslate"><span class="pre">n_clusters</span></code>で指定する。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [344]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="k">import</span> <span class="n">KMeans</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [347]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[347]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>KMeans(algorithm=&#39;auto&#39;, copy_x=True, init=&#39;k-means++&#39;, max_iter=300,
+    n_clusters=2, n_init=10, n_jobs=1, precompute_distances=&#39;auto&#39;,
+    random_state=None, tol=0.0001, verbose=0)
+</pre></div>
+</div>
+</div>
+<p>予測した結果をもとにクラスタリングを行う。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [350]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [351]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+</pre></div></div>
+</div>
+<p>Numpyをうまく使うと、条件に当てはまるサンプルだけを抽出できる。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [354]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">X0</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">y</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [356]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X0</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X0</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X1</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X1</span><span class="p">[:,</span><span class="mi">1</span> <span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[356]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.collections.PathCollection at 0x28640b6c8d0&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_ML_libs_193_1.png" src="../_images/notebooks_Introduction_to_ML_libs_193_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Introduction_to_Neural_Network.html" class="btn btn-neutral float-right" title="3. ニューラルネットワーク" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Basic_Math_for_ML.html" class="btn btn-neutral" title="1. 機械学習に必要な数学の基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Preferred Networks &amp; キカガク
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

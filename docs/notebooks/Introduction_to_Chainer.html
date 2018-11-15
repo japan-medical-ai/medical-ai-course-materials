@@ -1,0 +1,2462 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5. Deep Learningフレームワークの基礎 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="検索" href="../search.html" />
+    <link rel="next" title="6. 実践編: CT/MRI画像のセグメンテーション" href="Image_Segmentation.html" />
+    <link rel="prev" title="4. Chainer入門" href="Chainer_Basics.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> メディカルAIコース オンライン講義資料<Paste>
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chainer_Basics.html">4. Chainer入門</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Deep Learningフレームワークの基礎</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">5.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#学習ループを書いてみよう">5.2. 学習ループを書いてみよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データセットの準備">5.2.1. データセットの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Validation用データセットを作る">5.2.2. Validation用データセットを作る</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Iteratorの作成">5.2.3. Iteratorの作成</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#NOTE:-SerialIteratorについて">5.2.3.1. NOTE: <code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>について</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#ネットワークの定義">5.2.4. ネットワークの定義</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#LinkとFunction">5.2.4.1. LinkとFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Chain">5.2.4.2. Chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Chainを継承してネットワークを定義しよう">5.2.4.3. Chainを継承してネットワークを定義しよう</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GPUで実行するには">5.2.4.4. GPUで実行するには</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#同じ結果を保証したい">5.2.4.5. 同じ結果を保証したい</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ネットワークを表すコード">5.2.4.6. ネットワークを表すコード</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#最適化手法の選択">5.2.5. 最適化手法の選択</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#NOTE">5.2.5.1. NOTE</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#学習する">5.2.6. 学習する</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#NOTE:-ロス関数">5.2.6.1. NOTE: ロス関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#学習ループのコード">5.2.6.2. 学習ループのコード</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ValidationやTestを行う際の注意点">5.2.6.3. ValidationやTestを行う際の注意点</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#学習済みモデルを保存する">5.2.7. 学習済みモデルを保存する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#保存したモデルを読み込んで推論する">5.2.8. 保存したモデルを読み込んで推論する</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Trainerを使ってみよう">5.3. Trainerを使ってみよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データセット・Iterator・ネットワークの準備">5.3.1. データセット・Iterator・ネットワークの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Updaterの準備">5.3.2. Updaterの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Trainerの準備">5.3.3. Trainerの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#TrainerにExtensionを追加する">5.3.4. TrainerにExtensionを追加する</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#LogReport">5.3.4.1. <code class="docutils literal notranslate"><span class="pre">LogReport</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snapshot">5.3.4.2. <code class="docutils literal notranslate"><span class="pre">snapshot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dump_graph">5.3.4.3. <code class="docutils literal notranslate"><span class="pre">dump_graph</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Evaluator">5.3.4.4. <code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PrintReport">5.3.4.5. <code class="docutils literal notranslate"><span class="pre">PrintReport</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PlotReport">5.3.4.6. <code class="docutils literal notranslate"><span class="pre">PlotReport</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ParameterStatistics">5.3.4.7. <code class="docutils literal notranslate"><span class="pre">ParameterStatistics</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#学習を開始する">5.3.5. 学習を開始する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#テストデータで評価する">5.3.6. テストデータで評価する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習済みモデルで推論する">5.3.7. 学習済みモデルで推論する</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#新しいネットワークを書いてみよう">5.4. 新しいネットワークを書いてみよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ネットワークの定義">5.4.1. ネットワークの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習">5.4.2. 学習</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習済みネットワークを使った予測">5.4.3. 学習済みネットワークを使った予測</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#もっと深いネットワークを定義してみよう">5.4.4. もっと深いネットワークを定義してみよう</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#構成要素を定義する">5.4.4.1. 構成要素を定義する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#大きなネットワークの定義">5.4.4.2. 大きなネットワークの定義</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#TIPS">5.4.4.3. TIPS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#データセットクラスを書いてみよう">5.5. データセットクラスを書いてみよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#NOTE">5.5.1. NOTE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#CIFAR10データセットクラスを書く">5.5.2. CIFAR10データセットクラスを書く</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#作成したデータセットクラスを使って学習を行う">5.5.3. 作成したデータセットクラスを使って学習を行う</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#もっと簡単にData-Augmentationしよう">5.6. もっと簡単にData Augmentationしよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ChainerCVでいろいろな変換を簡単に行おう">5.6.1. ChainerCVでいろいろな変換を簡単に行おう</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#参考文献">5.6.1.1. 参考文献</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">メディカルAIコース オンライン講義資料<Paste></a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>5. Deep Learningフレームワークの基礎</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notebooks/Introduction_to_Chainer.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #303F9F;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #D84315;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 8ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #cfcfcf;
+    border-radius: 2px;
+    background: #f7f7f7;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.pngmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="Deep-Learningフレームワークの基礎">
+<h1>5. Deep Learningフレームワークの基礎<a class="headerlink" href="#Deep-Learningフレームワークの基礎" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Chainerは、現在の様々なDeep Learningフレームワーク（TensorFlow, PyTorch,
+etc.）で採用されている主要なニューラルネットワークの記法となっているDefine-by-Runというアイデアを基本としたAPIを初めに採用したDeep
+Learningフレームワークで、2015年からPreferred
+Networks社が開発を続けています。ここでは、柔軟性と直感的であることを特徴とするこのChainerというフレームワークの基本的な使い方をマスターしていきましょう。</p>
+<div class="section" id="環境構築">
+<h2>5.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>まずはColab上で以下のセルを実行し、最新版のChainerをインストールしましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!curl https://colab.chainer.org/install | sh -
+!apt-get install -y graphviz
+</pre></div>
+</div>
+</div>
+<p>それでは，以下のコマンドをターミナルで実行し、ChainerやCuPyが正しくインストールされたかを確認してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [2]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!python -c &#39;import chainer; chainer.print_runtime_info()&#39;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 5.0.0
+NumPy: 1.14.6
+CuPy:
+  CuPy Version          : 5.0.0
+  CUDA Root             : /usr/local/cuda
+  CUDA Build Version    : 9020
+  CUDA Driver Version   : 9020
+  CUDA Runtime Version  : 9020
+  cuDNN Build Version   : 7201
+  cuDNN Version         : 7201
+  NCCL Build Version    : 2213
+iDeep: Not Available
+</pre></div></div>
+</div>
+<p>うまくできていますね。以下のチュートリアルでは、matplotlibを可視化に使いますので、これも同時にインストールしておきましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [3]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!pip install matplotlib
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (2.1.2)
+Requirement already satisfied: numpy&gt;=1.7.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.0)
+Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2018.7)
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
+Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.11.0)
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="学習ループを書いてみよう">
+<h2>5.2. 学習ループを書いてみよう<a class="headerlink" href="#学習ループを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここでは、有名な手書き数字のデータセットMNISTを使って、画像を10クラスに分類するネットワークを書いて訓練してみます。</p>
+<div class="section" id="データセットの準備">
+<h3>5.2.1. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>教師あり学習の場合、<strong>データセットは「入力データ」と「それと対になるラベルデータ」を返すオブジェクトである必要があります。</strong>
+ChainerにはMNISTやCIFAR10/100のようなよく用いられるデータセットに対して、データをダウンロードしてくるところからそのような機能をもったオブジェクトを作るところまで自動的にやってくれる便利なメソッドがあるので、ここではひとまずこれを用いましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [4]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import mnist
+
+# データセットがダウンロード済みでなければ、ダウンロードも行う
+train_val, test = mnist.get_mnist(withlabel=True, ndim=1)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+Downloading from http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz...
+Downloading from http://yann.lecun.com/exdb/mnist/train-labels-idx1-ubyte.gz...
+Downloading from http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz...
+Downloading from http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz...
+</pre></div></div>
+</div>
+<p>データセットオブジェクト自体は準備ができました。これは、例えば
+<code class="docutils literal notranslate"><span class="pre">train_val[i]</span></code> などとすると<strong>i番目の ``(data, label)``
+というタプルを返すリスト</strong>
+と同様のものになっています（<strong>実際ただのPythonリストもChainerのデータセットオブジェクトとして使えます</strong>）。では0番目のデータとラベルを取り出して、表示してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [5]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># matplotlibを使ったグラフ描画結果がnotebook内に表示されるようにします。
+%matplotlib inline
+import matplotlib.pyplot as plt
+
+# データの例示
+x, t = train_val[0]  # 0番目の (data, label) を取り出す
+plt.imshow(x.reshape(28, 28), cmap=&#39;gray&#39;)
+plt.axis(&#39;off&#39;)
+plt.show()
+print(&#39;label:&#39;, t)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_12_0.png" src="../_images/notebooks_Introduction_to_Chainer_12_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+label: 5
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Validation用データセットを作る">
+<h3>5.2.2. Validation用データセットを作る<a class="headerlink" href="#Validation用データセットを作る" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>次に、上で作成した<code class="docutils literal notranslate"><span class="pre">train_val</span></code>データセットを、Training用のデータセットとValidation用のデータセットに分割しましょう。これもChainerの便利な関数を使えば簡単にできます。元々60000個のデータが入っている<code class="docutils literal notranslate"><span class="pre">train</span></code>データセット50000個のデータをTraining用に、残りの10000個をValidation用にしてみます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import split_dataset_random
+
+train, valid = split_dataset_random(train_val, 50000, seed=0)
+</pre></div>
+</div>
+</div>
+<p>これだけで元々の<code class="docutils literal notranslate"><span class="pre">train_val</span></code>を、ランダムに選んだ50000個の<code class="docutils literal notranslate"><span class="pre">train</span></code>データセットと<code class="docutils literal notranslate"><span class="pre">valid</span></code>データセットに分けることができました。何度も実行する際に異なる分け方になってしまわないよう、第3引数の<code class="docutils literal notranslate"><span class="pre">seed</span></code>を設定しておくことをオススメします。それでは、それぞれのデータセットの中に入っているデータの数を確認してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [7]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print(&#39;Training dataset size:&#39;, len(train))
+print(&#39;Validation dataset size:&#39;, len(valid))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training dataset size: 50000
+Validation dataset size: 10000
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="Iteratorの作成">
+<h3>5.2.3. Iteratorの作成<a class="headerlink" href="#Iteratorの作成" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>データセットの準備は完了しましたが、このままネットワークの学習に使うのは少し面倒です。なぜなら、ネットワークのパラメータ最適化手法として広く用いられているStochastic
+Gradient Descent
+(SGD)という手法では、一般的にいくつかのデータを束ねた**ミニバッチ**と呼ばれる単位でネットワークにデータを渡し、それに対する予測を作って、ラベルと比較するということを行います。そのため、<strong>バッチサイズ分だけデータとラベルを束ねる作業が必要です。</strong></p>
+<p>そこで、<strong>データセットから決まった数のデータとラベルを取得し、それらを束ねてミニバッチを作ってくれる機能を持った``Iterator``を使いましょう。</strong><code class="docutils literal notranslate"><span class="pre">Iterator</span></code>は、先程作ったデータセットオブジェクトを渡して初期化してやったあとは、<code class="docutils literal notranslate"><span class="pre">next()</span></code>メソッドで新しいミニバッチを返してくれます。内部ではデータセットを何周なめたか（<code class="docutils literal notranslate"><span class="pre">epoch</span></code>）などの情報がどうように記録されているおり、学習ループを書いていく際に便利です。</p>
+<p>データセットオブジェクトからイテレータを作るには、以下のようにします。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import iterators
+
+batchsize = 128
+
+train_iter = iterators.SerialIterator(train, batchsize)
+valid_iter = iterators.SerialIterator(
+    valid, batchsize, repeat=False, shuffle=False)
+test_iter = iterators.SerialIterator(
+    test, batchsize, repeat=False, shuffle=False)
+</pre></div>
+</div>
+</div>
+<p>ここでは、学習に用いるデータセット用のイテレータ（<code class="docutils literal notranslate"><span class="pre">train_iter</span></code>）と、検証用のデータセット用のイテレータ（<code class="docutils literal notranslate"><span class="pre">valid_iter</span></code>）、および学習したネットワークの評価に用いるテストデータセット用のイテレータ（<code class="docutils literal notranslate"><span class="pre">test_iter</span></code>）の計3つを作成しています。ここで、<code class="docutils literal notranslate"><span class="pre">batchsize</span> <span class="pre">=</span> <span class="pre">128</span></code>としているので、作成した3つの<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>は、例えば<code class="docutils literal notranslate"><span class="pre">train_iter.next()</span></code>などとすると128枚の数字画像データを一括りにして返してくれます。</p>
+<div class="section" id="NOTE:-SerialIteratorについて">
+<h4>5.2.3.1. NOTE: <code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>について<a class="headerlink" href="#NOTE:-SerialIteratorについて" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Chainerがいくつか用意している<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>の一種である<code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>は、データセットの中のデータを順番に取り出してくる最もシンプルな<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>です。コンストラクタの引数にデータセットオブジェクトと、バッチサイズを取ります。このとき、渡したデータセットオブジェクトから、何周も何周もデータを繰り返し読み出す必要がある場合は<code class="docutils literal notranslate"><span class="pre">repeat</span></code>引数を<code class="docutils literal notranslate"><span class="pre">True</span></code>とし、1周が終わったらそれ以上データを取り出したくない場合はこれを<code class="docutils literal notranslate"><span class="pre">False</span></code>とします。これは、主にvalidation用のデータセットに対して使うフラグです。デフォルトでは、<code class="docutils literal notranslate"><span class="pre">True</span></code>になっています。また、<code class="docutils literal notranslate"><span class="pre">shuffle</span></code>引数に<code class="docutils literal notranslate"><span class="pre">True</span></code>を渡すと、データセットから取り出されてくるデータの順番をエポックごとにランダムに変更します。<code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>の他にも、マルチプロセスで高速にデータを処理できるようにした<code class="docutils literal notranslate"><span class="pre">MultiprocessIterator</span></code>や<code class="docutils literal notranslate"><span class="pre">MultithreadIterator</span></code>など、複数の<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>が用意されています。詳しくは以下を見てください。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://docs.chainer.org/en/stable/reference/iterators.html">Chainerで使えるIterator一覧</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="ネットワークの定義">
+<h3>5.4.1. ネットワークの定義<a class="headerlink" href="#ネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>では、学習させるネットワークを定義してみましょう。今回は、全結合層のみからなる多層パーセプトロンを作ってみます。中間層のユニット数は適当に100とし、今回は10クラス分類をしたいので、出力ユニット数は10とします。今回用いるMNISTデータセットは0〜9までの数字のいずれかを意味する10種のラベルを持つためです。では、ネットワークを定義するために必要な<code class="docutils literal notranslate"><span class="pre">Link</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Function</span></code>, そして<code class="docutils literal notranslate"><span class="pre">Chain</span></code>について、簡単にここで説明を行います。</p>
+<div class="section" id="LinkとFunction">
+<h4>5.2.4.1. LinkとFunction<a class="headerlink" href="#LinkとFunction" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Chainerでは、ニューラルネットワークの各層を、<code class="docutils literal notranslate"><span class="pre">Link</span></code>と<code class="docutils literal notranslate"><span class="pre">Function</span></code>に区別します。</p>
+<ul class="simple">
+<li><strong>``Link``は、パラメータを持つ関数です。</strong></li>
+<li><strong>``Function``は、パラメータを持たない関数です。</strong></li>
+</ul>
+<p>これらを組み合わせてネットワークを記述します。パラメータを持つ層は、<code class="docutils literal notranslate"><span class="pre">chainer.links</span></code>モジュール以下にたくさん用意されています。パラメータを持たない層は、<code class="docutils literal notranslate"><span class="pre">chainer.functions</span></code>モジュール以下にたくさん用意されています。これらに簡単にアクセスするために、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">chainer.links</span> <span class="k">as</span> <span class="nn">L</span>
+<span class="kn">import</span> <span class="nn">chainer.functions</span> <span class="k">as</span> <span class="nn">F</span>
+</pre></div>
+</div>
+<p>と別名を与えて、<code class="docutils literal notranslate"><span class="pre">L.Convolution2D(...)</span></code>や<code class="docutils literal notranslate"><span class="pre">F.relu(...)</span></code>のように用いる慣習がありますが、特にこれが決まった書き方というわけではありません。</p>
+</div>
+<div class="section" id="Chain">
+<h4>5.2.4.2. Chain<a class="headerlink" href="#Chain" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">Chain</span></code>は、<strong>パラメータを持つ層（``Link``）をまとめておくためのクラス</strong>です。パラメータを持つということは、基本的にネットワークの学習の際にそれらを更新していく必要があるということです（更新されないパラメータを持たせることもできます）。Chainerでは、モデルのパラメータの更新は、<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>という機能が担います。その際、更新すべき全てのパラメータを簡単に発見できるように、<code class="docutils literal notranslate"><span class="pre">Chain</span></code>で一箇所にまとめておきます。そうすると、<code class="docutils literal notranslate"><span class="pre">Chain.params()</span></code>メソッドを使って<strong>更新されるパラメータ一覧が簡単に取得できます。</strong></p>
+</div>
+<div class="section" id="Chainを継承してネットワークを定義しよう">
+<h4>5.2.4.3. Chainを継承してネットワークを定義しよう<a class="headerlink" href="#Chainを継承してネットワークを定義しよう" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Chainerでは、ネットワークは<code class="docutils literal notranslate"><span class="pre">Chain</span></code>クラスを継承したクラスとして定義されることが一般的です。その場合、そのクラスのコンストラクタで、<code class="docutils literal notranslate"><span class="pre">self.init_scope()</span></code>で作られる<code class="docutils literal notranslate"><span class="pre">with</span></code>コンテキストを作り、その中でネットワークに登場する<code class="docutils literal notranslate"><span class="pre">Link</span></code>をプロパティとして登録しておきます。こうすると、自動的に<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>が最適化対象のパラメータを持つ層だな、と捉えてくれます。</p>
+<p>もう一つ、一般的なのは、ネットワークの前進計算（データを渡して、出力を返す）を、<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッドに書いておくという方法です。こうすると、ネットワーククラスをinstantiateして作ったオブジェクトを、関数のようにして使うことができます（例：<code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">net(data)</span></code>）。</p>
+</div>
+<div class="section" id="GPUで実行するには">
+<h4>5.2.4.4. GPUで実行するには<a class="headerlink" href="#GPUで実行するには" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">Chain</span></code>クラスは<code class="docutils literal notranslate"><span class="pre">to_gpu</span></code>メソッドを持ち、この引数にGPU
+IDを指定すると、指定したGPU
+IDのメモリ上にネットワークの全パラメータを転送します。こうしておくと、前進計算も学習の際のパラメータ更新なども全部GPU上で行われるようになります。GPU
+IDとして-1を使うと、すなわちこれはCPUを意味します。</p>
+</div>
+<div class="section" id="同じ結果を保証したい">
+<h4>5.2.4.5. 同じ結果を保証したい<a class="headerlink" href="#同じ結果を保証したい" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>ネットワークを書き始める前に、まずは乱数シードを固定して、本記事とほぼ同様の結果が再現できるようにしておきましょう。（cuDNNが有効になっている環境下でより厳密に計算結果の再現性を保証したい場合は、<code class="docutils literal notranslate"><span class="pre">chainer.config.cudnn_deterministic</span></code>というConfiguringオプションについて知る必要があります。こちらのドキュメントを参照してください：<a class="reference external" href="https://docs.chainer.org/en/stable/reference/configuration.html?highlight=chainer.config.cudnn_deterministic">chainer.config.cudnn_deterministic</a>。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import random
+import numpy
+import chainer
+
+def reset_seed(seed=0):
+    random.seed(seed)
+    numpy.random.seed(seed)
+    if chainer.cuda.available:
+        chainer.cuda.cupy.random.seed(seed)
+
+reset_seed(0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ネットワークを表すコード">
+<h4>5.2.4.6. ネットワークを表すコード<a class="headerlink" href="#ネットワークを表すコード" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>いよいよネットワークを書いてみます！</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer
+import chainer.links as L
+import chainer.functions as F
+
+class MLP(chainer.Chain):
+
+    def __init__(self, n_mid_units=100, n_out=10):
+        super(MLP, self).__init__()
+
+        # パラメータを持つ層の登録
+        with self.init_scope():
+            self.l1 = L.Linear(None, n_mid_units)
+            self.l2 = L.Linear(n_mid_units, n_mid_units)
+            self.l3 = L.Linear(n_mid_units, n_out)
+
+    def __call__(self, x):
+        # データを受け取った際のforward計算を書く
+        h1 = F.relu(self.l1(x))
+        h2 = F.relu(self.l2(h1))
+        return self.l3(h2)
+
+gpu_id = 0  # CPUを用いる場合は、この値を-1にしてください
+
+net = MLP()
+
+if gpu_id &gt;= 0:
+    net.to_gpu(gpu_id)
+</pre></div>
+</div>
+</div>
+<p>できました！疑問点はありませんか？ちなみに、Chainerにはたくさんの学習可能なレイヤやパラメータを持たないレイヤが用意されています。ぜひ一度以下の一覧のページを見てみましょう。</p>
+<ul class="simple">
+<li><cite>Chainerで使える関数(``Function`</cite>)一覧 &lt;<a class="reference external" href="https://docs.chainer.org/en/stable/reference/functions.html">https://docs.chainer.org/en/stable/reference/functions.html</a>&gt;`__</li>
+<li><cite>Chainerで学習できるレイヤ(``Link`</cite>)一覧 &lt;<a class="reference external" href="https://docs.chainer.org/en/stable/reference/links.html">https://docs.chainer.org/en/stable/reference/links.html</a>&gt;`__</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">Link</span></code>一覧には、ニューラルネットワークによく用いられる全結合層や畳み込み層、LSTMなどや、ReLUなどの活性化関数などなどだけでなく、有名なネットワーク全体も<code class="docutils literal notranslate"><span class="pre">Link</span></code>として載っています。ResNetや、VGGなどです。また、<code class="docutils literal notranslate"><span class="pre">Function</span></code>一覧には、画像の大きさをresizeしたり、サイン・コサインのような関数を始め、いろいろなネットワークの要素として使える関数が載っています。</p>
+<div class="section" id="NOTE">
+<h5>5.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<p>上のネットワーク定義で、<code class="docutils literal notranslate"><span class="pre">L.Linear</span></code>は全結合層を意味しますが、最初のLinear層は第一引数に<code class="docutils literal notranslate"><span class="pre">None</span></code>が渡されています。これは、実行時に、つまり<strong>データがその層に入力された瞬間、必要な数の入力側ユニット数を自動的に計算する</strong>ということを意味します。ネットワークが最初に計算を行う際に、初めて
+<code class="docutils literal notranslate"><span class="pre">(n_input)</span></code> <span class="math notranslate nohighlight">\(\times\)</span> <code class="docutils literal notranslate"><span class="pre">n_mid_units</span></code>
+の大きさの行列を作成し、それを学習対象とするパラメータとして保持します。これは後々、畳み込み層を全結合層の前に配置する際などに便利な機能です。</p>
+<p>様々な<code class="docutils literal notranslate"><span class="pre">Link</span></code>は、それぞれ学習対象となるパラメータを保持しています。それらの値は、NumPyの配列として簡単に取り出して見ることができます。例えば、上のモデル<code class="docutils literal notranslate"><span class="pre">MLP</span></code>は<code class="docutils literal notranslate"><span class="pre">l1</span></code>という名前の全結合層が登録されています。この全結合層は重み行列<code class="docutils literal notranslate"><span class="pre">W</span></code>とバイアス<code class="docutils literal notranslate"><span class="pre">b</span></code>という2つのパラメータを持ちます。これらには外から以下のようにしてアクセスすることができます：</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [11]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print(&#39;1つ目の全結合相のバイアスパラメータの形は、&#39;, net.l1.b.shape)
+print(&#39;初期化直後のその値は、&#39;, net.l1.b.array)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1つ目の全結合相のバイアスパラメータの形は、 (100,)
+初期化直後のその値は、 [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
+ 0. 0. 0. 0.]
+</pre></div></div>
+</div>
+<p>しかしここで、<code class="docutils literal notranslate"><span class="pre">net.l1.W.array</span></code>の中身を同様に表示してみようとすると、<code class="docutils literal notranslate"><span class="pre">None</span></code>が返されます。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [12]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>print(net.l1.W.array)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+None
+</pre></div></div>
+</div>
+<p>なぜでしょうか？我々は<code class="docutils literal notranslate"><span class="pre">l1</span></code>をネットワークに登録するときに、<code class="docutils literal notranslate"><span class="pre">L.Linear</span></code>の第一引数に<code class="docutils literal notranslate"><span class="pre">None</span></code>を渡しましたね。そして、<strong>まだネットワークに一度もデータを入力していません</strong>。そのため、<strong>まだ重み行列``W``は作成されていません。</strong>そのため、まだ<code class="docutils literal notranslate"><span class="pre">net.l1.W</span></code>は具体的な配列を保持していないのです。</p>
+</div>
+</div>
+</div>
+<div class="section" id="最適化手法の選択">
+<h3>5.2.5. 最適化手法の選択<a class="headerlink" href="#最適化手法の選択" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>では、上で定義したネットワークをMNISTデータセットを使って訓練してみましょう。学習時に用いる最適化の手法としてはいろいろな種類のものが提案されていますが、Chainerは多くの手法を同一のインターフェースで利用できるよう、<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>という機能でそれらを提供しています。<code class="docutils literal notranslate"><span class="pre">chainer.optimizers</span></code>モジュール以下に色々なものを見つけることができます。一覧はこちらにあります：</p>
+<ul class="simple">
+<li><a class="reference external" href="https://docs.chainer.org/en/stable/reference/optimizers.html">Chainerで使える最適化手法一覧</a></li>
+</ul>
+<p>ここでは最もシンプルな勾配降下法の手法である<code class="docutils literal notranslate"><span class="pre">optimizers.SGD</span></code>を用います。<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>のオブジェクトには、<code class="docutils literal notranslate"><span class="pre">setup</span></code>メソッドを使ってモデル（<code class="docutils literal notranslate"><span class="pre">Chain</span></code>オブジェクト）を渡します。こうすることで<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>に、何を最適化すればいいか把握させることができます。</p>
+<p>他にもいろいろな最適化手法が手軽に試せるので、色々と試してみて結果の変化を見てみてください。例えば、下の<code class="docutils literal notranslate"><span class="pre">chainer.optimizers.SGD</span></code>のうち<code class="docutils literal notranslate"><span class="pre">SGD</span></code>の部分を<code class="docutils literal notranslate"><span class="pre">MomentumSGD</span></code>,
+<code class="docutils literal notranslate"><span class="pre">RMSprop</span></code>,
+<code class="docutils literal notranslate"><span class="pre">Adam</span></code>などに変えるだけで、最適化手法の違いがどのような学習曲線（ロスカーブ）の違いを生むかなどを簡単に調べることができます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import optimizers
+
+optimizer = optimizers.SGD(lr=0.01).setup(net)
+</pre></div>
+</div>
+</div>
+<div class="section" id="NOTE">
+<h4>5.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>今回はSGDのコンストラクタの<code class="docutils literal notranslate"><span class="pre">lr</span></code>という引数に <span class="math notranslate nohighlight">\(0.01\)</span>
+を与えました。この値は学習率として知られ、モデルをうまく訓練して良いパフォーマンスを発揮させるために調整する必要がある重要な<strong>ハイパーパラメータ</strong>として知られています。</p>
+</div>
+</div>
+<div class="section" id="学習する">
+<h3>5.2.6. 学習する<a class="headerlink" href="#学習する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>いよいよ学習をスタートします！今回は分類問題なので、<code class="docutils literal notranslate"><span class="pre">softmax_cross_entropy</span></code>というロス関数を使って最小化すべきロスの値を計算します。</p>
+<p>まず、ネットワークにデータを渡して、出てきた出力と、入力データに対応する正解ラベルを、<code class="docutils literal notranslate"><span class="pre">Function</span></code>の一種でありスカラ値を返す<strong>ロス関数</strong>に渡し、ロス（最小化したい値）の計算を行います。ロスは、<code class="docutils literal notranslate"><span class="pre">chainer.Variable</span></code>のオブジェクトになっています。そして、この<code class="docutils literal notranslate"><span class="pre">Variable</span></code>は、<strong>今まで自分にどんな計算が施されたかを辿れるようになっています。</strong>この仕組みが、Define-by-Run
+<a class="reference external" href="http://learningsys.org/papers/LearningSys_2015_paper_33.pdf">[Tokui
+2015]</a>とよばれる発明の中心的な役割を果たしています。</p>
+<p>ここでは誤差逆伝播法自体の説明は割愛しますが、<strong>計算したロスに対する勾配をネットワークに逆向きに流していく</strong>処理は、Chainerではネットワークが吐き出した<code class="docutils literal notranslate"><span class="pre">Variable</span></code>が持つ<code class="docutils literal notranslate"><span class="pre">backward()</span></code>メソッドを呼ぶだけでできます。これを呼ぶと、前述のようにこれまでの計算過程を逆向きに遡って<strong>誤差逆伝播用の計算グラフを構築し</strong>、途中のパラメータの勾配を連鎖率を使って計算してくれます。（詳しくは筆者が<a class="reference external" href="https://www.slideshare.net/mitmul/chainer-79942361">日本ソフトウェア科学会で行ったチュートリアルの資料</a>をご覧ください。）</p>
+<p>こうして計算された各パラメータに対する勾配を使って、先程<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>を作成する際に指定したアルゴリズムを使ってネットワークパラメータの更新（＝学習）が行われるわけです。</p>
+<p>まとめると、今回1回の更新処理の中で行うのは、以下の4項目です。</p>
+<ol class="arabic simple">
+<li>ネットワークにデータを渡して出力<code class="docutils literal notranslate"><span class="pre">y</span></code>を得る</li>
+<li>出力<code class="docutils literal notranslate"><span class="pre">y</span></code>と正解ラベル<code class="docutils literal notranslate"><span class="pre">t</span></code>を使って、最小化すべきロスの値を<code class="docutils literal notranslate"><span class="pre">softmax_cross_entropy</span></code>関数で計算する</li>
+<li><code class="docutils literal notranslate"><span class="pre">softmax_cross_entropy</span></code>関数の出力（<code class="docutils literal notranslate"><span class="pre">Variable</span></code>）の<code class="docutils literal notranslate"><span class="pre">backward()</span></code>メソッドを呼んで、ネットワークの全てのパラメータの勾配を誤差逆伝播法で計算する</li>
+<li>Optimizerの<code class="docutils literal notranslate"><span class="pre">update</span></code>メソッドを呼び、3.で計算した勾配を使って全パラメータを更新する</li>
+</ol>
+<p>パラメータの更新は、何度も何度も繰り返し行います。一度の更新に用いられるデータは、ネットワークに入力されたバッチサイズ分だけ束ねられたデータのみです。そのため、データセット全体のデータを使うために、次のミニバッチを入力して再度更新、その次のミニバッチを使ってまた更新、ということを繰り返すわけです。そのため、この過程を学習ループと呼んでいます。</p>
+<div class="section" id="NOTE:-ロス関数">
+<h4>5.2.6.1. NOTE: ロス関数<a class="headerlink" href="#NOTE:-ロス関数" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>ちなみに、ロス関数は、例えば分類問題ではなく簡単な回帰問題を解きたいような場合、<code class="docutils literal notranslate"><span class="pre">F.softmax_cross_entropy</span></code>の代わりに<code class="docutils literal notranslate"><span class="pre">F.mean_squared_error</span></code>などを用いることもできます。他にも、いろいろな問題設定に対応するために様々なロス関数がChainerには用意されています。こちらからその一覧を見ることができます：</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.chainer.org/en/stable/reference/functions.html#loss-functions">Chainerで使えるロス関数一覧</a></li>
+</ul>
+</div>
+<div class="section" id="学習ループのコード">
+<h4>5.2.6.2. 学習ループのコード<a class="headerlink" href="#学習ループのコード" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [14]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import numpy as np
+from chainer.dataset import concat_examples
+from chainer.cuda import to_cpu
+
+max_epoch = 10
+
+while train_iter.epoch &lt; max_epoch:
+
+    # ---------- 学習の1イテレーション ----------
+    train_batch = train_iter.next()
+    x, t = concat_examples(train_batch, gpu_id)
+
+    # 予測値の計算
+    y = net(x)
+
+    # ロスの計算
+    loss = F.softmax_cross_entropy(y, t)
+
+    # 勾配の計算
+    net.cleargrads()
+    loss.backward()
+
+    # パラメータの更新
+    optimizer.update()
+    # --------------- ここまで ----------------
+
+    # 1エポック終了ごとにValidationデータに対する予測精度を測って、
+    # モデルの汎化性能が向上していることをチェックしよう
+    if train_iter.is_new_epoch:  # 1 epochが終わったら
+
+        # ロスの表示
+        print(&#39;epoch:{:02d} train_loss:{:.04f} &#39;.format(
+            train_iter.epoch, float(to_cpu(loss.data))), end=&#39;&#39;)
+
+        valid_losses = []
+        valid_accuracies = []
+        while True:
+            valid_batch = valid_iter.next()
+            x_valid, t_valid = concat_examples(valid_batch, gpu_id)
+
+            # Validationデータをforward
+            with chainer.using_config(&#39;train&#39;, False), \
+                    chainer.using_config(&#39;enable_backprop&#39;, False):
+                y_valid = net(x_valid)
+
+            # ロスを計算
+            loss_valid = F.softmax_cross_entropy(y_valid, t_valid)
+            valid_losses.append(to_cpu(loss_valid.array))
+
+            # 精度を計算
+            accuracy = F.accuracy(y_valid, t_valid)
+            accuracy.to_cpu()
+            valid_accuracies.append(accuracy.array)
+
+            if valid_iter.is_new_epoch:
+                valid_iter.reset()
+                break
+
+        print(&#39;val_loss:{:.04f} val_accuracy:{:.04f}&#39;.format(
+            np.mean(valid_losses), np.mean(valid_accuracies)))
+
+# テストデータでの評価
+test_accuracies = []
+while True:
+    test_batch = test_iter.next()
+    x_test, t_test = concat_examples(test_batch, gpu_id)
+
+    # テストデータをforward
+    with chainer.using_config(&#39;train&#39;, False), \
+            chainer.using_config(&#39;enable_backprop&#39;, False):
+        y_test = net(x_test)
+
+    # 精度を計算
+    accuracy = F.accuracy(y_valid, t_valid)
+    accuracy.to_cpu()
+    test_accuracies.append(accuracy.array)
+
+    if test_iter.is_new_epoch:
+        test_iter.reset()
+        break
+
+print(&#39;test_accuracy:{:.04f}&#39;.format(np.mean(test_accuracies)))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch:01 train_loss:0.9257 val_loss:0.9715 val_accuracy:0.8020
+epoch:02 train_loss:0.5392 val_loss:0.5328 val_accuracy:0.8639
+epoch:03 train_loss:0.4004 val_loss:0.4228 val_accuracy:0.8848
+epoch:04 train_loss:0.3331 val_loss:0.3741 val_accuracy:0.8943
+epoch:05 train_loss:0.4589 val_loss:0.3455 val_accuracy:0.9001
+epoch:06 train_loss:0.2479 val_loss:0.3273 val_accuracy:0.9075
+epoch:07 train_loss:0.3313 val_loss:0.3108 val_accuracy:0.9115
+epoch:08 train_loss:0.3799 val_loss:0.2989 val_accuracy:0.9147
+epoch:09 train_loss:0.2978 val_loss:0.2884 val_accuracy:0.9183
+epoch:10 train_loss:0.3215 val_loss:0.2800 val_accuracy:0.9205
+test_accuracy:0.9375
+</pre></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">val_accuracy</span></code>に着目してみると、最終的におおよそ92%程度の精度で手書きの数字が分類できるようになりました。<strong>学習終了後</strong>に、ループの中でValidationデータセットを使ってモデルの汎化性能をおおまかにチェックしているのと同様にして、<strong>テスト用のデータセットを用いて学習が終了したネットワークの評価を行っています。</strong>テストデータでの評価結果は、およそ93.75%の正解率となりました。</p>
+</div>
+<div class="section" id="ValidationやTestを行う際の注意点">
+<h4>5.2.6.3. ValidationやTestを行う際の注意点<a class="headerlink" href="#ValidationやTestを行う際の注意点" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>ここで、ValidationにせよTestにせよ、「評価」を行う際には注意すべき点があります。学習は行わない、評価のためだけのデータをネットワークに渡して出力を計算している部分（例えば、<code class="docutils literal notranslate"><span class="pre">y_test</span> <span class="pre">=</span> <span class="pre">net(x_test)</span></code>）では、それらの行を2つのコンテキストでくくっています。</p>
+<div class="section" id="chainer.using_config('train',-False)">
+<h5>5.2.6.3.1. <code class="docutils literal notranslate"><span class="pre">chainer.using_config('train',</span> <span class="pre">False)</span></code><a class="headerlink" href="#chainer.using_config('train',-False)" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<p>まず、今回は学習時と推論時で動作が異なる関数は含まれていないため、実際の効力は持ちませんが、Validationやテストのために推論を行うときは<code class="docutils literal notranslate"><span class="pre">chainer.config.train</span> <span class="pre">=</span> <span class="pre">False</span></code>とします。以下のように、<code class="docutils literal notranslate"><span class="pre">chainer.using_config('train',</span> <span class="pre">False)</span></code>をwith構文と共に使えば、その中では<code class="docutils literal notranslate"><span class="pre">chainer.config.train</span> <span class="pre">=</span> <span class="pre">False</span></code>となります。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>with chainer.using_config(&#39;train&#39;, False):
+    --- 何か推論処理 ---
+</pre></div>
+</div>
+<p>これは、以下のようにするのと同じことです。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>chainer.config.train = False
+
+--- 何か推論処理 ---
+</pre></div>
+</div>
+<p>ただし、Pythonのコンテキストを利用しない場合は、一度このようにどこかで書くと、それ以降この設定はグローバルにずっと有効になることに注意してください。（推論したあと再び学習を行うという場合は、再度<code class="docutils literal notranslate"><span class="pre">chainer.config.train</span> <span class="pre">=</span> <span class="pre">True</span></code>などのようにすることが必要になります。<code class="docutils literal notranslate"><span class="pre">chainer.config</span></code>以下の規定の値に何かを代入することはグローバルに作用しますので、次に説明する<code class="docutils literal notranslate"><span class="pre">enable_backprop</span></code>についても同様です。）</p>
+</div>
+<div class="section" id="chainer.using_config('enable_backprop',-False)">
+<h5>5.2.6.3.2. <code class="docutils literal notranslate"><span class="pre">chainer.using_config('enable_backprop',</span> <span class="pre">False)</span></code><a class="headerlink" href="#chainer.using_config('enable_backprop',-False)" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<p>次に、今回は評価に用いる出力の計算後にロス関数の各パラメータについての勾配は必要ないので、内部に計算グラフを保持しておく必要もないため、<code class="docutils literal notranslate"><span class="pre">chainer.using_config('enable_backprop',</span> <span class="pre">False)</span></code>として<strong>無駄な計算グラフの構築を行わないようにし、メモリ消費量を節約しています。</strong></p>
+</div>
+<div class="section" id="NOTE:-ChainerのConfig">
+<h5>5.2.6.3.3. NOTE: ChainerのConfig<a class="headerlink" href="#NOTE:-ChainerのConfig" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<p>Chainerにはこの他にも、いくつかのグローバルなConfigがプリセットとして用意されています。また、<code class="docutils literal notranslate"><span class="pre">chainer.config</span></code>以下にユーザが自由な設定値を置くこともできます。詳しくはこちらを一読してください：<a class="reference external" href="https://docs.chainer.org/en/stable/reference/configuration.html">Configuring
+Chainer</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="学習済みモデルを保存する">
+<h3>5.2.7. 学習済みモデルを保存する<a class="headerlink" href="#学習済みモデルを保存する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>学習が終わったら、その結果を保存します。Chainerには、2種類のフォーマットで学習済みネットワークをシリアライズする機能が用意されています。一つはHDF5形式で、もう一つはNumPyのNPZ形式でネットワークを保存するものです。今回は、追加ライブラリのインストールが必要なHDF5ではなく、NumPy標準機能で提供されているシリアライズ機能（<code class="docutils literal notranslate"><span class="pre">numpy.savez()</span></code>）を利用したNPZ形式でのモデルの保存を行います。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import serializers
+
+serializers.save_npz(&#39;my_mnist.model&#39;, net)
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [16]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># ちゃんと保存されていることを確認
+%ls -la my_mnist.model
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-rw-r--r-- 1 root root 333929 Nov  6 16:50 my_mnist.model
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="保存したモデルを読み込んで推論する">
+<h3>5.2.8. 保存したモデルを読み込んで推論する<a class="headerlink" href="#保存したモデルを読み込んで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>学習したネットワークを、それを使って数字の分類がしたい誰かに渡して、使ってもらうにはどうしたら良いでしょうか。もっともシンプルな方法は、ネットワークの定義がかかれたPythonファイルと、今しがた保存したNPZファイルを渡して、以下のように使うことです。以下のコードの前に、渡したネットワーク定義のファイルからネットワークのクラス（ここでは<code class="docutils literal notranslate"><span class="pre">MLP</span></code>）が読み込まれていることを前提とします。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span># まず同じネットワークのオブジェクトを作る
+infer_net = MLP()
+
+# そのオブジェクトに保存済みパラメータをロードする
+serializers.load_npz(&#39;my_mnist.model&#39;, infer_net)
+</pre></div>
+</div>
+</div>
+<p>以上で準備が整いました。それでは、試しにテストデータの中から一つ目の画像を取ってきて、それに対する分類を行ってみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [18]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>gpu_id = 0  # CPUで計算をしたい場合は、-1を指定してください
+
+if gpu_id &gt;= 0:
+    infer_net.to_gpu(gpu_id)
+
+# 1つ目のテストデータを取り出します
+x, t = test[0]  #  tは使わない
+
+# どんな画像か表示してみます
+plt.imshow(x.reshape(28, 28), cmap=&#39;gray&#39;)
+plt.show()
+
+# ミニバッチの形にする（複数の画像をまとめて推論に使いたい場合は、サイズnのミニバッチにしてまとめればよい）
+print(&#39;元の形：&#39;, x.shape, end=&#39; -&gt; &#39;)
+
+x = x[None, ...]
+
+print(&#39;ミニバッチの形にしたあと：&#39;, x.shape)
+
+# ネットワークと同じデバイス上にデータを送る
+x = infer_net.xp.asarray(x)
+
+# モデルのforward関数に渡す
+with chainer.using_config(&#39;train&#39;, False), chainer.using_config(&#39;enable_backprop&#39;, False):
+    y = infer_net(x)
+
+# Variable形式で出てくるので中身を取り出す
+y = y.array
+
+# 結果をCPUに送る
+y = to_cpu(y)
+
+# 予測確率の最大値のインデックスを見る
+pred_label = y.argmax(axis=1)
+
+print(&#39;ネットワークの予測:&#39;, pred_label[0])
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_43_0.png" src="../_images/notebooks_Introduction_to_Chainer_43_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+元の形： (784,) -&gt; ミニバッチの形にしたあと： (1, 784)
+ネットワークの予測: 7
+</pre></div></div>
+</div>
+<p>ネットワークの予測は7でした。画像を見る限り、当たっていそうですね！</p>
+</div>
+</div>
+<div class="section" id="Trainerを使ってみよう">
+<h2>5.3. Trainerを使ってみよう<a class="headerlink" href="#Trainerを使ってみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Chainerは、これまで書いてきたような学習ループを隠蔽する<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>という機能を提供しています。これを使うと、学習ループを陽に書く必要がなくなり、またいろいろな便利なExtentionを使うことで、学習過程でのロスカーブの可視化や、ログの保存などが楽になります。</p>
+<div class="section" id="データセット・Iterator・ネットワークの準備">
+<h3>5.3.1. データセット・Iterator・ネットワークの準備<a class="headerlink" href="#データセット・Iterator・ネットワークの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>これらはループを自分で書く場合と同じなので、まとめてしまいます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
+
+train_val, test = mnist.get_mnist()
+train, valid = split_dataset_random(train_val, 50000, seed=0)
+
+batchsize = 128
+
+train_iter = iterators.SerialIterator(train, batchsize)
+valid_iter = iterators.SerialIterator(valid, batchsize, False, False)
+test_iter = iterators.SerialIterator(test, batchsize, False, False)
+
+gpu_id = 0  # CPUを用いたい場合は、-1を指定してください
+
+net = MLP()
+
+if gpu_id &gt;= 0:
+    net.to_gpu(gpu_id)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="Updaterの準備">
+<h3>5.3.2. Updaterの準備<a class="headerlink" href="#Updaterの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ここからが学習ループを自分で書く場合と異なる部分です。ループを自分で書く場合には、データセットからバッチサイズ分のデータをとってきてミニバッチに束ねて、それをネットワークに入力して予測を作り、それを正解と比較し、ロスを計算してバックワード（誤差逆伝播）をして、<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>によってパラメータを更新する、というところまでを、以下のように書いていました。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---------- 学習の1イテレーション ----------</span>
+<span class="n">train_batch</span> <span class="o">=</span> <span class="n">train_iter</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">concat_examples</span><span class="p">(</span><span class="n">train_batch</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">)</span>
+
+<span class="c1"># 予測値の計算</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># ロスの計算</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax_cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+
+<span class="c1"># 勾配の計算</span>
+<span class="n">net</span><span class="o">.</span><span class="n">cleargrads</span><span class="p">()</span>
+<span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+<span class="c1"># パラメータの更新</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>これらの処理を、まるっと<code class="docutils literal notranslate"><span class="pre">Updater</span></code>はまとめてくれます。これを行うために、<strong>``Updater``には``Iterator``と``Optimizer``を渡してやります。</strong>
+<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>はデータセットオブジェクトを持っていて、そこからミニバッチを作り、<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>は最適化対象のネットワークを持っていて、それを使って前進計算とロスの計算・パラメータのアップデートをすることができます。そのため、この2つを渡しておけば、上記の処理を<code class="docutils literal notranslate"><span class="pre">Updater</span></code>内で全部行ってもらえるというわけです。では、<code class="docutils literal notranslate"><span class="pre">Updater</span></code>オブジェクトを作成してみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import training
+
+gpu_id = 0  # CPUを使いたい場合は-1を指定してください
+
+# ネットワークをClassifierで包んで、ロスの計算などをモデルに含める
+net = L.Classifier(net)
+
+# 最適化手法の選択
+optimizer = optimizers.SGD(lr=0.01).setup(net)
+
+# UpdaterにIteratorとOptimizerを渡す
+updater = training.StandardUpdater(train_iter, optimizer, device=gpu_id)
+</pre></div>
+</div>
+</div>
+<p>ここでは、ネットワークを<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>で包んでいます。<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>は一種の<code class="docutils literal notranslate"><span class="pre">Chain</span></code>になっていて、渡されたネットワーク自体を<code class="docutils literal notranslate"><span class="pre">predictor</span></code>というattributeに持ち、<strong>ロス計算を行う機能を追加してくれます。</strong>こうすると、<code class="docutils literal notranslate"><span class="pre">net()</span></code>はデータ<code class="docutils literal notranslate"><span class="pre">x</span></code>だけでなくラベル<code class="docutils literal notranslate"><span class="pre">t</span></code>も取るようになり、まず渡されたデータを<code class="docutils literal notranslate"><span class="pre">predictor</span></code>に通して予測を作り、それを<code class="docutils literal notranslate"><span class="pre">t</span></code>と比較して<strong>ロスの``Variable``を返すようになります。</strong>ロス関数として何を用いるかはデフォルトでは<code class="docutils literal notranslate"><span class="pre">F.softmax_cross_entropy</span></code>となっていますが、<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>の引数<code class="docutils literal notranslate"><span class="pre">lossfunc</span></code>にロス計算を行う関数を渡してやれば変更することができるため、Classifierという名前ながら回帰問題などのロス計算機能の追加にも使うことができます。（<code class="docutils literal notranslate"><span class="pre">L.Classifier(net,</span> <span class="pre">lossfun=L.mean_squared_error,</span> <span class="pre">compute_accuracy=False)</span></code>のようにする）</p>
+<p><code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>は前述のような<code class="docutils literal notranslate"><span class="pre">Updater</span></code>の担当する処理を遂行するための最もシンプルなクラスです。この他にも複数のGPUを用いるための<code class="docutils literal notranslate"><span class="pre">ParallelUpdater</span></code>などが用意されています。</p>
+</div>
+<div class="section" id="Trainerの準備">
+<h3>5.3.3. Trainerの準備<a class="headerlink" href="#Trainerの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>実際に学習ループ部分を隠蔽しているのは<code class="docutils literal notranslate"><span class="pre">Updater</span></code>なので、これがあればもう学習を始められそうですが、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>はさらに<code class="docutils literal notranslate"><span class="pre">Updater</span></code>を受け取って学習全体の管理を行う機能を提供しています。例えば、<strong>データセットを何周したら学習を終了するか(stop_trigger)</strong>
+や、<strong>途中のロスの値をどのファイルに保存したいか</strong>、<strong>ロスカーブを可視化した画像ファイルを保存するかどうか</strong>など、学習全体の設定として必須・もしくはあると便利な色々な機能を提供しています。</p>
+<p>必須なものとしては学習終了のタイミングを指定する<code class="docutils literal notranslate"><span class="pre">stop_trigger</span></code>がありますが、これは<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを作成するときのコンストラクタで指定します。指定の方法は単純で、<code class="docutils literal notranslate"><span class="pre">(長さ,</span> <span class="pre">単位)</span></code>という形のタプルを与えればよいだけです。「長さ」には数字を、「単位」には<code class="docutils literal notranslate"><span class="pre">'iteration'</span></code>もしくは<code class="docutils literal notranslate"><span class="pre">'epoch'</span></code>のいずれかの文字列を指定します。こうすると、たとえば100
+epoch（データセット100周）で学習を終了してください、とか、1000
+iteration（1000回更新）で学習を終了してください、といったことが指定できます。<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>を作るときに、<code class="docutils literal notranslate"><span class="pre">stop_trigger</span></code>を指定しないと、学習は自動的には止まりません。</p>
+<p>では、実際に<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを作ってみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>max_epoch = 10
+
+# TrainerにUpdaterを渡す
+trainer = training.Trainer(
+    updater, (max_epoch, &#39;epoch&#39;), out=&#39;mnist_result&#39;)
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">out</span></code>引数では、この次に説明する<code class="docutils literal notranslate"><span class="pre">Extension</span></code>を使って、ログファイルやロスの変化の過程を描画したグラフの画像ファイルなどを保存するディレクトリを指定しています。</p>
+<p>Trainerと、その内側にあるいろいろなオブジェクトの関係は、図にまとめると以下のようになっています。このイメージを持っておくと自分で部分的に改造したりする際に便利だと思います。</p>
+<div class="figure" id="id51">
+<img alt="image" src="https://qiita-image-store.s3.amazonaws.com/0/17934/a751df31-b999-f692-d839-488c26b1c48a.png" />
+<p class="caption"><span class="caption-text">image</span></p>
+</div>
+</div>
+<div class="section" id="TrainerにExtensionを追加する">
+<h3>5.3.4. TrainerにExtensionを追加する<a class="headerlink" href="#TrainerにExtensionを追加する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>を使う利点として、</p>
+<ul class="simple">
+<li>ログを自動的にファイルに保存（<code class="docutils literal notranslate"><span class="pre">LogReport</span></code>)</li>
+<li>ターミナルに定期的にロスなどの情報を表示（<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>）</li>
+<li>ロスを定期的にグラフで可視化して画像として保存（<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>)</li>
+<li>定期的にモデルやOptimizerの状態を自動シリアライズ（<code class="docutils literal notranslate"><span class="pre">snapshot</span></code>）</li>
+<li>学習の進捗を示すプログレスバーを表示（<code class="docutils literal notranslate"><span class="pre">ProgressBar</span></code>）</li>
+<li>ネットワークの構造をGraphvizのdot形式で保存（<code class="docutils literal notranslate"><span class="pre">dump_graph</span></code>）</li>
+<li>ネットワークのパラメータの平均や分散などの統計情報を出力（<code class="docutils literal notranslate"><span class="pre">ParameterStatistics</span></code>）</li>
+</ul>
+<p>などなどの様々な便利な機能を簡単に利用することができる点があります。これらの機能を利用するには、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトに対して<code class="docutils literal notranslate"><span class="pre">extend</span></code>メソッドを使って追加したい<code class="docutils literal notranslate"><span class="pre">Extension</span></code>のオブジェクトを渡してやるだけです。では実際に幾つかの<code class="docutils literal notranslate"><span class="pre">Extension</span></code>を追加してみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.training import extensions
+
+trainer.extend(extensions.LogReport())
+trainer.extend(extensions.snapshot(filename=&#39;snapshot_epoch-{.updater.epoch}&#39;))
+trainer.extend(extensions.Evaluator(valid_iter, net, device=gpu_id), name=&#39;val&#39;)
+trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/loss&#39;, &#39;main/accuracy&#39;, &#39;val/main/loss&#39;, &#39;val/main/accuracy&#39;, &#39;l1/W/data/std&#39;, &#39;elapsed_time&#39;]))
+trainer.extend(extensions.ParameterStatistics(net.predictor.l1, {&#39;std&#39;: np.std}))
+trainer.extend(extensions.PlotReport([&#39;l1/W/data/std&#39;], x_key=&#39;epoch&#39;, file_name=&#39;std.png&#39;))
+trainer.extend(extensions.PlotReport([&#39;main/loss&#39;, &#39;val/main/loss&#39;], x_key=&#39;epoch&#39;, file_name=&#39;loss.png&#39;))
+trainer.extend(extensions.PlotReport([&#39;main/accuracy&#39;, &#39;val/main/accuracy&#39;], x_key=&#39;epoch&#39;, file_name=&#39;accuracy.png&#39;))
+trainer.extend(extensions.dump_graph(&#39;main/loss&#39;))
+</pre></div>
+</div>
+</div>
+<div class="section" id="LogReport">
+<h4>5.3.4.1. <code class="docutils literal notranslate"><span class="pre">LogReport</span></code><a class="headerlink" href="#LogReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">epoch</span></code>や<code class="docutils literal notranslate"><span class="pre">iteration</span></code>ごとの<code class="docutils literal notranslate"><span class="pre">loss</span></code>,
+<code class="docutils literal notranslate"><span class="pre">accuracy</span></code>などを自動的に集計し、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>の<code class="docutils literal notranslate"><span class="pre">out</span></code>引数で指定した出力ディレクトリに<code class="docutils literal notranslate"><span class="pre">log</span></code>というファイル名で保存します。</p>
+</div>
+<div class="section" id="snapshot">
+<h4>5.3.4.2. <code class="docutils literal notranslate"><span class="pre">snapshot</span></code><a class="headerlink" href="#snapshot" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>の<code class="docutils literal notranslate"><span class="pre">out</span></code>引数で指定した出力ディレクトリに<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを指定されたタイミング（デフォルトでは1エポックごと）に保存します。<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトは上述のように<code class="docutils literal notranslate"><span class="pre">Updater</span></code>を持っており、この中に<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>とモデルが保持されているため、この<code class="docutils literal notranslate"><span class="pre">Extension</span></code>でスナップショットをとっておけば、学習の復帰や学習済みモデルを使った推論などが学習終了後にも可能になります。</p>
+</div>
+<div class="section" id="dump_graph">
+<h4>5.3.4.3. <code class="docutils literal notranslate"><span class="pre">dump_graph</span></code><a class="headerlink" href="#dump_graph" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>指定された<code class="docutils literal notranslate"><span class="pre">Variable</span></code>オブジェクトから辿れる計算グラフをGraphvizのdot形式で保存します。保存先は<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>の<code class="docutils literal notranslate"><span class="pre">out</span></code>引数で指定した出力ディレクトリです。</p>
+</div>
+<div class="section" id="Evaluator">
+<h4>5.3.4.4. <code class="docutils literal notranslate"><span class="pre">Evaluator</span></code><a class="headerlink" href="#Evaluator" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>評価用のデータセットの<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>と、学習に使うモデルのオブジェクトを渡しておくことで、学習中のモデルを指定されたタイミングで評価用データセットを用いて評価します。内部では、<code class="docutils literal notranslate"><span class="pre">chainer.config.using_config('train',</span> <span class="pre">False)</span></code>が自動的に行われます。<code class="docutils literal notranslate"><span class="pre">backprop_enable</span></code>を<code class="docutils literal notranslate"><span class="pre">False</span></code>にすることは行われないため、メモリ使用効率はデフォルトでは最適ではありませんが、基本的には<code class="docutils literal notranslate"><span class="pre">Evaluator</span></code>を使えば評価を行うという点において問題はありません。</p>
+</div>
+<div class="section" id="PrintReport">
+<h4>5.3.4.5. <code class="docutils literal notranslate"><span class="pre">PrintReport</span></code><a class="headerlink" href="#PrintReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">Reporter</span></code>によって集計された値を標準出力に出力します。このときどの値を出力するかを、リストの形で与えます。</p>
+</div>
+<div class="section" id="PlotReport">
+<h4>5.3.4.6. <code class="docutils literal notranslate"><span class="pre">PlotReport</span></code><a class="headerlink" href="#PlotReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>引数のリストで指定された値の変遷を<code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>ライブラリを使ってグラフに描画し、出力ディレクトリに<code class="docutils literal notranslate"><span class="pre">file_name</span></code>引数で指定されたファイル名で画像として保存します。</p>
+</div>
+<div class="section" id="ParameterStatistics">
+<h4>5.3.4.7. <code class="docutils literal notranslate"><span class="pre">ParameterStatistics</span></code><a class="headerlink" href="#ParameterStatistics" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>指定したレイヤ（Link）が持つパラメータの平均・分散・最小値・最大値などなどの統計情報を計算して、ログに保存します。パラメータが発散していないかなどをチェックするのに便利です。</p>
+<hr class="docutils" />
+<p>これらの<code class="docutils literal notranslate"><span class="pre">Extension</span></code>は、ここで紹介した以外にも、例えば<code class="docutils literal notranslate"><span class="pre">trigger</span></code>によって個別に作動するタイミングを指定できるなどのいくつかのオプションを持っており、より柔軟に組み合わせることができます。詳しくは公式のドキュメントを見てください</p>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.chainer.org/en/stable/reference/extensions.html">ChainerのTrainer
+extension一覧</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="学習を開始する">
+<h3>5.3.5. 学習を開始する<a class="headerlink" href="#学習を開始する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>学習を開始するには、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">run</span></code>を呼ぶだけです！</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [23]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>trainer.run()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/data/std  elapsed_time
+1           1.66917     0.599884       0.93892        0.806764           0.0359232      9.15971
+2           0.673347    0.843211       0.519291       0.86699            0.0366054      17.0865
+3           0.459921    0.878686       0.414858       0.887658           0.037035       25.0743
+4           0.389535    0.893262       0.370489       0.896855           0.037301       33.087
+5           0.353169    0.901255       0.342332       0.904569           0.03749        41.1204
+6           0.330151    0.90609        0.32213        0.909711           0.037639       49.1886
+7           0.312338    0.910846       0.306804       0.91337            0.0377671      57.2291
+8           0.298136    0.914663       0.295119       0.915843           0.0378811      65.2665
+9           0.285837    0.917559       0.284161       0.918513           0.0379865      73.3064
+10          0.275229    0.921116       0.27476        0.921776           0.0380852      81.3995
+</pre></div></div>
+</div>
+<p>初めに取り組んだ学習ループを自分で書いた場合よりもより短いコードで、リッチなログ情報とともに、下記で表示してみるようなグラフなども作りつつ、同様の結果を得ることができました。1層目の全結合層の重み行列の値の標準偏差が、学習の進行とともに徐々に大きくなっていっているのも見て取れて、面白いですね。</p>
+<p>では、保存されているロスのグラフを確認してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [24]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from IPython.display import Image
+Image(filename=&#39;mnist_result/loss.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[24]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_60_0.png" src="../_images/notebooks_Introduction_to_Chainer_60_0.png" />
+</div>
+</div>
+<p>精度のグラフも見てみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [25]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;mnist_result/accuracy.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[25]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_62_0.png" src="../_images/notebooks_Introduction_to_Chainer_62_0.png" />
+</div>
+</div>
+<p>もう少し学習を続ければ、まだ多少精度の向上が図れそうな雰囲気がありますね。</p>
+<p>ついでに、<code class="docutils literal notranslate"><span class="pre">dump_graph</span></code>という<code class="docutils literal notranslate"><span class="pre">Extension</span></code>が出力した計算グラフを、<code class="docutils literal notranslate"><span class="pre">Graphviz</span></code>を使って画像化して見てみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!dot -Tpng mnist_result/cg.dot -o mnist_result/cg.png
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [27]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;mnist_result/cg.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[27]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_65_0.png" src="../_images/notebooks_Introduction_to_Chainer_65_0.png" />
+</div>
+</div>
+<p>上から下へ向かって、データやパラメータがどのような<code class="docutils literal notranslate"><span class="pre">Function</span></code>に渡されて計算が行われ、ロスを表す<code class="docutils literal notranslate"><span class="pre">Variable</span></code>が出力されたかが分かります。</p>
+</div>
+<div class="section" id="テストデータで評価する">
+<h3>5.3.6. テストデータで評価する<a class="headerlink" href="#テストデータで評価する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>上でもValidationデータに対しての評価を学習中に行うために使用されているTrainer
+Extensionの一つであるEvaluatorは、Trainerと関係なく独立して使うこともできます。以下のようにして<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>とネットワークのオブジェクト（<code class="docutils literal notranslate"><span class="pre">net</span></code>）、使用するデバイスIDを渡してEvaluatorオブジェクトを作成し、これを関数として実行するだけです。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [28]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>test_evaluator = extensions.Evaluator(test_iter, net, device=gpu_id)
+results = test_evaluator()
+print(&#39;Test accuracy:&#39;, results[&#39;main/accuracy&#39;])
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Test accuracy: 0.92494065
+</pre></div></div>
+</div>
+</div>
+<div class="section" id="学習済みモデルで推論する">
+<h3>5.3.7. 学習済みモデルで推論する<a class="headerlink" href="#学習済みモデルで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>それでは、Trainer
+Extensionのsnapshotが自動的に保存したネットワークのスナップショットから学習済みパラメータを読み込んで、学習ループを書いて学習したときと同様に1番目のテストデータで推論を行ってみましょう。</p>
+<p>ここで注意すべきは、snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため、extensionの内部のパラメータなども一緒に保存されています。これは、学習自体を再開するために必要だからです。しかし、今回はネットワークのパラメータだけを読み込めば良いので、<code class="docutils literal notranslate"><span class="pre">serializers.load_npz()</span></code>のpath引数にネットワーク部分までのパス（<code class="docutils literal notranslate"><span class="pre">updater/model:main/predictor/</span></code>）を指定しています。こうすることで、ネットワークのオブジェクトにパラメータだけを読み込むことができます。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [29]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
+
+infer_net = MLP()
+serializers.load_npz(
+    &#39;mnist_result/snapshot_epoch-10&#39;,
+    infer_net, path=&#39;updater/model:main/predictor/&#39;)
+
+if gpu_id &gt;= 0:
+    infer_net.to_gpu(gpu_id)
+
+x, t = test[0]
+plt.imshow(x.reshape(28, 28), cmap=&#39;gray&#39;)
+plt.show()
+
+x = infer_net.xp.asarray(x[None, ...])
+with chainer.using_config(&#39;train&#39;, False), chainer.using_config(&#39;enable_backprop&#39;, False):
+    y = infer_net(x)
+y = to_cpu(y.array)
+
+print(&#39;予測ラベル:&#39;, y.argmax(axis=1)[0])
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_70_0.png" src="../_images/notebooks_Introduction_to_Chainer_70_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+予測ラベル: 7
+</pre></div></div>
+</div>
+<p>無事正解できていますね。</p>
+</div>
+</div>
+<div class="section" id="新しいネットワークを書いてみよう">
+<h2>5.4. 新しいネットワークを書いてみよう<a class="headerlink" href="#新しいネットワークを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここでは、MNISTデータセットではなくCIFAR10という32x32サイズの小さなカラー画像に10クラスのいずれかのラベルがついたデータセットを用いて、いろいろなモデルを自分で書いて試行錯誤する流れを体験してみます。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">airp
+lane</th>
+<th class="head">auto
+mobi
+le</th>
+<th class="head">bird</th>
+<th class="head">cat</th>
+<th class="head">deer</th>
+<th class="head">dog</th>
+<th class="head">frog</th>
+<th class="head">hors
+e</th>
+<th class="head">ship</th>
+<th class="head">truc
+k</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a href="#id21"><span class="problematic" id="id22">|</span></a>ima
+ge10
+|</td>
+<td><a href="#id23"><span class="problematic" id="id24">|</span></a>ima
+ge11
+|</td>
+<td><a href="#id25"><span class="problematic" id="id26">|</span></a>ima
+ge12
+|</td>
+<td><a href="#id27"><span class="problematic" id="id28">|</span></a>ima
+ge13
+|</td>
+<td><a href="#id29"><span class="problematic" id="id30">|</span></a>ima
+ge14
+|</td>
+<td><a href="#id31"><span class="problematic" id="id32">|</span></a>ima
+ge15
+|</td>
+<td><a href="#id33"><span class="problematic" id="id34">|</span></a>ima
+ge16
+|</td>
+<td><a href="#id35"><span class="problematic" id="id36">|</span></a>ima
+ge17
+|</td>
+<td><a href="#id37"><span class="problematic" id="id38">|</span></a>ima
+ge18
+|</td>
+<td><a href="#id39"><span class="problematic" id="id40">|</span></a>ima
+ge19
+|</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="ネットワークの定義">
+<h3>5.4.1. ネットワークの定義<a class="headerlink" href="#ネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ここでは、さきほど試した全結合層だけからなるネットワークではなく、畳込み層を持つネットワークを定義してみます。3つの畳み込み層を持ち、2つの全結合層がそのあとに続いています。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class MyNet(chainer.Chain):
+
+    def __init__(self, n_out):
+        super(MyNet, self).__init__()
+        with self.init_scope():
+            self.conv1 = L.Convolution2D(None, 32, 3, 3, 1)
+            self.conv2 = L.Convolution2D(32, 64, 3, 3, 1)
+            self.conv3 = L.Convolution2D(64, 128, 3, 3, 1)
+            self.fc4 = L.Linear(None, 1000)
+            self.fc5 = L.Linear(1000, n_out)
+
+    def __call__(self, x):
+        h = F.relu(self.conv1(x))
+        h = F.relu(self.conv2(h))
+        h = F.relu(self.conv3(h))
+        h = F.relu(self.fc4(h))
+        h = self.fc5(h)
+        return h
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="学習">
+<h3>5.4.2. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ここで、あとから別のネットワークも簡単に同じ設定で訓練できるよう、<code class="docutils literal notranslate"><span class="pre">train</span></code>関数を作っておきます。これは、</p>
+<ul class="simple">
+<li>ネットワークのオブジェクト</li>
+<li>バッチサイズ</li>
+<li>使用するGPU ID</li>
+<li>学習を終了するエポック数</li>
+<li>データセットオブジェクト</li>
+<li>学習率の初期値</li>
+<li>学習率減衰のタイミング</li>
+</ul>
+<p>などを渡すと、内部で<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>を用いて渡されたデータセットを使ってネットワークを訓練し、学習が終了した状態のネットワークを返してくれる関数です。<code class="docutils literal notranslate"><span class="pre">Trainer.run()</span></code>が終了した後に、テストデータセットを使って評価まで行ってくれます。先程のMNISTでの例と違い、最適化手法にはMomentumSGDを用い、ExponentialShiftというExtentionを使って、指定したタイミングごとに学習率を減衰させるようにしてみます。</p>
+<p>また、ここでは<code class="docutils literal notranslate"><span class="pre">cifar.get_cifar10()</span></code>が返す学習用データセットのうち9割のデータを<code class="docutils literal notranslate"><span class="pre">train</span></code>、残りの1割を<code class="docutils literal notranslate"><span class="pre">valid</span></code>として使うようにしています。</p>
+<p>この<code class="docutils literal notranslate"><span class="pre">train</span></code>関数を用いて、上で定義した<code class="docutils literal notranslate"><span class="pre">MyModel</span></code>モデルを訓練してみます。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import cifar
+
+
+def train(network_object, batchsize=128, gpu_id=0, max_epoch=20, train_dataset=None, valid_dataset=None, test_dataset=None, postfix=&#39;&#39;, base_lr=0.01, lr_decay=None):
+
+    # 1. Dataset
+    if train_dataset is None and valid_dataset is None and test_dataset is None:
+        train_val, test = cifar.get_cifar10()
+        train_size = int(len(train_val) * 0.9)
+        train, valid = split_dataset_random(train_val, train_size, seed=0)
+    else:
+        train, valid, test = train_dataset, valid_dataset, test_dataset
+
+    # 2. Iterator
+    train_iter = iterators.MultiprocessIterator(train, batchsize)
+    valid_iter = iterators.MultiprocessIterator(valid, batchsize, False, False)
+
+    # 3. Model
+    net = L.Classifier(network_object)
+
+    # 4. Optimizer
+    optimizer = optimizers.MomentumSGD(lr=base_lr).setup(net)
+    optimizer.add_hook(chainer.optimizer.WeightDecay(0.0005))
+
+    # 5. Updater
+    updater = training.StandardUpdater(train_iter, optimizer, device=gpu_id)
+
+    # 6. Trainer
+    trainer = training.Trainer(updater, (max_epoch, &#39;epoch&#39;), out=&#39;{}_cifar10_{}result&#39;.format(network_object.__class__.__name__, postfix))
+
+    # 7. Trainer extensions
+    trainer.extend(extensions.LogReport())
+    trainer.extend(extensions.observe_lr())
+    trainer.extend(extensions.Evaluator(valid_iter, net, device=gpu_id), name=&#39;val&#39;)
+    trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/loss&#39;, &#39;main/accuracy&#39;, &#39;val/main/loss&#39;, &#39;val/main/accuracy&#39;, &#39;elapsed_time&#39;, &#39;lr&#39;]))
+    trainer.extend(extensions.PlotReport([&#39;main/loss&#39;, &#39;val/main/loss&#39;], x_key=&#39;epoch&#39;, file_name=&#39;loss.png&#39;))
+    trainer.extend(extensions.PlotReport([&#39;main/accuracy&#39;, &#39;val/main/accuracy&#39;], x_key=&#39;epoch&#39;, file_name=&#39;accuracy.png&#39;))
+    if lr_decay is not None:
+        trainer.extend(extensions.ExponentialShift(&#39;lr&#39;, 0.1), trigger=lr_decay)
+    trainer.run()
+    del trainer
+
+    # 8. Evaluation
+    test_iter = iterators.MultiprocessIterator(test, batchsize, False, False)
+    test_evaluator = extensions.Evaluator(test_iter, net, device=gpu_id)
+    results = test_evaluator()
+    print(&#39;Test accuracy:&#39;, results[&#39;main/accuracy&#39;])
+
+    return net
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [32]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>net = train(MyNet(10), gpu_id=0)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="stderr output_area docutils container">
+<div class="highlight"><pre>
+Downloading from https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz...
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed_time  lr
+1           1.92573     0.304932       1.72192        0.398633           10.125        0.01
+2           1.60849     0.42314        1.5291         0.461328           19.6319       0.01
+3           1.47232     0.470553       1.47034        0.480664           28.9358       0.01
+4           1.39247     0.499445       1.39101        0.498047           38.6087       0.01
+5           1.32885     0.526108       1.37906        0.507812           47.9753       0.01
+6           1.26878     0.546564       1.35942        0.516797           57.4018       0.01
+7           1.21489     0.566239       1.25896        0.561328           66.783        0.01
+8           1.16632     0.583141       1.23951        0.562305           76.1565       0.01
+9           1.12348     0.600963       1.24492        0.562695           85.7787       0.01
+10          1.07204     0.619346       1.21256        0.569141           95.191        0.01
+11          1.02991     0.63643        1.18124        0.580664           104.553       0.01
+12          0.982722    0.651286       1.20387        0.573438           113.922       0.01
+13          0.938406    0.667125       1.1575         0.596484           123.376       0.01
+14          0.899804    0.681802       1.2115         0.57793            132.89        0.01
+15          0.857709    0.695978       1.19967        0.583203           142.33        0.01
+16          0.809218    0.713653       1.1955         0.589648           151.748       0.01
+17          0.764581    0.730824       1.19622        0.591016           161.299       0.01
+18          0.719728    0.746183       1.20772        0.584766           170.731       0.01
+19          0.665787    0.766026       1.21677        0.600781           180.132       0.01
+20          0.617204    0.784846       1.22176        0.600586           189.628       0.01
+Test accuracy: 0.60739714
+</pre></div></div>
+</div>
+<p>学習が20エポックまで終わりました。ロスと精度のプロットを見てみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [33]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;MyNet_cifar10_result/loss.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[33]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_78_0.png" src="../_images/notebooks_Introduction_to_Chainer_78_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [34]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;MyNet_cifar10_result/accuracy.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[34]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_79_0.png" src="../_images/notebooks_Introduction_to_Chainer_79_0.png" />
+</div>
+</div>
+<p>学習データでの精度（<code class="docutils literal notranslate"><span class="pre">main/accuracy</span></code>)は77%程度まで到達していますが、テストデータでのロス（<code class="docutils literal notranslate"><span class="pre">val/main/loss</span></code>）は途中から下げ止まり、精度（<code class="docutils literal notranslate"><span class="pre">val/main/accuracy</span></code>）も60%前後で頭打ちになってしまっています。表示されたログの最後の行を見ると、テストデータでの精度も同様に60%程度だったようです。学習データでは良い精度が出ているが、
+テストデータでは精度が良くないということなので、<strong>モデルが学習データにオーバーフィッティングしている</strong>と思われます。</p>
+</div>
+<div class="section" id="学習済みネットワークを使った予測">
+<h3>5.4.3. 学習済みネットワークを使った予測<a class="headerlink" href="#学習済みネットワークを使った予測" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>テスト精度は60%程度でしたが、試しにこの学習済みネットワークを使っていくつかのテスト画像を分類させてみましょう。あとで使いまわせるように<code class="docutils literal notranslate"><span class="pre">predict</span></code>関数を作っておきます。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [35]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>cls_names = [&#39;airplane&#39;, &#39;automobile&#39;, &#39;bird&#39;, &#39;cat&#39;, &#39;deer&#39;,
+             &#39;dog&#39;, &#39;frog&#39;, &#39;horse&#39;, &#39;ship&#39;, &#39;truck&#39;]
+
+def predict(net, image_id):
+    _, test = cifar.get_cifar10()
+    x, t = test[image_id]
+    net.to_cpu()
+    with chainer.using_config(&#39;train&#39;, False), chainer.using_config(&#39;enable_backprop&#39;, False):
+        y = net.predictor(x[None, ...]).data.argmax(axis=1)[0]
+    print(&#39;predicted_label:&#39;, cls_names[y])
+    print(&#39;answer:&#39;, cls_names[t])
+
+    plt.imshow(x.transpose(1, 2, 0))
+    plt.show()
+
+for i in range(10, 15):
+    predict(net, i)
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+predicted_label: airplane
+answer: airplane
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_82_1.png" src="../_images/notebooks_Introduction_to_Chainer_82_1.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+predicted_label: automobile
+answer: truck
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_82_3.png" src="../_images/notebooks_Introduction_to_Chainer_82_3.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+predicted_label: dog
+answer: dog
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_82_5.png" src="../_images/notebooks_Introduction_to_Chainer_82_5.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+predicted_label: horse
+answer: horse
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_82_7.png" src="../_images/notebooks_Introduction_to_Chainer_82_7.png" />
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+predicted_label: truck
+answer: truck
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_82_9.png" src="../_images/notebooks_Introduction_to_Chainer_82_9.png" />
+</div>
+</div>
+<p>うまく分類できているものもあれば、そうでないものもありました。ネットワークの学習に使用したデータセット上ではほぼ百発百中で正解できるとしても、未知のデータ、すなわちテストデータセットにある画像に対して高精度な予測ができなければ、意味がありません[^NN]。テストデータでの精度は、モデルの<strong>汎化性能</strong>に関係していると言われます。</p>
+<p>どうすれば高い汎化性能を持つネットワークを設計し、学習することができるでしょうか？（そんなことが簡単に分かったら苦労しない。）</p>
+</div>
+<div class="section" id="もっと深いネットワークを定義してみよう">
+<h3>5.4.4. もっと深いネットワークを定義してみよう<a class="headerlink" href="#もっと深いネットワークを定義してみよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>では、上のネットワークよりもよりたくさんの層を持つネットワークを定義してみましょう。ここでは、1層の畳み込みネットワークを<code class="docutils literal notranslate"><span class="pre">ConvBlock</span></code>、1層の全結合ネットワークを<code class="docutils literal notranslate"><span class="pre">LinearBlock</span></code>として定義し、これをたくさんシーケンシャルに積み重ねる方法で大きなネットワークを定義してみます。</p>
+<div class="section" id="構成要素を定義する">
+<h4>5.4.4.1. 構成要素を定義する<a class="headerlink" href="#構成要素を定義する" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>まず、今目指している大きなネットワークの構成要素となる<code class="docutils literal notranslate"><span class="pre">ConvBlock</span></code>と<code class="docutils literal notranslate"><span class="pre">LinearBlock</span></code>を定義してみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class ConvBlock(chainer.Chain):
+
+    def __init__(self, n_ch, pool_drop=False):
+        w = chainer.initializers.HeNormal()
+        super(ConvBlock, self).__init__()
+        with self.init_scope():
+            self.conv = L.Convolution2D(None, n_ch, 3, 1, 1, nobias=True, initialW=w)
+            self.bn = L.BatchNormalization(n_ch)
+        self.pool_drop = pool_drop
+
+    def __call__(self, x):
+        h = F.relu(self.bn(self.conv(x)))
+        if self.pool_drop:
+            h = F.max_pooling_2d(h, 2, 2)
+            h = F.dropout(h, ratio=0.25)
+        return h
+
+class LinearBlock(chainer.Chain):
+
+    def __init__(self, drop=False):
+        w = chainer.initializers.HeNormal()
+        super(LinearBlock, self).__init__()
+        with self.init_scope():
+            self.fc = L.Linear(None, 1024, initialW=w)
+        self.drop = drop
+
+    def __call__(self, x):
+        h = F.relu(self.fc(x))
+        if self.drop:
+            h = F.dropout(h)
+        return h
+</pre></div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ConvBlock</span></code>は<code class="docutils literal notranslate"><span class="pre">Chain</span></code>を継承した小さなネットワークとして定義されています。これは一つの畳み込み層とBatch
+Normalization層をパラメータありで持っているので、コンストラクタ内でこれらの登録を行っています。<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッドでは、これらにデータを渡しつつ、活性化関数ReLUを適用して、さらに<code class="docutils literal notranslate"><span class="pre">pool_drop</span></code>がコンストラクタに<code class="docutils literal notranslate"><span class="pre">True</span></code>で渡されているときはMax
+PoolingとDropoutという関数を適用するようになっています。</p>
+<p>Chainerでは、Pythonを使って書いたforward計算のコード自体がネットワークの構造を表します。すなわち、実行時にデータがどのような層をくぐっていったか、ということがネットワークそのものを定義します。これによって、上記のような分岐などを含むネットワークも簡単に書け、柔軟かつシンプルで可読性の高いネットワーク定義が可能になります。これが<strong>Define-by-Run</strong>と呼ばれる特徴です。</p>
+</div>
+<div class="section" id="大きなネットワークの定義">
+<h4>5.4.4.2. 大きなネットワークの定義<a class="headerlink" href="#大きなネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>次に、これらの小さなネットワークを構成要素として積み重ねて、大きなネットワークを定義してみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class DeepCNN(chainer.ChainList):
+
+    def __init__(self, n_output):
+        super(DeepCNN, self).__init__(
+            ConvBlock(64),
+            ConvBlock(64, True),
+            ConvBlock(128),
+            ConvBlock(128, True),
+            ConvBlock(256),
+            ConvBlock(256),
+            ConvBlock(256),
+            ConvBlock(256, True),
+            LinearBlock(),
+            LinearBlock(),
+            L.Linear(None, n_output)
+        )
+
+    def __call__(self, x):
+        for f in self:
+            x = f(x)
+        return x
+</pre></div>
+</div>
+</div>
+<p>ここで利用しているのが、<code class="docutils literal notranslate"><span class="pre">ChainList</span></code>というクラスです。このクラスは<code class="docutils literal notranslate"><span class="pre">Chain</span></code>を継承したクラスで、いくつもの<code class="docutils literal notranslate"><span class="pre">Link</span></code>や<code class="docutils literal notranslate"><span class="pre">Chain</span></code>を順次呼び出していくようなネットワークを定義するときに便利です。<code class="docutils literal notranslate"><span class="pre">ChainList</span></code>を継承して定義されるモデルは、親クラスのコンストラクタを呼び出す際に<strong>キーワード引数ではなく普通の引数として</strong><code class="docutils literal notranslate"><span class="pre">Link</span></code>もしくは<code class="docutils literal notranslate"><span class="pre">Chain</span></code>オブジェクトを渡すことができます。そしてこれらは、<code class="docutils literal notranslate"><span class="pre">self.children()</span></code>メソッドによって<strong>登録した順番に</strong>取り出すことができます。<code class="docutils literal notranslate"><span class="pre">ChainList</span></code>自体もPythonのイテレータとして機能するので、例えば<code class="docutils literal notranslate"><span class="pre">ChainList</span></code>を継承したクラスの中で<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">f</span> <span class="pre">in</span> <span class="pre">self:...</span></code>といったことも可能です。</p>
+<p>この特徴を使うと、forward計算の記述が簡単になります。<code class="docutils literal notranslate"><span class="pre">self.children()</span></code>が返す構成要素のリストから、for文で構成要素を順番に取り出していき、そもそもの入力である<code class="docutils literal notranslate"><span class="pre">x</span></code>に取り出してきた部分ネットワークの計算を適用して、この出力で<code class="docutils literal notranslate"><span class="pre">x</span></code>を置き換えるということを順番に行っていけば、一連の<code class="docutils literal notranslate"><span class="pre">Link</span></code>または<code class="docutils literal notranslate"><span class="pre">Chain</span></code>を、コンストラクタで親クラスに登録した順番と同じ順番で適用していくことができます。そのため、シーケンシャルな部分ネットワークの適用によって表される大きなネットワークを定義するのに重宝します。</p>
+<p>それでは、学習を回してみます。今回はパラメータ数も多いので、学習を停止するエポック数を100に設定します。また、学習率を0.1から始めて、30エポックごとに10分の1にするように設定してみます。</p>
+</div>
+<div class="section" id="TIPS">
+<h4>5.4.4.3. TIPS<a class="headerlink" href="#TIPS" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>今回は多くの畳込み層を使う大きなネットワークを使うので、Chainerが用意してくれているcuDNNのautotune機能を有効にしてみます。やり方は簡単で、以下の二行を事前に実行しておくだけです。</p>
+<hr class="docutils" />
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>chainer.cuda.set_max_workspace_size(512 * 1024 * 1024)
+chainer.config.autotune = True
+</pre></div>
+</div>
+</div>
+<p>それでは、今度こそ学習を開始してみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [39]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
+
+model = train(DeepCNN(10), max_epoch=100, base_lr=0.1, lr_decay=(30, &#39;epoch&#39;))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed_time  lr
+1           2.62197     0.14573        2.21733        0.169922           27.7069       0.1
+2           2.10617     0.212979       2.00481        0.261328           54.0449       0.1
+3           1.88634     0.284054       1.78054        0.31582            80.3558       0.1
+4           1.7315      0.346302       1.65524        0.382422           106.743       0.1
+5           1.57412     0.418692       1.54102        0.434961           133.252       0.1
+6           1.36374     0.501221       1.389          0.492969           159.601       0.1
+7           1.17911     0.577123       1.21575        0.58125            185.889       0.1
+8           1.06179     0.624556       1.23324        0.575391           212.312       0.1
+9           0.953693    0.664173       1.0595         0.63457            238.75        0.1
+10          0.876401    0.693554       1.04007        0.660742           265.13        0.1
+11          0.810982    0.721857       0.724226       0.748242           291.606       0.1
+12          0.76701     0.737291       1.3969         0.578125           317.98        0.1
+13          0.721205    0.752441       0.805076       0.735352           344.453       0.1
+14          0.69059     0.765491       0.708149       0.753906           370.849       0.1
+15          0.657838    0.774769       0.732216       0.750391           397.31        0.1
+16          0.635093    0.785345       0.694625       0.766211           423.689       0.1
+17          0.608348    0.790416       0.784326       0.745313           450.166       0.1
+18          0.59125     0.799605       1.25434        0.605859           476.579       0.1
+19          0.574865    0.803998       0.714913       0.766406           503.058       0.1
+20          0.55925     0.811124       0.656349       0.780273           529.513       0.1
+21          0.544051    0.817575       1.1551         0.648242           555.949       0.1
+22          0.53717     0.817427       0.666152       0.780469           582.429       0.1
+23          0.52614     0.82265        2.13534        0.50957            608.774       0.1
+24          0.509146    0.827748       0.855398       0.737109           635.217       0.1
+25          0.492269    0.832697       0.612051       0.792578           661.678       0.1
+26          0.484122    0.83665        2.05363        0.497461           688.071       0.1
+27          0.482076    0.838357       0.704507       0.783008           714.542       0.1
+28          0.482861    0.838275       0.691148       0.77832            740.947       0.1
+29          0.469916    0.841486       0.762406       0.750781           767.506       0.1
+30          0.461287    0.843082       0.908583       0.719922           793.827       0.1
+31          0.295321    0.899725       0.385955       0.871289           820.292       0.01
+32          0.211532    0.927684       0.376522       0.87832            846.687       0.01
+33          0.179586    0.937411       0.378527       0.880664           873.159       0.01
+34          0.162789    0.942605       0.365282       0.885547           899.619       0.01
+35          0.143878    0.949519       0.38214        0.885156           926.008       0.01
+36          0.129639    0.955012       0.399251       0.887695           952.458       0.01
+37          0.122178    0.957933       0.373664       0.892187           978.862       0.01
+38          0.112851    0.960272       0.379896       0.896289           1005.33       0.01
+39          0.101425    0.963408       0.40355        0.886328           1031.7        0.01
+40          0.09716     0.96582        0.430833       0.886719           1058.16       0.01
+41          0.0915584   0.967219       0.424853       0.889258           1084.75       0.01
+42          0.0835843   0.970664       0.427704       0.89082            1111.06       0.01
+43          0.080927    0.971569       0.490179       0.877148           1137.5        0.01
+44          0.074437    0.974114       0.456981       0.888477           1163.85       0.01
+45          0.0741897   0.975186       0.446546       0.881641           1190.24       0.01
+46          0.0698716   0.975205       0.437825       0.890039           1216.59       0.01
+47          0.0682615   0.976474       0.472265       0.88125            1242.99       0.01
+48          0.0675032   0.976785       0.451363       0.883203           1269.34       0.01
+49          0.0635829   0.978205       0.471126       0.880859           1295.78       0.01
+50          0.0602762   0.979559       0.511736       0.878516           1322.2        0.01
+51          0.0616193   0.978989       0.478706       0.885938           1348.54       0.01
+52          0.0598845   0.978937       0.483767       0.880273           1374.95       0.01
+53          0.0581857   0.980369       0.489204       0.884961           1401.27       0.01
+54          0.0555974   0.980935       0.498003       0.881836           1427.66       0.01
+55          0.0588859   0.980057       0.4864         0.880469           1454.2        0.01
+56          0.0548843   0.981112       0.486644       0.882031           1480.62       0.01
+57          0.0584556   0.979759       0.516933       0.870703           1507.02       0.01
+58          0.0576701   0.98088        0.534598       0.87832            1533.36       0.01
+59          0.0542698   0.981623       0.467223       0.886328           1559.8        0.01
+60          0.0571885   0.980836       0.48413        0.875781           1586.15       0.01
+61          0.0372654   0.987948       0.431431       0.893945           1612.57       0.001
+62          0.0224688   0.993367       0.43882        0.894336           1638.94       0.001
+63          0.0193304   0.994984       0.442938       0.895898           1665.36       0.001
+64          0.0161223   0.995749       0.446272       0.896484           1691.73       0.001
+65          0.0145515   0.996116       0.455866       0.895703           1718.11       0.001
+66          0.0140637   0.996205       0.457365       0.899414           1744.95       0.001
+67          0.0135737   0.99606        0.45892        0.897656           1772.22       0.001
+68          0.0124771   0.996293       0.459063       0.896484           1799.45       0.001
+69          0.0105605   0.997285       0.468828       0.896875           1825.83       0.001
+70          0.0111601   0.997115       0.473455       0.896875           1852.27       0.001
+71          0.010745    0.996862       0.47303        0.898438           1878.65       0.001
+72          0.0102816   0.997248       0.473869       0.898633           1905.09       0.001
+73          0.0101893   0.997004       0.476754       0.898242           1931.78       0.001
+74          0.00944511  0.997418       0.476484       0.898438           1958.15       0.001
+75          0.00828196  0.997803       0.477065       0.901563           1984.57       0.001
+76          0.00857228  0.997663       0.477133       0.899414           2010.94       0.001
+77          0.00846836  0.997758       0.486379       0.897266           2037.3        0.001
+78          0.00763384  0.998108       0.482611       0.901563           2063.69       0.001
+79          0.00811885  0.997781       0.480579       0.901953           2090.13       0.001
+80          0.00749258  0.998041       0.486507       0.900977           2116.49       0.001
+81          0.00756322  0.997803       0.49213        0.900586           2142.93       0.001
+82          0.00742481  0.998091       0.483113       0.901563           2169.38       0.001
+83          0.00696963  0.998153       0.488844       0.899414           2195.74       0.001
+84          0.00666804  0.99818        0.491779       0.902539           2222.17       0.001
+85          0.00673255  0.998242       0.490899       0.900391           2248.51       0.001
+86          0.00631279  0.998624       0.490123       0.901172           2274.93       0.001
+87          0.00739336  0.998175       0.493166       0.900391           2301.28       0.001
+88          0.00705347  0.997847       0.493653       0.901367           2327.7        0.001
+89          0.00665648  0.998491       0.497778       0.901172           2354.04       0.001
+90          0.00600651  0.998442       0.499631       0.900977           2380.39       0.001
+91          0.00624798  0.998202       0.496736       0.902734           2422.4        0.0001
+92          0.00582731  0.998709       0.496134       0.901758           2451.4        0.0001
+93          0.00609582  0.998469       0.497172       0.901758           2477.8        0.0001
+94          0.00595012  0.998442       0.496889       0.901563           2504.4        0.0001
+95          0.00573971  0.998469       0.494115       0.90293            2530.82       0.0001
+96          0.00557446  0.998576       0.496487       0.902148           2557.18       0.0001
+97          0.00551239  0.998713       0.495388       0.90293            2583.59       0.0001
+98          0.00519373  0.998779       0.49366        0.902539           2610.02       0.0001
+99          0.00596793  0.998531       0.498531       0.902539           2636.39       0.0001
+100         0.00537741  0.99858        0.498359       0.902539           2662.73       0.0001
+Test accuracy: 0.89685524
+</pre></div></div>
+</div>
+<p>学習が終了しました。ロスカーブと精度のグラフを見てみましょう。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [40]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;DeepCNN_cifar10_result/loss.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[40]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_94_0.png" src="../_images/notebooks_Introduction_to_Chainer_94_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [41]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;DeepCNN_cifar10_result/accuracy.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_Introduction_to_Chainer_95_0.png" src="../_images/notebooks_Introduction_to_Chainer_95_0.png" />
+</div>
+</div>
+<p>先程よりも大幅にValidationデータに対する精度が向上したことが分かります。学習率を10分の1に下げるタイミングでロスががくっと減り、精度がガクッと上がっているのが分かります。最終的に、先程60%前後だったValidationデータでの精度が、90%程度まで上がりました。また、テストデータを用いた精度も、およそ90%程度となっています。しかし最新の研究成果では97%以上まで達成されています。さらに精度を上げるには、今回行ったようなネットワークの構造自体の改良ももちろんのこと、学習データを擬似的に増やす操作（Data
+augmentation）や、複数のモデルの出力を一つの出力に統合する操作（Ensemble）などなど、いろいろな工夫が考えられます。</p>
+</div>
+</div>
+</div>
+<div class="section" id="データセットクラスを書いてみよう">
+<h2>5.5. データセットクラスを書いてみよう<a class="headerlink" href="#データセットクラスを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここでは、Chainerにすでに用意されているCIFAR10のデータを取得する機能を使って、データセットクラスを自分で書いてみます。Chainerでは、データセットを表すクラスは以下の機能を持っていることが必要とされます。</p>
+<ul class="simple">
+<li>データセット内のデータ数を返す<code class="docutils literal notranslate"><span class="pre">__len__</span></code>メソッド</li>
+<li>引数として渡される<code class="docutils literal notranslate"><span class="pre">i</span></code>に対応したデータもしくはデータとラベルの組を返す<code class="docutils literal notranslate"><span class="pre">get_example</span></code>メソッド</li>
+</ul>
+<p>その他のデータセットに必要な機能は、<code class="docutils literal notranslate"><span class="pre">chainer.dataset.DatasetMixin</span></code>クラスを継承することで用意できます。ここでは、<code class="docutils literal notranslate"><span class="pre">DatasetMixin</span></code>クラスを継承し、Data
+augmentation機能のついたデータセットクラスを作成してみましょう。</p>
+<div class="section" id="NOTE">
+<h3>5.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>自前で用意した、もしくはどこからから調達したラベル付き画像データセットを使う場合は、<code class="docutils literal notranslate"><span class="pre">`LabeledImageDataset</span></code> &lt;<a class="reference external" href="https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.LabeledImageDataset.html?highlight=LabeledImageDataset">https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.LabeledImageDataset.html?highlight=LabeledImageDataset</a>&gt;`__というクラスが非常に便利です。雹災はドキュメントを参照してください：<code class="docutils literal notranslate"><span class="pre">`LabeledImageDataset</span></code> &lt;<a class="reference external" href="https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.LabeledImageDataset.html?highlight=LabeledImageDataset">https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.LabeledImageDataset.html?highlight=LabeledImageDataset</a>&gt;`__。こちらでも使っています：<a class="reference external" href="https://qiita.com/mitmul/items/5502ecdd2f0b444c427f">Chainerでアニメキャラクターの顔画像を分類する</a></p>
+</div>
+<div class="section" id="CIFAR10データセットクラスを書く">
+<h3>5.5.2. CIFAR10データセットクラスを書く<a class="headerlink" href="#CIFAR10データセットクラスを書く" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>class CIFAR10Augmented(chainer.dataset.DatasetMixin):
+
+    def __init__(self, split=&#39;train&#39;, train_ratio=0.9):
+        train_val, test_data = cifar.get_cifar10()
+        train_size = int(len(train_val) * train_ratio)
+        train_data, valid_data = split_dataset_random(train_val, train_size, seed=0)
+        if split == &#39;train&#39;:
+            self.data = train_data
+        elif split == &#39;valid&#39;:
+            self.data = valid_data
+        elif split == &#39;test&#39;:
+            self.data = test_data
+        else:
+            raise ValueError(&quot;&#39;split&#39; argument should be either &#39;train&#39;, &#39;valid&#39;, or &#39;test&#39;. But {} was given.&quot;.format(split))
+
+        self.split = split
+        self.random_crop = 4
+
+    def __len__(self):
+        return len(self.data)
+
+    def get_example(self, i):
+        x, t = self.data[i]
+        if self.split == &#39;train&#39;:
+            x = x.transpose(1, 2, 0)
+            h, w, _ = x.shape
+            x_offset = np.random.randint(self.random_crop)
+            y_offset = np.random.randint(self.random_crop)
+            x = x[y_offset:y_offset + h - self.random_crop,
+                  x_offset:x_offset + w - self.random_crop]
+            if np.random.rand() &gt; 0.5:
+                x = np.fliplr(x)
+            x = x.transpose(2, 0, 1)
+
+        return x, t
+</pre></div>
+</div>
+</div>
+<p>このクラスは、CIFAR10のデータのそれぞれに対し、</p>
+<ul class="simple">
+<li>32x32の大きさの中からランダムに28x28の領域をクロップ</li>
+<li>1/2の確率で左右を反転させる</li>
+</ul>
+<p>という加工を行っています。こういった操作を加えることで擬似的に学習データのバリエーションを増やすと、オーバーフィッティングを抑制することに役に立つということが知られています。これらの操作以外にも、画像の色味を変化させるような変換やランダムな回転、アフィン変換など、さまざまな加工によって学習データ数を擬似的に増やす方法が提案されています。</p>
+<p>自分でデータの取得部分も書く場合は、コンストラクタに画像フォルダのパスとファイル名に対応したラベルの書かれたテキストファイルへのパスなどを渡してプロパティとして保持しておき、<code class="docutils literal notranslate"><span class="pre">get_example</span></code>メソッド内でそれぞれの画像を読み込んで対応するラベルとともに返す、という風にすれば良いことが分かります。</p>
+</div>
+<div class="section" id="作成したデータセットクラスを使って学習を行う">
+<h3>5.5.3. 作成したデータセットクラスを使って学習を行う<a class="headerlink" href="#作成したデータセットクラスを使って学習を行う" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>それではさっそくこの<code class="docutils literal notranslate"><span class="pre">CIFAR10</span></code>クラスを使って学習を行ってみましょう。先程使ったのと同じ大きなネットワークを使うことで、Data
+augmentationの効果がどの程度あるのかを調べてみましょう。<code class="docutils literal notranslate"><span class="pre">train</span></code>関数も含め、データセットクラス以外は先程とすべて同様です。</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
+
+model = train(DeepCNN(10), max_epoch=100, train_dataset=CIFAR10Augmented(), valid_dataset=CIFAR10Augmented(&#39;valid&#39;), test_dataset=CIFAR10Augmented(&#39;test&#39;), postfix=&#39;augmented_&#39;, base_lr=0.1, lr_decay=(30, &#39;epoch&#39;))
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed_time  lr
+1           2.56682     0.153187       2.13359        0.196289           24.0632       0.1
+2           2.05138     0.230025       1.90262        0.281836           47.5623       0.1
+3           1.79218     0.309139       1.96712        0.277148           71.081        0.1
+4           1.60914     0.3926         1.88917        0.338867           94.7414       0.1
+5           1.39613     0.488292       1.62739        0.42168            118.321       0.1
+6           1.22909     0.559526       1.47142        0.486719           141.999       0.1
+7           1.11303     0.606949       1.23411        0.564844           165.604       0.1
+8           1.01412     0.64442        1.18462        0.594727           189.26        0.1
+9           0.948386    0.666282       0.975078       0.667383           212.917       0.1
+10          0.884442    0.697115       1.07651        0.639844           236.552       0.1
+11          0.829418    0.72017        1.05697        0.640234           260.197       0.1
+12          0.780194    0.736801       0.768351       0.758789           283.731       0.1
+13          0.7547      0.747891       1.0645         0.672266           307.373       0.1
+14          0.734805    0.754385       0.813245       0.737305           330.982       0.1
+15          0.699766    0.7676         1.08377        0.650977           354.689       0.1
+16          0.688398    0.769387       0.930851       0.707812           378.311       0.1
+17          0.671117    0.775235       0.830368       0.726758           402.008       0.1
+18          0.650716    0.781183       0.721548       0.768945           426.538       0.1
+19          0.625595    0.791489       0.778948       0.759961           450.173       0.1
+20          0.631865    0.789484       0.813221       0.746289           473.884       0.1
+21          0.622224    0.793625       0.660799       0.787305           497.53        0.1
+22          0.604823    0.799805       1.00611        0.685742           521.228       0.1
+23          0.603083    0.79692        0.915312       0.708203           546.367       0.1
+24          0.586976    0.804998       0.770607       0.755859           588.271       0.1
+25          0.594346    0.802024       0.631696       0.778906           639.591       0.1
+26          0.570544    0.810853       0.683034       0.77207            705.092       0.1
+27          0.571491    0.811879       0.576799       0.814844           769.682       0.1
+28          0.563136    0.81368        0.641172       0.78457            793.909       0.1
+29          0.559631    0.813676       0.632602       0.789062           817.709       0.1
+</pre></div></div>
+</div>
+<p>先程のData
+augmentationなしの場合は90%程度だったテスト精度が、学習データにaugmentationを施すことで92%程度まで向上させられることが分かりました。およそ2%の改善です。</p>
+<p>ロスと精度のグラフを見てみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;DeepCNN_cifar10_augmented_result/loss.png&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Image(filename=&#39;DeepCNN_cifar10_augmented_result/accuracy.png&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="もっと簡単にData-Augmentationしよう">
+<h2>5.6. もっと簡単にData Augmentationしよう<a class="headerlink" href="#もっと簡単にData-Augmentationしよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>前述のようにデータセット内の各画像についていろいろな変換を行って擬似的にデータを増やすような操作をData
+Augmentationといいます。上では、オリジナルのデータセットクラスを作る方法を示すために変換の操作も<code class="docutils literal notranslate"><span class="pre">get_example()</span></code>内に書くという実装を行いましたが、実はもっと簡単にいろいろな変換をデータに対して行う方法があります。</p>
+<p>それは、<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>クラスを使う方法です。<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>は、元になるデータセットオブジェクトと、そこからサンプルしてきた各データ点に対して行いたい変換を関数の形で与えると、変換済みのデータを返してくれるようなデータセットオブジェクトに加工してくれる便利なクラスです。かんたんな使い方は以下です。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer.datasets import TransformDataset
+
+train_val, test_dataset = cifar.get_cifar10()
+train_size = int(len(train_val) * 0.9)
+train_dataset, valid_dataset = split_dataset_random(train_val, train_size, seed=0)
+
+
+# 行いたい変換を関数の形で書く
+def transform(inputs):
+    x, t = inputs
+    x = x.transpose(1, 2, 0)
+    h, w, _ = x.shape
+    x_offset = np.random.randint(4)
+    y_offset = np.random.randint(4)
+    x = x[y_offset:y_offset + h - 4,
+          x_offset:x_offset + w - 4]
+    if np.random.rand() &gt; 0.5:
+        x = np.fliplr(x)
+    x = x.transpose(2, 0, 1)
+
+    return x, t
+
+
+# 各データをtransformにくぐらせたものを返すデータセットオブジェクト
+train_dataset = TransformDataset(train_dataset, transform)
+</pre></div>
+</div>
+</div>
+<p>このようにすると、この新しい<code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>は、上で自分でデータセットクラスごと書いたときと同じような変換を行った上でデータを返してくれるデータセットオブジェクトになります。</p>
+<div class="section" id="ChainerCVでいろいろな変換を簡単に行おう">
+<h3>5.6.1. ChainerCVでいろいろな変換を簡単に行おう<a class="headerlink" href="#ChainerCVでいろいろな変換を簡単に行おう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>さて、上では画像に対してランダムクロップと、ランダムに左右反転というのをやりました。もっと色々な変換を行いたい場合、上記の<code class="docutils literal notranslate"><span class="pre">transform</span></code>関数に色々な処理を追加していけばよいことになりますが、毎回使いまわすような変換処理をそのたびに書くのは面倒です。何かいいライブラリとか無いのかな、となります。そこで<a class="reference external" href="http://chainercv.readthedocs.io/en/stable">ChainerCV</a><a class="reference external" href="https://arxiv.org/abs/1708.08169">[Niitani
+2017]</a>です！今年のACM
+MultimediaのOpen Source Software CompetitionにWebDNN<a class="reference external" href="https://dl.acm.org/citation.cfm?id=3129394">[Hidaka
+2017]</a>とともに出場していたChainerにComputer
+Vision向けの便利な機能を色々追加する補助パッケージ的なオープンソース・ソフトウェアです。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!pip install chainercv
+</pre></div>
+</div>
+</div>
+<p><a class="reference external" href="http://chainercv.readthedocs.io/en/stable">ChainerCV</a>には、画像に対する様々な変換があらかじめ用意されています。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://chainercv.readthedocs.io/en/stable/reference/transforms.html#image">ChainerCVで使える画像変換一覧</a></li>
+</ul>
+<p>そのため、上でNumPyを使ってごにょごにょ書いていたランダムクロップやランダム左右反転は、<code class="docutils literal notranslate"><span class="pre">chainercv.transforms</span></code>モジュールを使うと、それぞれ以下のように1行で書くことができます：</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">random_crop</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>  <span class="c1"># ランダムクロップ</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">chainercv</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">random_flip</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># ランダム左右反転</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">chainercv.transforms</span></code>モジュールを使って、<code class="docutils literal notranslate"><span class="pre">transform</span></code>関数をアップデートしてみましょう。ちなみに、<code class="docutils literal notranslate"><span class="pre">get_cifar10()</span></code>で得られるデータセットでは、デフォルトで画像の画素値の範囲が<code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1]</span></code>にスケールされています。しかし、<code class="docutils literal notranslate"><span class="pre">get_cifar10()</span></code>に<code class="docutils literal notranslate"><span class="pre">scale=255.</span></code>を渡しておくと、値の範囲をもともとの<code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">255]</span></code>のままにできます。今回<code class="docutils literal notranslate"><span class="pre">transform</span></code>の中で行う処理は、以下の5つです：</p>
+<ol class="arabic simple">
+<li>PCA lighting:
+これは大雑把に言えば、少しだけ色味を変えるような変換です</li>
+<li>Standardization:
+訓練用データセット全体からチャンネルごとの画素値の平均・標準偏差を求めて標準化をします</li>
+<li>Random flip: ランダムに画像の左右を反転します</li>
+<li>Random expand:
+<code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">1.5]</span></code>からランダムに決めた大きさの黒いキャンバスを作り、その中のランダムな位置へ画像を配置します</li>
+<li>Random crop: <code class="docutils literal notranslate"><span class="pre">(28,</span> <span class="pre">28)</span></code>の大きさの領域をランダムにクロップします</li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from functools import partial
+from chainercv import transforms
+
+train_val, test_dataset = cifar.get_cifar10(scale=255.)
+train_size = int(len(train_val) * 0.9)
+train_dataset, valid_dataset = split_dataset_random(train_val, train_size, seed=0)
+
+mean = np.mean([x for x, _ in train_dataset], axis=(0, 2, 3))
+std = np.std([x for x, _ in train_dataset], axis=(0, 2, 3))
+
+
+def transform(inputs, train=True):
+    img, label = inputs
+    img = img.copy()
+
+    # Color augmentation
+    if train:
+        img = transforms.pca_lighting(img, 76.5)
+
+    # Standardization
+    img -= mean[:, None, None]
+    img /= std[:, None, None]
+
+    # Random flip &amp; crop
+    if train:
+        img = transforms.random_flip(img, x_random=True)
+        img = transforms.random_expand(img, max_ratio=1.5)
+        img = transforms.random_crop(img, (28, 28))
+
+    return img, label
+
+train_dataset = TransformDataset(train_dataset, partial(transform, train=True))
+valid_dataset = TransformDataset(valid_dataset, partial(transform, train=False))
+test_dataset = TransformDataset(test_dataset, partial(transform, train=False))
+</pre></div>
+</div>
+</div>
+<p>ちなみに、<code class="docutils literal notranslate"><span class="pre">pca_lighting</span></code>は、大雑把にいうと色味を微妙に変えた画像を作ってくれる関数です。</p>
+<p>では、standardizationとChainerCVによるPCA
+Lightingを追加した<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>を使って学習をしてみましょう。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>reset_seed(0)
+
+model = train(DeepCNN(10), max_epoch=100, train_dataset=train_dataset, valid_dataset=valid_dataset, test_dataset=test_dataset, postfix=&#39;augmented2_&#39;, base_lr=0.1, lr_decay=(30, &#39;epoch&#39;))
+</pre></div>
+</div>
+</div>
+<p>わずかに精度が向上しました。他にもネットワークにResNetと呼ばれる有名なアーキテクチャを採用するなど、簡単に試せる改善方法がいくつかあります。ぜひご自分で色々と試してみてください。</p>
+<div class="section" id="参考文献">
+<h4>5.6.1.1. 参考文献<a class="headerlink" href="#参考文献" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>[Tokui 2015] Tokui, S., Oono, K., Hido, S. and Clayton, J., Chainer: a
+Next-Generation Open Source Framework for Deep Learning, Proceedings of
+Workshop on Machine Learning Systems(LearningSys) in The Twenty-ninth
+Annual Conference on Neural Information Processing Systems (NIPS),
+(2015)</p>
+<p>[Niitani 2017] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito,
+“ChainerCV: a Library for Deep Learning in Computer Vision”, ACM
+Multimedia (ACMMM), Open Source Software Competition, 2017</p>
+<p>[Hidaka 2017] Masatoshi Hidaka, Yuichiro Kikura, Yoshitaka Ushiku,
+Tatsuya Harada. WebDNN: Fastest DNN Execution Framework on Web Browser.
+ACM International Conference on Multimedia (ACMMM), Open Source Software
+Competition, pp.1213-1216, 2017.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Image_Segmentation.html" class="btn btn-neutral float-right" title="6. 実践編: CT/MRI画像のセグメンテーション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="Chainer_Basics.html" class="btn btn-neutral" title="4. Chainer入門" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Preferred Networks &amp; キカガク
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
