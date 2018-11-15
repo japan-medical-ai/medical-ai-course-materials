@@ -807,8 +807,8 @@ ax.figure.tight_layout()
 Shot MultiBox Detector
 (SSD)</a>という手法を使います．</p>
 <p>SSDは前述のようにsingle
-stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から<strong>特徴マップ</strong>を抽出します．そのあと，予め特徴マップの空間方向にびっしりと候補領域を仮定しておき（default
-boxと呼ばれます），そのそれぞれについて<strong>どの程度正解のbounding
+stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から<strong>特徴マップ</strong>を抽出します．そのあと，予め特徴マップの空間方向にびっしりと候補領域を仮定しておき（SSD論文ではdefault
+boxと呼ばれていますが，anchorという呼び方がより一般的に用いられています），そのそれぞれについて<strong>どの程度正解のbounding
 boxからずれているか</strong>を計算し，これを最小化するように学習を行います．また，このbbox位置と同時にそれぞれその領域内部に写っているものが<strong>どのクラスに属しているか</strong>も予測させ，この間違いも少なくするよう学習を行います．</p>
 <p>一方，two stageタイプの手法，例えばFaster
 R-CNNでは，抽出された特徴マップに対してさらに別のネットワークが物体の候補領域（region
@@ -835,10 +835,10 @@ detectors</a>）より、以下の図がしばしば参照されます．
 <p>学習に必要なロス関数を計算するクラスを用意しましょう．</p>
 <p>以下に定義するクラスは，まずSSDモデルのオブジェクトと，ロス計算のためのハイパーパラメータである
 <code class="docutils literal notranslate"><span class="pre">alpha</span></code> と <code class="docutils literal notranslate"><span class="pre">k</span></code> をコンストラクタで受け取っています．<code class="docutils literal notranslate"><span class="pre">alpha</span></code>
-は、位置の予測に対する誤差とクラスの予測に対する誤差それぞれの間の重み付けを行う係数です。<code class="docutils literal notranslate"><span class="pre">k</span></code>
+は、位置の予測に対する誤差とクラスの予測に対する誤差それぞれの間の重み付けを行う係数です．<code class="docutils literal notranslate"><span class="pre">k</span></code>
 は hard negative mining
 のためのパラメータです．学習時，一つの正解bounding
-boxに対して，モデルは一つの近しい（positiveな）予測と，多くの間違った（negativeな）予測を出力します．この多くの間違った予測をconfidence
+boxに対して，モデルは最低一つの近しい（positiveな）予測と，多くの間違った（negativeな）予測を出力します．この多くの間違った予測をconfidence
 score（モデルがどの程度確信を持ってその予測を出力しているかを表す値）によってソートした上で，上から
 positive : negative が 1:k になるように negative
 サンプルを選択し，ロスの計算に使用します．このバランスを決めているのが
@@ -902,7 +902,7 @@ model）がダウンロードされると思います．大規模な画像分類
 model）を出発点として，少ない学習データでパラメータをさらに更新し，解きたい問題を適応させるもしくは精度を向上させるといったことをfine-tuningと呼ぶこともあります．</p>
 <p>ChainerCVではいくつかのpre-trained
 modelを非常に簡単に使い始めることができるような形で提供しています．こちらに色々なpre-trained
-modelが一覧されています：<a class="reference external" href="https://github.com/chainer/chainercv/blob/9c954b136bef9e62baaf92a64c90a54049c04e90/docs/source/license.rst#pretrained-models">Pretrained
+modelが一覧されています：<a class="reference external" href="https://chainercv.readthedocs.io/en/latest/license.html#pretrained-models">Pretrained
 Models</a></p>
 </div>
 <div class="section" id="Data-augmentationの実装">
