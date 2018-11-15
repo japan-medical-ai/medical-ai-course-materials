@@ -23,7 +23,7 @@
         "colab_type": "text"
       },
       "source": [
-        "<a href=\"https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Basic_Math_for_ML.ipynb\" target=\"_parent\">![](https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+        "[![](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Basic_Math_for_ML.ipynb)"
       ]
     },
     {
