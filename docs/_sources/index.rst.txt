@@ -1,6 +1,10 @@
 メディカルAIコース オンライン講義資料
 =====================================
 
+
+本資料は現在作成中であり、内容については不正確なところがあります。2018年12月頃に公開予定です。ご了承ください。
+==============================================================================================================
+
 本講義資料について
 ^^^^^^^^^^^^^^^^^^
 
@@ -41,7 +45,6 @@ Python, Google Colaboratoryについては様々な参考資料や解説サイ�
     notebooks/Basic_Math_for_ML
     notebooks/Introduction_to_ML_libs
     notebooks/Introduction_to_Neural_Network
-    notebooks/Chainer_Basics
     notebooks/Introduction_to_Chainer
     notebooks/Image_Segmentation
     notebooks/Blood_Cell_Detection

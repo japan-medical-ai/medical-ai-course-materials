@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>4. Chainer入門 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  <title>Chainer入門 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
   
 
   
@@ -27,9 +27,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="5. Deep Learningフレームワークの基礎" href="Introduction_to_Chainer.html" />
-    <link rel="prev" title="3. ニューラルネットワーク" href="Introduction_to_Neural_Network.html" /> 
+    <link rel="search" title="検索" href="../search.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -78,61 +76,15 @@
               
             
             
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Chainer入門</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Chainerとは？">4.1. Chainerとは？</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Chainerの基礎">4.2. Chainerの基礎</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Chainerの読み込み">4.2.1. Chainerの読み込み</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#リンクの定義">4.2.2. リンクの定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#乱数のシードを固定して再現性を確保">4.2.3. 乱数のシードを固定して再現性を確保</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#線形変換の値を計算しよう">4.2.4. 線形変換の値を計算しよう</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#非線形変換の計算">4.2.5. 非線形変換の計算</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#実践課題">4.2.6. 実践課題</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#問題設定">4.2.6.1. 問題設定</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#解答">4.2.6.2. 解答</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#損失関数（loss-function）の値を計算しよう">4.2.7. 損失関数（loss function）の値を計算しよう</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#chainer.links（L）とchainer.functions（F）の違い">4.2.8. chainer.links（L）とchainer.functions（F）の違い</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#Chainerでクラス分類">4.3. Chainerでクラス分類</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#データの読み込み">4.3.1. データの読み込み</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#入力変数と教師データ（出力変数）に切り分ける">4.3.2. 入力変数と教師データ（出力変数）に切り分ける</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Chainerで計算できるデータ形式に変換">4.3.3. Chainerで計算できるデータ形式に変換</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Numpyに変換">4.3.3.1. Numpyに変換</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#分類で使用するラベルを0から始める">4.3.3.2. 分類で使用するラベルを0から始める</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#データ型を変更">4.3.3.3. データ型を変更</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#Chainerで使用するデータセットの形式">4.3.4. Chainerで使用するデータセットの形式</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#訓練データと検証データを分割しよう">4.3.5. 訓練データと検証データを分割しよう</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ニューラルネットワークのモデルを定義">4.3.6. ニューラルネットワークのモデルを定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Optimizerの定義">4.3.7. Optimizerの定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Iteratorの定義">4.3.8. Iteratorの定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Updaterの定義">4.3.9. Updaterの定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Trainerとextensionsの設定">4.3.10. Trainerとextensionsの設定</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#学習の実行">4.3.11. 学習の実行</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#結果の確認">4.3.12. 結果の確認</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#実践のヒント">4.3.13. 実践のヒント</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#学習済みモデルを保存">4.4. 学習済みモデルを保存</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#学習済みモデルを使用した推論">4.5. 学習済みモデルを使用した推論</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#学習済みモデルのロード">4.5.1. 学習済みモデルのロード</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#予測値の計算">4.5.2. 予測値の計算</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">4. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">5. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">8. 実践編：ディープラーニングを使った配列解析</a></li>
 </ul>
 
             
@@ -178,7 +130,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>4. Chainer入門</li>
+      <li>Chainer入門</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -382,9 +334,9 @@ div.nboutput div.output_area.stderr {
 </style>
 <p>変更テスト</p>
 <div class="section" id="Chainer入門">
-<h1>4. Chainer入門<a class="headerlink" href="#Chainer入門" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1>Chainer入門<a class="headerlink" href="#Chainer入門" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="Chainerとは？">
-<h2>4.1. Chainerとは？<a class="headerlink" href="#Chainerとは？" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>Chainerとは？<a class="headerlink" href="#Chainerとは？" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
 <p><a class="reference external" href="https://chainer.org/">Chainer</a>は、日本企業の<a class="reference external" href="https://www.preferred-networks.jp/ja/">Preferred
 Networks社</a>が開発を進めています。
@@ -402,9 +354,9 @@ PFNの開発者へ直接質問できるSlackがあり、<a class="reference exte
 Slack受付フォーム</a>からメールアドレスを登録して、Slackに招待してもらいましょう。</p>
 </div>
 <div class="section" id="Chainerの基礎">
-<h2>4.2. Chainerの基礎<a class="headerlink" href="#Chainerの基礎" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>Chainerの基礎<a class="headerlink" href="#Chainerの基礎" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="Chainerの読み込み">
-<h3>4.2.1. Chainerの読み込み<a class="headerlink" href="#Chainerの読み込み" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>Chainerの読み込み<a class="headerlink" href="#Chainerの読み込み" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Chainerの読み込みは、Pythonの他のモジュールと全く同じです。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -438,7 +390,7 @@ Slack受付フォーム</a>からメールアドレスを登録して、Slackに
 <p>2018年11月時点で最新版がChainerのバージョンが5系となっています。</p>
 </div>
 <div class="section" id="リンクの定義">
-<h3>4.2.2. リンクの定義<a class="headerlink" href="#リンクの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>リンクの定義<a class="headerlink" href="#リンクの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>数学においてもプログラミングにおいても、全結合層（fully-connected
 layer）では、2層で1セットとして扱います。
 まずは、３ノードの入力層と２ノードの出力層の部分を表現していきましょう。</p>
@@ -508,7 +460,7 @@ layerの略）として、以下のように宣言します。</p>
 <p>このパラメータを最適化の初期値に使用します。</p>
 </div>
 <div class="section" id="乱数のシードを固定して再現性を確保">
-<h3>4.2.3. 乱数のシードを固定して再現性を確保<a class="headerlink" href="#乱数のシードを固定して再現性を確保" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>乱数のシードを固定して再現性を確保<a class="headerlink" href="#乱数のシードを固定して再現性を確保" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ここで１つ問題があります。
 重みやバイアスのパラメータの値がランダムに初期化されるため、実行する毎に結果が異なってしまうことです。
 これでは、今日と明日でも結果が異なり、チーム間でも結果が異なってしまいます。</p>
@@ -578,7 +530,7 @@ layerの略）として、以下のように宣言します。</p>
 <p>この値と同じになっていれば、乱数のシードがうまく固定できていることがわかります。</p>
 </div>
 <div class="section" id="線形変換の値を計算しよう">
-<h3>4.2.4. 線形変換の値を計算しよう<a class="headerlink" href="#線形変換の値を計算しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>線形変換の値を計算しよう<a class="headerlink" href="#線形変換の値を計算しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>手計算で練習した、uの値を計算してみましょう。
 uの値は<code class="docutils literal notranslate"><span class="pre">chainer.links.Linear</span></code>の中に準備されているため、以下のようにNumpyの形式で渡すことで計算が完了します。</p>
 <div class="nbinput nblast docutils container">
@@ -912,7 +864,7 @@ Actual: float32 != float64
 </div>
 </div>
 <div class="section" id="非線形変換の計算">
-<h3>4.2.5. 非線形変換の計算<a class="headerlink" href="#非線形変換の計算" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>非線形変換の計算<a class="headerlink" href="#非線形変換の計算" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>先ほど勉強した活性化関数として、<strong>Relu関数</strong>をかける場合は以下のように記述します。
 chainerで使用する関数は全てfunctionsにあります</p>
 <div class="nbinput nblast docutils container">
@@ -956,9 +908,9 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <p>このように、正の値はそのままで負の値は0となるRelu関数が、正しく適用できていることがわかります。</p>
 </div>
 <div class="section" id="実践課題">
-<h3>4.2.6. 実践課題<a class="headerlink" href="#実践課題" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>実践課題<a class="headerlink" href="#実践課題" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="section" id="問題設定">
-<h4>4.2.6.1. 問題設定<a class="headerlink" href="#問題設定" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>問題設定<a class="headerlink" href="#問題設定" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>先の知見を活かし、手書きのノートで紹介した「3 → 2 →
 1」のニューラルネットワークにおいて、入力<code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>に対する出力<code class="docutils literal notranslate"><span class="pre">y</span></code>の値を計算してください。</p>
 <p>以下の構成で計算してみましょう。</p>
@@ -972,7 +924,7 @@ chainerで使用する関数は全てfunctionsにあります</p>
 <p>なお、計算する前に<strong>シードの固定</strong>（<code class="docutils literal notranslate"><span class="pre">np.random.seed(3)</span></code>）を忘れないようにしてください。</p>
 </div>
 <div class="section" id="解答">
-<h4>4.2.6.2. 解答<a class="headerlink" href="#解答" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>解答<a class="headerlink" href="#解答" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1068,7 +1020,7 @@ y
 </div>
 </div>
 <div class="section" id="損失関数（loss-function）の値を計算しよう">
-<h3>4.2.7. 損失関数（loss function）の値を計算しよう<a class="headerlink" href="#損失関数（loss-function）の値を計算しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>損失関数（loss function）の値を計算しよう<a class="headerlink" href="#損失関数（loss-function）の値を計算しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>出力の予測値が計算できたので、損失関数の値も計算してみましょう。
 先の入力に対する教師データが<code class="docutils literal notranslate"><span class="pre">t=3</span></code>だとすると、以下のように計算できます。</p>
 <div class="nbinput nblast docutils container">
@@ -1105,7 +1057,7 @@ loss
 <p>こちらのように評価関数に関しても、Chainerではchainer.functions（F）の中に定義されているため、特別発展的な内容でない限りはこちらを使用して進めていくと良いでしょう。</p>
 </div>
 <div class="section" id="chainer.links（L）とchainer.functions（F）の違い">
-<h3>4.2.8. chainer.links（L）とchainer.functions（F）の違い<a class="headerlink" href="#chainer.links（L）とchainer.functions（F）の違い" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>chainer.links（L）とchainer.functions（F）の違い<a class="headerlink" href="#chainer.links（L）とchainer.functions（F）の違い" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>これまで、Chainerの機能である<code class="docutils literal notranslate"><span class="pre">L</span></code>と<code class="docutils literal notranslate"><span class="pre">F</span></code>が何回か登場しましたが、どのように使い分けているかは以下の通りです。</p>
 <ul class="simple">
 <li>chainer.links（L）：調整すべきパラメータを持つ関数</li>
@@ -1117,9 +1069,9 @@ loss
 </div>
 </div>
 <div class="section" id="Chainerでクラス分類">
-<h2>4.3. Chainerでクラス分類<a class="headerlink" href="#Chainerでクラス分類" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>Chainerでクラス分類<a class="headerlink" href="#Chainerでクラス分類" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="データの読み込み">
-<h3>4.3.1. データの読み込み<a class="headerlink" href="#データの読み込み" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>データの読み込み<a class="headerlink" href="#データの読み込み" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>今回はdataフォルダに格納されている<code class="docutils literal notranslate"><span class="pre">wine_class.csv</span></code>を使用してクラス分類の実装を練習してみましょう。
 どのような形式でデータを準備しておくと良いのかといった参考になるため、格納されている生のデータも確認しておきましょう。</p>
 <p>今回はCSVファイルで用意されているため、データの取り扱いはPythonのデータ操作で一般的な<strong>Pandas</strong>を使って行いましょう。</p>
@@ -1239,7 +1191,7 @@ df.head(3)
 </div>
 </div>
 <div class="section" id="入力変数と教師データ（出力変数）に切り分ける">
-<h3>4.3.2. 入力変数と教師データ（出力変数）に切り分ける<a class="headerlink" href="#入力変数と教師データ（出力変数）に切り分ける" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>入力変数と教師データ（出力変数）に切り分ける<a class="headerlink" href="#入力変数と教師データ（出力変数）に切り分ける" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>機械学習のプログラミングを行う上での最初のお題として、入力変数と教師データ（出力変数）の切り分けがあります。
 こちらは、毎回行うため、スムーズに出来るように練習しておくことをおすすめします。</p>
 <div class="nbinput nblast docutils container">
@@ -1368,7 +1320,7 @@ x.shape
 <p><code class="docutils literal notranslate"><span class="pre">.shape</span></code>を使うことで、サンプル数（今回は178）と入力変数の数（今回は10）を確認することができます。</p>
 </div>
 <div class="section" id="Chainerで計算できるデータ形式に変換">
-<h3>4.3.3. Chainerで計算できるデータ形式に変換<a class="headerlink" href="#Chainerで計算できるデータ形式に変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>Chainerで計算できるデータ形式に変換<a class="headerlink" href="#Chainerで計算できるデータ形式に変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Chainerで計算を行うために、下記の３点を満たしているか確認を行っておきましょう。
 こちらが指定された形式となっていない場合、学習の際にエラーが出てしまいます。</p>
 <ul class="simple">
@@ -1378,7 +1330,7 @@ x.shape
 で定義されているか</li>
 </ul>
 <div class="section" id="Numpyに変換">
-<h4>4.3.3.1. Numpyに変換<a class="headerlink" href="#Numpyに変換" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>Numpyに変換<a class="headerlink" href="#Numpyに変換" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Pandasで読み込んだ場合、Pandasの形式となっています。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1419,7 +1371,7 @@ x.shape
 </div>
 </div>
 <div class="section" id="分類で使用するラベルを0から始める">
-<h4>4.3.3.2. 分類で使用するラベルを0から始める<a class="headerlink" href="#分類で使用するラベルを0から始める" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>分類で使用するラベルを0から始める<a class="headerlink" href="#分類で使用するラベルを0から始める" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>今回準備されている教師データのラベルを確認してみましょう。
 <code class="docutils literal notranslate"><span class="pre">min</span></code>と<code class="docutils literal notranslate"><span class="pre">max</span></code>で確認すると良いでしょう。</p>
 <div class="nbinput docutils container">
@@ -1511,7 +1463,7 @@ x = x.values
 </div>
 </div>
 <div class="section" id="データ型を変更">
-<h4>4.3.3.3. データ型を変更<a class="headerlink" href="#データ型を変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>データ型を変更<a class="headerlink" href="#データ型を変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>ここで、現状のデータ型を確認してみましょう。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1603,7 +1555,7 @@ t = t.astype(&#39;int32&#39;)
 </div>
 </div>
 <div class="section" id="Chainerで使用するデータセットの形式">
-<h3>4.3.4. Chainerで使用するデータセットの形式<a class="headerlink" href="#Chainerで使用するデータセットの形式" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>Chainerで使用するデータセットの形式<a class="headerlink" href="#Chainerで使用するデータセットの形式" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>メモリに乗る程度の小規模なデータの場合は、<strong>入力変数と教師データをタプルで１セット</strong>にし、それを<strong>リスト化</strong>しておくことがChainer推奨の形式です。</p>
 <p><img alt="image0" src="https://github.com/mitmul/medical-ai-course-materials/blob/master/notebooks/images/3-5/img03.png?raw=1" /></p>
 <div class="nbinput nblast docutils container">
@@ -1621,7 +1573,7 @@ dataset = list(zip(x, t))
 毎回同じ記述のため、このように書くと覚えればOKです。</p>
 </div>
 <div class="section" id="訓練データと検証データを分割しよう">
-<h3>4.3.5. 訓練データと検証データを分割しよう<a class="headerlink" href="#訓練データと検証データを分割しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>訓練データと検証データを分割しよう<a class="headerlink" href="#訓練データと検証データを分割しよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>機械学習には欠かせない訓練データと検証データの分割です。
 Chainerでは<code class="docutils literal notranslate"><span class="pre">chainer.datasets.split_dataset_random</span></code>にその機能が準備されています。
 ランダムでなく、前半の70%を訓練、後半の30%を検証といった分割が良い場合は、<code class="docutils literal notranslate"><span class="pre">chainer.datasets.split_dataset</span></code>を使用することができます。
@@ -1762,7 +1714,7 @@ train, test = chainer.datasets.split_dataset_random(dataset, n_train, seed=1)
 </div>
 </div>
 <div class="section" id="ニューラルネットワークのモデルを定義">
-<h3>4.3.6. ニューラルネットワークのモデルを定義<a class="headerlink" href="#ニューラルネットワークのモデルを定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>ニューラルネットワークのモデルを定義<a class="headerlink" href="#ニューラルネットワークのモデルを定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1930,7 +1882,7 @@ model = L.Classifier(nn)
 </div>
 </div>
 <div class="section" id="Optimizerの定義">
-<h3>4.3.7. Optimizerの定義<a class="headerlink" href="#Optimizerの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>Optimizerの定義<a class="headerlink" href="#Optimizerの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Optimizerではパラメータの最適化を行うための最適化のアルゴリズムを選択します。
 各最適化のアルゴリズムには<strong>ハイパーパラメータ</strong>と呼ばれる定数を設定することもできますが、まだここでは触れず、後ほどしっかりと見ていきましょう。</p>
 <div class="nbinput nblast docutils container">
@@ -1964,7 +1916,7 @@ model = L.Classifier(nn)
 </div>
 </div>
 <div class="section" id="Iteratorの定義">
-<h3>4.3.8. Iteratorの定義<a class="headerlink" href="#Iteratorの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>Iteratorの定義<a class="headerlink" href="#Iteratorの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><strong>Iterator</strong>では「<strong>バッチサイズ</strong>」を決めることができます。</p>
 <p>順伝播で評価関数を計算するとき全てのサンプルを使用するのではなく、<strong>ミニバッチ</strong>と呼ばれるサンプルの一部のデータセットのみで評価関数の計算を行い、逆伝播で勾配情報を計算し、最適化アルゴリズム（SGDやAdam等）によるパラメータの学習を行います。</p>
 <blockquote>
@@ -1997,7 +1949,7 @@ test_iter  = chainer.iterators.SerialIterator(test,  batchsize, repeat=False, sh
 </div>
 </div>
 <div class="section" id="Updaterの定義">
-<h3>4.3.9. Updaterの定義<a class="headerlink" href="#Updaterの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>Updaterの定義<a class="headerlink" href="#Updaterの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><strong>Updater</strong>では、<strong>Optimizer</strong>の設定や使用するデバイス（CPUやGPU）の設定を行えます。</p>
 <ul class="simple">
 <li>CPUを使用する場合には<code class="docutils literal notranslate"><span class="pre">device=-1</span></code>とオプションに指定しましょう。</li>
@@ -2026,7 +1978,7 @@ test_iter  = chainer.iterators.SerialIterator(test,  batchsize, repeat=False, sh
 </div>
 </div>
 <div class="section" id="Trainerとextensionsの設定">
-<h3>4.3.10. Trainerとextensionsの設定<a class="headerlink" href="#Trainerとextensionsの設定" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>Trainerとextensionsの設定<a class="headerlink" href="#Trainerとextensionsの設定" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Trainerでは、<strong>エポック（ミニバッチを全て処理して１エポック）</strong>の回数や、そのextensionsでオプションを指定することにより、<strong>結果をログ出力</strong>や<strong>標準出力</strong>（インタラクティブに表示）できます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -2071,7 +2023,7 @@ trainer.extend(extensions.PrintReport([&#39;epoch&#39;, &#39;main/accuracy&#39;,
 </div>
 </div>
 <div class="section" id="学習の実行">
-<h3>4.3.11. 学習の実行<a class="headerlink" href="#学習の実行" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>学習の実行<a class="headerlink" href="#学習の実行" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>設定が完了すると、下記のコマンドで学習を実行して、その結果をレポーティングしてくれます。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -2143,7 +2095,7 @@ epoch       main/accuracy  validation/main/accuracy  main/loss   validation/main
 </div>
 </div>
 <div class="section" id="結果の確認">
-<h3>4.3.12. 結果の確認<a class="headerlink" href="#結果の確認" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>結果の確認<a class="headerlink" href="#結果の確認" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>最後に今回のモデルでの予測結果を確認しておきましょう。
 Trainerを使用すると、<code class="docutils literal notranslate"><span class="pre">result/wine</span></code>というフォルダができ、この中に<code class="docutils literal notranslate"><span class="pre">log</span></code>というファイルが自動的に生成されます。
 こちらに、学習結果が全て保存されており、後で学習の状況を可視化して確認したりできます。</p>
@@ -2787,7 +2739,7 @@ results[[&#39;main/loss&#39;, &#39;validation/main/loss&#39;]].plot()
 検証データが運用した際に得られる精度の目安になるため、運用後は良くても35％程度しか正解しないようなモデルであることがわかります。</p>
 </div>
 <div class="section" id="実践のヒント">
-<h3>4.3.13. 実践のヒント<a class="headerlink" href="#実践のヒント" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>実践のヒント<a class="headerlink" href="#実践のヒント" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>今回は一通りの流れを説明しましたが、まだまだ精度が良くないと不満に思った方もいるかと思います。
 ここからは試行錯誤の世界になるのですが、まずいちばん手っ取り早く精度を上げることが出来る方法として、<strong>BatchNormalization</strong>が挙げられます。</p>
 <p>実装としては、各バッチ毎に、平均と標準偏差を定めて正規化を行うといった非常に簡単な手法なのですが、これをかませることによって、各変数感のスケールによる差を吸収できます。</p>
@@ -2993,7 +2945,7 @@ Chainerでは、ほとんどの機能がすでに実装されているため、�
 </div>
 </div>
 <div class="section" id="学習済みモデルを保存">
-<h2>4.4. 学習済みモデルを保存<a class="headerlink" href="#学習済みモデルを保存" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>学習済みモデルを保存<a class="headerlink" href="#学習済みモデルを保存" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>学習が終わると、学習済みモデルが得られます。
 Trainerのextensionsでsnapshotを取ることも可能ですが、今回は手動で学習済みモデルを保存する方法を紹介します。</p>
 <p>chainerで準備されている<code class="docutils literal notranslate"><span class="pre">serializers</span></code>のモジュールを使用すれば保存できます。
@@ -3012,9 +2964,9 @@ Trainerのextensionsでsnapshotを取ることも可能ですが、今回は手�
 というファイルができていれば学習済みモデルの保存が完了です。</p>
 </div>
 <div class="section" id="学習済みモデルを使用した推論">
-<h2>4.5. 学習済みモデルを使用した推論<a class="headerlink" href="#学習済みモデルを使用した推論" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>学習済みモデルを使用した推論<a class="headerlink" href="#学習済みモデルを使用した推論" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="学習済みモデルのロード">
-<h3>4.5.1. 学習済みモデルのロード<a class="headerlink" href="#学習済みモデルのロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>学習済みモデルのロード<a class="headerlink" href="#学習済みモデルのロード" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>学習済みモデルは単にファイルをロードするだけでなく、まずはモデルの構造を明示しておき、そのモデルに対して、パラメータの値を当てはめながらロードしていくことになります。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -3038,7 +2990,7 @@ Trainerのextensionsでsnapshotを取ることも可能ですが、今回は手�
 </div>
 </div>
 <div class="section" id="予測値の計算">
-<h3>4.5.2. 予測値の計算<a class="headerlink" href="#予測値の計算" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>予測値の計算<a class="headerlink" href="#予測値の計算" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>今回は一番最初のサンプルに対する予測値を計算してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -3288,15 +3240,6 @@ y
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="Introduction_to_Chainer.html" class="btn btn-neutral float-right" title="5. Deep Learningフレームワークの基礎" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Introduction_to_Neural_Network.html" class="btn btn-neutral" title="3. ニューラルネットワーク" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

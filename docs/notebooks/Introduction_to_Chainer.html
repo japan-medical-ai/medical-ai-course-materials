@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5. Deep Learningフレームワークの基礎 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  <title>4. Deep Learningフレームワークの基礎 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="6. 実践編: CT/MRI画像のセグメンテーション" href="Image_Segmentation.html" />
-    <link rel="prev" title="4. Chainer入門" href="Chainer_Basics.html" /> 
+    <link rel="next" title="5. 実践編: CT/MRI画像のセグメンテーション" href="Image_Segmentation.html" />
+    <link rel="prev" title="3. ニューラルネットワーク" href="Introduction_to_Neural_Network.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -82,89 +82,88 @@
 <li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Chainer_Basics.html">4. Chainer入門</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Deep Learningフレームワークの基礎</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#環境構築">5.1. 環境構築</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#学習ループを書いてみよう">5.2. 学習ループを書いてみよう</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#データセットの準備">5.2.1. データセットの準備</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Validation用データセットを作る">5.2.2. Validation用データセットを作る</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Iteratorの作成">5.2.3. Iteratorの作成</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#NOTE:-SerialIteratorについて">5.2.3.1. NOTE: <code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>について</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Deep Learningフレームワークの基礎</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">4.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#学習ループを書いてみよう">4.2. 学習ループを書いてみよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データセットの準備">4.2.1. データセットの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Validation用データセットを作る">4.2.2. Validation用データセットを作る</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Iteratorの作成">4.2.3. Iteratorの作成</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#NOTE:-SerialIteratorについて">4.2.3.1. NOTE: <code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>について</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#ネットワークの定義">5.2.4. ネットワークの定義</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#LinkとFunction">5.2.4.1. LinkとFunction</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Chain">5.2.4.2. Chain</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Chainを継承してネットワークを定義しよう">5.2.4.3. Chainを継承してネットワークを定義しよう</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#GPUで実行するには">5.2.4.4. GPUで実行するには</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#同じ結果を保証したい">5.2.4.5. 同じ結果を保証したい</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ネットワークを表すコード">5.2.4.6. ネットワークを表すコード</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ネットワークの定義">4.2.4. ネットワークの定義</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#LinkとFunction">4.2.4.1. LinkとFunction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Chain">4.2.4.2. Chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Chainを継承してネットワークを定義しよう">4.2.4.3. Chainを継承してネットワークを定義しよう</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#GPUで実行するには">4.2.4.4. GPUで実行するには</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#同じ結果を保証したい">4.2.4.5. 同じ結果を保証したい</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ネットワークを表すコード">4.2.4.6. ネットワークを表すコード</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#最適化手法の選択">5.2.5. 最適化手法の選択</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#NOTE">5.2.5.1. NOTE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#最適化手法の選択">4.2.5. 最適化手法の選択</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#NOTE">4.2.5.1. NOTE</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#学習する">5.2.6. 学習する</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#NOTE:-ロス関数">5.2.6.1. NOTE: ロス関数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#学習ループのコード">5.2.6.2. 学習ループのコード</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ValidationやTestを行う際の注意点">5.2.6.3. ValidationやTestを行う際の注意点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習する">4.2.6. 学習する</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#NOTE:-ロス関数">4.2.6.1. NOTE: ロス関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#学習ループのコード">4.2.6.2. 学習ループのコード</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ValidationやTestを行う際の注意点">4.2.6.3. ValidationやTestを行う際の注意点</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#学習済みモデルを保存する">5.2.7. 学習済みモデルを保存する</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#保存したモデルを読み込んで推論する">5.2.8. 保存したモデルを読み込んで推論する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習済みモデルを保存する">4.2.7. 学習済みモデルを保存する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#保存したモデルを読み込んで推論する">4.2.8. 保存したモデルを読み込んで推論する</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#Trainerを使ってみよう">5.3. Trainerを使ってみよう</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#データセット・Iterator・ネットワークの準備">5.3.1. データセット・Iterator・ネットワークの準備</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Updaterの準備">5.3.2. Updaterの準備</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Trainerの準備">5.3.3. Trainerの準備</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#TrainerにExtensionを追加する">5.3.4. TrainerにExtensionを追加する</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#LogReport">5.3.4.1. <code class="docutils literal notranslate"><span class="pre">LogReport</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#snapshot">5.3.4.2. <code class="docutils literal notranslate"><span class="pre">snapshot</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#dump_graph">5.3.4.3. <code class="docutils literal notranslate"><span class="pre">dump_graph</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#Evaluator">5.3.4.4. <code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#PrintReport">5.3.4.5. <code class="docutils literal notranslate"><span class="pre">PrintReport</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#PlotReport">5.3.4.6. <code class="docutils literal notranslate"><span class="pre">PlotReport</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#ParameterStatistics">5.3.4.7. <code class="docutils literal notranslate"><span class="pre">ParameterStatistics</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Trainerを使ってみよう">4.3. Trainerを使ってみよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データセット・Iterator・ネットワークの準備">4.3.1. データセット・Iterator・ネットワークの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Updaterの準備">4.3.2. Updaterの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Trainerの準備">4.3.3. Trainerの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#TrainerにExtensionを追加する">4.3.4. TrainerにExtensionを追加する</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#LogReport">4.3.4.1. <code class="docutils literal notranslate"><span class="pre">LogReport</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#snapshot">4.3.4.2. <code class="docutils literal notranslate"><span class="pre">snapshot</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dump_graph">4.3.4.3. <code class="docutils literal notranslate"><span class="pre">dump_graph</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Evaluator">4.3.4.4. <code class="docutils literal notranslate"><span class="pre">Evaluator</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PrintReport">4.3.4.5. <code class="docutils literal notranslate"><span class="pre">PrintReport</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PlotReport">4.3.4.6. <code class="docutils literal notranslate"><span class="pre">PlotReport</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ParameterStatistics">4.3.4.7. <code class="docutils literal notranslate"><span class="pre">ParameterStatistics</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#学習を開始する">5.3.5. 学習を開始する</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#テストデータで評価する">5.3.6. テストデータで評価する</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#学習済みモデルで推論する">5.3.7. 学習済みモデルで推論する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習を開始する">4.3.5. 学習を開始する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#テストデータで評価する">4.3.6. テストデータで評価する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習済みモデルで推論する">4.3.7. 学習済みモデルで推論する</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#新しいネットワークを書いてみよう">5.4. 新しいネットワークを書いてみよう</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ネットワークの定義">5.4.1. ネットワークの定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#学習">5.4.2. 学習</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#学習済みネットワークを使った予測">5.4.3. 学習済みネットワークを使った予測</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#もっと深いネットワークを定義してみよう">5.4.4. もっと深いネットワークを定義してみよう</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#構成要素を定義する">5.4.4.1. 構成要素を定義する</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#大きなネットワークの定義">5.4.4.2. 大きなネットワークの定義</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#TIPS">5.4.4.3. TIPS</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#データセットクラスを書いてみよう">5.5. データセットクラスを書いてみよう</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#NOTE">5.5.1. NOTE</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#CIFAR10データセットクラスを書く">5.5.2. CIFAR10データセットクラスを書く</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#作成したデータセットクラスを使って学習を行う">5.5.3. 作成したデータセットクラスを使って学習を行う</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#もっと簡単にData-Augmentationしよう">5.6. もっと簡単にData Augmentationしよう</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#ChainerCVでいろいろな変換を簡単に行おう">5.6.1. ChainerCVでいろいろな変換を簡単に行おう</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#参考文献">5.6.1.1. 参考文献</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#新しいネットワークを書いてみよう">4.4. 新しいネットワークを書いてみよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ネットワークの定義">4.4.1. ネットワークの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習">4.4.2. 学習</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習済みネットワークを使った予測">4.4.3. 学習済みネットワークを使った予測</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#もっと深いネットワークを定義してみよう">4.4.4. もっと深いネットワークを定義してみよう</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#構成要素を定義する">4.4.4.1. 構成要素を定義する</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#大きなネットワークの定義">4.4.4.2. 大きなネットワークの定義</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#TIPS">4.4.4.3. TIPS</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#データセットクラスを書いてみよう">4.5. データセットクラスを書いてみよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#NOTE">4.5.1. NOTE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#CIFAR10データセットクラスを書く">4.5.2. CIFAR10データセットクラスを書く</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#作成したデータセットクラスを使って学習を行う">4.5.3. 作成したデータセットクラスを使って学習を行う</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#もっと簡単にData-Augmentationしよう">4.6. もっと簡単にData Augmentationしよう</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ChainerCVでいろいろな変換を簡単に行おう">4.6.1. ChainerCVでいろいろな変換を簡単に行おう</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#参考文献">4.6.1.1. 参考文献</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">5. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">8. 実践編：ディープラーニングを使った配列解析</a></li>
 </ul>
 
             
@@ -210,7 +209,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>5. Deep Learningフレームワークの基礎</li>
+      <li>4. Deep Learningフレームワークの基礎</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -413,13 +412,13 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="Deep-Learningフレームワークの基礎">
-<h1>5. Deep Learningフレームワークの基礎<a class="headerlink" href="#Deep-Learningフレームワークの基礎" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1>4. Deep Learningフレームワークの基礎<a class="headerlink" href="#Deep-Learningフレームワークの基礎" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>Chainerは、現在の様々なDeep Learningフレームワーク（TensorFlow, PyTorch,
 etc.）で採用されている主要なニューラルネットワークの記法となっているDefine-by-Runというアイデアを基本としたAPIを初めに採用したDeep
 Learningフレームワークで、2015年からPreferred
 Networks社が開発を続けています。ここでは、柔軟性と直感的であることを特徴とするこのChainerというフレームワークの基本的な使い方をマスターしていきましょう。</p>
 <div class="section" id="環境構築">
-<h2>5.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まずはColab上で以下のセルを実行し、最新版のChainerをインストールしましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -490,10 +489,10 @@ Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-pac
 </div>
 </div>
 <div class="section" id="学習ループを書いてみよう">
-<h2>5.2. 学習ループを書いてみよう<a class="headerlink" href="#学習ループを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.2. 学習ループを書いてみよう<a class="headerlink" href="#学習ループを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは、有名な手書き数字のデータセットMNISTを使って、画像を10クラスに分類するネットワークを書いて訓練してみます。</p>
 <div class="section" id="データセットの準備">
-<h3>5.2.1. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.2.1. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>教師あり学習の場合、<strong>データセットは「入力データ」と「それと対になるラベルデータ」を返すオブジェクトである必要があります。</strong>
 ChainerにはMNISTやCIFAR10/100のようなよく用いられるデータセットに対して、データをダウンロードしてくるところからそのような機能をもったオブジェクトを作るところまで自動的にやってくれる便利なメソッドがあるので、ここではひとまずこれを用いましょう。</p>
 <div class="nbinput docutils container">
@@ -560,7 +559,7 @@ label: 5
 </div>
 </div>
 <div class="section" id="Validation用データセットを作る">
-<h3>5.2.2. Validation用データセットを作る<a class="headerlink" href="#Validation用データセットを作る" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.2.2. Validation用データセットを作る<a class="headerlink" href="#Validation用データセットを作る" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>次に、上で作成した<code class="docutils literal notranslate"><span class="pre">train_val</span></code>データセットを、Training用のデータセットとValidation用のデータセットに分割しましょう。これもChainerの便利な関数を使えば簡単にできます。元々60000個のデータが入っている<code class="docutils literal notranslate"><span class="pre">train</span></code>データセット50000個のデータをTraining用に、残りの10000個をValidation用にしてみます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -597,7 +596,7 @@ Validation dataset size: 10000
 </div>
 </div>
 <div class="section" id="Iteratorの作成">
-<h3>5.2.3. Iteratorの作成<a class="headerlink" href="#Iteratorの作成" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.2.3. Iteratorの作成<a class="headerlink" href="#Iteratorの作成" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>データセットの準備は完了しましたが、このままネットワークの学習に使うのは少し面倒です。なぜなら、ネットワークのパラメータ最適化手法として広く用いられているStochastic
 Gradient Descent
 (SGD)という手法では、一般的にいくつかのデータを束ねた**ミニバッチ**と呼ばれる単位でネットワークにデータを渡し、それに対する予測を作って、ラベルと比較するということを行います。そのため、<strong>バッチサイズ分だけデータとラベルを束ねる作業が必要です。</strong></p>
@@ -623,7 +622,7 @@ test_iter = iterators.SerialIterator(
 </div>
 <p>ここでは、学習に用いるデータセット用のイテレータ（<code class="docutils literal notranslate"><span class="pre">train_iter</span></code>）と、検証用のデータセット用のイテレータ（<code class="docutils literal notranslate"><span class="pre">valid_iter</span></code>）、および学習したネットワークの評価に用いるテストデータセット用のイテレータ（<code class="docutils literal notranslate"><span class="pre">test_iter</span></code>）の計3つを作成しています。ここで、<code class="docutils literal notranslate"><span class="pre">batchsize</span> <span class="pre">=</span> <span class="pre">128</span></code>としているので、作成した3つの<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>は、例えば<code class="docutils literal notranslate"><span class="pre">train_iter.next()</span></code>などとすると128枚の数字画像データを一括りにして返してくれます。</p>
 <div class="section" id="NOTE:-SerialIteratorについて">
-<h4>5.2.3.1. NOTE: <code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>について<a class="headerlink" href="#NOTE:-SerialIteratorについて" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.3.1. NOTE: <code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>について<a class="headerlink" href="#NOTE:-SerialIteratorについて" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Chainerがいくつか用意している<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>の一種である<code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>は、データセットの中のデータを順番に取り出してくる最もシンプルな<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>です。コンストラクタの引数にデータセットオブジェクトと、バッチサイズを取ります。このとき、渡したデータセットオブジェクトから、何周も何周もデータを繰り返し読み出す必要がある場合は<code class="docutils literal notranslate"><span class="pre">repeat</span></code>引数を<code class="docutils literal notranslate"><span class="pre">True</span></code>とし、1周が終わったらそれ以上データを取り出したくない場合はこれを<code class="docutils literal notranslate"><span class="pre">False</span></code>とします。これは、主にvalidation用のデータセットに対して使うフラグです。デフォルトでは、<code class="docutils literal notranslate"><span class="pre">True</span></code>になっています。また、<code class="docutils literal notranslate"><span class="pre">shuffle</span></code>引数に<code class="docutils literal notranslate"><span class="pre">True</span></code>を渡すと、データセットから取り出されてくるデータの順番をエポックごとにランダムに変更します。<code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>の他にも、マルチプロセスで高速にデータを処理できるようにした<code class="docutils literal notranslate"><span class="pre">MultiprocessIterator</span></code>や<code class="docutils literal notranslate"><span class="pre">MultithreadIterator</span></code>など、複数の<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>が用意されています。詳しくは以下を見てください。</p>
 <ul class="simple">
 <li><a class="reference external" href="https://docs.chainer.org/en/stable/reference/iterators.html">Chainerで使えるIterator一覧</a></li>
@@ -631,11 +630,11 @@ test_iter = iterators.SerialIterator(
 </div>
 </div>
 <div class="section" id="ネットワークの定義">
-<h3>5.4.1. ネットワークの定義<a class="headerlink" href="#ネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.4.1. ネットワークの定義<a class="headerlink" href="#ネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>では、学習させるネットワークを定義してみましょう。今回は、全結合層のみからなる多層パーセプトロンを作ってみます。中間層のユニット数は適当に100とし、今回は10クラス分類をしたいので、出力ユニット数は10とします。今回用いるMNISTデータセットは0〜9までの数字のいずれかを意味する10種のラベルを持つためです。では、ネットワークを定義するために必要な<code class="docutils literal notranslate"><span class="pre">Link</span></code>,
 <code class="docutils literal notranslate"><span class="pre">Function</span></code>, そして<code class="docutils literal notranslate"><span class="pre">Chain</span></code>について、簡単にここで説明を行います。</p>
 <div class="section" id="LinkとFunction">
-<h4>5.2.4.1. LinkとFunction<a class="headerlink" href="#LinkとFunction" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.4.1. LinkとFunction<a class="headerlink" href="#LinkとFunction" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Chainerでは、ニューラルネットワークの各層を、<code class="docutils literal notranslate"><span class="pre">Link</span></code>と<code class="docutils literal notranslate"><span class="pre">Function</span></code>に区別します。</p>
 <ul class="simple">
 <li><strong>``Link``は、パラメータを持つ関数です。</strong></li>
@@ -649,23 +648,23 @@ test_iter = iterators.SerialIterator(
 <p>と別名を与えて、<code class="docutils literal notranslate"><span class="pre">L.Convolution2D(...)</span></code>や<code class="docutils literal notranslate"><span class="pre">F.relu(...)</span></code>のように用いる慣習がありますが、特にこれが決まった書き方というわけではありません。</p>
 </div>
 <div class="section" id="Chain">
-<h4>5.2.4.2. Chain<a class="headerlink" href="#Chain" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.4.2. Chain<a class="headerlink" href="#Chain" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">Chain</span></code>は、<strong>パラメータを持つ層（``Link``）をまとめておくためのクラス</strong>です。パラメータを持つということは、基本的にネットワークの学習の際にそれらを更新していく必要があるということです（更新されないパラメータを持たせることもできます）。Chainerでは、モデルのパラメータの更新は、<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>という機能が担います。その際、更新すべき全てのパラメータを簡単に発見できるように、<code class="docutils literal notranslate"><span class="pre">Chain</span></code>で一箇所にまとめておきます。そうすると、<code class="docutils literal notranslate"><span class="pre">Chain.params()</span></code>メソッドを使って<strong>更新されるパラメータ一覧が簡単に取得できます。</strong></p>
 </div>
 <div class="section" id="Chainを継承してネットワークを定義しよう">
-<h4>5.2.4.3. Chainを継承してネットワークを定義しよう<a class="headerlink" href="#Chainを継承してネットワークを定義しよう" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.4.3. Chainを継承してネットワークを定義しよう<a class="headerlink" href="#Chainを継承してネットワークを定義しよう" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Chainerでは、ネットワークは<code class="docutils literal notranslate"><span class="pre">Chain</span></code>クラスを継承したクラスとして定義されることが一般的です。その場合、そのクラスのコンストラクタで、<code class="docutils literal notranslate"><span class="pre">self.init_scope()</span></code>で作られる<code class="docutils literal notranslate"><span class="pre">with</span></code>コンテキストを作り、その中でネットワークに登場する<code class="docutils literal notranslate"><span class="pre">Link</span></code>をプロパティとして登録しておきます。こうすると、自動的に<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>が最適化対象のパラメータを持つ層だな、と捉えてくれます。</p>
 <p>もう一つ、一般的なのは、ネットワークの前進計算（データを渡して、出力を返す）を、<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッドに書いておくという方法です。こうすると、ネットワーククラスをinstantiateして作ったオブジェクトを、関数のようにして使うことができます（例：<code class="docutils literal notranslate"><span class="pre">output</span> <span class="pre">=</span> <span class="pre">net(data)</span></code>）。</p>
 </div>
 <div class="section" id="GPUで実行するには">
-<h4>5.2.4.4. GPUで実行するには<a class="headerlink" href="#GPUで実行するには" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.4.4. GPUで実行するには<a class="headerlink" href="#GPUで実行するには" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">Chain</span></code>クラスは<code class="docutils literal notranslate"><span class="pre">to_gpu</span></code>メソッドを持ち、この引数にGPU
 IDを指定すると、指定したGPU
 IDのメモリ上にネットワークの全パラメータを転送します。こうしておくと、前進計算も学習の際のパラメータ更新なども全部GPU上で行われるようになります。GPU
 IDとして-1を使うと、すなわちこれはCPUを意味します。</p>
 </div>
 <div class="section" id="同じ結果を保証したい">
-<h4>5.2.4.5. 同じ結果を保証したい<a class="headerlink" href="#同じ結果を保証したい" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.4.5. 同じ結果を保証したい<a class="headerlink" href="#同じ結果を保証したい" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>ネットワークを書き始める前に、まずは乱数シードを固定して、本記事とほぼ同様の結果が再現できるようにしておきましょう。（cuDNNが有効になっている環境下でより厳密に計算結果の再現性を保証したい場合は、<code class="docutils literal notranslate"><span class="pre">chainer.config.cudnn_deterministic</span></code>というConfiguringオプションについて知る必要があります。こちらのドキュメントを参照してください：<a class="reference external" href="https://docs.chainer.org/en/stable/reference/configuration.html?highlight=chainer.config.cudnn_deterministic">chainer.config.cudnn_deterministic</a>。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -689,7 +688,7 @@ reset_seed(0)
 </div>
 </div>
 <div class="section" id="ネットワークを表すコード">
-<h4>5.2.4.6. ネットワークを表すコード<a class="headerlink" href="#ネットワークを表すコード" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.4.6. ネットワークを表すコード<a class="headerlink" href="#ネットワークを表すコード" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>いよいよネットワークを書いてみます！</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -734,7 +733,7 @@ if gpu_id &gt;= 0:
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">Link</span></code>一覧には、ニューラルネットワークによく用いられる全結合層や畳み込み層、LSTMなどや、ReLUなどの活性化関数などなどだけでなく、有名なネットワーク全体も<code class="docutils literal notranslate"><span class="pre">Link</span></code>として載っています。ResNetや、VGGなどです。また、<code class="docutils literal notranslate"><span class="pre">Function</span></code>一覧には、画像の大きさをresizeしたり、サイン・コサインのような関数を始め、いろいろなネットワークの要素として使える関数が載っています。</p>
 <div class="section" id="NOTE">
-<h5>5.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<h5>4.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h5>
 <p>上のネットワーク定義で、<code class="docutils literal notranslate"><span class="pre">L.Linear</span></code>は全結合層を意味しますが、最初のLinear層は第一引数に<code class="docutils literal notranslate"><span class="pre">None</span></code>が渡されています。これは、実行時に、つまり<strong>データがその層に入力された瞬間、必要な数の入力側ユニット数を自動的に計算する</strong>ということを意味します。ネットワークが最初に計算を行う際に、初めて
 <code class="docutils literal notranslate"><span class="pre">(n_input)</span></code> <span class="math notranslate nohighlight">\(\times\)</span> <code class="docutils literal notranslate"><span class="pre">n_mid_units</span></code>
 の大きさの行列を作成し、それを学習対象とするパラメータとして保持します。これは後々、畳み込み層を全結合層の前に配置する際などに便利な機能です。</p>
@@ -787,7 +786,7 @@ None
 </div>
 </div>
 <div class="section" id="最適化手法の選択">
-<h3>5.2.5. 最適化手法の選択<a class="headerlink" href="#最適化手法の選択" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.2.5. 最適化手法の選択<a class="headerlink" href="#最適化手法の選択" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>では、上で定義したネットワークをMNISTデータセットを使って訓練してみましょう。学習時に用いる最適化の手法としてはいろいろな種類のものが提案されていますが、Chainerは多くの手法を同一のインターフェースで利用できるよう、<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>という機能でそれらを提供しています。<code class="docutils literal notranslate"><span class="pre">chainer.optimizers</span></code>モジュール以下に色々なものを見つけることができます。一覧はこちらにあります：</p>
 <ul class="simple">
 <li><a class="reference external" href="https://docs.chainer.org/en/stable/reference/optimizers.html">Chainerで使える最適化手法一覧</a></li>
@@ -809,13 +808,13 @@ optimizer = optimizers.SGD(lr=0.01).setup(net)
 </div>
 </div>
 <div class="section" id="NOTE">
-<h4>5.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>今回はSGDのコンストラクタの<code class="docutils literal notranslate"><span class="pre">lr</span></code>という引数に <span class="math notranslate nohighlight">\(0.01\)</span>
 を与えました。この値は学習率として知られ、モデルをうまく訓練して良いパフォーマンスを発揮させるために調整する必要がある重要な<strong>ハイパーパラメータ</strong>として知られています。</p>
 </div>
 </div>
 <div class="section" id="学習する">
-<h3>5.2.6. 学習する<a class="headerlink" href="#学習する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.2.6. 学習する<a class="headerlink" href="#学習する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>いよいよ学習をスタートします！今回は分類問題なので、<code class="docutils literal notranslate"><span class="pre">softmax_cross_entropy</span></code>というロス関数を使って最小化すべきロスの値を計算します。</p>
 <p>まず、ネットワークにデータを渡して、出てきた出力と、入力データに対応する正解ラベルを、<code class="docutils literal notranslate"><span class="pre">Function</span></code>の一種でありスカラ値を返す<strong>ロス関数</strong>に渡し、ロス（最小化したい値）の計算を行います。ロスは、<code class="docutils literal notranslate"><span class="pre">chainer.Variable</span></code>のオブジェクトになっています。そして、この<code class="docutils literal notranslate"><span class="pre">Variable</span></code>は、<strong>今まで自分にどんな計算が施されたかを辿れるようになっています。</strong>この仕組みが、Define-by-Run
 <a class="reference external" href="http://learningsys.org/papers/LearningSys_2015_paper_33.pdf">[Tokui
@@ -831,14 +830,14 @@ optimizer = optimizers.SGD(lr=0.01).setup(net)
 </ol>
 <p>パラメータの更新は、何度も何度も繰り返し行います。一度の更新に用いられるデータは、ネットワークに入力されたバッチサイズ分だけ束ねられたデータのみです。そのため、データセット全体のデータを使うために、次のミニバッチを入力して再度更新、その次のミニバッチを使ってまた更新、ということを繰り返すわけです。そのため、この過程を学習ループと呼んでいます。</p>
 <div class="section" id="NOTE:-ロス関数">
-<h4>5.2.6.1. NOTE: ロス関数<a class="headerlink" href="#NOTE:-ロス関数" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.6.1. NOTE: ロス関数<a class="headerlink" href="#NOTE:-ロス関数" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>ちなみに、ロス関数は、例えば分類問題ではなく簡単な回帰問題を解きたいような場合、<code class="docutils literal notranslate"><span class="pre">F.softmax_cross_entropy</span></code>の代わりに<code class="docutils literal notranslate"><span class="pre">F.mean_squared_error</span></code>などを用いることもできます。他にも、いろいろな問題設定に対応するために様々なロス関数がChainerには用意されています。こちらからその一覧を見ることができます：</p>
 <ul class="simple">
 <li><a class="reference external" href="http://docs.chainer.org/en/stable/reference/functions.html#loss-functions">Chainerで使えるロス関数一覧</a></li>
 </ul>
 </div>
 <div class="section" id="学習ループのコード">
-<h4>5.2.6.2. 学習ループのコード<a class="headerlink" href="#学習ループのコード" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.6.2. 学習ループのコード<a class="headerlink" href="#学習ループのコード" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [14]:
@@ -951,10 +950,10 @@ test_accuracy:0.9375
 <p><code class="docutils literal notranslate"><span class="pre">val_accuracy</span></code>に着目してみると、最終的におおよそ92%程度の精度で手書きの数字が分類できるようになりました。<strong>学習終了後</strong>に、ループの中でValidationデータセットを使ってモデルの汎化性能をおおまかにチェックしているのと同様にして、<strong>テスト用のデータセットを用いて学習が終了したネットワークの評価を行っています。</strong>テストデータでの評価結果は、およそ93.75%の正解率となりました。</p>
 </div>
 <div class="section" id="ValidationやTestを行う際の注意点">
-<h4>5.2.6.3. ValidationやTestを行う際の注意点<a class="headerlink" href="#ValidationやTestを行う際の注意点" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.2.6.3. ValidationやTestを行う際の注意点<a class="headerlink" href="#ValidationやTestを行う際の注意点" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>ここで、ValidationにせよTestにせよ、「評価」を行う際には注意すべき点があります。学習は行わない、評価のためだけのデータをネットワークに渡して出力を計算している部分（例えば、<code class="docutils literal notranslate"><span class="pre">y_test</span> <span class="pre">=</span> <span class="pre">net(x_test)</span></code>）では、それらの行を2つのコンテキストでくくっています。</p>
 <div class="section" id="chainer.using_config('train',-False)">
-<h5>5.2.6.3.1. <code class="docutils literal notranslate"><span class="pre">chainer.using_config('train',</span> <span class="pre">False)</span></code><a class="headerlink" href="#chainer.using_config('train',-False)" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<h5>4.2.6.3.1. <code class="docutils literal notranslate"><span class="pre">chainer.using_config('train',</span> <span class="pre">False)</span></code><a class="headerlink" href="#chainer.using_config('train',-False)" title="このヘッドラインへのパーマリンク">¶</a></h5>
 <p>まず、今回は学習時と推論時で動作が異なる関数は含まれていないため、実際の効力は持ちませんが、Validationやテストのために推論を行うときは<code class="docutils literal notranslate"><span class="pre">chainer.config.train</span> <span class="pre">=</span> <span class="pre">False</span></code>とします。以下のように、<code class="docutils literal notranslate"><span class="pre">chainer.using_config('train',</span> <span class="pre">False)</span></code>をwith構文と共に使えば、その中では<code class="docutils literal notranslate"><span class="pre">chainer.config.train</span> <span class="pre">=</span> <span class="pre">False</span></code>となります。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>with chainer.using_config(&#39;train&#39;, False):
     --- 何か推論処理 ---
@@ -969,18 +968,18 @@ test_accuracy:0.9375
 <p>ただし、Pythonのコンテキストを利用しない場合は、一度このようにどこかで書くと、それ以降この設定はグローバルにずっと有効になることに注意してください。（推論したあと再び学習を行うという場合は、再度<code class="docutils literal notranslate"><span class="pre">chainer.config.train</span> <span class="pre">=</span> <span class="pre">True</span></code>などのようにすることが必要になります。<code class="docutils literal notranslate"><span class="pre">chainer.config</span></code>以下の規定の値に何かを代入することはグローバルに作用しますので、次に説明する<code class="docutils literal notranslate"><span class="pre">enable_backprop</span></code>についても同様です。）</p>
 </div>
 <div class="section" id="chainer.using_config('enable_backprop',-False)">
-<h5>5.2.6.3.2. <code class="docutils literal notranslate"><span class="pre">chainer.using_config('enable_backprop',</span> <span class="pre">False)</span></code><a class="headerlink" href="#chainer.using_config('enable_backprop',-False)" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<h5>4.2.6.3.2. <code class="docutils literal notranslate"><span class="pre">chainer.using_config('enable_backprop',</span> <span class="pre">False)</span></code><a class="headerlink" href="#chainer.using_config('enable_backprop',-False)" title="このヘッドラインへのパーマリンク">¶</a></h5>
 <p>次に、今回は評価に用いる出力の計算後にロス関数の各パラメータについての勾配は必要ないので、内部に計算グラフを保持しておく必要もないため、<code class="docutils literal notranslate"><span class="pre">chainer.using_config('enable_backprop',</span> <span class="pre">False)</span></code>として<strong>無駄な計算グラフの構築を行わないようにし、メモリ消費量を節約しています。</strong></p>
 </div>
 <div class="section" id="NOTE:-ChainerのConfig">
-<h5>5.2.6.3.3. NOTE: ChainerのConfig<a class="headerlink" href="#NOTE:-ChainerのConfig" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<h5>4.2.6.3.3. NOTE: ChainerのConfig<a class="headerlink" href="#NOTE:-ChainerのConfig" title="このヘッドラインへのパーマリンク">¶</a></h5>
 <p>Chainerにはこの他にも、いくつかのグローバルなConfigがプリセットとして用意されています。また、<code class="docutils literal notranslate"><span class="pre">chainer.config</span></code>以下にユーザが自由な設定値を置くこともできます。詳しくはこちらを一読してください：<a class="reference external" href="https://docs.chainer.org/en/stable/reference/configuration.html">Configuring
 Chainer</a></p>
 </div>
 </div>
 </div>
 <div class="section" id="学習済みモデルを保存する">
-<h3>5.2.7. 学習済みモデルを保存する<a class="headerlink" href="#学習済みモデルを保存する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.2.7. 学習済みモデルを保存する<a class="headerlink" href="#学習済みモデルを保存する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>学習が終わったら、その結果を保存します。Chainerには、2種類のフォーマットで学習済みネットワークをシリアライズする機能が用意されています。一つはHDF5形式で、もう一つはNumPyのNPZ形式でネットワークを保存するものです。今回は、追加ライブラリのインストールが必要なHDF5ではなく、NumPy標準機能で提供されているシリアライズ機能（<code class="docutils literal notranslate"><span class="pre">numpy.savez()</span></code>）を利用したNPZ形式でのモデルの保存を行います。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1015,7 +1014,7 @@ serializers.save_npz(&#39;my_mnist.model&#39;, net)
 </div>
 </div>
 <div class="section" id="保存したモデルを読み込んで推論する">
-<h3>5.2.8. 保存したモデルを読み込んで推論する<a class="headerlink" href="#保存したモデルを読み込んで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.2.8. 保存したモデルを読み込んで推論する<a class="headerlink" href="#保存したモデルを読み込んで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>学習したネットワークを、それを使って数字の分類がしたい誰かに渡して、使ってもらうにはどうしたら良いでしょうか。もっともシンプルな方法は、ネットワークの定義がかかれたPythonファイルと、今しがた保存したNPZファイルを渡して、以下のように使うことです。以下のコードの前に、渡したネットワーク定義のファイルからネットワークのクラス（ここでは<code class="docutils literal notranslate"><span class="pre">MLP</span></code>）が読み込まれていることを前提とします。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1097,10 +1096,10 @@ print(&#39;ネットワークの予測:&#39;, pred_label[0])
 </div>
 </div>
 <div class="section" id="Trainerを使ってみよう">
-<h2>5.3. Trainerを使ってみよう<a class="headerlink" href="#Trainerを使ってみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.3. Trainerを使ってみよう<a class="headerlink" href="#Trainerを使ってみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Chainerは、これまで書いてきたような学習ループを隠蔽する<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>という機能を提供しています。これを使うと、学習ループを陽に書く必要がなくなり、またいろいろな便利なExtentionを使うことで、学習過程でのロスカーブの可視化や、ログの保存などが楽になります。</p>
 <div class="section" id="データセット・Iterator・ネットワークの準備">
-<h3>5.3.1. データセット・Iterator・ネットワークの準備<a class="headerlink" href="#データセット・Iterator・ネットワークの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.3.1. データセット・Iterator・ネットワークの準備<a class="headerlink" href="#データセット・Iterator・ネットワークの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>これらはループを自分で書く場合と同じなので、まとめてしまいます。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1130,7 +1129,7 @@ if gpu_id &gt;= 0:
 </div>
 </div>
 <div class="section" id="Updaterの準備">
-<h3>5.3.2. Updaterの準備<a class="headerlink" href="#Updaterの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.3.2. Updaterの準備<a class="headerlink" href="#Updaterの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ここからが学習ループを自分で書く場合と異なる部分です。ループを自分で書く場合には、データセットからバッチサイズ分のデータをとってきてミニバッチに束ねて、それをネットワークに入力して予測を作り、それを正解と比較し、ロスを計算してバックワード（誤差逆伝播）をして、<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>によってパラメータを更新する、というところまでを、以下のように書いていました。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---------- 学習の1イテレーション ----------</span>
 <span class="n">train_batch</span> <span class="o">=</span> <span class="n">train_iter</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
@@ -1177,7 +1176,7 @@ updater = training.StandardUpdater(train_iter, optimizer, device=gpu_id)
 <p><code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>は前述のような<code class="docutils literal notranslate"><span class="pre">Updater</span></code>の担当する処理を遂行するための最もシンプルなクラスです。この他にも複数のGPUを用いるための<code class="docutils literal notranslate"><span class="pre">ParallelUpdater</span></code>などが用意されています。</p>
 </div>
 <div class="section" id="Trainerの準備">
-<h3>5.3.3. Trainerの準備<a class="headerlink" href="#Trainerの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.3.3. Trainerの準備<a class="headerlink" href="#Trainerの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>実際に学習ループ部分を隠蔽しているのは<code class="docutils literal notranslate"><span class="pre">Updater</span></code>なので、これがあればもう学習を始められそうですが、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>はさらに<code class="docutils literal notranslate"><span class="pre">Updater</span></code>を受け取って学習全体の管理を行う機能を提供しています。例えば、<strong>データセットを何周したら学習を終了するか(stop_trigger)</strong>
 や、<strong>途中のロスの値をどのファイルに保存したいか</strong>、<strong>ロスカーブを可視化した画像ファイルを保存するかどうか</strong>など、学習全体の設定として必須・もしくはあると便利な色々な機能を提供しています。</p>
 <p>必須なものとしては学習終了のタイミングを指定する<code class="docutils literal notranslate"><span class="pre">stop_trigger</span></code>がありますが、これは<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを作成するときのコンストラクタで指定します。指定の方法は単純で、<code class="docutils literal notranslate"><span class="pre">(長さ,</span> <span class="pre">単位)</span></code>という形のタプルを与えればよいだけです。「長さ」には数字を、「単位」には<code class="docutils literal notranslate"><span class="pre">'iteration'</span></code>もしくは<code class="docutils literal notranslate"><span class="pre">'epoch'</span></code>のいずれかの文字列を指定します。こうすると、たとえば100
@@ -1206,7 +1205,7 @@ trainer = training.Trainer(
 </div>
 </div>
 <div class="section" id="TrainerにExtensionを追加する">
-<h3>5.3.4. TrainerにExtensionを追加する<a class="headerlink" href="#TrainerにExtensionを追加する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.3.4. TrainerにExtensionを追加する<a class="headerlink" href="#TrainerにExtensionを追加する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>を使う利点として、</p>
 <ul class="simple">
 <li>ログを自動的にファイルに保存（<code class="docutils literal notranslate"><span class="pre">LogReport</span></code>)</li>
@@ -1239,32 +1238,32 @@ trainer.extend(extensions.dump_graph(&#39;main/loss&#39;))
 </div>
 </div>
 <div class="section" id="LogReport">
-<h4>5.3.4.1. <code class="docutils literal notranslate"><span class="pre">LogReport</span></code><a class="headerlink" href="#LogReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.3.4.1. <code class="docutils literal notranslate"><span class="pre">LogReport</span></code><a class="headerlink" href="#LogReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">epoch</span></code>や<code class="docutils literal notranslate"><span class="pre">iteration</span></code>ごとの<code class="docutils literal notranslate"><span class="pre">loss</span></code>,
 <code class="docutils literal notranslate"><span class="pre">accuracy</span></code>などを自動的に集計し、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>の<code class="docutils literal notranslate"><span class="pre">out</span></code>引数で指定した出力ディレクトリに<code class="docutils literal notranslate"><span class="pre">log</span></code>というファイル名で保存します。</p>
 </div>
 <div class="section" id="snapshot">
-<h4>5.3.4.2. <code class="docutils literal notranslate"><span class="pre">snapshot</span></code><a class="headerlink" href="#snapshot" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.3.4.2. <code class="docutils literal notranslate"><span class="pre">snapshot</span></code><a class="headerlink" href="#snapshot" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>の<code class="docutils literal notranslate"><span class="pre">out</span></code>引数で指定した出力ディレクトリに<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを指定されたタイミング（デフォルトでは1エポックごと）に保存します。<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトは上述のように<code class="docutils literal notranslate"><span class="pre">Updater</span></code>を持っており、この中に<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>とモデルが保持されているため、この<code class="docutils literal notranslate"><span class="pre">Extension</span></code>でスナップショットをとっておけば、学習の復帰や学習済みモデルを使った推論などが学習終了後にも可能になります。</p>
 </div>
 <div class="section" id="dump_graph">
-<h4>5.3.4.3. <code class="docutils literal notranslate"><span class="pre">dump_graph</span></code><a class="headerlink" href="#dump_graph" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.3.4.3. <code class="docutils literal notranslate"><span class="pre">dump_graph</span></code><a class="headerlink" href="#dump_graph" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>指定された<code class="docutils literal notranslate"><span class="pre">Variable</span></code>オブジェクトから辿れる計算グラフをGraphvizのdot形式で保存します。保存先は<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>の<code class="docutils literal notranslate"><span class="pre">out</span></code>引数で指定した出力ディレクトリです。</p>
 </div>
 <div class="section" id="Evaluator">
-<h4>5.3.4.4. <code class="docutils literal notranslate"><span class="pre">Evaluator</span></code><a class="headerlink" href="#Evaluator" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.3.4.4. <code class="docutils literal notranslate"><span class="pre">Evaluator</span></code><a class="headerlink" href="#Evaluator" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>評価用のデータセットの<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>と、学習に使うモデルのオブジェクトを渡しておくことで、学習中のモデルを指定されたタイミングで評価用データセットを用いて評価します。内部では、<code class="docutils literal notranslate"><span class="pre">chainer.config.using_config('train',</span> <span class="pre">False)</span></code>が自動的に行われます。<code class="docutils literal notranslate"><span class="pre">backprop_enable</span></code>を<code class="docutils literal notranslate"><span class="pre">False</span></code>にすることは行われないため、メモリ使用効率はデフォルトでは最適ではありませんが、基本的には<code class="docutils literal notranslate"><span class="pre">Evaluator</span></code>を使えば評価を行うという点において問題はありません。</p>
 </div>
 <div class="section" id="PrintReport">
-<h4>5.3.4.5. <code class="docutils literal notranslate"><span class="pre">PrintReport</span></code><a class="headerlink" href="#PrintReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.3.4.5. <code class="docutils literal notranslate"><span class="pre">PrintReport</span></code><a class="headerlink" href="#PrintReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">Reporter</span></code>によって集計された値を標準出力に出力します。このときどの値を出力するかを、リストの形で与えます。</p>
 </div>
 <div class="section" id="PlotReport">
-<h4>5.3.4.6. <code class="docutils literal notranslate"><span class="pre">PlotReport</span></code><a class="headerlink" href="#PlotReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.3.4.6. <code class="docutils literal notranslate"><span class="pre">PlotReport</span></code><a class="headerlink" href="#PlotReport" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>引数のリストで指定された値の変遷を<code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>ライブラリを使ってグラフに描画し、出力ディレクトリに<code class="docutils literal notranslate"><span class="pre">file_name</span></code>引数で指定されたファイル名で画像として保存します。</p>
 </div>
 <div class="section" id="ParameterStatistics">
-<h4>5.3.4.7. <code class="docutils literal notranslate"><span class="pre">ParameterStatistics</span></code><a class="headerlink" href="#ParameterStatistics" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.3.4.7. <code class="docutils literal notranslate"><span class="pre">ParameterStatistics</span></code><a class="headerlink" href="#ParameterStatistics" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>指定したレイヤ（Link）が持つパラメータの平均・分散・最小値・最大値などなどの統計情報を計算して、ログに保存します。パラメータが発散していないかなどをチェックするのに便利です。</p>
 <hr class="docutils" />
 <p>これらの<code class="docutils literal notranslate"><span class="pre">Extension</span></code>は、ここで紹介した以外にも、例えば<code class="docutils literal notranslate"><span class="pre">trigger</span></code>によって個別に作動するタイミングを指定できるなどのいくつかのオプションを持っており、より柔軟に組み合わせることができます。詳しくは公式のドキュメントを見てください</p>
@@ -1275,7 +1274,7 @@ extension一覧</a></li>
 </div>
 </div>
 <div class="section" id="学習を開始する">
-<h3>5.3.5. 学習を開始する<a class="headerlink" href="#学習を開始する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.3.5. 学習を開始する<a class="headerlink" href="#学習を開始する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>学習を開始するには、<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">run</span></code>を呼ぶだけです！</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1381,7 +1380,7 @@ Image(filename=&#39;mnist_result/loss.png&#39;)
 <p>上から下へ向かって、データやパラメータがどのような<code class="docutils literal notranslate"><span class="pre">Function</span></code>に渡されて計算が行われ、ロスを表す<code class="docutils literal notranslate"><span class="pre">Variable</span></code>が出力されたかが分かります。</p>
 </div>
 <div class="section" id="テストデータで評価する">
-<h3>5.3.6. テストデータで評価する<a class="headerlink" href="#テストデータで評価する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.3.6. テストデータで評価する<a class="headerlink" href="#テストデータで評価する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>上でもValidationデータに対しての評価を学習中に行うために使用されているTrainer
 Extensionの一つであるEvaluatorは、Trainerと関係なく独立して使うこともできます。以下のようにして<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>とネットワークのオブジェクト（<code class="docutils literal notranslate"><span class="pre">net</span></code>）、使用するデバイスIDを渡してEvaluatorオブジェクトを作成し、これを関数として実行するだけです。</p>
 <div class="nbinput docutils container">
@@ -1406,7 +1405,7 @@ Test accuracy: 0.92494065
 </div>
 </div>
 <div class="section" id="学習済みモデルで推論する">
-<h3>5.3.7. 学習済みモデルで推論する<a class="headerlink" href="#学習済みモデルで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.3.7. 学習済みモデルで推論する<a class="headerlink" href="#学習済みモデルで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは、Trainer
 Extensionのsnapshotが自動的に保存したネットワークのスナップショットから学習済みパラメータを読み込んで、学習ループを書いて学習したときと同様に1番目のテストデータで推論を行ってみましょう。</p>
 <p>ここで注意すべきは、snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため、extensionの内部のパラメータなども一緒に保存されています。これは、学習自体を再開するために必要だからです。しかし、今回はネットワークのパラメータだけを読み込めば良いので、<code class="docutils literal notranslate"><span class="pre">serializers.load_npz()</span></code>のpath引数にネットワーク部分までのパス（<code class="docutils literal notranslate"><span class="pre">updater/model:main/predictor/</span></code>）を指定しています。こうすることで、ネットワークのオブジェクトにパラメータだけを読み込むことができます。</p>
@@ -1458,7 +1457,7 @@ print(&#39;予測ラベル:&#39;, y.argmax(axis=1)[0])
 </div>
 </div>
 <div class="section" id="新しいネットワークを書いてみよう">
-<h2>5.4. 新しいネットワークを書いてみよう<a class="headerlink" href="#新しいネットワークを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.4. 新しいネットワークを書いてみよう<a class="headerlink" href="#新しいネットワークを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは、MNISTデータセットではなくCIFAR10という32x32サイズの小さなカラー画像に10クラスのいずれかのラベルがついたデータセットを用いて、いろいろなモデルを自分で書いて試行錯誤する流れを体験してみます。</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -1526,7 +1525,7 @@ ge19
 </tbody>
 </table>
 <div class="section" id="ネットワークの定義">
-<h3>5.4.1. ネットワークの定義<a class="headerlink" href="#ネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.4.1. ネットワークの定義<a class="headerlink" href="#ネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ここでは、さきほど試した全結合層だけからなるネットワークではなく、畳込み層を持つネットワークを定義してみます。3つの畳み込み層を持ち、2つの全結合層がそのあとに続いています。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1557,7 +1556,7 @@ ge19
 </div>
 </div>
 <div class="section" id="学習">
-<h3>5.4.2. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.4.2. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ここで、あとから別のネットワークも簡単に同じ設定で訓練できるよう、<code class="docutils literal notranslate"><span class="pre">train</span></code>関数を作っておきます。これは、</p>
 <ul class="simple">
 <li>ネットワークのオブジェクト</li>
@@ -1719,7 +1718,7 @@ Test accuracy: 0.60739714
 テストデータでは精度が良くないということなので、<strong>モデルが学習データにオーバーフィッティングしている</strong>と思われます。</p>
 </div>
 <div class="section" id="学習済みネットワークを使った予測">
-<h3>5.4.3. 学習済みネットワークを使った予測<a class="headerlink" href="#学習済みネットワークを使った予測" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.4.3. 学習済みネットワークを使った予測<a class="headerlink" href="#学習済みネットワークを使った予測" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>テスト精度は60%程度でしたが、試しにこの学習済みネットワークを使っていくつかのテスト画像を分類させてみましょう。あとで使いまわせるように<code class="docutils literal notranslate"><span class="pre">predict</span></code>関数を作っておきます。</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1831,10 +1830,10 @@ answer: truck
 <p>どうすれば高い汎化性能を持つネットワークを設計し、学習することができるでしょうか？（そんなことが簡単に分かったら苦労しない。）</p>
 </div>
 <div class="section" id="もっと深いネットワークを定義してみよう">
-<h3>5.4.4. もっと深いネットワークを定義してみよう<a class="headerlink" href="#もっと深いネットワークを定義してみよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.4.4. もっと深いネットワークを定義してみよう<a class="headerlink" href="#もっと深いネットワークを定義してみよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>では、上のネットワークよりもよりたくさんの層を持つネットワークを定義してみましょう。ここでは、1層の畳み込みネットワークを<code class="docutils literal notranslate"><span class="pre">ConvBlock</span></code>、1層の全結合ネットワークを<code class="docutils literal notranslate"><span class="pre">LinearBlock</span></code>として定義し、これをたくさんシーケンシャルに積み重ねる方法で大きなネットワークを定義してみます。</p>
 <div class="section" id="構成要素を定義する">
-<h4>5.4.4.1. 構成要素を定義する<a class="headerlink" href="#構成要素を定義する" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.4.4.1. 構成要素を定義する<a class="headerlink" href="#構成要素を定義する" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>まず、今目指している大きなネットワークの構成要素となる<code class="docutils literal notranslate"><span class="pre">ConvBlock</span></code>と<code class="docutils literal notranslate"><span class="pre">LinearBlock</span></code>を定義してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1882,7 +1881,7 @@ PoolingとDropoutという関数を適用するようになっています。</p
 <p>Chainerでは、Pythonを使って書いたforward計算のコード自体がネットワークの構造を表します。すなわち、実行時にデータがどのような層をくぐっていったか、ということがネットワークそのものを定義します。これによって、上記のような分岐などを含むネットワークも簡単に書け、柔軟かつシンプルで可読性の高いネットワーク定義が可能になります。これが<strong>Define-by-Run</strong>と呼ばれる特徴です。</p>
 </div>
 <div class="section" id="大きなネットワークの定義">
-<h4>5.4.4.2. 大きなネットワークの定義<a class="headerlink" href="#大きなネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.4.4.2. 大きなネットワークの定義<a class="headerlink" href="#大きなネットワークの定義" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>次に、これらの小さなネットワークを構成要素として積み重ねて、大きなネットワークを定義してみましょう。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1919,7 +1918,7 @@ PoolingとDropoutという関数を適用するようになっています。</p
 <p>それでは、学習を回してみます。今回はパラメータ数も多いので、学習を停止するエポック数を100に設定します。また、学習率を0.1から始めて、30エポックごとに10分の1にするように設定してみます。</p>
 </div>
 <div class="section" id="TIPS">
-<h4>5.4.4.3. TIPS<a class="headerlink" href="#TIPS" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.4.4.3. TIPS<a class="headerlink" href="#TIPS" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>今回は多くの畳込み層を使う大きなネットワークを使うので、Chainerが用意してくれているcuDNNのautotune機能を有効にしてみます。やり方は簡単で、以下の二行を事前に実行しておくだけです。</p>
 <hr class="docutils" />
 <div class="nbinput nblast docutils container">
@@ -2100,7 +2099,7 @@ augmentation）や、複数のモデルの出力を一つの出力に統合す�
 </div>
 </div>
 <div class="section" id="データセットクラスを書いてみよう">
-<h2>5.5. データセットクラスを書いてみよう<a class="headerlink" href="#データセットクラスを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.5. データセットクラスを書いてみよう<a class="headerlink" href="#データセットクラスを書いてみよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは、Chainerにすでに用意されているCIFAR10のデータを取得する機能を使って、データセットクラスを自分で書いてみます。Chainerでは、データセットを表すクラスは以下の機能を持っていることが必要とされます。</p>
 <ul class="simple">
 <li>データセット内のデータ数を返す<code class="docutils literal notranslate"><span class="pre">__len__</span></code>メソッド</li>
@@ -2109,11 +2108,11 @@ augmentation）や、複数のモデルの出力を一つの出力に統合す�
 <p>その他のデータセットに必要な機能は、<code class="docutils literal notranslate"><span class="pre">chainer.dataset.DatasetMixin</span></code>クラスを継承することで用意できます。ここでは、<code class="docutils literal notranslate"><span class="pre">DatasetMixin</span></code>クラスを継承し、Data
 augmentation機能のついたデータセットクラスを作成してみましょう。</p>
 <div class="section" id="NOTE">
-<h3>5.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.5.1. NOTE<a class="headerlink" href="#NOTE" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>自前で用意した、もしくはどこからから調達したラベル付き画像データセットを使う場合は、<code class="docutils literal notranslate"><span class="pre">`LabeledImageDataset</span></code> &lt;<a class="reference external" href="https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.LabeledImageDataset.html?highlight=LabeledImageDataset">https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.LabeledImageDataset.html?highlight=LabeledImageDataset</a>&gt;`__というクラスが非常に便利です。雹災はドキュメントを参照してください：<code class="docutils literal notranslate"><span class="pre">`LabeledImageDataset</span></code> &lt;<a class="reference external" href="https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.LabeledImageDataset.html?highlight=LabeledImageDataset">https://docs.chainer.org/en/stable/reference/generated/chainer.datasets.LabeledImageDataset.html?highlight=LabeledImageDataset</a>&gt;`__。こちらでも使っています：<a class="reference external" href="https://qiita.com/mitmul/items/5502ecdd2f0b444c427f">Chainerでアニメキャラクターの顔画像を分類する</a></p>
 </div>
 <div class="section" id="CIFAR10データセットクラスを書く">
-<h3>5.5.2. CIFAR10データセットクラスを書く<a class="headerlink" href="#CIFAR10データセットクラスを書く" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.5.2. CIFAR10データセットクラスを書く<a class="headerlink" href="#CIFAR10データセットクラスを書く" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -2167,7 +2166,7 @@ augmentation機能のついたデータセットクラスを作成してみま�
 <p>自分でデータの取得部分も書く場合は、コンストラクタに画像フォルダのパスとファイル名に対応したラベルの書かれたテキストファイルへのパスなどを渡してプロパティとして保持しておき、<code class="docutils literal notranslate"><span class="pre">get_example</span></code>メソッド内でそれぞれの画像を読み込んで対応するラベルとともに返す、という風にすれば良いことが分かります。</p>
 </div>
 <div class="section" id="作成したデータセットクラスを使って学習を行う">
-<h3>5.5.3. 作成したデータセットクラスを使って学習を行う<a class="headerlink" href="#作成したデータセットクラスを使って学習を行う" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.5.3. 作成したデータセットクラスを使って学習を行う<a class="headerlink" href="#作成したデータセットクラスを使って学習を行う" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それではさっそくこの<code class="docutils literal notranslate"><span class="pre">CIFAR10</span></code>クラスを使って学習を行ってみましょう。先程使ったのと同じ大きなネットワークを使うことで、Data
 augmentationの効果がどの程度あるのかを調べてみましょう。<code class="docutils literal notranslate"><span class="pre">train</span></code>関数も含め、データセットクラス以外は先程とすべて同様です。</p>
 <div class="nbinput docutils container">
@@ -2245,7 +2244,7 @@ augmentationなしの場合は90%程度だったテスト精度が、学習デ�
 </div>
 </div>
 <div class="section" id="もっと簡単にData-Augmentationしよう">
-<h2>5.6. もっと簡単にData Augmentationしよう<a class="headerlink" href="#もっと簡単にData-Augmentationしよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>4.6. もっと簡単にData Augmentationしよう<a class="headerlink" href="#もっと簡単にData-Augmentationしよう" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>前述のようにデータセット内の各画像についていろいろな変換を行って擬似的にデータを増やすような操作をData
 Augmentationといいます。上では、オリジナルのデータセットクラスを作る方法を示すために変換の操作も<code class="docutils literal notranslate"><span class="pre">get_example()</span></code>内に書くという実装を行いましたが、実はもっと簡単にいろいろな変換をデータに対して行う方法があります。</p>
 <p>それは、<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>クラスを使う方法です。<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>は、元になるデータセットオブジェクトと、そこからサンプルしてきた各データ点に対して行いたい変換を関数の形で与えると、変換済みのデータを返してくれるようなデータセットオブジェクトに加工してくれる便利なクラスです。かんたんな使い方は以下です。</p>
@@ -2285,7 +2284,7 @@ train_dataset = TransformDataset(train_dataset, transform)
 </div>
 <p>このようにすると、この新しい<code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>は、上で自分でデータセットクラスごと書いたときと同じような変換を行った上でデータを返してくれるデータセットオブジェクトになります。</p>
 <div class="section" id="ChainerCVでいろいろな変換を簡単に行おう">
-<h3>5.6.1. ChainerCVでいろいろな変換を簡単に行おう<a class="headerlink" href="#ChainerCVでいろいろな変換を簡単に行おう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>4.6.1. ChainerCVでいろいろな変換を簡単に行おう<a class="headerlink" href="#ChainerCVでいろいろな変換を簡単に行おう" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>さて、上では画像に対してランダムクロップと、ランダムに左右反転というのをやりました。もっと色々な変換を行いたい場合、上記の<code class="docutils literal notranslate"><span class="pre">transform</span></code>関数に色々な処理を追加していけばよいことになりますが、毎回使いまわすような変換処理をそのたびに書くのは面倒です。何かいいライブラリとか無いのかな、となります。そこで<a class="reference external" href="http://chainercv.readthedocs.io/en/stable">ChainerCV</a><a class="reference external" href="https://arxiv.org/abs/1708.08169">[Niitani
 2017]</a>です！今年のACM
 MultimediaのOpen Source Software CompetitionにWebDNN<a class="reference external" href="https://dl.acm.org/citation.cfm?id=3129394">[Hidaka
@@ -2381,7 +2380,7 @@ model = train(DeepCNN(10), max_epoch=100, train_dataset=train_dataset, valid_dat
 </div>
 <p>わずかに精度が向上しました。他にもネットワークにResNetと呼ばれる有名なアーキテクチャを採用するなど、簡単に試せる改善方法がいくつかあります。ぜひご自分で色々と試してみてください。</p>
 <div class="section" id="参考文献">
-<h4>5.6.1.1. 参考文献<a class="headerlink" href="#参考文献" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>4.6.1.1. 参考文献<a class="headerlink" href="#参考文献" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>[Tokui 2015] Tokui, S., Oono, K., Hido, S. and Clayton, J., Chainer: a
 Next-Generation Open Source Framework for Deep Learning, Proceedings of
 Workshop on Machine Learning Systems(LearningSys) in The Twenty-ninth
@@ -2407,10 +2406,10 @@ Competition, pp.1213-1216, 2017.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Image_Segmentation.html" class="btn btn-neutral float-right" title="6. 実践編: CT/MRI画像のセグメンテーション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Image_Segmentation.html" class="btn btn-neutral float-right" title="5. 実践編: CT/MRI画像のセグメンテーション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Chainer_Basics.html" class="btn btn-neutral" title="4. Chainer入門" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Introduction_to_Neural_Network.html" class="btn btn-neutral" title="3. ニューラルネットワーク" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

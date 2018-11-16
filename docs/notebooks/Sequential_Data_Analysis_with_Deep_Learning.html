@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  <title>7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="9. 実践編：ディープラーニングを使った配列解析" href="Basenji.html" />
-    <link rel="prev" title="7. 実践編: 血液の顕微鏡画像からの細胞検出" href="Blood_Cell_Detection.html" /> 
+    <link rel="next" title="8. 実践編：ディープラーニングを使った配列解析" href="Basenji.html" />
+    <link rel="prev" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" href="Blood_Cell_Detection.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -82,33 +82,32 @@
 <li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Chainer_Basics.html">4. Chainer入門</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">6. 実践編: CT/MRI画像のセグメンテーション</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#目次">8.1. 目次</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#環境構築">8.2. 環境構築</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#心電図(ECG)について">8.3. 心電図(ECG)について</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">8.4. 使用するデータセット</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#データ前処理">8.5. データ前処理</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#DLを用いた時系列データ解析">8.6. DLを用いた時系列データ解析</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#精度向上に向けて">8.7. 精度向上に向けて</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#クラス不均衡データへの対応">8.7.1. クラス不均衡データへの対応</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Undersampling-&amp;-Oversampling-(SMOTE)">8.7.1.1. Undersampling &amp; Oversampling (SMOTE)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#損失関数の変更">8.7.1.2. 損失関数の変更</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">4. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">5. 実践編: CT/MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#目次">7.1. 目次</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">7.2. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#心電図(ECG)について">7.3. 心電図(ECG)について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">7.4. 使用するデータセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データ前処理">7.5. データ前処理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#DLを用いた時系列データ解析">7.6. DLを用いた時系列データ解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#精度向上に向けて">7.7. 精度向上に向けて</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#クラス不均衡データへの対応">7.7.1. クラス不均衡データへの対応</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Undersampling-&amp;-Oversampling-(SMOTE)">7.7.1.1. Undersampling &amp; Oversampling (SMOTE)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#損失関数の変更">7.7.1.2. 損失関数の変更</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#特徴抽出方法の変更">8.7.2. 特徴抽出方法の変更</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#ネットワーク構造の変更">8.7.2.1. ネットワーク構造の変更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#特徴抽出方法の変更">7.7.2. 特徴抽出方法の変更</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ネットワーク構造の変更">7.7.2.1. ネットワーク構造の変更</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#ノイズ除去の効果検証">8.7.3. ノイズ除去の効果検証</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ノイズ除去の効果検証">7.7.3. ノイズ除去の効果検証</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">8. 実践編：ディープラーニングを使った配列解析</a></li>
 </ul>
 
             
@@ -154,7 +153,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</li>
+      <li>7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -357,13 +356,13 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="実践編:-ディープラーニングを使ったモニタリングデータの時系列解析">
-<h1>8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析<a class="headerlink" href="#実践編:-ディープラーニングを使ったモニタリングデータの時系列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1>7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析<a class="headerlink" href="#実践編:-ディープラーニングを使ったモニタリングデータの時系列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>健康意識の高まりや運動人口の増加に伴って，活動量計などのウェアラブルデバイスが普及し始めています．センサーデバイスから心拍数などの情報を取得することで，リアルタイムに健康状態をモニタリング可能なため，近年ではヘルスケア分野でも活用事例が増えてきています．例えば最近，Cardiogram社とカリフォルニア大学の共同研究で，心拍データから糖尿病予備群を予測する研究論文(DeepHeart)が報告され，注目を集めました．また，Apple
 Watch Series
 4には心電図作成の機能が搭載されるなど，センサーデバイスも進歩してきています．従って，こうしたモニタリングデータを収集・解析し，健康管理に繋げていく取り組みは今後益々盛んになっていくと考えられます．</p>
 <p>本章では，心電図(ECG)の波形データを対象として，不整脈か否かを予測する問題に取り組みます．</p>
 <div class="section" id="目次">
-<h2>8.1. 目次<a class="headerlink" href="#目次" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.1. 目次<a class="headerlink" href="#目次" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ol class="arabic simple">
 <li>環境構築</li>
 <li>使用するデータセット</li>
@@ -377,7 +376,7 @@ Watch Series
 </ol>
 </div>
 <div class="section" id="環境構築">
-<h2>8.2. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.2. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>はじめに, 下記の必要ライブラリをインストールします.</p>
 <ul class="simple">
 <li>Cupy</li>
@@ -610,11 +609,11 @@ Imbalanced-learn:  0.4.3
 </div>
 </div>
 <div class="section" id="心電図(ECG)について">
-<h2>8.3. 心電図(ECG)について<a class="headerlink" href="#心電図(ECG)について" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.3. 心電図(ECG)について<a class="headerlink" href="#心電図(ECG)について" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>aa</p>
 </div>
 <div class="section" id="使用するデータセット">
-<h2>8.4. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.4. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは，ECGの公開データとして有名な<a class="reference external" href="https://www.physionet.org/physiobank/database/mitdb/">MIT-BIH Arrhythmia Database
 (mitdb)</a>を使用します．</p>
 <p>mitdbには47名の患者から収集した，計48個のECGレコードが登録されており，各レコードファイルには約30分間の2種類(MLII，V1)の信号波形データが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データやアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
@@ -678,7 +677,7 @@ Finished downloading files
 <p>次節では，これらのファイルを読み込んで，機械学習モデルの入出力に変換するためのデータ前処理方法について説明します．</p>
 </div>
 <div class="section" id="データ前処理">
-<h2>8.5. データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.5. データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li>TODO: 説明 - ベーシックな前処理として、以下の処理を行う</li>
 </ul>
@@ -980,7 +979,7 @@ plt.plot(X_train[idx_s[0]])
 </div>
 </div>
 <div class="section" id="DLを用いた時系列データ解析">
-<h2>8.6. DLを用いた時系列データ解析<a class="headerlink" href="#DLを用いた時系列データ解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.6. DLを用いた時系列データ解析<a class="headerlink" href="#DLを用いた時系列データ解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <ul class="simple">
 <li>TODO: 説明 - 3種類のクラス(“N”, “S”,
 “V”)を正しく識別するモデルを構築する</li>
@@ -1412,9 +1411,9 @@ accuracy:  0.933184855233853
 </div>
 </div>
 <div class="section" id="精度向上に向けて">
-<h2>8.7. 精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>7.7. 精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="クラス不均衡データへの対応">
-<h3>8.7.1. クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>7.7.1. クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
 <li>予測スコア(Accuracy)は高かったが、単に全てのデータを’N’と予測してもTestで90.88%の精度が出ることになる.</li>
 <li>クラス不均衡なデータで学習させると、大多数を占めるラベルに予測結果が偏ってしまう傾向にある
@@ -1426,7 +1425,7 @@ accuracy:  0.933184855233853
 </li>
 </ul>
 <div class="section" id="Undersampling-&amp;-Oversampling-(SMOTE)">
-<h4>8.7.1.1. Undersampling &amp; Oversampling (SMOTE)<a class="headerlink" href="#Undersampling-&-Oversampling-(SMOTE)" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>7.7.1.1. Undersampling &amp; Oversampling (SMOTE)<a class="headerlink" href="#Undersampling-&-Oversampling-(SMOTE)" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1586,7 +1585,7 @@ accuracy:  0.939932523319147
 </div>
 </div>
 <div class="section" id="損失関数の変更">
-<h4>8.7.1.2. 損失関数の変更<a class="headerlink" href="#損失関数の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>7.7.1.2. 損失関数の変更<a class="headerlink" href="#損失関数の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>TODO: コード - 動かないので動くようにする</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1743,9 +1742,9 @@ accuracy:  0.9546406756488567
 </div>
 </div>
 <div class="section" id="特徴抽出方法の変更">
-<h3>8.7.2. 特徴抽出方法の変更<a class="headerlink" href="#特徴抽出方法の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>7.7.2. 特徴抽出方法の変更<a class="headerlink" href="#特徴抽出方法の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="section" id="ネットワーク構造の変更">
-<h4>8.7.2.1. ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>7.7.2.1. ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1962,7 +1961,7 @@ accuracy:  0.9713995898476262
 </div>
 </div>
 <div class="section" id="ノイズ除去の効果検証">
-<h3>8.7.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>7.7.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <ul class="simple">
 <li>TODO: 説明 - 心電図波形には高周波ノイズ(筋電図ノイズ(Electromyogram
 noise)、加算性白色ガウスノイズ(Additive white Gaussian
@@ -2276,10 +2275,10 @@ accuracy:  0.9364484332620344
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Basenji.html" class="btn btn-neutral float-right" title="9. 実践編：ディープラーニングを使った配列解析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Basenji.html" class="btn btn-neutral float-right" title="8. 実践編：ディープラーニングを使った配列解析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Blood_Cell_Detection.html" class="btn btn-neutral" title="7. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Blood_Cell_Detection.html" class="btn btn-neutral" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>6. 実践編: CT/MRI画像のセグメンテーション &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  <title>5. 実践編: CT/MRI画像のセグメンテーション &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
   
 
   
@@ -28,8 +28,8 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="7. 実践編: 血液の顕微鏡画像からの細胞検出" href="Blood_Cell_Detection.html" />
-    <link rel="prev" title="5. Deep Learningフレームワークの基礎" href="Introduction_to_Chainer.html" /> 
+    <link rel="next" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" href="Blood_Cell_Detection.html" />
+    <link rel="prev" title="4. Deep Learningフレームワークの基礎" href="Introduction_to_Chainer.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -82,46 +82,45 @@
 <li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_Neural_Network.html">3. ニューラルネットワーク</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Chainer_Basics.html">4. Chainer入門</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">5. Deep Learningフレームワークの基礎</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">6. 実践編: CT/MRI画像のセグメンテーション</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#環境構築">6.1. 環境構築</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Semantic-Segmentationについて">6.2. Semantic Segmentationについて</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">6.3. 使用するデータセット</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#Chainerの概要">6.4. Chainerの概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Chainerを用いた学習の流れ">6.4.1. Chainerを用いた学習の流れ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">4. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. 実践編: CT/MRI画像のセグメンテーション</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">5.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Semantic-Segmentationについて">5.2. Semantic Segmentationについて</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">5.3. 使用するデータセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Chainerの概要">5.4. Chainerの概要</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Chainerを用いた学習の流れ">5.4.1. Chainerを用いた学習の流れ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#三層パーセプトロンによるセグメンテーション">6.5. 三層パーセプトロンによるセグメンテーション</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#データセットの準備">6.5.1. データセットの準備</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#モデルの定義">6.5.2. モデルの定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Trainerの定義">6.5.3. Trainerの定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#学習開始">6.5.4. 学習開始</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#評価">6.5.5. 評価</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#三層パーセプトロンによるセグメンテーション">5.5. 三層パーセプトロンによるセグメンテーション</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#データセットの準備">5.5.1. データセットの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#モデルの定義">5.5.2. モデルの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Trainerの定義">5.5.3. Trainerの定義</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習開始">5.5.4. 学習開始</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#評価">5.5.5. 評価</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#畳み込みネットワークを用いたセグメンテーション">6.6. 畳み込みネットワークを用いたセグメンテーション</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Convolutionレイヤ">6.6.1. Convolutionレイヤ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Deconvolutionレイヤ">6.6.2. Deconvolutionレイヤ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#全畳込みネットワーク">6.6.3. 全畳込みネットワーク</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Classifierクラスの改良">6.6.4. Classifierクラスの改良</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#新しいモデルを使った学習">6.6.5. 新しいモデルを使った学習</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#学習結果を見てみよう">6.6.6. 学習結果を見てみよう</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#畳み込みネットワークを用いたセグメンテーション">5.6. 畳み込みネットワークを用いたセグメンテーション</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Convolutionレイヤ">5.6.1. Convolutionレイヤ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Deconvolutionレイヤ">5.6.2. Deconvolutionレイヤ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#全畳込みネットワーク">5.6.3. 全畳込みネットワーク</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Classifierクラスの改良">5.6.4. Classifierクラスの改良</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#新しいモデルを使った学習">5.6.5. 新しいモデルを使った学習</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習結果を見てみよう">5.6.6. 学習結果を見てみよう</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#さらなる精度向上へのヒント">6.7. さらなる精度向上へのヒント</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SegNet-[8]">6.7.1. SegNet [8]</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#U-Net-[9]">6.7.2. U-Net [9]</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#PSPNet-[10]">6.7.3. PSPNet [10]</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#さらなる精度向上へのヒント">5.7. さらなる精度向上へのヒント</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#SegNet-[8]">5.7.1. SegNet [8]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#U-Net-[9]">5.7.2. U-Net [9]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#PSPNet-[10]">5.7.3. PSPNet [10]</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#その他の参考資料">6.8. その他の参考資料</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#References">6.9. References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#その他の参考資料">5.8. その他の参考資料</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#References">5.9. References</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">7. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Basenji.html">9. 実践編：ディープラーニングを使った配列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sequential_Data_Analysis_with_Deep_Learning.html">7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">8. 実践編：ディープラーニングを使った配列解析</a></li>
 </ul>
 
             
@@ -167,7 +166,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>6. 実践編: CT/MRI画像のセグメンテーション</li>
+      <li>5. 実践編: CT/MRI画像のセグメンテーション</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -370,7 +369,7 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="実践編:-CT/MRI画像のセグメンテーション">
-<h1>6. 実践編: CT/MRI画像のセグメンテーション<a class="headerlink" href="#実践編:-CT/MRI画像のセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<h1>5. 実践編: CT/MRI画像のセグメンテーション<a class="headerlink" href="#実践編:-CT/MRI画像のセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p><a class="reference external" href="https://colab.research.google.com/github/mitmul/medical-ai-course-materials/blob/master/docs/source/notebooks/Image_Segmentation_with_Chainer.ipynb">Open with
 Colab</a></p>
 <p>画像を対象とした深層学習の応用技術には様々なものがあります．例えば，画像の中の個別の物体の周りを矩形で囲むようにして検出する<strong>物体検出</strong>や，画像内で個別物体が占める領域を認識する<strong>画像セグメンテーション</strong>などがあります．</p>
@@ -387,7 +386,7 @@ labeling
 <p>今回は，深層学習フレームワークChainerを用いて，このSemantic
 Segmentationタスクに取り組んでみましょう．</p>
 <div class="section" id="環境構築">
-<h2>6.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここで用いるライブラリは，</p>
 <ul class="simple">
 <li>Chainer</li>
@@ -450,7 +449,7 @@ matplotlib: 3.0.0
 </div>
 </div>
 <div class="section" id="Semantic-Segmentationについて">
-<h2>6.2. Semantic Segmentationについて<a class="headerlink" href="#Semantic-Segmentationについて" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.2. Semantic Segmentationについて<a class="headerlink" href="#Semantic-Segmentationについて" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Semantic Segmentationは，Computer
 Visionの分野で現在も活発に研究が行われているタスクの一つで，入力画像の画素ひとつひとつに対して，なんらかのクラスを与えていくという問題です．しかし，<strong>人間でもあるピクセルひとつだけを見てそれが何かを推測するのは不可能です</strong>．そのため，いかにして周囲のピクセルの情報を加味しながら，ひとつひとつのピクセルの分類を行うか，が重要となります．</p>
 <p>ニューラルネットワークを用いてこの問題を解く場合は，<strong>「画像を入力して，画像を出力するネットワーク」</strong>を作って学習することになります．そのため，入力画像とペアになる正解ラベル画像は，同じ大きさを持つ，各ピクセルの所属クラス番号が入ったシングルチャンネルの画像とすることが一般的です．</p>
@@ -465,7 +464,7 @@ Entropyをロス関数とします．2クラスの場合に出力の1チャネ�
 で二値化し，予測ラベル画像として出力するのは，<span class="math notranslate nohighlight">\(C \geq 2\)</span>クラスの場合において<span class="math notranslate nohighlight">\(C\)</span>個のクラスそれぞれに確率が与えられたあとそれが最大になるチャンネル番号を予測クラスとして出力するのと同じことです．</p>
 </div>
 <div class="section" id="使用するデータセット">
-<h2>6.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これから使用するデータセットは，心臓MRI画像（短軸像）と，それに専門家がラベルを付けたものです．データについて詳しくはこちらをご参照ください[<a class="reference external" href="#1">1</a>,
 <a class="reference external" href="#2">2</a>, <a class="reference external" href="#3">3</a>]．</p>
 <p>下記にこのデータセットから抜き出した画像ペアの例を示します．下のセルを実行してみてください．</p>
@@ -544,7 +543,7 @@ Bowl</a>）</p>
 サイズのグレースケール画像で配布されているものです．今回は，これをあらかじめPNG画像に変換しておきました．ラベル画像は，同じ大きさの二値画像となっており，<strong>左心室の領域内部のピクセルは画素値として1を持ち，それ以外のピクセルは0で埋められています</strong>．今回用いる学習用データセットは234枚の画像ペア（グレースケールのMRI画像と，対応する二値のラベル画像のペア）を持ちます．検証用データとしては，26枚の画像を学習用データとは別に用意してあります．</p>
 </div>
 <div class="section" id="Chainerの概要">
-<h2>6.4. Chainerの概要<a class="headerlink" href="#Chainerの概要" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.4. Chainerの概要<a class="headerlink" href="#Chainerの概要" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Chainerは<strong>Define-by-Run</strong>を特徴とするDeep
 Learningフレームワークです．<strong>Define-by-Run</strong>とは，CaffeやTensorFlowなどのように，<strong>モデルアーキテクチャを定義して確定（define）</strong>
 させてから<strong>データを流し込んで実行（run）</strong>する，という<strong>Define-and-Run</strong>と異なり，<strong>「データに対する計算を実行（run）することによってモデルが定義される（define）」</strong>というものです．</p>
@@ -552,7 +551,7 @@ Learningフレームワークです．<strong>Define-by-Run</strong>とは，Caf
 <p>このため，データの内容によって処理を分けるようなモデルが作りやすく，またRNNのように可変回数のループ処理が含まれるような構造を記述しやすくなります．今回は，Semantic
 Segmentationに取り組みますので，画像から画像を出力するシングルパスのネットワークを記述します．</p>
 <div class="section" id="Chainerを用いた学習の流れ">
-<h3>6.4.1. Chainerを用いた学習の流れ<a class="headerlink" href="#Chainerを用いた学習の流れ" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.4.1. Chainerを用いた学習の流れ<a class="headerlink" href="#Chainerを用いた学習の流れ" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Chainerには，学習ループ抽象化のためのクラスである<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>が用意されています．これを用いて，2クラスのSemantic
 Segmentationタスクに取り組みます．<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>を使って学習を行う際にユーザが準備することは，以下のようになります．</p>
 <ol class="arabic simple">
@@ -577,10 +576,10 @@ Chainer</a>）</p>
 </div>
 </div>
 <div class="section" id="三層パーセプトロンによるセグメンテーション">
-<h2>6.5. 三層パーセプトロンによるセグメンテーション<a class="headerlink" href="#三層パーセプトロンによるセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.5. 三層パーセプトロンによるセグメンテーション<a class="headerlink" href="#三層パーセプトロンによるセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まずはシンプルなモデルから学習を開始します．全結合層3つからなる三層パーセプトロンを使って，MRI画像を入力にとり，左心室らしさのグレースケール画像を出力するモデルを学習しましょう．</p>
 <div class="section" id="データセットの準備">
-<h3>6.5.1. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.5.1. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>まずはデータセットの準備をします．Chainerにはいくつかの便利なデータセットまわりのクラスが用意されています．<code class="docutils literal notranslate"><span class="pre">ImageDataset</span></code>は，画像ファイルへのファイルパスのリストを渡して初期化してやると，そのパスにある画像を<strong>学習時に</strong>ディスクから読み込み，返してくれるようなデータセットクラスです．<code class="docutils literal notranslate"><span class="pre">TupleDataset</span></code>は，複数のデータセットオブジェクトを渡して初期化してやると，それらから同じインデックスを持つデータをタプルに束ねて返してくれるようなデータセットオブジェクトを作成するクラスです．（Pythonの<code class="docutils literal notranslate"><span class="pre">zip</span></code>のようなイメージです）</p>
 <p>今回はSemantic
 Segmentationなので，入力も出力も画像です．なので，2つの<code class="docutils literal notranslate"><span class="pre">ImageDataset</span></code>オブジェクトを作成します．以下のセルを実行してください．</p>
@@ -660,7 +659,7 @@ Dataset size:
 <p>この関数を呼べば，訓練用データセットオブジェクトと検証用データセットオブジェクトを作成できます．データセットオブジェクトは基本的にはリストとして扱うことができるので，組み込み関数の<code class="docutils literal notranslate"><span class="pre">len()</span></code>を使っていくつのデータ点が含まれているかを知ることができます．</p>
 </div>
 <div class="section" id="モデルの定義">
-<h3>6.5.2. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.5.2. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>次に，訓練するモデルの定義です．まずはじめは，最もシンプルな全結合型ネットワークを定義してみます．以下のコードを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -700,7 +699,7 @@ Dataset size:
 <p>ここで，出力のチャンネル数を1にしているのは，今回対象とするデータは<strong>左心室か左心室でないか，というニクラス分類</strong>になるので，「左心室である確率」を与える一つの値を考えれば良いことになるからです．通常，<span class="math notranslate nohighlight">\(C\)</span>個のクラスがある場合は<span class="math notranslate nohighlight">\(C\)</span>次元の予測ベクトルを各ピクセルごとに作成し，そのピクセルにおいて最も大きな値を持つチャンネルのインデックスを予測として返すようにしますが，2クラス分類の場合では，これは予測確率が0.5より大きければpositive，0.5以下ならnegativeとすれば同じことになります．</p>
 </div>
 <div class="section" id="Trainerの定義">
-<h3>6.5.3. Trainerの定義<a class="headerlink" href="#Trainerの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.5.3. Trainerの定義<a class="headerlink" href="#Trainerの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Chainerには，学習ループを抽象化する<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>というクラスが用意されており，これを用いて色々なExtensionを活用することで，ログをとったりsnapshotを保存したり，epochごとにvalidationデータで検証したりといったことを簡単に実装することができます．代表的なExtensionには，以下のようなものがあります．</p>
 <ul class="simple">
 <li>ログを自動的にファイルに保存（LogReport)</li>
@@ -773,7 +772,7 @@ Dataset size:
 extensions</a></p>
 </div>
 <div class="section" id="学習開始">
-<h3>6.5.4. 学習開始<a class="headerlink" href="#学習開始" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.5.4. 学習開始<a class="headerlink" href="#学習開始" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは，さっそく学習を開始してみましょう！</p>
 <p>たった今作成した<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを使って，学習を開始してみます．<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトはすでに学習に関する全ての設定・情報を持っているので，<code class="docutils literal notranslate"><span class="pre">run()</span></code>メソッドを呼ぶだけで学習が開始されます．</p>
 <p>下のセルを実行してください．</p>
@@ -867,7 +866,7 @@ lossともにほぼ0近くまで下がっており，また両者のデータセ
 <p>これらのプロットは，Trainerの初期化の際に渡す<code class="docutils literal notranslate"><span class="pre">out</span></code>という引数で指定された場所に画像として保存されています．これは逐次更新されているので，実際には学習の途中でもその時点でのプロットを確認することができます．学習の進み具合を視覚的に確認するのに便利です．</p>
 </div>
 <div class="section" id="評価">
-<h3>6.5.5. 評価<a class="headerlink" href="#評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.5.5. 評価<a class="headerlink" href="#評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>さて，学習結果は一見良好でした．Accuracyは最大値の1にほぼ漸近していました．しかし，この指標はどういう指標なのでしょうか？何をもって「精度（Accuracy）」と言っていたのでしょうか．</p>
 <p>一般的にSemantic
 Segmentationの結果は上で「accuracy」と表示されていた<strong>Pixel
@@ -1005,10 +1004,10 @@ Union)を改善するかに取り組んでみましょう．</p>
 </div>
 </div>
 <div class="section" id="畳み込みネットワークを用いたセグメンテーション">
-<h2>6.6. 畳み込みネットワークを用いたセグメンテーション<a class="headerlink" href="#畳み込みネットワークを用いたセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.6. 畳み込みネットワークを用いたセグメンテーション<a class="headerlink" href="#畳み込みネットワークを用いたセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>mIoU改善のため，モデルを全結合層のみから構成されるものから，画像関連のタスクで多く用いられる，畳み込みレイヤを用いたより深いモデルに変えてみましょう．今回用いるLinkは，<code class="docutils literal notranslate"><span class="pre">Convolution2D</span></code>と<code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>の2つだけです．それぞれ，カーネルサイズ（<code class="docutils literal notranslate"><span class="pre">ksize</span></code>），ストライド（<code class="docutils literal notranslate"><span class="pre">stride</span></code>），パディング（<code class="docutils literal notranslate"><span class="pre">pad</span></code>）を指定することができます．これらがどのように出力を変化させるかを，まずはまとめてみましょう．</p>
 <div class="section" id="Convolutionレイヤ">
-<h3>6.6.1. Convolutionレイヤ<a class="headerlink" href="#Convolutionレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.6.1. Convolutionレイヤ<a class="headerlink" href="#Convolutionレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">Convolution2D</span></code>というLinkは，一般的な畳込みレイヤの実装です．畳み込み層のパラメータを設定する際には，以下の点を知っておくと便利です．</p>
 <ul class="simple">
 <li>paddingを使って計算後の出力サイズを維持しやすくするために，奇数のカーネルサイズにする（<span class="math notranslate nohighlight">\(\lfloor {\rm ksize} / 2 \rfloor\)</span>をpadに指定すると，stride=1の際に画像サイズが変わらなくなる）</li>
@@ -1018,7 +1017,7 @@ mapを縮小したい場合は，&gt;1の値をstrideに与える（stride=nだ�
 </ul>
 </div>
 <div class="section" id="Deconvolutionレイヤ">
-<h3>6.6.2. Deconvolutionレイヤ<a class="headerlink" href="#Deconvolutionレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.6.2. Deconvolutionレイヤ<a class="headerlink" href="#Deconvolutionレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>は，その名とは異なり数学的な意味でのdeconvolutionではありません（！）そのため，Transposed
 convolutionや，Backward
 convolutionと呼ばれることも多いレイヤです．フィルタの適用の仕方はConvolutionと同じで，ただ事前に入力特徴マップの値を飛び飛びに配置するなどの処理が入る部分が異なっています．<code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>レイヤのパラメータを設定する際には，以下の点を知っておくと便利です．</p>
@@ -1038,7 +1037,7 @@ pad=0のConvolutionと同じになります．</p>
 arithmetic</a></p>
 </div>
 <div class="section" id="全畳込みネットワーク">
-<h3>6.6.3. 全畳込みネットワーク<a class="headerlink" href="#全畳込みネットワーク" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.6.3. 全畳込みネットワーク<a class="headerlink" href="#全畳込みネットワーク" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それではさっそくConvolutionレイヤーとDeconvolutionレイヤーのみからなるネットワークをChainerで書いてみましょう！以下のモデルは，Fully
 Convolutional
 Networkと呼ばれるネットワークに類似したものです．詳しくはこちらの文献を参照してください
@@ -1132,7 +1131,7 @@ FIXME_5を書き換えた上で上のセルを実行すると，ネットワー�
 きさになっていることが確認できればOKです．</p>
 </div>
 <div class="section" id="Classifierクラスの改良">
-<h3>6.6.4. Classifierクラスの改良<a class="headerlink" href="#Classifierクラスの改良" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.6.4. Classifierクラスの改良<a class="headerlink" href="#Classifierクラスの改良" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>次に，学習中にチェックするものとして，Pixel
 AccuracyだけでなくmIOUも追加するために，ロス関数を計算するClassifierクラスを，自分でカスタマイズしたものに置き換えます．それは，以下のように定義されます．下記のセルを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
@@ -1179,7 +1178,7 @@ Accuracyとmean
 IoUの両方を計算して，報告するようにします．<code class="docutils literal notranslate"><span class="pre">__call__</span></code>自体はロスの値（スカラ）を返すことが期待されているので，<code class="docutils literal notranslate"><span class="pre">F.sigmoid_cross_entropy</span></code>の返り値である<code class="docutils literal notranslate"><span class="pre">loss</span></code>だけを<code class="docutils literal notranslate"><span class="pre">return</span></code>しています．</p>
 </div>
 <div class="section" id="新しいモデルを使った学習">
-<h3>6.6.5. 新しいモデルを使った学習<a class="headerlink" href="#新しいモデルを使った学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.6.5. 新しいモデルを使った学習<a class="headerlink" href="#新しいモデルを使った学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>では，これらのモデルとカスタムClassifierを使って，Trainerによる学習を行ってみましょう．以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1264,7 +1263,7 @@ Wall time: 14min 57s
 <p>学習が終了しました．<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>が出力した経過の値を見る限り，mIoUが少なくとも0.90近くまで到達していることがわかります．</p>
 </div>
 <div class="section" id="学習結果を見てみよう">
-<h3>6.6.6. 学習結果を見てみよう<a class="headerlink" href="#学習結果を見てみよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.6.6. 学習結果を見てみよう<a class="headerlink" href="#学習結果を見てみよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>では，今回の学習で<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．下記の3つのセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1399,27 +1398,27 @@ mIou: 0.9049568755127222
 </div>
 </div>
 <div class="section" id="さらなる精度向上へのヒント">
-<h2>6.7. さらなる精度向上へのヒント<a class="headerlink" href="#さらなる精度向上へのヒント" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.7. さらなる精度向上へのヒント<a class="headerlink" href="#さらなる精度向上へのヒント" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Semantic
 Segmentationでは，どうやって入力画像における広い範囲の情報を1つのピクセルの予測に役立てるか，どうやって複数の解像度における予測結果を考慮するか，などが重要な問題意識となります．また，ニューラルネットワークでは一般に，レイヤを重ねれば重ねるほど，特徴量の抽象度が上がっていくとされています．しかし，Semantic
 Segmentationでは，正確に対象物体の輪郭を表すマスク画像を出力したいので，low
 levelな情報（エッジ・局所的な画素値勾配のような情報，色の一貫性など）も考慮して最終的な予測結果を作りたくなります．そのために，ネットワークの出力に近いレイヤでどうやって入力に近いレイヤで取り出された特徴を活用すればよいか，が重要になってきます．</p>
 <p>これらの視点からいくつもの新しいモデルが提案されています．代表的なものを挙げると，例えば以下のようなものがあります．</p>
 <div class="section" id="SegNet-[8]">
-<h3>6.7.1. SegNet <a class="reference external" href="#8">[8]</a><a class="headerlink" href="#SegNet-[8]" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.7.1. SegNet <a class="reference external" href="#8">[8]</a><a class="headerlink" href="#SegNet-[8]" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>下層で行ったMax Poolingの際に「どのピクセルが最大値だったか（pooling
 indices) 」の情報をとっておき，上層でそのpooling
 indicesを使ってUpsamplingする手法．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されている．</p>
 <p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
 </div>
 <div class="section" id="U-Net-[9]">
-<h3>6.7.2. U-Net <a class="reference external" href="#9">[9]</a><a class="headerlink" href="#U-Net-[9]" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.7.2. U-Net <a class="reference external" href="#9">[9]</a><a class="headerlink" href="#U-Net-[9]" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>下層の出力特徴マップを，上層の入力にConcatenateすることで活用する構造．全体がアルファベットの
 “U” のような形をしていることから「U-Net」と呼ばれる</p>
 <p><img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
 </div>
 <div class="section" id="PSPNet-[10]">
-<h3>6.7.3. PSPNet <a class="reference external" href="#10">[10]</a><a class="headerlink" href="#PSPNet-[10]" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>5.7.3. PSPNet <a class="reference external" href="#10">[10]</a><a class="headerlink" href="#PSPNet-[10]" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Pyramid Pooling
 Moduleを提案し，異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet
 2017 Scene Parsing Challengeで優勝したモデル．</p>
@@ -1428,7 +1427,7 @@ Moduleを提案し，異なる大きさのsub-regionごとの特徴を大域的�
 </div>
 </div>
 <div class="section" id="その他の参考資料">
-<h2>6.8. その他の参考資料<a class="headerlink" href="#その他の参考資料" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.8. その他の参考資料<a class="headerlink" href="#その他の参考資料" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>最後に，本資料作成者によるいくつかのセグメンテーションに関する資料をここに載せます．</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.slideshare.net/mitmul/a-brief-introduction-to-recent-segmentation-methods">最近のセグメンテーション手法の簡単な紹介</a></li>
@@ -1443,7 +1442,7 @@ Segmentation</a></li>
 </ul>
 </div>
 <div class="section" id="References">
-<h2>6.9. References<a class="headerlink" href="#References" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>5.9. References<a class="headerlink" href="#References" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>[1] Sunnybrook cardiac images from earlier competition
 <a class="reference external" href="http://smial.sri.utoronto.ca/LV_Challenge/Data.html">http://smial.sri.utoronto.ca/LV_Challenge/Data.html</a></p>
 <p>[2] This “Sunnybrook Cardiac MR Database” is made available under the
@@ -1484,10 +1483,10 @@ Open Source Software Competition, 2017</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Blood_Cell_Detection.html" class="btn btn-neutral float-right" title="7. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="Blood_Cell_Detection.html" class="btn btn-neutral float-right" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="Introduction_to_Chainer.html" class="btn btn-neutral" title="5. Deep Learningフレームワークの基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Introduction_to_Chainer.html" class="btn btn-neutral" title="4. Deep Learningフレームワークの基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
