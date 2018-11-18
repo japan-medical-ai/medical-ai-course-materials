@@ -1199,7 +1199,7 @@ trainer = training.Trainer(
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">out</span></code>引数では、この次に説明する<code class="docutils literal notranslate"><span class="pre">Extension</span></code>を使って、ログファイルやロスの変化の過程を描画したグラフの画像ファイルなどを保存するディレクトリを指定しています。</p>
 <p>Trainerと、その内側にあるいろいろなオブジェクトの関係は、図にまとめると以下のようになっています。このイメージを持っておくと自分で部分的に改造したりする際に便利だと思います。</p>
-<div class="figure" id="id51">
+<div class="figure" id="id31">
 <img alt="image" src="https://qiita-image-store.s3.amazonaws.com/0/17934/a751df31-b999-f692-d839-488c26b1c48a.png" />
 <p class="caption"><span class="caption-text">image</span></p>
 </div>
@@ -1462,7 +1462,7 @@ print(&#39;予測ラベル:&#39;, y.argmax(axis=1)[0])
 <table border="1" class="docutils">
 <colgroup>
 <col width="10%" />
-<col width="10%" />
+<col width="11%" />
 <col width="10%" />
 <col width="10%" />
 <col width="10%" />
@@ -1473,54 +1473,29 @@ print(&#39;予測ラベル:&#39;, y.argmax(axis=1)[0])
 <col width="10%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">airp
-lane</th>
-<th class="head">auto
-mobi
-le</th>
+<tr class="row-odd"><th class="head">airplane</th>
+<th class="head">automobile</th>
 <th class="head">bird</th>
 <th class="head">cat</th>
 <th class="head">deer</th>
 <th class="head">dog</th>
 <th class="head">frog</th>
-<th class="head">hors
-e</th>
+<th class="head">horse</th>
 <th class="head">ship</th>
-<th class="head">truc
-k</th>
+<th class="head">truck</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><a href="#id21"><span class="problematic" id="id22">|</span></a>ima
-ge10
-|</td>
-<td><a href="#id23"><span class="problematic" id="id24">|</span></a>ima
-ge11
-|</td>
-<td><a href="#id25"><span class="problematic" id="id26">|</span></a>ima
-ge12
-|</td>
-<td><a href="#id27"><span class="problematic" id="id28">|</span></a>ima
-ge13
-|</td>
-<td><a href="#id29"><span class="problematic" id="id30">|</span></a>ima
-ge14
-|</td>
-<td><a href="#id31"><span class="problematic" id="id32">|</span></a>ima
-ge15
-|</td>
-<td><a href="#id33"><span class="problematic" id="id34">|</span></a>ima
-ge16
-|</td>
-<td><a href="#id35"><span class="problematic" id="id36">|</span></a>ima
-ge17
-|</td>
-<td><a href="#id37"><span class="problematic" id="id38">|</span></a>ima
-ge18
-|</td>
-<td><a href="#id39"><span class="problematic" id="id40">|</span></a>ima
-ge19
-|</td>
+<tr class="row-even"><td><img alt="image0" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/airplane4.png" /></td>
+<td><img alt="image1" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/automobile4.png" /></td>
+<td><img alt="image2" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/bird4.png" /></td>
+<td><img alt="image3" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/cat4.png" /></td>
+<td><img alt="image4" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/deer4.png" /></td>
+<td><img alt="image5" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/dog4.png" /></td>
+<td><img alt="image6" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/frog4.png" /></td>
+<td><img alt="image7" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/horse4.png" /></td>
+<td><img alt="image8" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/ship4.png" /></td>
+<td><img alt="image9" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/truck4.png" /></td>
 </tr>
 </tbody>
 </table>
@@ -2387,7 +2362,7 @@ Workshop on Machine Learning Systems(LearningSys) in The Twenty-ninth
 Annual Conference on Neural Information Processing Systems (NIPS),
 (2015)</p>
 <p>[Niitani 2017] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito,
-“ChainerCV: a Library for Deep Learning in Computer Vision”, ACM
+「ChainerCV: a Library for Deep Learning in Computer Vision」, ACM
 Multimedia (ACMMM), Open Source Software Competition, 2017</p>
 <p>[Hidaka 2017] Masatoshi Hidaka, Yuichiro Kikura, Yoshitaka Ushiku,
 Tatsuya Harada. WebDNN: Fastest DNN Execution Framework on Web Browser.
@@ -2439,12 +2414,22 @@ Competition, pp.1213-1216, 2017.</p>
 
     
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

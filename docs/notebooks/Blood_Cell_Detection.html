@@ -377,7 +377,7 @@ boxとクラスラベルの予測値の組</strong>を出力できるような�
 box（以下bbox）は，<code class="docutils literal notranslate"><span class="pre">[矩形の左上のy座標,</span> <span class="pre">矩形の左上のx座標,</span> <span class="pre">矩形の右下のy座標,</span> <span class="pre">矩形の右下のx座標]</span></code>のような形式で定義されることが多く，クラスは物体の種類ごとに割り振られたID（以下クラスラベル）で表されることが多いようです．例えば，RBCは0，WBCは1，Plateletは2といったように，対象とする物体に1体1対応した非負整数が割り当てられるのが一般的です．</p>
 <p>以下に，今回この資料で用いる<strong>細胞画像のデータセット</strong>から１例を取り出し，その画像の上に正解として与えられているbboxと，それに対応するクラスの名前を可視化したものを示します．</p>
 <p>赤い長方形がbboxと呼ばれるものです．対象となる血液細胞を一つ一つ，別々の長方形が囲っていることがわかります．この長方形の上辺に重なるように白いラベルが表示されています．それがその矩形の内部にある物体の種類（クラス）を表しています．</p>
-<p><img alt="detection_sample.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png" /> （上図：血液の顕微鏡画像からRBC, WBC,
+<p><a href="#id13"><span class="problematic" id="id14">|detection\_sample.png|</span></a> （上図：血液の顕微鏡画像からRBC, WBC,
 Plateletを検出している例）</p>
 <div class="section" id="環境構築">
 <h2>6.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -439,7 +439,7 @@ Visionの応用分野で現在も活発に研究が行われているタスク�
 segmentationと違い，物体の形（輪郭）までは認識しませんが，<strong>物の種類と位置を，物体ごとに個別に出力</strong>します．</p>
 <p>「物の種類」をクラスと呼ぶとき，そのクラスに属する個別の物体をインスタンスと呼ぶことができます．すると，犬が2匹写っている写真があるとき，それは「犬」というクラスに属しているインスタンスが2個ある，という状態だと言えます．つまり，この前の章で学習したSemantic
 segmentationというタスクでは<strong>インスタンスごとに領域が区別されて出力されるわけではなかった</strong>一方で，<strong>物体検出の出力はインスタンスごとになる（インスタンスごとに別々のbboxが出力される）</strong>という違いがあります．こういった出力の形を
-“instance-wise” という言葉で表現する場合もあります．</p>
+「instance-wise」 という言葉で表現する場合もあります．</p>
 <p>ニューラルネットワークを用いた物体検出手法は，<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>という2014年に発表された手法を皮切りに，様々な改善手法が提案されてきました．まず一つの流れとして，<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>,
 <a class="reference external" href="https://arxiv.org/abs/1504.08083">Fast R-CNN</a>, そして<a class="reference external" href="https://arxiv.org/abs/1506.01497">Faster
 R-CNN</a>という，同一の著者らを中心として提案されてきたConvolutional
@@ -477,24 +477,7 @@ Datasetは広く物体検出の研究に用いられているようなベンチ�
 </div>
 </div>
 <p>ダウンロードが完了したら，<code class="docutils literal notranslate"><span class="pre">BCCD_Dataset</span></code>ディレクトリ以下のファイル構成を見てみましょう．このデータセットは，以下のようなファイル構成で配布されています．</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>BCCD
-|-- Annotations
-|   |
-|   `-- BloodImage_00XYZ.xml (364 items)
-|
-|-- ImageSets
-|   |
-|   `-- Main
-|       |
-|       |-- test.txt
-|       |-- train.txt
-|       `-- val.txt
-|
-`-- JPEGImages
-  |
-   `-- BloodImage_00XYZ.jpg (364 items)
-</pre></div>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">BCCD</span>&#160; <span class="pre">|--</span> <span class="pre">Annotations</span>&#160; <span class="pre">|</span>&#160;&#160; <span class="pre">|</span>&#160; <span class="pre">|</span>&#160;&#160; <span class="pre">`--</span> <span class="pre">BloodImage_00XYZ.xml</span> <span class="pre">(364</span> <span class="pre">items)</span>&#160; <span class="pre">|</span>&#160; <span class="pre">|--</span> <span class="pre">ImageSets</span>&#160; <span class="pre">|</span>&#160;&#160; <span class="pre">|</span>&#160; <span class="pre">|</span>&#160;&#160; <span class="pre">`--</span> <span class="pre">Main</span>&#160; <span class="pre">|</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">|</span>&#160; <span class="pre">|</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">|--</span> <span class="pre">test.txt</span>&#160; <span class="pre">|</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">|--</span> <span class="pre">train.txt</span>&#160; <span class="pre">|</span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">`--</span> <span class="pre">val.txt</span>&#160; <span class="pre">|</span>&#160; <span class="pre">`--</span> <span class="pre">JPEGImages</span>&#160;&#160;&#160; <span class="pre">|</span>&#160;&#160;&#160;&#160; <span class="pre">`--</span> <span class="pre">BloodImage_00XYZ.jpg</span> <span class="pre">(364</span> <span class="pre">items)</span></code></p>
 <p>この構成は，長年物体検出の標準的ベンチマークデータセットとして用いられてきた<strong>Pascal
 VOCデータセット</strong>の形式に沿ったものとなっています．そのため，ChainerCVが用意しているPascal
 VOCデータセットを容易に扱えるようにするクラスを一部，今回のタスクのために書き換えることで，ほとんどそのまま流用することが可能です．</p>
@@ -630,10 +613,10 @@ Number of images in &#34;test&#34; dataset: 72
 <p>以下のような表が記載されています．このデータセットは，それぞれの要素に以下のようなものを持つリストのようになっています．</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="37%" />
-<col width="14%" />
-<col width="14%" />
-<col width="35%" />
+<col width="36%" />
+<col width="15%" />
+<col width="15%" />
+<col width="34%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">name</th>
@@ -1599,12 +1582,22 @@ loss</a>という手法がシンプルかつ強力な提案を行っています
 
     
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
