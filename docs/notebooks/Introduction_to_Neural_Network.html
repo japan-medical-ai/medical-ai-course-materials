@@ -181,6 +181,7 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
+<p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Introduction_to_Neural_Network.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <div class="section" id="ニューラルネットワーク">
 <h1>3. ニューラルネットワーク<a class="headerlink" href="#ニューラルネットワーク" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ここでは，ディープラーニングのベースとなっているニューラルネットワーク
@@ -192,13 +193,13 @@ Convolutional Neural Network (CNN) や系列向けの Recurrent Neural Network
 <div class="section" id="Step1.-モデルを決める">
 <h2>3.1. Step1. モデルを決める<a class="headerlink" href="#Step1.-モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まずはニューラルネットワークの構造を数式ではなくグラフィカルに見てみましょう．</p>
-<p><img alt="image0" src="../_images/01.png" /></p>
+<p><img alt="image1" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/01.png" /></p>
 <p>ひとつひとつの丸い部分のことを<strong>ノード</strong>と呼び，そのノードの集まりを<strong>層</strong>と呼びます．そして，一番初めの層を<strong>入力層</strong>，最後の層を<strong>出力層</strong>，そしてその間を<strong>中間層</strong>もしくは<strong>隠れ層</strong>と呼びます．このモデルは入力層，中間層，出力層の３層の構造となっていますが，中間層の数を増やすことでさらに多層のニューラルネットワークとして定義することもできます．こちらでは各層間の全てのノードが結合されているため，<strong>全結合のニューラルネットワーク</strong>とも呼び，ニューラルネットワークの最も基礎的な構造です．</p>
 <p>入力変数の扱い方はこれまでと同様ですが，出力変数の扱い方がこれまでと異なります．例えば，上図では白ワインと赤ワインを分類するような問題を例に挙げていますが，SVMなどの機械学習の場合，<span class="math notranslate nohighlight">\(y \in \{-1, 1\}\)</span>
 のようにひとつの出力変数のとる値で属するカテゴリを指定していました．それに対して，ニューラルネットワークでは，白ワイン用の出力変数
 <span class="math notranslate nohighlight">\(y_{1}\)</span> と赤ワイン用の出力変数 <span class="math notranslate nohighlight">\(y_{2}\)</span>
 のカテゴリの数だけ出力の変数が準備されています．なぜこのような構造となっているのでしょうか．</p>
-<p><img alt="image1" src="../_images/02.png" /></p>
+<p><img alt="image2" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/02.png" /></p>
 <p>この答えの前に，最終的にニューラルネットワークではどのような出力の結果が得られるかを見てみましょう．例えば，年数が3年物でアルコール度数が14度，色合いが0.2，匂いが0.8のように定量評価できるワインがあるとしましょう．内部の計算は後述するとして，このようなデータをニューラルネットワークに与えると，白ワイン
 <span class="math notranslate nohighlight">\(y_{1} = 0.15\)</span>, 赤ワイン <span class="math notranslate nohighlight">\(y_{2}= 0.85\)</span>
 という値が得られるとしましょう．そして，最終的に最も大きな値である赤ワインを分類の結果として採用します．ここで出力の値に注目すると，合計すると1になっており，これは偶然ではなく一般的に成立するような機構になっています．</p>
@@ -207,7 +208,7 @@ Convolutional Neural Network (CNN) や系列向けの Recurrent Neural Network
 <p>それでは，ここからニューラルネットワークの数学を本格的に扱っていきましょう．ニューラルネットワークでは数式もプログラミングも<strong>2層で1セット</strong>として扱うことを覚えておいてください．多いものだと100層を超えるため全体のモデルで考えると複雑になりすぎるため，2層ごとに分割してその連結で考えていきます．線形変換と非線形変換の2つの手順を流れに沿って紹介していきます．</p>
 <div class="section" id="線形変換">
 <h3>3.1.1. 線形変換<a class="headerlink" href="#線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="image2" src="../_images/03.png" /></p>
+<p><img alt="image3" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/03.png" /></p>
 <p>線形変換では，重回帰分析のときと同様に，重み (<span class="math notranslate nohighlight">\(w\)</span>) ×入力
 (<span class="math notranslate nohighlight">\(h\)</span>) + バイアス (<span class="math notranslate nohighlight">\(b\)</span>)
 の計算を行います．これからは，<span class="math notranslate nohighlight">\(h\)</span>
@@ -254,23 +255,23 @@ b_{3}
 </div>
 <div class="section" id="非線形変換">
 <h3>3.1.2. 非線形変換<a class="headerlink" href="#非線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="image3" src="../_images/04.png" /></p>
+<p><img alt="image4" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/04.png" /></p>
 <p>これまでは，上図左側のように <span class="math notranslate nohighlight">\(y = wx + b\)</span>
 で扱える範囲の手法のみ紹介していましたが，実データでは上図右のように入出力間の関係が直線（や超平面）では表現できない非線形な関係性の場合もあります．この場合，どのように対処すれば良いでしょうか．すでに紹介していたサポートベクターマシンでは<strong>カーネルトリック</strong>と呼ばれる方法を使いますが，数式を理解するのが一苦労です．ニューラルネットワークではもう少し考え方が簡単であり，内部に非線形な関数を各ノードが取り入れます．この組み合わせをうまく調整していくことにより，入出力間の非線形性に対応できると考えました．この非線形変換を行う関数を
 <strong>活性化関数</strong> と呼びます．</p>
-<p><img alt="image4" src="../_images/05.png" /></p>
+<p><img alt="image5" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/05.png" /></p>
 <p>ニューラルネットワークでは上図に示す<strong>シグモイド関数</strong></p>
 <div class="math notranslate nohighlight">
 \[h = f(u) = \dfrac{1}{1+e^{-u}}\]</div>
 <p>がよく用いられてきて，教科書でも良く紹介されています．しかし，最近ではあまり使われないものとなってきており，理由は後述しますが<strong>勾配が消失する</strong>といわれる問題であり，多層のニューラルネットワークにする際のボトルネックになってしまいました．そこで，最近では，よく登場するものとして，<strong>Relu関数</strong></p>
-<p><img alt="image5" src="../_images/06.png" /></p>
+<p><img alt="image6" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/06.png" /></p>
 <div class="math notranslate nohighlight">
 \[h = f(u) = \max(0, u)\]</div>
 <p>が使われることが多くなりました．この関数は入力が負の値の場合に出力が0で，正の値はそのまま出力するといった特性を持っています．このRelu関数はシグモイド関数で問題となっていた勾配が消失する問題に対する解決策のひとつであり，多層のニューラルネットワークを構成する際になくてはならない存在となりました．</p>
 </div>
 <div class="section" id="数値例で計算の流れを確認">
 <h3>3.1.3. 数値例で計算の流れを確認<a class="headerlink" href="#数値例で計算の流れを確認" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="image6" src="../_images/07.png" /></p>
+<p><img alt="image7" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/07.png" /></p>
 <p>ここでは，これまでに数式が多くイメージが湧きにくかったため，上図の数値例で出力
 <span class="math notranslate nohighlight">\(y\)</span>
 までのニューラルネットワークの計算の流れを確認していき，具体的な計算手順のイメージを把握しておきましょう．今回は計算を簡略化するためバイアス
@@ -324,32 +325,32 @@ h_{12} &amp;= \max(0, -11)  = 0
 <p>それでは，図も使って微分係数を使ったパラメータの最適化について考えていきましょう．まず何も計算していない状況ですが，例えばこの点線のようなパラメータ
 <span class="math notranslate nohighlight">\(w\)</span> に対する目的関数 <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>
 が存在するとしましょう．この例では二次関数になっていますが，実際にはもっと複雑な関数であることが多いです．実際には目的関数の形を把握することができないため，点線で示されている目的関数は「神のみぞ知る」といったものです．さて，この全体像も全く見えない中，どうやって計算機を使って最適なパラメータを見つけていくのでしょうか．</p>
-<p><img alt="image7" src="notebooks/images/3/13.png" /></p>
+<p><img alt="image8" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/13.png" /></p>
 <p>ニューラルネットワークでは，はじめにランダムでも良いのでパラメータの初期値を決定すると数値例で紹介しました．例えば，ランダムに決定した結果
 <span class="math notranslate nohighlight">\(w=3\)</span>
 になったとしましょう．そうなると，後述する計算式で接線の傾きである微分係数が求まります．</p>
-<p><img alt="image8" src="notebooks/images/3/10.png" /></p>
+<p><img alt="image9" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/10.png" /></p>
 <p>例えば，求めた結果，微分係数が 3
 であったとしましょう．もちろんランダムに決めた初期値であるため，神のみぞ知る目的関数としては最適なパラメータとして決定できているわけではありません．それでは，神のみぞしる目的関数の全体像が今見えているみなさんであれば，つぎに移動するとすれば「＋方向」か「ー方向」のどちらを選ぶでしょうか．「ー方向」を選ぶ方が多いはずです．それでは，この処理を計算機で行わせるために，その戦略を考えると，傾きが正（＋）の値であったため，逆に負（ー）の方向に進むという方法はいかがでしょうか．さらに傾きの値も使って，「-1
 × 3 進む」という風に考えてみます．ただし，「-1 × 3
 進む」と逆に行き過ぎてしまうかもしれないため，「-1 × 0.5 × 3
 進む」という風に進み具合を調整できる<strong>学習係数</strong> (learning rate)
 を導入すると，「-1.5 進む」となり，次のパラメータの値へ移動します．</p>
-<p><img alt="image9" src="notebooks/images/3/11.png" /></p>
+<p><img alt="image10" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/11.png" /></p>
 <p>そして，この点においても，傾きを求めてみると，例えば -1
 であったとしましょう．右肩下がりであるため，負の値となります．そうすれば，傾きが負の値の時は，逆に正（＋）の方向に移動すればよさそうであるため，「-1
 × 0.5 × -1 進む」としましょう．</p>
-<p><img alt="image10" src="notebooks/images/3/12.png" /></p>
+<p><img alt="image11" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/12.png" /></p>
 <p>このように「-1 × 学習係数×
 微分係数」と移動していきながら，傾きが0となれば終了とすれば，全体像が見えない中でも目的関数が最小となる点に到達することができます．厳密には，初期値に最も近い点での谷である<strong>局所最適解</strong>に落ちる方法であり，下図に示すように常に<strong>大域的最適解</strong>が求まるわけではありません．初期値の選び方に大きく依存するのですが，その初期値をうまく選ぶことは難しい問題であるため，基本的には局所最適解で良しとしています．複数の初期値で学習を行い，最終的にもっとも良かったものを選択するという方法もありますが，ニューラルネットワーク以降のディープラーニングでは学習に大きく時間がかかるため，この方法も現実的ではない場合が多いといえます．</p>
 <p>微分係数を使って上述の手順で最適化を行っていく手法を<strong>最急降下法</strong>と呼びます．最適化の数学で基礎として出てくる有名な方法です．また，ニューラルネットワークも含めディープラーニングでは，すべてのサンプルに対する目的関数の計算ではなく，<strong>ミニバッチ</strong>と呼ばれるサンプルをランダムに複数のかたまりに分割した単位で最適化を行っていくことが多く，この場合には，<strong>確率的勾配降下法</strong>
 (SGD: Stocastic Gradient Descent) と呼ばれており，Chainerの中では
 <code class="docutils literal notranslate"><span class="pre">SGD</span></code> としてよく登場するため覚えておきましょう．</p>
-<p><img alt="image11" src="notebooks/images/3/14.png" /></p>
+<p><img alt="image12" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/14.png" /></p>
 <p>さて，本題に戻ります．先ほどの最急降下法や確率的勾配降下法を利用するためには，微分係数が求まることが前提でした．そこで，数値例の問題設定に対して，実際に微分係数を求めていきましょう．文字の取り扱いを簡単かするため，下記のように
 <span class="math notranslate nohighlight">\(w_{1}\)</span> と <span class="math notranslate nohighlight">\(w_{2}\)</span>
 の２つの場合について紹介します．この2つを選択する理由としては，各層ごとに計算が異なってくるためです．</p>
-<p><img alt="image12" src="../_images/08.png" /></p>
+<p><img alt="image13" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/08.png" /></p>
 <p>それでは，<span class="math notranslate nohighlight">\(w_{1}\)</span>
 での微分から考えましょう．はじめに，目的関数からターゲットとなっている
 <span class="math notranslate nohighlight">\(w_{1}\)</span> までの計算を洗い出すと，</p>
@@ -458,7 +459,7 @@ f'\left( u\right) &amp;=-1\times \left( 1+e^{-u}\right) ^{-2}\times \left( -e^{-
 \end{aligned}\end{split}\]</div>
 <p>の 2
 つも利用しており，合成関数も使っています．そして，このシグモイド関数を微分した関数のグラフは下記のようになります．</p>
-<p><img alt="image13" src="../_images/09.png" /></p>
+<p><img alt="image14" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
 <p>このように，シグモイド関数の微分を計算してみると，<strong>シグモイド関数の微分係数の最大値が0.25</strong>であることがわかります．それに対し，前述していたRelu関数の微分係数の最大値は1でした．</p>
 <p>これにどのような差があるかというと，各パラメータの微分係数を求めた際に，シグモイド関数の場合，大きくても0.25倍となり，微分係数（各パラメータの微分係数をまとめて<strong>勾配</strong>ベクトルと呼びます）の値が小さくなることがわかります．今回は3層であったため，気にならない程度ですが，もし4層の場合，一番後ろの層のパラメータの微分係数を求める場合，最低でも
 <span class="math notranslate nohighlight">\(0.25 \times 0.25 = 0.0625\)</span>
