@@ -86,27 +86,26 @@
 <li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Basenji.html">7. 実践編：ディープラーニングを使った配列解析</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#目次">8.1. 目次</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#環境構築">8.2. 環境構築</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#心電図(ECG)と不整脈診断について">8.3. 心電図(ECG)と不整脈診断について</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">8.4. 使用するデータセット</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#データ前処理">8.5. データ前処理</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#深層学習を用いた時系列データ解析">8.6. 深層学習を用いた時系列データ解析</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#学習">8.6.1. 学習</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#評価">8.6.2. 評価</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">8.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#心電図(ECG)と不整脈診断について">8.2. 心電図(ECG)と不整脈診断について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">8.3. 使用するデータセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データ前処理">8.4. データ前処理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#深層学習を用いた時系列データ解析">8.5. 深層学習を用いた時系列データ解析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#学習">8.5.1. 学習</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#評価">8.5.2. 評価</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#精度向上に向けて">8.7. 精度向上に向けて</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#クラス不均衡データへの対応">8.7.1. クラス不均衡データへの対応</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#サンプリング">8.7.1.1. サンプリング</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#損失関数の変更">8.7.1.2. 損失関数の変更</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#精度向上に向けて">8.6. 精度向上に向けて</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#クラス不均衡データへの対応">8.6.1. クラス不均衡データへの対応</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#サンプリング">8.6.1.1. サンプリング</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#損失関数の変更">8.6.1.2. 損失関数の変更</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#ネットワーク構造の変更">8.7.2. ネットワーク構造の変更</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#ノイズ除去の効果検証">8.7.3. ノイズ除去の効果検証</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ネットワーク構造の変更">8.6.2. ネットワーク構造の変更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ノイズ除去の効果検証">8.6.3. ノイズ除去の効果検証</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#おわりに">8.8. おわりに</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#おわりに">8.7. おわりに</a></li>
 </ul>
 </li>
 </ul>
@@ -363,26 +362,8 @@ Learningを適用することで，高精度に糖尿病予備群を予測可能
 Watch Series
 4には心電図作成の機能が搭載されるなど，センサーデバイスも進歩を続け，より精緻な情報が取得できるようになってきています．こうした背景において，モニタリングデータを収集・解析し，健康管理に繋げていく取り組みは今後益々盛んになっていくものと考えられます．</p>
 <p>本章では，心電図(ECG)の信号波形データを対象として，不整脈を検出する問題に取り組みます．</p>
-<div class="section" id="目次">
-<h2>8.1. 目次<a class="headerlink" href="#目次" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ol class="arabic simple">
-<li>環境構築</li>
-<li>心電図(ECG)と不整脈診断について</li>
-<li>使用するデータセット</li>
-<li>データ前処理</li>
-<li>深層学習を用いた時系列データ解析<ol class="arabic">
-<li>学習</li>
-<li>評価</li>
-</ol>
-</li>
-<li>精度向上に向けて</li>
-<li>クラス不均衡データへの対応 1. サンプリング 1. 損失関数の変更</li>
-<li>ネットワーク構造</li>
-<li>ノイズ除去の効果検証</li>
-</ol>
-</div>
 <div class="section" id="環境構築">
-<h2>8.2. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>はじめに, 下記の必要ライブラリをインストールします.</p>
 <ul class="simple">
 <li>Cupy</li>
@@ -519,7 +500,7 @@ Imbalanced-learn:  0.4.3
 </div>
 </div>
 <div class="section" id="心電図(ECG)と不整脈診断について">
-<h2>8.3. 心電図(ECG)と不整脈診断について<a class="headerlink" href="#心電図(ECG)と不整脈診断について" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.2. 心電図(ECG)と不整脈診断について<a class="headerlink" href="#心電図(ECG)と不整脈診断について" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>心電図(Electrocardiogram,
 ECG)は，心筋の活動によって生じる電気的変動を記録したものであり，心電図検査は不整脈の診断に広く利用されている他，虚血性心疾患や呼吸器疾患などの診断にも利用可能です[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>,
 <a class="reference external" href="https://www.ncc.go.jp/jp/ncch/d001/gairai/kensa/seirikensa/index.html">文献2</a>,
@@ -534,14 +515,14 @@ ECG)は，心筋の活動によって生じる電気的変動を記録したも�
 <li>T波：心室の再分極（心室興奮の収まり）</li>
 </ol>
 <p>の順番で，下図のような波形が観測されます．</p>
-<div class="figure" id="id16">
-<img alt="代替テキスト" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/sinus_rhythm.svg" /><p class="caption"><span class="caption-text">代替テキスト</span></p>
+<div class="figure" id="id15">
+<img alt="sinus_rhythm" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/sinus_rhythm.svg" /><p class="caption"><span class="caption-text">sinus_rhythm</span></p>
 </div>
 <p>(図は[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>]より抜粋)</p>
 <p>こうした規則的な波形に乱れが生じ，調律に異常があると判断された場合，不整脈などの疑いがあるため，診断が行われることになります．</p>
 </div>
 <div class="section" id="使用するデータセット">
-<h2>8.4. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは，ECGの公開データとして有名な<a class="reference external" href="https://www.physionet.org/physiobank/database/mitdb/">MIT-BIH Arrhythmia Database
 (mitdb)</a>を使用します．</p>
 <p>47名の患者から収集した48レコードが登録されており，各レコードファイルには約30分間の2誘導(第II，V1)のシグナルデータが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データとアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
@@ -606,7 +587,7 @@ Finished downloading files
 <p>となっています．</p>
 </div>
 <div class="section" id="データ前処理">
-<h2>8.5. データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.4. データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ダウンロードしたファイルを読み込み，機械学習モデルへの入力形式に変換するデータ前処理について説明します．</p>
 <p>本節では，以下の手順で前処理を行います．</p>
 <ol class="arabic simple">
@@ -650,9 +631,9 @@ Finished downloading files
 </ol>
 <p>※ Association for the Advancement of Medical Instrumentation
 (AAMI)が推奨している基準([<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">文献4</a>])で，5種類に大別して整理されています．</p>
-<div class="figure" id="id17">
-<img alt="代替テキスト" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/aami_standard.png" />
-<p class="caption"><span class="caption-text">代替テキスト</span></p>
+<div class="figure" id="id16">
+<img alt="aami_standard" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/aami_standard.png" />
+<p class="caption"><span class="caption-text">aami_standard</span></p>
 </div>
 <p>(表は[<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献5</a>]より抜粋)</p>
 <p>まずは以下のセルを実行して，データ前処理クラスを定義しましょう．</p>
@@ -933,7 +914,7 @@ plt.plot(X_train[idx_n[0]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_41_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_41_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_39_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_39_1.png" />
 </div>
 </div>
 <p>一方でVEBの波形は規則性が乱れ，R波ピークの形状やピーク間距離も正常例とは異なる性質を示していることが分かります．</p>
@@ -962,16 +943,16 @@ plt.plot(X_train[idx_s[0]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_43_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_43_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_41_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_41_1.png" />
 </div>
 </div>
 <p>本章の目的は，ECGシグナル特徴をうまく捉え，新たな波形サンプルに対しても高精度に正常/異常を予測するモデルを構築することです．</p>
 <p>次節では，深層学習を利用したモデル構築について説明していきます．</p>
 </div>
 <div class="section" id="深層学習を用いた時系列データ解析">
-<h2>8.6. 深層学習を用いた時系列データ解析<a class="headerlink" href="#深層学習を用いた時系列データ解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.5. 深層学習を用いた時系列データ解析<a class="headerlink" href="#深層学習を用いた時系列データ解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="学習">
-<h3>8.6.1. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>8.5.1. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>まずはじめに，前節で準備した前処理済みデータをChainerで読み込むためのデータセットクラスを定義します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1272,7 +1253,7 @@ Wall time: 1min 13s
 (99%)付近まで到達していると思います．</p>
 </div>
 <div class="section" id="評価">
-<h3>8.6.2. 評価<a class="headerlink" href="#評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>8.5.2. 評価<a class="headerlink" href="#評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>学習したモデルを評価用データに当てはめて識別性能を確認するため，以下の関数を用意します．</p>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">create_test_dataset()</span></code> : 評価用データの読み込み</li>
@@ -1379,7 +1360,7 @@ Wall time: 16.6 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_67_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_67_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_65_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_65_0.png" />
 </div>
 </div>
 <p>続いて，予測結果の各種スコアを表示してみましょう．</p>
@@ -1415,9 +1396,9 @@ accuracy:  0.9773093122229818
 </div>
 </div>
 <div class="section" id="精度向上に向けて">
-<h2>8.7. 精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6. 精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="クラス不均衡データへの対応">
-<h3>8.7.1. クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>8.6.1. クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>前節でも触れたように，クラス不均衡データを用いて学習器を構築する際，大多数を占めるクラスに偏った予測結果となり，少数のクラスに対して精度が低くなってしまう場合があることが一般的に知られています．一方で，（今回のデータセットを含めて）現実世界のタスクにおいては，大多数の正常サンプルの中に含まれる少数の異常サンプルを精度良く検出することが重要であるというケースは少なくありません．こうした状況において，少数クラスの検出に注目してモデルを学習させる方策が幾つか存在します．</p>
 <p>具体的には， 1. サンプリング -
 不均衡データセットからサンプリングを行い，クラス比率のバランスが取れたデータセットを作成
@@ -1431,7 +1412,7 @@ accuracy:  0.9773093122229818
 正常サンプルのデータ分布を仮定し，そこから十分に逸脱したサンプルを異常とみなす</p>
 <p>などの方法があります．本節では，1.のサンプリングと，3.の目的関数の変更の例を紹介していきます．</p>
 <div class="section" id="サンプリング">
-<h4>8.7.1.1. サンプリング<a class="headerlink" href="#サンプリング" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>8.6.1.1. サンプリング<a class="headerlink" href="#サンプリング" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>UndersamplingとOversamplingを組み合わせて，データセットの不均衡を解消することを考えます．</p>
 <p>今回は以下のステップでサンプリングを行います．</p>
 <ol class="arabic simple">
@@ -1575,7 +1556,7 @@ Wall time: 16.9 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_82_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_82_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_80_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_80_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1609,7 +1590,7 @@ accuracy:  0.9548832388806809
 <p>(サンプリングのランダム性や，学習の初期値依存性などの影響があるため，必ず精度向上するとは限らないことにご注意下さい．)</p>
 </div>
 <div class="section" id="損失関数の変更">
-<h4>8.7.1.2. 損失関数の変更<a class="headerlink" href="#損失関数の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h4>8.6.1.2. 損失関数の変更<a class="headerlink" href="#損失関数の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>続いて，損失関数を変更することで，少数の異常サンプルに対して精度向上させる方法を検討します．少数クラスの予測精度向上に注目した損失関数はこれまでに幾つも提案されていますが，今回はその中で，“Focal
 loss” という損失関数を利用します．</p>
 <p>Focal lossは，画像の物体検知手法の研究論文
@@ -1622,9 +1603,9 @@ lossであり，以下の式によって記述されます．</p>
 cross-entorpy
 lossと等しくなりますが，<span class="math notranslate nohighlight">\(\gamma &gt; 0\)</span>の場合，明確に分類可能な（識別が簡単な）サンプルに対して，相対ロスを小さくする効果があります．その結果，分類が難しいサンプルにより注目して学習が進んでいくことが期待されます．</p>
 <p>下図は，正解クラスの予測確率値と，その際のlossの関係をプロットしており，<span class="math notranslate nohighlight">\(\gamma\)</span>の値を変化させた場合に，相対ロスがどのように下がっていくかを示しています．</p>
-<div class="figure" id="id18">
-<img alt="代替テキスト" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/focal_plot.png" />
-<p class="caption"><span class="caption-text">代替テキスト</span></p>
+<div class="figure" id="id17">
+<img alt="focal_plog" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/focal_plot.png" />
+<p class="caption"><span class="caption-text">focal_plog</span></p>
 </div>
 <p>(図は <a class="reference external" href="https://arxiv.org/abs/1708.02002">[文献6]</a>より抜粋)</p>
 <p>それでは実際に，Focal loss関数を定義してみましょう．</p>
@@ -1754,7 +1735,7 @@ Wall time: 16.6 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_95_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_95_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_93_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_93_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1789,7 +1770,7 @@ accuracy:  0.9620939822267305
 </div>
 </div>
 <div class="section" id="ネットワーク構造の変更">
-<h3>8.7.2. ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>8.6.2. ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>続いて，学習に用いるネットワーク構造を変更することを検討します．</p>
 <p>ここでは，最初に用いたResNet34構造に対して以下の拡張を行います． 1. 1D
 Convolutionを，1D Dilated Convolutionに変更 - Dilated
@@ -1981,7 +1962,7 @@ Wall time: 16.6 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_109_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_109_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_107_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_107_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2014,7 +1995,7 @@ accuracy:  0.9758759840349291
 <p>初期モデルの予測結果と，今回の予測結果を比較してみて下さい．</p>
 </div>
 <div class="section" id="ノイズ除去の効果検証">
-<h3>8.7.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>8.6.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>最後に，心電図に含まれるノイズの除去について検討します．</p>
 <p>心電図波形には，以下のような外部ノイズが含まれている可能性があります．
 * 高周波 * 筋電図ノイズ (Electromyogram noise) -
@@ -2170,7 +2151,7 @@ plt.show()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_121_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_121_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_119_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_119_0.png" />
 </div>
 </div>
 <p>左図がフィルタリング前の波形、右図がフィルタリング後の波形です．
@@ -2268,7 +2249,7 @@ Wall time: 16.9 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_127_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_127_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_125_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_125_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2302,7 +2283,7 @@ accuracy:  0.9843215947429932
 </div>
 </div>
 <div class="section" id="おわりに">
-<h2>8.8. おわりに<a class="headerlink" href="#おわりに" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.7. おわりに<a class="headerlink" href="#おわりに" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>本章では，ECGの公開データセットを利用して，不整脈検知の問題に取り組みました．</p>
 <p>本講義内容を通じてお伝えしたかったことは，以下となります． 1.
 心電図を解析するにあたって必要となる最低限の知識 1.
