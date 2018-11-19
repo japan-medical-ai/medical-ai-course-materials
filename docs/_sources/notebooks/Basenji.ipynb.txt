@@ -23,8 +23,7 @@
         "colab_type": "text"
       },
       "source": [
-        "[![colab-logo](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/japa
-n-medical-ai/medical-ai-course-materials/blob/master/notebooks/Basenji.ipynb)\n",
+        "[![colab-logo](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Basenji.ipynb)\n",
         "\n",
       ]
     },
