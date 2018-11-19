@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
+  <title>8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析 &mdash; メディカルAIコース オンライン講義資料&lt;Paste&gt;  ドキュメント</title>
   
 
   
@@ -28,8 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="next" title="8. 実践編：ディープラーニングを使った配列解析" href="Basenji.html" />
-    <link rel="prev" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" href="Blood_Cell_Detection.html" /> 
+    <link rel="prev" title="7. 実践編：ディープラーニングを使った配列解析" href="Basenji.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -85,29 +84,30 @@
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">4. Deep Learningフレームワークの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">5. 実践編: MRI画像のセグメンテーション</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#目次">7.1. 目次</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#環境構築">7.2. 環境構築</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#心電図(ECG)について">7.3. 心電図(ECG)について</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">7.4. 使用するデータセット</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#データ前処理">7.5. データ前処理</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#DLを用いた時系列データ解析">7.6. DLを用いた時系列データ解析</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#精度向上に向けて">7.7. 精度向上に向けて</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#クラス不均衡データへの対応">7.7.1. クラス不均衡データへの対応</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#Undersampling-&amp;-Oversampling-(SMOTE)">7.7.1.1. Undersampling &amp; Oversampling (SMOTE)</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#損失関数の変更">7.7.1.2. 損失関数の変更</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Basenji.html">7. 実践編：ディープラーニングを使った配列解析</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">8.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#心電図(ECG)と不整脈診断について">8.2. 心電図(ECG)と不整脈診断について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#使用するデータセット">8.3. 使用するデータセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データ前処理">8.4. データ前処理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#深層学習を用いた時系列データ解析">8.5. 深層学習を用いた時系列データ解析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#学習">8.5.1. 学習</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#評価">8.5.2. 評価</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#特徴抽出方法の変更">7.7.2. 特徴抽出方法の変更</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#ネットワーク構造の変更">7.7.2.1. ネットワーク構造の変更</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#精度向上に向けて">8.6. 精度向上に向けて</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#クラス不均衡データへの対応">8.6.1. クラス不均衡データへの対応</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#サンプリング">8.6.1.1. サンプリング</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#損失関数の変更">8.6.1.2. 損失関数の変更</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#ノイズ除去の効果検証">7.7.3. ノイズ除去の効果検証</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ネットワーク構造の変更">8.6.2. ネットワーク構造の変更</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ノイズ除去の効果検証">8.6.3. ノイズ除去の効果検証</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#おわりに">8.7. おわりに</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Basenji.html">8. 実践編：ディープラーニングを使った配列解析</a></li>
 </ul>
 
             
@@ -153,7 +153,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</li>
+      <li>8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -356,27 +356,14 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="section" id="実践編:-ディープラーニングを使ったモニタリングデータの時系列解析">
-<h1>7. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析<a class="headerlink" href="#実践編:-ディープラーニングを使ったモニタリングデータの時系列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>健康意識の高まりや運動人口の増加に伴って，活動量計などのウェアラブルデバイスが普及し始めています．センサーデバイスから心拍数などの情報を取得することで，リアルタイムに健康状態をモニタリング可能なため，近年ではヘルスケア分野でも活用事例が増えてきています．例えば最近，Cardiogram社とカリフォルニア大学の共同研究で，心拍データから糖尿病予備群を予測する研究論文(DeepHeart)が報告され，注目を集めました．また，Apple
+<h1>8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析<a class="headerlink" href="#実践編:-ディープラーニングを使ったモニタリングデータの時系列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>健康意識の高まりや運動人口の増加に伴って，活動量計などのウェアラブルデバイスが普及し始めています．センサーデバイスから心拍数などの情報を取得することで，リアルタイムに健康状態をモニタリングできる可能性があることから，近年ではヘルスケア領域での活用事例も増えてきています．2018年2月には，Cardiogram社とカリフォルニア大学が共同研究の成果を発表し，心拍数データに対してDeep
+Learningを適用することで，高精度に糖尿病予備群を予測可能であることを報告し，大きな注目を集めました．また，Apple
 Watch Series
-4には心電図作成の機能が搭載されるなど，センサーデバイスも進歩してきています．従って，こうしたモニタリングデータを収集・解析し，健康管理に繋げていく取り組みは今後益々盛んになっていくと考えられます．</p>
-<p>本章では，心電図(ECG)の波形データを対象として，不整脈か否かを予測する問題に取り組みます．</p>
-<div class="section" id="目次">
-<h2>7.1. 目次<a class="headerlink" href="#目次" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ol class="arabic simple">
-<li>環境構築</li>
-<li>使用するデータセット</li>
-<li>データ前処理</li>
-<li>DLを用いた時系列データ解析</li>
-<li>精度向上に向けて</li>
-<li>クラス不均衡データへの対応 1. Undersampling &amp; Oversampling 1.
-損失関数</li>
-<li>ネットワーク構造</li>
-<li>ノイズ除去の効果検証</li>
-</ol>
-</div>
+4には心電図作成の機能が搭載されるなど，センサーデバイスも進歩を続け，より精緻な情報が取得できるようになってきています．こうした背景において，モニタリングデータを収集・解析し，健康管理に繋げていく取り組みは今後益々盛んになっていくものと考えられます．</p>
+<p>本章では，心電図(ECG)の信号波形データを対象として，不整脈を検出する問題に取り組みます．</p>
 <div class="section" id="環境構築">
-<h2>7.2. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>はじめに, 下記の必要ライブラリをインストールします.</p>
 <ul class="simple">
 <li>Cupy</li>
@@ -392,12 +379,12 @@ Watch Series
 <p>以下のセルを実行 (Shift + Enter) して下さい.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [67]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!set -ex
-!apt -y -q install cuda-libraries-dev-9-2
+!apt -y -q install cuda-libraries-dev-9-2 tree
 !pip install cupy-cuda92==5.0.0
 !pip install chainer==5.0.0
 !pip install scipy==0.19.1 matplotlib==2.1.2 seaborn==0.7.1 pandas==0.22.0 wfdb==2.2.1
@@ -413,146 +400,50 @@ Watch Series
 Reading package lists...
 Building dependency tree...
 Reading state information...
-The following additional packages will be installed:
-  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
-  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-npp-dev-9-2
-  cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
-The following NEW packages will be installed:
-  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
-  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-libraries-dev-9-2
-  cuda-npp-dev-9-2 cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
-0 upgraded, 9 newly installed, 0 to remove and 5 not upgraded.
-Need to get 332 MB of archives.
-After this operation, 972 MB of additional disk space will be used.
-Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cublas-dev-9-2 9.2.148.1-1 [50.4 MB]
-Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cufft-dev-9-2 9.2.148-1 [106 MB]
-Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-curand-dev-9-2 9.2.148-1 [57.8 MB]
-Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusolver-dev-9-2 9.2.148-1 [8,184 kB]
-Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusparse-dev-9-2 9.2.148-1 [27.8 MB]
-Get:6 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvrtc-dev-9-2 9.2.148-1 [9,348 B]
-Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvgraph-dev-9-2 9.2.148-1 [30.1 MB]
-Get:8 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-npp-dev-9-2 9.2.148-1 [52.0 MB]
-Get:9 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-libraries-dev-9-2 9.2.148-1 [2,598 B]
-Fetched 332 MB in 7s (48.3 MB/s)
-Selecting previously unselected package cuda-cublas-dev-9-2.
-(Reading database ... 22280 files and directories currently installed.)
-Preparing to unpack .../0-cuda-cublas-dev-9-2_9.2.148.1-1_amd64.deb ...
-Unpacking cuda-cublas-dev-9-2 (9.2.148.1-1) ...
-Selecting previously unselected package cuda-cufft-dev-9-2.
-Preparing to unpack .../1-cuda-cufft-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cufft-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-curand-dev-9-2.
-Preparing to unpack .../2-cuda-curand-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-curand-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-cusolver-dev-9-2.
-Preparing to unpack .../3-cuda-cusolver-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cusolver-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-cusparse-dev-9-2.
-Preparing to unpack .../4-cuda-cusparse-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cusparse-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-nvrtc-dev-9-2.
-Preparing to unpack .../5-cuda-nvrtc-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-nvrtc-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-nvgraph-dev-9-2.
-Preparing to unpack .../6-cuda-nvgraph-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-nvgraph-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-npp-dev-9-2.
-Preparing to unpack .../7-cuda-npp-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-npp-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-libraries-dev-9-2.
-Preparing to unpack .../8-cuda-libraries-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-libraries-dev-9-2 (9.2.148-1) ...
-Setting up cuda-npp-dev-9-2 (9.2.148-1) ...
-Setting up cuda-curand-dev-9-2 (9.2.148-1) ...
-Setting up cuda-nvrtc-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cusolver-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cufft-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cusparse-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cublas-dev-9-2 (9.2.148.1-1) ...
-Setting up cuda-nvgraph-dev-9-2 (9.2.148-1) ...
-Setting up cuda-libraries-dev-9-2 (9.2.148-1) ...
-Collecting cupy-cuda92==5.0.0
-  Downloading https://files.pythonhosted.org/packages/23/79/da48a3e32468fff1f4913cf81d403c29e00b09c4c0d5f09d288e7b1483e8/cupy_cuda92-5.0.0-cp36-cp36m-manylinux1_x86_64.whl (261.1MB)
-    100% |████████████████████████████████| 261.1MB 113kB/s
-Collecting fastrlock&gt;=0.3 (from cupy-cuda92==5.0.0)
-  Downloading https://files.pythonhosted.org/packages/b5/93/a7efbd39eac46c137500b37570c31dedc2d31a8ff4949fcb90bda5bc5f16/fastrlock-0.4-cp36-cp36m-manylinux1_x86_64.whl
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from cupy-cuda92==5.0.0) (1.11.0)
+tree is already the newest version (1.7.0-5).
+cuda-libraries-dev-9-2 is already the newest version (9.2.148-1).
+0 upgraded, 0 newly installed, 0 to remove and 5 not upgraded.
+Requirement already satisfied: cupy-cuda92==5.0.0 in /usr/local/lib/python3.6/dist-packages (5.0.0)
 Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from cupy-cuda92==5.0.0) (1.14.6)
-Installing collected packages: fastrlock, cupy-cuda92
-Successfully installed cupy-cuda92-5.0.0 fastrlock-0.4
-Collecting chainer==5.0.0
-  Downloading https://files.pythonhosted.org/packages/bd/34/be31d10ff7f6a9452025866a6d515e1fbc877ff2ee68d9c7197c75f15797/chainer-5.0.0.tar.gz (510kB)
-    100% |████████████████████████████████| 512kB 22.1MB/s
+Requirement already satisfied: fastrlock&gt;=0.3 in /usr/local/lib/python3.6/dist-packages (from cupy-cuda92==5.0.0) (0.4)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from cupy-cuda92==5.0.0) (1.11.0)
+Requirement already satisfied: chainer==5.0.0 in /usr/local/lib/python3.6/dist-packages (5.0.0)
 Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer==5.0.0) (3.0.10)
 Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer==5.0.0) (1.14.6)
-Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer==5.0.0) (3.6.1)
 Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer==5.0.0) (1.11.0)
 Requirement already satisfied: cupy-cuda92&lt;6.0.0,&gt;=5.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer==5.0.0) (5.0.0)
-Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer==5.0.0) (40.5.0)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer==5.0.0) (3.6.1)
 Requirement already satisfied: fastrlock&gt;=0.3 in /usr/local/lib/python3.6/dist-packages (from cupy-cuda92&lt;6.0.0,&gt;=5.0.0-&gt;chainer==5.0.0) (0.4)
-Building wheels for collected packages: chainer
-  Running setup.py bdist_wheel for chainer ... - \ | / - \ done
-  Stored in directory: /root/.cache/pip/wheels/96/85/2e/623d0d0f08db6eb8d75cdb89c094674c98e2304ff5d98528aa
-Successfully built chainer
-Installing collected packages: chainer
-Successfully installed chainer-5.0.0
-Collecting scipy==0.19.1
-  Downloading https://files.pythonhosted.org/packages/0e/46/da8d7166102d29695330f7c0b912955498542988542c0d2ae3ea0389c68d/scipy-0.19.1-cp36-cp36m-manylinux1_x86_64.whl (48.2MB)
-    100% |████████████████████████████████| 48.2MB 983kB/s
+Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer==5.0.0) (40.6.2)
+Requirement already satisfied: scipy==0.19.1 in /usr/local/lib/python3.6/dist-packages (0.19.1)
 Requirement already satisfied: matplotlib==2.1.2 in /usr/local/lib/python3.6/dist-packages (2.1.2)
 Requirement already satisfied: seaborn==0.7.1 in /usr/local/lib/python3.6/dist-packages (0.7.1)
 Requirement already satisfied: pandas==0.22.0 in /usr/local/lib/python3.6/dist-packages (0.22.0)
-Collecting wfdb==2.2.1
-  Downloading https://files.pythonhosted.org/packages/b2/96/c2200539fdf4f087e14d30ed62a66544b6f441196bcb8ecc7a29ec6503b9/wfdb-2.2.1.tar.gz (94kB)
-    100% |████████████████████████████████| 102kB 27.0MB/s
+Requirement already satisfied: wfdb==2.2.1 in /usr/local/lib/python3.6/dist-packages (2.2.1)
 Requirement already satisfied: numpy&gt;=1.8.2 in /usr/local/lib/python3.6/dist-packages (from scipy==0.19.1) (1.14.6)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib==2.1.2) (2.5.3)
 Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib==2.1.2) (2.3.0)
+Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib==2.1.2) (2.5.3)
 Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib==2.1.2) (1.11.0)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib==2.1.2) (0.10.0)
 Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib==2.1.2) (2018.7)
-Collecting nose&gt;=1.3.7 (from wfdb==2.2.1)
-  Downloading https://files.pythonhosted.org/packages/15/d8/dd071918c040f50fa1cf80da16423af51ff8ce4a0f2399b7bf8de45ac3d9/nose-1.3.7-py3-none-any.whl (154kB)
-    100% |████████████████████████████████| 163kB 26.9MB/s
+Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib==2.1.2) (0.10.0)
 Requirement already satisfied: requests&gt;=2.10.0 in /usr/local/lib/python3.6/dist-packages (from wfdb==2.2.1) (2.18.4)
-Collecting sklearn&gt;=0.0 (from wfdb==2.2.1)
-  Downloading https://files.pythonhosted.org/packages/1e/7a/dbb3be0ce9bd5c8b7e3d87328e79063f8b263b2b1bfa4774cb1147bfcd3f/sklearn-0.0.tar.gz
-Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.10.0-&gt;wfdb==2.2.1) (2018.10.15)
-Requirement already satisfied: idna&lt;2.7,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.10.0-&gt;wfdb==2.2.1) (2.6)
-Requirement already satisfied: chardet&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.10.0-&gt;wfdb==2.2.1) (3.0.4)
+Requirement already satisfied: sklearn&gt;=0.0 in /usr/local/lib/python3.6/dist-packages (from wfdb==2.2.1) (0.0)
+Requirement already satisfied: nose&gt;=1.3.7 in /usr/local/lib/python3.6/dist-packages (from wfdb==2.2.1) (1.3.7)
 Requirement already satisfied: urllib3&lt;1.23,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.10.0-&gt;wfdb==2.2.1) (1.22)
-Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (from sklearn&gt;=0.0-&gt;wfdb==2.2.1) (0.19.2)
-Building wheels for collected packages: wfdb, sklearn
-  Running setup.py bdist_wheel for wfdb ... - \ done
-  Stored in directory: /root/.cache/pip/wheels/bb/a9/00/0078d26b0c15b31be0001af8eb659496709c361c69641303f1
-  Running setup.py bdist_wheel for sklearn ... - done
-  Stored in directory: /root/.cache/pip/wheels/76/03/bb/589d421d27431bcd2c6da284d5f2286c8e3b2ea3cf1594c074
-Successfully built wfdb sklearn
-Installing collected packages: scipy, nose, sklearn, wfdb
-  Found existing installation: scipy 1.1.0
-    Uninstalling scipy-1.1.0:
-      Successfully uninstalled scipy-1.1.0
-Successfully installed nose-1.3.7 scipy-0.19.1 sklearn-0.0 wfdb-2.2.1
-Collecting imbalanced-learn==0.4.3
-  Downloading https://files.pythonhosted.org/packages/e5/4c/7557e1c2e791bd43878f8c82065bddc5798252084f26ef44527c02262af1/imbalanced_learn-0.4.3-py3-none-any.whl (166kB)
-    100% |████████████████████████████████| 174kB 3.7MB/s
-Collecting scikit-learn&gt;=0.20 (from imbalanced-learn==0.4.3)
-  Downloading https://files.pythonhosted.org/packages/0c/b2/05be9b6da9ae4a4c54f537be22e95833f722742a02b1e355fdc09363877c/scikit_learn-0.20.0-cp36-cp36m-manylinux1_x86_64.whl (5.3MB)
-    100% |████████████████████████████████| 5.3MB 7.7MB/s
-Requirement already satisfied: numpy&gt;=1.8.2 in /usr/local/lib/python3.6/dist-packages (from imbalanced-learn==0.4.3) (1.14.6)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.10.0-&gt;wfdb==2.2.1) (2018.10.15)
+Requirement already satisfied: chardet&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.10.0-&gt;wfdb==2.2.1) (3.0.4)
+Requirement already satisfied: idna&lt;2.7,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests&gt;=2.10.0-&gt;wfdb==2.2.1) (2.6)
+Requirement already satisfied: scikit-learn in /usr/local/lib/python3.6/dist-packages (from sklearn&gt;=0.0-&gt;wfdb==2.2.1) (0.20.0)
+Requirement already satisfied: imbalanced-learn==0.4.3 in /usr/local/lib/python3.6/dist-packages (0.4.3)
 Requirement already satisfied: scipy&gt;=0.13.3 in /usr/local/lib/python3.6/dist-packages (from imbalanced-learn==0.4.3) (0.19.1)
-Installing collected packages: scikit-learn, imbalanced-learn
-  Found existing installation: scikit-learn 0.19.2
-    Uninstalling scikit-learn-0.19.2:
-      Successfully uninstalled scikit-learn-0.19.2
-Successfully installed imbalanced-learn-0.4.3 scikit-learn-0.20.0
+Requirement already satisfied: numpy&gt;=1.8.2 in /usr/local/lib/python3.6/dist-packages (from imbalanced-learn==0.4.3) (1.14.6)
+Requirement already satisfied: scikit-learn&gt;=0.20 in /usr/local/lib/python3.6/dist-packages (from imbalanced-learn==0.4.3) (0.20.0)
 </pre></div></div>
 </div>
-<p>インストールが完了したら, 以下のセルを実行して,
-各ライブラリのインポート、及びバージョン確認を行って下さい.</p>
+<p>インストールが完了したら以下のセルを実行して，各ライブラリのインポート，及びバージョン確認を行って下さい.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [68]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -608,32 +499,50 @@ Imbalanced-learn:  0.4.3
 </pre></div></div>
 </div>
 </div>
-<div class="section" id="心電図(ECG)について">
-<h2>7.3. 心電図(ECG)について<a class="headerlink" href="#心電図(ECG)について" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>aa</p>
+<div class="section" id="心電図(ECG)と不整脈診断について">
+<h2>8.2. 心電図(ECG)と不整脈診断について<a class="headerlink" href="#心電図(ECG)と不整脈診断について" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>心電図(Electrocardiogram,
+ECG)は，心筋の活動によって生じる電気的変動を記録したものであり，心電図検査は不整脈の診断に広く利用されている他，虚血性心疾患や呼吸器疾患などの診断にも利用可能です[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>,
+<a class="reference external" href="https://www.ncc.go.jp/jp/ncch/d001/gairai/kensa/seirikensa/index.html">文献2</a>,
+<a class="reference external" href="https://www.ningen-dock.jp/wp/wp-content/uploads/2013/09/d4bb55fcf01494e251d315b76738ab40.pdf">文献3</a>]．</p>
+<p>標準的な心電図は，手足からとる心電図（四肢誘導）として，双極誘導（<span class="math notranslate nohighlight">\(Ⅰ\)</span>，<span class="math notranslate nohighlight">\(Ⅱ\)</span>，<span class="math notranslate nohighlight">\(Ⅲ\)</span>），及び単極誘導（<span class="math notranslate nohighlight">\(aV_R\)</span>，<span class="math notranslate nohighlight">\(aV_L\)</span>，<span class="math notranslate nohighlight">\(av_F\)</span>）の6誘導，胸部からとる心電図（胸部誘導）として，<span class="math notranslate nohighlight">\(V_1\)</span>，<span class="math notranslate nohighlight">\(V_2\)</span>，<span class="math notranslate nohighlight">\(V_3\)</span>，<span class="math notranslate nohighlight">\(V_4\)</span>，<span class="math notranslate nohighlight">\(V_5\)</span>，<span class="math notranslate nohighlight">\(V_6\)</span>の6誘導，計12誘導から成ります．このうち，特に不整脈のスクリーニングを行う際には，<span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導と<span class="math notranslate nohighlight">\(V_1\)</span>誘導に注目して診断が行われるのが一般的とされています．</p>
+<p>心臓が正常な状態では，ECGにおいては規則的な波形が観測され，これを正常洞調律
+(Normal sinus rhythm, NSR)といいます．</p>
+<p>具体的には，以下の3つの主要な波形で構成されており，</p>
+<ol class="arabic simple">
+<li>P波：心房の脱分極（心房の興奮）</li>
+<li>QRS波：心室の脱分極（心室の興奮）</li>
+<li>T波：心室の再分極（心室興奮の収まり）</li>
+</ol>
+<p>の順番で，下図のような波形が観測されます．</p>
+<div class="figure" id="id15">
+<img alt="sinus_rhythm" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/sinus_rhythm.svg" /><p class="caption"><span class="caption-text">sinus_rhythm</span></p>
+</div>
+<p>(図は[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>]より抜粋)</p>
+<p>こうした規則的な波形に乱れが生じ，調律に異常があると判断された場合，不整脈などの疑いがあるため，診断が行われることになります．</p>
 </div>
 <div class="section" id="使用するデータセット">
-<h2>7.4. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは，ECGの公開データとして有名な<a class="reference external" href="https://www.physionet.org/physiobank/database/mitdb/">MIT-BIH Arrhythmia Database
 (mitdb)</a>を使用します．</p>
-<p>mitdbには47名の患者から収集した，計48個のECGレコードが登録されており，各レコードファイルには約30分間の2種類(MLII，V1)の信号波形データが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データやアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
-<p>mitdbはPhysioNetによって管理されており，ダウンロードや読み込み用のPythonパッケージが提供されているので，今回はそちらを利用します．</p>
+<p>47名の患者から収集した48レコードが登録されており，各レコードファイルには約30分間の2誘導(第II，V1)のシグナルデータが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データとアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
+<p>データベースは<a class="reference external" href="https://www.physionet.org/">PhysioNet</a>によって管理されており，ダウンロードや読み込み用のPythonパッケージが提供されているので，今回はそちらを利用してデータを入手します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>dataset_root = &#39;./&#39;
+<span></span>dataset_root = &#39;./dataset&#39;
 download_dir = os.path.join(dataset_root, &#39;download&#39;)
 </pre></div>
 </div>
 </div>
-<p>まずはmitdbのデータをダウンロードしましょう．
+<p>まずはmitdbデータベースをダウンロードしましょう．
 ※実行時にエラーが出た場合は，再度実行して下さい．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [70]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -646,16 +555,16 @@ download_dir = os.path.join(dataset_root, &#39;download&#39;)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Created local base download directory: ./download
 Downloading files...
 Finished downloading files
 </pre></div></div>
 </div>
-<p>ダウンロードに成功すると，<code class="docutils literal notranslate"><span class="pre">Finished</span> <span class="pre">downloading</span> <span class="pre">files</span></code>というメッセージが表示されます．</p>
+<p>無事ダウンロードが完了すると， <code class="docutils literal notranslate"><span class="pre">Finished</span> <span class="pre">downloading</span> <span class="pre">files</span></code>
+というメッセージが表示されます．</p>
 <p>ファイル一覧を確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [71]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -671,26 +580,63 @@ Finished downloading files
 [&#39;100.atr&#39;, &#39;100.dat&#39;, &#39;100.hea&#39;, &#39;101.atr&#39;, &#39;101.dat&#39;, &#39;101.hea&#39;, &#39;102.atr&#39;, &#39;102.dat&#39;, &#39;102.hea&#39;, &#39;103.atr&#39;, &#39;103.dat&#39;, &#39;103.hea&#39;, &#39;104.atr&#39;, &#39;104.dat&#39;, &#39;104.hea&#39;, &#39;105.atr&#39;, &#39;105.dat&#39;, &#39;105.hea&#39;, &#39;106.atr&#39;, &#39;106.dat&#39;, &#39;106.hea&#39;, &#39;107.atr&#39;, &#39;107.dat&#39;, &#39;107.hea&#39;, &#39;108.atr&#39;, &#39;108.dat&#39;, &#39;108.hea&#39;, &#39;109.atr&#39;, &#39;109.dat&#39;, &#39;109.hea&#39;, &#39;111.atr&#39;, &#39;111.dat&#39;, &#39;111.hea&#39;, &#39;112.atr&#39;, &#39;112.dat&#39;, &#39;112.hea&#39;, &#39;113.atr&#39;, &#39;113.dat&#39;, &#39;113.hea&#39;, &#39;114.atr&#39;, &#39;114.dat&#39;, &#39;114.hea&#39;, &#39;115.atr&#39;, &#39;115.dat&#39;, &#39;115.hea&#39;, &#39;116.atr&#39;, &#39;116.dat&#39;, &#39;116.hea&#39;, &#39;117.atr&#39;, &#39;117.dat&#39;, &#39;117.hea&#39;, &#39;118.atr&#39;, &#39;118.dat&#39;, &#39;118.hea&#39;, &#39;119.atr&#39;, &#39;119.dat&#39;, &#39;119.hea&#39;, &#39;121.atr&#39;, &#39;121.dat&#39;, &#39;121.hea&#39;, &#39;122.atr&#39;, &#39;122.dat&#39;, &#39;122.hea&#39;, &#39;123.atr&#39;, &#39;123.dat&#39;, &#39;123.hea&#39;, &#39;124.atr&#39;, &#39;124.dat&#39;, &#39;124.hea&#39;, &#39;200.atr&#39;, &#39;200.dat&#39;, &#39;200.hea&#39;, &#39;201.atr&#39;, &#39;201.dat&#39;, &#39;201.hea&#39;, &#39;202.atr&#39;, &#39;202.dat&#39;, &#39;202.hea&#39;, &#39;203.atr&#39;, &#39;203.dat&#39;, &#39;203.hea&#39;, &#39;205.atr&#39;, &#39;205.dat&#39;, &#39;205.hea&#39;, &#39;207.atr&#39;, &#39;207.dat&#39;, &#39;207.hea&#39;, &#39;208.atr&#39;, &#39;208.dat&#39;, &#39;208.hea&#39;, &#39;209.atr&#39;, &#39;209.dat&#39;, &#39;209.hea&#39;, &#39;210.atr&#39;, &#39;210.dat&#39;, &#39;210.hea&#39;, &#39;212.atr&#39;, &#39;212.dat&#39;, &#39;212.hea&#39;, &#39;213.atr&#39;, &#39;213.dat&#39;, &#39;213.hea&#39;, &#39;214.atr&#39;, &#39;214.dat&#39;, &#39;214.hea&#39;, &#39;215.atr&#39;, &#39;215.dat&#39;, &#39;215.hea&#39;, &#39;217.atr&#39;, &#39;217.dat&#39;, &#39;217.hea&#39;, &#39;219.atr&#39;, &#39;219.dat&#39;, &#39;219.hea&#39;, &#39;220.atr&#39;, &#39;220.dat&#39;, &#39;220.hea&#39;, &#39;221.atr&#39;, &#39;221.dat&#39;, &#39;221.hea&#39;, &#39;222.atr&#39;, &#39;222.dat&#39;, &#39;222.hea&#39;, &#39;223.atr&#39;, &#39;223.dat&#39;, &#39;223.hea&#39;, &#39;228.atr&#39;, &#39;228.dat&#39;, &#39;228.hea&#39;, &#39;230.atr&#39;, &#39;230.dat&#39;, &#39;230.hea&#39;, &#39;231.atr&#39;, &#39;231.dat&#39;, &#39;231.hea&#39;, &#39;232.atr&#39;, &#39;232.dat&#39;, &#39;232.hea&#39;, &#39;233.atr&#39;, &#39;233.dat&#39;, &#39;233.hea&#39;, &#39;234.atr&#39;, &#39;234.dat&#39;, &#39;234.hea&#39;]
 </pre></div></div>
 </div>
-<p>ファイル名の数字はレコードIDを表しています．3種類のファイルがあり，それぞれ<code class="docutils literal notranslate"><span class="pre">.dat</span></code>
-: 信号波形ファイル，<code class="docutils literal notranslate"><span class="pre">.atr</span></code> : アノテーションファイル，<code class="docutils literal notranslate"><span class="pre">.hea</span></code> :
-読み込みに必要なヘッダファイル，となっています．</p>
-<p>次節では，これらのファイルを読み込んで，機械学習モデルの入出力に変換するためのデータ前処理方法について説明します．</p>
+<p>ファイル名の数字はレコードIDを表しています．各レコードには3種類のファイルがあり，
+- <code class="docutils literal notranslate"><span class="pre">.dat</span></code> : シグナル（バイナリ形式） - <code class="docutils literal notranslate"><span class="pre">.atr</span></code> :
+アノテーション（バイナリ形式） - <code class="docutils literal notranslate"><span class="pre">.hea</span></code> :
+ヘッダ（バイナリファイルの読み込みに必要）</p>
+<p>となっています．</p>
 </div>
 <div class="section" id="データ前処理">
-<h2>7.5. データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li>TODO: 説明 - ベーシックな前処理として、以下の処理を行う</li>
-</ul>
+<h2>8.4. データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ダウンロードしたファイルを読み込み，機械学習モデルへの入力形式に変換するデータ前処理について説明します．</p>
+<p>本節では，以下の手順で前処理を行います．</p>
 <ol class="arabic simple">
-<li>レコードIDを train/validation/testに分割</li>
-<li>波形ファイル(.dat) &amp; アノテーションファイル(.atr)の読み込み (一部,
-利用しないデータがある)</li>
-<li>10種以上の細分化されたラベルが付与されているが,
-先行研究に従って3クラスに集約する</li>
-<li>波形データの正規化</li>
-<li>2秒間の部分波形(segment)に分割. 中央のピークに付与されているラベルを,
-その部分波形のラベルとして扱う</li>
+<li>レコードIDを事前に 学習用 / 評価用 に分割<ul>
+<li>48レコードのうち，<ul>
+<li>ID =（102, 104, 107,
+217）のシグナルはペースメーカーの拍動が含まれるため除外します</li>
+<li>ID = 114のシグナルは波形が反転しているため，今回は除外します</li>
+<li>ID = （201,
+202）は同一の患者から得られたデータのため，202を除外します</li>
+</ul>
+</li>
+<li>上記を除く計42レコードを，学習用とテスト用に分割します（分割方法は[<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">文献4</a>]を参考）</li>
+</ul>
+</li>
+<li>シグナルファイル (.dat) の読み込み<ul>
+<li>ML2シグナルとV1シグナルが格納されていますが，今回はML2のみ利用します．</li>
+<li>サンプリング周波数は360(Hz)
+なので，1秒間に360回，数値が記録されていることになります．</li>
+</ul>
+</li>
+<li>アノテーションファイル (.atr) の読み込み<ul>
+<li>各R波ピークの位置 (positions) と，そのラベル (symbols)
+を取得します．</li>
+</ul>
+</li>
+<li>シグナルの正規化<ul>
+<li>平均0，分散1になるように変換を行います．</li>
+</ul>
+</li>
+<li>シグナルの分割 (segmentation)<ul>
+<li>各R波ピークを中心として2秒間(前後1秒ずつ)の断片を切り出していきます．</li>
+</ul>
+</li>
+<li>分割シグナルへのラベル付与<ul>
+<li>各R波ピークに付与されているラベルを，下表(※)に従って集約し，今回の解析では正常拍動
+(Normal)，及び心室異所性拍動 (VEB)
+のラベルが付与されている分割シグナルのみ学習・評価に利用します．</li>
+</ul>
+</li>
 </ol>
+<p>※ Association for the Advancement of Medical Instrumentation
+(AAMI)が推奨している基準([<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">文献4</a>])で，5種類に大別して整理されています．</p>
+<div class="figure" id="id16">
+<img alt="aami_standard" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/aami_standard.png" />
+<p class="caption"><span class="caption-text">aami_standard</span></p>
+</div>
+<p>(表は[<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献5</a>]より抜粋)</p>
+<p>まずは以下のセルを実行して，データ前処理クラスを定義しましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -701,7 +647,7 @@ Finished downloading files
 
     def __init__(
             self,
-            dataset_root=&#39;./&#39;,
+            dataset_root,
             window_size=720,  # 2 seconds
     ):
         self.dataset_root = dataset_root
@@ -724,7 +670,7 @@ Finished downloading files
             &#39;V&#39;: &#39;V&#39;, &#39;E&#39;: &#39;V&#39;
         }
 
-    def load_data(
+    def _load_data(
             self,
             base_record,
             channel=0  # [0, 1]
@@ -739,7 +685,7 @@ Finished downloading files
         positions = annotation.sample
         return signals[:, channel], symbols, positions
 
-    def normalize_signal(
+    def _normalize_signal(
             self,
             signal,
             method=&#39;std&#39;
@@ -754,7 +700,7 @@ Finished downloading files
         else:
             raise ValueError(&quot;Invalid value: {}&quot;.format(method))
 
-    def create_data_slices(
+    def _segment_data(
             self,
             signal,
             symbols,
@@ -773,85 +719,101 @@ Finished downloading files
                 y.append(self.labels.index(self.label_map[symbols[i]]))
         return np.array(X), np.array(y)
 
-    def prepare_dataset(
+    def preprocess_dataset(
             self,
             normalize=True
     ):
-        if not os.path.isdir(self.download_dir):
-            self.download_data()
         # prepare training dataset
-        self._prepare_dataset_core(self.train_record_list, &quot;train&quot;, normalize)
+        self._preprocess_dataset_core(self.train_record_list, &quot;train&quot;, normalize)
         # prepare test dataset
-        self._prepare_dataset_core(self.test_record_list, &quot;test&quot;, normalize)
+        self._preprocess_dataset_core(self.test_record_list, &quot;test&quot;, normalize)
 
-    def _prepare_dataset_core(
+    def _preprocess_dataset_core(
             self,
             record_list,
             mode=&quot;train&quot;,
             normalize=True
     ):
-        X, y = None, None
+        Xs, ys = [], []
         for i in range(len(record_list)):
-            signal, symbols, positions = self.load_data(record_list[i])
+            signal, symbols, positions = self._load_data(record_list[i])
             if normalize:
-                signal = self.normalize_signal(signal)
-            if i == 0:
-                X, y = self.create_data_slices(signal, symbols, positions)
-            else:
-                X_tmp, y_tmp = self.create_data_slices(signal, symbols, positions)
-                X = np.vstack((X, X_tmp))
-                y = np.concatenate((y, y_tmp))
-        os.makedirs(os.path.join(self.dataset_root, mode), exist_ok=True)
-        np.save(os.path.join(self.dataset_root, mode, &quot;X.npy&quot;), X)
-        np.save(os.path.join(self.dataset_root, mode, &quot;y.npy&quot;), y)
+                signal = self._normalize_signal(signal)
+            X, y = self._segment_data(signal, symbols, positions)
+            Xs.append(X)
+            ys.append(y)
+        os.makedirs(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode), exist_ok=True)
+        np.save(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode, &quot;X.npy&quot;),
+                np.vstack(Xs))
+        np.save(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode, &quot;y.npy&quot;),
+                np.concatenate(ys))
 
 </pre></div>
 </div>
 </div>
-<ul class="simple">
-<li>TODO: 説明 - prepare_dataset()を実行すると,
-train/validation/testデータに分割され,
-対応するディレクトリ内に格納される</li>
-</ul>
+<p>データ保存先のrootディレクトリ(dataset_root)を指定し，
+<code class="docutils literal notranslate"><span class="pre">preprocess_dataset()</span></code> を実行することで，前処理後のデータがNumpy
+Array形式で所定の場所に保存されます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>preprocessor = BaseECGDatasetPreprocessor(dataset_root)
+<span></span>BaseECGDatasetPreprocessor(dataset_root).preprocess_dataset()
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>preprocessor.prepare_dataset()
-</pre></div>
-</div>
-</div>
-<ul class="simple">
-<li>TODO: 説明 - train/validation のデータの中身を確認する</li>
-</ul>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>X_train = np.load(os.path.join(dataset_root, &#39;train&#39;, &#39;X.npy&#39;))
-y_train = np.load(os.path.join(dataset_root, &#39;train&#39;, &#39;y.npy&#39;))
-X_test = np.load(os.path.join(dataset_root, &#39;test&#39;, &#39;X.npy&#39;))
-y_test = np.load(os.path.join(dataset_root, &#39;test&#39;, &#39;y.npy&#39;))
-</pre></div>
-</div>
-</div>
+<p>実行後，以下のファイルが保存されていることを確認しましょう． *
+train/X.npy : 学習用シグナル * train/y.npy : 学習用ラベル * test/X.npy
+: 評価用シグナル * test/y.npy : 評価用ラベル</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [74]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!tree ./dataset/preprocessed
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+./dataset/preprocessed
+├── test
+│   ├── X.npy
+│   └── y.npy
+└── train
+    ├── X.npy
+    └── y.npy
+
+2 directories, 4 files
+</pre></div></div>
+</div>
+<p>次に，保存したファイルを読み込み，中身を確認してみましょう．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>X_train = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;train&#39;, &#39;X.npy&#39;))
+y_train = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;train&#39;, &#39;y.npy&#39;))
+X_test = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;test&#39;, &#39;X.npy&#39;))
+y_test = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;test&#39;, &#39;y.npy&#39;))
+</pre></div>
+</div>
+</div>
+<p>データセットのサンプル数はそれぞれ以下の通りです． * 学習用：47738個 *
+評価用：45349個</p>
+<p>各シグナルデータは，2秒間 * 360 (Hz) =
+720次元ベクトルとして表現されています．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [76]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -869,9 +831,13 @@ X_train.shape =  (47738, 720)   y_train.shape =  (47738,)
 X_test.shape =  (45349, 720)    y_test.shape =  (45349,)
 </pre></div></div>
 </div>
+<p>各ラベルはインデックスで表現されており， * 0：正常拍動 (Normal) *
+1：心室異所性拍動 (VEB)</p>
+<p>となっています．</p>
+<p>学習用データセットに含まれている各ラベル毎のサンプル数をカウントしてみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [77]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -888,9 +854,10 @@ print(&quot;y_train count each labels: &quot;, dict(zip(uniq_train, counts_train
 y_train count each labels:  {0: 43995, 1: 3743}
 </pre></div></div>
 </div>
+<p>評価用データについても同様にラベル毎のサンプル数をカウントします．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [12]:
+<span></span>In [78]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -907,9 +874,8 @@ print(&quot;y_test count each labels: &quot;, dict(zip(uniq_test, counts_test)))
 y_test count each labels:  {0: 42149, 1: 3200}
 </pre></div></div>
 </div>
-<ul class="simple">
-<li>TODO: 説明 - 波形データを可視化してみる</li>
-</ul>
+<p>学習用データ，評価用データ共に，VEBサンプルは10%未満であり，大多数は正常拍動サンプルであることが分かります．</p>
+<p>次に，正常拍動，及びVEBのシグナルデータを可視化してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -921,9 +887,11 @@ import matplotlib.pyplot as plt
 </pre></div>
 </div>
 </div>
+<p>正常拍動の例を図示したものが以下になります．</p>
+<p>P波 - QRS波 - T波が規則的に出現していることが確認できます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [80]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -934,11 +902,11 @@ plt.plot(X_train[idx_n[0]])
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[14]:
+<span></span>Out[80]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x7fd38485d2e8&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x7f4c03541ef0&gt;]
 </pre></div>
 </div>
 </div>
@@ -946,12 +914,13 @@ plt.plot(X_train[idx_n[0]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_34_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_34_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_39_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_39_1.png" />
 </div>
 </div>
+<p>一方でVEBの波形は規則性が乱れ，R波ピークの形状やピーク間距離も正常例とは異なる性質を示していることが分かります．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [81]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -962,11 +931,11 @@ plt.plot(X_train[idx_s[0]])
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[15]:
+<span></span>Out[81]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>[&lt;matplotlib.lines.Line2D at 0x7fd381ffe710&gt;]
+<span></span>[&lt;matplotlib.lines.Line2D at 0x7f4c0a8dc668&gt;]
 </pre></div>
 </div>
 </div>
@@ -974,17 +943,17 @@ plt.plot(X_train[idx_s[0]])
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_35_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_35_1.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_41_1.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_41_1.png" />
 </div>
 </div>
+<p>本章の目的は，ECGシグナル特徴をうまく捉え，新たな波形サンプルに対しても高精度に正常/異常を予測するモデルを構築することです．</p>
+<p>次節では，深層学習を利用したモデル構築について説明していきます．</p>
 </div>
-<div class="section" id="DLを用いた時系列データ解析">
-<h2>7.6. DLを用いた時系列データ解析<a class="headerlink" href="#DLを用いた時系列データ解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<ul class="simple">
-<li>TODO: 説明 - 3種類のクラス(“N”, “S”,
-“V”)を正しく識別するモデルを構築する</li>
-<li>TODO: 説明 - chainerデータセットクラス</li>
-</ul>
+<div class="section" id="深層学習を用いた時系列データ解析">
+<h2>8.5. 深層学習を用いた時系列データ解析<a class="headerlink" href="#深層学習を用いた時系列データ解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="学習">
+<h3>8.5.1. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>まずはじめに，前節で準備した前処理済みデータをChainerで読み込むためのデータセットクラスを定義します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1015,9 +984,11 @@ plt.plot(X_train[idx_s[0]])
 </pre></div>
 </div>
 </div>
-<ul class="simple">
-<li>TODO: 説明 - CNNモデル(ResNet構造)</li>
-</ul>
+<p>続いて，学習（＋予測）に利用するネットワーク構造を定義します．</p>
+<p>今回は，画像認識タスクで有名な，CNNベースのResNet34と同様のネットワーク構造を利用します．
+ただし，入力シグナルは1次元配列であることから，画像解析等で一般的に利用される2D
+Convolutionではなく，前章の遺伝子解析と同様，1D
+Convolutionを利用します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1058,7 +1029,7 @@ class BaseBlock(chainer.Chain):
         return F.relu(h)
 
 
-class ResBlockBase(chainer.Chain):
+class ResBlock(chainer.Chain):
 
     def __init__(
             self,
@@ -1067,7 +1038,7 @@ class ResBlockBase(chainer.Chain):
             dilate=1
     ):
         self.n_block = n_block
-        super(ResBlockBase, self).__init__()
+        super(ResBlock, self).__init__()
         with self.init_scope():
             self.b0 = BaseBlock(channels, 2, dilate)
             for i in range(1, n_block):
@@ -1088,10 +1059,10 @@ class ResNet34(chainer.Chain):
         with self.init_scope():
             self.conv1 = L.ConvolutionND(1, None, 64, 7, 2, 3)
             self.bn1 = L.BatchNormalization(64)
-            self.resblock0 = ResBlockBase(64, 3)
-            self.resblock1 = ResBlockBase(128, 4)
-            self.resblock2 = ResBlockBase(256, 6)
-            self.resblock3 = ResBlockBase(512, 3)
+            self.resblock0 = ResBlock(64, 3)
+            self.resblock1 = ResBlock(128, 4)
+            self.resblock2 = ResBlock(256, 6)
+            self.resblock3 = ResBlock(512, 3)
             self.fc = L.Linear(None, 2)
 
     def __call__(self, x):
@@ -1143,16 +1114,17 @@ class Classifier(chainer.Chain):
 </pre></div>
 </div>
 </div>
-<ul class="simple">
-<li>TODO: 説明 - DatasetオブジェクトとTrainerオブジェクトを作成</li>
-</ul>
+<p>学習を実行するための準備として，以下の関数を用意します． -
+<code class="docutils literal notranslate"><span class="pre">create_train_dataset()</span></code> : 学習用データセットを <code class="docutils literal notranslate"><span class="pre">ECGDataset</span></code>
+クラスに渡す - <code class="docutils literal notranslate"><span class="pre">create_trainer()</span></code> :
+学習に必要な設定を行い，Trainerオブジェクトを作成</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from chainer import optimizers
+<span></span> from chainer import optimizers
 from chainer.optimizer import WeightDecay
 from chainer.iterators import MultiprocessIterator
 from chainer import training
@@ -1161,8 +1133,8 @@ from chainer.training import triggers
 from chainer.backends.cuda import get_device_from_id
 
 
-def create_datasets(root_path):
-    train_path = os.path.join(root_path, &quot;train&quot;)
+def create_train_dataset(root_path):
+    train_path = os.path.join(root_path, &#39;preprocessed&#39;, &#39;train&#39;)
     train_dataset = ECGDataset(train_path)
 
     return train_dataset
@@ -1209,13 +1181,14 @@ def create_trainer(
 </pre></div>
 </div>
 </div>
+<p>これで学習の準備が整ったので，関数を呼び出してtrainerを作成します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>train_dataset = create_datasets(dataset_root)
+<span></span>train_dataset = create_train_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
@@ -1229,10 +1202,10 @@ def create_trainer(
 </pre></div>
 </div>
 </div>
-<p>それでは学習を開始しましょう.</p>
+<p>それでは学習を開始しましょう. (1分30秒程度で学習が完了します．)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [87]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1246,38 +1219,47 @@ def create_trainer(
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       iteration   main/loss   main/accuracy
-0           7           1.48642     0.74721
-0           14          0.385628    0.916853
-0           21          0.277943    0.907924
-0           28          0.195416    0.93471
-0           35          0.125689    0.956473
-0           42          0.105126    0.967076
-0           49          0.103316    0.968192
-0           56          0.0751778   0.972656
-0           63          0.0523292   0.982143
-0           70          0.0580944   0.982143
-0           77          0.0758779   0.978795
-0           84          0.0401947   0.988281
-0           91          0.0350843   0.986607
-0           98          0.0330074   0.991071
-0           105         0.0291913   0.989397
-0           112         0.0285884   0.988839
-0           119         0.0257153   0.990513
-0           126         0.0442891   0.983817
-0           133         0.0397877   0.987723
-0           140         0.0283169   0.989955
-0           147         0.0228951   0.992188
-0           154         0.0197797   0.992746
-0           161         0.0294466   0.991071
-0           168         0.0170889   0.994978
-0           175         0.024305    0.993862
-0           182         0.0227162   0.992188
-CPU times: user 1min 20s, sys: 12.4 s, total: 1min 32s
-Wall time: 1min 32s
+0           7           0.68246     0.835379
+0           14          0.213449    0.945871
+0           21          0.133188    0.952009
+0           28          0.111913    0.954799
+0           35          0.0869099   0.972656
+0           42          0.0607898   0.979353
+0           49          0.0777792   0.97433
+0           56          0.0579638   0.980469
+0           63          0.0941479   0.982701
+0           70          0.0440584   0.987165
+0           77          0.0323292   0.987165
+0           84          0.0363104   0.988281
+0           91          0.0657371   0.989955
+0           98          0.0289945   0.991071
+0           105         0.0397994   0.987165
+0           112         0.0361052   0.986049
+0           119         0.0298745   0.991629
+0           126         0.0196517   0.993862
+0           133         0.0255173   0.992188
+0           140         0.0233742   0.991629
+0           147         0.0186124   0.996652
+0           154         0.0152674   0.99442
+0           161         0.0179223   0.994978
+0           168         0.0249549   0.992188
+0           175         0.0171148   0.992188
+0           182         0.0161927   0.993304
+CPU times: user 1min 4s, sys: 10.2 s, total: 1min 14s
+Wall time: 1min 13s
 </pre></div></div>
 </div>
+<p>学習が問題なく進めば，main/accuracyが0.99
+(99%)付近まで到達していると思います．</p>
+</div>
+<div class="section" id="評価">
+<h3>8.5.2. 評価<a class="headerlink" href="#評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>学習したモデルを評価用データに当てはめて識別性能を確認するため，以下の関数を用意します．</p>
 <ul class="simple">
-<li>TODO: 説明文 - 学習結果を評価します</li>
+<li><code class="docutils literal notranslate"><span class="pre">create_test_dataset()</span></code> : 評価用データの読み込み</li>
+<li><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code> : 推論を行い結果を出力</li>
+<li><code class="docutils literal notranslate"><span class="pre">print_confusion_matrix()</span></code> : 予測結果から混同行列を作成</li>
+<li><code class="docutils literal notranslate"><span class="pre">print_scores()</span></code> : 予測結果から各種スコアを計算して表示</li>
 </ul>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -1292,7 +1274,7 @@ from sklearn.metrics import confusion_matrix
 
 
 def create_test_dataset(root_path):
-    test_path = os.path.join(root_path, &quot;test&quot;)
+    test_path = os.path.join(root_path, &#39;preprocessed&#39;, &#39;test&#39;)
     test_dataset = ECGDataset(test_path)
     return test_dataset
 
@@ -1316,7 +1298,7 @@ def evaluate(trainer, test_dataset, batchsize, device=-1):
 
 def print_confusion_matrix(y_true, y_pred):
     labels = sorted(list(set(y_true)))
-    target_names = [&#39;N&#39;, &#39;V&#39;]
+    target_names = [&#39;Normal&#39;, &#39;VEB&#39;]
     cmx = confusion_matrix(y_true, y_pred, labels=labels)
     df_cmx = pd.DataFrame(cmx, index=target_names, columns=target_names)
     plt.figure(figsize = (5,3))
@@ -1325,13 +1307,14 @@ def print_confusion_matrix(y_true, y_pred):
 
 
 def print_scores(y_true, y_pred):
-    target_names = [&#39;N&#39;, &#39;V&#39;]
+    target_names = [&#39;Normal&#39;, &#39;VEB&#39;]
     print(classification_report(y_true, y_pred, target_names=target_names))
     print(&quot;accuracy: &quot;, accuracy_score(y_true, y_pred))
 
 </pre></div>
 </div>
 </div>
+<p>評価用データセットを用意し，</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1342,13 +1325,10 @@ def print_scores(y_true, y_pred):
 </pre></div>
 </div>
 </div>
-<ul class="simple">
-<li>TODO: 説明 - validationセットの評価</li>
-<li>TODO: 説明文 - テストセットの評価</li>
-</ul>
+<p>評価用データに対して予測を行います． (17秒程度で予測が完了します)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [25]:
+<span></span>In [90]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1361,13 +1341,14 @@ def print_scores(y_true, y_pred):
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 15.3 s, sys: 2.37 s, total: 17.6 s
-Wall time: 17.6 s
+CPU times: user 14.7 s, sys: 1.92 s, total: 16.6 s
+Wall time: 16.6 s
 </pre></div></div>
 </div>
+<p>予測結果の混同行列を確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [91]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1379,12 +1360,13 @@ Wall time: 17.6 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_54_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_54_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_65_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_65_0.png" />
 </div>
 </div>
+<p>続いて，予測結果の各種スコアを表示してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [92]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1399,33 +1381,57 @@ Wall time: 17.6 s
 <div class="highlight"><pre>
               precision    recall  f1-score   support
 
-           N       0.99      0.94      0.96     42149
-           V       0.52      0.90      0.65      3200
+      Normal       0.99      0.99      0.99     42149
+         VEB       0.82      0.87      0.84      3200
 
-   micro avg       0.93      0.93      0.93     45349
-   macro avg       0.75      0.92      0.81     45349
-weighted avg       0.96      0.93      0.94     45349
+   micro avg       0.98      0.98      0.98     45349
+   macro avg       0.91      0.93      0.92     45349
+weighted avg       0.98      0.98      0.98     45349
 
-accuracy:  0.933184855233853
+accuracy:  0.9773093122229818
 </pre></div></div>
+</div>
+<p>サンプル数が多い正常拍動に対する予測スコアは高い値を示す一方で，サンプル数の少ないVEBに対しては，スコアが低くなる傾向があります．今回のデータセットのように，サンプルが占めるクラスの割合が極端に偏っている不均衡データでは，こうした傾向がしばしば観測されることが知られています．</p>
+<p>次節では，こうしたクラス不均衡問題への対応に加え，ネットワーク構造の改良，前処理の工夫などを行い，予測精度向上に寄与する方法を模索していきます．</p>
 </div>
 </div>
 <div class="section" id="精度向上に向けて">
-<h2>7.7. 精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>8.6. 精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="クラス不均衡データへの対応">
-<h3>7.7.1. クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<ul class="simple">
-<li>予測スコア(Accuracy)は高かったが、単に全てのデータを’N’と予測してもTestで90.88%の精度が出ることになる.</li>
-<li>クラス不均衡なデータで学習させると、大多数を占めるラベルに予測結果が偏ってしまう傾向にある
-=&gt; S、Vに対する予測精度が低い理由</li>
-<li>こうした不均衡データの問題を解消するための方法として代表的な方法が幾つかあある<ul>
-<li>Undersampling / Oversampling</li>
-<li>損失関数の変更</li>
+<h3>8.6.1. クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>前節でも触れたように，クラス不均衡データを用いて学習器を構築する際，大多数を占めるクラスに偏った予測結果となり，少数のクラスに対して精度が低くなってしまう場合があることが一般的に知られています．一方で，（今回のデータセットを含めて）現実世界のタスクにおいては，大多数の正常サンプルの中に含まれる少数の異常サンプルを精度良く検出することが重要であるというケースは少なくありません．こうした状況において，少数クラスの検出に注目してモデルを学習させる方策が幾つか存在します．</p>
+<p>具体的には， 1. サンプリング -
+不均衡データセットからサンプリングを行い，クラス比率のバランスが取れたデータセットを作成
+- Undersampling : 大多数の正常サンプルを削減 - Oversampling :
+少数の異常サンプルを水増し 1. 損失関数の重み調整 -
+正常サンプルを異常と誤分類した際のペナルティを小さく，異常サンプルを正常と誤分類した際のペナルティを大きくする．
+- 例：サンプル数の存在比率の逆数を重みとして利用 1.
+目的関数(損失関数)の変更 -
+異常サンプルに対する予測スコアを向上させるような目的関数を導入 1.
+異常検知 -
+正常サンプルのデータ分布を仮定し，そこから十分に逸脱したサンプルを異常とみなす</p>
+<p>などの方法があります．本節では，1.のサンプリングと，3.の目的関数の変更の例を紹介していきます．</p>
+<div class="section" id="サンプリング">
+<h4>8.6.1.1. サンプリング<a class="headerlink" href="#サンプリング" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>UndersamplingとOversamplingを組み合わせて，データセットの不均衡を解消することを考えます．</p>
+<p>今回は以下のステップでサンプリングを行います．</p>
+<ol class="arabic simple">
+<li>Undersamplingにより，正常拍動サンプルのみ1/4に削減
+(VEBサンプルは全て残す)<ul>
+<li>ここでは，単純なランダムサンプリングを採用します．ランダム性があるため，分類にとって重要な（VEBサンプルとの識別境界付近にある）サンプルを削除してしまう可能性があります</li>
+<li>ランダムサンプリングの問題を緩和する手法も幾つか存在しますが，今回は使用しません．</li>
 </ul>
 </li>
+<li>Oversamplingにより，Undersampling後の正常拍動サンプルと同数になるまでVEBサンプルを水増し<ul>
+<li>SMOTE (Synthetic Minority Over-sampling TEchnique)
+という手法を採用します．</li>
+<li>ランダムにデータを水増しする最も単純な方法だと，過学習を引き起こしやすくなります．SMOTEでは，VEBサンプルと，その近傍VEBサンプルとの間のデータ点をランダムに生成してデータに追加していくことで，過学習の影響を緩和しています．</li>
 </ul>
-<div class="section" id="Undersampling-&amp;-Oversampling-(SMOTE)">
-<h4>7.7.1.1. Undersampling &amp; Oversampling (SMOTE)<a class="headerlink" href="#Undersampling-&-Oversampling-(SMOTE)" title="このヘッドラインへのパーマリンク">¶</a></h4>
+</li>
+</ol>
+<p>サンプリングを行うために，以下のSampledECGDatasetクラスを定義します．</p>
+<p>また，そのクラスを読み込んで学習用データセットオブジェクトを作成する
+<code class="docutils literal notranslate"><span class="pre">create_sampled_train_datset()</span></code> 関数を用意します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1446,15 +1452,14 @@ class SampledECGDataset(ECGDataset):
         _, counts = np.unique(self.y, return_counts=True)
         self.X, self.y = make_imbalance(
             self.X, self.y,
-            sampling_strategy={0: counts[0]//5, 1: counts[1]}
+            sampling_strategy={0: counts[0]//4, 1: counts[1]}
         )
         smote = SMOTE(random_state=42)
         self.X, self.y = smote.fit_sample(self.X, self.y)
 
 
-def create_sampled_datasets(root_path):
-    train_path = os.path.join(root_path, &quot;train&quot;)
-    validation_path = os.path.join(root_path, &quot;validation&quot;)
+def create_sampled_train_dataset(root_path):
+    train_path = os.path.join(root_path, &#39;preprocessed&#39;, &#39;train&#39;)
     train_dataset = SampledECGDataset(train_path)
 
     return train_dataset
@@ -1467,27 +1472,19 @@ def create_sampled_datasets(root_path):
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>train_dataset = create_sampled_datasets(dataset_root)
+<span></span>train_dataset = create_sampled_train_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
+<p>それでは先程と同様に，trainerを作成して学習を実行してみましょう．(1分程度で学習が完了します．)</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [95]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>trainer = create_trainer(256, train_dataset, nb_epoch=2, device=0)
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [32]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>%time trainer.run()
+%time trainer.run()
 </pre></div>
 </div>
 </div>
@@ -1497,32 +1494,38 @@ def create_sampled_datasets(root_path):
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       iteration   main/loss   main/accuracy
-0           7           1.5549      0.637277
-0           14          0.372147    0.833705
-0           21          0.209371    0.930804
-0           28          0.124632    0.957031
-0           35          0.0814286   0.96875
-0           42          0.0648148   0.977121
-0           49          0.0588549   0.978237
-0           56          0.0446123   0.985491
-0           63          0.0515078   0.982143
-1           70          0.0391871   0.985491
-1           77          0.0254058   0.99442
-1           84          0.0205729   0.992746
-1           91          0.0235527   0.992188
-1           98          0.0172338   0.994978
-1           105         0.0166827   0.99442
-1           112         0.0138582   0.997768
-1           119         0.0162967   0.994978
-1           126         0.0157962   0.996094
-1           133         0.00981411  0.996652
-CPU times: user 46.4 s, sys: 8.94 s, total: 55.3 s
-Wall time: 55 s
+0           7           1.58199     0.655134
+0           14          0.240229    0.912388
+0           21          0.13056     0.952009
+0           28          0.120401    0.954799
+0           35          0.100816    0.962612
+0           42          0.0821277   0.977679
+0           49          0.0639532   0.976562
+0           56          0.039643    0.984933
+0           63          0.0423196   0.984933
+0           70          0.045723    0.984375
+0           77          0.0271234   0.990513
+0           84          0.0339182   0.988839
+1           91          0.0224128   0.991629
+1           98          0.0119512   0.996652
+1           105         0.0102571   0.997768
+1           112         0.00743567  0.997768
+1           119         0.0203054   0.992188
+1           126         0.0149201   0.995536
+1           133         0.014487    0.996094
+1           140         0.00943909  0.99721
+1           147         0.0215329   0.993304
+1           154         0.0126034   0.995536
+1           161         0.00820926  0.997768
+1           168         0.0180909   0.993304
+CPU times: user 59.3 s, sys: 9.43 s, total: 1min 8s
+Wall time: 1min 8s
 </pre></div></div>
 </div>
+<p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [33]:
+<span></span>In [96]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1535,13 +1538,13 @@ Wall time: 55 s
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 14.8 s, sys: 2.49 s, total: 17.3 s
-Wall time: 17.3 s
+CPU times: user 14.9 s, sys: 2.08 s, total: 17 s
+Wall time: 16.9 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [34]:
+<span></span>In [97]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1553,12 +1556,12 @@ Wall time: 17.3 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_65_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_65_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_80_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_80_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [35]:
+<span></span>In [98]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1573,20 +1576,39 @@ Wall time: 17.3 s
 <div class="highlight"><pre>
               precision    recall  f1-score   support
 
-           N       1.00      0.94      0.97     42149
-           V       0.54      0.95      0.69      3200
+      Normal       1.00      0.96      0.98     42149
+         VEB       0.62      0.95      0.75      3200
 
-   micro avg       0.94      0.94      0.94     45349
-   macro avg       0.77      0.94      0.83     45349
-weighted avg       0.96      0.94      0.95     45349
+   micro avg       0.95      0.95      0.95     45349
+   macro avg       0.81      0.95      0.86     45349
+weighted avg       0.97      0.95      0.96     45349
 
-accuracy:  0.939932523319147
+accuracy:  0.9548832388806809
 </pre></div></div>
 </div>
+<p>先程の予測結果と比較して，サンプリングの効果によりVEBサンプルに対する予測精度が向上しているかを確認してみて下さい．</p>
+<p>(サンプリングのランダム性や，学習の初期値依存性などの影響があるため，必ず精度向上するとは限らないことにご注意下さい．)</p>
 </div>
 <div class="section" id="損失関数の変更">
-<h4>7.7.1.2. 損失関数の変更<a class="headerlink" href="#損失関数の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p>TODO: コード - 動かないので動くようにする</p>
+<h4>8.6.1.2. 損失関数の変更<a class="headerlink" href="#損失関数の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>続いて，損失関数を変更することで，少数の異常サンプルに対して精度向上させる方法を検討します．少数クラスの予測精度向上に注目した損失関数はこれまでに幾つも提案されていますが，今回はその中で，“Focal
+loss” という損失関数を利用します．</p>
+<p>Focal lossは，画像の物体検知手法の研究論文
+<a class="reference external" href="https://arxiv.org/abs/1708.02002">[文献6]</a>
+の中で提案された損失関数です．One-stage物体検知手法において，大量の候補領域の中で実際に物体が存在する領域はたかだか数個であることが多く，クラス不均衡なタスクになっており，学習がうまく進まないという問題があります．こうした問題に対処するために提案されたのがfocal
+lossであり，以下の式によって記述されます．</p>
+<div class="math notranslate nohighlight">
+\[FL(p_t) = - (1 - p_t)^{\gamma}\log(p_t)\]</div>
+<p>ここで<span class="math notranslate nohighlight">\(p_t\)</span>はsoftmax関数の出力（確率値）です．<span class="math notranslate nohighlight">\(\gamma = 0\)</span>の場合，通常のsoftmax
+cross-entorpy
+lossと等しくなりますが，<span class="math notranslate nohighlight">\(\gamma &gt; 0\)</span>の場合，明確に分類可能な（識別が簡単な）サンプルに対して，相対ロスを小さくする効果があります．その結果，分類が難しいサンプルにより注目して学習が進んでいくことが期待されます．</p>
+<p>下図は，正解クラスの予測確率値と，その際のlossの関係をプロットしており，<span class="math notranslate nohighlight">\(\gamma\)</span>の値を変化させた場合に，相対ロスがどのように下がっていくかを示しています．</p>
+<div class="figure" id="id17">
+<img alt="focal_plog" src="https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/focal_plot.png" />
+<p class="caption"><span class="caption-text">focal_plog</span></p>
+</div>
+<p>(図は <a class="reference external" href="https://arxiv.org/abs/1708.02002">[文献6]</a>より抜粋)</p>
+<p>それでは実際に，Focal loss関数を定義してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1595,13 +1617,13 @@ accuracy:  0.939932523319147
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from chainer.backends.cuda import get_array_module
 
-def focal_loss(x, t, class_num=2, gamma=2., eps=1e-6):
+def focal_loss(x, t, class_num=2, gamma=1.0, eps=1e-6):
     xp = get_array_module(t)
 
     p = F.softmax(x)
     p = F.clip(p, x_min=eps, x_max=1-eps)
     log_p = F.log_softmax(x)
-    t_onehot = xp.eye(class_num)[t]
+    t_onehot = xp.eye(class_num)[t.ravel()]
 
     loss_sce = -1 * t_onehot * log_p
     loss_focal = F.sum(loss_sce * (1. - p) ** gamma, axis=1)
@@ -1610,13 +1632,15 @@ def focal_loss(x, t, class_num=2, gamma=2., eps=1e-6):
 </pre></div>
 </div>
 </div>
+<p>前項目で実施したデータサンプリングは行わず，初回の学習時と同様の設定にした上で，損失関数をfocal
+lossに変更します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>train_dataset = create_datasets(dataset_root)
+<span></span>train_dataset = create_train_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
@@ -1630,9 +1654,10 @@ def focal_loss(x, t, class_num=2, gamma=2., eps=1e-6):
 </pre></div>
 </div>
 </div>
+<p>それでは学習を開始しましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [39]:
+<span></span>In [102]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1646,39 +1671,40 @@ def focal_loss(x, t, class_num=2, gamma=2., eps=1e-6):
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       iteration   main/loss   main/accuracy
-0           7           1.53746     0.806362
-0           14          0.287601    0.875
-0           21          0.0698186   0.93192
-0           28          0.0438095   0.944196
-0           35          0.0550418   0.929688
-0           42          0.0330854   0.955915
-0           49          0.0310767   0.96875
-0           56          0.0150656   0.981027
-0           63          0.0246014   0.970982
-0           70          0.0157674   0.978795
-0           77          0.0155997   0.979353
-0           84          0.01527     0.982701
-0           91          0.0136532   0.980469
-0           98          0.0389695   0.987723
-0           105         0.0109694   0.984375
-0           112         0.00979762  0.987723
-0           119         0.0145389   0.982143
-0           126         0.0107648   0.988281
-0           133         0.0111404   0.990513
-0           140         0.012603    0.984375
-0           147         0.0385038   0.987165
-0           154         0.0146354   0.981585
-0           161         0.00981666  0.984933
-0           168         0.0116596   0.986049
-0           175         0.00932134  0.989397
-0           182         0.00733271  0.991629
-CPU times: user 1min 7s, sys: 12.1 s, total: 1min 19s
-Wall time: 1min 18s
+0           7           0.981516    0.851562
+0           14          0.234755    0.920201
+0           21          0.149996    0.930804
+0           28          0.0964392   0.956473
+0           35          0.0820904   0.953683
+0           42          0.0517503   0.973772
+0           49          0.0355474   0.982701
+0           56          0.0364314   0.980469
+0           63          0.0358608   0.985491
+0           70          0.0274834   0.984375
+0           77          0.0307082   0.984375
+0           84          0.0243667   0.988281
+0           91          0.0287891   0.989397
+0           98          0.0260664   0.988839
+0           105         0.0216717   0.989955
+0           112         0.0251307   0.988281
+0           119         0.020206    0.991629
+0           126         0.0238549   0.989955
+0           133         0.0189982   0.992188
+0           140         0.0185445   0.992188
+0           147         0.0212838   0.988839
+0           154         0.0133644   0.992188
+0           161         0.0194672   0.987165
+0           168         0.0182016   0.99442
+0           175         0.0239929   0.990513
+0           182         0.0178186   0.992188
+CPU times: user 1min 5s, sys: 10.2 s, total: 1min 15s
+Wall time: 1min 14s
 </pre></div></div>
 </div>
+<p>学習が完了したら，評価用データにて予測結果を確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [40]:
+<span></span>In [103]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1691,13 +1717,13 @@ Wall time: 1min 18s
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 14.8 s, sys: 2.55 s, total: 17.4 s
-Wall time: 17.4 s
+CPU times: user 14.8 s, sys: 1.88 s, total: 16.7 s
+Wall time: 16.6 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [41]:
+<span></span>In [104]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1709,12 +1735,12 @@ Wall time: 17.4 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_74_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_74_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_93_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_93_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [42]:
+<span></span>In [105]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1729,22 +1755,31 @@ Wall time: 17.4 s
 <div class="highlight"><pre>
               precision    recall  f1-score   support
 
-           N       0.98      0.97      0.98     42149
-           V       0.64      0.80      0.71      3200
+      Normal       0.99      0.97      0.98     42149
+         VEB       0.68      0.87      0.76      3200
 
-   micro avg       0.95      0.95      0.95     45349
-   macro avg       0.81      0.88      0.84     45349
-weighted avg       0.96      0.95      0.96     45349
+   micro avg       0.96      0.96      0.96     45349
+   macro avg       0.84      0.92      0.87     45349
+weighted avg       0.97      0.96      0.96     45349
 
-accuracy:  0.9546406756488567
+accuracy:  0.9620939822267305
 </pre></div></div>
 </div>
+<p>初期モデルの予測結果と，今回の予測結果を比較してみて下さい．</p>
+<p>（余力があれば，<span class="math notranslate nohighlight">\(\gamma\)</span>の値を変化させた場合に，予測結果にどのような影響があるか確認してみて下さい．）</p>
 </div>
 </div>
-<div class="section" id="特徴抽出方法の変更">
-<h3>7.7.2. 特徴抽出方法の変更<a class="headerlink" href="#特徴抽出方法の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <div class="section" id="ネットワーク構造の変更">
-<h4>7.7.2.1. ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<h3>8.6.2. ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>続いて，学習に用いるネットワーク構造を変更することを検討します．</p>
+<p>ここでは，最初に用いたResNet34構造に対して以下の拡張を行います． 1. 1D
+Convolutionを，1D Dilated Convolutionに変更 - Dilated
+Convolutionを用いることで，パラメータ数の増大を抑えながら，より広範囲の特徴を抽出可能になると期待されます（遺伝子解析の際と同様のモチベーション）．
+- 広範囲の特徴が重要でないタスクの場合には，精度向上に繋がらない（ or
+場合によっては精度が低下する）可能性もあります． 1.
+最終層の手前に全結合層を追加し，Dropoutを適用 -
+Dropoutを行うことで，学習器の汎化性能が向上することを期待します．ただし，複数の先行研究([<a class="reference external" href="https://arxiv.org/abs/1506.02158v6">文献6</a>]など)において，単純に畳み込み層の直後にDropoutを適用するだけでは汎化性能の向上が期待出来ないと報告されていることから，今回は全結合層に適用することにします．</p>
+<p>それでは，上記の拡張を加えたネットワークを定義しましょう．（ResBlockBaseクラスは，初期モデル構築時に定義済み）</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1758,10 +1793,10 @@ accuracy:  0.9546406756488567
         with self.init_scope():
             self.conv1 = L.ConvolutionND(1, None, 64, 7, 2, 3)
             self.bn1 = L.BatchNormalization(64)
-            self.resblock0 = ResBlockBase(64, 3, 1)
-            self.resblock1 = ResBlockBase(128, 4, 1)
-            self.resblock2 = ResBlockBase(256, 6, 2)
-            self.resblock3 = ResBlockBase(512, 3, 4)
+            self.resblock0 = ResBlock(64, 3, 1)
+            self.resblock1 = ResBlock(128, 4, 1)
+            self.resblock2 = ResBlock(256, 6, 2)
+            self.resblock3 = ResBlock(512, 3, 4)
             self.fc1 = L.Linear(None, 512)
             self.fc2 = L.Linear(None, 2)
 
@@ -1777,6 +1812,7 @@ accuracy:  0.9546406756488567
 </pre></div>
 </div>
 </div>
+<p>ネットワーク構造を除いて，全て初期モデルと同様の設定で学習を行います．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1830,7 +1866,7 @@ accuracy:  0.9546406756488567
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>train_dataset = create_datasets(dataset_root)
+<span></span>train_dataset = create_train_dataset(dataset_root)
 test_dataset = create_test_dataset(dataset_root)
 </pre></div>
 </div>
@@ -1845,9 +1881,10 @@ test_dataset = create_test_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
+<p>それでは，これまでと同様に学習を開始しましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [47]:
+<span></span>In [110]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1861,43 +1898,40 @@ test_dataset = create_test_dataset(dataset_root)
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       iteration   main/loss   main/accuracy
-0           7           0.984993    0.820871
-0           14          0.271389    0.917969
-0           21          0.238406    0.919643
-0           28          0.187035    0.919643
-0           35          0.147569    0.93471
-0           42          0.220239    0.967634
-0           49          0.279385    0.969866
-0           56          0.0845302   0.969866
-0           63          0.0495845   0.983259
-0           70          0.0635208   0.981027
-0           77          0.0484835   0.984933
-0           84          0.0485552   0.985491
-0           91          0.0375603   0.987723
-0           98          0.0417249   0.987723
-0           105         0.0444891   0.988281
-0           112         0.035503    0.989397
-0           119         0.0267511   0.990513
-0           126         0.0471523   0.994978
-0           133         0.0194185   0.994978
-0           140         0.0310963   0.991629
-0           147         0.025705    0.991629
-0           154         0.0238151   0.992746
-0           161         0.0270219   0.992746
-0           168         0.0157836   0.995536
-0           175         0.021424    0.994978
-0           182         0.0195788   0.99442
-CPU times: user 1min 3s, sys: 12 s, total: 1min 15s
-Wall time: 1min 15s
+0           7           1.12984     0.853237
+0           14          0.337393    0.923549
+0           21          0.227592    0.921317
+0           28          0.30414     0.929688
+0           35          0.145865    0.942522
+0           42          0.0994738   0.960379
+0           49          0.0838294   0.967076
+0           56          0.0948459   0.967076
+0           63          0.0700816   0.979353
+0           70          0.0547348   0.978795
+0           77          0.0466978   0.989397
+0           84          0.037644    0.989955
+0           91          0.0376686   0.990513
+0           98          0.0526526   0.986607
+0           105         0.0325144   0.988281
+0           112         0.0260394   0.992188
+0           119         0.0271366   0.992188
+0           126         0.018607    0.99442
+0           133         0.0239503   0.992746
+0           140         0.0174514   0.996094
+0           147         0.0149736   0.99442
+0           154         0.0180412   0.994978
+0           161         0.0154979   0.993862
+0           168         0.0220143   0.992188
+0           175         0.0213987   0.990513
+0           182         0.0150635   0.992746
+CPU times: user 1min 5s, sys: 10 s, total: 1min 15s
+Wall time: 1min 14s
 </pre></div></div>
 </div>
-<ul class="simple">
-<li>TODO: 説明 - validationセットの評価</li>
-<li>TODO: 説明文 - テストセットの評価</li>
-</ul>
+<p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [48]:
+<span></span>In [111]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1910,13 +1944,13 @@ Wall time: 1min 15s
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 14.7 s, sys: 2.38 s, total: 17.1 s
-Wall time: 17.1 s
+CPU times: user 15 s, sys: 1.68 s, total: 16.7 s
+Wall time: 16.6 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [49]:
+<span></span>In [112]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1928,12 +1962,12 @@ Wall time: 17.1 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_86_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_86_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_107_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_107_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [50]:
+<span></span>In [113]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1948,37 +1982,34 @@ Wall time: 17.1 s
 <div class="highlight"><pre>
               precision    recall  f1-score   support
 
-           N       0.99      0.98      0.98     42149
-           V       0.76      0.88      0.81      3200
+      Normal       1.00      0.98      0.99     42149
+         VEB       0.77      0.94      0.85      3200
 
-   micro avg       0.97      0.97      0.97     45349
-   macro avg       0.87      0.93      0.90     45349
-weighted avg       0.97      0.97      0.97     45349
+   micro avg       0.98      0.98      0.98     45349
+   macro avg       0.88      0.96      0.92     45349
+weighted avg       0.98      0.98      0.98     45349
 
-accuracy:  0.9713995898476262
+accuracy:  0.9758759840349291
 </pre></div></div>
 </div>
-</div>
+<p>初期モデルの予測結果と，今回の予測結果を比較してみて下さい．</p>
 </div>
 <div class="section" id="ノイズ除去の効果検証">
-<h3>7.7.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<ul class="simple">
-<li>TODO: 説明 - 心電図波形には高周波ノイズ(筋電図ノイズ(Electromyogram
-noise)、加算性白色ガウスノイズ(Additive white Gaussian
-noise)力線妨害(power line
-interference))と、低周波ノイズ(基線変動ノイズ(baseline
-wandering))が含まれているため,
-徐脈などの異常波形をうまく判別するために,
-不要なノイズを除去する前処理を行うのが通例である</li>
-<li>TODO: 説明 - ノイズフィルタリングについて簡単に説明する</li>
-<li>TODO: MIT-BIHデータセットでは、≧0.1Hz &amp; ≦100Hzのband-pass
-filterが既に適用されているが、それよりも厳しめのフィルタリングを行い,
-その効果を検証する(<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm#selection">https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm#selection</a>)</li>
-<li>Pros:
-ノイズを除くことで徐脈などの異常波形パターンを特徴として捉えやすくなる可能性がある</li>
-<li>Cons: 波形に含まれている重要な情報が,
-フィルタリングによって失われる可能性がある</li>
-</ul>
+<h3>8.6.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>最後に，心電図に含まれるノイズの除去について検討します．</p>
+<p>心電図波形には，以下のような外部ノイズが含まれている可能性があります．
+* 高周波 * 筋電図ノイズ (Electromyogram noise) -
+体動により，筋肉の電気的活動が心電図に混入する場合があります． *
+電力線誘導障害 (Power line interference) -
+静電誘導により交流電流が流れ込み，心電図に混入する場合があります． -
+電源配線に電流が流れることで磁力線が発生し，電磁誘導作用により交流電流が流れ込む場合があります．
+* 加算性白色ガウスノイズ (Additive white Gaussian noise) -
+外部環境に由来する様々な要因でホワイトノイズが混入してきます． * 低周波
+* 基線変動 (Baseline wandering) -
+電極の装着不良，発汗，体動などの影響で，基線がゆっくり変動する場合があります．</p>
+<p>心電図を解析する際は，頻脈や徐脈などの異常波形を正確に判別するために，上記のようなノイズ波形を除去する前処理が行われるのが一般的です．</p>
+<p>ノイズを除去する方法は幾つかありますが，最も単純なのは，線形フィルタを適用する方法です．今回は線形フィルタの一つであるバターワースフィルタを用いて，ノイズ除去を試してみましょう．</p>
+<p>BaseECGDatasetPreprocessorにシグナルノイズ除去の機能を追加した，DenoiseECGDatasetPreprocessorクラスを定義します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1998,28 +2029,27 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
         super(DenoiseECGDatasetPreprocessor, self).__init__(
         dataset_root, window_size)
 
-    def denoise_signal(
+    def _denoise_signal(
             self,
             signal,
+            btype=&#39;low&#39;,
             cutoff_low=0.2,
-            cutoff_high=30.,
+            cutoff_high=25.,
             order=5
     ):
         nyquist = self.sample_rate / 2.
-        if cutoff_low &lt;= 0.5 and cutoff_high &gt;= 2.5:
+        if btype == &#39;band&#39;:
             cut_off = (cutoff_low / nyquist, cutoff_high / nyquist)
-            b, a = butter(order, cut_off, analog=False, btype=&#39;band&#39;)
-        elif cutoff_low &lt;= 0.5:
+        elif btype == &#39;high&#39;:
             cut_off = cutoff_low / nyquist
-            b, a = butter(order, cut_off, analog=False, btype=&#39;high&#39;)
-        elif cutoff_high &gt;= 2.5:
+        elif btype == &#39;low&#39;:
             cut_off = cutoff_high / nyquist
-            b, a = butter(order, cut_off, analog=False, btype=&#39;low&#39;)
         else:
             return signal
+        b, a = butter(order, cut_off, analog=False, btype=btype)
         return lfilter(b, a, signal)
 
-    def create_data_slices(
+    def _segment_data(
             self,
             signal,
             symbols,
@@ -2058,62 +2088,53 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
             denoise=False,
             normalize=True
     ):
-        X, y = None, None
+        Xs, ys = [], []
         for i in range(len(record_list)):
-            signal, symbols, positions = self.load_data(record_list[i])
+            signal, symbols, positions = self._load_data(record_list[i])
             if denoise:
-                signal = self.denoise_signal(signal)
+                signal = self._denoise_signal(signal)
             if normalize:
-                signal = self.normalize_signal(signal)
-            if i == 0:
-                X, y = self.create_data_slices(signal, symbols, positions)
-            else:
-                X_tmp, y_tmp = self.create_data_slices(signal, symbols, positions)
-                X = np.vstack((X, X_tmp))
-                y = np.concatenate((y, y_tmp))
-        os.makedirs(os.path.join(self.dataset_root, mode), exist_ok=True)
-        np.save(os.path.join(self.dataset_root, mode, &quot;X.npy&quot;), X)
-        np.save(os.path.join(self.dataset_root, mode, &quot;y.npy&quot;), y)
+                signal = self._normalize_signal(signal)
+            X, y = self._segment_data(signal, symbols, positions)
+            Xs.append(X)
+            ys.append(y)
+        os.makedirs(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode), exist_ok=True)
+        np.save(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode, &quot;X.npy&quot;),
+                np.vstack(Xs))
+        np.save(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode, &quot;y.npy&quot;),
+                np.concatenate(ys))
 
 </pre></div>
 </div>
 </div>
+<p>線形フィルタを適用することで，学習モデルが異常拍動のパターンを特徴として捉えやすくなる可能性があります．一方で，異常拍動を検出するにあたって重要な情報も除去されてしまう可能性があることに注意してください．</p>
+<p>mitdbでは，予め0.1(Hz)以下の低周波と，100(Hz)以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，5(Hz)のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
+<p>それでは，ノイズ除去オプションを有効にして，前処理を実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>d_preprocessor = DenoiseECGDatasetPreprocessor(dataset_root)
+<span></span>DenoiseECGDatasetPreprocessor(dataset_root).prepare_dataset(denoise=True)
 </pre></div>
 </div>
 </div>
-<p>TODO: 説明 - 5次のButterworth filter
-(band-pass)を適用してノイズ除去を行う</p>
+<p>実際に，高周波ノイズ除去後の波形を可視化してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>d_preprocessor.prepare_dataset(denoise=True)
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>X_train_d = np.load(os.path.join(dataset_root, &#39;train&#39;, &#39;X.npy&#39;))
-y_train_d = np.load(os.path.join(dataset_root, &#39;train&#39;, &#39;y.npy&#39;))
+<span></span>X_train_d = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;train&#39;, &#39;X.npy&#39;))
+y_train_d = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;train&#39;, &#39;y.npy&#39;))
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [58]:
+<span></span>In [138]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2130,29 +2151,31 @@ plt.show()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_95_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_95_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_119_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_119_0.png" />
 </div>
 </div>
-<p>左図がフィルタリング前、右図がフィルタリング後</p>
+<p>左図がフィルタリング前の波形、右図がフィルタリング後の波形です．
+細かな振動が取り除かれていることが確認できると思います．</p>
+<p>これまでと同様に，ノイズ除去後のデータを用いて学習を行ってみましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>train_dataset = create_datasets(dataset_root)
+<span></span>train_dataset = create_train_dataset(dataset_root)
 test_dataset = create_test_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [60]:
+<span></span>In [140]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>trainer = create_trainer(256, train_dataset, nb_epoch=1, device=0)
-trainer.run()
+%time trainer.run()
 </pre></div>
 </div>
 </div>
@@ -2162,37 +2185,40 @@ trainer.run()
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       iteration   main/loss   main/accuracy
-0           7           0.943153    0.905134
-0           14          0.281551    0.955357
-0           21          0.121105    0.958705
-0           28          0.114655    0.969308
-0           35          0.0611682   0.978795
-0           42          0.0549055   0.985491
-0           49          0.0551493   0.985491
-0           56          0.0432593   0.989397
-0           63          0.0180693   0.993862
-0           70          0.0263636   0.991071
-0           77          0.0160459   0.993862
-0           84          0.0230151   0.993304
-0           91          0.0140904   0.995536
-0           98          0.0230149   0.991071
-0           105         0.0100289   0.996094
-0           112         0.0459271   0.992188
-0           119         0.0229435   0.996094
-0           126         0.0124526   0.995536
-0           133         0.0254464   0.993304
-0           140         0.0123098   0.996094
-0           147         0.0184416   0.99442
-0           154         0.0127985   0.995536
-0           161         0.0119598   0.995536
-0           168         0.014755    0.996652
-0           175         0.0209538   0.993862
-0           182         0.00433033  0.998884
+0           7           2.24028     0.80692
+0           14          0.328245    0.916853
+0           21          0.360923    0.913504
+0           28          0.163021    0.93192
+0           35          0.141234    0.928571
+0           42          0.129063    0.949777
+0           49          0.0941628   0.965402
+0           56          0.0742349   0.978237
+0           63          0.335941    0.978237
+0           70          0.0603929   0.986607
+0           77          0.0421011   0.982701
+0           84          0.0385519   0.989397
+0           91          0.0233245   0.991629
+0           98          0.0455289   0.985491
+0           105         0.0246131   0.993862
+0           112         0.0383148   0.991071
+0           119         0.0293103   0.991071
+0           126         0.0343781   0.989397
+0           133         0.0310172   0.992188
+0           140         0.0185105   0.992188
+0           147         0.016249    0.996094
+0           154         0.0247926   0.991629
+0           161         0.0121612   0.99721
+0           168         0.030231    0.991629
+0           175         0.0218583   0.992188
+0           182         0.0146836   0.996094
+CPU times: user 1min 4s, sys: 10.1 s, total: 1min 14s
+Wall time: 1min 14s
 </pre></div></div>
 </div>
+<p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [61]:
+<span></span>In [141]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2205,13 +2231,13 @@ epoch       iteration   main/loss   main/accuracy
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CPU times: user 15 s, sys: 2.26 s, total: 17.3 s
-Wall time: 17.3 s
+CPU times: user 15 s, sys: 1.88 s, total: 16.9 s
+Wall time: 16.9 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [62]:
+<span></span>In [142]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2223,12 +2249,12 @@ Wall time: 17.3 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_100_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_100_0.png" />
+<img alt="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_125_0.png" src="../_images/notebooks_Sequential_Data_Analysis_with_Deep_Learning_125_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [63]:
+<span></span>In [143]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2243,27 +2269,39 @@ Wall time: 17.3 s
 <div class="highlight"><pre>
               precision    recall  f1-score   support
 
-           N       1.00      0.94      0.96     42149
-           V       0.53      0.95      0.68      3200
+      Normal       0.99      0.99      0.99     42149
+         VEB       0.90      0.87      0.89      3200
 
-   micro avg       0.94      0.94      0.94     45349
-   macro avg       0.76      0.94      0.82     45349
-weighted avg       0.96      0.94      0.94     45349
+   micro avg       0.98      0.98      0.98     45349
+   macro avg       0.95      0.93      0.94     45349
+weighted avg       0.98      0.98      0.98     45349
 
-accuracy:  0.9364484332620344
+accuracy:  0.9843215947429932
 </pre></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>
-</pre></div>
+<p>高周波のノイズを除去したことで，予測精度がどのように変わったか確認してみましょう．</p>
 </div>
 </div>
-</div>
+<div class="section" id="おわりに">
+<h2>8.7. おわりに<a class="headerlink" href="#おわりに" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>本章では，ECGの公開データセットを利用して，不整脈検知の問題に取り組みました．</p>
+<p>本講義内容を通じてお伝えしたかったことは，以下となります． 1.
+心電図を解析するにあたって必要となる最低限の知識 1.
+モニタリングデータを解析するための基本的な前処理手順 1.
+CNNベースのモデルを利用した学習器の構築 1.
+データセットの性質を考慮した学習方法や前処理の工夫</p>
+<p>また，今回は精度向上に向けて様々な手法を試してみましたが，現実世界のタスクにおいても，どの工夫が有効に働くか自明で無い場合がほとんどです．従って，試行錯誤を行いながら，その問題設定に適合するやり方を模索していく必要があります．</p>
+<p>さらなる取り組みとしては，例えば下記内容を検討する余地があります．（余力がある方は是非チャレンジしてみて下さい．）
+* 情報の追加 *
+第<span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math notranslate nohighlight">\(V_1\)</span>誘導シグナルを別チャネルとして入力して学習
+* 前処理の工夫 * 今回は2秒間のセグメントを切り出し →
+より長時間のセグメントを入力として，長期的な特徴を抽出 *
+使用するラベルの追加 (SVEB，F，Q) * ラベルの与え方の変更
+(セグメント範囲内に正常以外のピークラベルが含まれる場合に優先的にそのラベルを付与する，等)
+* モデルの変更 *
+長期的な特徴を抽出するために，CNNの後段にRNNベースの構造(LSTM,
+GRUなど)を組み込む</p>
+<p>以上で，モニタリングデータの時系列解析の章は終了となります．お疲れ様でした．</p>
 </div>
 </div>
 
@@ -2275,10 +2313,8 @@ accuracy:  0.9364484332620344
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="Basenji.html" class="btn btn-neutral float-right" title="8. 実践編：ディープラーニングを使った配列解析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="Blood_Cell_Detection.html" class="btn btn-neutral" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="Basenji.html" class="btn btn-neutral" title="7. 実践編：ディープラーニングを使った配列解析" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
