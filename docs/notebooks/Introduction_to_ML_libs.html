@@ -371,6 +371,7 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
+<p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Introduction_to_ML_libs.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <div class="section" id="機械学習ライブラリの基礎">
 <h1>2. 機械学習ライブラリの基礎<a class="headerlink" href="#機械学習ライブラリの基礎" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>ここでは、代表的な機械学習アルゴリズムの紹介とチューニングのポイントをその数学的な背景と合わせて紹介します。
@@ -394,9 +395,9 @@ div.nboutput div.output_area.stderr {
 <div class="section" id="Step1.-モデルを決める">
 <h3>2.2.2. Step1. モデルを決める<a class="headerlink" href="#Step1.-モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>まず<strong>Step1</strong>は<strong>モデル</strong>を決める。このモデルとは一見もっともらしい用語ではあるが、具体的には何であるのか。それは、出力変数<span class="math notranslate nohighlight">\(y\)</span>と入力変数<span class="math notranslate nohighlight">\(x\)</span>の関係性を定式化したものである。家賃の予測値を<span class="math notranslate nohighlight">\(y\)</span>とした際に、どのように定式化すればうまく予測することができるのか。このモデルは残念ながら機械が自動的に決めてくれるわけではなく、人間が経験と勘で決める作業になる。</p>
-<p><img alt="image0" src="../_images/01.png" /></p>
-<p>例えば、与えられたデータセットにおいて、家賃と部屋の広さの関係性が次のようになっている。数値は実際の家賃ではなく計算が簡単にできるように設定しているが、部屋の広さが広くなるほど、家賃が高くなるという設定である。このデータを見た際に、どのように予測のための線を描けば良いかと考えると、このように直線を引く人が多いのではないだろうか。</p>
 <p><img alt="image1" src="../_images/02.png" /></p>
+<p>例えば、与えられたデータセットにおいて、家賃と部屋の広さの関係性が次のようになっている。数値は実際の家賃ではなく計算が簡単にできるように設定しているが、部屋の広さが広くなるほど、家賃が高くなるという設定である。このデータを見た際に、どのように予測のための線を描けば良いかと考えると、このように直線を引く人が多いのではないだろうか。</p>
+<p><img alt="image2" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/02.png" /></p>
 <p>直線の式は中学の数学でもおさらいしたが、<span class="math notranslate nohighlight">\(y=ax+b\)</span>
 である。<span class="math notranslate nohighlight">\(a\)</span> を傾き、<span class="math notranslate nohighlight">\(b\)</span> を切片と呼んでいた。</p>
 <p>今回、このデータセットに対して、直線を引くことが適切であると（人間側の経験で）判断したため、以下のようにモデルを決める。</p>
@@ -414,11 +415,11 @@ div.nboutput div.output_area.stderr {
 として表す。ここで、添え字 <span class="math notranslate nohighlight">\(n\)</span>
 (<span class="math notranslate nohighlight">\(n=1,2,\ldots,N\)</span>)は<span class="math notranslate nohighlight">\(n\)</span>番目の物件という意味であり、<span class="math notranslate nohighlight">\(N\)</span>は全体の物件数のことである。この<span class="math notranslate nohighlight">\(N\)</span>を<strong>サンプル数</strong>という。</p>
 <p>ここで、この後の計算を楽に進めるために、<strong>データの中心化</strong>というテクニックを紹介する。図に示すように、部屋の広さと家賃は両方とも正の値であるため、左のグラフのような形になる。これは当然のことで問題はないが、これを中心化では、平均を0とした中央に配置するように変換の処理を施す。この中心化はどのアルゴリズムでも前処理として行うことが一般的である（厳密には正規化がよく用いられ、〇〇章で解説する）。</p>
-<p><img alt="image2" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/03.png" /></p>
+<p><img alt="image3" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/03.png" /></p>
 <p>この中心化の処理自体はそれほど難しいものではないが、なぜこのような処理を行うのかが問題である。それはデータの中心化によって、バイアス
 <span class="math notranslate nohighlight">\(b\)</span> が0となり、<span class="math notranslate nohighlight">\(y_{c} = wx_{c}\)</span>
 とすることができ、調整すべきパラメータを2つから1つに減らすことができる。</p>
-<p><img alt="image3" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/04.png" /></p>
+<p><img alt="image4" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/04.png" /></p>
 <p>今回は、2つのパラメータを手計算で求めることを楽にするために、このデータの標準化を前処理として使用することとする。一般に、数式を変形していく際に、バイアス
 <span class="math notranslate nohighlight">\(b\)</span>
 を省略できたほうが計算が楽なケースが多く、そのような場合は、前処理としてデータの標準化を行ったこととして、議論を進めることが多いため、この処理も覚えておいてほしい。</p>
@@ -428,9 +429,9 @@ div.nboutput div.output_area.stderr {
   x_{c} &amp;= x - \bar{x} \\
   t_{c} &amp;= t - \bar{t}
   \end{aligned}\end{split}\\となる。\end{aligned}\end{align} \]</div>
-<p><img alt="image4" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/05.png" /></p>
+<p><img alt="image5" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/05.png" /></p>
 <p>例えば、具体的な数値で見ると、下図となる。</p>
-<p><img alt="image5" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/06.png" /></p>
+<p><img alt="image6" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/06.png" /></p>
 <p>この処理をプログラムで書くことは非常に容易である。</p>
 <p>添え字の <span class="math notranslate nohighlight">\(c\)</span>
 に関して、この先も書いていくと表現が冗長となるため、今後はこの添え字を省略し、データの中心化を事前に行っていることを前提とする。この時、モデルは</p>
@@ -764,11 +765,11 @@ L&amp;=t^{T}t-2t^{T}Xw+w^{T}X^{T}Xw\\
 &amp;=w^{2}_{2}+\left( 5w_{1}+2\right) w_{2}+\left( w^{2}_{1}+w_{1}+1\right) \end{aligned}\end{split}\]</div>
 <p>のようにそれぞれの二次関数であることがわかる。ただし、<span class="math notranslate nohighlight">\(w_{1}\)</span>と<span class="math notranslate nohighlight">\(w_{2}\)</span>が独立であるといった仮定もあるが、詳細な仮定は数式が複雑になるため、ひとまず置いておくとする。</p>
 <p>そして、二次関数であれば、このような形となることがわかる。</p>
-<p><img alt="image6" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/5/01.png" /></p>
+<p><img alt="image7" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/5/01.png" /></p>
 <p>これを3次元でイメージすると、下図のようになる。</p>
-<p><img alt="image7" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/5/02.png" /></p>
+<p><img alt="image8" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/5/02.png" /></p>
 <p>そして、各変数で微分して傾きが0となる位置において、目的関数である二乗誤差の総和が最小となる点である。</p>
-<p><img alt="image8" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/5/03.png" /></p>
+<p><img alt="image9" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/5/03.png" /></p>
 <p>この例では、<span class="math notranslate nohighlight">\(w_{1}\)</span> と <span class="math notranslate nohighlight">\(w_{2}\)</span>
 の２つのパラメータの場合で考えたが、これは <span class="math notranslate nohighlight">\(w_{1}\)</span>, <span class="math notranslate nohighlight">\(w_{2}\)</span>,
 <span class="math notranslate nohighlight">\(\ldots\)</span>, <span class="math notranslate nohighlight">\(w_{M}\)</span>
