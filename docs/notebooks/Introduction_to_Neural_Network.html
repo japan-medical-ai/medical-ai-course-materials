@@ -82,16 +82,15 @@
 <li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. ニューラルネットワーク</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#step1">3.1. Step1. モデルを決める</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#">3.1.1. 線形変換</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#">3.1.2. 非線形変換</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#">3.1.3. 数値例で流れを確認</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Step1.-モデルを決める">3.1. Step1. モデルを決める</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#線形変換">3.1.1. 線形変換</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#非線形変換">3.1.2. 非線形変換</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#数値例で計算の流れを確認">3.1.3. 数値例で計算の流れを確認</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#step2">3.2. Step2. 目的関数を決める</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step3">3.3. Step3. パラメータを最適化する</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#">3.4. 勾配が消失する問題</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#">3.5. 誤差逆伝播法</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Step2.-目的関数を決める">3.2. Step2. 目的関数を決める</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Step3.-パラメータを最適化する">3.3. Step3. パラメータを最適化する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#勾配が消失する問題">3.4. 勾配が消失する問題</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">4. Deep Learningフレームワークの基礎</a></li>
@@ -150,7 +149,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/notebooks/Introduction_to_Neural_Network.md.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/notebooks/Introduction_to_Neural_Network.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -182,300 +181,288 @@
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<div class="section" id="">
-<span id="id1"></span><h1>3.5. ニューラルネットワーク<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>ここでは、ディープラーニングの基礎となっているニューラルネットワークについて紹介する。いくつかの参考書を読み、ディープラーニングとニューラルネットワークの境界線を明確に定義しているものは見つからなかったが、歴史学者としては明確な定義が必要かもしれないが、読者の皆さんにとっては、第二次AIブームで使わていたものと、現在到来している第三次AIブームで使われているものではないだろうか。この章ではニューラルネットワークと題して、第二次AIブームで使われていた3層までのニューラルネットワークを扱い、次の章では多層のニューラルネットワークや学習の工夫、データの取り扱いなど第三次AIブームで使われている手法や工夫についてディープラーニングと題して紹介することとする。このように区別することで、技術がどのように進展してきたかを感じることができ、またこれから取り組む際にどの手法を選択すれば良いかが明確になるであろう。</p>
-<div class="section" id="step1">
-<span id="step1"></span><h2>3.1. Step1. モデルを決める<a class="headerlink" href="#step1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ニューラルネットワークでは、以下のような構造となっている。</p>
-<p><img alt="" src="notebooks/images/8/01.png" /></p>
-<p>一つ一つの丸のことをノードと呼び、そのノードの集まりを層と呼ぶ。入力層から始まり、中間層へ、そして出力層へと計算を進めていく。このモデルは3層構造となっており、中間層の数を増やすことで多層のニューラルネットワークとなる。すべてのノードが結合されているため、<strong>全結合のニューラルネットワーク</strong>とも呼ぶ。これはディープラーニングの章で紹介する他のニューラルネットワークの構造と対比するための呼び方である。</p>
-<p>入力変数の扱い方はこれまでと同様であるが、出力変数の扱い方がこれまでと異なる。例えば、上図では白ワインと赤ワインを分類するような問題を例に挙げているが、これまで2つのカテゴリの分類の場合、$y \in {-1, 1}$ のようにひとつの出力変数のとる値で属するカテゴリを指定していた。それに対して、ニューラルネットワークでは、白ワイン用の出力変数 $y_{1}$ と赤ワイン用の出力変数 $y_{2}$ のそれぞれが準備されている。なぜこのような構造となっているのだろうか。</p>
-<p><img alt="" src="notebooks/images/8/02.png" /></p>
-<p>この答えの前に、最終的にニューラルネットワークではどのような出力が得られるかを見てみる。例えば、年数が3年物でアルコール度数が14度、$[0, 1]$の値を取る白さ、黒さがそれぞれ0.2と0.8だとする。読者の皆さんの経験では、これは白ワインか赤ワインのどちらであろうか。多くの方が赤ワインだと答えるであろう。内部の計算は後述するが、このようなデータをニューラルネットワークに与えると、白ワイン $y_{1} = 0.15$, 赤ワイン $y_{2}= 0.85$ という値が得られる。そして、最も大きな値である赤ワインを分類の結果として採用する。ここで出力の値に注目すると、合計すると1になっている。そのため、すべての候補を足し合わせると1になるという性質から確率の議論を適用することができる。この詳細も後述する。いま注目して欲しい点としては、パーセプトロンのような分類の手法では、白ワインか赤ワインかといったどのカテゴリに属するかしかわからなかったものの、ニューラルネットワークでは、どのクラスにどのくらいの確率で属すかまで知ることができる。前者の境界線だけを求める手法を<strong>識別関数</strong>、後者の各カテゴリに属する確率まで求める手法を<strong>識別モデル</strong>という。また、これと並んで確率の知見を取り入れてデータの分布を直接求める手法を<strong>生成モデル</strong>と呼ぶが、これは本書の後半で登場する。</p>
-<p>そして、もう一点確認したいこととして、ニューラルネットワークは回帰か分類どちらを扱う手法だろうか。答えは両方扱うことができる。ただし、最終的な出力は連続値となっていることから、ニューラルネットワークは基本的には回帰の手法であり、この値を使って分類も行えるということである。また、ニューラルネットワークでは数式もプログラミングも<strong>2層で1セット</strong>として扱うことを覚えておいてほしい。多いものだと100層を超えるため全体で考えると複雑になりすぎるため、2層ごとに分割してその連結という風に考えると、取り扱いやすいものとなる。</p>
-<p>それでは具体的な手順を解説していく。以下の図のような前半の2層をまず切り出す。内部では<strong>線形変換</strong>と<strong>非線形変換</strong>の2つの処理が行われており、それぞれ紹介する。</p>
-<p><img alt="" src="notebooks/images/8/03.png" /></p>
-<div class="section" id="">
-<span id="id2"></span><h3>3.5. 線形変換<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>重回帰分析と同様に、重み×入力+バイアスの計算を行う。
-$$
-\begin{aligned}
-u_{11}=w_{11}h_{01}+w_{12}h_{02}+w_{13}h_{03}+w_{14}h_{04}+b_{1}\
-u_{12}=w_{21}h_{01}+w_{22}h_{02}+w_{23}h_{03}+w_{24}h_{04}+b_{2}\
-u_{13}=w_{31}h_{01}+w_{32}h_{02}+w_{33}h_{03}+w_{34}h_{04}+b_{2}
-\end{aligned}
-$$
-のように計算を行う。これを行列でまとめると、
-$$
-\begin{aligned}
+<div class="section" id="ニューラルネットワーク">
+<h1>3. ニューラルネットワーク<a class="headerlink" href="#ニューラルネットワーク" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>ここでは，ディープラーニングのベースとなっているニューラルネットワーク
+(Neural Network)
+について紹介していきます．このニューラルネットワークをベースに画像向けの
+Convolutional Neural Network (CNN) や系列向けの Recurrent Neural Network
+(RNN)
+のように実問題における表現まで学習できるような工夫を追加したものを総称してディープラーニングと呼び，後半で扱っていきます．ディープラーニングの理論も魅力的ですが，まずはニューラルネットワークの数学をしっかりと理解しておくことが重要です．ニューラルネットワークの数学の理解には，重回帰分析の理解が大いに役立つはずです．またこれに加えて，非線形なモデリングや最適化の理論が新たに加わるため，楽しんで学んでいきましょう．ニューラルネットワークでもこれまでと同様に，モデルを決め，目的関数を決め，パラメータの更新を行います．</p>
+<div class="section" id="Step1.-モデルを決める">
+<h2>3.1. Step1. モデルを決める<a class="headerlink" href="#Step1.-モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>まずはニューラルネットワークの構造を数式ではなくグラフィカルに見てみましょう．</p>
+<p><img alt="image0" src="../_images/01.png" /></p>
+<p>ひとつひとつの丸い部分のことを<strong>ノード</strong>と呼び，そのノードの集まりを<strong>層</strong>と呼びます．そして，一番初めの層を<strong>入力層</strong>，最後の層を<strong>出力層</strong>，そしてその間を<strong>中間層</strong>もしくは<strong>隠れ層</strong>と呼びます．このモデルは入力層，中間層，出力層の３層の構造となっていますが，中間層の数を増やすことでさらに多層のニューラルネットワークとして定義することもできます．こちらでは各層間の全てのノードが結合されているため，<strong>全結合のニューラルネットワーク</strong>とも呼び，ニューラルネットワークの最も基礎的な構造です．</p>
+<p>入力変数の扱い方はこれまでと同様ですが，出力変数の扱い方がこれまでと異なります．例えば，上図では白ワインと赤ワインを分類するような問題を例に挙げていますが，SVMなどの機械学習の場合，<span class="math notranslate nohighlight">\(y \in \{-1, 1\}\)</span>
+のようにひとつの出力変数のとる値で属するカテゴリを指定していました．それに対して，ニューラルネットワークでは，白ワイン用の出力変数
+<span class="math notranslate nohighlight">\(y_{1}\)</span> と赤ワイン用の出力変数 <span class="math notranslate nohighlight">\(y_{2}\)</span>
+のカテゴリの数だけ出力の変数が準備されています．なぜこのような構造となっているのでしょうか．</p>
+<p><img alt="image1" src="../_images/02.png" /></p>
+<p>この答えの前に，最終的にニューラルネットワークではどのような出力の結果が得られるかを見てみましょう．例えば，年数が3年物でアルコール度数が14度，色合いが0.2，匂いが0.8のように定量評価できるワインがあるとしましょう．内部の計算は後述するとして，このようなデータをニューラルネットワークに与えると，白ワイン
+<span class="math notranslate nohighlight">\(y_{1} = 0.15\)</span>, 赤ワイン <span class="math notranslate nohighlight">\(y_{2}= 0.85\)</span>
+という値が得られるとしましょう．そして，最終的に最も大きな値である赤ワインを分類の結果として採用します．ここで出力の値に注目すると，合計すると1になっており，これは偶然ではなく一般的に成立するような機構になっています．</p>
+<p>いま注目して欲しい点としては，SVMのような分類の手法では，白ワインか赤ワインかといったどのカテゴリに属するかしかわからなかったものの，ニューラルネットワークでは，どのクラスにどのくらいの確率で属すかまで知ることができます．前者の各カテゴリの境界線だけを求める手法を<strong>識別関数</strong>，後者の各カテゴリに属する確率まで求める手法を<strong>識別モデル</strong>と呼びます．また，これと並んで確率の知見を取り入れてデータの分布を直接求める手法を<strong>生成モデル</strong>と呼びますが，これは<strong>ベイズ統計</strong>をベースとしているため，さらに余裕が出てきてから取り組むことをお勧めします．</p>
+<p>そして，もう一点確認したいこととして，ニューラルネットワークは回帰か分類どちらを扱う手法であるかです．答えは両方扱うことができます．ただし，最終的な出力は連続値となっていることがわかると思います．そのため，ニューラルネットワークは基本的には回帰の手法であり，この出力の値を使って分類も行えるということで，回帰も分類も両方の問題設定が扱えるわけです．</p>
+<p>それでは，ここからニューラルネットワークの数学を本格的に扱っていきましょう．ニューラルネットワークでは数式もプログラミングも<strong>2層で1セット</strong>として扱うことを覚えておいてください．多いものだと100層を超えるため全体のモデルで考えると複雑になりすぎるため，2層ごとに分割してその連結で考えていきます．線形変換と非線形変換の2つの手順を流れに沿って紹介していきます．</p>
+<div class="section" id="線形変換">
+<h3>3.1.1. 線形変換<a class="headerlink" href="#線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><img alt="image2" src="../_images/03.png" /></p>
+<p>線形変換では，重回帰分析のときと同様に，重み (<span class="math notranslate nohighlight">\(w\)</span>) ×入力
+(<span class="math notranslate nohighlight">\(h\)</span>) + バイアス (<span class="math notranslate nohighlight">\(b\)</span>)
+の計算を行います．これからは，<span class="math notranslate nohighlight">\(h\)</span>
+が文字としてよく登場しますが，隠れ層 (hidden layer) の頭文字である
+<span class="math notranslate nohighlight">\(h\)</span> です．全てのノードについてそれぞれ考えると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+u_{11}&amp;=w_{11}h_{01}+w_{12}h_{02}+w_{13}h_{03}+w_{14}h_{04}+b_{1} \\
+u_{12}&amp;=w_{21}h_{01}+w_{22}h_{02}+w_{23}h_{03}+w_{24}h_{04}+b_{2} \\
+u_{13}&amp;=w_{31}h_{01}+w_{32}h_{02}+w_{33}h_{03}+w_{34}h_{04}+b_{2}
+\end{aligned}\end{split}\]</div>
+<p>のように計算を行います．これを行列でまとめると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
 \begin{bmatrix}
-u_{11} \
-u_{12} \
+u_{11} \\
+u_{12} \\
 u_{13}
 \end{bmatrix}&amp;=\begin{bmatrix}
-w_{11} &amp; w_{12} &amp; w_{13} &amp; w_{14} \
-w_{21} &amp; w_{22} &amp; w_{23} &amp; w_{24} \
+w_{11} &amp; w_{12} &amp; w_{13} &amp; w_{14} \\
+w_{21} &amp; w_{22} &amp; w_{23} &amp; w_{24} \\
 w_{31} &amp; w_{32} &amp; w_{33} &amp; w_{34}
 \end{bmatrix}\begin{bmatrix}
-h_{01} \
-h_{02} \
-h_{03} \
+h_{01} \\
+h_{02} \\
+h_{03} \\
 h_{04}
 \end{bmatrix}+\begin{bmatrix}
-b_{1} \
-b_{2} \
+b_{1} \\
+b_{2} \\
 b_{3}
-\end{bmatrix}\
-u_{1}&amp;=Wh_{0}+b
-\end{aligned}
-$$
-のようになる。本来は$W$や$b$にも添え字をつけるべきではあるが、記号が複雑になってくるため、細かい判断が必要な場合にのみ付けることとする。厳密な定義としては $u = Wh$ が線形変換であるが、バイアス $b$ を $W$ に包含すればこのような式でも表現できるため、この $u = Wh + b$ の計算を線形変換と呼ぶ。</p>
+\end{bmatrix}\\
+\boldsymbol{u}_{1}&amp;=\boldsymbol{W}\boldsymbol{h}_{0}+\boldsymbol{b}
+\end{aligned}\end{split}\]</div>
+<p>のようにまとめることができます．本来は <span class="math notranslate nohighlight">\(\boldsymbol{W}\)</span> や
+<span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span>
+にも添え字をつけるべきではありますが，記号が複雑になってくるため今回は省略します．厳密な定義としては
+<span class="math notranslate nohighlight">\(\boldsymbol{u} = \boldsymbol{W}\boldsymbol{h}\)</span>
+が線形変換であるが，重回帰分析でも紹介した通り，バイアス
+<span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span> を <span class="math notranslate nohighlight">\(\boldsymbol{W}\)</span>
+に包含すればこのような式でも表現できるため，この
+<span class="math notranslate nohighlight">\(\boldsymbol{u} = \boldsymbol{W}\boldsymbol{h} + \boldsymbol{b}\)</span>
+の計算でも線形変換と呼んでいます．</p>
 </div>
-<div class="section" id="">
-<span id="id3"></span><h3>3.5. 非線形変換<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="" src="notebooks/images/8/04.png" /></p>
-<p>これまでは、上図左側のように $y = wx + b$ で扱える範囲の手法のみ紹介していたが、実データでは右のように入出力間の関係が直線（や超平面）では表現できない非線形なデータ構造も存在する。この場合、どのように対処すれば良いだろうか。後の章で紹介するサポートベクターマシンではカーネルトリックという方法を使うが、ニューラルネットワークでは内部に非線形変換の関数を取り入れる。これにより、入出力間の非線形性に対応できると考えたのである。この非線形変換を行う関数を <strong>活性化関数</strong> と呼ぶ。</p>
-<p><img alt="" src="notebooks/images/8/05.png" /></p>
-<p>ニューラルネットワークでは一般的にこの<strong>シグモイド関数</strong>
-$$
-h = f(u) = \dfrac{1}{1+e^{-u}}
-$$
-が用いられてきた。少し前まではどの参考書にも載っていたが、最近ではあまり見かけないものとなっている。これは絶対値的に大きな値に対して、+1 もしくは -1 に近似していき、入力となる値の大きさによる出力の値の変化が薄くなってしまう性質と、後述する<strong>勾配が消失する</strong>問題があるためである。前者はスケーリングによってある程度解決することができるが、後者の問題は多層ニューラルネットワークの学習に対する大きな障害となってしまうのである。</p>
-<p><img alt="" src="notebooks/images/8/06.png" /></p>
-<p>最近では標準的に上図の <strong>Relu関数</strong>
-$$
-h = f(u) = \max(0, u)
-$$
-を使用する。この関数は負の値では出力が0で、正の値はそのまま出力する。シグモイド関数における絶対値的に大きな値で変化が薄れていく問題を解決していることは直感的にわかるが、本当に注目されるべき点としては、このRelu関数は勾配が消失する問題を解決している。この関数は第三次AIブーム以降標準的に使われるようになって手法であるため、次の章で紹介すべきであるが、この後の数値例でシグモイド関数を手計算することが厳しいため、ここで先に紹介している。</p>
+<div class="section" id="非線形変換">
+<h3>3.1.2. 非線形変換<a class="headerlink" href="#非線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><img alt="image3" src="../_images/04.png" /></p>
+<p>これまでは，上図左側のように <span class="math notranslate nohighlight">\(y = wx + b\)</span>
+で扱える範囲の手法のみ紹介していましたが，実データでは上図右のように入出力間の関係が直線（や超平面）では表現できない非線形な関係性の場合もあります．この場合，どのように対処すれば良いでしょうか．すでに紹介していたサポートベクターマシンでは<strong>カーネルトリック</strong>と呼ばれる方法を使いますが，数式を理解するのが一苦労です．ニューラルネットワークではもう少し考え方が簡単であり，内部に非線形な関数を各ノードが取り入れます．この組み合わせをうまく調整していくことにより，入出力間の非線形性に対応できると考えました．この非線形変換を行う関数を
+<strong>活性化関数</strong> と呼びます．</p>
+<p><img alt="image4" src="../_images/05.png" /></p>
+<p>ニューラルネットワークでは上図に示す<strong>シグモイド関数</strong></p>
+<div class="math notranslate nohighlight">
+\[h = f(u) = \dfrac{1}{1+e^{-u}}\]</div>
+<p>がよく用いられてきて，教科書でも良く紹介されています．しかし，最近ではあまり使われないものとなってきており，理由は後述しますが<strong>勾配が消失する</strong>といわれる問題であり，多層のニューラルネットワークにする際のボトルネックになってしまいました．そこで，最近では，よく登場するものとして，<strong>Relu関数</strong></p>
+<p><img alt="image5" src="../_images/06.png" /></p>
+<div class="math notranslate nohighlight">
+\[h = f(u) = \max(0, u)\]</div>
+<p>が使われることが多くなりました．この関数は入力が負の値の場合に出力が0で，正の値はそのまま出力するといった特性を持っています．このRelu関数はシグモイド関数で問題となっていた勾配が消失する問題に対する解決策のひとつであり，多層のニューラルネットワークを構成する際になくてはならない存在となりました．</p>
 </div>
-<div class="section" id="">
-<span id="id4"></span><h3>3.5. 数値例で流れを確認<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="" src="notebooks/images/8/07.png" /></p>
-<p>数式が多くイメージが湧きにくいため、上図の数値例で出力$y$までの計算の流れを確認していく。今回は計算を簡略化するためバイアス $b$ は省略している。$x^{T} = \begin{bmatrix} 2 &amp; 3 &amp; 1 \end{bmatrix}$ が与えられた時の出力 $y$ を計算してみる。</p>
-<p>まずどこから計算を始めるかが肝心であるが、パラメータ $W$ の値が具体的な数値として決まっていないと計算を始めることができない。これはパーセプトロンの時も同様であった。そこで、パラメータ $W$ の値を乱数で決定し、今回は上図のような値となったとする。ここで、あくまでこのパラメータの初期値は乱数であり、予測にとって良いパラメータではなく、パーセプトロン同様、これらのパラメータを調整していくことが学習である。</p>
-<p>パラメータの初期値に対して、線形変換を計算すると、
-$$
-\begin{aligned}
-u_{11}&amp;=3\times 2+1\times 3+2\times 1=11\
+<div class="section" id="数値例で計算の流れを確認">
+<h3>3.1.3. 数値例で計算の流れを確認<a class="headerlink" href="#数値例で計算の流れを確認" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><img alt="image6" src="../_images/07.png" /></p>
+<p>ここでは，これまでに数式が多くイメージが湧きにくかったため，上図の数値例で出力
+<span class="math notranslate nohighlight">\(y\)</span>
+までのニューラルネットワークの計算の流れを確認していき，具体的な計算手順のイメージを把握しておきましょう．今回は計算を簡略化するためバイアス
+<span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span>
+は省略しています．数値例として，<span class="math notranslate nohighlight">\(\boldsymbol{x}^T = \begin{bmatrix} 2 &amp; 3 &amp; 1 \end{bmatrix}\)</span>
+が与えられた時の出力 <span class="math notranslate nohighlight">\(y\)</span> を計算してみましょう．</p>
+<p>機械学習のアルゴリズムを考える場合に，肝となることが「どこから計算を始めるか」です．パラメータ
+<span class="math notranslate nohighlight">\(\boldsymbol{W}\)</span>
+が計算の過程で登場するのですが，この値が決まっていないと計算を始めることができません．重回帰分析では，定式化したまま微分の値が0となるように計算ができましたが，ニューラルネットワークではモデルの構造上，この微分の値が0となるようなパラメータを直接求めることは難しいという背景があります．その代わり，微分を利用した別の方法でうまくパラメータを最適化していけるため，その方法は後述します．そして，パラメータを直接求めることができない場合は，ひとまずランダムでも良いので，パラメータの初期値を仮で決めます．そこからどの程度悪かったのか・良かったのかを見て，良い方向に進むようにさらにパラメータを調整していくといったアプローチをとります．</p>
+<p>パラメータの初期値に対して，線形変換を計算すると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+u_{11}&amp;=3\times 2+1\times 3+2\times 1=11\\
 u_{12}&amp;=-2\times 2-3\times 3-1\times 1=-11
-\end{aligned}
-$$
-となり、Relu関数を活性化関数とすると非線形変換は
-$$
-\begin{aligned}
-h_{11} &amp;= \max(0, 11) = 11 \
+\end{aligned}\end{split}\]</div>
+<p>となります．次に非線形変換ですが，活性化関数としてRelu関数を採用した場合，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+h_{11} &amp;= \max(0, 11) = 11 \\
 h_{12} &amp;= \max(0, -11)  = 0
-\end{aligned}
-$$
-となる。理論的には難しく感じたかもしれないが、実際の計算は簡単である。そして、同様に出力y（今回は活性化関数なし）を計算すると、
-$$
-y = 3 \times 11 + 2 \times 0 = 33
-$$
-となる。</p>
+\end{aligned}\end{split}\]</div>
+<p>となります．そして，<span class="math notranslate nohighlight">\(y\)</span> まで同様に計算すると，</p>
+<div class="math notranslate nohighlight">
+\[y = 3 \times 11 + 2 \times 0 = 33\]</div>
+<p>となります．理論の話の際には難しく感じたかもしれませんが，実際の計算は足し算と掛け算が主であり，とても簡単であることがわかります．</p>
+<p>さて，次項以降では残していたパラメータ更新のための原理について数式を使ってさらに理解を深めていきましょう．</p>
 </div>
 </div>
-<div class="section" id="step2">
-<span id="step2"></span><h2>3.2. Step2. 目的関数を決める<a class="headerlink" href="#step2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ニューラルネットワークでは、回帰と分類によって目的関数が異なる。</p>
-<p>まず回帰では重回帰分析と同様に二乗誤差を使用する。一般にフレームワークで実装されているものは、<strong>平均二乗誤差</strong>
-$$
-\mathcal{L} = \dfrac{1}{N} \sum_{n=1}^{N}(t_{n} - y_{n})^{2}
-$$
-である。これまでの総和を平均に変更しただけである。</p>
-<p>つぎに、分類では<strong>クロスエントロピー</strong>
-$$
-\mathcal{L} = \dfrac{1}{N}\sum_{n=1}^{N}t_{n}\log y_{n}
-$$
-を目的関数として採用する。この式を見るに直感的に理解できるものではなく前提知識も必要となるため、これは情報量の章で説明することとする。現状では二乗誤差と同様、分類による間違いを定量評価できる関数であるとの認識程度で大丈夫である。</p>
-<p>それでは簡単な練習ではあるが、先ほどの例題に対して、教師データ $t = 20$ の場合、平均二乗誤差は
-$$
-\mathcal{L} = \dfrac{1}{1} (20 - 33)^2 = 169
-$$
-となる。</p>
+<div class="section" id="Step2.-目的関数を決める">
+<h2>3.2. Step2. 目的関数を決める<a class="headerlink" href="#Step2.-目的関数を決める" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ニューラルネットワークでは，回帰と分類の両方に対応することができますが，問題設定によって目的関数は異なります．回帰では重回帰分析と同様に<strong>二乗誤差</strong>を使用します．Chainerのフレームワークで実装されているものは<strong>平均二乗誤差</strong>
+(mean squared error)</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L} = \dfrac{1}{N} \sum_{n=1}^{N}(t_{n} - y_{n})^{2}\]</div>
+<p>であり，重回帰分析の総和に対して平均を採用しているだけであり，これまでの議論と本質的な部分が変わることはありません．つぎに，分類では<strong>クロスエントロピー</strong></p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L} = - \dfrac{1}{N}\sum_{n=1}^{N}t_{n}\log y_{n}\]</div>
+<p>を目的関数として採用します．<span class="math notranslate nohighlight">\(log\)</span>
+が登場したりと難しそうに見えるかもしれませんが，この意味をさらに知りたい方は<strong>情報理論</strong>の基礎的な部分を学ぶと理解することができます．ひとまず，分類における損失を定量評価できる関数だと考えて進めていくことにしましょう．</p>
+<p>それでは先ほどの例題に対して，教師データ <span class="math notranslate nohighlight">\(t = 20\)</span>
+の場合の計算を行ってみると，回帰の目的関数となる平均二乗誤差は</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L} = \dfrac{1}{1} (20 - 33)^2 = 169\]</div>
+<p>となります．</p>
 </div>
-<div class="section" id="step3">
-<span id="step3"></span><h2>3.3. Step3. パラメータを最適化する<a class="headerlink" href="#step3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>確認のため、ニューラルネットワークのパラメータは、各層における $W$ と $b$ である。Relu関数などを活性化関数を使用する場合、パーセプトロンと同様に、パラメータが与えられるまで計算ができない。そのため、各パラメータに対して微分を行い、最急降下法などでその傾きの逆方向に移動していき、最良となるパラメータを探索する。ニューラルネットワークでは、これまでのモデルよりも複雑であるため、微分の計算に多少の慣れが必要である。</p>
-<p><img alt="" src="notebooks/images/8/08.png" /></p>
-<p>まずここでは簡単な例を元に、微分の計算方法を考えていく。ニューラルネットワークでは<strong>誤差逆伝播法</strong>という美しく計算できる方法もあるが、これは慣れてきてから紹介するとして、まずは計算のイメージをつかめるよう、上図の$w1$ と $w_{2}$ の2点での微分を考えることとする。</p>
-<p>$w_{1}$ での微分から考える。はじめに、目的関数からターゲットとなっている $w_{1}$ までの計算を洗い出すと、
-$$
-\begin{aligned}
-\mathcal{L} &amp;= \dfrac{1}{N}\sum_{n=1}^{N}(t_n - y_{n})^{2} \
+<div class="section" id="Step3.-パラメータを最適化する">
+<h2>3.3. Step3. パラメータを最適化する<a class="headerlink" href="#Step3.-パラメータを最適化する" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>それでは，重回帰分析とは異なる点であるニューラルネットワークにおけるパラメータの最適化について考え方を理解していきましょう．まず確認として，ニューラルネットワークにおけるパラメータは，各層における
+<span class="math notranslate nohighlight">\(\boldsymbol{W}\)</span> と <span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span>
+です．式で書かないと少しわかりにくいのですが，ニューラルネットワークでは各パラメータに対する微分を定式化したまま求めることは難しいのですが，各パラメータの値を決めた状態では各点での導関数の値は求めることができます．この各点での導関数の値は<strong>微分係数</strong>と呼びますが，この値がわかるということはパラメータを最適化するときには大きなメリットがあります．</p>
+<p>それでは，図も使って微分係数を使ったパラメータの最適化について考えていきましょう．まず何も計算していない状況ですが，例えばこの点線のようなパラメータ
+<span class="math notranslate nohighlight">\(w\)</span> に対する目的関数 <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>
+が存在するとしましょう．この例では二次関数になっていますが，実際にはもっと複雑な関数であることが多いです．実際には目的関数の形を把握することができないため，点線で示されている目的関数は「神のみぞ知る」といったものです．さて，この全体像も全く見えない中，どうやって計算機を使って最適なパラメータを見つけていくのでしょうか．</p>
+<p><img alt="image7" src="notebooks/images/3/13.png" /></p>
+<p>ニューラルネットワークでは，はじめにランダムでも良いのでパラメータの初期値を決定すると数値例で紹介しました．例えば，ランダムに決定した結果
+<span class="math notranslate nohighlight">\(w=3\)</span>
+になったとしましょう．そうなると，後述する計算式で接線の傾きである微分係数が求まります．</p>
+<p><img alt="image8" src="notebooks/images/3/10.png" /></p>
+<p>例えば，求めた結果，微分係数が 3
+であったとしましょう．もちろんランダムに決めた初期値であるため，神のみぞ知る目的関数としては最適なパラメータとして決定できているわけではありません．それでは，神のみぞしる目的関数の全体像が今見えているみなさんであれば，つぎに移動するとすれば「＋方向」か「ー方向」のどちらを選ぶでしょうか．「ー方向」を選ぶ方が多いはずです．それでは，この処理を計算機で行わせるために，その戦略を考えると，傾きが正（＋）の値であったため，逆に負（ー）の方向に進むという方法はいかがでしょうか．さらに傾きの値も使って，「-1
+× 3 進む」という風に考えてみます．ただし，「-1 × 3
+進む」と逆に行き過ぎてしまうかもしれないため，「-1 × 0.5 × 3
+進む」という風に進み具合を調整できる<strong>学習係数</strong> (learning rate)
+を導入すると，「-1.5 進む」となり，次のパラメータの値へ移動します．</p>
+<p><img alt="image9" src="notebooks/images/3/11.png" /></p>
+<p>そして，この点においても，傾きを求めてみると，例えば -1
+であったとしましょう．右肩下がりであるため，負の値となります．そうすれば，傾きが負の値の時は，逆に正（＋）の方向に移動すればよさそうであるため，「-1
+× 0.5 × -1 進む」としましょう．</p>
+<p><img alt="image10" src="notebooks/images/3/12.png" /></p>
+<p>このように「-1 × 学習係数×
+微分係数」と移動していきながら，傾きが0となれば終了とすれば，全体像が見えない中でも目的関数が最小となる点に到達することができます．厳密には，初期値に最も近い点での谷である<strong>局所最適解</strong>に落ちる方法であり，下図に示すように常に<strong>大域的最適解</strong>が求まるわけではありません．初期値の選び方に大きく依存するのですが，その初期値をうまく選ぶことは難しい問題であるため，基本的には局所最適解で良しとしています．複数の初期値で学習を行い，最終的にもっとも良かったものを選択するという方法もありますが，ニューラルネットワーク以降のディープラーニングでは学習に大きく時間がかかるため，この方法も現実的ではない場合が多いといえます．</p>
+<p>微分係数を使って上述の手順で最適化を行っていく手法を<strong>最急降下法</strong>と呼びます．最適化の数学で基礎として出てくる有名な方法です．また，ニューラルネットワークも含めディープラーニングでは，すべてのサンプルに対する目的関数の計算ではなく，<strong>ミニバッチ</strong>と呼ばれるサンプルをランダムに複数のかたまりに分割した単位で最適化を行っていくことが多く，この場合には，<strong>確率的勾配降下法</strong>
+(SGD: Stocastic Gradient Descent) と呼ばれており，Chainerの中では
+<code class="docutils literal notranslate"><span class="pre">SGD</span></code> としてよく登場するため覚えておきましょう．</p>
+<p><img alt="image11" src="notebooks/images/3/14.png" /></p>
+<p>さて，本題に戻ります．先ほどの最急降下法や確率的勾配降下法を利用するためには，微分係数が求まることが前提でした．そこで，数値例の問題設定に対して，実際に微分係数を求めていきましょう．文字の取り扱いを簡単かするため，下記のように
+<span class="math notranslate nohighlight">\(w_{1}\)</span> と <span class="math notranslate nohighlight">\(w_{2}\)</span>
+の２つの場合について紹介します．この2つを選択する理由としては，各層ごとに計算が異なってくるためです．</p>
+<p><img alt="image12" src="../_images/08.png" /></p>
+<p>それでは，<span class="math notranslate nohighlight">\(w_{1}\)</span>
+での微分から考えましょう．はじめに，目的関数からターゲットとなっている
+<span class="math notranslate nohighlight">\(w_{1}\)</span> までの計算を洗い出すと，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\mathcal{L} &amp;= \dfrac{1}{N}\sum_{n=1}^{N}(t_n - y_{n})^{2} \\
 y_{n} &amp;= w_{1}h_{11} + \cdots
-\end{aligned}
-$$
-のようになる。ポイントとして、$w_{1}$ に関係しない項は $w_{1}$ で偏微分すると0になるため、「$\cdots$」のように書いておくと良い。この目的関数を$w_{1}$で微分すると、
-$$
-\begin{aligned}
-\dfrac {\partial \mathcal{L}}{\partial w_{1}}&amp;=\dfrac {\partial y_{n}}{\partial w_{1}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\
-\dfrac {\partial y_{n}}{\partial w_{1}}&amp;=h_{11} = 11 \
-\dfrac {\partial \mathcal{L}}{\partial y_{n}}&amp;=\dfrac {1}{N}\sum ^{N}<em>{n=1}2\left( t</em>{n}-y_{n}\right) \times \left( -1\right) \
-&amp;=-\dfrac {2}{N}\sum_{n=1}^{N}\left( t_{n}-y_{n}\right) \
-&amp;= -2 \times (20 - 33) = 26\
-\dfrac {\partial \mathcal{L}}{\partial w_{1}}&amp;=\dfrac {\partial y_{n}}{\partial w_{1}}\dfrac {\partial \mathcal{L}}{\partial y_{n}} = 11 \times 26 =286 \
-\end{aligned}
-$$
-となる。次に、$w_{2}$ について考えていく。目的関数からターゲットとなっている $w_{2}$ までの計算を洗い出すと、
-$$
-\begin{aligned}
-\mathcal{L} &amp;= \dfrac{1}{N}\sum_{n=1}^{N}(t_n - y_{n})^{2} \
-y_{n} &amp;= w_{1}h_{11} + \cdots \
-&amp;= w_{1} f(u_{11})  + \cdots \
+\end{aligned}\end{split}\]</div>
+<p>のようになります．ポイントとして，<span class="math notranslate nohighlight">\(w_{1}\)</span> に関係しない項は
+<span class="math notranslate nohighlight">\(w_{1}\)</span>
+で偏微分すると0になるため，「<span class="math notranslate nohighlight">\(\cdots\)</span>」のように書いています．微分の合成関数の時にも紹介しましたが，</p>
+<div class="math notranslate nohighlight">
+\[\dfrac {\partial \mathcal{L}}{\partial w_{1}}=\dfrac {\partial y_{n}}{\partial w_{1}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\]</div>
+<p>のように関連する項目に分解していく方法を<strong>チェインルール</strong>と呼びます．そして，各項目の値を求めると，</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \dfrac {\partial y_{n}}{\partial w_{1}}&amp;=h_{11} = 11 \\
+  \dfrac {\partial \mathcal{L}}{\partial y_{n}}&amp;=\dfrac {1}{N}\sum ^{N}_{n=1}2\left( t_{n}-y_{n}\right) \times \left( -1\right) \\
+  &amp;=-\dfrac {2}{N}\sum_{n=1}^{N}\left( t_{n}-y_{n}\right) \\
+  &amp;= -2 \times (20 - 33) = 26
+  \end{aligned}\end{split}\\となり，最終的な微分係数は\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}  \dfrac {\partial \mathcal{L}}{\partial w_{1}}=\dfrac {\partial y_{n}}{\partial w_{1}}\dfrac {\partial \mathcal{L}}{\partial y_{n}} = 11 \times 26 =286\\となりました．\end{aligned}\end{align} \]</div>
+<p>次に，<span class="math notranslate nohighlight">\(w_{2}\)</span>
+についても同様に考えていきましょう．目的関数からターゲットとなっている
+<span class="math notranslate nohighlight">\(w_{2}\)</span> までの計算を洗い出すと，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\mathcal{L} &amp;= \dfrac{1}{N}\sum_{n=1}^{N}(t_n - y_{n})^{2} \\
+y_{n} &amp;= w_{1}h_{11} + \cdots \\
+&amp;= w_{1} f(u_{11})  + \cdots \\
 u_{11}&amp;=w_{2}x_{1} + \cdots
-\end{aligned}
-$$
-となる。これをもとに $w_{2}$ で微分すると、
-$$
-\begin{aligned}
-\dfrac {\partial \mathcal{L}}{\partial w_{2}}&amp;=\dfrac {\partial y_{n}}{\partial w_{2}}\dfrac {\partial L}{\partial y_{n}}\
-&amp;=\dfrac {\partial u_{11}}{\partial w_{2}}\dfrac {\partial y_{n}}{\partial u_{11}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\
-\dfrac {\partial u_{11}}{\partial w_2}&amp;=x_{1}=2\
-\dfrac {\partial y_{n}}{\partial u_{11}}&amp;=w_{1}f'\left( u_{11}\right) \
-\dfrac {\partial \mathcal{L}}{\partial y_{n}}&amp;=-\dfrac {2}{N}\sum ^{N}<em>{n=1}\left( t</em>{n}-y_{n}\right) =26
-\end{aligned}
-$$
-ここで、$f'(u_{11})$ のところで、活性化関数であるRelu関数の微分が必要となり、
-$$
-f'\left( u\right) =
+\end{aligned}\end{split}\]</div>
+<p>となります．この考え方には慣れが必要であるため，ひとつひとつ順を追っていく練習を行いましょう．これをもとにチェインルールを活用しながら
+<span class="math notranslate nohighlight">\(w_{2}\)</span> での微分係数を求めていくと，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dfrac {\partial \mathcal{L}}{\partial w_{2}}&amp;=\dfrac {\partial y_{n}}{\partial w_{2}}\dfrac {\partial L}{\partial y_{n}}\\
+&amp;=\dfrac {\partial u_{11}}{\partial w_{2}}\dfrac {\partial y_{n}}{\partial u_{11}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\\
+\dfrac {\partial u_{11}}{\partial w_2}&amp;=x_{1}=2\\
+\dfrac {\partial y_{n}}{\partial u_{11}}&amp;=w_{1}f'\left( u_{11}\right) \\
+\dfrac {\partial \mathcal{L}}{\partial y_{n}}&amp;=-\dfrac {2}{N}\sum ^{N}_{n=1}\left( t_{n}-y_{n}\right) =26
+\end{aligned}\end{split}\]</div>
+<p>となります．ここで，<span class="math notranslate nohighlight">\(f'(u_{11})\)</span>
+のところで，活性化関数であるRelu関数の微分が必要となり，Relu関数の微分は</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}f'\left( u\right) =
 \begin{cases}
-1 \quad u &gt;0\
-0 \quad u\leq 0\end{cases}
-$$
-のように、入力される $u$ の場合分けで考えればよく、
-$$
-\begin{aligned}
-\dfrac {\partial y_{n}}{\partial u_{11}}&amp;=w_{1}f'\left( u_{11}\right) =3\times 1=3\
-\end{aligned}
-$$
-となることから、
-$$
-\begin{aligned}
-\dfrac {\partial \mathcal{L}}{\partial w_{2}}&amp;=\dfrac {\partial u_{11}}{\partial w_{2}}\dfrac {\partial y_{n}}{\partial u_{11}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\
+1 \quad u &gt;0\\
+0 \quad u\leq 0\end{cases}\end{split}\]</div>
+<p>のように入力される <span class="math notranslate nohighlight">\(u\)</span>
+の値の符号によって変わっています．これが全体として微分を定式化できない理由であり，値によって場合分けというものが扱いにくいのですが，そのパラメータの1点における微分係数であれば問題なく，</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
+  \dfrac {\partial y_{n}}{\partial u_{11}}&amp;=w_{1}f'\left( u_{11}\right) =3\times 1=3\\
+  \end{aligned}\end{split}\\のように計算できます最終的に，\end{aligned}\end{align} \]</div>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\dfrac {\partial \mathcal{L}}{\partial w_{2}}&amp;=\dfrac {\partial u_{11}}{\partial w_{2}}\dfrac {\partial y_{n}}{\partial u_{11}}\dfrac {\partial \mathcal{L}}{\partial y_{n}}\\
 &amp;= 2 \times 3 \times 26 = 156
-\end{aligned}
-$$
-となる。学習係数 $\rho=0.01$ として最急降下法によりパラメータを更新すると、更新後の $w_{1}^{(1)}$ は更新前の $w_{1}^{(0)}$ を使って、
-$$
-w_{1}^{(1)} = w_{1}^{(0)} - \rho\dfrac{\partial \mathcal{L}}{\partial w_{1}} \
-\Rightarrow w_{1}^{(1)} = 3 - 0.01 \times 286 \
-\Rightarrow w_{1}^{(1)} = 0.14
-$$
-となる。また、更新後の $w_{2}^{(1)}$ は更新前の $w_{2}^{(0)}$ を使って、
-$$
-w_{2}^{(1)} = w_{2}^{(0)} - \rho\dfrac{\partial \mathcal{L}}{\partial w_{2}} \
-\Rightarrow w_{1}^{(1)} = 3 - 0.01 \times 156 \
-\Rightarrow w_{1}^{(1)} = 1.44
-$$
-となる。このように、パラメータの更新を行い。また、更新後のパラメータで予測値の計算および評価関数の計算を行い、微分を求めてパラメータの更新と繰り返していく。</p>
+\end{aligned}\end{split}\]</div>
+<p>と求まります．たとえば，学習係数 <span class="math notranslate nohighlight">\(\rho=0.01\)</span>
+として最急降下法によりパラメータを更新すると，更新後の
+<span class="math notranslate nohighlight">\(w_{1}^{(1)}\)</span> は更新前の <span class="math notranslate nohighlight">\(w_{1}^{(0)}\)</span> を使って，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+w_{1}^{(1)} &amp;= w_{1}^{(0)} - \rho\dfrac{\partial \mathcal{L}}{\partial w_{1}} \\
+&amp;= 3 - 0.01 \times 286 \\
+&amp;= 0.14
+\end{aligned}\end{split}\]</div>
+<p>となります．また，更新後の <span class="math notranslate nohighlight">\(w_{2}^{(1)}\)</span> は更新前の
+<span class="math notranslate nohighlight">\(w_{2}^{(0)}\)</span> を使って，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+w_{2}^{(1)} &amp;= w_{2}^{(0)} - \rho\dfrac{\partial \mathcal{L}}{\partial w_{2}} \\
+&amp;= 3 - 0.01 \times 156 \\
+&amp;= 1.44
+\end{aligned}\end{split}\]</div>
+<p>となります．このように，パラメータの更新を行い，また，更新後のパラメータで予測値の計算および目的関数の計算を行い（<strong>順伝播</strong>），微分係数を求めてパラメータの更新（<strong>逆伝播</strong>）と繰り返していきます．重回帰分析では最初から最適なパラメータが求まっていましたが，ニューラルネットワークではパラメータの更新を行うために，順伝播と逆伝播を何度も繰り返すことが特徴的です．逆伝播における微分係数を求める効率的な方法は<strong>誤差逆伝播法</strong>として体系化されていますが，まずは前述した逆伝播の計算をしっかりと理解で充分であるため，余裕が出てきたタイミングで参考書を見ながら勉強してみてください．</p>
 </div>
-<div class="section" id="">
-<span id="id5"></span><h2>3.5. 勾配が消失する問題<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ここで、活性化関数であるシグモイド関数が使われなくなったと解説していたが、なぜシグモイド関数ではなくRelu関数が標準的に使われるようになったのだろうか。数値例で実際に計算したところ、$w_{2}$ の微分を計算するさいに、
-$$
-\dfrac {\partial y_{n}}{\partial u_{11}}=w_{1}f'\left( u_{11}\right)
-$$
-の計算が登場し、特に $f'(u_{11})$ のように活性化関数の微分ができている。</p>
-<p>ここで、シグモイド関数を活性化関数として採用した場合を考え、シグモイド関数の微分を行うと、
-$$
-\begin{aligned}
-f\left( u\right) &amp;=\dfrac {1}{1+e^{-u}}=\left( 1+e^{-u}\right) ^{-1}\
-f'\left( u\right) &amp;=-1\times \left( 1+e^{-u}\right) ^{-2}\times \left( -e^{-u}\right) \
-&amp;=\dfrac {e^{-u}}{\left( 1+e^{-u}\right) ^{2}}\
-&amp;=\dfrac {1+e^{-u}-1}{\left( 1+e^{-u}\right) ^{2}}\
-&amp;=\dfrac {1+e^{-u}}{\left( 1+e^{-u}\right) ^{2}}-\dfrac {1}{\left( 1+e^{-u}\right) ^{2}} \
-&amp;=\dfrac {1}{1+e^{-u}}-\left( \dfrac {1}{1+e^{-u}}\right) ^{2}\
-&amp;=f\left( u\right) -\left( f\left( u\right) \right) ^{2}\
+<div class="section" id="勾配が消失する問題">
+<h2>3.4. 勾配が消失する問題<a class="headerlink" href="#勾配が消失する問題" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ニューラルネットワーク最後のパートとして，活性化関数のパートで，標準的であった活性化関数であるシグモイド関数が使われなくなっていると紹介していましたが，その理由について考えていきます．関数の形を見ると，直感的にはシグモイド関数の方が対応力が高そうで，Relu関数は退屈な関数に見えます．パラメータ更新のところで実際に計算したところ，<span class="math notranslate nohighlight">\(w_{2}\)</span>
+の微分を計算する際に</p>
+<div class="math notranslate nohighlight">
+\[\dfrac {\partial y_{n}}{\partial u_{11}}=w_{1}f'\left( u_{11}\right)\]</div>
+<p>の計算が登場し，特に <span class="math notranslate nohighlight">\(f'(u_{11})\)</span>
+のように活性化関数に関する微分が登場していることがわかると思います．</p>
+<p>まずRelu関数と比較するために，シグモイド関数の微分を計算してみると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+f\left( u\right) &amp;=\dfrac {1}{1+e^{-u}}=\left( 1+e^{-u}\right) ^{-1}\\
+f'\left( u\right) &amp;=-1\times \left( 1+e^{-u}\right) ^{-2}\times \left( -e^{-u}\right) \\
+&amp;=\dfrac {e^{-u}}{\left( 1+e^{-u}\right) ^{2}}\\
+&amp;=\dfrac {1+e^{-u}-1}{\left( 1+e^{-u}\right) ^{2}}\\
+&amp;=\dfrac {1+e^{-u}}{\left( 1+e^{-u}\right) ^{2}}-\dfrac {1}{\left( 1+e^{-u}\right) ^{2}} \\
+&amp;=\dfrac {1}{1+e^{-u}}-\left( \dfrac {1}{1+e^{-u}}\right) ^{2}\\
+&amp;=f\left( u\right) -\left( f\left( u\right) \right) ^{2}\\
 &amp;=f\left( u\right) \left( 1-f\left( u\right) \right)
-\end{aligned}
-$$
-となり、グラフは下記のようになる。</p>
-<p><img alt="" src="notebooks/images/8/09.png" /></p>
-<p>このように、シグモイド関数の微分を計算してみると、シグモイド関数の微分の最大値は0.25であることがわかる。それに対し、Relu関数の微分の最大値は1である。</p>
-<p>これにどのような意味があるかというと、各パラメータで微分した際に、活性化関数の微分が式中に現れるが、もしシグモイド関数を使用すると、最低でも0.25倍されてしまうこととなり、勾配の値が小さくなることがわかる。今回は3層であったため、気にならない程度であるが、もし4層の場合、一番後ろの層のパラメータの微分を行う場合、最低でも $0.25 \times 0.25 = 0.0625$ とさらに勾配の値が小さくなる項が存在することとなる。つまり、ディープラーニングのように多層のニューラルネットワークの場合にシグモイド関数を使用すると、後ろの層に行くほど勾配情報が極端に小さくなっていき、パラメータの更新が実質行えないような状況となるのである。これが<strong>勾配が消失する</strong>という問題の正体である。</p>
-<p>そして、シグモイド関数に対し、Relu関数では微分の最大値が1であるため、何層あって勾配の値が小さくなっていくことがなく、勾配が消失する問題に対処することができるのである。</p>
-</div>
-<div class="section" id="">
-<span id="id6"></span><h2>3.5. 誤差逆伝播法<a class="headerlink" href="#" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>それではこの章最後の大きなトピックとして、ニューラルネットワークの計算の中で最も繁雑な計算を要する誤差逆伝播法について解説する。ここまでの数学で厳しいようであれば誤差逆伝播法の解説は二周目にとっておいてもらっても構わない。なぜなら、最近使用されているディープラーニング向けのフレームワークではこの誤差逆伝播法の計算は内部で自動化されており、プログラムを組む時には基本的に不要だからである。その代わり、新しい手法を試したり、細かい調整を行う場合に必要となるため、それまでに習得しておけば問題ない。</p>
-<p><img alt="" src="notebooks/images/8/10.png" /></p>
-<p>それでは上記のように、4層のニューラルネットワークにおける $w_{ij}$ までの勾配の値を求めることがゴールである。</p>
-<p>まずは、$w_{kl}$ について考えると、
-$$
-\begin{aligned}
-\mathcal{L} &amp;= f_{\rm loss}\left( y_{1}, \ldots, y_{l}, \ldots, y_{L}\right) \
-y_{l}&amp;=f\left( u_{l}\right) \
-u_{l}&amp;=\cdots +w_{kl}h_{k}+\cdots
-\end{aligned}
-$$
-となることから、
-$$
-\begin{aligned}
-\dfrac {\partial L}{\partial w_{kl}}&amp;=\dfrac {\partial y_{l}}{\partial w_{kl}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}\
-&amp;=\dfrac {\partial u_{l}}{\partial w_{kl}}\dfrac {\partial y_{l}}{\partial u_{l}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}
-\end{aligned}
-$$
-のように得られる。ここで、それぞれの微分についてはすでに数値例で紹介しているため省略する。</p>
-<p>後述の計算のため、
-$$
-\delta_{l} = \dfrac {\partial y_{l}}{\partial u_{l}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}
-$$
-とすると、
-$$
-\begin{aligned}
-\dfrac {\partial L}{\partial w_{kl}}&amp;=\dfrac {\partial y_{l}}{\partial w_{kl}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}\
-&amp;=\dfrac {\partial u_{l}}{\partial w_{kl}}\delta_{l}
-\end{aligned}
-$$
-のように記述しておく。最初に関係性を明示しておけば、あとはチェインルールに従って微分をしていくだけである。</p>
-<p><img alt="" src="notebooks/images/8/11.png" /></p>
-<p>つぎに、$w_{jk}$ の微分を考える。$w_{kl}$ の場合と同様に $w_{jk}$ にたどり着くまでの流れを考えていくが、ここで、上図で示す通り、$w_{jk}$ にたどり着くまでに $y_{1}, y_{2}, \ldots, y_{l}, \ldots, y_L$ と複数の出力からの微分を考慮する必要があることに気を付けると、
-$$
-\begin{aligned}
-\mathcal{L} &amp;= f_{\rm loss}\left( y_{1}, \ldots, y_{l}, \ldots, y_{L}\right) \
-y_{l}&amp;=f\left( u_{l}\right) \
-u_{l}&amp;=\cdots +w_{kl}h_{k}+\cdots \
-h_{k}&amp;=f\left( u_{j}\right) \
-u_{k}&amp;=w_{jk}h_{j}
-\end{aligned}
-$$
-となり、勾配の値は
-$$
-\begin{aligned}
-\dfrac {\partial L}{\partial w <em>{jk}}&amp;=\sum ^{L}</em>{l=1}\dfrac {\partial y_{l}}{\partial w_{jk}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}\
-&amp;=\sum ^{N}<em>{l=1}\dfrac {\partial u</em>{l}}{\partial w_{jk}}\dfrac {\partial y_{l}}{\partial u_{l}}\dfrac{\partial \mathcal{L}}{\partial y_{l}}\
-&amp;=\sum ^{N}<em>{l= 1}\dfrac {\partial h</em>{k}}{\partial w_{jk}}\dfrac {\partial u_{l}}{\partial h_{k}}\dfrac {\partial y_{l}}{\partial u_{l}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}\
-&amp;=\sum ^{N}<em>{l=1}\dfrac {\partial u</em>{k}}{\partial w_{jk}}\dfrac{\partial h_{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}
-\underbrace{
-\dfrac {\partial y_{l}}{\partial u_{l}}\dfrac {\partial \mathcal{L}}{\partial y_{l}}
-}<em>{\delta</em>{l}} \
-&amp;=\sum ^{N}<em>{l=1}\dfrac {\partial u</em>{k}}{\partial w_{jk}}\dfrac{\partial h_{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}\delta_{l} \
-&amp;=\dfrac {\partial u_{k}}{\partial w_{jk}} \sum ^{N}<em>{l=1}\dfrac{\partial h</em>{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}\delta_{l}
-\end{aligned}
-$$
-ここで、
-$$
-\delta_{k} =\sum_{l=1}^{L} \dfrac{\partial h_{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}\delta_{l}
-$$
-とおくと、
-$$
-\begin{aligned}
-\dfrac {\partial \mathcal{L}}{\partial w <em>{jk}}
-&amp;=\dfrac {\partial u</em>{k}}{\partial w_{jk}}\sum ^{L}<em>{l=1}\dfrac{\partial h</em>{k}}{\partial u_{k}}\dfrac {\partial u_{l}}{\partial h_{k}}\delta_{l} \
-&amp;=\dfrac {\partial u_{k}}{\partial w_{jk}}\delta_{k}
-\end{aligned}
-$$
-のような結果が得られる。$\delta_{k}$ の計算からわかるように、前の層で計算した $\delta_{l}$ の値を次の層の勾配を計算する際に流用している。このように勾配情報の一部を伝播させていきながら計算していくため誤差逆伝播法と名づけられている。</p>
-<p>同様に考えると、
-$$
-\begin{aligned}
-\dfrac {\partial \mathcal{L}}{\partial w_{ij}}
-&amp;=\dfrac {\partial u_{i}}{\partial w_{ij}}\delta <em>{j}\
-\delta <em>{j}&amp;=\sum ^{K}</em>{k=1}\dfrac {\partial h</em>{j}}{\partial u_{j}}\dfrac {\partial u_{k}}{\partial h_{j}}\delta <em>{k}
-\end{aligned}
-$$
-のように、$w</em>{ij}$ の勾配を計算することができる。式が煩雑になるため本書では割愛するが時間に余裕があれば、この式展開も手計算で確認してほしい。</p>
+\end{aligned}\end{split}\]</div>
+<p>となります．ここで，微分の公式として，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+(x^{-1}) ' &amp;= -x^{-2} \\
+(e^{ax})' &amp;= ae^{ax}
+\end{aligned}\end{split}\]</div>
+<p>の 2
+つも利用しており，合成関数も使っています．そして，このシグモイド関数を微分した関数のグラフは下記のようになります．</p>
+<p><img alt="image13" src="../_images/09.png" /></p>
+<p>このように，シグモイド関数の微分を計算してみると，<strong>シグモイド関数の微分係数の最大値が0.25</strong>であることがわかります．それに対し，前述していたRelu関数の微分係数の最大値は1でした．</p>
+<p>これにどのような差があるかというと，各パラメータの微分係数を求めた際に，シグモイド関数の場合，大きくても0.25倍となり，微分係数（各パラメータの微分係数をまとめて<strong>勾配</strong>ベクトルと呼びます）の値が小さくなることがわかります．今回は3層であったため，気にならない程度ですが，もし4層の場合，一番後ろの層のパラメータの微分係数を求める場合，最低でも
+<span class="math notranslate nohighlight">\(0.25 \times 0.25 = 0.0625\)</span>
+となり，さらに勾配の値が小さくなります．つまり，ディープラーニングのように多層のニューラルネットワークの場合にシグモイド関数を使用すると，後ろの層に行くほど勾配情報が極端に小さくなっていき，最急降下法や確率的勾配降下法のような方法では，後ろの層ではパラメータの更新が実質行えないような状況となってしまいます．これが<strong>勾配が消失する</strong>という問題の正体です．そして，シグモイド関数に対し，Relu関数では微分係数の最大値が1であるため，層の数が増えても勾配の値が小さくなっていくことがなく，勾配が消失する問題に対処することができるわけです．ただし，シグモイド関数のような形状の活性化関数を使用したい状況もあり，その時には，形が近しく勾配の消失に関する改善がなされている<strong>ハイパボリックタンジェント</strong>を使用するため，こちらも余裕がでれば関数の式と微分の計算，微分係数の最大値をおさえておきましょう．</p>
 </div>
 </div>
 
