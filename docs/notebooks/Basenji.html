@@ -347,9 +347,9 @@ div.nboutput div.output_area.stderr {
 </style>
 <div class="section" id="実践編：ディープラーニングを使った配列解析">
 <h1>7. 実践編：ディープラーニングを使った配列解析<a class="headerlink" href="#実践編：ディープラーニングを使った配列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<p>近年、次世代シーケンサ（NGS; Next Generation
-Sequencer）の発展により、遺伝子の塩基配列を高速、大量、安価に読み取ることができるようになってきました。</p>
-<p>ここではディープラーニングを用いて、DNA配列からエピジェネティックな影響や転写制御を予測する問題に取り組みます。この予測モデルを使うことで、ある遺伝子変異が遺伝子発現にどのような影響を与えるのかを予測することができるようになります。</p>
+<p>近年，次世代シーケンサ（NGS; Next Generation
+Sequencer）の発展により，遺伝子の塩基配列を高速，大量，安価に読み取ることができるようになってきました．</p>
+<p>ここではディープラーニングを用いて，DNA配列からエピジェネティックな影響や転写制御を予測する問題に取り組みます．この予測モデルを使うことで，ある遺伝子変異が遺伝子発現にどのような影響を与えるのかを予測することができるようになります．</p>
 <div class="section" id="環境">
 <h2>7.1. 環境<a class="headerlink" href="#環境" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここで用いるライブラリは</p>
@@ -358,8 +358,8 @@ Sequencer）の発展により、遺伝子の塩基配列を高速、大量、�
 <li>Cupy</li>
 <li>matplotlib</li>
 </ul>
-<p>です。Google
-Colab上では、以下のようにしてインストールすることができます。以下のセルを実行（Shit+Enter）してください。</p>
+<p>です．Google
+Colab上では，以下のようにしてインストールすることができます．以下のセルを実行（Shit+Enter）してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -395,7 +395,7 @@ Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-pa
 Requirement already satisfied: setuptools in /usr/local/lib/python2.7/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer) (40.5.0)
 </pre></div></div>
 </div>
-<p>インストールが完了したら、以下のセルを実行して、各ライブラリのバージョンを確認してください。</p>
+<p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンを確認してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -435,17 +435,17 @@ iDeep: Not Available
 </div>
 <div class="section" id="配列解析について">
 <h2>7.2. 配列解析について<a class="headerlink" href="#配列解析について" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>次世代シーケンサの発展・普及とともに、大量の遺伝子配列が読み取られるようになりました。そうした中で、塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome
+<p>次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome
 Wide Association Study;
-ゲノムワイド関連解析）がされてきましたが、遺伝子変異だけでは全ての表現型の変化を説明できないことがわかってきています。特に、非翻訳領域が遺伝子発現に影響を与え、表現型の変化を生じさせていることが様々な実験結果からわかってきています。遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています。（以下図）</p>
+ゲノムワイド関連解析）がされてきましたが，遺伝子変異だけでは全ての表現型の変化を説明できないことがわかってきています．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．（以下図）</p>
 <p><img alt="代替テキスト" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/&#64;&#64;download/attachment/EncodeDatatypes2013-7.png" />[Encode Projectより引用]</p>
-<p>例えば、ChIP-Seq（クロマチン免疫沈降）は、転写調節因子やそのほかのタンパク質が直接の相互作用を起こすDNAの特定部位を分離し、それらをシーケンシングして同定し、どの程度出現していたかを定量化します。これにより、タンパク質のDNA中の結合部位を正確かつ効率的に同定することができます。</p>
-<p>このような技術で抽出された配列を学習データとして利用し、DNA配列のみからそこが結合部位かどうかだけでなく、どの程度、出現していたのかというカバレッチ値を推定することで、DNA配列のみから、転写因子、クロマチンアクセシビリティ、ヒストン修飾を予測することができるようになり、様々な遺伝子変異に対する有益な洞察を与えてくれます。</p>
-<p>一方で、DNA配列中のどの領域がそのような特徴を持つのかを調べるためには非常に遠距離のDNA配列もいる必要があり、これが機械学習による解析を困難としていました。今回紹介する手法はこのような遠距離の関係を捉えるため、10万超の長さのDNA配列を入力として受け取り、128bpごとにその領域がどの程度各手法で発現していたのか、カバレッジ値を予測するタスクを考えます。</p>
+<p>例えば，ChIP-Seq（クロマチン免疫沈降）は，転写調節因子やそのほかのタンパク質が直接の相互作用を起こすDNAの特定部位を分離し，それらをシーケンシングして同定し，どの程度出現していたかを定量化します．これにより，タンパク質のDNA中の結合部位を正確かつ効率的に同定することができます．</p>
+<p>このような技術で抽出された配列を学習データとして利用し，DNA配列のみからそこが結合部位かどうかだけでなく，どの程度，出現していたのかというカバレッチ値を推定することで，DNA配列のみから，転写因子，クロマチンアクセシビリティ，ヒストン修飾を予測することができるようになり，様々な遺伝子変異に対する有益な洞察を与えてくれます．</p>
+<p>一方で，DNA配列中のどの領域がそのような特徴を持つのかを調べるためには非常に遠距離のDNA配列もいる必要があり，これが機械学習による解析を困難としていました．今回紹介する手法はこのような遠距離の関係を捉えるため，10万超の長さのDNA配列を入力として受け取り，128bpごとにその領域がどの程度各手法で発現していたのか，カバレッジ値を予測するタスクを考えます．</p>
 </div>
 <div class="section" id="データセット">
 <h2>7.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ここでは、データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します。ここでは前処理が既に終わって配列と、各位置ごとの推定カバレッジ値が記録されたデータを利用します。下のセルを実行してデータをダウンロードしてください。（TODO:
+<p>ここでは，データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します．ここでは前処理が既に終わって配列と，各位置ごとの推定カバレッジ値が記録されたデータを利用します．下のセルを実行してデータをダウンロードしてください．（TODO:
 公開の場所においてcurlで取得するようにする）</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -516,11 +516,11 @@ drwxr-xr-x 2 root root 4.0K Nov  6 08:26 out
 drwxr-xr-x 2 root root 4.0K Nov  2 17:32 sample_data
 </pre></div></div>
 </div>
-<p>data.h5というファイルが正しくダウンロードされているかを確認してください。</p>
-<p>data.h5はHDF5形式でデータを格納したファイルです。HDF5ファイルは、ファイルシステムと同様に、階層的にデータを格納することができ、行列やテンソルデータをそれぞれの位置で名前付きで格納することができます。</p>
-<p>HDF5形式のファイルを操作するためにh5pyというライブラリがあります。h5pyのFile()でファイルを開き、keys()というAPIでその中に含まれているキーを列挙します。取得したキーを使って格納されている各データを参照することができます。</p>
-<p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます。</p>
-<p>以下のセルを実行して格納されているデータを確認してください。</p>
+<p>data.h5というファイルが正しくダウンロードされているかを確認してください．</p>
+<p>data.h5はHDF5形式でデータを格納したファイルです．HDF5ファイルは，ファイルシステムと同様に，階層的にデータを格納することができ，行列やテンソルデータをそれぞれの位置で名前付きで格納することができます．</p>
+<p>HDF5形式のファイルを操作するためにh5pyというライブラリがあります．h5pyのFile()でファイルを開き，keys()というAPIでその中に含まれているキーを列挙します．取得したキーを使って格納されている各データを参照することができます．</p>
+<p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます．</p>
+<p>以下のセルを実行して格納されているデータを確認してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -576,7 +576,7 @@ with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
 </pre></div>
 </div>
 </div>
-<p>h5py形式のファイルをnumpyデータとして扱うには、コピーする必要があります。以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し、そのデータを一部を表示します。</p>
+<p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータを一部を表示します．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -616,29 +616,29 @@ with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
 <h2>7.4. Dilated Convolutionを用いた解析<a class="headerlink" href="#Dilated-Convolutionを用いた解析" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="配列解析の戦略">
 <h3>7.4.1. 配列解析の戦略<a class="headerlink" href="#配列解析の戦略" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>配列データを扱うためには大きく３つの戦略があります。</p>
-<p>一つ目は、配列中の順序情報は捨てて、配列をその特徴の集合とみなすことです。これはBag
+<p>配列データを扱うためには大きく３つの戦略があります．</p>
+<p>一つ目は，配列中の順序情報は捨てて，配列をその特徴の集合とみなすことです．これはBag
 of
-Words（BoW）表現とよびます。このBoW表現は特徴に十分情報が含まれていれば強力な手法ですがDNA配列のような4種類の文字からなる配列やその部分配列だけではその特徴を捉えることは困難です。</p>
-<p>二つ目は配列中の要素を左から右に順に読み込んでいき計算していく手法です。これはRNNを用いて解析します。このRNNの問題点はその計算が逐次的であり計算量が配列長に比例するという点です。現在の計算機は計算を並列化することで高速化を達成していますがRNNは計算を並列化することが困難です。もう一つの問題は遠距離間の関係を捉えることが難しいという点です。RNNはその計算方式から、計算の途中結果を全て状態ベクトルに格納する必要があります。遠距離間の関係を捉えようとすると、多くの情報を覚えておかなければなりませんが状態ベクトルサイズは有限なので、多くの情報を忘れなければなりません。</p>
-<p>三つ目は配列データを1次元の画像とみなし、画像処理の時と同様にCNNを用いて解析する手法です。CNNはRNNの場合と違って各位置の処理を独立に実行できるため並列に処理することができます。また、後述するDilated
-Convolutionを使うことで各位置の処理は遠距離にある情報を直接読み取ることができます。次の章でDilated
-Convolutionについてさらに詳しくみていきます。</p>
+Words（BoW）表現とよびます．このBoW表現は特徴に十分情報が含まれていれば強力な手法ですがDNA配列のような4種類の文字からなる配列やその部分配列だけではその特徴を捉えることは困難です．</p>
+<p>二つ目は配列中の要素を左から右に順に読み込んでいき計算していく手法です．これはRNNを用いて解析します．このRNNの問題点はその計算が逐次的であり計算量が配列長に比例するという点です．現在の計算機は計算を並列化することで高速化を達成していますがRNNは計算を並列化することが困難です．もう一つの問題は遠距離間の関係を捉えることが難しいという点です．RNNはその計算方式から，計算の途中結果を全て状態ベクトルに格納する必要があります．遠距離間の関係を捉えようとすると，多くの情報を覚えておかなければなりませんが状態ベクトルサイズは有限なので，多くの情報を忘れなければなりません．</p>
+<p>三つ目は配列データを1次元の画像とみなし，画像処理の時と同様にCNNを用いて解析する手法です．CNNはRNNの場合と違って各位置の処理を独立に実行できるため並列に処理することができます．また，後述するDilated
+Convolutionを使うことで各位置の処理は遠距離にある情報を直接読み取ることができます．次の章でDilated
+Convolutionについてさらに詳しくみていきます．</p>
 </div>
 <div class="section" id="Dilated-Convolution">
 <h3>7.4.2. Dilated Convolution<a class="headerlink" href="#Dilated-Convolution" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>従来の畳み込み層を使って配列解析をする場合を考えてみます。
-以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません。どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され、カーネルサイズがKの時、Dだけ離れた距離にある情報を取得するためにはD/K層必要となります。今回の問題の場合Dは数百から数万、Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません。</p>
+<p>従来の畳み込み層を使って配列解析をする場合を考えてみます．
+以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません．どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され，カーネルサイズがKの時，Dだけ離れた距離にある情報を取得するためにはD/K層必要となります．今回の問題の場合Dは数百から数万，Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません．</p>
 <div class="figure" id="id8">
 <img alt="convolution" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png" />
 <p class="caption"><span class="caption-text">convolution</span></p>
 </div>
-<p>それに対し、Dilated Convolution（atrous convolutionやconvolution weith
-holesともよばれます）は読み取る場所をずらしたところからうけとります。例えばDilation=4の場合、4だけ離れた位置から情報を受け取ります。このDilatedを倍々にしていき、カーネルサイズを2とした場合、Dだけ離れた位置の情報を受取るには
+<p>それに対し，Dilated Convolution（atrous convolutionやconvolution weith
+holesともよばれます）は読み取る場所をずらしたところからうけとります．例えばDilation=4の場合，4だけ離れた位置から情報を受け取ります．このDilatedを倍々にしていき，カーネルサイズを2とした場合，Dだけ離れた位置の情報を受取るには
 log_2
-D層だけ必要になります。今回のDが数百から数万の場合、10から20層程度あれば済むことになります。</p>
+D層だけ必要になります．今回のDが数百から数万の場合，10から20層程度あれば済むことになります．</p>
 <p>今回はこのDilated
-Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します。</p>
+Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します．</p>
 <div class="figure" id="id9">
 <img alt="dilated convolution" src="http://musyoku.github.io/images/post/2016-09-17/dilated_conv.png" />
 <p class="caption"><span class="caption-text">dilated convolution</span></p>
@@ -646,11 +646,11 @@ Convolutionを使うことで遠距離にある情報を考慮できるモデル
 </div>
 <div class="section" id="ブロック">
 <h3>7.4.3. ブロック<a class="headerlink" href="#ブロック" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>それでは最初に、ネットワークの全体を設計します。
-このネットワークは二つのブロックから構成されます。</p>
-<p>１つ目のブロックは長さが2<sup>17から配列を長さが2</sup>10のベクトル列まで圧縮し、128bpにつき1つのベクトルが対応するにします。この圧縮はRootBlockが担当します。</p>
-<p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算する部分を担当します。</p>
-<p>以下のコードを実行してみましょう。</p>
+<p>それでは最初に，ネットワークの全体を設計します．
+このネットワークは二つのブロックから構成されます．</p>
+<p>１つ目のブロックは長さが2<sup>17から配列を長さが2</sup>10のベクトル列まで圧縮し，128bpにつき1つのベクトルが対応するにします．この圧縮はRootBlockが担当します．</p>
+<p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算する部分を担当します．</p>
+<p>以下のコードを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -719,9 +719,9 @@ class Net(chainer.Chain):
 </pre></div>
 </div>
 </div>
-<p>このネットワークは初期化時の引数としてRootBlockに関するパラメータと、DilatedBlockに関するパラメータを受け取ります。</p>
-<p>それぞれ、出力チャンネル、カーネルサイズ、プーリングの三つ組からなるリストと、出力チャンネル、カーネルサイズ、dilatedサイズの三つ組からなるリストを受け取ります。</p>
-<p>次に、ブロックの定義をします。</p>
+<p>このネットワークは初期化時の引数としてRootBlockに関するパラメータと，DilatedBlockに関するパラメータを受け取ります．</p>
+<p>それぞれ，出力チャンネル，カーネルサイズ，プーリングの三つ組からなるリストと，出力チャンネル，カーネルサイズ，dilatedサイズの三つ組からなるリストを受け取ります．</p>
+<p>次に，ブロックの定義をします．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -763,7 +763,7 @@ class DilatedBlock(chainer.Chain):
 </pre></div>
 </div>
 </div>
-<p>それでは、試しにネットワークを構築して、そこにサンプルデータを流してみましょう。</p>
+<p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -791,9 +791,9 @@ print(y.shape)
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>ここで、もともとB= 4, L=131072, C=4だった配列が計算後はB=4, L=1024,
-C=3の配列となりました。</p>
-<p>今回の学習では対数ポアソン損失関数を利用します。これはモデルはポアソン分布の唯一のパラメータである平均を出力し、そのポアソン分布を学習データを使った最尤推定をします。この際、学習対象パラメータ以外は無視しています。性能評価する際には、比較がしやすいように学習パラメータに依存しない項も含めた式を利用しています。</p>
+<p>ここで，もともとB= 4, L=131072, C=4だった配列が計算後はB=4, L=1024,
+C=3の配列となりました．</p>
+<p>今回の学習では対数ポアソン損失関数を利用します．これはモデルはポアソン分布の唯一のパラメータである平均を出力し，そのポアソン分布を学習データを使った最尤推定をします．この際，学習対象パラメータ以外は無視しています．性能評価する際には，比較がしやすいように学習パラメータに依存しない項も含めた式を利用しています．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -820,7 +820,7 @@ def log_poisson_acc(log_x, t):
 </pre></div>
 </div>
 </div>
-<p>これで全部準備ができました。残りはchainerのtrainerを改造して学習するだけです。以下のコードを実行してください。30分程度で学習が完了します。</p>
+<p>これで全部準備ができました．残りはchainerのtrainerを改造して学習するだけです．以下のコードを実行してください．30分程度で学習が完了します．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
