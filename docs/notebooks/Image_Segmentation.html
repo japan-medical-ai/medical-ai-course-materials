@@ -374,11 +374,11 @@ div.nboutput div.output_area.stderr {
 Colab</a></p>
 <p>画像を対象とした深層学習の応用技術には様々なものがあります．例えば，画像の中の個別の物体の周りを矩形で囲むようにして検出する<strong>物体検出</strong>や，画像内で個別物体が占める領域を認識する<strong>画像セグメンテーション</strong>などがあります．</p>
 <p><strong>物体検出</strong>は，対象物体の<strong>「種類」と「位置」を認識する技術</strong>であるといえます．</p>
-<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-0.png" /> 物体検出の例．矩形で対象物体を囲い，そのクラスを答えるタスク．</p>
+<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /> 物体検出の例．矩形で対象物体を囲い，そのクラスを答えるタスク．</p>
 <p><strong>画像セグメンテーション</strong>には2種類あります．1つは，個別の物体を区別するInstance-aware
 Segmentationです．もう一つは，同一クラスの物体であれば個を区別しないSemantic
 Segmentationです．今回は，後者を扱います．</p>
-<p><img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-1.png" /> Semantic
+<p><img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /> Semantic
 Segmentationの例．ピクセル単位でクラス分類を行うタスク．画像を，予め決められた数の色で塗り絵をするようなイメージ．</p>
 <p>画像セグメンテーションは，画像全体に対して一つのクラスを割り当てる分類問題とは異なり，画像内の全ピクセルを，ピクセルごとに分類していきます．そのため，Pixel
 labeling
@@ -547,9 +547,7 @@ Bowl</a>）</p>
 <p>Chainerは<strong>Define-by-Run</strong>を特徴とするDeep
 Learningフレームワークです．<strong>Define-by-Run</strong>とは，CaffeやTensorFlowなどのように，<strong>モデルアーキテクチャを定義して確定（define）</strong>
 させてから<strong>データを流し込んで実行（run）</strong>する，という<strong>Define-and-Run</strong>と異なり，<strong>「データに対する計算を実行（run）することによってモデルが定義される（define）」</strong>というものです．</p>
-<div class="figure">
-<img alt="" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/define-by-run.png" />
-</div>
+<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
 <p>このため，データの内容によって処理を分けるようなモデルが作りやすく，またRNNのように可変回数のループ処理が含まれるような構造を記述しやすくなります．今回は，Semantic
 Segmentationに取り組みますので，画像から画像を出力するシングルパスのネットワークを記述します．</p>
 <div class="section" id="Chainerを用いた学習の流れ">
@@ -565,9 +563,7 @@ Segmentationタスクに取り組みます．<code class="docutils literal notra
 <li><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトの作成（学習ループの管理）</li>
 </ol>
 <p><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>に含まれるコンポーネントは，以下のような関係になっています．</p>
-<div class="figure">
-<img alt="" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/trainer.png" />
-</div>
+<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">Updater</span></code>は，<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>から<code class="docutils literal notranslate"><span class="pre">Dataset</span></code>にあるデータを指定したバッチサイズ数だけ取り出し，<code class="docutils literal notranslate"><span class="pre">Model</span></code>に与えてロスを計算し，<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>によってパラメータを更新する，という一連の作業（これが1
 iterationになります）を隠蔽しています．</li>
@@ -786,9 +782,9 @@ extensions</a></p>
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%</span><span class="k">time</span>
-trainer = create_trainer(64, train, val, (20, &#39;epoch&#39;), device=0)
-trainer.run()
+<span></span><span class="o">%%time</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">create_trainer</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -928,7 +924,7 @@ mIou: 0.7014019690842325
 </div>
 <p>2つの数字が表示されました．</p>
 <p>Pixel Accuracyの値は<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>が表示した val/main/accuracy
-と同じ値になっています．学習中に」accuracy」として表示していたものは，Pixel
+と同じ値になっています．学習中に“accuracy”として表示していたものは，Pixel
 Accuracyと同じものでした．こちらは，とても高い値を示しています．最大値が1に対して，0.98以上の値が出ます．</p>
 <p>一方で，同じ最大値1の指標であるmean
 IoU（<code class="docutils literal notranslate"><span class="pre">miou</span></code>）が思ったより低いことが分かります．なぜでしょうか．</p>
@@ -942,9 +938,7 @@ imbalance（白と黒の数が大きく違う）が起きている際に，少�
 <p>一方，mean IoU
 の場合は，予測と正解の両画像における「positiveとtrueの和領域」（白と予測した部分と，白が正解である領域の和）に対する「true
 positive」（白という予測が正解していた領域）の割合を見るので，画像全体の大きさに影響されません．わかりやすく図にすると，以下のようになります．</p>
-<div class="figure">
-<img alt="" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/miou.png" />
-</div>
+<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
 <p>この図の言葉で書くと，IoUは，</p>
 <div class="math notranslate nohighlight">
 \[IoU = \frac{\rm true\_positive}{{\rm positive} + {\rm true} - {\rm true\_positive}}\]</div>
@@ -1035,7 +1029,7 @@ Artifacts</a>）</li>
 <li>出力サイズは，<span class="math notranslate nohighlight">\({\rm stride} \times ({\rm input\_size} - 1) + {\rm ksize} - 2 * {\rm pad}\)</span>となるので，目的の拡大後サイズになるようパラメータを調整する</li>
 </ul>
 <p>Deconvolution2Dにおいては，padが意味するものが少し直感的でないため，以下に実際に行われる操作を説明した図を用意しました．</p>
-<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-0.png" /> <img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-1.png" /></p>
+<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /> <img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
 <p>気をつける点は，ksizeとstrideに従って配置・拡張したfeature
 mapの周囲を「削る量」がpadになっている点です．そのあと行われる演算自体はstride=1,
 pad=0のConvolutionと同じになります．</p>
@@ -1230,9 +1224,9 @@ Accuracy）だけでなく<code class="docutils literal notranslate"><span class
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="o">%%</span><span class="k">time</span>
-trainer = create_trainer(128, train, val, (200, &#39;epoch&#39;), device=0, log_trigger=(10, &#39;epoch&#39;))
-trainer.run()
+<span></span><span class="o">%%time</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">create_trainer</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">log_trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1415,26 +1409,20 @@ levelな情報（エッジ・局所的な画素値勾配のような情報，色
 <p>下層で行ったMax Poolingの際に「どのピクセルが最大値だったか（pooling
 indices) 」の情報をとっておき，上層でそのpooling
 indicesを使ってUpsamplingする手法．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されている．</p>
-<div class="figure">
-<img alt="" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" />
-</div>
+<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
 </div>
 <div class="section" id="U-Net-[9]">
 <h3>5.7.2. U-Net <a class="reference external" href="#9">[9]</a><a class="headerlink" href="#U-Net-[9]" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>下層の出力特徴マップを，上層の入力にConcatenateすることで活用する構造．全体がアルファベットの
-「U」 のような形をしていることから「U-Net」と呼ばれる</p>
-<div class="figure">
-<img alt="" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" />
-</div>
+“U” のような形をしていることから「U-Net」と呼ばれる</p>
+<p><img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
 </div>
 <div class="section" id="PSPNet-[10]">
 <h3>5.7.3. PSPNet <a class="reference external" href="#10">[10]</a><a class="headerlink" href="#PSPNet-[10]" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Pyramid Pooling
 Moduleを提案し，異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet
 2017 Scene Parsing Challengeで優勝したモデル．</p>
-<div class="figure">
-<img alt="" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png" />
-</div>
+<p><img alt="image2" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png" /></p>
 <p>それでは，お時間のある方は，こういった論文を参考に，上記二つ目のモデルを改良して，さらに高い精度が出せるよう工夫してみてください．</p>
 </div>
 </div>
@@ -1457,29 +1445,29 @@ Segmentation</a></li>
 <h2>5.9. References<a class="headerlink" href="#References" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>[1] Sunnybrook cardiac images from earlier competition
 <a class="reference external" href="http://smial.sri.utoronto.ca/LV_Challenge/Data.html">http://smial.sri.utoronto.ca/LV_Challenge/Data.html</a></p>
-<p>[2] This 「Sunnybrook Cardiac MR Database」 is made available under the
+<p>[2] This “Sunnybrook Cardiac MR Database” is made available under the
 CC0 1.0 Universal license described above, and with more detail here:
 <a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a></p>
 <p>[3] Attribution: Radau P, Lu Y, Connelly K, Paul G, Dick AJ, Wright GA.
-「Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI.」
+“Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI.”
 The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge,
 <a class="reference external" href="http://hdl.handle.net/10380/3070">http://hdl.handle.net/10380/3070</a></p>
 <p>[4] <a class="reference external" href="http://fcn.berkeleyvision.org/">http://fcn.berkeleyvision.org/</a></p>
-<p>[5] Long, Shelhamer, Darrell; 「Fully Convoutional Networks for Semantic
-Segmentation」, CVPR 2015.</p>
-<p>[6] Zeiler, Krishnan, Taylor, Fergus; 「Deconvolutional Networks」, CVPR
+<p>[5] Long, Shelhamer, Darrell; “Fully Convoutional Networks for Semantic
+Segmentation”, CVPR 2015.</p>
+<p>[6] Zeiler, Krishnan, Taylor, Fergus; “Deconvolutional Networks”, CVPR
 2010.</p>
 <p>[7]
 <a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial</a></p>
-<p>[8] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla 「SegNet: A
-Deep Convolutional Encoder-Decoder Architecture for Image Segmentation.」
+<p>[8] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla “SegNet: A
+Deep Convolutional Encoder-Decoder Architecture for Image Segmentation.”
 PAMI, 2017</p>
-<p>[9] Olaf Ronneberger, Philipp Fischer, Thomas Brox, 「U-Net:
-Convolutional Networks for Biomedical Image Segmentation」, MICCAI 2015</p>
+<p>[9] Olaf Ronneberger, Philipp Fischer, Thomas Brox, “U-Net:
+Convolutional Networks for Biomedical Image Segmentation”, MICCAI 2015</p>
 <p>[10] Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang and Jiaya
-Jia, 「Pyramid Scene Parsing Network」, CVPR 2017</p>
-<p>[11] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, 「ChainerCV:
-a Library for Deep Learning in Computer Vision」, ACM Multimedia (ACMMM),
+Jia, “Pyramid Scene Parsing Network”, CVPR 2017</p>
+<p>[11] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, “ChainerCV:
+a Library for Deep Learning in Computer Vision”, ACM Multimedia (ACMMM),
 Open Source Software Competition, 2017</p>
 <ol class="loweralpha simple" start="3">
 <li>Shunta Saito, Preferred Networks, inc. 2017</li>
@@ -1528,22 +1516,12 @@ Open Source Software Competition, 2017</p>
 
     
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
