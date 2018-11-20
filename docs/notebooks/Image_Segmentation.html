@@ -395,7 +395,7 @@ Segmentationタスクに取り組んでみましょう．</p>
 </ul>
 <p>です．Google
 Colab上では，以下のようにしてインストールすることができます．以下のセルを実行してください．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -406,107 +406,10 @@ Colab上では，以下のようにしてインストールすることができ
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  1379  100  1379    0     0  10446      0 --:--:-- --:--:-- --:--:-- 10446
-+ apt -y -q install cuda-libraries-dev-9-2
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following additional packages will be installed:
-  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
-  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-npp-dev-9-2
-  cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
-The following NEW packages will be installed:
-  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
-  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-libraries-dev-9-2
-  cuda-npp-dev-9-2 cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
-0 upgraded, 9 newly installed, 0 to remove and 5 not upgraded.
-Need to get 332 MB of archives.
-After this operation, 972 MB of additional disk space will be used.
-Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cublas-dev-9-2 9.2.148.1-1 [50.4 MB]
-Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cufft-dev-9-2 9.2.148-1 [106 MB]
-Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-curand-dev-9-2 9.2.148-1 [57.8 MB]
-Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusolver-dev-9-2 9.2.148-1 [8,184 kB]
-Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusparse-dev-9-2 9.2.148-1 [27.8 MB]
-Get:6 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvrtc-dev-9-2 9.2.148-1 [9,348 B]
-Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvgraph-dev-9-2 9.2.148-1 [30.1 MB]
-Get:8 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-npp-dev-9-2 9.2.148-1 [52.0 MB]
-Get:9 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-libraries-dev-9-2 9.2.148-1 [2,598 B]
-Fetched 332 MB in 7s (46.4 MB/s)
-Selecting previously unselected package cuda-cublas-dev-9-2.
-(Reading database ... 22280 files and directories currently installed.)
-Preparing to unpack .../0-cuda-cublas-dev-9-2_9.2.148.1-1_amd64.deb ...
-Unpacking cuda-cublas-dev-9-2 (9.2.148.1-1) ...
-Selecting previously unselected package cuda-cufft-dev-9-2.
-Preparing to unpack .../1-cuda-cufft-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cufft-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-curand-dev-9-2.
-Preparing to unpack .../2-cuda-curand-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-curand-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-cusolver-dev-9-2.
-Preparing to unpack .../3-cuda-cusolver-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cusolver-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-cusparse-dev-9-2.
-Preparing to unpack .../4-cuda-cusparse-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cusparse-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-nvrtc-dev-9-2.
-Preparing to unpack .../5-cuda-nvrtc-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-nvrtc-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-nvgraph-dev-9-2.
-Preparing to unpack .../6-cuda-nvgraph-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-nvgraph-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-npp-dev-9-2.
-Preparing to unpack .../7-cuda-npp-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-npp-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-libraries-dev-9-2.
-Preparing to unpack .../8-cuda-libraries-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-libraries-dev-9-2 (9.2.148-1) ...
-Setting up cuda-npp-dev-9-2 (9.2.148-1) ...
-Setting up cuda-curand-dev-9-2 (9.2.148-1) ...
-Setting up cuda-nvrtc-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cusolver-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cufft-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cusparse-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cublas-dev-9-2 (9.2.148.1-1) ...
-Setting up cuda-nvgraph-dev-9-2 (9.2.148-1) ...
-Setting up cuda-libraries-dev-9-2 (9.2.148-1) ...
-+ pip install -q cupy-cuda92  chainer
-+ set +ex
-Installation succeeded!
-Collecting chainercv
-  Downloading https://files.pythonhosted.org/packages/bb/1c/cee12630628d0acd4d6c5d7a3ba196a3aa079a863baa3dc74eb70d8494c5/chainercv-0.11.0.tar.gz (223kB)
-    100% |████████████████████████████████| 225kB 5.3MB/s
-Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (2.1.2)
-Requirement already satisfied: chainer&gt;=5.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (5.0.0)
-Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.0.0)
-Requirement already satisfied: pytz in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2018.7)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.0)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
-Requirement already satisfied: numpy&gt;=1.7.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)
-Requirement already satisfied: six&gt;=1.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.11.0)
-Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.6.1)
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.0.10)
-Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
-Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer&gt;=5.0-&gt;chainercv) (40.6.2)
-Building wheels for collected packages: chainercv
-  Running setup.py bdist_wheel for chainercv ... - \ | / - \ | / done
-  Stored in directory: /root/.cache/pip/wheels/95/24/5a/1611db416857b5e092962bc22a70722315881e03970c7fa966
-Successfully built chainercv
-Installing collected packages: chainercv
-Successfully installed chainercv-0.11.0
-</pre></div></div>
-</div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンなどを確認します．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -587,7 +490,7 @@ The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge,
 <p>次に，このデータセットから抜き出した画像ペアの例を示します．下のセルを実行してみてください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -724,7 +627,7 @@ augmentationを簡単に実装することができます．ここでは，変�
 <p>ではこの関数を呼んでみましょう．下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [7]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -866,7 +769,7 @@ extensions</a></p>
 <p>下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [10]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -882,28 +785,28 @@ trainer.run()
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy
-1           1.00686     0.517096       0.775289       0.540575
-2           0.728002    0.561402       0.67237        0.600752
-3           0.665531    0.613053       0.644936       0.630006
-4           0.625915    0.652483       0.586594       0.692112
-5           0.555922    0.717588       0.499046       0.758896
-6           0.473667    0.776267       0.420303       0.808712
-7           0.37814     0.833024       0.308901       0.870837
-8           0.27015     0.890673       0.207          0.920023
-9           0.186278    0.929664       0.14569        0.946631
-10          0.122478    0.955981       0.0893776      0.968559
-11          0.0771808   0.973135       0.05754        0.97948
-12          0.0525395   0.981348       0.0446655      0.983505
-13          0.0410752   0.984757       0.0359079      0.985964
-14          0.0349951   0.986413       0.0321801      0.986911
-15          0.0323944   0.986992       0.030854       0.987133
-16          0.0302888   0.987531       0.0299298      0.987217
-17          0.0303342   0.987351       0.0293001      0.98734
-18          0.0299234   0.987076       0.0290048      0.987386
-19          0.0288533   0.987463       0.0287561      0.987365
-20          0.0289684   0.987402       0.0285276      0.987381
-CPU times: user 34.6 s, sys: 6.8 s, total: 41.4 s
-Wall time: 40.4 s
+1           1.10222     0.515315       0.850238       0.538822
+2           0.793371    0.556043       0.688139       0.583271
+3           0.675463    0.59534        0.651271       0.62109
+4           0.636776    0.638059       0.612699       0.663084
+5           0.58956     0.685091       0.537125       0.730852
+6           0.515452    0.746932       0.466753       0.778194
+7           0.427262    0.80376        0.35734        0.845057
+8           0.312992    0.868831       0.242198       0.904242
+9           0.219225    0.91544        0.171141       0.936535
+10          0.144614    0.947883       0.103567       0.963637
+11          0.0885961   0.969423       0.064158       0.977639
+12          0.0578891   0.979831       0.0482105      0.982734
+13          0.0440817   0.984096       0.0376425      0.985652
+14          0.0354407   0.986494       0.0331838      0.986573
+15          0.0337138   0.986403       0.0314246      0.986867
+16          0.0316121   0.986991       0.0302901      0.987112
+17          0.0301002   0.98733        0.0297589      0.98716
+18          0.0306172   0.986997       0.029339       0.987302
+19          0.029078    0.987556       0.0287634      0.987426
+20          0.0289408   0.987484       0.0285698      0.987464
+CPU times: user 34.4 s, sys: 6.38 s, total: 40.8 s
+Wall time: 41.1 s
 </pre></div></div>
 </div>
 <p>学習に40秒程度かかったと思います．表示されたのは<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>というExtensionが出力したログの情報です．現在のエポック数，ロス，精度（学習データセットに対してのものは<code class="docutils literal notranslate"><span class="pre">main/loss</span></code>,
@@ -912,7 +815,7 @@ Wall time: 40.4 s
 <p>それでは次に，<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．学習が終了したら，以下の2つのセルを実行してみてください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -922,7 +825,9 @@ Image(&#39;result/loss.png&#39;)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[11]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_33_0.png" src="../_images/notebooks_Image_Segmentation_33_0.png" />
@@ -930,7 +835,7 @@ Image(&#39;result/loss.png&#39;)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [12]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -939,7 +844,9 @@ Image(&#39;result/loss.png&#39;)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[12]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_34_0.png" src="../_images/notebooks_Image_Segmentation_34_0.png" />
@@ -971,7 +878,7 @@ a Library for Deep Learning in Computer Vision”, ACM Multimedia (ACMMM),
 Open Source Software Competition, 2017</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1005,8 +912,8 @@ evaluate(trainer, val, device=0)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Pixel Accuracy: 0.9873809814453125
-mIou: 0.6900666153175965
+Pixel Accuracy: 0.9874637310321515
+mIou: 0.6940267777662379
 </pre></div></div>
 </div>
 <p>2つの数字が表示されました．</p>
@@ -1035,7 +942,7 @@ positive」（白という予測が正解していた領域）の割合を見る
 が低い」ことの問題を確認してみましょう</strong>．以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1146,13 +1053,14 @@ Segmentation”, CVPR 2015.</p>
 2010.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from chainer import reporter
 from chainer import cuda
 from chainercv import evaluations
+
 
 class FullyConvolutionalNetwork(chainer.Chain):
 
@@ -1298,7 +1206,7 @@ Accuracy）だけでなく<code class="docutils literal notranslate"><span class
 <p>下記のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [19]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1314,28 +1222,28 @@ trainer.run()
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/miou   main/pa     val/main/loss  val/main/miou  val/main/pa
-10          0.217828    0.491744    0.983488    0.212151       0.49115        0.982301
-20          0.0784722   0.492184    0.984368    0.0851255      0.491152       0.982304
-30          0.0515855   0.49295     0.983131    0.0539821      0.502123       0.982515
-40          0.0415076   0.542585    0.984328    0.0467913      0.545044       0.983476
-50          0.0344175   0.634513    0.987312    0.0423225      0.549142       0.984255
-60          0.0325403   0.750201    0.988945    0.0327951      0.648565       0.987658
-70          0.0258697   0.804195    0.99131     0.0298474      0.670953       0.988483
-80          0.0186047   0.781926    0.99282     0.0237573      0.803589       0.990599
-90          0.0156691   0.84025     0.993813    0.0159455      0.832191       0.993359
-100         0.0122034   0.864917    0.995194    0.0192913      0.83258        0.992183
-110         0.0106813   0.875958    0.995869    0.013717       0.858723       0.994183
-120         0.00976216  0.886624    0.996183    0.0117954      0.866101       0.994915
-130         0.00930623  0.898936    0.996253    0.0113975      0.869572       0.995145
-140         0.00846001  0.893696    0.996438    0.0108226      0.884271       0.995381
-150         0.0074869   0.920678    0.997035    0.00996581     0.887469       0.99569
-160         0.00711609  0.904752    0.996868    0.0105339      0.891201       0.995624
-170         0.00609823  0.92874     0.997521    0.00962582     0.890948       0.995915
-180         0.00648245  0.925323    0.997334    0.00911035     0.899903       0.99616
-190         0.00526431  0.937104    0.997903    0.00892798     0.900907       0.996229
-200         0.00503438  0.934746    0.997893    0.00905536     0.905053       0.996281
-CPU times: user 5min 2s, sys: 1min 49s, total: 6min 52s
-Wall time: 5min 42s
+10          0.217126    0.491508    0.983017    0.206646       0.491137       0.982275
+20          0.0776512   0.491336    0.982671    0.0839112      0.491152       0.982304
+30          0.0512497   0.492688    0.98196     0.057086       0.491169       0.982304
+40          0.0384401   0.537077    0.985453    0.046099       0.512705       0.98278
+50          0.0314974   0.610753    0.988122    0.0390148      0.646171       0.986021
+60          0.0278446   0.697102    0.989173    0.0291624      0.693276       0.988566
+70          0.0203612   0.798418    0.992363    0.0251429      0.713642       0.989808
+80          0.0174617   0.79354     0.992877    0.0188788      0.786976       0.992069
+90          0.0144775   0.852318    0.994343    0.0159589      0.818687       0.993206
+100         0.0119087   0.856473    0.995114    0.0157051      0.848711       0.993455
+110         0.0105352   0.855949    0.995498    0.0140194      0.859574       0.994012
+120         0.00888528  0.901234    0.996387    0.011533       0.874732       0.995039
+130         0.00926602  0.894988    0.996168    0.0123727      0.857325       0.994836
+140         0.00752091  0.914659    0.996992    0.0109479      0.884241       0.995333
+150         0.00712841  0.917222    0.997131    0.0101         0.884306       0.995667
+160         0.00819653  0.888775    0.996367    0.0103381      0.891008       0.995617
+170         0.00541751  0.934431    0.997815    0.00942818     0.89692        0.995994
+180         0.00631236  0.912996    0.997232    0.0092502      0.900426       0.996097
+190         0.005099    0.938694    0.997868    0.0101091      0.897884       0.995854
+200         0.00454994  0.945816    0.998144    0.00885883     0.905147       0.996308
+CPU times: user 5min 14s, sys: 1min 49s, total: 7min 4s
+Wall time: 5min 50s
 </pre></div></div>
 </div>
 <p>学習が終了しました．<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>が出力した経過の値を見る限り，mIoUが少なくとも0.90近くまで到達していることがわかります．</p>
@@ -1345,7 +1253,7 @@ Wall time: 5min 42s
 <p>では，今回の学習で<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．下記の3つのセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [22]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1364,7 +1272,9 @@ Loss
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[22]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_56_1.png" src="../_images/notebooks_Image_Segmentation_56_1.png" />
@@ -1372,7 +1282,7 @@ Loss
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1390,7 +1300,9 @@ mean IoU
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[20]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_57_1.png" src="../_images/notebooks_Image_Segmentation_57_1.png" />
@@ -1398,7 +1310,7 @@ mean IoU
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1416,7 +1328,9 @@ Pixel Accuracy
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[21]:
+</pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_58_1.png" src="../_images/notebooks_Image_Segmentation_58_1.png" />
@@ -1426,7 +1340,7 @@ Pixel Accuracy
 Accuracyが0.99以上であるだけでなく，mIoUも0.90近くまで上がっています．mIoUに注目すると，最初のモデル（0.68程度）と比べて随分精度が上がっていることがわかると思います．実際にvalidationデータに対して推論を行った際の予測ラベル画像を見て，結果を確認しましょう．以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [23]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1440,8 +1354,8 @@ show_predicts(trainer, val, device=0, )
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Pixel Accuracy: 0.9962809636042669
-mIou: 0.9050526746914052
+Pixel Accuracy: 0.9963079599233774
+mIou: 0.9051467978144511
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
