@@ -360,12 +360,18 @@ Convolutional Neural Network (CNN)
 <div class="section" id="モデルを決める">
 <h2>3.1. モデルを決める<a class="headerlink" href="#モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まずはニューラルネットワークの構造を数式ではなくグラフィカルに見てみましょう．</p>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
+<div class="figure" id="id11">
+<img alt="01.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/01.png" />
+<p class="caption"><span class="caption-text">01.png</span></p>
+</div>
 <p>ひとつひとつの丸い部分のことを<strong>ノード</strong>と呼び，そのノードの集まりを<strong>層</strong>と呼びます．そして，一番初めの層を<strong>入力層</strong>，最後の層を<strong>出力層</strong>，そしてその間を<strong>中間層</strong>もしくは<strong>隠れ層</strong>と呼びます．このモデルは入力層，中間層，出力層の３層の構造となっていますが，中間層の数を増やすことでさらに多層のニューラルネットワークとして定義することもできます．こちらでは各層間の全てのノードが結合されているため，<strong>全結合のニューラルネットワーク</strong>とも呼び，ニューラルネットワークの最も基礎的な構造です．</p>
 <p>入力変数の扱い方はこれまでと同様ですが，出力変数の扱い方がこれまでと異なります．例えば，上図では白ワインと赤ワインを分類する問題を例に挙げています．この出力層の部分を見ると，白ワイン用の出力変数
 <span class="math notranslate nohighlight">\(y_{1}\)</span> と赤ワイン用の出力変数 <span class="math notranslate nohighlight">\(y_{2}\)</span>
 が別々に用意してあります．つまり，カテゴリの数だけ出力の変数があるということになります．なぜこのような構造となっているのでしょうか．</p>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
+<div class="figure" id="id12">
+<img alt="02.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/02.png" />
+<p class="caption"><span class="caption-text">02.png</span></p>
+</div>
 <p>まず，最終層にどのような値が入るのか，具体例を見てみましょう．例えば，年数が3年物でアルコール度数が14度，色合いが0.2，匂いが0.8というパラメータで表現できるワインがあるとします．内部の計算は後述するとして，このようなデータをニューラルネットワークに与えると，白ワイン
 <span class="math notranslate nohighlight">\(y_{1} = 0.15\)</span>, 赤ワイン <span class="math notranslate nohighlight">\(y_{2}= 0.85\)</span>
 という値が得られました．このとき，出力値の中で最も大きな値となっている変数に対応するクラス，すなわち「赤ワイン」をこの分類問題におけるこのニューラルネットワークによる予測結果とすることができます．</p>
@@ -373,7 +379,10 @@ Convolutional Neural Network (CNN)
 <p>それでは，ここからニューラルネットワークの内部で行われる計算を詳しく見ていきましょう．ニューラルネットワークの各層は，前の層の値に線形変換と非線形変換を順番に施すことで計算されています．まずは，ここで言う線形変換とは何を表すのか，から見ていきましょう．</p>
 <div class="section" id="線形変換">
 <h3>3.1.1. 線形変換<a class="headerlink" href="#線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
+<div class="figure" id="id13">
+<img alt="03.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/03.png" />
+<p class="caption"><span class="caption-text">03.png</span></p>
+</div>
 <p>ここで言う線形変換とは，重み行列 (<span class="math notranslate nohighlight">\(w\)</span>) ×入力ベクトル (<span class="math notranslate nohighlight">\(h\)</span>) +
 バイアスベクトル (<span class="math notranslate nohighlight">\(b\)</span>)
 のような計算のことを指しています．これからは，<span class="math notranslate nohighlight">\(h\)</span>
@@ -416,10 +425,16 @@ b_{3}
 </div>
 <div class="section" id="非線形変換">
 <h3>3.1.2. 非線形変換<a class="headerlink" href="#非線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
+<div class="figure" id="id14">
+<img alt="04.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/04.png" />
+<p class="caption"><span class="caption-text">04.png</span></p>
+</div>
 <p>次に，非線形変換について説明します．線形変換のみでは，上図左側のように入力と出力の関係が線形変換だけで表される場合はさておき，上図右のように非線形写像によって結ばれている場合は，両者の間の関係を適切に表現することができません．そこで，ニューラルネットワークでは各層で線形変換に引き続いて非線形変換を施すことで，全体として非線形性をもたせています．この非線形変換を行う関数を，ニューラルネットワークの文脈においては
 <strong>活性化関数</strong> と呼びます．</p>
-<p><img alt="image1" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/11.png" /></p>
+<div class="figure" id="id15">
+<img alt="05.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/05.png" />
+<p class="caption"><span class="caption-text">05.png</span></p>
+</div>
 <p>ニューラルネットワークでは上図に示す
 <strong>ロジスティックシグモイド関数</strong>（以下シグモイド関数）</p>
 <div class="math notranslate nohighlight">
@@ -429,14 +444,17 @@ b_{3}
 という現象が起きやすくなるから，というものです．これを回避するために，<strong>Rectified
 Linear Unit (ReLU)</strong>
 という関数がよく用いられています．これは，以下のような形をした関数です．</p>
-<p><img alt="image2" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/12.png" /></p>
+<p><img alt="06.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/06.png" /></p>
 <div class="math notranslate nohighlight">
 \[h = f(u) = \max(0, u)\]</div>
 <p>これは，入力が負の値の場合には出力は0で一定であり，正の値の場合は入力をそのまま出力するという関数です．シグモイド関数では，入力が小さな，もしくは大きな値をとった際に，勾配がどんどん小さくなってしまうだろうことがプロットからも明らかに見て取れます．それに対し，ReLU関数は入力の値がいくら大きくなっても，一定の勾配を与えることが分かります．これがのちほど紹介する勾配消失という問題に有効に働くのです．</p>
 </div>
 <div class="section" id="数値を見ながら計算の流れを確認">
 <h3>3.1.3. 数値を見ながら計算の流れを確認<a class="headerlink" href="#数値を見ながら計算の流れを確認" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
+<div class="figure" id="id16">
+<img alt="07.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/07.png" />
+<p class="caption"><span class="caption-text">07.png</span></p>
+</div>
 <p>ここで，上図に書き込まれた具体的な数値を使って，入力
 <span class="math notranslate nohighlight">\(x_1, x_2, x_3\)</span> から出力 <span class="math notranslate nohighlight">\(y\)</span>
 が計算される過程を確認してみましょう．今は計算を簡略化するためバイアス
@@ -495,7 +513,10 @@ h_{12} &amp;= \max(0, -11)  = 0
 に対する目的関数 <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>
 を表しています．この例では簡単のため二次関数になっていますが，実際にはもっと複雑な関数であることがほとんどでしょう．この目的関数が最小値を与えるような
 <span class="math notranslate nohighlight">\(w\)</span> は，どのように発見することができるでしょうか．</p>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
+<div class="figure" id="id17">
+<img alt="13.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/13.png" />
+<p class="caption"><span class="caption-text">13.png</span></p>
+</div>
 <p>前節で説明したように，ニューラルネットワークのパラメータはまず乱数で初期化されます．ここでは，例として
 <span class="math notranslate nohighlight">\(w=3\)</span>
 となったと考えてみましょう．そうすると，<span class="math notranslate nohighlight">\(w=3\)</span>における<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>の勾配
@@ -507,7 +528,10 @@ h_{12} &amp;= \max(0, -11)  = 0
 という関数の接戦の傾きを表し，これは
 <strong>:math:`mathcal{L}`の値を増加させるたに:math:`w`が変化すべき方向</strong>
 という意味があります．</p>
-<p><img alt="image1" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/11.png" /></p>
+<div class="figure" id="id18">
+<img alt="11.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/11.png" />
+<p class="caption"><span class="caption-text">11.png</span></p>
+</div>
 <p>つまり，<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>の値を小さくするには，逆の方向に
 <span class="math notranslate nohighlight">\(w\)</span> を変化させる，すなわち <strong>:math:`w` から
 :math:`frac{partial mathcal{L}}{partial w}` を引いてやればよい</strong>
@@ -524,7 +548,10 @@ h_{12} &amp;= \max(0, -11)  = 0
 であったとしましょう．すると，次の更新量は，<span class="math notranslate nohighlight">\(- 0.5 \times -(-1) = 0.5\)</span>
 となります．以上の通りに2回更新したあとは，以下の図のような位置に
 <span class="math notranslate nohighlight">\(w\)</span> はあるでしょう．</p>
-<p><img alt="image2" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/12.png" /></p>
+<div class="figure" id="id19">
+<img alt="12.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/12.png" />
+<p class="caption"><span class="caption-text">12.png</span></p>
+</div>
 <p>「-1 <span class="math notranslate nohighlight">\(\times\)</span> 学習率 <span class="math notranslate nohighlight">\(\times\)</span>
 勾配」を更新量としてパラメータを変化させていくと，<span class="math notranslate nohighlight">\(w\)</span> は求めたい
 <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> の最小値を与える <span class="math notranslate nohighlight">\(w\)</span>
@@ -535,10 +562,16 @@ h_{12} &amp;= \max(0, -11)  = 0
 <p>ニューラルネットワークを勾配降下法で最適化する場合は，学習データセット内に存在するすべてのサンプルに対して目的関数の値を計算し，その総和を最小にするようにパラメータを更新する<strong>バッチ最適化</strong>という方法<strong>ではなく</strong>，「<strong>ミニバッチ学習</strong>」と呼ばれる方法をとるのが一般的です．これは，学習データセットからランダムに<span class="math notranslate nohighlight">\(k (&gt;0)\)</span>個のデータを抽出し，その<span class="math notranslate nohighlight">\(k\)</span>個のデータに対する目的関数の平均を最小化するという方法です．このときの<span class="math notranslate nohighlight">\(k\)</span>をバッチサイズもしくはミニバッチサイズと呼び，このような方法は，<strong>確率的勾配降下法</strong>
 (SGD: Stocastic Gradient Descent)
 と呼ばれます．現在ほとんどすべてのニューラルネットワークのための最適化手法はこのSGDをベースとした手法となっています．SGDを用いると，下図のように目的関数が凸関数でなかったとしても，“ほとんど確実に”局所最適解に収束することが知られています．</p>
-<p><img alt="image3" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/14.png" /></p>
+<div class="figure" id="id20">
+<img alt="14.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/14.png" />
+<p class="caption"><span class="caption-text">14.png</span></p>
+</div>
 <div class="section" id="パラメータ更新量の算出">
 <h3>3.3.1. パラメータ更新量の算出<a class="headerlink" href="#パラメータ更新量の算出" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
+<div class="figure" id="id21">
+<img alt="08.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/08.png" />
+<p class="caption"><span class="caption-text">08.png</span></p>
+</div>
 <p>それでは今，上図のような3層の全結合型ニューラルネットワークを考え，1層目と2層目の間の線形変換が
 <span class="math notranslate nohighlight">\({\bf w}_1, {\bf b}_1\)</span>
 というパラメータによって表され，2層目と3層目の間の線形変換が
@@ -659,7 +692,7 @@ b2 = np.array([0])
 <p>それでは，各層の計算を実際に実行してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [57]:
+<span></span>In [68]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -711,7 +744,7 @@ g_u2w2 = h1
 についての勾配を得ることができます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [59]:
+<span></span>In [70]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -776,7 +809,7 @@ print(g_Lw_2)
 <p>と計算することができます．では，さっそく実際にNumPyを用いて計算を実行してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [65]:
+<span></span>In [71]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -821,7 +854,7 @@ print(g_Lw1)
 <p>ここまでで，勾配を手計算により導出して実際に数値計算を行うということを体験しました．しかし，これは層数が増えてくれば増えてくるほど，一つ一つのパラメータに関する勾配を手計算で求めることは大変になっていきます．</p>
 <p>しかし，ここまでで何度か行ってきた合成関数の偏微分を連鎖率によって複数の偏微分の積の形に変形する行程は，とてもアルゴリズミックでした．</p>
 <p>そこで，ここまでの説明で用いていた3層全結合型ニューラルネットワークをもう一度見直して，更新量がどのように計算されていたか動画で確かめてみましょう．</p>
-<div class="figure" id="id11">
+<div class="figure" id="id22">
 <img alt="backpropagation" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/backpropagation.gif" />
 <p class="caption"><span class="caption-text">backpropagation</span></p>
 </div>
@@ -869,7 +902,10 @@ f\left( u\right) &amp;=\dfrac {1}{1+e^{-u}} \\
 f'\left( u\right) &amp;= f\left( u\right) \left( 1-f\left( u\right) \right)
 \end{aligned}\end{split}\]</div>
 <p>さて，この導関数を入力変数に関してプロットしてみると，下記のようになります．</p>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" /></p>
+<div class="figure" id="id23">
+<img alt="09.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" />
+<p class="caption"><span class="caption-text">09.png</span></p>
+</div>
 <p>この図を見ると，<strong>シグモイド関数の勾配の最大値は0.25</strong>
 であることに気づきます．それに対し，前述のReLU関数の場合，入力変数が0より大きければ常に勾配は1となるので，その最大値は1でした．</p>
 <p>これにどのような差があるかを考えてみます．各パラメータの更新量を求めるには，そのパラメータが使われた関数よりも<strong>先のすべての関数の勾配をかけ合わせたもの</strong>

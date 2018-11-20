@@ -40,7 +40,7 @@
         "\n",
         "まずはニューラルネットワークの構造を数式ではなくグラフィカルに見てみましょう．\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/01.png)\n",
+        "![01.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/01.png)\n",
         "\n",
         "ひとつひとつの丸い部分のことを**ノード**と呼び，そのノードの集まりを**層**と呼びます．そして，一番初めの層を**入力層**，最後の層を**出力層**，そしてその間を**中間層**もしくは**隠れ層**と呼びます．このモデルは入力層，中間層，出力層の３層の構造となっていますが，中間層の数を増やすことでさらに多層のニューラルネットワークとして定義することもできます．こちらでは各層間の全てのノードが結合されているため，**全結合のニューラルネットワーク**とも呼び，ニューラルネットワークの最も基礎的な構造です．\n",
         "\n",
@@ -54,7 +54,7 @@
       },
       "cell_type": "markdown",
       "source": [
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/02.png)\n",
+        "![02.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/02.png)\n",
         "\n",
         "まず，最終層にどのような値が入るのか，具体例を見てみましょう．例えば，年数が3年物でアルコール度数が14度，色合いが0.2，匂いが0.8というパラメータで表現できるワインがあるとします．内部の計算は後述するとして，このようなデータをニューラルネットワークに与えると，白ワイン $y_{1} = 0.15$, 赤ワイン $y_{2}= 0.85$ という値が得られました．このとき，出力値の中で最も大きな値となっている変数に対応するクラス，すなわち「赤ワイン」をこの分類問題におけるこのニューラルネットワークによる予測結果とすることができます．\n",
         "\n",
@@ -72,7 +72,7 @@
       "source": [
         "### 線形変換\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/03.png)\n",
+        "![03.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/03.png)\n",
         "\n",
         "ここで言う線形変換とは，重み行列 ($w$) ×入力ベクトル ($h$) + バイアスベクトル ($b$) のような計算のことを指しています．これからは，$h$ が文字としてよく登場しますが，これは隠れ層 (hidden layer) の頭文字である $h$ から来ています．ただし，入力層（上図における $x_1, x_2, x_3, x_4$）も，$0$層目の隠れ層と考えることにして，以下では $h_01, h_02, h_03, h_04$ と表記します．では上図で表される計算を数式で記述してみましょう．\n",
         "\n",
@@ -122,11 +122,11 @@
       "source": [
         "### 非線形変換\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/04.png)\n",
+        "![04.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/04.png)\n",
         "\n",
         "次に，非線形変換について説明します．線形変換のみでは，上図左側のように入力と出力の関係が線形変換だけで表される場合はさておき，上図右のように非線形写像によって結ばれている場合は，両者の間の関係を適切に表現することができません．そこで，ニューラルネットワークでは各層で線形変換に引き続いて非線形変換を施すことで，全体として非線形性をもたせています．この非線形変換を行う関数を，ニューラルネットワークの文脈においては **活性化関数** と呼びます．\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/05.png)\n",
+        "![05.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/05.png)\n",
         "\n",
         "ニューラルネットワークでは上図に示す **ロジスティックシグモイド関数**（以下シグモイド関数）\n",
         "$$\n",
@@ -134,7 +134,7 @@
         "$$\n",
         "がよく用いられてきました．しかし，画像認識などで用いられる層数のとても多い畳込みニューラルネットワークなどでは，シグモイド関数は活性化関数としてほとんど用いられていません．その理由の一つは，シグモイド関数を活性化関数に採用することで **勾配消失** という現象が起きやすくなるから，というものです．これを回避するために，**Rectified Linear Unit (ReLU)** という関数がよく用いられています．これは，以下のような形をした関数です．\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/06.png)\n",
+        "![06.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/06.png)\n",
         "$$\n",
         "h = f(u) = \\max(0, u)\n",
         "$$\n",
@@ -150,7 +150,7 @@
       "source": [
         "### 数値を見ながら計算の流れを確認\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/07.png)\n",
+        "![07.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/07.png)\n",
         "\n",
         "ここで，上図に書き込まれた具体的な数値を使って，入力 $x_1, x_2, x_3$ から出力 $y$ が計算される過程を確認してみましょう．今は計算を簡略化するためバイアス ${\\bf b}$ の計算は省略します．数値例として，${\\bf x}^T = \\begin{bmatrix} 2 & 3 & 1 \\end{bmatrix}$ が与えられた時の出力 $y$ の計算手順を一つ一つ追いかけてみましょう．\n",
         "\n",
@@ -232,23 +232,23 @@
         "\n",
         "では，まず以下の図を御覧ください．図中の点線は，パラメータ $w$ に対する目的関数 $\\mathcal{L}$ を表しています．この例では簡単のため二次関数になっていますが，実際にはもっと複雑な関数であることがほとんどでしょう．この目的関数が最小値を与えるような $w$ は，どのように発見することができるでしょうか．\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/13.png)\n",
+        "![13.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/13.png)\n",
         "\n",
         "前節で説明したように，ニューラルネットワークのパラメータはまず乱数で初期化されます．ここでは，例として $w=3$ となったと考えてみましょう．そうすると，$w=3$における$\\mathcal{L}$の勾配 $\\frac{\\partial \\mathcal{L}}{\\partial w}$ が求まります．ここでは，仮に $w=3$ における $\\frac{\\partial \\mathcal{L}}{\\partial w}$ が $3$ であったとしましょう．すると，以下の図のように，この $3$ という値は $w=3$ における $\\mathcal{L}(w)$ という関数の接戦の傾きを表し，これは **$\\mathcal{L}$の値を増加させるたに$w$が変化すべき方向** という意味があります．\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/11.png)\n",
+        "![11.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/11.png)\n",
         "\n",
         "つまり，$\\mathcal{L}$の値を小さくするには，逆の方向に $w$ を変化させる，すなわち **$w$ から $\\frac{\\partial \\mathcal{L}}{\\partial w}$ を引いてやればよい** でしょう．これがニューラルネットワークのパラメータを目的関数の勾配を用いて更新していく際の基本的な考え方です．このときの $w$ のステップサイズ（更新量）のスケールを調整するために，勾配に **学習率** (learning rate) と呼ばれる値を乗じるのが一般的です．\n",
         "\n",
         "例えば，今学習率を $0.5$ に設定してみます．そうすると，$w$の更新量は $-$ 学習率 $\\times$ 勾配で決まるので，$-0.5 \\times 3 = -1.5$ となります．現在 $w=3$ なので，$w \\leftarrow w - 1.5$ と更新した後は， $w=1.5$ となります．ここでさらに，この点においても，勾配を求めてみます．その結果が $\\frac{\\partial \\mathcal{L}}{\\partial w} |_{w=1.5} = -1$ であったとしましょう．すると，次の更新量は，$- 0.5 \\times -(-1) = 0.5$ となります．以上の通りに2回更新したあとは，以下の図のような位置に $w$ はあるでしょう．\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/12.png)\n",
+        "![12.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/12.png)\n",
         "\n",
         "「-1 $\\times$ 学習率 $\\times$ 勾配」を更新量としてパラメータを変化させていくと，$w$ は求めたい $\\mathcal{L}$ の最小値を与える $w$ に徐々に近づいていきます．このように，勾配を使って目的関数の最小化（もしくは最大化）を行う手法を **勾配降下法** と呼びます．ニューラルネットワークは，基本的に **微分可能な関数のみを層間をつなぐ関数として用いて** 設計されるため，登場する線形変換と非線形変換はすべて微分可能であり，学習データセットを用いて勾配降下法によってパラメータを最適化する方法が適用可能です．\n",
         "\n",
         "ニューラルネットワークを勾配降下法で最適化する場合は，学習データセット内に存在するすべてのサンプルに対して目的関数の値を計算し，その総和を最小にするようにパラメータを更新する**バッチ最適化**という方法**ではなく**，「**ミニバッチ学習**」と呼ばれる方法をとるのが一般的です．これは，学習データセットからランダムに$k (>0)$個のデータを抽出し，その$k$個のデータに対する目的関数の平均を最小化するという方法です．このときの$k$をバッチサイズもしくはミニバッチサイズと呼び，このような方法は，**確率的勾配降下法** (SGD: Stocastic Gradient Descent) と呼ばれます．現在ほとんどすべてのニューラルネットワークのための最適化手法はこのSGDをベースとした手法となっています．SGDを用いると，下図のように目的関数が凸関数でなかったとしても，“ほとんど確実に”局所最適解に収束することが知られています．\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/14.png)"
+        "![14.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/14.png)"
       ]
     },
     {
@@ -260,7 +260,7 @@
       "source": [
         "### パラメータ更新量の算出\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/08.png)\n",
+        "![08.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/08.png)\n",
         "\n",
         "それでは今，上図のような3層の全結合型ニューラルネットワークを考え，1層目と2層目の間の線形変換が ${\\bf w}_1, {\\bf b}_1$ というパラメータによって表され，2層目と3層目の間の線形変換が ${\\bf w}_2, {\\bf b}_2$ というパラメータによって表されるとします（図ではバイアス ${\\bf b}_1, {\\bf b}_2$ は省略されています）．これらをまとめて $\\boldsymbol{\\Theta}$ と表すことにします．\n",
         "\n",
@@ -415,11 +415,11 @@
       "metadata": {
         "id": "d-ELmfkiKQfd",
         "colab_type": "code",
+        "outputId": "ef26b9e1-ecac-4e5c-f69b-d7443a2338ea",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 34
-        },
-        "outputId": "46c8807a-9310-4bc7-8e7a-43ea7cfcaec2"
+        }
       },
       "cell_type": "code",
       "source": [
@@ -433,7 +433,7 @@
         "\n",
         "print(y)"
       ],
-      "execution_count": 57,
+      "execution_count": 68,
       "outputs": [
         {
           "output_type": "stream",
@@ -495,11 +495,11 @@
       "metadata": {
         "id": "ZrKfXtzfaWk4",
         "colab_type": "code",
+        "outputId": "cc2060bc-b039-465c-b156-cb4b45264c5a",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 34
-        },
-        "outputId": "7b14f0d2-cd13-4054-9269-4476861d5e1d"
+        }
       },
       "cell_type": "code",
       "source": [
@@ -508,7 +508,7 @@
         "\n",
         "print(g_Lw_2)"
       ],
-      "execution_count": 59,
+      "execution_count": 70,
       "outputs": [
         {
           "output_type": "stream",
@@ -588,11 +588,11 @@
       "metadata": {
         "id": "v41tSnDkcbPk",
         "colab_type": "code",
+        "outputId": "d6075fb2-5da9-4981-f1b7-d65eaf219fbe",
         "colab": {
           "base_uri": "https://localhost:8080/",
           "height": 51
-        },
-        "outputId": "a5dae138-352a-4f77-e305-85ef6bcb58b9"
+        }
       },
       "cell_type": "code",
       "source": [
@@ -612,7 +612,7 @@
         "\n",
         "print(g_Lw1)"
       ],
-      "execution_count": 65,
+      "execution_count": 71,
       "outputs": [
         {
           "output_type": "stream",
@@ -712,7 +712,7 @@
         "\n",
         "さて，この導関数を入力変数に関してプロットしてみると，下記のようになります．\n",
         "\n",
-        "![](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png)\n",
+        "![09.png](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png)\n",
         "\n",
         "この図を見ると，**シグモイド関数の勾配の最大値は0.25** であることに気づきます．それに対し，前述のReLU関数の場合，入力変数が0より大きければ常に勾配は1となるので，その最大値は1でした．\n",
         "\n",
