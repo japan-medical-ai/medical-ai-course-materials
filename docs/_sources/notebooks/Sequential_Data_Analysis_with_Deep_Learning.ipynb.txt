@@ -21,7 +21,7 @@
       },
       "cell_type": "markdown",
       "source": [
-        "[![colab-logo](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Sequential_Data_Analysis_with_Deep_Learning.ipynb)\n",
+        "[![colab-logo](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Sequential_Data_Analysis_with_Deep_Learningt a.ipynb)\n",
         "\n",
         "# 実践編: ディープラーニングを使ったモニタリングデータの時系列解析"
       ]
@@ -262,7 +262,7 @@
         "\n",
         "の順番で，下図のような波形が観測されます．\n",
         "\n",
-        "![sinus_rhythm](https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/sinus_rhythm.svg)\n",
+        "![sinus_rhythm](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/sinus_rhythm.svg)\n",
         "\n",
         "(図は[[文献1](https://en.wikipedia.org/wiki/Electrocardiography)]より抜粋)\n",
         "\n",
@@ -437,7 +437,7 @@
         "    \n",
         "※ Association for the Advancement of Medical Instrumentation (AAMI)が推奨している基準([[文献4](https://ieeexplore.ieee.org/document/1306572)])で，5種類に大別して整理されています．\n",
         "\n",
-        "![aami_standard](https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/aami_standard.png)\n",
+        "![aami_standard](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/aami_standard.png)\n",
         "\n",
         "(表は[[文献5](https://arxiv.org/abs/1810.04121)]より抜粋)"
       ]
@@ -1896,7 +1896,7 @@
         "\n",
         "下図は，正解クラスの予測確率値と，その際のlossの関係をプロットしており，$\\gamma$の値を変化させた場合に，相対ロスがどのように下がっていくかを示しています．\n",
         "\n",
-        "![focal_plot](https://github.com/japan-medical-ai/medical-ai-course-materials/tree/master/notebooks/images/monitoring/focal_plot.png)\n",
+        "![focal_plot](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/focal_plot.png)\n",
         "\n",
         "(図は [[文献6]](https://arxiv.org/abs/1708.02002)より抜粋)\n",
         "\n",
