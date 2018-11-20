@@ -46,6 +46,7 @@ release = ''
 extensions = [
     'nbsphinx',
     'sphinx.ext.mathjax',
+    'IPython.sphinxext.ipython_console_highlighting'
 ]
 exclude_patterns = ['build', '**.ipynb_checkpoints']
 
