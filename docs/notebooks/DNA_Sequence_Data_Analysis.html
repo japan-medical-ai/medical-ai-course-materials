@@ -149,7 +149,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/notebooks/DNA_Data_Analysis.ipynb.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/notebooks/DNA_Sequence_Data_Analysis.ipynb.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -345,6 +345,7 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
+<p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/source/source/notebooks/DNA_Sequence_Data_Analysis.ipynb">[colab_logo](https://colab.research.google.com/assets/colab-badge.svg</a></p>
 <p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Basenji.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <div class="section" id="実践編：ディープラーニングを使った配列解析">
 <h1>7. 実践編：ディープラーニングを使った配列解析<a class="headerlink" href="#実践編：ディープラーニングを使った配列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
@@ -361,7 +362,7 @@ Sequencer）の発展により，遺伝子の塩基配列を高速，大量，�
 </ul>
 <p>です．Google
 Colab上では，以下のようにしてインストールすることができます．以下のセルを実行（Shit+Enter）してください．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -374,30 +375,8 @@ Colab上では，以下のようにしてインストールすることができ
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Reading package lists...
-Building dependency tree...
-Reading state information...
-cuda-libraries-dev-9-2 is already the newest version (9.2.148-1).
-0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.
-Requirement already satisfied: cupy-cuda92 in /usr/local/lib/python2.7/dist-packages (6.0.0a1)
-Requirement already satisfied: fastrlock&gt;=0.3 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (0.4)
-Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (1.14.6)
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (1.11.0)
-Requirement already satisfied: chainer in /usr/local/lib/python2.7/dist-packages (6.0.0a1)
-Requirement already satisfied: filelock in /usr/local/lib/python2.7/dist-packages (from chainer) (3.0.10)
-Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (3.6.1)
-Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (1.14.6)
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (1.11.0)
-Requirement already satisfied: setuptools in /usr/local/lib/python2.7/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer) (40.5.0)
-</pre></div></div>
-</div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンを確認してください．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -412,26 +391,21 @@ print(&#39;matplotlib:&#39;, matplotlib.__version__)
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
-Chainer: 6.0.0a1
-NumPy: 1.14.6
-CuPy:
-  CuPy Version          : 6.0.0a1
-  CUDA Root             : /usr/local/cuda
-  CUDA Build Version    : 9020
-  CUDA Driver Version   : 9020
-  CUDA Runtime Version  : 9020
-  cuDNN Build Version   : 7201
-  cuDNN Version         : 7201
-  NCCL Build Version    : 2213
-iDeep: Not Available
-(&#39;matplotlib:&#39;, &#39;2.1.2&#39;)
-</pre></div></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
+<span class="n">Chainer</span><span class="p">:</span> <span class="mf">6.0</span><span class="o">.</span><span class="mi">0</span><span class="n">a1</span>
+<span class="n">NumPy</span><span class="p">:</span> <span class="mf">1.14</span><span class="o">.</span><span class="mi">6</span>
+<span class="n">CuPy</span><span class="p">:</span>
+  <span class="n">CuPy</span> <span class="n">Version</span>          <span class="p">:</span> <span class="mf">6.0</span><span class="o">.</span><span class="mi">0</span><span class="n">a1</span>
+  <span class="n">CUDA</span> <span class="n">Root</span>             <span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span>
+  <span class="n">CUDA</span> <span class="n">Build</span> <span class="n">Version</span>    <span class="p">:</span> <span class="mi">9020</span>
+  <span class="n">CUDA</span> <span class="n">Driver</span> <span class="n">Version</span>   <span class="p">:</span> <span class="mi">9020</span>
+  <span class="n">CUDA</span> <span class="n">Runtime</span> <span class="n">Version</span>  <span class="p">:</span> <span class="mi">9020</span>
+  <span class="n">cuDNN</span> <span class="n">Build</span> <span class="n">Version</span>   <span class="p">:</span> <span class="mi">7201</span>
+  <span class="n">cuDNN</span> <span class="n">Version</span>         <span class="p">:</span> <span class="mi">7201</span>
+  <span class="n">NCCL</span> <span class="n">Build</span> <span class="n">Version</span>    <span class="p">:</span> <span class="mi">2213</span>
+<span class="n">iDeep</span><span class="p">:</span> <span class="n">Not</span> <span class="n">Available</span>
+<span class="p">(</span><span class="s1">&#39;matplotlib:&#39;</span><span class="p">,</span> <span class="s1">&#39;2.1.2&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="配列解析について">
@@ -448,7 +422,7 @@ Wide Association Study;
 <h2>7.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは，データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します．ここでは前処理が既に終わって配列と，各位置ごとの推定カバレッジ値が記録されたデータを利用します．下のセルを実行してデータをダウンロードしてください．（TODO:
 公開の場所においてcurlで取得するようにする）</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -473,21 +447,9 @@ drive_file = drive.CreateFile({&#39;id&#39;: file_id})
 
 
 drive_file.GetContentFile(&quot;data.h5&quot;)
-!ls -l
+
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-total 3640084
--rw-r--r-- 1 root root       2610 Nov  6 07:40 adc.json
--rw-r--r-- 1 root root 3727429632 Nov  6 08:17 data.h5
-drwxr-xr-x 2 root root       4096 Nov  6 08:06 out
-drwxr-xr-x 2 root root       4096 Nov  2 17:32 sample_data
-</pre></div></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="mi">3640080</span>
 <span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span>       <span class="mi">2597</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">05</span><span class="p">:</span><span class="mi">38</span> <span class="n">adc</span><span class="o">.</span><span class="n">json</span>
@@ -495,7 +457,7 @@ drwxr-xr-x 2 root root       4096 Nov  2 17:32 sample_data
 <span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">root</span> <span class="n">root</span>       <span class="mi">4096</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">47</span> <span class="n">sample_data</span>
 </pre></div>
 </div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -505,24 +467,12 @@ drwxr-xr-x 2 root root       4096 Nov  2 17:32 sample_data
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-total 3.5G
--rw-r--r-- 1 root root 2.6K Nov  6 07:40 adc.json
--rw-r--r-- 1 root root 3.5G Nov  6 08:23 data.h5
-drwxr-xr-x 2 root root 4.0K Nov  6 08:26 out
-drwxr-xr-x 2 root root 4.0K Nov  2 17:32 sample_data
-</pre></div></div>
-</div>
 <p>data.h5というファイルが正しくダウンロードされているかを確認してください．</p>
 <p>data.h5はHDF5形式でデータを格納したファイルです．HDF5ファイルは，ファイルシステムと同様に，階層的にデータを格納することができ，行列やテンソルデータをそれぞれの位置で名前付きで格納することができます．</p>
 <p>HDF5形式のファイルを操作するためにh5pyというライブラリがあります．h5pyのFile()でファイルを開き，keys()というAPIでその中に含まれているキーを列挙します．取得したキーを使って格納されている各データを参照することができます．</p>
 <p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます．</p>
 <p>以下のセルを実行して格納されているデータを確認してください．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -535,24 +485,6 @@ with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
     print(key, hf[key].shape)
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(u&#39;pool_width&#39;, ())
-(u&#39;target_ids&#39;, (3,))
-(u&#39;target_labels&#39;, (3,))
-(u&#39;target_strands&#39;, (3,))
-(u&#39;test_in&#39;, (444, 131072, 4))
-(u&#39;test_out&#39;, (444, 1024, 3))
-(u&#39;test_out_full&#39;, (444, 1024, 3))
-(u&#39;train_in&#39;, (6240, 131072, 4))
-(u&#39;train_out&#39;, (6240, 1024, 3))
-(u&#39;valid_in&#39;, (338, 131072, 4))
-(u&#39;valid_out&#39;, (338, 1024, 3))
-</pre></div></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;pool_width&#39;</span><span class="p">,</span> <span class="p">())</span>
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_ids&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
@@ -578,7 +510,7 @@ with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
 </div>
 </div>
 <p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータを一部を表示します．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -594,23 +526,6 @@ with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
   print(y[0, 0:10])
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-<span class="ansi-red-fg">NameError</span>Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-2-670d1f74f713&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">with</span> h5py<span class="ansi-blue-fg">.</span>File<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;data.h5&#39;</span><span class="ansi-blue-fg">)</span> <span class="ansi-green-fg">as</span> hf<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      2</span>   x <span class="ansi-blue-fg">=</span> hf<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;train_in&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-cyan-fg">100</span><span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">      3</span>   <span class="ansi-green-fg">print</span><span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">,</span> x<span class="ansi-blue-fg">.</span>dtype<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span>   <span class="ansi-green-fg">print</span><span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">[</span><span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span><span class="ansi-cyan-fg">10</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>   y <span class="ansi-blue-fg">=</span> hf<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;train_out&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-cyan-fg">100</span><span class="ansi-blue-fg">]</span>
-
-<span class="ansi-red-fg">NameError</span>: name &#39;h5py&#39; is not defined
-</pre></div></div>
 </div>
 </div>
 <div class="section" id="Dilated-Convolutionを用いた解析">
@@ -631,9 +546,11 @@ Convolutionについてさらに詳しくみていきます．</p>
 <p>従来の畳み込み層を使って配列解析をする場合を考えてみます．
 以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません．どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され，カーネルサイズがKの時，Dだけ離れた距離にある情報を取得するためにはD/K層必要となります．今回の問題の場合Dは数百から数万，Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません．</p>
 <div class="figure" id="id8">
-<img alt="convolution" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png" />
-<p class="caption"><span class="caption-text">convolution</span></p>
+<img alt="orig conv" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png" />
+<p class="caption"><span class="caption-text">orig conv</span></p>
 </div>
+<p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WaveNet: A Generative Model for Raw
+Audio</a>より引用</p>
 <p>それに対し，Dilated Convolution（atrous convolutionやconvolution weith
 holesともよばれます）は読み取る場所をずらしたところからうけとります．例えばDilation=4の場合，4だけ離れた位置から情報を受け取ります．このDilatedを倍々にしていき，カーネルサイズを2とした場合，Dだけ離れた位置の情報を受取るには
 log_2
@@ -641,9 +558,11 @@ D層だけ必要になります．今回のDが数百から数万の場合，10�
 <p>今回はこのDilated
 Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します．</p>
 <div class="figure" id="id9">
-<img alt="dilated convolution" src="http://musyoku.github.io/images/post/2016-09-17/dilated_conv.png" />
+<img alt="dilated convolution" src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif" />
 <p class="caption"><span class="caption-text">dilated convolution</span></p>
 </div>
+<p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">Wavenet
+Blog記事</a>より引用</p>
 </div>
 <div class="section" id="ブロック">
 <h3>7.4.3. ブロック<a class="headerlink" href="#ブロック" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -822,7 +741,7 @@ def log_poisson_acc(log_x, t):
 </div>
 </div>
 <p>これで全部準備ができました．残りはchainerのtrainerを改造して学習するだけです．以下のコードを実行してください．30分程度で学習が完了します．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -887,32 +806,7 @@ trainer.run()
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[u&#39;pool_width&#39;, u&#39;target_ids&#39;, u&#39;target_labels&#39;, u&#39;target_strands&#39;, u&#39;test_in&#39;, u&#39;test_out&#39;, u&#39;test_out_full&#39;, u&#39;train_in&#39;, u&#39;train_out&#39;, u&#39;valid_in&#39;, u&#39;valid_out&#39;]
-epoch       main/loss   validation/main/loss  main/true_loss  validation/main/true_loss  elapsed_time
-1           0.567609    0.42473                                                          48.1003
-     total [################..................................] 32.05%
-this epoch [##############....................................] 28.21%
-       100 iter, 1 epoch / 4 epochs
-       inf iters/sec. Estimated time to finish: 0:00:00.
-2           0.399307    0.370479                                                         95.4976
-     total [################################..................] 64.10%
-this epoch [############################......................] 56.41%
-       200 iter, 2 epoch / 4 epochs
-    1.6536 iters/sec. Estimated time to finish: 0:01:07.729414.
-3           0.360114    0.355001                                                         142.914
-     total [################################################..] 96.15%
-this epoch [##########################################........] 84.62%
-       300 iter, 3 epoch / 4 epochs
-    1.6532 iters/sec. Estimated time to finish: 0:00:07.258632.
-
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -940,16 +834,7 @@ print(test_y_estimated.shape)
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-444
-(1, 1024, 3)
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
@@ -964,107 +849,6 @@ print(test_y_estimated.shape)
 
 plot(test_y_estimated)
 </pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(1, 1024, 3)
-((1024,), &lt;type &#39;numpy.ndarray&#39;&gt;)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-
-<span class="ansi-red-fg">ValueError</span>Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-20-a24fdc71649d&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span>     plt<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span>range<span class="ansi-blue-fg">(</span>len<span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      7</span>
-<span class="ansi-green-fg">----&gt; 8</span><span class="ansi-red-fg"> </span>plot<span class="ansi-blue-fg">(</span>test_y_estimated<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">&lt;ipython-input-20-a24fdc71649d&gt;</span> in <span class="ansi-cyan-fg">plot</span><span class="ansi-blue-fg">(y)</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span>   <span class="ansi-green-fg">for</span> i <span class="ansi-green-fg">in</span> range<span class="ansi-blue-fg">(</span><span class="ansi-cyan-fg">3</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span>     <span class="ansi-green-fg">print</span><span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>shape<span class="ansi-blue-fg">,</span> type<span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">----&gt; 6</span><span class="ansi-red-fg">     </span>plt<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span>range<span class="ansi-blue-fg">(</span>len<span class="ansi-blue-fg">(</span>ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">,</span> ret<span class="ansi-blue-fg">[</span>i<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">      7</span>
-<span class="ansi-green-intense-fg ansi-bold">      8</span> plot<span class="ansi-blue-fg">(</span>test_y_estimated<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc</span> in <span class="ansi-cyan-fg">plot</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">   3259</span>                       mplDeprecation)
-<span class="ansi-green-intense-fg ansi-bold">   3260</span>     <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">-&gt; 3261</span><span class="ansi-red-fg">         </span>ret <span class="ansi-blue-fg">=</span> ax<span class="ansi-blue-fg">.</span>plot<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   3262</span>     <span class="ansi-green-fg">finally</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   3263</span>         ax<span class="ansi-blue-fg">.</span>_hold <span class="ansi-blue-fg">=</span> washold
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/__init__.pyc</span> in <span class="ansi-cyan-fg">inner</span><span class="ansi-blue-fg">(ax, *args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1715</span>                     warnings.warn(msg % (label_namer, func.__name__),
-<span class="ansi-green-intense-fg ansi-bold">   1716</span>                                   RuntimeWarning, stacklevel=2)
-<span class="ansi-green-fg">-&gt; 1717</span><span class="ansi-red-fg">             </span><span class="ansi-green-fg">return</span> func<span class="ansi-blue-fg">(</span>ax<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1718</span>         pre_doc <span class="ansi-blue-fg">=</span> inner<span class="ansi-blue-fg">.</span>__doc__
-<span class="ansi-green-intense-fg ansi-bold">   1719</span>         <span class="ansi-green-fg">if</span> pre_doc <span class="ansi-green-fg">is</span> None<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_axes.pyc</span> in <span class="ansi-cyan-fg">plot</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1371</span>
-<span class="ansi-green-intense-fg ansi-bold">   1372</span>         <span class="ansi-green-fg">for</span> line <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_get_lines<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">-&gt; 1373</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>add_line<span class="ansi-blue-fg">(</span>line<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1374</span>             lines<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>line<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1375</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_base.pyc</span> in <span class="ansi-cyan-fg">add_line</span><span class="ansi-blue-fg">(self, line)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1777</span>             line<span class="ansi-blue-fg">.</span>set_clip_path<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>patch<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1778</span>
-<span class="ansi-green-fg">-&gt; 1779</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>_update_line_limits<span class="ansi-blue-fg">(</span>line<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1780</span>         <span class="ansi-green-fg">if</span> <span class="ansi-green-fg">not</span> line<span class="ansi-blue-fg">.</span>get_label<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   1781</span>             line<span class="ansi-blue-fg">.</span>set_label<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#39;_line%d&#39;</span> <span class="ansi-blue-fg">%</span> len<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>lines<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_base.pyc</span> in <span class="ansi-cyan-fg">_update_line_limits</span><span class="ansi-blue-fg">(self, line)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1799</span>         Figures out the data limit of the given line<span class="ansi-blue-fg">,</span> updating self<span class="ansi-blue-fg">.</span>dataLim<span class="ansi-blue-fg">.</span>
-<span class="ansi-green-intense-fg ansi-bold">   1800</span>         &#34;&#34;&#34;
-<span class="ansi-green-fg">-&gt; 1801</span><span class="ansi-red-fg">         </span>path <span class="ansi-blue-fg">=</span> line<span class="ansi-blue-fg">.</span>get_path<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1802</span>         <span class="ansi-green-fg">if</span> path<span class="ansi-blue-fg">.</span>vertices<span class="ansi-blue-fg">.</span>size <span class="ansi-blue-fg">==</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   1803</span>             <span class="ansi-green-fg">return</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/lines.pyc</span> in <span class="ansi-cyan-fg">get_path</span><span class="ansi-blue-fg">(self)</span>
-<span class="ansi-green-intense-fg ansi-bold">    955</span>         &#34;&#34;&#34;
-<span class="ansi-green-intense-fg ansi-bold">    956</span>         <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>_invalidy <span class="ansi-green-fg">or</span> self<span class="ansi-blue-fg">.</span>_invalidx<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 957</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>recache<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    958</span>         <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_path
-<span class="ansi-green-intense-fg ansi-bold">    959</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/lines.pyc</span> in <span class="ansi-cyan-fg">recache</span><span class="ansi-blue-fg">(self, always)</span>
-<span class="ansi-green-intense-fg ansi-bold">    661</span>         <span class="ansi-green-fg">if</span> always <span class="ansi-green-fg">or</span> self<span class="ansi-blue-fg">.</span>_invalidy<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    662</span>             yconv <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>convert_yunits<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_yorig<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 663</span><span class="ansi-red-fg">             </span>y <span class="ansi-blue-fg">=</span> _to_unmasked_float_array<span class="ansi-blue-fg">(</span>yconv<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>ravel<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    664</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    665</span>             y <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_y
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/matplotlib/cbook/__init__.pyc</span> in <span class="ansi-cyan-fg">_to_unmasked_float_array</span><span class="ansi-blue-fg">(x)</span>
-<span class="ansi-green-intense-fg ansi-bold">   2005</span>         <span class="ansi-green-fg">return</span> np<span class="ansi-blue-fg">.</span>ma<span class="ansi-blue-fg">.</span>asarray<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> float<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">.</span>filled<span class="ansi-blue-fg">(</span>np<span class="ansi-blue-fg">.</span>nan<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   2006</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">-&gt; 2007</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> np<span class="ansi-blue-fg">.</span>asarray<span class="ansi-blue-fg">(</span>x<span class="ansi-blue-fg">,</span> float<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   2008</span>
-<span class="ansi-green-intense-fg ansi-bold">   2009</span>
-
-<span class="ansi-green-fg">/usr/local/lib/python2.7/dist-packages/numpy/core/numeric.pyc</span> in <span class="ansi-cyan-fg">asarray</span><span class="ansi-blue-fg">(a, dtype, order)</span>
-<span class="ansi-green-intense-fg ansi-bold">    490</span>
-<span class="ansi-green-intense-fg ansi-bold">    491</span>     &#34;&#34;&#34;
-<span class="ansi-green-fg">--&gt; 492</span><span class="ansi-red-fg">     </span><span class="ansi-green-fg">return</span> array<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> dtype<span class="ansi-blue-fg">,</span> copy<span class="ansi-blue-fg">=</span>False<span class="ansi-blue-fg">,</span> order<span class="ansi-blue-fg">=</span>order<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    493</span>
-<span class="ansi-green-intense-fg ansi-bold">    494</span>
-
-<span class="ansi-red-fg">ValueError</span>: setting an array element with a sequence.
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_DNA_Data_Analysis_36_2.png" src="../_images/notebooks_DNA_Data_Analysis_36_2.png" />
 </div>
 </div>
 </div>

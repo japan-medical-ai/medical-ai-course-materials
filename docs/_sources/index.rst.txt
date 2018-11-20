@@ -48,7 +48,7 @@ Python, Google Colaboratoryについては様々な参考資料や解説サイ�
     notebooks/Introduction_to_Chainer
     notebooks/Image_Segmentation
     notebooks/Blood_Cell_Detection
-    notebooks/DNA_Data_Analysis
+    notebooks/DNA_Sequence_Data_Analysis
     notebooks/Sequential_Data_Analysis_with_Deep_Learning
 
 本資料の作成者

@@ -3,7 +3,7 @@
   "nbformat_minor": 0,
   "metadata": {
     "colab": {
-      "name": "DNA Data Analysis",
+      "name": "DNA Sequence Data Analysis",
       "version": "0.3.2",
       "provenance": [],
       "collapsed_sections": [],
@@ -16,6 +16,16 @@
     "accelerator": "GPU"
   },
   "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "[![colab_logo](https://colab.research.google.com/assets/colab-badge.svg](https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/source/source/notebooks/DNA_Sequence_Data_Analysis.ipynb)"
+      ]
+    },
     {
       "metadata": {
         "id": "yoiTUC_zXAb9",
@@ -63,11 +73,7 @@
       "metadata": {
         "id": "muhQoVk7c9y1",
         "colab_type": "code",
-        "outputId": "89dedc6a-a0e2-4040-85d8-1c0bd469006b",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 292
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
@@ -77,29 +83,7 @@
         "!pip install chainer --pre"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "Reading package lists...\n",
-            "Building dependency tree...\n",
-            "Reading state information...\n",
-            "cuda-libraries-dev-9-2 is already the newest version (9.2.148-1).\n",
-            "0 upgraded, 0 newly installed, 0 to remove and 3 not upgraded.\n",
-            "Requirement already satisfied: cupy-cuda92 in /usr/local/lib/python2.7/dist-packages (6.0.0a1)\n",
-            "Requirement already satisfied: fastrlock>=0.3 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (0.4)\n",
-            "Requirement already satisfied: numpy>=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (1.14.6)\n",
-            "Requirement already satisfied: six>=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92) (1.11.0)\n",
-            "Requirement already satisfied: chainer in /usr/local/lib/python2.7/dist-packages (6.0.0a1)\n",
-            "Requirement already satisfied: filelock in /usr/local/lib/python2.7/dist-packages (from chainer) (3.0.10)\n",
-            "Requirement already satisfied: protobuf>=3.0.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (3.6.1)\n",
-            "Requirement already satisfied: numpy>=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (1.14.6)\n",
-            "Requirement already satisfied: six>=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer) (1.11.0)\n",
-            "Requirement already satisfied: setuptools in /usr/local/lib/python2.7/dist-packages (from protobuf>=3.0.0->chainer) (40.5.0)\n"
-          ],
-          "name": "stdout"
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
@@ -116,11 +100,7 @@
       "metadata": {
         "id": "p4X-dmKrdDhd",
         "colab_type": "code",
-        "outputId": "ff0b8aa3-ac61-4233-95e6-451be60781b2",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 255
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
@@ -132,37 +112,31 @@
         "print('matplotlib:', matplotlib.__version__)"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic\n",
-            "Chainer: 6.0.0a1\n",
-            "NumPy: 1.14.6\n",
-            "CuPy:\n",
-            "  CuPy Version          : 6.0.0a1\n",
-            "  CUDA Root             : /usr/local/cuda\n",
-            "  CUDA Build Version    : 9020\n",
-            "  CUDA Driver Version   : 9020\n",
-            "  CUDA Runtime Version  : 9020\n",
-            "  cuDNN Build Version   : 7201\n",
-            "  cuDNN Version         : 7201\n",
-            "  NCCL Build Version    : 2213\n",
-            "iDeep: Not Available\n",
-            "('matplotlib:', '2.1.2')\n"
-          ],
-          "name": "stdout"
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
-        "id": "RFQWV3U_dzQP",
+        "id": "0nsNNeFEkjB_",
         "colab_type": "text"
       },
       "cell_type": "markdown",
       "source": [
-        ""
+        "```\n",
+        "Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic\n",
+        "Chainer: 6.0.0a1\n",
+        "NumPy: 1.14.6\n",
+        "CuPy:\n",
+        "  CuPy Version          : 6.0.0a1\n",
+        "  CUDA Root             : /usr/local/cuda\n",
+        "  CUDA Build Version    : 9020\n",
+        "  CUDA Driver Version   : 9020\n",
+        "  CUDA Runtime Version  : 9020\n",
+        "  cuDNN Build Version   : 7201\n",
+        "  cuDNN Version         : 7201\n",
+        "  NCCL Build Version    : 2213\n",
+        "iDeep: Not Available\n",
+        "('matplotlib:', '2.1.2')\n",
+        "```"
       ]
     },
     {
@@ -202,11 +176,7 @@
       "metadata": {
         "id": "LjxWi_2chwkX",
         "colab_type": "code",
-        "outputId": "e65288a2-0bec-43cc-9946-e2d3c6263514",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 102
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
@@ -228,23 +198,10 @@
         "drive_file = drive.CreateFile({'id': file_id})\n",
         "\n",
         "\n",
-        "drive_file.GetContentFile(\"data.h5\")\n",
-        "!ls -l"
+        "drive_file.GetContentFile(\"data.h5\")\n"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "total 3640084\n",
-            "-rw-r--r-- 1 root root       2610 Nov  6 07:40 adc.json\n",
-            "-rw-r--r-- 1 root root 3727429632 Nov  6 08:17 data.h5\n",
-            "drwxr-xr-x 2 root root       4096 Nov  6 08:06 out\n",
-            "drwxr-xr-x 2 root root       4096 Nov  2 17:32 sample_data\n"
-          ],
-          "name": "stdout"
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
@@ -267,30 +224,14 @@
       "metadata": {
         "id": "9yuEHGl_XC2B",
         "colab_type": "code",
-        "outputId": "5ea9fbfd-dc54-4e16-a253-18aed61a0b44",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 102
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
         "!ls -lh"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "total 3.5G\n",
-            "-rw-r--r-- 1 root root 2.6K Nov  6 07:40 adc.json\n",
-            "-rw-r--r-- 1 root root 3.5G Nov  6 08:23 data.h5\n",
-            "drwxr-xr-x 2 root root 4.0K Nov  6 08:26 out\n",
-            "drwxr-xr-x 2 root root 4.0K Nov  2 17:32 sample_data\n"
-          ],
-          "name": "stdout"
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
@@ -314,11 +255,7 @@
       "metadata": {
         "id": "bBQVPyKxi-uE",
         "colab_type": "code",
-        "outputId": "7aeba4fa-53be-4aaa-b229-be81a208f4e5",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 204
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
@@ -329,25 +266,7 @@
         "    print(key, hf[key].shape)"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "(u'pool_width', ())\n",
-            "(u'target_ids', (3,))\n",
-            "(u'target_labels', (3,))\n",
-            "(u'target_strands', (3,))\n",
-            "(u'test_in', (444, 131072, 4))\n",
-            "(u'test_out', (444, 1024, 3))\n",
-            "(u'test_out_full', (444, 1024, 3))\n",
-            "(u'train_in', (6240, 131072, 4))\n",
-            "(u'train_out', (6240, 1024, 3))\n",
-            "(u'valid_in', (338, 131072, 4))\n",
-            "(u'valid_out', (338, 1024, 3))\n"
-          ],
-          "name": "stdout"
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
@@ -401,11 +320,7 @@
       "metadata": {
         "id": "7c3LBQGhja4E",
         "colab_type": "code",
-        "outputId": "b6de9573-75fe-469c-b119-a642acb53b79",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 236
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
@@ -419,19 +334,7 @@
         "  print(y[0, 0:10])"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "error",
-          "ename": "NameError",
-          "evalue": "ignored",
-          "traceback": [
-            "\u001b[0;31m\u001b[0m",
-            "\u001b[0;31mNameError\u001b[0mTraceback (most recent call last)",
-            "\u001b[0;32m<ipython-input-2-670d1f74f713>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32mwith\u001b[0m \u001b[0mh5py\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mFile\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'data.h5'\u001b[0m\u001b[0;34m)\u001b[0m \u001b[0;32mas\u001b[0m \u001b[0mhf\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m   \u001b[0mx\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mhf\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'train_in'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;36m100\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m   \u001b[0;32mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mx\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mx\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdtype\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m   \u001b[0;32mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mx\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m0\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;36m10\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m   \u001b[0my\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mhf\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'train_out'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;36m100\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;31mNameError\u001b[0m: name 'h5py' is not defined"
-          ]
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
@@ -477,7 +380,9 @@
       },
       "cell_type": "markdown",
       "source": [
-        "![convolution](http://musyoku.github.io/images/post/2016-09-17/naive_conv.png)"
+        "![orig conv](http://musyoku.github.io/images/post/2016-09-17/naive_conv.png)\n",
+        "\n",
+        "[WaveNet: A Generative Model for Raw Audio](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)より引用"
       ]
     },
     {
@@ -499,7 +404,9 @@
       },
       "cell_type": "markdown",
       "source": [
-        "![dilated convolution](http://musyoku.github.io/images/post/2016-09-17/dilated_conv.png)"
+        "![dilated convolution](https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif)\n",
+        "\n",
+        "[Wavenet Blog記事](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)より引用\n"
       ]
     },
     {
@@ -776,11 +683,7 @@
       "metadata": {
         "id": "b1_e0bE7wB48",
         "colab_type": "code",
-        "outputId": "a9656a46-3dc0-41c6-8dd4-b019f0e1df33",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 326
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
@@ -841,42 +744,13 @@
         "trainer.run()\n"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "[u'pool_width', u'target_ids', u'target_labels', u'target_strands', u'test_in', u'test_out', u'test_out_full', u'train_in', u'train_out', u'valid_in', u'valid_out']\n",
-            "epoch       main/loss   validation/main/loss  main/true_loss  validation/main/true_loss  elapsed_time\n",
-            "\u001b[J1           0.567609    0.42473                                                          48.1003       \n",
-            "\u001b[J     total [################..................................] 32.05%\n",
-            "this epoch [##############....................................] 28.21%\n",
-            "       100 iter, 1 epoch / 4 epochs\n",
-            "       inf iters/sec. Estimated time to finish: 0:00:00.\n",
-            "\u001b[4A\u001b[J2           0.399307    0.370479                                                         95.4976       \n",
-            "\u001b[J     total [################################..................] 64.10%\n",
-            "this epoch [############################......................] 56.41%\n",
-            "       200 iter, 2 epoch / 4 epochs\n",
-            "    1.6536 iters/sec. Estimated time to finish: 0:01:07.729414.\n",
-            "\u001b[4A\u001b[J3           0.360114    0.355001                                                         142.914       \n",
-            "\u001b[J     total [################################################..] 96.15%\n",
-            "this epoch [##########################################........] 84.62%\n",
-            "       300 iter, 3 epoch / 4 epochs\n",
-            "    1.6532 iters/sec. Estimated time to finish: 0:00:07.258632.\n",
-            "\u001b[4A\u001b[J"
-          ],
-          "name": "stdout"
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
         "id": "raELQ_Rm_74A",
         "colab_type": "code",
-        "outputId": "e2facbd7-4988-4e25-88ff-0ec7d330e904",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 51
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
@@ -900,26 +774,13 @@
         "\n"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "444\n",
-            "(1, 1024, 3)\n"
-          ],
-          "name": "stdout"
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
         "id": "MQ3ylNJXIhH3",
         "colab_type": "code",
-        "outputId": "00e9723e-0f16-4c11-83cf-7693f9e4e3de",
-        "colab": {
-          "base_uri": "https://localhost:8080/",
-          "height": 1678
-        }
+        "colab": {}
       },
       "cell_type": "code",
       "source": [
@@ -933,49 +794,7 @@
         "plot(test_y_estimated)"
       ],
       "execution_count": 0,
-      "outputs": [
-        {
-          "output_type": "stream",
-          "text": [
-            "(1, 1024, 3)\n",
-            "((1024,), <type 'numpy.ndarray'>)\n"
-          ],
-          "name": "stdout"
-        },
-        {
-          "output_type": "error",
-          "ename": "ValueError",
-          "evalue": "ignored",
-          "traceback": [
-            "\u001b[0;31m\u001b[0m",
-            "\u001b[0;31mValueError\u001b[0mTraceback (most recent call last)",
-            "\u001b[0;32m<ipython-input-20-a24fdc71649d>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m()\u001b[0m\n\u001b[1;32m      6\u001b[0m     \u001b[0mplt\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mrange\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mret\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mret\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      7\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 8\u001b[0;31m \u001b[0mplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtest_y_estimated\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
-            "\u001b[0;32m<ipython-input-20-a24fdc71649d>\u001b[0m in \u001b[0;36mplot\u001b[0;34m(y)\u001b[0m\n\u001b[1;32m      4\u001b[0m   \u001b[0;32mfor\u001b[0m \u001b[0mi\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mrange\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;36m3\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m     \u001b[0;32mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mret\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mshape\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mtype\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mret\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m----> 6\u001b[0;31m     \u001b[0mplt\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mrange\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mret\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mret\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mi\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      7\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      8\u001b[0m \u001b[0mplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mtest_y_estimated\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/matplotlib/pyplot.pyc\u001b[0m in \u001b[0;36mplot\u001b[0;34m(*args, **kwargs)\u001b[0m\n\u001b[1;32m   3259\u001b[0m                       mplDeprecation)\n\u001b[1;32m   3260\u001b[0m     \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 3261\u001b[0;31m         \u001b[0mret\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0max\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mplot\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   3262\u001b[0m     \u001b[0;32mfinally\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   3263\u001b[0m         \u001b[0max\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_hold\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mwashold\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/matplotlib/__init__.pyc\u001b[0m in \u001b[0;36minner\u001b[0;34m(ax, *args, **kwargs)\u001b[0m\n\u001b[1;32m   1715\u001b[0m                     warnings.warn(msg % (label_namer, func.__name__),\n\u001b[1;32m   1716\u001b[0m                                   RuntimeWarning, stacklevel=2)\n\u001b[0;32m-> 1717\u001b[0;31m             \u001b[0;32mreturn\u001b[0m \u001b[0mfunc\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0max\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1718\u001b[0m         \u001b[0mpre_doc\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0minner\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m__doc__\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1719\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mpre_doc\u001b[0m \u001b[0;32mis\u001b[0m \u001b[0mNone\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_axes.pyc\u001b[0m in \u001b[0;36mplot\u001b[0;34m(self, *args, **kwargs)\u001b[0m\n\u001b[1;32m   1371\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1372\u001b[0m         \u001b[0;32mfor\u001b[0m \u001b[0mline\u001b[0m \u001b[0;32min\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_get_lines\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m*\u001b[0m\u001b[0margs\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1373\u001b[0;31m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0madd_line\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mline\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1374\u001b[0m             \u001b[0mlines\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mappend\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mline\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1375\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_base.pyc\u001b[0m in \u001b[0;36madd_line\u001b[0;34m(self, line)\u001b[0m\n\u001b[1;32m   1777\u001b[0m             \u001b[0mline\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mset_clip_path\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mpatch\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1778\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1779\u001b[0;31m         \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_update_line_limits\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mline\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1780\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0;32mnot\u001b[0m \u001b[0mline\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget_label\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1781\u001b[0m             \u001b[0mline\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mset_label\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m'_line%d'\u001b[0m \u001b[0;34m%\u001b[0m \u001b[0mlen\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mlines\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/matplotlib/axes/_base.pyc\u001b[0m in \u001b[0;36m_update_line_limits\u001b[0;34m(self, line)\u001b[0m\n\u001b[1;32m   1799\u001b[0m         \u001b[0mFigures\u001b[0m \u001b[0mout\u001b[0m \u001b[0mthe\u001b[0m \u001b[0mdata\u001b[0m \u001b[0mlimit\u001b[0m \u001b[0mof\u001b[0m \u001b[0mthe\u001b[0m \u001b[0mgiven\u001b[0m \u001b[0mline\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mupdating\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mdataLim\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1800\u001b[0m         \"\"\"\n\u001b[0;32m-> 1801\u001b[0;31m         \u001b[0mpath\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mline\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mget_path\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1802\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mpath\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mvertices\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0msize\u001b[0m \u001b[0;34m==\u001b[0m \u001b[0;36m0\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1803\u001b[0m             \u001b[0;32mreturn\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/matplotlib/lines.pyc\u001b[0m in \u001b[0;36mget_path\u001b[0;34m(self)\u001b[0m\n\u001b[1;32m    955\u001b[0m         \"\"\"\n\u001b[1;32m    956\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_invalidy\u001b[0m \u001b[0;32mor\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_invalidx\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 957\u001b[0;31m             \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mrecache\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    958\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_path\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    959\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/matplotlib/lines.pyc\u001b[0m in \u001b[0;36mrecache\u001b[0;34m(self, always)\u001b[0m\n\u001b[1;32m    661\u001b[0m         \u001b[0;32mif\u001b[0m \u001b[0malways\u001b[0m \u001b[0;32mor\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_invalidy\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    662\u001b[0m             \u001b[0myconv\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mconvert_yunits\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_yorig\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m--> 663\u001b[0;31m             \u001b[0my\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0m_to_unmasked_float_array\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0myconv\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mravel\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    664\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    665\u001b[0m             \u001b[0my\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_y\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/matplotlib/cbook/__init__.pyc\u001b[0m in \u001b[0;36m_to_unmasked_float_array\u001b[0;34m(x)\u001b[0m\n\u001b[1;32m   2005\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mma\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0masarray\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mx\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mfloat\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mfilled\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mnan\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2006\u001b[0m     \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 2007\u001b[0;31m         \u001b[0;32mreturn\u001b[0m \u001b[0mnp\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0masarray\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mx\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mfloat\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   2008\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2009\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;32m/usr/local/lib/python2.7/dist-packages/numpy/core/numeric.pyc\u001b[0m in \u001b[0;36masarray\u001b[0;34m(a, dtype, order)\u001b[0m\n\u001b[1;32m    490\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    491\u001b[0m     \"\"\"\n\u001b[0;32m--> 492\u001b[0;31m     \u001b[0;32mreturn\u001b[0m \u001b[0marray\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0ma\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mdtype\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mcopy\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mFalse\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0morder\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0morder\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m    493\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m    494\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n",
-            "\u001b[0;31mValueError\u001b[0m: setting an array element with a sequence."
-          ]
-        },
-        {
-          "output_type": "display_data",
-          "data": {
-            "image/png": "iVBORw0KGgoAAAANSUhEUgAAAXkAAAD8CAYAAACSCdTiAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz\nAAALEgAACxIB0t1+/AAAADl0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uIDIuMS4yLCBo\ndHRwOi8vbWF0cGxvdGxpYi5vcmcvNQv5yAAADUpJREFUeJzt3F+onHedx/H3KcHFPycQZSRNULK6\n8UujIE3ETWibVFOKqDfFXHoRibBqLlIvXLp290IE67IbgtGrXvXK7oJLYotVA93FzRJZagrFi/Ct\na0zVPYGeWmlyodYksxfznH2G02TmOXNm5sSv7xeEPPP8fnnmm2/mfObJb+Z5Fvr9PpKkmu7Y6AIk\nSbNjyEtSYYa8JBVmyEtSYYa8JBVmyEtSYZu6TIqIDwDfBU5k5rdWjT0AfA24DjyTmV+depWSpImM\nPZOPiLcC3wSevcWUk8CngHuAByNi1/TKkyStR5flmj8AHweWVg9ExHuAVzPzV5l5A3gGODjdEiVJ\nkxq7XJOZ14BrEXGz4a3A8tDjl4H3jjpev9/vLywsrKVGSRJMFJyd1uSnWcTCwgLLy1en/LR/mnq9\nRXvRsBcte9GyF61eb3GiP7feb9csMTibX7GdmyzrSJI2xrpCPjMvAZsjYkdEbAI+CZyZRmGSpPUb\nu1wTEXuA48AO4I8RcQh4CvhFZp4CPg882Uz/18x8cUa1SpLWqMsHr+eB+0eM/yewb4o1SZKmxCte\nJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakw\nQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16S\nCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJamwTV0mRcQJYC/QB45l5nND\nY0eBTwPXgZ9k5sOzKFSStHZjz+Qj4gCwMzP3AUeAk0Njm4EvAfdl5r3ArojYO6tiJUlr02W55iBw\nGiAzLwBbmnAHeL359baI2AS8BXh1FoVKktauy3LNVuD80OPlZt+VzPx9RHwFuAj8DviXzHxx3AF7\nvcVJai3JXrTsRctetOzF+nRak19lYWWjOaP/MvA+4Arw7xHxwcx8YdQBlpevTvC09fR6i/aiYS9a\n9qJlL1qTvtl1Wa5ZYnDmvmIbcLnZvgu4mJmvZObrwFlgz0SVSJKmrkvInwEOAUTEbmApM1feWi8B\nd0XEm5vHHwJ+Nu0iJUmTGbtck5nnIuJ8RJwDbgBHI+Iw8FpmnoqIfwL+IyKuAecy8+xsS5YkdbXQ\n7/fn/Zx919gGXG9s2YuWvWjZi1avt7gwftYbecWrJBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8\nJBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVm\nyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtS\nYYa8JBVmyEtSYZu6TIqIE8BeoA8cy8znhsbeBTwJvAl4PjM/N4tCJUlrN/ZMPiIOADszcx9wBDi5\naspx4Hhmfhi4HhHvnn6ZkqRJdFmuOQicBsjMC8CWiNgMEBF3APcBTzXjRzPzlzOqVZK0Rl2Wa7YC\n54ceLzf7rgA94CpwIiJ2A2cz8+/GHbDXW5yg1JrsRctetOxFy16sT6c1+VUWVm1vB74BXAK+FxGf\nyMzvjTrA8vLVCZ62nl5v0V407EXLXrTsRWvSN7suyzVLDM7cV2wDLjfbrwAvZebPM/M68Czw/okq\nkSRNXZeQPwMcAmiWZJYy8ypAZl4DLkbEzmbuHiBnUagkae3GLtdk5rmIOB8R54AbwNGIOAy8lpmn\ngIeBJ5oPYX8KPD3LgiVJ3XVak8/MR1btemFo7H+Ae6dZlCRpOrziVZIKM+QlqTBDXpIKM+QlqTBD\nXpIKM+QlqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIK\nM+QlqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIKM+Ql\nqTBDXpIKM+QlqTBDXpIKM+QlqTBDXpIK29RlUkScAPYCfeBYZj53kzmPAfsy8/6pVihJmtjYM/mI\nOADszMx9wBHg5E3m7AL2T788SdJ6dFmuOQicBsjMC8CWiNi8as5x4NEp1yZJWqcuyzVbgfNDj5eb\nfVcAIuIw8CPgUtcn7fUWOxdYnb1o2YuWvWjZi/XptCa/ysLKRkS8HfgM8ACwvesBlpevTvC09fR6\ni/aiYS9a9qJlL1qTvtl1Wa5ZYnDmvmIbcLnZ/ijQA84Cp4DdzYe0kqTbQJeQPwMcAoiI3cBSZl4F\nyMzvZOauzNwLPAQ8n5lfnFm1kqQ1GRvymXkOOB8R5xh8s+ZoRByOiIdmXp0kaV06rcln5iOrdr1w\nkzmXgPvXX5IkaVq84lWSCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakw\nQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16S\nCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJakwQ16SCjPkJamwTV0mRcQJ\nYC/QB45l5nNDYx8BHgOuAwl8NjNvzKBWSdIajT2Tj4gDwM7M3AccAU6umvI4cCgz7wEWgY9NvUpJ\n0kS6LNccBE4DZOYFYEtEbB4a35OZv262l4F3TLdESdKkuizXbAXODz1ebvZdAcjMKwARcSfwIPAP\n4w7Y6y2uudCq7EXLXrTsRcterE+nNflVFlbviIh3Ak8DX8jM34w7wPLy1Qmetp5eb9FeNOxFy160\n7EVr0je7LiG/xODMfcU24PLKg2bp5vvAo5l5ZqIqJEkz0WVN/gxwCCAidgNLmTn81nocOJGZP5hB\nfZKkdVjo9/tjJ0XE14H9wA3gKHA38BrwQ+C3wI+Hpn87Mx8fcbi+//0a8L+iLXvRshcte9Hq9Rbf\nsFTeRac1+cx8ZNWuF4a2/2KSJ5YkzZ5XvEpSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8\nJBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVm\nyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtSYYa8JBVmyEtS\nYYa8JBVmyEtSYZu6TIqIE8BeoA8cy8znhsYeAL4GXAeeycyvzqJQSdLajT2Tj4gDwM7M3AccAU6u\nmnIS+BRwD/BgROyaepWSpIl0Wa45CJwGyMwLwJaI2AwQEe8BXs3MX2XmDeCZZr4k6TbQZblmK3B+\n6PFys+9K8/vy0NjLwHvHHG+h11tcS42l2YuWvWjZi5a9WJ9JPnhdmHBMkjRnXUJ+icEZ+4ptwOVb\njG1v9kmSbgNdQv4McAggInYDS5l5FSAzLwGbI2JHRGwCPtnMlyTdBhb6/f7YSRHxdWA/cAM4CtwN\nvJaZpyJiP/CPzdR/y8x/nlWxkqS16RTykqQ/TV7xKkmFGfKSVFin2xpMytshtMb04iPAYwx6kcBn\nm4vLyhnVh6E5jwH7MvP+OZc3V2NeE+8CngTeBDyfmZ/bmCrnY0wvjgKfZvDz8ZPMfHhjqpyfiPgA\n8F3gRGZ+a9XYmrJzZmfy3g6h1aEXjwOHMvMeYBH42JxLnIsOfaB5Heyfd23z1qEXx4Hjmflh4HpE\nvHveNc7LqF40V9d/CbgvM+8FdkXE3o2pdD4i4q3AN4FnbzFlTdk5y+Uab4fQumUvGnsy89fN9jLw\njjnXNy/j+gCDcHt03oVtgFE/H3cA9wFPNeNHM/OXG1XoHIx6Xbze/Hpb8zXttwCvbkiV8/MH4OPc\n5JqjSbJzliG/+pYHK7dDuNnYy8CdM6xlo43qBZl5BSAi7gQeZPAPV9HIPkTEYeBHwKW5VrUxRvWi\nB1wFTkTEfzXLV5XdsheZ+XvgK8BF4CXgvzPzxblXOEeZeS0zf3eL4TVn5zw/ePV2CK03/H0j4p3A\n08AXMvM38y9pQ/x/HyLi7cBnGJzJ/zlaWLW9HfgGcAC4OyI+sSFVbYzh18Vm4MvA+4C/BP46Ij64\nUYXdhsZm5yxD3tshtEb1YuWF/H3g7zOz8hXDo/rwUQZnsGeBU8Du5sO4qkb14hXgpcz8eWZeZ7A2\n+/451zdPo3pxF3AxM1/JzNcZvD72zLm+28mas3OWIe/tEFq37EXjOINP0X+wEcXN0ajXxHcyc1dm\n7gUeYvCNki9uXKkzN6oX14CLEbGzmbuHwbeuqhr183EJuCsi3tw8/hDws7lXeJuYJDtnesWrt0No\n3aoXwA+B3wI/Hpr+7cx8fO5FzsGo18TQnB3AE38GX6Ec9fPxV8ATDE7Efgp8vurXamFsL/6GwVLe\nNeBcZv7txlU6exGxh8GJ3w7gj8D/MvgQ/heTZKe3NZCkwrziVZIKM+QlqTBDXpIKM+QlqTBDXpIK\nM+QlqTBDXpIK+z9jielfGVNHLAAAAABJRU5ErkJggg==\n",
-            "text/plain": [
-              "<matplotlib.figure.Figure at 0x7f3ffcfefcd0>"
-            ]
-          },
-          "metadata": {
-            "tags": []
-          }
-        }
-      ]
+      "outputs": []
     },
     {
       "metadata": {
