@@ -517,7 +517,8 @@ ECG)は，心筋の活動によって生じる電気的変動を記録したも�
 </ol>
 <p>の順番で，下図のような波形が観測されます．</p>
 <div class="figure" id="id15">
-<img alt="sinus_rhythm" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/sinus_rhythm.svg" /><p class="caption"><span class="caption-text">sinus_rhythm</span></p>
+<img alt="sinus_rhythm" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/sinus_rhythm.png" />
+<p class="caption"><span class="caption-text">sinus_rhythm</span></p>
 </div>
 <p>(図は[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>]より抜粋)</p>
 <p>こうした規則的な波形に乱れが生じ，調律に異常があると判断された場合，不整脈などの疑いがあるため，診断が行われることになります．</p>
@@ -1780,7 +1781,7 @@ Convolutionを用いることで，パラメータ数の増大を抑えながら
 場合によっては精度が低下する）可能性もあります． 1.
 最終層の手前に全結合層を追加し，Dropoutを適用 -
 Dropoutを行うことで，学習器の汎化性能が向上することを期待します．ただし，複数の先行研究([<a class="reference external" href="https://arxiv.org/abs/1506.02158v6">文献6</a>]など)において，単純に畳み込み層の直後にDropoutを適用するだけでは汎化性能の向上が期待出来ないと報告されていることから，今回は全結合層に適用することにします．</p>
-<p>それでは，上記の拡張を加えたネットワークを定義しましょう．（ResBlockBaseクラスは，初期モデル構築時に定義済み）</p>
+<p>それでは，上記の拡張を加えたネットワークを定義しましょう．（ResBlockクラスは，初期モデル構築時に定義済み）</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -2109,7 +2110,7 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
 </div>
 </div>
 <p>線形フィルタを適用することで，学習モデルが異常拍動のパターンを特徴として捉えやすくなる可能性があります．一方で，異常拍動を検出するにあたって重要な情報も除去されてしまう可能性があることに注意してください．</p>
-<p>mitdbでは，予め0.1(Hz)以下の低周波と，100(Hz)以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，5(Hz)のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
+<p>mitdbでは，予め0.1(Hz)以下の低周波と，100(Hz)以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，25(Hz)のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
 <p>それでは，ノイズ除去オプションを有効にして，前処理を実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
