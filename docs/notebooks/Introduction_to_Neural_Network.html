@@ -82,13 +82,13 @@
 <li class="toctree-l1"><a class="reference internal" href="Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. ニューラルネットワークの基礎</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#モデルを決める">3.1. モデルを決める</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ニューラルネットワークの構造">3.1. ニューラルネットワークの構造</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#線形変換">3.1.1. 線形変換</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#非線形変換">3.1.2. 非線形変換</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#数値を見ながら計算の流れを確認">3.1.3. 数値を見ながら計算の流れを確認</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#目的関数を決める">3.2. 目的関数を決める</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#目的関数">3.2. 目的関数</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#パラメータの最適化">3.3. パラメータの最適化</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#パラメータ更新量の算出">3.3.1. パラメータ更新量の算出</a></li>
 </ul>
@@ -356,9 +356,13 @@ div.nboutput div.output_area.stderr {
 について簡単に紹介していきます．画像認識などにしばしば用いられる
 Convolutional Neural Network (CNN)
 や，自然言語処理などにしばしば用いられる Recurrent Neural Network (RNN)
-といった手法は，ニューラルネットワークの一種です．ここではまず，最もシンプルなニューラルネットワークの構造について説明を行ったあと，CNNやRNNのように，データが持つ性質に合わせて適切な工夫を追加したものについても，後半で扱っていきます．たくさんの層からなるニューラルネットワークによって表現される複雑な関数を，データから現実的な時間で学習できるようにするために，様々な研究が行われてきました．そのための理論や応用例など，様々な展開を見せる多様な研究分野を総称して，ディープラーニングと呼びます．まずはニューラルネットワークの基礎となる計算をしっかりと理解しておくことが重要です．ニューラルネットワークの計算の理解には，重回帰分析の理解が大いに役立つはずです．本章では，さらに非線形性の導入やニューラルネットワークに適した最適化の手法を新たに紹介します．ニューラルネットワークでもこれまでと同じく，モデルの選択，目的関数の決定，パラメータの最適化といった行程が共通して登場します．</p>
-<div class="section" id="モデルを決める">
-<h2>3.1. モデルを決める<a class="headerlink" href="#モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h2>
+といった手法は，ニューラルネットワークの一種です．</p>
+<p>ここではまず，最もシンプルなニューラルネットワークの構造について説明を行ったあと，複数の入力データと望ましい出力の組からなるデータセットを準備したとき，どうやってニューラルネットを学習させればよいのか（教師あり学習）について解説を行います．</p>
+<p>たくさんの層からなるニューラルネットワークによって表現される複雑な関数を，データから現実的な時間で学習できるようにするために行われてきた様々な研究の一部にディープラーニングという研究領域も含まれています．</p>
+<p>まずはニューラルネットワークをブラックボックスとして扱ってしまうのではなく，パラメトリックな関数で表される線形変換とそれに続く非線形変換を組み合わせて，全体として微分可能な一つの関数を表していることを理解し，一つ一つ内部で行われる計算を丁寧に追いかけてみます．</p>
+<p>本章では，ニューラルネットワークが持つパラメータをどのようにデータセットを用いて適切な値へと最適化していけばよいのか，その具体的な方法も見ていきます．</p>
+<div class="section" id="ニューラルネットワークの構造">
+<h2>3.1. ニューラルネットワークの構造<a class="headerlink" href="#ニューラルネットワークの構造" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まずはニューラルネットワークの構造を数式ではなくグラフィカルに見てみましょう．</p>
 <div class="figure" id="id11">
 <img alt="01.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/01.png" />
@@ -482,8 +486,8 @@ h_{12} &amp;= \max(0, -11)  = 0
 <p>さて，次節からは，今ランダムに値を与えていたパラメータを，どうやって更新していくかを見てみましょう．</p>
 </div>
 </div>
-<div class="section" id="目的関数を決める">
-<h2>3.2. 目的関数を決める<a class="headerlink" href="#目的関数を決める" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="目的関数">
+<h2>3.2. 目的関数<a class="headerlink" href="#目的関数" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ニューラルネットワークでは，微分可能であれば解きたいタスクに合わせて様々な目的関数を利用することができます．</p>
 <p>例えば，出力層に<span class="math notranslate nohighlight">\(N\)</span>個の値を持つニューラルネットワークで回帰問題に取り組む場合を考えてみましょう．<span class="math notranslate nohighlight">\(N\)</span>個の出力それぞれ（<span class="math notranslate nohighlight">\(y_n (n=1, 2, \dots, N)\)</span>）に対して望ましい出力（<span class="math notranslate nohighlight">\(t_n (n=1, 2, \dots, N)\)</span>）が与えられるとすれば，目的関数をそれぞれの出力（<span class="math notranslate nohighlight">\(y_n\)</span>）と対応する正解（<span class="math notranslate nohighlight">\(t_n\)</span>）の間の
 <strong>平均二乗誤差（mean squared error）</strong>
@@ -692,7 +696,7 @@ b2 = np.array([0])
 <p>それでは，各層の計算を実際に実行してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [68]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -744,7 +748,7 @@ g_u2w2 = h1
 についての勾配を得ることができます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [70]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -809,7 +813,7 @@ print(g_Lw_2)
 <p>と計算することができます．では，さっそく実際にNumPyを用いて計算を実行してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [71]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
