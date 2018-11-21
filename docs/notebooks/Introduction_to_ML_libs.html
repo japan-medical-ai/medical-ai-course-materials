@@ -395,9 +395,15 @@ div.nboutput div.output_area.stderr {
 <div class="section" id="Step1.-モデルを決める">
 <h3>2.2.2. Step1. モデルを決める<a class="headerlink" href="#Step1.-モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>まず<strong>Step1は</strong>では<strong>モデル</strong>を消えます．このモデルとは出力変数<span class="math notranslate nohighlight">\(y\)</span>と入力変数<span class="math notranslate nohighlight">\(x\)</span>の関係を定式化したものです．家賃の予測値を<span class="math notranslate nohighlight">\(y\)</span>とした際に，どのように定式化すればうまく予測することができるのか．このモデル設計は現在は人手で行うのが一般的であり，機械が自動的に決めてくれるわけではありません（一方で最近のAutoMLなど，モデルも自動決定する研究が進展しています）</p>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/09.png" /></p>
+<div class="figure" id="id14">
+<img alt="01.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png" />
+<p class="caption"><span class="caption-text">01.png</span></p>
+</div>
 <p>例えば，与えられたデータセットにおいて，家賃と部屋の広さの関係が次のようになっているとします．この場合，部屋の広さが広くなるほど，家賃が高くなっている関係がみられ，予測のために直線を書くのが妥当にみえます．</p>
-<p><img alt="image1" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/10.png" /></p>
+<div class="figure" id="id15">
+<img alt="02.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png" />
+<p class="caption"><span class="caption-text">02.png</span></p>
+</div>
 <p>直線の式は<span class="math notranslate nohighlight">\(y=ax+b\)</span> で表され，<span class="math notranslate nohighlight">\(a\)</span> を傾き，<span class="math notranslate nohighlight">\(b\)</span>
 を切片とよばれるパラメータです．</p>
 <p>今回，このデータセットに対して，直線を引くことが適切であると（人間側の経験で）判断したため，以下のようにモデルを決める．</p>
@@ -415,20 +421,28 @@ div.nboutput div.output_area.stderr {
 として表す．ここで，添え字 <span class="math notranslate nohighlight">\(i\)</span>
 (<span class="math notranslate nohighlight">\(i=1,2,\ldots,N\)</span>)は<span class="math notranslate nohighlight">\(i\)</span>番目の物件という意味であり，<span class="math notranslate nohighlight">\(N\)</span>は全体の物件数のことである．この<span class="math notranslate nohighlight">\(N\)</span>を<strong>サンプル数</strong>という．</p>
 <p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを使う．これはデータの重心（全部のデータの平均）を0とした中央に配置するように変換の処理を施す．この中心化は前処理として行うことが一般的である（分散/標準偏差も1とする正規化もよく使われる．</p>
-<p><img alt="image2" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png" /></p>
+<div class="figure" id="id16">
+<img alt="03.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png" />
+<p class="caption"><span class="caption-text">03.png</span></p>
+</div>
 <p>中心化によって，求める直線のバイアス <span class="math notranslate nohighlight">\(b\)</span>
 が0となり，<span class="math notranslate nohighlight">\(y_{c} = wx_{c}\)</span>
 とすることができ，調整すべきパラメータを2つから1つに減らすことができる，ただし<span class="math notranslate nohighlight">\(x_c, y_c\)</span>は中心化を適用した後の値である．</p>
-<p><img alt="image3" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png" /></p>
+<div class="figure" id="id17">
+<img alt="04.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png" />
+<p class="caption"><span class="caption-text">04.png</span></p>
+</div>
 <p>データの中心化は入出力の平均をデータの全体から引くことで実現されます．つまり，</p>
 <div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   x_{c} &amp;= x - \bar{x} \\
   t_{c} &amp;= t - \bar{t}
   \end{aligned}\end{split}\\を行います．\end{aligned}\end{align} \]</div>
-<p><img alt="image4" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/05.png" /></p>
 <p>例えば，具体的な数値で見ると，下図のようになります．</p>
-<p><img alt="image5" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png" /></p>
+<div class="figure" id="id18">
+<img alt="05.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/05.png" />
+<p class="caption"><span class="caption-text">05.png</span></p>
+</div>
 <p>中心化後を示す添え字の <span class="math notranslate nohighlight">\(c\)</span>
 に関しては表現が冗長となるため，今後はこの添え字を省略し，データの中心化を事前に行っていることを前提とします．この時，モデルは</p>
 <div class="math notranslate nohighlight">
@@ -755,11 +769,20 @@ L&amp;=t^{T}t-2t^{T}Xw+w^{T}X^{T}Xw\\
   \left( 4w^{2}_{2}+2w_{2}+1\right) \\
   &amp;=w^{2}_{2}+\left( 5w_{1}+2\right) w_{2}+\left( w^{2}_{1}+w_{1}+1\right) \end{aligned}\end{split}\\のようにそれぞれの二次関数であることがわかります．\end{aligned}\end{align} \]</div>
 <p>二次関数は一般に次のようなお椀型の形をとります．</p>
-<p><img alt="image6" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png" /></p>
+<div class="figure" id="id19">
+<img alt="06.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png" />
+<p class="caption"><span class="caption-text">06.png</span></p>
+</div>
 <p>これを3次元でイメージすると，下図のようになります．</p>
-<p><img alt="image7" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png" /></p>
+<div class="figure" id="id20">
+<img alt="08.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png" />
+<p class="caption"><span class="caption-text">08.png</span></p>
+</div>
 <p>そして，目的関数である二乗誤差の総和が最小となる点では各変数で微分した時の傾きが0となります．</p>
-<p><img alt="image8" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png" /></p>
+<div class="figure" id="id21">
+<img alt="07.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png" />
+<p class="caption"><span class="caption-text">07.png</span></p>
+</div>
 <p>この例では，<span class="math notranslate nohighlight">\(w_{1}\)</span> と <span class="math notranslate nohighlight">\(w_{2}\)</span>
 の２つのパラメータの場合で考えたが，これは <span class="math notranslate nohighlight">\(w_{1}\)</span>, <span class="math notranslate nohighlight">\(w_{2}\)</span>,
 <span class="math notranslate nohighlight">\(\ldots\)</span>, <span class="math notranslate nohighlight">\(w_{M}\)</span>
@@ -1853,9 +1876,15 @@ Scikit-learn」というように検索して，実例のソースコードを�
 <p>最後に，さらに精度を上げるためにハイパーパラメータの調整を行います．ハイパーパラメータの調整を行うときに注意すべき点があります．それは訓練データ（train）はパラメータの調整に用いるが，検証データ（test）を見ながらハイパーパラーメータの調整を行なってはいけないということです．．検証データはあくまで未知のデータに対する性能検証を行うために用意したものであり，ハイパーパラメータの調整に検証データを使用してしまうと検証データの情報が学習にリークし正しい検証ができなくなります．</p>
 <p>そこで，ハイパーパラメータの調整用にバリデーションデータ
 （val）を追加することが一般的です．</p>
-<p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/09.png" /></p>
+<div class="figure" id="id22">
+<img alt="09.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/09.png" />
+<p class="caption"><span class="caption-text">09.png</span></p>
+</div>
 <p>また，<strong>交差検証法（クロスバリデーション）</strong>という手法もあります．これは下図に示すようデータを複数パターン分割し，それらの性能の平均を評価する手法です．</p>
-<p><img alt="image1" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/10.png" /></p>
+<div class="figure" id="id23">
+<img alt="10.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/10.png" />
+<p class="caption"><span class="caption-text">10.png</span></p>
+</div>
 <p>この分割数 <span class="math notranslate nohighlight">\(K\)</span> として，K-fold Cross Validation
 (CV)と呼ばれることも多くあります．例えば上記の例だと
 <span class="math notranslate nohighlight">\(K=3\)</span>-CVとなります．</p>
