@@ -412,10 +412,11 @@ print(&#39;matplotlib:&#39;, matplotlib.__version__)
 <p>次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome
 Wide Association Study;
 ゲノムワイド関連解析）がされてきましたが，遺伝子変異だけでは全ての表現型の変化を説明できないことがわかってきています．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．（以下図）</p>
-<p><img alt="代替テキスト" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/&#64;&#64;download/attachment/EncodeDatatypes2013-7.png" />[Encode Projectより引用]</p>
+<p><img alt="代替テキスト" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/&#64;&#64;download/attachment/EncodeDatatypes2013-7.png" /> [Encode Projectより引用]</p>
 <p>例えば，ChIP-Seq（クロマチン免疫沈降）は，転写調節因子やそのほかのタンパク質が直接の相互作用を起こすDNAの特定部位を分離し，それらをシーケンシングして同定し，どの程度出現していたかを定量化します．これにより，タンパク質のDNA中の結合部位を正確かつ効率的に同定することができます．</p>
 <p>このような技術で抽出された配列を学習データとして利用し，DNA配列のみからそこが結合部位かどうかだけでなく，どの程度，出現していたのかというカバレッチ値を推定することで，DNA配列のみから，転写因子，クロマチンアクセシビリティ，ヒストン修飾を予測することができるようになり，様々な遺伝子変異に対する有益な洞察を与えてくれます．</p>
-<p>一方で，DNA配列中のどの領域がそのような特徴を持つのかを調べるためには非常に遠距離のDNA配列もいる必要があり，これが機械学習による解析を困難としていました．今回紹介する手法はこのような遠距離の関係を捉えるため，10万超の長さのDNA配列を入力として受け取り，128bpごとにその領域がどの程度各手法で発現していたのか，カバレッジ値を予測するタスクを考えます．</p>
+<p>一方で，DNA配列中のどの領域がそのような特徴を持つのかを調べるためには非常に遠距離のDNA配列もいる必要があり，これが機械学習による解析を困難としていました．今回紹介する手法はこのような遠距離の関係を捉えるため，10万超の長さのDNA配列を入力として受け取り，128
+bpごとにその領域がどの程度各手法で発現していたのか，カバレッジ値を予測するタスクを考えます．</p>
 </div>
 <div class="section" id="データセット">
 <h2>7.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -433,7 +434,7 @@ Wide Association Study;
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -466,7 +467,7 @@ drwxr-xr-x 2 root root 4.0K Nov 19 21:53 sample_data
 import numpy as np
 
 with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
-  for key in hf.keys():
+    for key in hf.keys():
     print(key, hf[key].shape, hf[key].dtype)
 </pre></div>
 </div>
@@ -496,12 +497,12 @@ with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
 import matplotlib.pyplot as plt
 
 with h5py.File(&#39;seq.h5&#39;) as hf:
-  y = hf[&#39;train_out&#39;][:100]
-  fig_size = plt.rcParams[&quot;figure.figsize&quot;]
-  fig_size[0] = 20
-  fig_size[1] = 10
-  for i in range(3):
-    plt.bar(range(y.shape[1]), y[0,:,i])
+    y = hf[&#39;train_out&#39;][:100]
+    fig_size = plt.rcParams[&quot;figure.figsize&quot;]
+    fig_size[0] = 20
+    fig_size[1] = 10
+    for i in range(3):
+        plt.bar(range(y.shape[1]), y[0,:,i])
 </pre></div>
 </div>
 </div>
@@ -546,9 +547,10 @@ blog</a>より</p>
 <h3>7.4.3. ブロック<a class="headerlink" href="#ブロック" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは最初に，ネットワークの全体を設計します．
 このネットワークは二つのブロックから構成されます．</p>
-<p>１つ目のブロックは長さが2<sup>17から配列を長さが2</sup>10のベクトル列まで圧縮し，128bpにつき1つのベクトルが対応するにします．この圧縮はRootBlockが担当します．</p>
-<p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算する部分を担当します．</p>
-<p>以下のコードを実行してみましょう．</p>
+<p>１つ目のブロックは長さが2<sup>17から配列を長さが2</sup>10のベクトル列まで圧縮し，128
+bpあたり1つのベクトルが対応する部分に対応し、SqueezeBlockが担当します．</p>
+<p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算していく部分であり、DilatedBlockが担当します。</p>
+<p>それでは・以下のコードを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -563,10 +565,10 @@ import cupy as cp
 bc = 16 # base channel
 
 default_squeeze_params = [
-  # out_ch, kernel, pool
-  [bc, 21, 2], #1 128 -&gt; 64
-  [bc*2, 7, 4], #2  64 -&gt; 16
-  [bc*4, 7, 4], #3  16 -&gt; 4
+    # out_ch, kernel, pool
+    [bc, 21, 2], #1 128 -&gt; 64
+    [bc*2, 7, 4], #2  64 -&gt; 16
+    [bc*4, 7, 4], #3  16 -&gt; 4
   [bc*8, 7, 4], #4  4 -&gt; 1
 ]
 
@@ -585,41 +587,36 @@ default_dilated_params = [
 
 class Net(chainer.Chain):
 
-  def __init__(self, squeeze_params=default_squeeze_params, dilated_params=default_dilated_params, n_targets=3):
-    super(Net, self).__init__()
-    self._n_squeeze = len(squeeze_params)
-    self._n_dilated = len(dilated_params)
-    with self.init_scope():
-      in_ch = 4
-      for i, param in enumerate(squeeze_params):
-        out_ch, kernel, pool = param
-        setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(in_ch, out_ch, kernel, pool))
-        in_ch = out_ch
-      for i, param in enumerate(dilated_params):
-        out_ch, kernel, dilated = param
-        setattr(self, &quot;d_{}&quot;.format(i), DilatedBlock(out_ch, kernel, dilated))
-      self.l = L.ConvolutionND(1, None, n_targets, 1)
+    def __init__(self, squeeze_params=default_squeeze_params, dilated_params=default_dilated_params, n_targets=3):
+        super(Net, self).__init__()
+        self._n_squeeze = len(squeeze_params)
+        self._n_dilated = len(dilated_params)
+        with self.init_scope():
+            in_ch = 4
+            for i, param in enumerate(squeeze_params):
+                out_ch, kernel, pool = param
+                setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(in_ch, out_ch, kernel, pool))
+                in_ch = out_ch
+            for i, param in enumerate(dilated_params):
+                out_ch, kernel, dilated = param
+                setattr(self, &quot;d_{}&quot;.format(i), DilatedBlock(out_ch, kernel, dilated))
+            self.l = L.ConvolutionND(1, None, n_targets, 1)
 
-  def forward(self, x):
-    # x : (B, X, 4)
-    xp = cp.get_array_module(x)
-    h = xp.transpose(x, (0, 2, 1))
-    h = h.astype(xp.float32)
+    def forward(self, x):
+        # x : (B, X, 4)
+        xp = cp.get_array_module(x)
+        h = xp.transpose(x, (0, 2, 1))
+        h = h.astype(xp.float32)
 
-    for i in range(self._n_squeeze):
-      h = F.forget(self[&quot;s_{}&quot;.format(i)], h)
+        for i in range(self._n_squeeze):
+            h = F.forget(self[&quot;s_{}&quot;.format(i)], h)
 
-    #hs = [h]
-    for i in range(self._n_dilated):
-      # h = self[&quot;d_{}&quot;.format(i)](hs)
-      h = F.forget(self[&quot;d_{}&quot;.format(i)], h)
+        for i in range(self._n_dilated):
+            h = F.forget(self[&quot;d_{}&quot;.format(i)], h)
 
-      #hs.append(h)
-
-    #h = self.l(F.concat(hs))
-    h = self.l(h)
-    h = xp.transpose(h, (0, 2, 1))
-    return h
+        h = self.l(h)
+        h = xp.transpose(h, (0, 2, 1))
+        return h
 </pre></div>
 </div>
 </div>
@@ -657,33 +654,33 @@ class WNConvolutionND(L.ConvolutionND):
             self.pad, self.cover_all, self.dilate)
 
 class SqueezeBlock(chainer.Chain):
-  def __init__(self, in_ch, out_ch, kernel, pool):
-    super(SqueezeBlock, self).__init__()
+    def __init__(self, in_ch, out_ch, kernel, pool):
+        super(SqueezeBlock, self).__init__()
 
-    self.pool = pool
-    with self.init_scope():
-        pad = kernel // 2
-        self.conv = WNConvolutionND(1, in_ch, out_ch*2, kernel, pad=pad, stride=pool)
+        self.pool = pool
+        with self.init_scope():
+            pad = kernel // 2
+            self.conv = WNConvolutionND(1, in_ch, out_ch*2, kernel, pad=pad, stride=pool)
 
-  def forward(self, x):
-    h = self.conv(x)
-    h, g = F.split_axis(h, 2, 1)
-    h = h * F.sigmoid(g)
-    return h
+    def forward(self, x):
+        h = self.conv(x)
+        h, g = F.split_axis(h, 2, 1)
+        h = h * F.sigmoid(g)
+        return h
 
 class DilatedBlock(chainer.Chain):
-  def __init__(self, out_ch, kernel, dilate):
-    super(DilatedBlock, self).__init__()
-    with self.init_scope():
-      self.conv = WNConvolutionND(1, out_ch, out_ch*2, kernel, pad=dilate, dilate=dilate)
-      self.conv1x1 = WNConvolutionND(1, out_ch, out_ch, 1)
+     def __init__(self, out_ch, kernel, dilate):
+        super(DilatedBlock, self).__init__()
+        with self.init_scope():
+            self.conv = WNConvolutionND(1, out_ch, out_ch*2, kernel, pad=dilate, dilate=dilate)
+            self.conv1x1 = WNConvolutionND(1, out_ch, out_ch, 1)
 
-  def forward(self, x):
-    h = self.conv(x)
-    h, g = F.split_axis(h, 2, 1)
-    h = h * F.sigmoid(g)
-    h = self.conv1x1(h)
-    return h + x
+    def forward(self, x):
+        h = self.conv(x)
+        h, g = F.split_axis(h, 2, 1)
+        h = h * F.sigmoid(g)
+        h = self.conv1x1(h)
+        return h + x
 
 </pre></div>
 </div>
@@ -696,9 +693,9 @@ Convolutionを使って遠距離にある情報も使って計算していく部
 Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだが，Convolution2Dも同様）の引数にdilatedを加えるだけで計算できます．</p>
 <p>また，計算の際は入力結果に現在の結果を足しこみます．これはResNetと呼ばれるネットワークで提案された手法です．これにより，学習がしやすくなります．</p>
 <p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [20]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -711,14 +708,6 @@ y = n.forward(x)
 print(y.shape)
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(4, 1024, 3)
-</pre></div></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
@@ -739,20 +728,19 @@ import sklearn
 import numpy as np
 
 def log_poisson_loss(log_x, t):
-  #return F.mean(F.exp(log_x) - t * log_
-  loss =  F.mean(F.exp(log_x) - t * log_x)
-  t = chainer.cuda.to_cpu(t.astype(np.float32))
-  offset = F.mean(cp.array(t - t * np.ma.log(t)))
-  return loss - offset
-#  return F.mean_absolute_error(F.exp(log_x), t.astype(np.float32))
+    #return F.mean(F.exp(log_x) - t * log_
+    loss =  F.mean(F.exp(log_x) - t * log_x)
+    t = chainer.cuda.to_cpu(t.astype(np.float32))
+    offset = F.mean(cp.array(t - t * np.ma.log(t)))
+    return loss - offset
 
 
 def log_r2_score(log_x, t):
-  return F.r2_score(F.exp(log_x), t)
+    return F.r2_score(F.exp(log_x), t)
 </pre></div>
 </div>
 </div>
-<p>また，学習率の調整にCosineSchedulerを使います．ニューラルネットワークの学習では，徐々に学習率を小さくしていくと，より汎化性能の高い解を見つけられることがわかっています．焼きなまし法のように最初は学習率を高くして極小解にはまらないようにし，，後半は徐々に学習率を0に近づけていき収束させるというものです．
+<p>また，学習率の調整にCosineSchedulerを使います．ニューラルネットワークの学習では，徐々に学習率を小さくしていくと，より汎化性能の高い解を見つけられることがわかっています．焼きなまし法のように最初は学習率を高くして極小解にはまらないようにし，後半は徐々に学習率を0に近づけていき収束させるというものです．
 CosineSchedulerはCosine関数の0度から90度までの変化のように学習率を変化させます．また学習は初期が不安定なので最初にn_warmup回，学習率を0から初期学習率まで線形に増やしていきます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -797,7 +785,8 @@ class CosineScheduler(training.Extension):
 </pre></div>
 </div>
 </div>
-<p>最後に学習中に訓練データに意味を変えない変化を加えるデータオーグメンテーションを適用します．これは画像において回転させたり，平行させたりする場合と同じです．</p>
+<p>最後に学習中に訓練データに意味を変えない変化を加えるData
+Augmentationを適用します．これは画像において回転させたり，平行移動させたりする場合と同じです．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -809,10 +798,9 @@ import random
 
 class PreprocessedDataset(chainer.dataset.DatasetMixin):
 
-    def __init__(self, xs, ys, size=131072, max_shift=3):
+    def __init__(self, xs, ys, max_shift):
         self.xs = xs
         self.ys = ys
-        self.size = size
         self.max_shift = max_shift
 
     def __len__(self):
@@ -836,7 +824,9 @@ class PreprocessedDataset(chainer.dataset.DatasetMixin):
 </pre></div>
 </div>
 </div>
-<p>これで全部準備ができました．残りはchainerのtrainerを改造して学習するだけです．以下のコードを実行してください．30分程度で学習が完了します．</p>
+<p>これで全部準備ができました．残りはchainerのtrainerを改造して学習するだけです．以下のコードを実行してください．</p>
+<p>元々のデータ全体では学習に時間がかかるので、データ/<code class="docutils literal notranslate"><span class="pre">ratio</span></code>分だけを学習、検証用データとして利用します。今回<code class="docutils literal notranslate"><span class="pre">ratio</span></code>は20に設定されています。
+30分程度で学習が完了します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -870,7 +860,8 @@ valid_x = valid_x[:len(valid_x)//ratio]
 valid_y = valid_y[:len(valid_y)//ratio]
 
 
-train = PreprocessedDataset(train_x, train_y)
+max_shift_for_data_augmentation = 3
+train = PreprocessedDataset(train_x, train_y, max_shift_for_data_augmentation)
 val = chainer.datasets.TupleDataset(valid_x, valid_y)
 
 batchsize = 8
@@ -887,7 +878,7 @@ optimizer.add_hook(chainer.optimizer_hooks.GradientClipping(threshold=0.01))
 
 
 updater = training.updaters.StandardUpdater(
-  train_iter, optimizer, device=0)
+     train_iter, optimizer, device=0)
 
 n_epochs = 60
 n_warmups = 5
@@ -900,7 +891,7 @@ trainer.extend(extensions.LogReport())
 trainer.extend(extensions.snapshot_object(model, &#39;model_epoch_{.updater.epoch}&#39;), trigger=(1, &#39;epoch&#39;))
 
 trainer.extend(extensions.PrintReport(
-    [&#39;epoch&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;elapsed_time&#39;]), trigger = (0.1, &#39;epoch&#39;))
+          [&#39;epoch&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;elapsed_time&#39;]), trigger = (0.1, &#39;epoch&#39;))
 
 # trainer.extend(extensions.ProgressBar())
 
@@ -940,7 +931,7 @@ predictor = model.predictor
 
 print(len(test_x))
 with chainer.no_backprop_mode():
-  test_y_estimated = F.exp(predictor(test_x[:1]))
+    test_y_estimated = F.exp(predictor(test_x[:1]))
 
 test_y = test_y[:1]
 
