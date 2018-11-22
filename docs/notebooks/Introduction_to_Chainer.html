@@ -88,7 +88,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#データセットの準備">4.2.1. データセットの準備</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Validation用データセットを作る">4.2.2. Validation用データセットを作る</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Iteratorの作成">4.2.3. Iteratorの作成</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#SerialIterator`について">4.2.3.1. SerialIterator`について</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#SerialIteratorについて">4.2.3.1. SerialIteratorについて</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#ネットワークの定義">4.2.4. ネットワークの定義</a><ul>
@@ -678,8 +678,8 @@ t: ()
 </div>
 <p>そのときの返り値である2つの配列 <code class="docutils literal notranslate"><span class="pre">x</span></code> と <code class="docutils literal notranslate"><span class="pre">t</span></code>
 のshapeを調べてみると，データはそれぞれ784次元の1次元ベクトルとして格納されていて，正解ラベルはスカラであることが分かります．784は，<span class="math notranslate nohighlight">\(28 \times 28\)</span>で，28ピクセル四方の画像データの画素値を1列に並べたものになっています．</p>
-<div class="section" id="SerialIterator`について">
-<h4>4.2.3.1. SerialIterator`について<a class="headerlink" href="#SerialIterator`について" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="section" id="SerialIteratorについて">
+<h4>4.2.3.1. SerialIteratorについて<a class="headerlink" href="#SerialIteratorについて" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>Chainerがいくつか用意している<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>の一種である<code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>は，データセットの中のデータを順番に取り出してくる最もシンプルな<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>です．コンストラクタの引数にデータセットオブジェクトと，バッチサイズを取ります．このとき，渡したデータセットオブジェクトから，何周も何周もデータを繰り返し読み出す必要がある場合は<code class="docutils literal notranslate"><span class="pre">repeat</span></code>引数を<code class="docutils literal notranslate"><span class="pre">True</span></code>とし，1周が終わったらそれ以上データを取り出したくない場合はこれを<code class="docutils literal notranslate"><span class="pre">False</span></code>とします．これは，主にvalidation用のデータセットに対して使うフラグです．デフォルトでは，<code class="docutils literal notranslate"><span class="pre">True</span></code>になっています．また，<code class="docutils literal notranslate"><span class="pre">shuffle</span></code>引数に<code class="docutils literal notranslate"><span class="pre">True</span></code>を渡すと，データセットから取り出されてくるデータの順番をエポックごとにランダムに変更します．<code class="docutils literal notranslate"><span class="pre">SerialIterator</span></code>の他にも，マルチプロセスで高速にデータを処理できるようにした<code class="docutils literal notranslate"><span class="pre">MultiprocessIterator</span></code>や<code class="docutils literal notranslate"><span class="pre">MultithreadIterator</span></code>など，複数の<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>が用意されています．詳しくは以下を見てください．</p>
 <ul class="simple">
 <li><a class="reference external" href="https://docs.chainer.org/en/stable/reference/iterators.html">Chainerで使えるIterator一覧</a></li>
