@@ -345,7 +345,6 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/source/source/notebooks/DNA_Sequence_Data_Analysis.ipynb">[colab_logo](https://colab.research.google.com/assets/colab-badge.svg</a></p>
 <p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Basenji.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <div class="section" id="実践編：ディープラーニングを使った配列解析">
 <h1>7. 実践編：ディープラーニングを使った配列解析<a class="headerlink" href="#実践編：ディープラーニングを使った配列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
@@ -370,8 +369,8 @@ Colab上では，以下のようにしてインストールすることができ
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!set -ex
 !apt -y -q install cuda-libraries-dev-9-2
-!pip install cupy-cuda92 --pre
-!pip install chainer --pre
+!pip install cupy-cuda92==6.0.0a1
+!pip install chainer==6.0.0a1
 </pre></div>
 </div>
 </div>
@@ -420,46 +419,21 @@ Wide Association Study;
 </div>
 <div class="section" id="データセット">
 <h2>7.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ここでは，データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します．ここでは前処理が既に終わって配列と，各位置ごとの推定カバレッジ値が記録されたデータを利用します．下のセルを実行してデータをダウンロードしてください．（TODO:
-公開の場所においてcurlで取得するようにする）</p>
+<p>ここでは，データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します．ここでは前処理が既に終わって配列と，各位置ごとの推定カバレッジ値が記録されたデータを利用します．下のセルを実行してデータをダウンロードしてください．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!pip install -U -q PyDrive
-
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
-from google.colab import auth
-from oauth2client.client import GoogleCredentials
-
-auth.authenticate_user()
-gauth = GoogleAuth()
-gauth.credentials = GoogleCredentials.get_application_default()
-drive = GoogleDrive(gauth)
-
-
-file_id = &quot;1lQk10NsD_NRELz5L0v76TngTPZowHlMB&quot;
-
-drive_file = drive.CreateFile({&#39;id&#39;: file_id})
-
-
-drive_file.GetContentFile(&quot;data.h5&quot;)
+<span></span>!wget https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
 
 </pre></div>
 </div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="mi">3640080</span>
-<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span>       <span class="mi">2597</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">05</span><span class="p">:</span><span class="mi">38</span> <span class="n">adc</span><span class="o">.</span><span class="n">json</span>
-<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">3727429632</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">05</span><span class="p">:</span><span class="mi">39</span> <span class="n">data</span><span class="o">.</span><span class="n">h5</span>
-<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">root</span> <span class="n">root</span>       <span class="mi">4096</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">47</span> <span class="n">sample_data</span>
-</pre></div>
-</div>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -467,7 +441,17 @@ drive_file.GetContentFile(&quot;data.h5&quot;)
 </pre></div>
 </div>
 </div>
-<p>data.h5というファイルが正しくダウンロードされているかを確認してください．</p>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 562M
+drwxr-xr-x 2 root root 4.0K Nov 19 21:53 sample_data
+-rw-r--r-- 1 root root 562M Nov 13 09:51 seq.h5
+</pre></div></div>
+</div>
+<p>data.h5というファイルが正しくダウンロードされているかを確認してください．サイズは562MBです．</p>
 <p>data.h5はHDF5形式でデータを格納したファイルです．HDF5ファイルは，ファイルシステムと同様に，階層的にデータを格納することができ，行列やテンソルデータをそれぞれの位置で名前付きで格納することができます．</p>
 <p>HDF5形式のファイルを操作するためにh5pyというライブラリがあります．h5pyのFile()でファイルを開き，keys()というAPIでその中に含まれているキーを列挙します．取得したキーを使って格納されている各データを参照することができます．</p>
 <p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます．</p>
@@ -479,10 +463,11 @@ drive_file.GetContentFile(&quot;data.h5&quot;)
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import h5py
+import numpy as np
 
-with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
+with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
   for key in hf.keys():
-    print(key, hf[key].shape)
+    print(key, hf[key].shape, hf[key].dtype)
 </pre></div>
 </div>
 </div>
@@ -499,31 +484,24 @@ with h5py.File(&#39;data.h5&#39;, &#39;r&#39;) as hf:
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">338</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!ls -l
-</pre></div>
-</div>
-</div>
 <p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータを一部を表示します．</p>
+<p>試しに最初のデータを取り出して，それの出力の値を表示してみます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>with h5py.File(&#39;data.h5&#39;) as hf:
-  x = hf[&#39;train_in&#39;][:100]
-  print(x.shape, x.dtype)
-  print(x[0, 0:10])
+<span></span>%matplotlib inline
+import matplotlib.pyplot as plt
+
+with h5py.File(&#39;seq.h5&#39;) as hf:
   y = hf[&#39;train_out&#39;][:100]
-  print(y.shape)
-  print(y.shape, y.dtype)
-  print(y[0, 0:10])
+  fig_size = plt.rcParams[&quot;figure.figsize&quot;]
+  fig_size[0] = 20
+  fig_size[1] = 10
+  for i in range(3):
+    plt.bar(range(y.shape[1]), y[0,:,i])
 </pre></div>
 </div>
 </div>
@@ -561,8 +539,8 @@ Convolutionを使うことで遠距離にある情報を考慮できるモデル
 <img alt="dilated convolution" src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif" />
 <p class="caption"><span class="caption-text">dilated convolution</span></p>
 </div>
-<p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">Wavenet
-Blog記事</a>より引用</p>
+<p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WAVENET: A GENERATIVE MODEL FOR RAW AUDIO,
+blog</a>より</p>
 </div>
 <div class="section" id="ブロック">
 <h3>7.4.3. ブロック<a class="headerlink" href="#ブロック" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -582,26 +560,28 @@ import chainer.functions as F
 import chainer.links as L
 import cupy as cp
 
+bc = 16 # base channel
 
 default_squeeze_params = [
   # out_ch, kernel, pool
-  [32, 21, 2], #1 128 -&gt; 64
-  [32, 7, 4], #2 64 -&gt; 16
-  [48, 7, 4], #3 16 -&gt; 4
-  [64, 7, 4]  #4 4 -&gt; 1
+  [bc, 21, 2], #1 128 -&gt; 64
+  [bc*2, 7, 4], #2  64 -&gt; 16
+  [bc*4, 7, 4], #3  16 -&gt; 4
+  [bc*8, 7, 4], #4  4 -&gt; 1
 ]
 
 
 default_dilated_params = [
 # out_ch, kernel, dilated
-  [8, 3, 1],
-  [8, 3, 2],
-  [8, 3, 4],
-  [8, 3, 8],
-  [8, 3, 16],
-  [8, 3, 32],
-  [8, 3, 64]
+  [bc*8, 3, 1],
+  [bc*8, 3, 2],
+  [bc*8, 3, 4],
+  [bc*8, 3, 8],
+  [bc*8, 3, 16],
+  [bc*8, 3, 32],
+  [bc*8, 3, 64]
 ]
+
 
 class Net(chainer.Chain):
 
@@ -610,9 +590,11 @@ class Net(chainer.Chain):
     self._n_squeeze = len(squeeze_params)
     self._n_dilated = len(dilated_params)
     with self.init_scope():
+      in_ch = 4
       for i, param in enumerate(squeeze_params):
         out_ch, kernel, pool = param
-        setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(out_ch, kernel, pool))
+        setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(in_ch, out_ch, kernel, pool))
+        in_ch = out_ch
       for i, param in enumerate(dilated_params):
         out_ch, kernel, dilated = param
         setattr(self, &quot;d_{}&quot;.format(i), DilatedBlock(out_ch, kernel, dilated))
@@ -622,18 +604,20 @@ class Net(chainer.Chain):
     # x : (B, X, 4)
     xp = cp.get_array_module(x)
     h = xp.transpose(x, (0, 2, 1))
-    h = h[:, :, :]
     h = h.astype(xp.float32)
 
     for i in range(self._n_squeeze):
-      h = self[&quot;s_{}&quot;.format(i)](h)
+      h = F.forget(self[&quot;s_{}&quot;.format(i)], h)
 
-    hs = [h]
+    #hs = [h]
     for i in range(self._n_dilated):
-      h = self[&quot;d_{}&quot;.format(i)](hs)
-      hs.append(h)
+      # h = self[&quot;d_{}&quot;.format(i)](hs)
+      h = F.forget(self[&quot;d_{}&quot;.format(i)], h)
 
-    h = self.l(F.concat(hs))
+      #hs.append(h)
+
+    #h = self.l(F.concat(hs))
+    h = self.l(h)
     h = xp.transpose(h, (0, 2, 1))
     return h
 </pre></div>
@@ -653,40 +637,68 @@ import chainer.functions as F
 import chainer.links as L
 import cupy as cp
 
+class WNConvolutionND(L.ConvolutionND):
+    def __init__(self, *args, **kwargs):
+        super(WNConvolutionND, self).__init__(*args, **kwargs)
+        self.add_param(&#39;g&#39;, self.W.data.shape[0])
+        norm = np.linalg.norm(self.W.data.reshape(
+            self.W.data.shape[0], -1), axis=1)
+        self.g.data[...] = norm
+
+    def __call__(self, x):
+        norm = F.batch_l2_norm_squared(self.W) ** 0.5
+        channel_size = self.W.data.shape[0]
+        norm_broadcasted = F.broadcast_to(
+            F.reshape(norm, (channel_size, 1, 1)), self.W.data.shape)
+        g_broadcasted = F.broadcast_to(
+            F.reshape(norm, (channel_size, 1, 1)), self.W.data.shape)
+        return F.convolution_nd(
+            x, g_broadcasted * self.W / norm_broadcasted, self.b, self.stride,
+            self.pad, self.cover_all, self.dilate)
+
 class SqueezeBlock(chainer.Chain):
-  def __init__(self, out_ch, kernel, pool):
+  def __init__(self, in_ch, out_ch, kernel, pool):
     super(SqueezeBlock, self).__init__()
 
     self.pool = pool
     with self.init_scope():
         pad = kernel // 2
-        self.conv = L.ConvolutionND(1, None, out_ch, kernel, pad=pad, nobias=True)
-        self.bn = L.BatchNormalization(out_ch)
+        self.conv = WNConvolutionND(1, in_ch, out_ch*2, kernel, pad=pad, stride=pool)
 
   def forward(self, x):
     h = self.conv(x)
-    h = self.bn(h)
-    h = F.max_pooling_nd(h, self.pool, self.pool, 0, cover_all=False)
-    return F.relu(h)
+    h, g = F.split_axis(h, 2, 1)
+    h = h * F.sigmoid(g)
+    return h
 
 class DilatedBlock(chainer.Chain):
   def __init__(self, out_ch, kernel, dilate):
     super(DilatedBlock, self).__init__()
     with self.init_scope():
-      self.conv = L.ConvolutionND(1, None, out_ch, kernel, pad=dilate, nobias=True, dilate=dilate)
-      self.bn = L.BatchNormalization(out_ch)
+      self.conv = WNConvolutionND(1, out_ch, out_ch*2, kernel, pad=dilate, dilate=dilate)
+      self.conv1x1 = WNConvolutionND(1, out_ch, out_ch, 1)
 
-  def forward(self, xs):
-    h = self.conv(F.concat(xs))
-    h = self.bn(h)
-    return F.relu(h)
+  def forward(self, x):
+    h = self.conv(x)
+    h, g = F.split_axis(h, 2, 1)
+    h = h * F.sigmoid(g)
+    h = self.conv1x1(h)
+    return h + x
+
 </pre></div>
 </div>
 </div>
+<p>WeightNormalizationはパラメータの表現を長さと向きに分解して表現する手法で，今回の系列問題のような場合に使われる正規化法です．</p>
+<p>SqueezeBlockは配列を縮めていき，長さ131072の配列を1024に縮めるためのブロックです．
+1次元配列を扱うためConvolutionNDを使い，最初の引数で1次元配列であることを指定しています．各層は畳み込み層，BatchNormalization層，MaxPooling層，Reluから構成されます．</p>
+<p>DilatedBlockはすでに長さ1024の長さになった配列に対し，Dilated
+Convolutionを使って遠距離にある情報も使って計算していく部分です．引数としてdilatedを受け取ります．Dilated
+Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだが，Convolution2Dも同様）の引数にdilatedを加えるだけで計算できます．</p>
+<p>また，計算の際は入力結果に現在の結果を足しこみます．これはResNetと呼ばれるネットワークで提案された手法です．これにより，学習がしやすくなります．</p>
 <p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [20]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -713,7 +725,8 @@ print(y.shape)
 </div>
 <p>ここで，もともとB= 4, L=131072, C=4だった配列が計算後はB=4, L=1024,
 C=3の配列となりました．</p>
-<p>今回の学習では対数ポアソン損失関数を利用します．これはモデルはポアソン分布の唯一のパラメータである平均を出力し，そのポアソン分布を学習データを使った最尤推定をします．この際，学習対象パラメータ以外は無視しています．性能評価する際には，比較がしやすいように学習パラメータに依存しない項も含めた式を利用しています．</p>
+<p>今回の学習では対数ポアソン損失関数を利用します．これはモデルはポアソン分布の唯一のパラメータである平均を出力し，そのポアソン分布を学習データを使った最尤推定をします．この際，学習対象パラメータ以外は無視しています．
+また，この最適化関数の最小値はそのままだと<span class="math notranslate nohighlight">\(0\)</span>にはならので，最小値である<span class="math notranslate nohighlight">\(t \log t\)</span>をひいておき，損失関数の最小値が<span class="math notranslate nohighlight">\(0\)</span>となるようにします．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -723,20 +736,103 @@ C=3の配列となりました．</p>
 <span></span>import chainer.functions as F
 import math
 import sklearn
+import numpy as np
 
 def log_poisson_loss(log_x, t):
-  return F.mean(F.exp(log_x) - t * log_x)
+  #return F.mean(F.exp(log_x) - t * log_
+  loss =  F.mean(F.exp(log_x) - t * log_x)
+  t = chainer.cuda.to_cpu(t.astype(np.float32))
+  offset = F.mean(cp.array(t - t * np.ma.log(t)))
+  return loss - offset
+#  return F.mean_absolute_error(F.exp(log_x), t.astype(np.float32))
 
 
-def log_poisson_acc(log_x, t):
-  xp = cp.get_array_module(t)
-  t = t.astype(xp.float32)
-  zeros = xp.zeros_like(t, dtype=t.dtype)
-  ones = xp.ones_like(t, dtype=t.dtype)
-  cond = xp.logical_and(t &gt;= zeros, t &lt;= ones)
-  stirling_approx = t * F.log(t) - t + 0.5 * F.log(2.0 * math.pi * t)
-  ret = F.exp(log_x) - t * log_x + F.where(cond, zeros, stirling_approx)
-  return F.mean(ret)
+def log_r2_score(log_x, t):
+  return F.r2_score(F.exp(log_x), t)
+</pre></div>
+</div>
+</div>
+<p>また，学習率の調整にCosineSchedulerを使います．ニューラルネットワークの学習では，徐々に学習率を小さくしていくと，より汎化性能の高い解を見つけられることがわかっています．焼きなまし法のように最初は学習率を高くして極小解にはまらないようにし，，後半は徐々に学習率を0に近づけていき収束させるというものです．
+CosineSchedulerはCosine関数の0度から90度までの変化のように学習率を変化させます．また学習は初期が不安定なので最初にn_warmup回，学習率を0から初期学習率まで線形に増やしていきます．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>from chainer import training
+import numpy as np
+import math
+
+class CosineScheduler(training.Extension):
+
+    def __init__(self, attr=&#39;lr&#39;, init_val=0.0001, n_decays=200, n_warmups=3, target=None, optimizer=None):
+        self._attr = attr
+        self._target = target
+        self._optimizer = optimizer
+        self._min_loss = None
+        self._last_value = None
+        self._init_val = init_val
+        self._n_decays = n_decays - n_warmups
+        self._decay_count = 0
+        self._n_warmups = n_warmups
+
+    def __call__(self, trainer):
+        updater = trainer.updater
+        optimizer = self._get_optimizer(trainer)
+        epoch = updater.epoch
+        if epoch &lt; self._n_warmups:
+            value = self._init_val / (self._n_warmups + 1) * (epoch + 1)
+        else:
+            value = 0.5 * self._init_val * (1 + math.cos(math.pi * (epoch - self._n_warmups) / self._n_decays))
+        self._update_value(optimizer, value)
+
+
+    def _get_optimizer(self, trainer):
+        return self._optimizer or trainer.updater.get_optimizer(&#39;main&#39;)
+
+    def _update_value(self, optimizer, value):
+        setattr(optimizer, self._attr, value)
+        self._last_value = value
+</pre></div>
+</div>
+</div>
+<p>最後に学習中に訓練データに意味を変えない変化を加えるデータオーグメンテーションを適用します．これは画像において回転させたり，平行させたりする場合と同じです．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>import chainer
+import random
+
+class PreprocessedDataset(chainer.dataset.DatasetMixin):
+
+    def __init__(self, xs, ys, size=131072, max_shift=3):
+        self.xs = xs
+        self.ys = ys
+        self.size = size
+        self.max_shift = max_shift
+
+    def __len__(self):
+        return len(self.xs)
+
+    def get_example(self, i):
+        # It applies following preprocesses:
+        #     - Cropping
+        #     - Random flip
+
+        x = self.xs[i]
+        y = self.ys[i]
+
+        if random.randint(0, 1):
+            x = x[::-1, :]
+            y = y[::-1, :]
+
+        s = random.randint(-self.max_shift, self.max_shift)
+        x = np.roll(x, s, axis=0)
+        return x, y
 </pre></div>
 </div>
 </div>
@@ -755,7 +851,7 @@ from chainer.training import extensions
 from chainer import training
 import h5py
 
-ml_h5 = h5py.File(&#39;data.h5&#39;)
+ml_h5 = h5py.File(&#39;seq.h5&#39;)
 print(list(ml_h5.keys()))
 
 train_x = ml_h5[&#39;train_in&#39;]
@@ -767,45 +863,64 @@ valid_y = ml_h5[&#39;valid_out&#39;]
 test_x = ml_h5[&#39;test_in&#39;]
 test_y = ml_h5[&#39;test_out&#39;]
 
-train = chainer.datasets.TupleDataset(train_x, train_y)
-val = chainer.datasets.TupleDataset(valid_x, valid_y)
+ratio = 20
+train_x = train_x[:len(train_x)//ratio]
+train_y = train_y[:len(train_y)//ratio]
+valid_x = valid_x[:len(valid_x)//ratio]
+valid_y = valid_y[:len(valid_y)//ratio]
 
-train = train[:len(train)//10]
-val = val[:len(val)//10]
+
+train = PreprocessedDataset(train_x, train_y)
+val = chainer.datasets.TupleDataset(valid_x, valid_y)
 
 batchsize = 8
 
 train_iter = chainer.iterators.SerialIterator(train, batchsize)
 val_iter = chainer.iterators.SerialIterator(val, batchsize, repeat=False, shuffle=False)
 
-model = L.Classifier(Net(), lossfun=log_poisson_loss, accfun=log_poisson_acc)
+model = L.Classifier(Net(), lossfun=log_poisson_loss, accfun=log_r2_score)
 
-
-optimizer = chainer.optimizers.Adam(alpha=0.002, beta1=0.97, beta2=0.98)
+lr = 0.002
+optimizer = chainer.optimizers.Adam(alpha=lr, beta1=0.97, beta2=0.98)
 optimizer.setup(model)
+optimizer.add_hook(chainer.optimizer_hooks.GradientClipping(threshold=0.01))
 
 
 updater = training.updaters.StandardUpdater(
   train_iter, optimizer, device=0)
 
-epoch = 4
+n_epochs = 60
+n_warmups = 5
 out = &quot;out&quot;
-trainer = training.Trainer(updater, (epoch, &#39;epoch&#39;), out=out)
+trainer = training.Trainer(updater, (n_epochs, &#39;epoch&#39;), out=out)
+trainer.extend(CosineScheduler(attr=&#39;alpha&#39;, init_val=lr, n_decays=n_epochs, n_warmups=n_warmups), trigger=(1, &#39;epoch&#39;))
 
 trainer.extend(extensions.Evaluator(val_iter, model, device = 0))
 trainer.extend(extensions.LogReport())
-trainer.extend(extensions.snapshot_object(model, &#39;model_iter_{.updater.iteration}&#39;), trigger=(100, &#39;iteration&#39;))
+trainer.extend(extensions.snapshot_object(model, &#39;model_epoch_{.updater.epoch}&#39;), trigger=(1, &#39;epoch&#39;))
 
 trainer.extend(extensions.PrintReport(
-    [&#39;epoch&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;main/true_loss&#39;, &#39;validation/main/true_loss&#39;, &#39;elapsed_time&#39;]), trigger = (0.1, &#39;epoch&#39;))
+    [&#39;epoch&#39;, &#39;main/loss&#39;, &#39;validation/main/loss&#39;, &#39;elapsed_time&#39;]), trigger = (0.1, &#39;epoch&#39;))
 
-trainer.extend(extensions.ProgressBar())
+# trainer.extend(extensions.ProgressBar())
 
 trainer.run()
 
 </pre></div>
 </div>
 </div>
+<p>学習は成功したならば，実際にモデルが出力されているのかを確認しましょう．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>In [ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>!ls -l out/
+</pre></div>
+</div>
+</div>
+<p>次に，テストデータに対して学習データを適用します．学習が終わったモデルを読み込み，テストデータに対してモデルを適用します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -817,40 +932,43 @@ import chainer.links as L
 %matplotlib inline
 import matplotlib.pyplot as plt
 
-model_iter = 300
+model_n_epoch = 10
 out_dir = &#39;out&#39;
-model = L.Classifier(Net(), lossfun=log_poisson_loss, accfun=log_poisson_acc)
-chainer.serializers.load_npz(&#39;{}/model_iter_{}&#39;.format(out_dir, model_iter), model)
+model = L.Classifier(Net())
+chainer.serializers.load_npz(&#39;{}/model_epoch_{}&#39;.format(out_dir, model_n_epoch), model)
 predictor = model.predictor
 
 print(len(test_x))
 with chainer.no_backprop_mode():
-  test_y_estimated = predictor(test_x[:1])
+  test_y_estimated = F.exp(predictor(test_x[:1]))
+
+test_y = test_y[:1]
+
 print(test_y_estimated.shape)
-
-
+print(test_y_estimated[0,:,0])
 
 
 </pre></div>
 </div>
 </div>
+<p>結果を抜粋して表示してみましょう．ここでは3つ目（i=2）の出力について正解と推定結果を出力しています．今回の場合，学習データが少なく，学習回数も少ないためそれほど精度がでていません．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>def plot(y):
-  print(y.shape)
-  ret = np.reshape(np.transpose(y, (2, 1, 0)), (3, -1))
-  for i in range(3):
-    print(ret[i].shape, type(ret[i]))
-    plt.plot(range(len(ret[i])), ret[i])
-
-plot(test_y_estimated)
+<span></span>y = test_y_estimated.data
+fig_size = plt.rcParams[&quot;figure.figsize&quot;]
+fig_size[0] = 20
+fig_size[1] = 10
+i = 2
+plt.bar(range(y.shape[1]), y[0,:,i])
+plt.bar(range(y.shape[1]), test_y[0,:,i])
 </pre></div>
 </div>
 </div>
+<p>時間に余裕があれば学習のn_epochsを60から200程度に増やしたり，総数を増やしたり，チャンネル数を増やしたり，学習データ数（ratio=20をratio=5などにして）に増やしたりして，より高精度なモデルが学習できるのかを調べてみましょう．</p>
 </div>
 </div>
 </div>
