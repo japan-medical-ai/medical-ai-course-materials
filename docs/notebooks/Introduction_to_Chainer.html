@@ -433,7 +433,7 @@ Networks社が開発を続けています．ここでは，その<strong>柔軟�
 <p>それでは，以下のコマンドをターミナルで実行し，Chainerや，ChainerでGPUを活用するために必要となるCuPyというパッケージが正しくインストールされているかどうかを確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [2]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -465,7 +465,7 @@ iDeep: Not Available
 NCCLといった項目があり，それぞれバージョン番号が表示されていれば成功です．以下のチュートリアルでは，matplotlibをグラフの可視化に使いますので，これも同時にインストールしておきましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [3]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -497,7 +497,7 @@ Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-
 ChainerにはMNISTやCIFAR10/100のようなよく用いられるデータセットに対して，データをダウンロードしてくるところからそのような機能をもったオブジェクトを作るところまで自動的にやってくれる便利なメソッドがあるので，ここではひとまずこれを用いましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -525,7 +525,7 @@ Downloading from http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz...
 と同様のものになっています（<strong>実際ただのPythonリストもChainerのデータセットオブジェクトとして使えます</strong>）．では0番目のデータとラベルを取り出して，表示してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -577,7 +577,7 @@ train, valid = split_dataset_random(train_val, 50000, seed=0)
 <p>これで元々の<code class="docutils literal notranslate"><span class="pre">train_val</span></code>を，ランダムに選んだ50000個のデータからなる<code class="docutils literal notranslate"><span class="pre">train</span></code>データセットと，残りの10000個からなる<code class="docutils literal notranslate"><span class="pre">valid</span></code>データセットに分けることができます．何度も実行する際に異なる分け方になってしまわないよう，第3引数の<code class="docutils literal notranslate"><span class="pre">seed</span></code>を設定しておくことをオススメします．それでは，それぞれのデータセットの中に入っているデータの数を確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [7]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -603,7 +603,7 @@ Gradient Descent
 (SGD)という手法は，ニューラルネットワークにデータを一つ一つ入力するのではなく，いくつかのデータを束ねた
 <strong>ミニバッチ</strong>
 と呼ばれるまとまりを作って入力するためです．そのため，<strong>バッチサイズ分だけデータとラベルを束ねる作業が必要です．</strong>．</p>
-<p>そこで，<strong>データセットから決まった数のデータとラベルを取得し，それらを束ねてミニバッチを作ってくれる機能を持った``Iterator``を使います</strong>．<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>は，先程作ったデータセットオブジェクトをくるむ形で作ることができ，<code class="docutils literal notranslate"><span class="pre">next()</span></code>メソッドで新しいミニバッチを返してくれます．データセット内のデータすべてを1回ずつ学習に利用し終えた時点のことを1エポック（epoch）と呼びますが，Iteratorの内部ではこのエポックカウントなどの情報が記録されており，データセット内のデータを何度も使って学習のループを回すようなコードを書く際に便利です．</p>
+<p>そこで，<strong>データセットから決まった数のデータとラベルを取得し，それらを束ねてミニバッチを作ってくれる機能を持ったIteratorを使います</strong>．<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>は，先程作ったデータセットオブジェクトをくるむ形で作ることができ，<code class="docutils literal notranslate"><span class="pre">next()</span></code>メソッドで新しいミニバッチを返してくれます．データセット内のデータすべてを1回ずつ学習に利用し終えた時点のことを1エポック（epoch）と呼びますが，Iteratorの内部ではこのエポックカウントなどの情報が記録されており，データセット内のデータを何度も使って学習のループを回すようなコードを書く際に便利です．</p>
 <p>データセットオブジェクトからイテレータを作るには，以下のようにします．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -637,7 +637,7 @@ test_iter = iterators.SerialIterator(
 <p>この<code class="docutils literal notranslate"><span class="pre">batch</span></code>という変数は，<code class="docutils literal notranslate"><span class="pre">(img,</span> <span class="pre">label)</span></code>というタプルが128個（ミニバッチサイズ個）並んだリストになっています．それでは，このリストの長さが確かにミニバッチサイズの128であることを確かめてみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [10]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -656,7 +656,7 @@ batchsize: 128
 <p>次に，この<code class="docutils literal notranslate"><span class="pre">batch</span></code>というリストの一つ目の要素（画像とラベルを持つタプルになっているはずです）を<code class="docutils literal notranslate"><span class="pre">batch[0]</span></code>として取り出してみます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -706,7 +706,7 @@ t: ()
 </div>
 <div class="section" id="Chain">
 <h4>4.2.4.2. Chain<a class="headerlink" href="#Chain" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p><code class="docutils literal notranslate"><span class="pre">Chain</span></code>は，<strong>パラメータを持つ層（``Link``）をまとめておくためのクラス</strong>です．パラメータを持つということは，基本的にネットワークの学習の際にそれらを更新していく必要があるということです（更新されないパラメータを持たせることもできます）．Chainerでは，モデルのパラメータの更新は，<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>という機能が担います．その際，更新すべき全てのパラメータを簡単に発見できるように，<code class="docutils literal notranslate"><span class="pre">Chain</span></code>で一箇所にまとめておきます．そうすると，<code class="docutils literal notranslate"><span class="pre">Chain.params()</span></code>メソッドを使って<strong>更新されるパラメータ一覧が簡単に取得できます．</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">Chain</span></code>は，<strong>パラメータを持つ層（Link）をまとめておくためのクラス</strong>です．パラメータを持つということは，基本的にネットワークの学習の際にそれらを更新していく必要があるということです（更新されないパラメータを持たせることもできます）．Chainerでは，モデルのパラメータの更新は，<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>という機能が担います．その際，更新すべき全てのパラメータを簡単に発見できるように，<code class="docutils literal notranslate"><span class="pre">Chain</span></code>で一箇所にまとめておきます．そうすると，<code class="docutils literal notranslate"><span class="pre">Chain.params()</span></code>メソッドを使って<strong>更新されるパラメータ一覧が簡単に取得できます．</strong></p>
 </div>
 <div class="section" id="Chainを継承してネットワークを定義しよう">
 <h4>4.2.4.3. Chainを継承してネットワークを定義しよう<a class="headerlink" href="#Chainを継承してネットワークを定義しよう" title="このヘッドラインへのパーマリンク">¶</a></h4>
@@ -785,8 +785,8 @@ if gpu_id &gt;= 0:
 </div>
 <p>できました！疑問点はありませんか？ちなみに，Chainerにはたくさんの学習可能なレイヤやパラメータを持たないレイヤが用意されています．ぜひ一度以下の一覧のページを見てみましょう．</p>
 <ul class="simple">
-<li><cite>Chainerで使える関数(``Function`</cite>)一覧 &lt;<a class="reference external" href="https://docs.chainer.org/en/stable/reference/functions.html">https://docs.chainer.org/en/stable/reference/functions.html</a>&gt;`__</li>
-<li><cite>Chainerで学習できるレイヤ(``Link`</cite>)一覧 &lt;<a class="reference external" href="https://docs.chainer.org/en/stable/reference/links.html">https://docs.chainer.org/en/stable/reference/links.html</a>&gt;`__</li>
+<li><a class="reference external" href="https://docs.chainer.org/en/stable/reference/functions.html">Chainerで使える関数(Function)一覧</a></li>
+<li><a class="reference external" href="https://docs.chainer.org/en/stable/reference/links.html">Chainerで学習できるレイヤ(Link)一覧</a></li>
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">Link</span></code>一覧には，ニューラルネットワークによく用いられる全結合層や畳み込み層，LSTMなどや，ReLUなどの活性化関数などなどだけでなく，有名なネットワーク全体も<code class="docutils literal notranslate"><span class="pre">Link</span></code>として載っています．ResNetや，VGGなどです．また，<code class="docutils literal notranslate"><span class="pre">Function</span></code>一覧には，画像の大きさをresizeしたり，サイン・コサインのような関数を始め，いろいろなネットワークの要素として使える関数が載っています．</p>
 <div class="section" id="入力側ユニット数の自動計算">
@@ -797,7 +797,7 @@ if gpu_id &gt;= 0:
 <p>様々な<code class="docutils literal notranslate"><span class="pre">Link</span></code>は，それぞれ学習対象となるパラメータを保持しています．それらの値は，NumPyの配列として簡単に取り出して見ることができます．例えば，上のモデル<code class="docutils literal notranslate"><span class="pre">MLP</span></code>は<code class="docutils literal notranslate"><span class="pre">l1</span></code>という名前の全結合層が登録されています．この全結合層は重み行列<code class="docutils literal notranslate"><span class="pre">W</span></code>とバイアス<code class="docutils literal notranslate"><span class="pre">b</span></code>という2つのパラメータを持ちます．これらには外から以下のようにしてアクセスすることができます：</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [14]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -822,7 +822,7 @@ print(&#39;初期化直後のその値は，&#39;, net.l1.b.array)
 <p>しかしここで，<code class="docutils literal notranslate"><span class="pre">net.l1.W.array</span></code>の中身を同様に表示してみようとすると，<code class="docutils literal notranslate"><span class="pre">None</span></code>が返されます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [15]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -897,7 +897,7 @@ optimizer = optimizers.SGD(lr=0.01).setup(net)
 <h4>4.2.6.2. 学習ループのコード<a class="headerlink" href="#学習ループのコード" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [53]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1058,7 +1058,7 @@ serializers.save_npz(&#39;my_mnist.model&#39;, net)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [19]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1096,7 +1096,7 @@ serializers.load_npz(&#39;my_mnist.model&#39;, infer_net)
 <p>以上で準備が整いました．それでは，試しにテストデータの中から一つ目の画像を取ってきて，それに対する分類を行ってみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1235,7 +1235,7 @@ updater = training.StandardUpdater(train_iter, optimizer, device=gpu_id)
 </pre></div>
 </div>
 </div>
-<p>ここでは，ネットワークを<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>で包んでいます．<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>は一種の<code class="docutils literal notranslate"><span class="pre">Chain</span></code>になっていて，渡されたネットワーク自体を<code class="docutils literal notranslate"><span class="pre">predictor</span></code>というattributeに持ち，<strong>ロス計算を行う機能を追加してくれます．</strong>こうすると，<code class="docutils literal notranslate"><span class="pre">net()</span></code>はデータ<code class="docutils literal notranslate"><span class="pre">x</span></code>だけでなくラベル<code class="docutils literal notranslate"><span class="pre">t</span></code>も取るようになり，まず渡されたデータを<code class="docutils literal notranslate"><span class="pre">predictor</span></code>に通して予測を作り，それを<code class="docutils literal notranslate"><span class="pre">t</span></code>と比較して<strong>ロスの``Variable``を返すようになります．</strong>ロス関数として何を用いるかはデフォルトでは<code class="docutils literal notranslate"><span class="pre">F.softmax_cross_entropy</span></code>となっていますが，<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>の引数<code class="docutils literal notranslate"><span class="pre">lossfunc</span></code>にロス計算を行う関数を渡してやれば変更することができるため，Classifierという名前ながら回帰問題などのロス計算機能の追加にも使うことができます．（<code class="docutils literal notranslate"><span class="pre">L.Classifier(net,</span> <span class="pre">lossfun=L.mean_squared_error,</span> <span class="pre">compute_accuracy=False)</span></code>のようにする）</p>
+<p>ここでは，ネットワークを<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>で包んでいます．<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>は一種の<code class="docutils literal notranslate"><span class="pre">Chain</span></code>になっていて，渡されたネットワーク自体を<code class="docutils literal notranslate"><span class="pre">predictor</span></code>というattributeに持ち，<strong>ロス計算を行う機能を追加してくれます．</strong>こうすると，<code class="docutils literal notranslate"><span class="pre">net()</span></code>はデータ<code class="docutils literal notranslate"><span class="pre">x</span></code>だけでなくラベル<code class="docutils literal notranslate"><span class="pre">t</span></code>も取るようになり，まず渡されたデータを<code class="docutils literal notranslate"><span class="pre">predictor</span></code>に通して予測を作り，それを<code class="docutils literal notranslate"><span class="pre">t</span></code>と比較して<strong>ロスのVariableを返すようになります．</strong>ロス関数として何を用いるかはデフォルトでは<code class="docutils literal notranslate"><span class="pre">F.softmax_cross_entropy</span></code>となっていますが，<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>の引数<code class="docutils literal notranslate"><span class="pre">lossfunc</span></code>にロス計算を行う関数を渡してやれば変更することができるため，Classifierという名前ながら回帰問題などのロス計算機能の追加にも使うことができます．（<code class="docutils literal notranslate"><span class="pre">L.Classifier(net,</span> <span class="pre">lossfun=L.mean_squared_error,</span> <span class="pre">compute_accuracy=False)</span></code>のようにする）</p>
 <p><code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>は前述のような<code class="docutils literal notranslate"><span class="pre">Updater</span></code>の担当する処理を遂行するための最もシンプルなクラスです．この他にも複数のGPUを用いるための<code class="docutils literal notranslate"><span class="pre">ParallelUpdater</span></code>などが用意されています．</p>
 </div>
 <div class="section" id="Trainerの準備">
@@ -1341,7 +1341,7 @@ extension一覧</a></li>
 <p>学習を開始するには，<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトのメソッド<code class="docutils literal notranslate"><span class="pre">run</span></code>を呼ぶだけです！</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1371,7 +1371,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 <p>では，保存されているロスのグラフを確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1381,9 +1381,7 @@ Image(filename=&#39;results/mnist_result/loss.png&#39;)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[27]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_83_0.png" src="../_images/notebooks_Introduction_to_Chainer_83_0.png" />
@@ -1392,7 +1390,7 @@ Image(filename=&#39;results/mnist_result/loss.png&#39;)
 <p>精度のグラフも見てみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [28]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1401,9 +1399,7 @@ Image(filename=&#39;results/mnist_result/loss.png&#39;)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[28]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_85_0.png" src="../_images/notebooks_Introduction_to_Chainer_85_0.png" />
@@ -1423,7 +1419,7 @@ Image(filename=&#39;results/mnist_result/loss.png&#39;)
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [30]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1432,9 +1428,7 @@ Image(filename=&#39;results/mnist_result/loss.png&#39;)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[30]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_88_0.png" src="../_images/notebooks_Introduction_to_Chainer_88_0.png" />
@@ -1448,7 +1442,7 @@ Image(filename=&#39;results/mnist_result/loss.png&#39;)
 Extensionの一つであるEvaluatorは，Trainerと関係なく独立して使うこともできます．以下のようにして<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>とネットワークのオブジェクト（<code class="docutils literal notranslate"><span class="pre">net</span></code>），使用するデバイスIDを渡してEvaluatorオブジェクトを作成し，これを関数として実行するだけです．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [31]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1474,7 +1468,7 @@ Extensionのsnapshotが自動的に保存したネットワークのスナップ
 <p>ここで注意すべきは，snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため，extensionの内部のパラメータなども一緒に保存されています．これは，学習自体を再開するために必要だからです．しかし，今回はネットワークのパラメータだけを読み込めば良いので，<code class="docutils literal notranslate"><span class="pre">serializers.load_npz()</span></code>のpath引数にネットワーク部分までのパス（<code class="docutils literal notranslate"><span class="pre">updater/model:main/predictor/</span></code>）を指定しています．こうすることで，ネットワークのオブジェクトにパラメータだけを読み込むことができます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [32]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1696,7 +1690,7 @@ def train(network_object, batchsize=128, gpu_id=0, max_epoch=20, train_dataset=N
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [35]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1744,7 +1738,7 @@ Test accuracy: 0.6062105
 <p>学習が20エポックまで終わりました．ロスと精度のプロットを見てみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [36]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1753,9 +1747,7 @@ Test accuracy: 0.6062105
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[36]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_102_0.png" src="../_images/notebooks_Introduction_to_Chainer_102_0.png" />
@@ -1763,7 +1755,7 @@ Test accuracy: 0.6062105
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [37]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1772,9 +1764,7 @@ Test accuracy: 0.6062105
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[37]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_103_0.png" src="../_images/notebooks_Introduction_to_Chainer_103_0.png" />
@@ -1788,7 +1778,7 @@ Test accuracy: 0.6062105
 <p>テスト精度は60%程度でしたが，試しにこの学習済みネットワークを使っていくつかのテスト画像を分類させてみましょう．あとで使いまわせるように<code class="docutils literal notranslate"><span class="pre">predict</span></code>関数を作っておきます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [38]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2008,7 +1998,7 @@ chainer.config.autotune = True
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [42]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2148,7 +2138,7 @@ Test accuracy: 0.8966574
 <p>学習が終了しました．ロスカーブと精度のグラフを見てみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [43]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2157,9 +2147,7 @@ Test accuracy: 0.8966574
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[43]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_121_0.png" src="../_images/notebooks_Introduction_to_Chainer_121_0.png" />
@@ -2167,7 +2155,7 @@ Test accuracy: 0.8966574
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [44]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2176,9 +2164,7 @@ Test accuracy: 0.8966574
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[44]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_122_0.png" src="../_images/notebooks_Introduction_to_Chainer_122_0.png" />
@@ -2263,7 +2249,7 @@ augmentationの効果がどの程度あるのかを調べてみましょう．<c
 <p>ここでも，40分ほどの時間がかかりますので，上と同様に90エポックまで学習したあとのsnapshotをダウンロードし，ここから学習を再開して最後の10エポックだけここで実際に学習させてみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [46]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2405,7 +2391,7 @@ augmentationなしの場合は90%程度だったテスト精度が，学習デ�
 <p>ロスと精度のグラフを見てみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [47]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2414,9 +2400,7 @@ augmentationなしの場合は90%程度だったテスト精度が，学習デ�
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[47]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_132_0.png" src="../_images/notebooks_Introduction_to_Chainer_132_0.png" />
@@ -2424,7 +2408,7 @@ augmentationなしの場合は90%程度だったテスト精度が，学習デ�
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [48]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2433,9 +2417,7 @@ augmentationなしの場合は90%程度だったテスト精度が，学習デ�
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[48]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Introduction_to_Chainer_133_0.png" src="../_images/notebooks_Introduction_to_Chainer_133_0.png" />
@@ -2492,7 +2474,7 @@ MultimediaのOpen Source Software CompetitionにWebDNN<a class="reference extern
 Vision向けの便利な機能を色々追加する補助パッケージ的なオープンソース・ソフトウェアです．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [50]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -2593,7 +2575,7 @@ Lightingを追加した<code class="docutils literal notranslate"><span class="p
 <p>ここでもこれまでと同様の理由で，90エポックまで学習させておいたsnapshotを用います．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [52]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
