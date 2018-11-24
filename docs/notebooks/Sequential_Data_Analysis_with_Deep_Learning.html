@@ -362,7 +362,7 @@ div.nboutput div.output_area.stderr {
 Learningを適用することで，高精度に糖尿病予備群を予測可能であることを報告し，大きな注目を集めました．また，Apple
 Watch Series
 4には心電図作成の機能が搭載されるなど，センサーデバイスも進歩を続け，より精緻な情報が取得できるようになってきています．こうした背景において，モニタリングデータを収集・解析し，健康管理に繋げていく取り組みは今後益々盛んになっていくものと考えられます．</p>
-<p>本章では，心電図(ECG)の信号波形データを対象として，不整脈を検出する問題に取り組みます．</p>
+<p>本章では，心電図の信号波形データを対象として，不整脈を検出する問題に取り組みます．</p>
 <div class="section" id="環境構築">
 <h2>8.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>はじめに, 下記の必要ライブラリをインストールします.</p>
@@ -506,7 +506,7 @@ Imbalanced-learn:  0.4.3
 ECG)は，心筋の活動によって生じる電気的変動を記録したものであり，心電図検査は不整脈の診断に広く利用されている他，虚血性心疾患や呼吸器疾患などの診断にも利用可能です[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>,
 <a class="reference external" href="https://www.ncc.go.jp/jp/ncch/d001/gairai/kensa/seirikensa/index.html">文献2</a>,
 <a class="reference external" href="https://www.ningen-dock.jp/wp/wp-content/uploads/2013/09/d4bb55fcf01494e251d315b76738ab40.pdf">文献3</a>]．</p>
-<p>標準的な心電図は，手足からとる心電図（四肢誘導）として，双極誘導（<span class="math notranslate nohighlight">\(Ⅰ\)</span>，<span class="math notranslate nohighlight">\(Ⅱ\)</span>，<span class="math notranslate nohighlight">\(Ⅲ\)</span>），及び単極誘導（<span class="math notranslate nohighlight">\(aV_R\)</span>，<span class="math notranslate nohighlight">\(aV_L\)</span>，<span class="math notranslate nohighlight">\(av_F\)</span>）の6誘導，胸部からとる心電図（胸部誘導）として，<span class="math notranslate nohighlight">\(V_1\)</span>，<span class="math notranslate nohighlight">\(V_2\)</span>，<span class="math notranslate nohighlight">\(V_3\)</span>，<span class="math notranslate nohighlight">\(V_4\)</span>，<span class="math notranslate nohighlight">\(V_5\)</span>，<span class="math notranslate nohighlight">\(V_6\)</span>の6誘導，計12誘導から成ります．このうち，特に不整脈のスクリーニングを行う際には，<span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導と<span class="math notranslate nohighlight">\(V_1\)</span>誘導に注目して診断が行われるのが一般的とされています．</p>
+<p>標準的な心電図は，手足からとる心電図（四肢誘導）として，双極誘導（<span class="math notranslate nohighlight">\(Ⅰ\)</span>，<span class="math notranslate nohighlight">\(Ⅱ\)</span>，<span class="math notranslate nohighlight">\(Ⅲ\)</span>），及び単極誘導（<span class="math notranslate nohighlight">\(aV_R\)</span>，<span class="math notranslate nohighlight">\(aV_L\)</span>，<span class="math notranslate nohighlight">\(aV_F\)</span>）の6誘導，胸部からとる心電図（胸部誘導）として，<span class="math notranslate nohighlight">\(V_1\)</span>，<span class="math notranslate nohighlight">\(V_2\)</span>，<span class="math notranslate nohighlight">\(V_3\)</span>，<span class="math notranslate nohighlight">\(V_4\)</span>，<span class="math notranslate nohighlight">\(V_5\)</span>，<span class="math notranslate nohighlight">\(V_6\)</span>の6誘導，計12誘導から成ります．このうち，特に不整脈のスクリーニングを行う際には，<span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導と<span class="math notranslate nohighlight">\(V_1\)</span>誘導に注目して診断が行われるのが一般的とされています．</p>
 <p>心臓が正常な状態では，ECGにおいては規則的な波形が観測され，これを正常洞調律
 (Normal sinus rhythm, NSR)といいます．</p>
 <p>具体的には，以下の3つの主要な波形で構成されており，</p>
@@ -527,7 +527,7 @@ ECG)は，心筋の活動によって生じる電気的変動を記録したも�
 <h2>8.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは，ECGの公開データとして有名な<a class="reference external" href="https://www.physionet.org/physiobank/database/mitdb/">MIT-BIH Arrhythmia Database
 (mitdb)</a>を使用します．</p>
-<p>47名の患者から収集した48レコードが登録されており，各レコードファイルには約30分間の2誘導(第II，V1)のシグナルデータが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データとアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
+<p>47名の患者から収集した48レコードが登録されており，各レコードファイルには約30分間の2誘導(<span class="math notranslate nohighlight">\(II\)</span>，<span class="math notranslate nohighlight">\(V_1\)</span>)のシグナルデータが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データとアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
 <p>データベースは<a class="reference external" href="https://www.physionet.org/">PhysioNet</a>によって管理されており，ダウンロードや読み込み用のPythonパッケージが提供されているので，今回はそちらを利用してデータを入手します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -597,17 +597,17 @@ Finished downloading files
 <li>48レコードのうち，<ul>
 <li>ID =（102, 104, 107,
 217）のシグナルはペースメーカーの拍動が含まれるため除外します</li>
-<li>ID = 114のシグナルは波形が反転しているため，今回は除外します</li>
+<li>ID = 114のシグナルは波形が反転しているため，今回は除外します．</li>
 <li>ID = （201,
-202）は同一の患者から得られたデータのため，202を除外します</li>
+202）は同一の患者から得られたデータのため，202を除外します．</li>
 </ul>
 </li>
-<li>上記を除く計42レコードを，学習用とテスト用に分割します（分割方法は[<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">文献4</a>]を参考）</li>
+<li>上記を除く計42レコードを，学習用とテスト用に分割します（分割方法は[<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">文献4</a>]を参考）．</li>
 </ul>
 </li>
 <li>シグナルファイル (.dat) の読み込み<ul>
 <li>ML2シグナルとV1シグナルが格納されていますが，今回はML2のみ利用します．</li>
-<li>サンプリング周波数は360(Hz)
+<li>サンプリング周波数は360 Hz
 なので，1秒間に360回，数値が記録されていることになります．</li>
 </ul>
 </li>
@@ -809,9 +809,9 @@ y_test = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;test&#3
 </pre></div>
 </div>
 </div>
-<p>データセットのサンプル数はそれぞれ以下の通りです． * 学習用：47738個 *
-評価用：45349個</p>
-<p>各シグナルデータは，2秒間 * 360 (Hz) =
+<p>データセットのサンプル数はそれぞれ以下の通りです． * 学習用 : 47738個
+* 評価用 : 45349個</p>
+<p>各シグナルデータは，2 sec * 360 Hz =
 720次元ベクトルとして表現されています．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -833,8 +833,8 @@ X_train.shape =  (47738, 720)   y_train.shape =  (47738,)
 X_test.shape =  (45349, 720)    y_test.shape =  (45349,)
 </pre></div></div>
 </div>
-<p>各ラベルはインデックスで表現されており， * 0：正常拍動 (Normal) *
-1：心室異所性拍動 (VEB)</p>
+<p>各ラベルはインデックスで表現されており， * 0 : 正常拍動 (Normal) * 1 :
+心室異所性拍動 (VEB)</p>
 <p>となっています．</p>
 <p>学習用データセットに含まれている各ラベル毎のサンプル数をカウントしてみましょう．</p>
 <div class="nbinput docutils container">
@@ -1017,7 +1017,7 @@ class BaseBlock(chainer.Chain):
             self.c1 = L.ConvolutionND(1, None, channels, 3, stride, dilate, dilate=dilate)
             self.c2 = L.ConvolutionND(1, None, channels, 3, 1, dilate, dilate=dilate)
             if stride &gt; 1:
-                self.cd  =L.ConvolutionND(1, None, channels, 1, stride, 0)
+                self.cd = L.ConvolutionND(1, None, channels, 1, stride, 0)
             self.b1 = L.BatchNormalization(channels)
             self.b2 = L.BatchNormalization(channels)
 
@@ -1117,16 +1117,16 @@ class Classifier(chainer.Chain):
 </div>
 </div>
 <p>学習を実行するための準備として，以下の関数を用意します． -
-<code class="docutils literal notranslate"><span class="pre">create_train_dataset()</span></code> : 学習用データセットを <code class="docutils literal notranslate"><span class="pre">ECGDataset</span></code>
-クラスに渡す - <code class="docutils literal notranslate"><span class="pre">create_trainer()</span></code> :
-学習に必要な設定を行い，Trainerオブジェクトを作成</p>
+<code class="docutils literal notranslate"><span class="pre">create_train_dataset()</span></code>：学習用データセットを <code class="docutils literal notranslate"><span class="pre">ECGDataset</span></code>
+クラスに渡す -
+<code class="docutils literal notranslate"><span class="pre">create_trainer()</span></code>：学習に必要な設定を行い，Trainerオブジェクトを作成</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span> from chainer import optimizers
+<span></span>from chainer import optimizers
 from chainer.optimizer import WeightDecay
 from chainer.iterators import MultiprocessIterator
 from chainer import training
@@ -2110,7 +2110,9 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
 </div>
 </div>
 <p>線形フィルタを適用することで，学習モデルが異常拍動のパターンを特徴として捉えやすくなる可能性があります．一方で，異常拍動を検出するにあたって重要な情報も除去されてしまう可能性があることに注意してください．</p>
-<p>mitdbでは，予め0.1(Hz)以下の低周波と，100(Hz)以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，25(Hz)のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
+<p>mitdbでは，予め0.1 Hz 以下の低周波と，100 Hz
+以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，25
+Hz のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
 <p>それでは，ノイズ除去オプションを有効にして，前処理を実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -2292,17 +2294,20 @@ accuracy:  0.9843215947429932
 モニタリングデータを解析するための基本的な前処理手順 1.
 CNNベースのモデルを利用した学習器の構築 1.
 データセットの性質を考慮した学習方法や前処理の工夫</p>
-<p>また，今回は精度向上に向けて様々な手法を試してみましたが，現実世界のタスクにおいても，どの工夫が有効に働くか自明で無い場合がほとんどです．従って，試行錯誤を行いながら，その問題設定に適合するやり方を模索していく必要があります．</p>
-<p>さらなる取り組みとしては，例えば下記内容を検討する余地があります．（余力がある方は是非チャレンジしてみて下さい．）
-* 情報の追加 *
-第<span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math notranslate nohighlight">\(V_1\)</span>誘導シグナルを別チャネルとして入力して学習
-* 前処理の工夫 * 今回は2秒間のセグメントを切り出し →
-より長時間のセグメントを入力として，長期的な特徴を抽出 *
-使用するラベルの追加 (SVEB，F，Q) * ラベルの与え方の変更
-(セグメント範囲内に正常以外のピークラベルが含まれる場合に優先的にそのラベルを付与する，等)
+<p>また，精度向上に向けて様々な手法を試してみましたが，現実世界のタスクにおいては，どの工夫が有効に働くか自明で無い場合がほとんどです．従って，試行錯誤を行いながら，その問題設定に適合するやり方を模索していく必要があります．</p>
+<p>さらなる取り組みとしては，例えば下記内容を検討する余地があります． *
+情報の追加 *
+<span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math notranslate nohighlight">\(V_1\)</span>誘導シグナルも同時に入力として与える．
+* 前処理の工夫 * セグメント長の変更 *
+より長時間のセグメントを入力として，長期的な特徴を抽出する． *
+ラベルの追加 *
+Normal，VEBに加えて，SVEB（上室異所性拍動）等も使用する． *
+ラベルの与え方の変更 *
+セグメント範囲内に正常以外のピークラベルが含まれる場合に優先的にそのラベルを付与する，等．
 * モデルの変更 *
 長期的な特徴を抽出するために，CNNの後段にRNNベースの構造(LSTM,
-GRUなど)を組み込む</p>
+GRUなど)を組み込む．</p>
+<p>余力がある方は，是非チャレンジしてみてください．</p>
 <p>以上で，モニタリングデータの時系列解析の章は終了となります．お疲れ様でした．</p>
 </div>
 </div>
