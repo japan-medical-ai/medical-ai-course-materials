@@ -302,8 +302,9 @@ a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\le
 <h3>1.2.4. 合成関数の微分<a class="headerlink" href="#合成関数の微分" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>機械学習では関数は複雑な形をとり，それらの微分の計算も複雑になりがちです．例えば，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \left\{ (3x + 4)^{2} \right\}'\\の場合，\ :math:`3x+4` という内側の部分と :math:`(\cdot)^{2}`\end{aligned}\end{align} \]</div>
-<p>という外側の部分で構成されています．この式を<span class="math">\((9x^2 + 24x + 16)'\)</span>のように展開してから微分を計算してもよいのですが，これが3乗や4乗となってくると展開するのも大変になります．この時に役に立つ考え方が<strong>合成関数の微分</strong>の公式です．先程の微分の便利な公式の最後にでていた式です．合成関数の微分は，内側の微分と外側の微分をそれぞれ行い，その結果をかけ合わせます．外側の微分の際には関数の引数を入力とみなし，その入力について微分をとります．</p>
+\[\left\{ (3x + 4)^{2} \right\}'\]</div>
+<p>の場合，<span class="math">\(3x+4\)</span> という内側の部分と <span class="math">\((\cdot)^{2}\)</span>
+という外側の部分で構成されています．この式を<span class="math">\((9x^2 + 24x + 16)'\)</span>のように展開してから微分を計算してもよいのですが，これが3乗や4乗となってくると展開するのも大変になります．この時に役に立つ考え方が<strong>合成関数の微分</strong>の公式です．先程の微分の便利な公式の最後にでていた式です．合成関数の微分は，内側の微分と外側の微分をそれぞれ行い，その結果をかけ合わせます．外側の微分の際には関数の引数を入力とみなし，その入力について微分をとります．</p>
 <p>それでは先程の<span class="math">\((3x+4)^2\)</span>という関数の微分を考えてみます．</p>
 <p>まず内側の関数を <span class="math">\(u = (3x+4)\)</span> とおいて，</p>
 <div class="math">
@@ -459,16 +460,15 @@ x_{31} &amp; x_{32}
 <h3>1.3.4. 内積<a class="headerlink" href="#内積" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>同じサイズのベクトル間では内積が定義できます．内積は同じ位置の対応する値同士を掛けていき，それらを足し合わせたものです．</p>
 <div class="math">
-\[\begin{split}\begin{aligned}&amp;\begin{bmatrix}1 \\2 \\3\end{bmatrix}\cdot \begin{bmatrix} 4 &amp; 5 &amp; 6 \end{bmatrix}= 1\cdot4 + 2 \cdot 5  + 3 \cdot 6 = 36 \end{aligned}\end{split}\]</div>
+\[\begin{split}\begin{aligned}&amp; \begin{bmatrix} 1 &amp; 2 &amp; 3 \end{bmatrix} \cdot \begin{bmatrix} 4 \\ 5 \\ 6 \end{bmatrix} = 1 \cdot 4 + 2 \cdot 5  + 3 \cdot 6 = 36 \end{aligned}\end{split}\]</div>
 </div>
 <div class="section" id="かけ算（行列積）">
 <h3>1.3.5. かけ算（行列積）<a class="headerlink" href="#かけ算（行列積）" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>行列の掛け算には，行列積，外積，要素積（アダマール積）など複数種あります．ここではそのうち最もよく使われる<strong>行列積</strong>について説明します．以降では明示しない限り行列の積はこの行列積を指すこととします．</p>
 <p>行列<span class="math">\(A\)</span>と行列<span class="math">\(B\)</span>の行列積は<span class="math">\(A\)</span>の各行と<span class="math">\(B\)</span>の各列の内積を並べたものとして定義されます．例えば行列Aの2行目の行ベクトルと行列Bの3列目の列ベクトルの内積は結果の行列Cの2行3列目に対応します．</p>
-<p><img alt="image6" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/matrixproduct.png" /></p>
-<p><img alt="image7" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/08.png" /></p>
+<p><img alt="image6" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/08.png" /></p>
 <p>そして，内積が定義される条件はベクトルのサイズが等しいということでしたが，ここでもそれが成り立つために，Aの行のサイズ（=Aの列数）とBの列のサイズ（=Bの行数）が一致する必要があります．また，結果はAの行数とBの列数からなる行列となります．</p>
-<p><img alt="image8" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/09.png" /></p>
+<p><img alt="image7" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/09.png" /></p>
 <p>この行列積は線形代数や機械学習の多くの問題で使われます．また，行列では割り算に相当する演算はありませんが，後述する逆行列を使って<span class="math">\(4 / 2 = 4 \times \dfrac{1}{2}\)</span>
 のように割り算を逆数（逆行列）の掛け算として記述します．</p>
 <p>それでは，この計算条件の確認も踏まえて，下記の３つを練習問題として解いてください．</p>
@@ -579,7 +579,7 @@ x_{31} &amp; x_{32}
 <div class="section" id="ベクトル，行列のサイズ">
 <h3>1.3.7. ベクトル，行列のサイズ<a class="headerlink" href="#ベクトル，行列のサイズ" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>行列積を行った後は行列サイズが変わります．サイズが<span class="math">\((L, M)\)</span>の行列と<span class="math">\((M ,N)\)</span>の行列の行列積の結果は<span class="math">\((L, N)\)</span>となります．例えば先ほどの３つの練習問題のサイズがどのように変化したかをまとめると，</p>
-<p><img alt="image9" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/10.png" /></p>
+<p><img alt="image8" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/10.png" /></p>
 <p>となります．(3)は最初のベクトルと行列の結果が横方向のベクトルであり(1)の場合に帰着することに注意してください．また，ある次元のサイズが1となった場合，その次元を削除しベクトルがスカラーに，行列がベクトルになる場合があります．</p>
 </div>
 <div class="section" id="単位行列">
@@ -831,14 +831,14 @@ p(y) = \sum_x p(x, y)\end{split}\]</div>
 <p>ここで，条件付確率の式を変形させた<span class="math">\(p(y|x)p(x) = p(x, y)\)</span>に注意すると，</p>
 <div class="math">
 \[p(x|y) = \frac{p(x, y)}{p(y)} = \frac{p(y | x)p(x)}{p(y)}\]</div>
-<p>が得られます．これを<strong>ベイズの定理</strong>と呼び，大変重要な定理なので，ぜひ覚えておきましょう．</p>
+<p>が得られます．これを<strong>ベイズの定理</strong>と呼びます．重要な定理なので，ぜひ覚えておきましょう．</p>
 <p>例えば，ベイズの定理の応用事例として，スパムメールフィルターがあります．メールに特定の単語が含むか否かを確率変数
 <span class="math">\(x\)</span> ，メールがスパムであるか否かを確率変数 <span class="math">\(y\)</span> とおくと，
-<span class="math">\(p(x=1) =\)</span> 「メールが特定の単語を含む確率」， <span class="math">\(p(y=1) =\)</span>
-「メールがスパムである確率」， <span class="math">\(p(x=1|y=1) =\)</span>
-「メールがスパムであった場合に，その中に特定の単語が含まれる確率」，となり，受信済みの大量のメールからそれぞれの割合を求めて，ベイズの定理を適用することで，
-<span class="math">\(p(y=1|x=1) =\)</span>
-「メールに特定単語が出現した場合に，そのメールがスパムである確率」，を求めることができます．</p>
+<span class="math">\(p(x=1)\)</span> = 「メールが特定の単語を含む確率」， <span class="math">\(p(y=1)\)</span> =
+「メールがスパムである確率」， <span class="math">\(p(x=1|y=1)\)</span> =
+「メールがスパムであった場合に，その中に特定の単語が含まれる確率」となり，受信済みの大量のメールからそれぞれの割合を求めて，ベイズの定理を適用することで，
+<span class="math">\(p(y=1|x=1)\)</span> =
+「メールに特定単語が出現した場合に，そのメールがスパムである確率」を求めることができます．</p>
 </div>
 <div class="section" id="最尤推定，事後確率最大化推定，ベイズ推定">
 <h3>1.4.3. 最尤推定，事後確率最大化推定，ベイズ推定<a class="headerlink" href="#最尤推定，事後確率最大化推定，ベイズ推定" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -891,7 +891,7 @@ Posterior）推定と呼びます．MAP推定では，最尤推定にさらに�
 \sigma ^{2}=\dfrac {1}{N-1}\sum ^{N}_{n=1}\left( x_{n}-\overline {x}\right) ^{2}
 \end{aligned}\]</div>
 <p>と表す場合もありあります．前者は<strong>母分散</strong>といい，後者は<strong>不偏分散</strong>といいます．これらの式の導出は他書に譲るとして，ここではその使い分けについて説明します．</p>
-<p><img alt="image10" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/12.png" /></p>
+<p><img alt="image9" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/12.png" /></p>
 <p>データ解析を行う際に，<strong>母集団</strong>に対する解析か<strong>標本集団</strong>に対する解析かを意識することが重要です．母集団とは解析を行いたい想定の範囲に対して，すべてのデータが揃っている場合であり，標本集団はそのうちの一部を抽出する場合です．例えば，全国の小学生の身長と体重を集計する場合に，全国の小学生を一人の抜け漏れもなく集められれば母集団であり，各都道府県で100人ずつ抜き出して集計する場合は標本集団です．母集団のデータを集めることは現実的に難しいことが多く，標本集団のデータから母集団の分布を推定することが一般的です．そうなると，基本的には標本集団向けである不偏分散を使用することになります．サンプル数<span class="math">\(N\)</span>が多い場合，母分散と不偏分散の違いは殆どありませんが，サンプル数が小さい場合は大きな差となるので注意しましょう．</p>
 <p>分散を利用すると，データのばらつきを定量評価することができるようになります．例えば，実験を行った際に，結果にばらつきが多ければ，各実験で再現性が確保できていない可能性が考えられます．このように，多数の試行の結果がある値に集まっていることが望ましいような状況において，ばらつきの度合いを定量し評価することが重要となってきます．他に，データのばらつき具合にもよりますが，分散を使えばスケールの違いも評価することができます．</p>
 <p>最後に<strong>標準偏差</strong>を紹介します．分散では各サンプルの平均からの差の二乗の合計のため，単位は元の単位の二乗となっています．例えば元の単位がkgであれば，分散はkg*kgという単位になります．そこで，</p>
@@ -899,7 +899,7 @@ Posterior）推定と呼びます．MAP推定では，最尤推定にさらに�
 \[\sigma = \sqrt{\sigma^{2}}\]</div>
 <p>のように分散の平方根をとることで，元の単位と等しくなり，解釈が容易になります．これを標準偏差と呼びます．</p>
 <p>練習問題で具体的な計算手順の確認を行いましょう．以下の①と②のデータに対して，平均，分散，標準偏差を求めてください．ただし，今回は母分散を使用することとします．</p>
-<p><img alt="image11" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/13.png" /></p>
+<p><img alt="image10" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/13.png" /></p>
 <p>①の解答は以下の通りです．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -921,7 +921,7 @@ Posterior）推定と呼びます．MAP推定では，最尤推定にさらに�
 <div class="section" id="正規分布と正規化">
 <h3>1.4.5. 正規分布と正規化<a class="headerlink" href="#正規分布と正規化" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ここでは，確率で度々登場する<strong>正規分布</strong>について紹介します．<strong>ガウス分布</strong>とも呼ばれています．平均<span class="math">\(\mu\)</span>，標準偏差<span class="math">\(\sigma\)</span>を持つ正規分布は以下のような形をしています．</p>
-<p><img alt="image12" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/14.png" /></p>
+<p><img alt="image11" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/14.png" /></p>
 <p>なぜこの正規分布がよく登場するのでしょうか．その理由として，以下のような物理的・数学的背景があります．</p>
 <ul class="simple">
 <li>独立で多数の因子の和で表される確率変数は正規分布に従う</li>
@@ -939,7 +939,7 @@ Posterior）推定と呼びます．MAP推定では，最尤推定にさらに�
 <p>なぜスケーリングが重要かを説明するために，2点間の距離を計算する例題を取りあげます．スケールが異なる変数
 <span class="math">\(x_{1}\)</span> と <span class="math">\(x_{2}\)</span>
 があった場合に，下記の図のような状況になります．ここで，縦軸と横軸のスケールが大きく異なっていることに注意してください．</p>
-<p><img alt="image13" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/15.png" /></p>
+<p><img alt="image12" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/15.png" /></p>
 <p>この２点間の距離 <span class="math">\(d\)</span> を求めると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -961,7 +961,7 @@ d&amp;=\sqrt {\left( 100-1000\right) ^{2}+\left( 0.1-1\right) ^{2}}\\
 \[\widetilde{x} = \dfrac{x - x_{\min}}{x_{\max} - x_{\min}}\]</div>
 <p>の計算を行います．Min-Maxスケーリングには計算が単純というメリットがある反面，下図の例ように<span class="math">\(x_1\)</span>で外れ値を持つデータ点が存在するような場合，<span class="math">\(x_{\max}\)</span>
 が外れ値に大きく引っ張られてしまうという弱点があります．</p>
-<p><img alt="image14" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/16.png" /></p>
+<p><img alt="image13" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/16.png" /></p>
 <p>もう１つのスケーリングの方法として，<strong>平均0</strong>，<strong>標準偏差1</strong>
 にスケーリングする方法があります．全てのデータから平均を引くと平均<span class="math">\(0\)</span>になり，標準偏差で割ると標準偏差は<span class="math">\(1\)</span>になります．</p>
 <div class="math">
@@ -988,9 +988,9 @@ x_{5}&amp;=\dfrac {2-0}{\sqrt {2}}=\dfrac {2}{\sqrt {2}}
 <div class="section" id="外れ値除去">
 <h3>1.4.7. 外れ値除去<a class="headerlink" href="#外れ値除去" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>以下のように時間によって変動するようなデータを扱うとしましょう．例えば，横軸が時刻，縦軸が温度だとしましょう．</p>
-<p><img alt="image15" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/17.png" /></p>
+<p><img alt="image14" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/17.png" /></p>
 <p>このデータに対して，温度計の異常や不具合による温度の異常（外れ値）を検出したい場合，どのようにこの外れ値を定義して検出すれば良いでしょうか．一つの方法として，値の<strong>頻度</strong>に着目する方法があります．</p>
-<p><img alt="image16" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/18.png" /></p>
+<p><img alt="image15" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/18.png" /></p>
 <p>上図のように，平均に対して線を引き，それぞれの値において頻度を算出してヒストグラムを描いてみると正規分布が現れます．物理現象として正規分布に従うものが多いと説明しましたが，このように中心付近の値の頻度は多く，離れるほど頻度が少なくなっていく現象に対しては，正規分布をあてはめることができます．そして，外れ値を定義するために，データの平均
 <span class="math">\(\mu\)</span> と標準偏差 <span class="math">\(\sigma\)</span>
 を計算し，<span class="math">\(\mu \pm 3\sigma\)</span>の値に線を引けば，外れ値除去を行うことができます．これを<strong>3σ法</strong>と呼びます．ただし，外れ値の回数が多い場合や外れ値が極端な値を持つ場合には平均や標準偏差がその外れ値に引っ張られ，3σ法ではうまく対処できない場合があります．</p>
