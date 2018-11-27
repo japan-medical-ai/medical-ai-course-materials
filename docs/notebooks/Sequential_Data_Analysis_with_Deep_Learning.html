@@ -502,18 +502,18 @@ Imbalanced-learn:  0.4.3
 </div>
 <div class="section" id="心電図(ECG)と不整脈診断について">
 <h2>8.2. 心電図(ECG)と不整脈診断について<a class="headerlink" href="#心電図(ECG)と不整脈診断について" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>心電図(Electrocardiogram,
-ECG)は，心筋の活動によって生じる電気的変動を記録したものであり，心電図検査は不整脈の診断に広く利用されている他，虚血性心疾患や呼吸器疾患などの診断にも利用可能です[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>,
+<p><strong>心電図(Electrocardiogram,
+ECG)</strong>は，心筋の活動によって生じる電気的変動を記録したものであり，心電図検査は不整脈の診断に広く利用されている他，虚血性心疾患や呼吸器疾患などの診断にも利用可能です[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>,
 <a class="reference external" href="https://www.ncc.go.jp/jp/ncch/d001/gairai/kensa/seirikensa/index.html">文献2</a>,
 <a class="reference external" href="https://www.ningen-dock.jp/wp/wp-content/uploads/2013/09/d4bb55fcf01494e251d315b76738ab40.pdf">文献3</a>]．</p>
 <p>標準的な心電図は，手足からとる心電図（四肢誘導）として，双極誘導（<span class="math">\(Ⅰ\)</span>，<span class="math">\(Ⅱ\)</span>，<span class="math">\(Ⅲ\)</span>），及び単極誘導（<span class="math">\(aV_R\)</span>，<span class="math">\(aV_L\)</span>，<span class="math">\(aV_F\)</span>）の6誘導，胸部からとる心電図（胸部誘導）として，<span class="math">\(V_1\)</span>，<span class="math">\(V_2\)</span>，<span class="math">\(V_3\)</span>，<span class="math">\(V_4\)</span>，<span class="math">\(V_5\)</span>，<span class="math">\(V_6\)</span>の6誘導，計12誘導から成ります．このうち，特に不整脈のスクリーニングを行う際には，<span class="math">\(Ⅱ\)</span>誘導と<span class="math">\(V_1\)</span>誘導に注目して診断が行われるのが一般的とされています．</p>
-<p>心臓が正常な状態では，ECGにおいては規則的な波形が観測され，これを正常洞調律
-(Normal sinus rhythm, NSR)といいます．</p>
+<p>心臓が正常な状態では，ECGにおいては規則的な波形が観測され，これを<strong>正常洞調律
+(Normal sinus rhythm, NSR)</strong>といいます．</p>
 <p>具体的には，以下の3つの主要な波形で構成されており，</p>
 <ol class="arabic simple">
-<li>P波：心房の脱分極（心房の興奮）</li>
-<li>QRS波：心室の脱分極（心室の興奮）</li>
-<li>T波：心室の再分極（心室興奮の収まり）</li>
+<li><strong>P波</strong>：心房の脱分極（心房の興奮）</li>
+<li><strong>QRS波</strong>：心室の脱分極（心室の興奮）</li>
+<li><strong>T波</strong>：心室の再分極（心室興奮の収まり）</li>
 </ol>
 <p>の順番で，下図のような波形が観測されます．</p>
 <div class="figure" id="id15">
@@ -592,7 +592,7 @@ Finished downloading files
 </div>
 <div class="section" id="データ前処理">
 <h2>8.4. データ前処理<a class="headerlink" href="#データ前処理" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ダウンロードしたファイルを読み込み，機械学習モデルへの入力形式に変換するデータ前処理について説明します．</p>
+<p>ダウンロードしたファイルを読み込み，機械学習モデルへの入力形式に変換する<strong>データ前処理</strong>について説明します．</p>
 <p>本節では，以下の手順で前処理を行います．</p>
 <ol class="arabic simple">
 <li>レコードIDを事前に 学習用 / 評価用 に分割<ul>
@@ -629,7 +629,7 @@ Finished downloading files
 <li>分割シグナルへのラベル付与<ul>
 <li>各R波ピークに付与されているラベルを，下表(※)に従って集約し，今回の解析では正常拍動
 (Normal)，及び心室異所性拍動 (VEB)
-のラベルが付与されている分割シグナルのみ学習・評価に利用します．</li>
+に対応するラベルが付与されている分割シグナルのみ学習・評価に利用します．</li>
 </ul>
 </li>
 </ol>
@@ -658,6 +658,7 @@ Finished downloading files
         self.download_dir = os.path.join(self.dataset_root, &#39;download&#39;)
         self.window_size = window_size
         self.sample_rate = 360.
+        # split list
         self.train_record_list = [
             &#39;101&#39;, &#39;106&#39;, &#39;108&#39;, &#39;109&#39;, &#39;112&#39;, &#39;115&#39;, &#39;116&#39;, &#39;118&#39;, &#39;119&#39;, &#39;122&#39;,
             &#39;124&#39;, &#39;201&#39;, &#39;203&#39;, &#39;205&#39;, &#39;207&#39;, &#39;208&#39;, &#39;209&#39;, &#39;215&#39;, &#39;220&#39;, &#39;223&#39;, &#39;230&#39;
@@ -695,14 +696,16 @@ Finished downloading files
             method=&#39;std&#39;
     ):
         if method == &#39;minmax&#39;:
+            # Min-Max scaling
             min_val = np.min(signal)
             max_val = np.max(signal)
             return (signal - min_val) / (max_val - min_val)
         elif method == &#39;std&#39;:
+            # Zero mean and unit variance
             signal -= np.mean(signal) / np.std(signal)
             return signal
         else:
-            raise ValueError(&quot;Invalid value: {}&quot;.format(method))
+            raise ValueError(&quot;Invalid method: {}&quot;.format(method))
 
     def _segment_data(
             self,
@@ -739,6 +742,7 @@ Finished downloading files
             normalize=True
     ):
         Xs, ys = [], []
+        save_dir = os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode)
         for i in range(len(record_list)):
             signal, symbols, positions = self._load_data(record_list[i])
             if normalize:
@@ -746,11 +750,9 @@ Finished downloading files
             X, y = self._segment_data(signal, symbols, positions)
             Xs.append(X)
             ys.append(y)
-        os.makedirs(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode), exist_ok=True)
-        np.save(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode, &quot;X.npy&quot;),
-                np.vstack(Xs))
-        np.save(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode, &quot;y.npy&quot;),
-                np.concatenate(ys))
+        os.makedirs(save_dir, exist_ok=True)
+        np.save(os.path.join(save_dir, &quot;X.npy&quot;), np.vstack(Xs))
+        np.save(os.path.join(save_dir, &quot;y.npy&quot;), np.concatenate(ys))
 
 </pre></div>
 </div>
@@ -1413,10 +1415,10 @@ accuracy:  0.9773093122229818
 <h2>8.6. 精度向上に向けて<a class="headerlink" href="#精度向上に向けて" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="クラス不均衡データへの対応">
 <h3>8.6.1. クラス不均衡データへの対応<a class="headerlink" href="#クラス不均衡データへの対応" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>前節でも触れたように，クラス不均衡データを用いて学習器を構築する際，大多数を占めるクラスに偏った予測結果となり，少数のクラスに対して精度が低くなってしまう場合があることが一般的に知られています．一方で，（今回のデータセットを含めて）現実世界のタスクにおいては，大多数の正常サンプルの中に含まれる少数の異常サンプルを精度良く検出することが重要であるというケースは少なくありません．こうした状況において，少数クラスの検出に注目してモデルを学習させる方策が幾つか存在します．</p>
+<p>前節でも触れたように，<strong>クラス不均衡データ</strong>を用いて学習器を構築する際，大多数を占めるクラスに偏った予測結果となり，少数のクラスに対して精度が低くなってしまう場合があることが一般的に知られています．一方で，（今回のデータセットを含めて）現実世界のタスクにおいては，大多数の正常サンプルの中に含まれる少数の異常サンプルを精度良く検出することが重要であるというケースは少なくありません．こうした状況において，少数クラスの検出に注目してモデルを学習させる方策が幾つか存在します．</p>
 <p>具体的には，</p>
 <ol class="arabic simple">
-<li>サンプリング<ul>
+<li><strong>サンプリング</strong><ul>
 <li>不均衡データセットからサンプリングを行い，クラス比率のバランスが取れたデータセットを作成<ul>
 <li>Undersampling : 大多数の正常サンプルを削減</li>
 <li>Oversampling : 少数の異常サンプルを水増し</li>
@@ -1424,16 +1426,16 @@ accuracy:  0.9773093122229818
 </li>
 </ul>
 </li>
-<li>損失関数の重み調整<ul>
+<li><strong>損失関数の重み調整</strong><ul>
 <li>正常サンプルを異常と誤分類した際のペナルティを小さく，異常サンプルを正常と誤分類した際のペナルティを大きくする．</li>
 <li>例：サンプル数の存在比率の逆数を重みとして利用</li>
 </ul>
 </li>
-<li>目的関数(損失関数)の変更<ul>
+<li><strong>目的関数(損失関数)の変更</strong><ul>
 <li>異常サンプルに対する予測スコアを向上させるような目的関数を導入</li>
 </ul>
 </li>
-<li>異常検知<ul>
+<li><strong>異常検知</strong><ul>
 <li>正常サンプルのデータ分布を仮定し，そこから十分に逸脱したサンプルを異常とみなす</li>
 </ul>
 </li>
@@ -1444,13 +1446,13 @@ accuracy:  0.9773093122229818
 <p>UndersamplingとOversamplingを組み合わせて，データセットの不均衡を解消することを考えます．</p>
 <p>今回は以下のステップでサンプリングを行います．</p>
 <ol class="arabic simple">
-<li>Undersamplingにより，正常拍動サンプルのみ1/4に削減
-(VEBサンプルは全て残す)<ul>
-<li>ここでは，単純なランダムサンプリングを採用します．ランダム性があるため，分類にとって重要な（VEBサンプルとの識別境界付近にある）サンプルを削除してしまう可能性があります</li>
+<li><strong>Undersampling</strong>により，正常拍動サンプルのみ1/4に削減します
+(VEBサンプルは全て残す)．<ul>
+<li>ここでは，単純なランダムサンプリングを採用します．ランダム性があるため，分類にとって重要な（VEBサンプルとの識別境界付近にある）サンプルを削除してしまう可能性があります．</li>
 <li>ランダムサンプリングの問題を緩和する手法も幾つか存在しますが，今回は使用しません．</li>
 </ul>
 </li>
-<li>Oversamplingにより，Undersampling後の正常拍動サンプルと同数になるまでVEBサンプルを水増し<ul>
+<li><strong>Oversampling</strong>により，Undersampling後の正常拍動サンプルと同数になるまでVEBサンプルを水増しします．<ul>
 <li>SMOTE (Synthetic Minority Over-sampling TEchnique)
 という手法を採用します．</li>
 <li>ランダムにデータを水増しする最も単純な方法だと，過学習を引き起こしやすくなります．SMOTEでは，VEBサンプルと，その近傍VEBサンプルとの間のデータ点をランダムに生成してデータに追加していくことで，過学習の影響を緩和しています．</li>
@@ -1614,20 +1616,20 @@ weighted avg       0.97      0.95      0.96     45349
 accuracy:  0.9548832388806809
 </pre></div></div>
 </div>
-<p>先程の予測結果と比較して，サンプリングの効果によりVEBサンプルに対する予測精度が向上しているかを確認してみて下さい．</p>
+<p>先程の予測結果と比較して，サンプリングの効果によりVEBサンプルに対する検出精度（特にrecall）が向上しているかを確認してみて下さい．</p>
 <p>(サンプリングのランダム性や，学習の初期値依存性などの影響があるため，必ず精度向上するとは限らないことにご注意下さい．)</p>
 </div>
 <div class="section" id="損失関数の変更">
 <h4>8.6.1.2. 損失関数の変更<a class="headerlink" href="#損失関数の変更" title="このヘッドラインへのパーマリンク">¶</a></h4>
-<p>続いて，損失関数を変更することで，少数の異常サンプルに対して精度向上させる方法を検討します．少数クラスの予測精度向上に注目した損失関数はこれまでに幾つも提案されていますが，今回はその中で，“Focal
-loss” という損失関数を利用します．</p>
+<p>続いて，<strong>損失関数を変更</strong>することで，少数の異常サンプルに対して精度向上させる方法を検討します．少数クラスの予測精度向上に注目した損失関数はこれまでに幾つも提案されていますが，今回はその中で，<strong>Focal
+loss</strong> という損失関数を利用します．</p>
 <p>Focal lossは，画像の物体検知手法の研究論文
 <a class="reference external" href="https://arxiv.org/abs/1708.02002">[文献6]</a>
 の中で提案された損失関数です．One-stage物体検知手法において，大量の候補領域の中で実際に物体が存在する領域はたかだか数個であることが多く，クラス不均衡なタスクになっており，学習がうまく進まないという問題があります．こうした問題に対処するために提案されたのがfocal
 lossであり，以下の式によって記述されます．</p>
 <div class="math">
 \[FL(p_t) = - (1 - p_t)^{\gamma}\log(p_t)\]</div>
-<p>ここで<span class="math">\(p_t\)</span>はsoftmax関数の出力（確率値）です．<span class="math">\(\gamma = 0\)</span>の場合，通常のsoftmax
+<p>ここで<span class="math">\(p_t\)</span>はSoftmax関数の出力（確率値）です．<span class="math">\(\gamma = 0\)</span>の場合，通常のSoftmax
 cross-entorpy
 lossと等しくなりますが，<span class="math">\(\gamma &gt; 0\)</span>の場合，明確に分類可能な（識別が簡単な）サンプルに対して，相対ロスを小さくする効果があります．その結果，分類が難しいサンプルにより注目して学習が進んでいくことが期待されます．</p>
 <p>下図は，正解クラスの予測確率値と，その際のlossの関係をプロットしており，<span class="math">\(\gamma\)</span>の値を変化させた場合に，相対ロスがどのように下がっていくかを示しています．</p>
@@ -1799,14 +1801,13 @@ accuracy:  0.9620939822267305
 </div>
 <div class="section" id="ネットワーク構造の変更">
 <h3>8.6.2. ネットワーク構造の変更<a class="headerlink" href="#ネットワーク構造の変更" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>続いて，学習に用いるネットワーク構造を変更することを検討します．</p>
+<p>続いて，学習に用いる<strong>ネットワーク構造を変更</strong>することを検討します．</p>
 <p>ここでは，最初に用いたResNet34構造に対して以下の拡張を行います．</p>
 <ol class="arabic simple">
 <li>1D Convolutionを，1D Dilated Convolutionに変更<ul>
 <li>Dilated
 Convolutionを用いることで，パラメータ数の増大を抑えながら，より広範囲の特徴を抽出可能になると期待されます（遺伝子解析の際と同様のモチベーション）．</li>
-<li>広範囲の特徴が重要でないタスクの場合には，精度向上に繋がらない（
-or 場合によっては精度が低下する）可能性もあります．</li>
+<li>広範囲の特徴が重要でないタスクの場合には，精度向上に繋がらない（または，場合によっては精度が低下する）可能性もあります．</li>
 </ul>
 </li>
 <li>最終層の手前に全結合層を追加し，Dropoutを適用<ul>
@@ -2031,27 +2032,27 @@ accuracy:  0.9758759840349291
 </div>
 <div class="section" id="ノイズ除去の効果検証">
 <h3>8.6.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>最後に，心電図に含まれるノイズの除去について検討します．</p>
+<p>最後に，心電図に含まれる<strong>ノイズの除去</strong>について検討します．</p>
 <p>心電図波形には，以下のような外部ノイズが含まれている可能性があります．</p>
 <ul class="simple">
 <li>高周波<ul>
-<li>筋電図ノイズ (Electromyogram noise)<ul>
+<li><strong>筋電図ノイズ</strong> (Electromyogram noise)<ul>
 <li>体動により，筋肉の電気的活動が心電図に混入する場合があります．</li>
 </ul>
 </li>
-<li>電力線誘導障害 (Power line interference)<ul>
+<li><strong>電力線誘導障害</strong> (Power line interference)<ul>
 <li>静電誘導により交流電流が流れ込み，心電図に混入する場合があります．</li>
 <li>電源配線に電流が流れることで磁力線が発生し，電磁誘導作用により交流電流が流れ込む場合があります．</li>
 </ul>
 </li>
-<li>加算性白色ガウスノイズ (Additive white Gaussian noise)<ul>
+<li><strong>加算性白色ガウスノイズ</strong> (Additive white Gaussian noise)<ul>
 <li>外部環境に由来する様々な要因でホワイトノイズが混入してきます．</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>低周波<ul>
-<li>基線変動 (Baseline wandering)<ul>
+<li><strong>基線変動</strong> (Baseline wandering)<ul>
 <li>電極の装着不良，発汗，体動などの影響で，基線がゆっくり変動する場合があります．</li>
 </ul>
 </li>
@@ -2140,6 +2141,7 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
             normalize=True
     ):
         Xs, ys = [], []
+        save_dir = os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode)
         for i in range(len(record_list)):
             signal, symbols, positions = self._load_data(record_list[i])
             if denoise:
@@ -2149,11 +2151,9 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
             X, y = self._segment_data(signal, symbols, positions)
             Xs.append(X)
             ys.append(y)
-        os.makedirs(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode), exist_ok=True)
-        np.save(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode, &quot;X.npy&quot;),
-                np.vstack(Xs))
-        np.save(os.path.join(self.dataset_root, &#39;preprocessed&#39;, mode, &quot;y.npy&quot;),
-                np.concatenate(ys))
+        os.makedirs(save_dir, exist_ok=True)
+        np.save(os.path.join(save_dir, &quot;X.npy&quot;), np.vstack(Xs))
+        np.save(os.path.join(save_dir, &quot;y.npy&quot;), np.concatenate(ys))
 
 </pre></div>
 </div>
@@ -2346,27 +2346,36 @@ CNNベースのモデルを利用した学習器の構築 1.
 <p>さらなる取り組みとしては，例えば下記内容を検討する余地があります．</p>
 <ul class="simple">
 <li>情報の追加<ul>
-<li><span class="math">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math">\(V_1\)</span>誘導シグナルも同時に入力として与える．</li>
+<li><span class="math">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math">\(V_1\)</span>誘導シグナルも同時に入力として与えます．</li>
 </ul>
 </li>
 <li>前処理の工夫<ul>
 <li>セグメント長の変更<ul>
-<li>より長時間のセグメントを入力として，長期的な特徴を抽出する．</li>
+<li>より長時間のセグメントを入力とすることで，長期的な波形情報を抽出します．</li>
+<li>入力情報が増えることで，却って学習が難しくなってしまう可能性もあります．</li>
+</ul>
+</li>
+<li>リサンプリング<ul>
+<li>サンプリング周波数を下げる（ダウンサンプリングする）ことで，長期的な波形情報を抽出します．<ul>
+<li>波形が粗くなることで学習に影響する可能性もあります．</li>
+<li>モデルに入力する前に情報を縮小する処理は，画像解析などの分野では一般的に行われています．</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>ラベルの追加<ul>
-<li>Normal，VEBに加えて，SVEB（上室異所性拍動）等も使用する．</li>
+<li>Normal，VEBに加えて，SVEB（上室異所性拍動）等も追加したモデルも検討可能です．</li>
 </ul>
 </li>
 <li>ラベルの与え方の変更<ul>
-<li>セグメント範囲内に正常以外のピークラベルが含まれる場合に優先的にそのラベルを付与する，等．</li>
+<li>セグメント範囲内に正常以外のピークラベルが含まれる場合に優先的にそのラベルを付与する，等の方法が考えられます．</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>モデルの変更<ul>
 <li>長期的な特徴を抽出するために，CNNの後段にRNNベースの構造(LSTM,
-GRUなど)を組み込む．</li>
+GRUなど)を組み込む，等の方法が考えられます．</li>
 </ul>
 </li>
 </ul>
