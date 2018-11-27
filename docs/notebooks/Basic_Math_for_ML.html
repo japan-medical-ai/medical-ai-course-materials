@@ -255,12 +255,13 @@
 を考え，この2点を通る直線の傾きを求めてみます．次にこの<span class="math">\(h\)</span>を<span class="math">\(h \rightarrow 0\)</span>
 のように小さくしていけば，直線の開始点と終了点の2点が1点に収束し，1点での接線として考えることができます．これを式でみると</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\left( x+h\right) -x}\\
-  &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{h}\\
-   &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{h}\\
-  \end{aligned}\end{split}\\となります．この式は\ **導関数**\ と呼び，\ :math:`f'(x)`\end{aligned}\end{align} \]</div>
-<p>で表されます．また導関数を求めることを<strong>微分する</strong>といいます．また，記号の使い方として，</p>
+\[\begin{split}\begin{aligned}
+a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\left( x+h\right) -x}\\
+&amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{h}\\
+ &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{h}\\
+\end{aligned}\end{split}\]</div>
+<p>となります．この式は<strong>導関数</strong>と呼び，<span class="math">\(f'(x)\)</span>
+で表されます．また導関数を求めることを<strong>微分する</strong>といいます．また，記号の使い方として，</p>
 <div class="math">
 \[(\cdot)' = \dfrac{d}{dx}(\cdot)\]</div>
 <p>のように表しても構いません．この<span class="math">\(d\)</span>という記号は微分（differentiation）を表しており，<span class="math">\(d(\cdot)\)</span>が対象の値の変化量，<span class="math">\(dx\)</span>が<span class="math">\(x\)</span>の変化量を表し，それらを小さくしていった時の極限を表します．この記法は煩雑ですが，どの変数を対象に微分しているかが明確になるため，正確な表現をすることができます．</p>
@@ -269,22 +270,24 @@
 <h3>1.2.3. 微分の公式<a class="headerlink" href="#微分の公式" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>微分には，覚えておくと便利な公式が幾つかあります．</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{align}
-  \left( c\right) ^{'}&amp;=0 \\
-  \left( x\right)^{'}&amp;=1\\
-  \left( cf(x) \right)^{'} &amp;= c f'(x) \\
-  \left( x^{n} \right)^{'} &amp;=nx^{n-1} \\
-  \left( f(x) + g(x) \right) ^{'} &amp;=f^{'}(x)+g^{'}(x) \\
-  \left( f(x) g(x) \right) ^{'} &amp;= f^{'}(x)g(x) + f(x)g^{'}(x) \\
-  \left( f(g(x)) \right) ^{'} &amp;= \frac{df(u)}{du}\frac{du}{dx}, u = g(x)
-  \end{align}\end{split}\\例えば，以下の微分を考えてみましょう．\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{align}
+\left( c\right) ^{'}&amp;=0 \\
+\left( x\right)^{'}&amp;=1\\
+\left( cf(x) \right)^{'} &amp;= c f'(x) \\
+\left( x^{n} \right)^{'} &amp;=nx^{n-1} \\
+\left( f(x) + g(x) \right) ^{'} &amp;=f^{'}(x)+g^{'}(x) \\
+\left( f(x) g(x) \right) ^{'} &amp;= f^{'}(x)g(x) + f(x)g^{'}(x) \\
+\left( f(g(x)) \right) ^{'} &amp;= \frac{df(u)}{du}\frac{du}{dx}, u = g(x)
+\end{align}\end{split}\]</div>
+<p>例えば，以下の微分を考えてみましょう．</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  ( 3x^{2})'&amp;=3\times (x^{2})'\\
-  &amp;=3\times 2x\\
-  &amp;=6x
-  \end{aligned}\end{split}\\この :math:`(3x^{2})' = 3 \times (x^{2})'`\end{aligned}\end{align} \]</div>
-<p>の部分に注目してください．微分では，このように定数の係数（変数にかかる数）は微分の演算の外側に出すことができます．また，次の例題でも新しい特性があります．</p>
+\[\begin{split}\begin{aligned}
+( 3x^{2})'&amp;=3\times (x^{2})'\\
+&amp;=3\times 2x\\
+&amp;=6x
+\end{aligned}\end{split}\]</div>
+<p>この <span class="math">\((3x^{2})' = 3 \times (x^{2})'\)</span>
+の部分に注目してください．微分では，このように定数の係数（変数にかかる数）は微分の演算の外側に出すことができます．また，次の例題でも新しい特性があります．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \left( 3x^{2}+4\right)'&amp;=\left( 3x^{2}\right)'+\left( 4\right)'\\
@@ -304,18 +307,20 @@
 <p>それでは先程の<span class="math">\((3x+4)^2\)</span>という関数の微分を考えてみます．</p>
 <p>まず内側の関数を <span class="math">\(u = (3x+4)\)</span> とおいて，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \left\{ (3x + 4)^{2} \right\}' = (u^{2})'\\とします．ここで，\ :math:`(\cdot)'`\end{aligned}\end{align} \]</div>
-<p>をもう少し厳密に考える必要が出てきます．今は，<span class="math">\(x\)</span> と <span class="math">\(u\)</span>
+\[\left\{ (3x + 4)^{2} \right\}' = (u^{2})'\]</div>
+<p>とします．ここで，<span class="math">\((\cdot)'\)</span>
+をもう少し厳密に考える必要が出てきます．今は，<span class="math">\(x\)</span> と <span class="math">\(u\)</span>
 の2つの変数が登場しており，<span class="math">\((\cdot)'\)</span> では，<span class="math">\(x\)</span>
 で微分しているのか <span class="math">\(u\)</span>
 で微分しているのかの区別がつきません．そこで，多少複雑に見えますが，先程紹介した<span class="math">\(d\)</span>を使った記法で微分する変数を厳密に記述すると，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \left\{ (3x + 4)^{2} \right\}' &amp;= \dfrac{d}{dx} \left\{ (3x + 4)^{2} \right\} \\
-  &amp;= \dfrac{d}{dx} (u^2) \\
-  &amp;=  \dfrac{d}{dx} f(u) \\
-  \end{aligned}\end{split}\\となり，\ :math:`u` の関数 :math:`f(u) = u^{2}` に対して，\ :math:`x`\end{aligned}\end{align} \]</div>
-<p>で微分していることがわかります．</p>
+\[\begin{split}\begin{aligned}
+\left\{ (3x + 4)^{2} \right\}' &amp;= \dfrac{d}{dx} \left\{ (3x + 4)^{2} \right\} \\
+&amp;= \dfrac{d}{dx} (u^2) \\
+&amp;=  \dfrac{d}{dx} f(u) \\
+\end{aligned}\end{split}\]</div>
+<p>となり，<span class="math">\(u\)</span> の関数 <span class="math">\(f(u) = u^{2}\)</span> に対して，<span class="math">\(x\)</span>
+で微分していることがわかります．</p>
 <p>この合成関数の微分の公式を覚える際には，微分をする際に何か良い中間変数<span class="math">\(u\)</span>（先程の例では<span class="math">\(u=3x+4\)</span>）をおき，この<span class="math">\(du\)</span>を分母と分子においた式を考えます．<span class="math">\(du\)</span>は分子と分母に出現しており，（実際には極限の操作であるため約分はできませんが，）約分できるとして消去してしまえば元の式と同じになります．</p>
 <p>なお，今回は分数の約分という形で大雑把に説明しましたが，実際には極限を使って合成関数の微分が成り立つことを証明できます．ニューラルネットワークの学習では合成関数の微分を使用する場面が何度も登場するため，この計算方法をしっかりと覚えておきましょう．</p>
 </div>
@@ -327,8 +332,9 @@
 <span class="math">\(x_{2}\)</span>, <span class="math">\(\ldots\)</span>, <span class="math">\(x_{M}\)</span> を用いて出力変数 <span class="math">\(y\)</span>
 を予測する多変数関数を扱います．例えば，家賃を予測する場合，部屋の広さだけではなく，駅からの距離や犯罪発生率なども考慮した方がより正確に予測できると期待されます．複数の入力<span class="math">\(x_1, x_2, \ldots, x_M\)</span>を考慮した関数<span class="math">\(f(x_1, x_2, \ldots, x_M)\)</span>を多変数関数と呼びます．この多変数関数において，ある入力<span class="math">\(x_m\)</span>にのみ注目して微分することを偏微分と呼び，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \dfrac{\partial}{\partial x_{m}} f(x_{1}, x_{2}, \ldots, x_{M})\\のように表します．微分を表す記号が，\ :math:`d` から :math:`\partial`\end{aligned}\end{align} \]</div>
-<p>に変わり，計算としては <span class="math">\(\dfrac{\partial}{\partial x_{m}}\)</span> の場合は
+\[\dfrac{\partial}{\partial x_{m}} f(x_{1}, x_{2}, \ldots, x_{M})\]</div>
+<p>のように表します．微分を表す記号が，<span class="math">\(d\)</span> から <span class="math">\(\partial\)</span>
+に変わり，計算としては <span class="math">\(\dfrac{\partial}{\partial x_{m}}\)</span> の場合は
 <span class="math">\(x_{m}\)</span> 以外は定数と考え，<span class="math">\(x_{m}\)</span>
 にのみ着目して微分を行います．（ただし，入力変数が他の入力変数と独立ではない場合は定数と考えることはできません．本講義ではそのようなケースは出てきません）．</p>
 <p>例題で具体的な計算の流れを確認していきましょう．</p>
@@ -375,12 +381,13 @@ y_{N}
 <p>のように表します．ベクトルの表記は太文字とする場合が多く，スカラーかベクトルかを区別できるようにしています．ベクトルを縦方向に定義するか横方向に定義するかは分野によって異なりますが，数学や機械学習では縦方向で定義している論文や参考書が多いため，本講義では<strong>ベクトルは縦方向</strong>で統一します．このような縦方向のベクトルを列ベクトルと呼びます．また横方向のベクトルを行ベクトルと呼びます．</p>
 <p><strong>行列</strong>は複数の同じサイズのベクトルを並べたものであり，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \boldsymbol{X}=\begin{bmatrix}
-  x_{11} &amp; x_{12} \\
-  x_{21} &amp; x_{22} \\
-  x_{31} &amp; x_{32}
-  \end{bmatrix}\end{split}\\のように表します．行列のサイズは行と列で表現します．例えば，この\end{aligned}\end{align} \]</div>
-<p><span class="math">\(\boldsymbol{X}\)</span> は3行2列であり，サイズが(3,
+\[\begin{split}\boldsymbol{X}=\begin{bmatrix}
+x_{11} &amp; x_{12} \\
+x_{21} &amp; x_{22} \\
+x_{31} &amp; x_{32}
+\end{bmatrix}\end{split}\]</div>
+<p>のように表します．行列のサイズは行と列で表現します．例えば，この
+<span class="math">\(\boldsymbol{X}\)</span> は3行2列であり，サイズが(3,
 2)の行列と言います．多くの場合，行列は大文字，または大文字の太文字で表記されます．</p>
 <p><strong>テンソル</strong>はベクトルや行列を一般化した概念であり，ベクトルは1階のテンソル，行列は2階のテンソルと表現することができます．また，図のように行列を奥行き方向にさらに並べたものは3階のテンソルとなります．例えば，RGB
 (Red Green Blue)
@@ -563,7 +570,7 @@ y_{N}
 1 &amp; 2 &amp; 3 \\
 4 &amp; 5 &amp; 6
 \end{bmatrix}\end{aligned}\end{split}\]</div>
-<p>のようになります．行列に対する転置では，サイズが<span class="math">\((N, M)\)</span>から<span class="math">\((M, N)\)</span>になり，<span class="math">\(i\)</span>行<span class="math">\(j\)</span>列目の値が転置後には<span class="math">\(j\)</span>行<span class="math">\(i\)</span>列目の値になります．転置の公式として次を覚えておくとよいでしょう．．</p>
+<p>のようになります．行列に対する転置では，サイズが<span class="math">\((N, M)\)</span>から<span class="math">\((M, N)\)</span>になり，<span class="math">\(i\)</span>行<span class="math">\(j\)</span>列目の値が転置後には<span class="math">\(j\)</span>行<span class="math">\(i\)</span>列目の値になります．転置の公式として次を覚えておくとよいでしょう．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}&amp;\left( 1\right) \ \left( \boldsymbol{A}^{T}\right)^{T}=\boldsymbol{A}\\
 &amp;\left( 2\right) \ \left( \boldsymbol{A}\boldsymbol{B}\right) ^{T}=\boldsymbol{B}^{T}\boldsymbol{A}^{T}\\
@@ -580,10 +587,11 @@ y_{N}
 <p>単位行列 <span class="math">\(\boldsymbol{I}\)</span>
 は任意の行列<span class="math">\(\boldsymbol{A}\)</span>に対し</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \boldsymbol{A}\boldsymbol{I}&amp;=\boldsymbol{A}\\
-  \boldsymbol{I}\boldsymbol{A}&amp;=\boldsymbol{A}
-  \end{aligned}\end{split}\\が成り立ちます．\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\boldsymbol{A}\boldsymbol{I}&amp;=\boldsymbol{A}\\
+\boldsymbol{I}\boldsymbol{A}&amp;=\boldsymbol{A}
+\end{aligned}\end{split}\]</div>
+<p>が成り立ちます．</p>
 <p>スカラー値の<span class="math">\(1\)</span>は，<span class="math">\(10\times1 = 10\)</span>
 といったように，その数を任意の数に乗じても変わらないという性質を持ちます．行列の演算において，これと同様の働きをする行列が<strong>単位行列</strong>であり，</p>
 <div class="math">
@@ -596,45 +604,49 @@ y_{N}
 <p>という形をしています．行列の斜めの要素を<strong>対角要素</strong>と呼び，それ以外の要素を非対角要素と呼びます．単位行列は，対角要素が1で，非対角要素が0であるような行列です．例えば，
 2x2行列の場合は，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \boldsymbol{I} =\begin{bmatrix}
-  1 &amp; 0 \\
-  0 &amp; 1
-  \end{bmatrix}\end{split}\\であり，3x3行列の場合は，\end{aligned}\end{align} \]</div>
+\[\begin{split}\boldsymbol{I} =\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; 1
+\end{bmatrix}\end{split}\]</div>
+<p>であり，3x3行列の場合は，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \boldsymbol{I}=\begin{bmatrix}
-  1 &amp; 0 &amp; 0 \\
-  0 &amp; 1 &amp; 0 \\
-  0 &amp; 0 &amp; 1
-  \end{bmatrix}\end{split}\\となります．\end{aligned}\end{align} \]</div>
+\[\begin{split}\boldsymbol{I}=\begin{bmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\end{split}\]</div>
+<p>となります．</p>
 <p>実際に計算して，元の行列と値が変わらないかを確認してみると，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}\begin{bmatrix}
-  1 &amp; 2 \\
-  3 &amp; 4
-  \end{bmatrix}\begin{bmatrix}
-  1 &amp; 0 \\
-  0 &amp; 1
-  \end{bmatrix}
-  &amp;=\begin{bmatrix}
-  1\times 1+2\times 0 &amp; 1\times 0+2\times 1 \\
-  3\times 1+4\times 0 &amp; 3\times 0+4\times 1
-  \end{bmatrix}\\
-  &amp;=
-  \begin{bmatrix}
-  1 &amp; 2 \\
-  3 &amp; 4
-  \end{bmatrix}
-  \end{aligned}\end{split}\\のように，確かに元の値と一致することがわかりました．\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}\begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 4
+\end{bmatrix}\begin{bmatrix}
+1 &amp; 0 \\
+0 &amp; 1
+\end{bmatrix}
+&amp;=\begin{bmatrix}
+1\times 1+2\times 0 &amp; 1\times 0+2\times 1 \\
+3\times 1+4\times 0 &amp; 3\times 0+4\times 1
+\end{bmatrix}\\
+&amp;=
+\begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 4
+\end{bmatrix}
+\end{aligned}\end{split}\]</div>
+<p>のように，確かに元の値と一致することがわかりました．</p>
 </div>
 <div class="section" id="逆行列">
 <h3>1.3.9. 逆行列<a class="headerlink" href="#逆行列" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><strong>逆行列</strong>とは，元の行列にかけると単位行列になるような行列であり，スカラーにおける逆数(<span class="math">\(2 \times 2^{-1} = 1\)</span>)に対応するような行列です．数式で定義すると，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \boldsymbol{A}\boldsymbol{A}^{-1}=\boldsymbol{I}\\
-  \boldsymbol{A}^{-1}\boldsymbol{A}=\boldsymbol{I}
-  \end{aligned}\end{split}\\となります．ここで，\ :math:`\boldsymbol{I}`\end{aligned}\end{align} \]</div>
-<p>は先程の単位行列です．サイズが<span class="math">\(2 \times 2\)</span> や <span class="math">\(3 \times 3\)</span>
+\[\begin{split}\begin{aligned}
+\boldsymbol{A}\boldsymbol{A}^{-1}=\boldsymbol{I}\\
+\boldsymbol{A}^{-1}\boldsymbol{A}=\boldsymbol{I}
+\end{aligned}\end{split}\]</div>
+<p>となります．ここで，<span class="math">\(\boldsymbol{I}\)</span>
+は先程の単位行列です．サイズが<span class="math">\(2 \times 2\)</span> や <span class="math">\(3 \times 3\)</span>
 といった小さな行列の場合には，逆行列計算に公式がありますが，機械学習ではより大きなサイズの行列(
 <span class="math">\(1000 \times 1000\)</span>
 など)を扱う必要が出てくるため，逆行列を効率的に求める計算手法が提案されています．</p>
@@ -648,84 +660,90 @@ y_{N}
 の2つの形式があります．前者は<strong>線形結合</strong>もしくは<strong>一次結合</strong>，後者は<strong>二次形式</strong>と呼ばれています．スカラーの場合，一次式（<span class="math">\(ax+b\)</span>）や二次式（<span class="math">\(ax^2+bx+c\)</span>）がありますが，それをベクトルに拡張したものです．</p>
 <p>線形結合の計算の中身を見てみると，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \boldsymbol{b}&amp;=\begin{bmatrix}
-  1 \\
-  2
-  \end{bmatrix},\
-  \boldsymbol{x}=\begin{bmatrix}
-  x_{1} \\
-  x_{2}
-  \end{bmatrix}\\
-  \boldsymbol{b}^{T}\boldsymbol{x}&amp;=\begin{bmatrix}
-  1 &amp; 2
-  \end{bmatrix}\begin{bmatrix}
-  x_{1} \\
-  x_{2}
-  \end{bmatrix}=x_{1}+2x_{2}\end{aligned}\end{split}\\のように :math:`\boldsymbol{x}` の要素である :math:`x_{1}` もしくは\end{aligned}\end{align} \]</div>
-<p><span class="math">\(x_{2}\)</span> に関して，一次式となっていることがわかります．</p>
+\[\begin{split}\begin{aligned}
+\boldsymbol{b}&amp;=\begin{bmatrix}
+1 \\
+2
+\end{bmatrix},\
+\boldsymbol{x}=\begin{bmatrix}
+x_{1} \\
+x_{2}
+\end{bmatrix}\\
+\boldsymbol{b}^{T}\boldsymbol{x}&amp;=\begin{bmatrix}
+1 &amp; 2
+\end{bmatrix}\begin{bmatrix}
+x_{1} \\
+x_{2}
+\end{bmatrix}=x_{1}+2x_{2}\end{aligned}\end{split}\]</div>
+<p>のように <span class="math">\(\boldsymbol{x}\)</span> の要素である <span class="math">\(x_{1}\)</span> もしくは
+<span class="math">\(x_{2}\)</span> に関して，一次式となっていることがわかります．</p>
 <p>また，二次形式も同様に計算の中身を確認してみると，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \boldsymbol{A}&amp;=\begin{bmatrix}
-  1 &amp; 2 \\
-  3 &amp; 4
-  \end{bmatrix},\
-  \boldsymbol{x}=\begin{bmatrix}
-  x_{1} \\
-  x_{2}
-  \end{bmatrix}\\
-  \boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x}
-  &amp;=\begin{bmatrix} x_{1} &amp; x_{2}\end{bmatrix}
-  \begin{bmatrix}
-  1 &amp; 2 \\
-  3 &amp; 4
-  \end{bmatrix}\begin{bmatrix}
-  x_{1} \\
-  x_{2}
-  \end{bmatrix}\\
-  &amp;=\begin{bmatrix}x_{1} &amp; x_{2}\end{bmatrix} \begin{bmatrix}
-  x_{1}+2x_{2} \\
-  3x_{1}+4x_{2}
-  \end{bmatrix}\\
-  &amp;=x_{1}\left( x_{1}+2x_{2}\right) +x_{2}\left( 3x_{1}+4x_{2}\right) \\
-  &amp;=x^{2}_{1}+5x_{1}x_{2}+4x_{2}^{2}\end{aligned}\end{split}\\となり，各要素において二次式となっていることがわかります．\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\boldsymbol{A}&amp;=\begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 4
+\end{bmatrix},\
+\boldsymbol{x}=\begin{bmatrix}
+x_{1} \\
+x_{2}
+\end{bmatrix}\\
+\boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x}
+&amp;=\begin{bmatrix} x_{1} &amp; x_{2}\end{bmatrix}
+\begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 4
+\end{bmatrix}\begin{bmatrix}
+x_{1} \\
+x_{2}
+\end{bmatrix}\\
+&amp;=\begin{bmatrix}x_{1} &amp; x_{2}\end{bmatrix} \begin{bmatrix}
+x_{1}+2x_{2} \\
+3x_{1}+4x_{2}
+\end{bmatrix}\\
+&amp;=x_{1}\left( x_{1}+2x_{2}\right) +x_{2}\left( 3x_{1}+4x_{2}\right) \\
+&amp;=x^{2}_{1}+5x_{1}x_{2}+4x_{2}^{2}\end{aligned}\end{split}\]</div>
+<p>となり，各要素において二次式となっていることがわかります．</p>
 <p>そして，一般にこれらを足し合わせることでベクトルの二次関数を</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x} + \boldsymbol{b}^{T}\boldsymbol{x} + c\\のように表現します．ここで，\ :math:`c` はスカラーの定数項です．\end{aligned}\end{align} \]</div>
+\[\boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x} + \boldsymbol{b}^{T}\boldsymbol{x} + c\]</div>
+<p>のように表現します．ここで，<span class="math">\(c\)</span> はスカラーの定数項です．</p>
 </div>
 <div class="section" id="ベクトルによる微分と勾配">
 <h3>1.3.11. ベクトルによる微分と勾配<a class="headerlink" href="#ベクトルによる微分と勾配" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>微分は入力を変えた場合の関数値の変化量と説明しました．同様に関数の入力がベクトルである場合，ベクトルによる微分を考えることができます．関数のそれぞれのベクトルの成分毎に偏微分を計算し，それらを並べてベクトルにしたものを<strong>勾配</strong>と呼びます．</p>
 <p>勾配の計算を紹介する前に，下記の例題を計算しましょう．</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \boldsymbol{b}&amp;=\begin{bmatrix}
-  3 \\
-  4
-  \end{bmatrix}, \
-  \boldsymbol{x}=\begin{bmatrix}
-  x_{1} \\
-  x_{2}
-  \end{bmatrix}\\
-  \boldsymbol{b}^{T}\boldsymbol{x}&amp;=\begin{bmatrix}
-  3 &amp; 4
-  \end{bmatrix}\begin{bmatrix}
-  x_{1} \\
-  x_{2}
-  \end{bmatrix}
-  =3x_{1}+4x_{2}\end{aligned}\end{split}\\この :math:`\boldsymbol{b}^{T}\boldsymbol{x}` を ベクトル\end{aligned}\end{align} \]</div>
-<p><span class="math">\(\boldsymbol{x}\)</span> で微分したものを，</p>
+\[\begin{split}\begin{aligned}
+\boldsymbol{b}&amp;=\begin{bmatrix}
+3 \\
+4
+\end{bmatrix}, \
+\boldsymbol{x}=\begin{bmatrix}
+x_{1} \\
+x_{2}
+\end{bmatrix}\\
+\boldsymbol{b}^{T}\boldsymbol{x}&amp;=\begin{bmatrix}
+3 &amp; 4
+\end{bmatrix}\begin{bmatrix}
+x_{1} \\
+x_{2}
+\end{bmatrix}
+=3x_{1}+4x_{2}\end{aligned}\end{split}\]</div>
+<p>この <span class="math">\(\boldsymbol{b}^{T}\boldsymbol{x}\)</span> を ベクトル
+<span class="math">\(\boldsymbol{x}\)</span> で微分したものを，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right)\\と表し．これを\ **ベクトルで微分**\ すると言います．今回の例では，\end{aligned}\end{align} \]</div>
+\[\dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right)\]</div>
+<p>と表し．これを<strong>ベクトルで微分</strong>すると言います．今回の例では，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right) &amp;=\dfrac {\partial }{\partial \boldsymbol{x}}\left( 3x_{1}+4x_{2}\right) \\
-  &amp;=\begin{bmatrix}
-  \dfrac {\partial }{\partial x_{1}} \left( 3x_{1}+4x_{2}\right)  \\
-  \dfrac {\partial }{\partial x_{2}} \left( 3x_{1}+4x_{2}\right)
-  \end{bmatrix}
-  \end{aligned}\end{split}\\のようになり，計算を進めると\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right) &amp;=\dfrac {\partial }{\partial \boldsymbol{x}}\left( 3x_{1}+4x_{2}\right) \\
+&amp;=\begin{bmatrix}
+\dfrac {\partial }{\partial x_{1}} \left( 3x_{1}+4x_{2}\right)  \\
+\dfrac {\partial }{\partial x_{2}} \left( 3x_{1}+4x_{2}\right)
+\end{bmatrix}
+\end{aligned}\end{split}\]</div>
+<p>のようになり，計算を進めると</p>
 <div class="math">
 \[\begin{split}\begin{aligned}\dfrac {\partial }{\partial x_{1}}\left( 3x_{1}+4x_{2}\right) &amp;=\dfrac {\partial }{\partial x_{1}}\left( 3x_{1}\right) +\dfrac {\partial }{\partial x_{1}}\left( 4x_{2}\right) \\
 &amp;=3\times \dfrac {\partial }{\partial x_{1}}\left( x_{1}\right) +4x_{2}\times \dfrac {\partial }{\partial x_{1}}\left( 1\right) \\
@@ -739,40 +757,43 @@ y_{N}
 \end{aligned}\end{split}\]</div>
 <p>となり，下記の計算結果が得られます．</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right)
-  &amp;=\begin{bmatrix}
-  \dfrac {\partial }{\partial x_{1}} \left( 3x_{1}+4x_{2}\right)  \\
-  \dfrac {\partial }{\partial x_{2}} \left( 3x_{1}+4x_{2}\right)
-  \end{bmatrix} =\begin{bmatrix}
-  3  \\
-  4
-  \end{bmatrix} = \boldsymbol{b}
-  \end{aligned}\end{split}\\この結果は，よく使われる公式(2)として後ほど取り上げます．\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right)
+&amp;=\begin{bmatrix}
+\dfrac {\partial }{\partial x_{1}} \left( 3x_{1}+4x_{2}\right)  \\
+\dfrac {\partial }{\partial x_{2}} \left( 3x_{1}+4x_{2}\right)
+\end{bmatrix} =\begin{bmatrix}
+3  \\
+4
+\end{bmatrix} = \boldsymbol{b}
+\end{aligned}\end{split}\]</div>
+<p>この結果は，よく使われる公式(2)として後ほど取り上げます．</p>
 <p>もう一問，以下の例題を考えましょう．</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \boldsymbol{x}&amp;=\begin{bmatrix}
-  x_{1} \\
-  x_{2}
-  \end{bmatrix}\\
-  \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{6}\right) &amp;=\begin{bmatrix}
-  \dfrac {\partial }{\partial x_{1}}\left( 6\right)  \\
-  \dfrac {\partial }{\partial x_{2}}\left( 6\right)
-  \end{bmatrix}
-  =\begin{bmatrix}
-  0 \\
-  0
-  \end{bmatrix}=\boldsymbol{0}\end{aligned}\end{split}\\偏微分を行う対象の変数が含まれていない場合，その偏微分は 0\end{aligned}\end{align} \]</div>
-<p>となります．要素が 0
+\[\begin{split}\begin{aligned}
+\boldsymbol{x}&amp;=\begin{bmatrix}
+x_{1} \\
+x_{2}
+\end{bmatrix}\\
+\dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{6}\right) &amp;=\begin{bmatrix}
+\dfrac {\partial }{\partial x_{1}}\left( 6\right)  \\
+\dfrac {\partial }{\partial x_{2}}\left( 6\right)
+\end{bmatrix}
+=\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}=\boldsymbol{0}\end{aligned}\end{split}\]</div>
+<p>偏微分を行う対象の変数が含まれていない場合，その偏微分は 0
+となります．要素が 0
 のみで構成されたベクトルを<strong>零（ゼロ）ベクトル</strong>と言います．</p>
 <p>これらを踏まえて，公式としてまとめておきましょう．</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  &amp;\left( 1\right) \ \dfrac {\partial}{\partial \boldsymbol{x}}\left( c\right) = \boldsymbol{0}\\
-  &amp;\left( 2\right) \ \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right) = \boldsymbol{b}\\
-  &amp;\left( 3\right) \ \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x}\right) =\left( \boldsymbol{A}+\boldsymbol{A}^{T}\right) \boldsymbol{x}\end{aligned}\end{split}\\(1)と(2) はすでに導出済みです．(3)\end{aligned}\end{align} \]</div>
-<p>は導出が少し複雑なので省略しますが，数値を代入して確認してみてください．この3つの公式は機械学習を学んでいく上で非常に重要な公式となりますので，必ず覚えておきましょう．</p>
+\[\begin{split}\begin{aligned}
+&amp;\left( 1\right) \ \dfrac {\partial}{\partial \boldsymbol{x}}\left( c\right) = \boldsymbol{0}\\
+&amp;\left( 2\right) \ \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right) = \boldsymbol{b}\\
+&amp;\left( 3\right) \ \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x}\right) =\left( \boldsymbol{A}+\boldsymbol{A}^{T}\right) \boldsymbol{x}\end{aligned}\end{split}\]</div>
+<p>(1)と(2) はすでに導出済みです．(3)
+は導出が少し複雑なので省略しますが，数値を代入して確認してみてください．この3つの公式は機械学習を学んでいく上で非常に重要な公式となりますので，必ず覚えておきましょう．</p>
 <p>こういった行列などにおける公式は他にもたくさんあり，論文などを読む際にはどういった公式があるのかを知っておくことも重要です．例えば，<a class="reference external" href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">The
 Matrix
 Cookbook</a>などを，参考にしてみてください．</p>
@@ -792,10 +813,11 @@ Learning</a>などを参考にしてみてください．</p>
 <h3>1.4.2. 確率<a class="headerlink" href="#確率" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>確率は様々な可能性がある事象に対し，その事象が起こることが期待される度合いを表します．さらにパラメータ推定の文脈では確率はどれくらい起きそうだという信念を表す場合もあります．確率は<span class="math">\(p(X)\)</span>のような関数の形で表し，<span class="math">\(X\)</span>を<strong>確率変数</strong>と呼びます．確率変数は起きうる事象のいずれかの値をとるような変数です．さらに<span class="math">\(p(X=u)\)</span>を確率変数<span class="math">\(X\)</span>の値<span class="math">\(u\)</span>だった時の確率を表すものとします．これを省略した<span class="math">\(p(u)\)</span>の形で表します．確率は，「全ての事象の確率の和が<span class="math">\(1\)</span>になる」，「全ての事象の確率は<span class="math">\(0\)</span>以上である」という2つの制約を満たします．これを式で書くと，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{align}
-  \sum_{x } p(x) &amp;= 1 \\
-  p(x) &amp; \geq  0
-  \end{align}\end{split}\\となります．\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{align}
+\sum_{x } p(x) &amp;= 1 \\
+p(x) &amp; \geq  0
+\end{align}\end{split}\]</div>
+<p>となります．</p>
 <p>（パラメトリックな）確率モデル<span class="math">\(p(x; \theta)\)</span>はパラメータ<span class="math">\(\theta\)</span>で特徴付けられたような関数です．確率モデル<span class="math">\(p(x)\)</span>上で事象<span class="math">\(u\)</span>が観測される確率<span class="math">\(p(x=u; \theta)\)</span>を事象<span class="math">\(u\)</span>の<strong>尤度</strong>と呼びます．尤度の尤は「尤（もっと）もらしい」という意味であり，その事象の起きやすさを表します．</p>
 <p>2つの事象が同時に起きる確率を<strong>同時確率</strong>と呼び<span class="math">\(p(x, y)\)</span>のように表します．例えばサイコロを2回振り，1回目の目がx，2回目の目がyとなる確率は同時確率で表すことができます．</p>
 <p>同時確率のうち，特定の確率変数のみに注目し，それ以外の確率変数について和を取って消去する操作を<strong>周辺化</strong>と呼びます（周辺化という言葉は，行を１つ目の確率変数，列を二つ目の確率変数に対応させて同時確率を表で書いた場合，その行の合計，列の合計を表の周辺に書いたことからそう呼ばれています）．周辺化の結果は，注目した確率変数の確率に一致します．</p>
@@ -850,17 +872,19 @@ Posterior）推定と呼びます．MAP推定では，最尤推定にさらに�
 <p>最初は，<strong>平均</strong>を紹介します．たとえば，300円, 400円,
 500円の平均は，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \dfrac{300 + 400 + 500}{3} = 400\\となり，すべてを足し合わせて対象の数で割ります．これを定式化すると，\end{aligned}\end{align} \]</div>
+\[\dfrac{300 + 400 + 500}{3} = 400\]</div>
+<p>となり，すべてを足し合わせて対象の数で割ります．これを定式化すると，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \begin{aligned}\overline {x}=\dfrac {x_{1}+x_{2}+\ldots +x_{N}}{N}
-  =\dfrac {1}{N}\sum ^{N}_{n=1}x_{n}\end{aligned}\\のようになります．\ :math:`N`\end{aligned}\end{align} \]</div>
-<p>は<strong>サンプルの数</strong>を表します．平均は， <span class="math">\(\bar{x}\)</span> や
-<span class="math">\(\mu\)</span>
+\[\begin{aligned}\overline {x}=\dfrac {x_{1}+x_{2}+\ldots +x_{N}}{N}
+=\dfrac {1}{N}\sum ^{N}_{n=1}x_{n}\end{aligned}\]</div>
+<p>のようになります．<span class="math">\(N\)</span> は<strong>サンプルの数</strong>を表します．平均は，
+<span class="math">\(\bar{x}\)</span> や <span class="math">\(\mu\)</span>
 といった記号で表わされるのが一般的です．データ分布において，平均はその重心に相当する値です．</p>
 <p>次に，<strong>分散</strong>を紹介します．分散の定義は</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \begin{aligned}\sigma ^{2}=\dfrac {1}{N}\sum ^{N}_{n=1}\left( x_{n}-\overline {x}\right) ^{2}\end{aligned}\\となります．各サンプルの平均 :math:`\bar{x}` からの差分\end{aligned}\end{align} \]</div>
-<p><span class="math">\(x- \bar{x}\)</span>
+\[\begin{aligned}\sigma ^{2}=\dfrac {1}{N}\sum ^{N}_{n=1}\left( x_{n}-\overline {x}\right) ^{2}\end{aligned}\]</div>
+<p>となります．各サンプルの平均 <span class="math">\(\bar{x}\)</span> からの差分
+<span class="math">\(x- \bar{x}\)</span>
 を計算し，それらの二乗誤差の平均の値を計算します．．分散にはもう一つ定義があり，</p>
 <div class="math">
 \[\begin{aligned}
@@ -878,12 +902,13 @@ Posterior）推定と呼びます．MAP推定では，最尤推定にさらに�
 <p><img alt="image11" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/13.png" /></p>
 <p>①の解答は以下の通りです．</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  \bar{x}&amp;=\dfrac {1}{5}\left( -2-1+0+1+2\right) =0\\
-  \sigma ^{2}&amp;=\dfrac {1}{5}\left\{ \left( -2-0\right) ^{2}+\left( -1-0\right) ^{2}+(0-0)^{2}+(1-0)^{2}+(2-0)^{2}\right\} \\
-  &amp;=\dfrac {1}{5}\times 10=2\\
-  \sigma &amp;=\sqrt {2}
-  \end{aligned}\end{split}\\また，②の解答は以下の通りです．\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+\bar{x}&amp;=\dfrac {1}{5}\left( -2-1+0+1+2\right) =0\\
+\sigma ^{2}&amp;=\dfrac {1}{5}\left\{ \left( -2-0\right) ^{2}+\left( -1-0\right) ^{2}+(0-0)^{2}+(1-0)^{2}+(2-0)^{2}\right\} \\
+&amp;=\dfrac {1}{5}\times 10=2\\
+\sigma &amp;=\sqrt {2}
+\end{aligned}\end{split}\]</div>
+<p>また，②の解答は以下の通りです．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \overline {x}&amp;=\dfrac {1}{5}\left( -4-2+0+2+4\right) =0\\
@@ -917,13 +942,14 @@ Posterior）推定と呼びます．MAP推定では，最尤推定にさらに�
 <p><img alt="image13" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/15.png" /></p>
 <p>この２点間の距離 <span class="math">\(d\)</span> を求めると，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  d&amp;=\sqrt {\left( 100-1000\right) ^{2}+\left( 0.1-1\right) ^{2}}\\
-  &amp;= \sqrt {900^{2}+0.9^{2}}\\
-  &amp;= \sqrt {810000+0.81} \\
-  &amp;= \sqrt {810000.81}
-  \end{aligned}\end{split}\\のようになります．距離 :math:`d`\end{aligned}\end{align} \]</div>
-<p>の中で<span class="math">\(x_{1}\)</span>の影響量が大きく<span class="math">\(x_{2}\)</span>
+\[\begin{split}\begin{aligned}
+d&amp;=\sqrt {\left( 100-1000\right) ^{2}+\left( 0.1-1\right) ^{2}}\\
+&amp;= \sqrt {900^{2}+0.9^{2}}\\
+&amp;= \sqrt {810000+0.81} \\
+&amp;= \sqrt {810000.81}
+\end{aligned}\end{split}\]</div>
+<p>のようになります．距離 <span class="math">\(d\)</span>
+の中で<span class="math">\(x_{1}\)</span>の影響量が大きく<span class="math">\(x_{2}\)</span>
 に関しては，スケールが小さいが故にほとんど影響を与えていません．これでは
 <span class="math">\(x_{2}\)</span>
 がデータの意味として重要な場合においても考慮できません．こうした問題を解決する方法の一つが，ここで紹介する<strong>スケーリング</strong>です．代表的なスケーリングの方法としては２つあります．</p>
@@ -939,15 +965,17 @@ Posterior）推定と呼びます．MAP推定では，最尤推定にさらに�
 <p>もう１つのスケーリングの方法として，<strong>平均0</strong>，<strong>標準偏差1</strong>
 にスケーリングする方法があります．全てのデータから平均を引くと平均<span class="math">\(0\)</span>になり，標準偏差で割ると標準偏差は<span class="math">\(1\)</span>になります．</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \widetilde{x}  = \dfrac{x - \bar{x}}{\sigma}\\．分散を計算した例題の①に対して，このスケーリングを適用してみると，\end{aligned}\end{align} \]</div>
+\[\widetilde{x}  = \dfrac{x - \bar{x}}{\sigma}\]</div>
+<p>．分散を計算した例題の①に対して，このスケーリングを適用してみると，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
-  x_{1}&amp;=\dfrac {-2-0}{\sqrt {2}}=-\dfrac {2}{\sqrt {2}}\\
-  x_{2}&amp;=\dfrac {-1-0}{\sqrt {2}}=-\dfrac {1}{\sqrt {2}}\\
-  x_{3}&amp;=\dfrac {0-0}{\sqrt {2}}=0\\
-  x_{4}&amp;=\dfrac {1-0}{\sqrt {2}}=\dfrac {1}{\sqrt {2}}\\
-  x_{5}&amp;=\dfrac {2-0}{\sqrt {2}}=\dfrac {2}{\sqrt {2}}
-  \end{aligned}\end{split}\\のように，データが変換されます．この時の平均と標準偏差を求めてみると，\end{aligned}\end{align} \]</div>
+\[\begin{split}\begin{aligned}
+x_{1}&amp;=\dfrac {-2-0}{\sqrt {2}}=-\dfrac {2}{\sqrt {2}}\\
+x_{2}&amp;=\dfrac {-1-0}{\sqrt {2}}=-\dfrac {1}{\sqrt {2}}\\
+x_{3}&amp;=\dfrac {0-0}{\sqrt {2}}=0\\
+x_{4}&amp;=\dfrac {1-0}{\sqrt {2}}=\dfrac {1}{\sqrt {2}}\\
+x_{5}&amp;=\dfrac {2-0}{\sqrt {2}}=\dfrac {2}{\sqrt {2}}
+\end{aligned}\end{split}\]</div>
+<p>のように，データが変換されます．この時の平均と標準偏差を求めてみると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \overline {x}&amp;=\dfrac {1}{5}\left( -\dfrac {2}{\sqrt {2}}-\dfrac {1}{\sqrt {2}}+0+\dfrac {1}{\sqrt {2}}+\dfrac {2}{\sqrt {2}}\right) =0\\
