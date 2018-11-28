@@ -385,9 +385,9 @@ or
 <h3>2.2.1. 問題設定<a class="headerlink" href="#問題設定" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>機械学習では，データをもとに学習を行いますが，データに含まれる情報の中から何を利用し，何を予測させるかは人間が決める必要があります．</p>
 <p>ここでは例として，家賃を予測する問題を考えることにします．従って，家賃が<strong>出力変数</strong>
-<span class="math">\(y\)</span> となります．</p>
+<span class="math notranslate nohighlight">\(y\)</span> となります．</p>
 <p>次に，<strong>入力変数</strong>として何を採用するかを考えます．家賃の予測では，たとえば部屋の広さ，駅からの距離，犯罪発生率などを，入力変数として検討することができます．ここでは部屋の広さを入力変数
-<span class="math">\(x\)</span>
+<span class="math notranslate nohighlight">\(x\)</span>
 として採用することにしましょう．実際には，複数の入力変数候補があった際に，それらすべてを扱うことができるようなモデル化が一般的ですが，それは次の重回帰分析以降で紹介することにします．</p>
 <p>機械学習のアルゴリズムでは，どの手法も大きく分けて次の3ステップで成り立っています．</p>
 <ul class="simple">
@@ -399,8 +399,8 @@ or
 </div>
 <div class="section" id="Step1.-モデルを決める">
 <h3>2.2.2. Step1. モデルを決める<a class="headerlink" href="#Step1.-モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>まずStep1では<strong>モデル</strong>を決めます．モデルとは，出力変数 <span class="math">\(y\)</span>
-と入力変数 <span class="math">\(x\)</span>
+<p>まずStep1では<strong>モデル</strong>を決めます．モデルとは，出力変数 <span class="math notranslate nohighlight">\(y\)</span>
+と入力変数 <span class="math notranslate nohighlight">\(x\)</span>
 の関係性を<strong>定式化</strong>したものです．どのように定式化すれば，家賃をうまく予測することができるのでしょうか．このモデル設計は現在は人手で行うのが一般的であり，機械が自動的に決めてくれるわけではありません（最近ではAutoMLなど，モデルも自動決定する研究も進展してきています）</p>
 <p>例えば，与えられたデータセットにおいて，家賃と部屋の広さの関係性が次のようになっていたとします．</p>
 <div class="figure" id="id14">
@@ -413,93 +413,93 @@ or
 <p class="caption"><span class="caption-text">02.png</span></p>
 </div>
 <p>そこで今回は直線をモデルとして採用して，Step1のモデルを以下のように定式化します．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[y = wx + b\]</div>
-<p>ここで<span class="math">\(w\)</span>は傾き，<span class="math">\(b\)</span>は切片とよばれるパラメータです（機械学習では，傾きを<strong>重み
-(weight)</strong> <span class="math">\(w\)</span>, 切片を<strong>バイアス (bias)</strong> <span class="math">\(b\)</span>
+<p>ここで<span class="math notranslate nohighlight">\(w\)</span>は傾き，<span class="math notranslate nohighlight">\(b\)</span>は切片とよばれるパラメータです（機械学習では，傾きを<strong>重み
+(weight)</strong> <span class="math notranslate nohighlight">\(w\)</span>, 切片を<strong>バイアス (bias)</strong> <span class="math notranslate nohighlight">\(b\)</span>
 という記号で表現するのが一般的です）．</p>
-<p>単回帰分析では，このように直線 <span class="math">\(y = wx + b\)</span>
+<p>単回帰分析では，このように直線 <span class="math notranslate nohighlight">\(y = wx + b\)</span>
 と決めて，重みとバイアスの値をデータにうまくフィットするように調整していきます．この調整すべき変数のことを<strong>パラメータ</strong>と呼びます．今回は
-<span class="math">\(w\)</span> と <span class="math">\(b\)</span> がパラメータとなります．</p>
+<span class="math notranslate nohighlight">\(w\)</span> と <span class="math notranslate nohighlight">\(b\)</span> がパラメータとなります．</p>
 <p>多くの機械学習ではこのようなパラメータで特徴付けられたモデルを使い，与えられたデータセットに適合するように最適なパラメータを求めることが目標となります．ここでデータセットは，入力変数である部屋の広さ
-<span class="math">\(x\)</span> と<strong>教師データ</strong>となる家賃 <span class="math">\(t\)</span>
+<span class="math notranslate nohighlight">\(x\)</span> と<strong>教師データ</strong>となる家賃 <span class="math notranslate nohighlight">\(t\)</span>
 の組からなるデータの集合です（本解説では，機械学習による予測値を
-<span class="math">\(y\)</span> ，教師データとして与えるものを <span class="math">\(t\)</span>
+<span class="math notranslate nohighlight">\(y\)</span> ，教師データとして与えるものを <span class="math notranslate nohighlight">\(t\)</span>
 ，と使い分けています）．</p>
-<p>データセットは <span class="math">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span>
-として表されることもあります．ここで，添え字 <span class="math">\(n\)</span>
-(<span class="math">\(n=1,2,\ldots,N\)</span>) は <span class="math">\(n\)</span>
-番目の物件という意味であり，<span class="math">\(N\)</span> は全体の物件数のことです．この
-<span class="math">\(N\)</span> は<strong>サンプル数</strong>とよばれています．</p>
+<p>データセットは <span class="math notranslate nohighlight">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span>
+として表されることもあります．ここで，添え字 <span class="math notranslate nohighlight">\(n\)</span>
+(<span class="math notranslate nohighlight">\(n=1,2,\ldots,N\)</span>) は <span class="math notranslate nohighlight">\(n\)</span>
+番目の物件という意味であり，<span class="math notranslate nohighlight">\(N\)</span> は全体の物件数のことです．この
+<span class="math notranslate nohighlight">\(N\)</span> は<strong>サンプル数</strong>とよばれています．</p>
 <p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを紹介します．下図に示すように，部屋の広さと家賃は両方とも正の値であるため，左のグラフのような形になります．中心化では，<strong>平均を0</strong>とした中央に配置するような変換の処理を施します．この中心化は多くのアルゴリズムで前処理として行うことが一般的です．厳密には前章で紹介した中心化込みのスケーリングがよく用いられます．
 <img alt="03.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png" /></p>
 <p>この中心化の処理を行う理由は下図のように，データの中心化によってバイアス
-<span class="math">\(b\)</span> が0となり，<span class="math">\(y_{c} = wx_{c}\)</span>
+<span class="math notranslate nohighlight">\(b\)</span> が0となり，<span class="math notranslate nohighlight">\(y_{c} = wx_{c}\)</span>
 のように，モデルをバイアス成分なしで表現することができるためです，これによって，調整すべきパラメータを<strong>2つから1つ</strong>に減らすことができます．
 <img alt="04.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png" /></p>
 <p>データの中心化は入出力の平均をデータの全体から引くことで実現されます．つまり，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   x_{c} &amp;= x - \bar{x} \\
   t_{c} &amp;= t - \bar{t}
   \end{aligned}\end{split}\\となります．例えば，具体的な数値で見ると，下図の通りです． |05.png|\end{aligned}\end{align} \]</div>
-<p>中心化後を示す添え字の <span class="math">\(c\)</span>
+<p>中心化後を示す添え字の <span class="math notranslate nohighlight">\(c\)</span>
 に関しては表現が冗長となるため，今後はこの添え字を省略し，データの中心化を事前に行っていることを前提とします．この時，モデルは</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  y = wx\\となり，単回帰分析の目標は，データセット\end{aligned}\end{align} \]</div>
-<p><span class="math">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span> に基づいて，パラメータ
-<span class="math">\(w\)</span> を<strong>適切</strong>に調整することになります．</p>
+<p><span class="math notranslate nohighlight">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span> に基づいて，パラメータ
+<span class="math notranslate nohighlight">\(w\)</span> を<strong>適切</strong>に調整することになります．</p>
 </div>
 <div class="section" id="Step2.-目的関数を決める">
 <h3>2.2.3. Step2. 目的関数を決める<a class="headerlink" href="#Step2.-目的関数を決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>どれだけ目標を達成しているかを表す関数を<strong>目的関数</strong>とよびます．分野によっては<strong>評価関数</strong>ともよばれます．</p>
-<p>今回は教師データと予測値が一致することが目標であり，それを表す目的関数として教師データと予測値の二乗誤差を使います．二乗誤差が0であるとき，またその時のみ<span class="math">\(t = y\)</span>
-となり，完璧な予測を達成しているといえます，<span class="math">\(n\)</span>
-番目の物件に対する教師データ<span class="math">\(t_{n}\)</span>
-と予測値<span class="math">\(y_{n}\)</span>の二乗誤差は</p>
-<div class="math">
+<p>今回は教師データと予測値が一致することが目標であり，それを表す目的関数として教師データと予測値の二乗誤差を使います．二乗誤差が0であるとき，またその時のみ<span class="math notranslate nohighlight">\(t = y\)</span>
+となり，完璧な予測を達成しているといえます，<span class="math notranslate nohighlight">\(n\)</span>
+番目の物件に対する教師データ<span class="math notranslate nohighlight">\(t_{n}\)</span>
+と予測値<span class="math notranslate nohighlight">\(y_{n}\)</span>の二乗誤差は</p>
+<div class="math notranslate nohighlight">
 \[(t_{n} - y_{n})^{2}\]</div>
 <p>となります．これを全物件で考慮する必要があるため，最終的な目的関数はその総和をとり，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \mathcal{L}&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + (t_{N}-y_{N})^{2} \\
   &amp;=\sum^{N}_{n=1}\left( t_{n}-y_{n}\right)^{2}\\
   \end{aligned}\end{split}\\となります．また，Step1で決めたモデル\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  y_{n} = wx_{n}\\を代入すると，目的関数は\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\mathcal{L}=\sum^{N}_{n=1}\left( t_{n}-wx_{n}\right)^{2}\]</div>
 <p>とパラメータを含んだ形式で表現することができます．このような関数を損失関数とよぶことを思い出してください．</p>
 </div>
 <div class="section" id="Step3.-最適なパラメータを求める">
 <h3>2.1.4. Step3. 最適なパラメータを求める<a class="headerlink" href="#Step3.-最適なパラメータを求める" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>最後は目的関数を最小化するようなパラメータを求めます．ここで，ある関数を最小化する点を求める方法として，微分が使えることを既に学んでいます．今回のような差の二乗の場合，微分して「傾き0」となる点が損失が<span class="math">\(0\)</span>となる点です．目的関数の微分を求めると，次のようになります．</p>
-<div class="math">
+<p>最後は目的関数を最小化するようなパラメータを求めます．ここで，ある関数を最小化する点を求める方法として，微分が使えることを既に学んでいます．今回のような差の二乗の場合，微分して「傾き0」となる点が損失が<span class="math notranslate nohighlight">\(0\)</span>となる点です．目的関数の微分を求めると，次のようになります．</p>
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \dfrac{\partial }{\partial w} \mathcal{L}  &amp;= \dfrac{\partial}{\partial w} { \sum^{N}_{n=1} ( t_{n}-wx_{n})^{2} }\\
 \end{aligned}\end{split}\]</div>
 <p>ここで，微分は<strong>線形性</strong>の性質を持っており，特に和の微分は，微分の和であることを利用して次を得ます．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  \dfrac{\partial}{\partial w} \mathcal{L}=\sum^{N}_{n=1}\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}\\ここで微分と総和 :math:`\sum`\end{aligned}\end{align} \]</div>
 <p>の記号が入れ替わっています．次に，和の各項をみると，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}\]</div>
-<p>の部分は<span class="math">\(t_n - wx_n\)</span>とその二乗の<strong>合成関数</strong>になっていることがわかります．<span class="math">\(u_{n} = t_{n} - wx_{n}\)</span>,
-<span class="math">\(f(u_{n}) = u_{n}^{2}\)</span> とおくと，</p>
-<div class="math">
+<p>の部分は<span class="math notranslate nohighlight">\(t_n - wx_n\)</span>とその二乗の<strong>合成関数</strong>になっていることがわかります．<span class="math notranslate nohighlight">\(u_{n} = t_{n} - wx_{n}\)</span>,
+<span class="math notranslate nohighlight">\(f(u_{n}) = u_{n}^{2}\)</span> とおくと，</p>
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2} &amp;=  \dfrac {\partial }{\partial w} f(u_{n}) \\
   \Rightarrow \dfrac {\partial }{\partial w} f(u_{n}) &amp;= \dfrac {\partial u_{n}}{\partial w} \dfrac{\partial f(u_{n})}{\partial w} \\
   &amp;=-x_{n} \times 2 u_{n}  \\
   &amp;= -2x_{n}( t_{n}-wx_{n} )
   \end{aligned}\end{split}\\が得られます．これより，\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \dfrac{\partial }{\partial w} \mathcal{L}
   &amp;=\sum^{N}_{n=1}\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}
   \\&amp;=-\sum^{N}_{n=1}2x_{n}\left( t_{n}-wx_{n}\right)
   \end{aligned}\end{split}\\となります．この微分の値が0となるように\ :math:`w`\ を求めていくと，\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \dfrac {\partial }{\partial w} \mathcal{L} &amp;=0\\
   -2\sum^{N}_{n=1}x_{n}\left( t_{n}-wx_{n}\right) &amp;=0\\
@@ -509,17 +509,17 @@ or
   \Rightarrow w&amp;=\dfrac {\displaystyle  \sum^{N}_{n=1}x_{n}t_{n}}{\displaystyle  \sum^{N}_{n=1}x^{2}_{n}}
   \end{aligned}\end{split}\\と求まりました．この求まったパラメータ :math:`w`\end{aligned}\end{align} \]</div>
 <p>を確認すると，与えられたデータセット
-<span class="math">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span>
+<span class="math notranslate nohighlight">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span>
 のみから決定できていることがわかります．</p>
-<p>次に，例題にあげていた数値例でパラメータ <span class="math">\(w\)</span>
+<p>次に，例題にあげていた数値例でパラメータ <span class="math notranslate nohighlight">\(w\)</span>
 を求めてみましょう．まずは，データの中心化を行うために，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \bar{x} &amp;= \dfrac{1}{3} (1 + 2 + 3) = 2 \\
 \bar{t} &amp;= \dfrac{1}{3}(2 + 3.9 + 6.1) = 4
 \end{aligned}\end{split}\]</div>
 <p>とそれぞれの平均を求め，各変数に対して前処理として，中心化の処理を施すと，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 x_{1} &amp;= 1 - 2 = -1 \\
 x_{2} &amp;= 2 -2 = 0 \\
@@ -528,8 +528,8 @@ t_{1} &amp;= 2 - 4 = -2\\
 t_{2} &amp;= 3.9 - 4 = -0.1\\
 t_{3} &amp;= 6.1 - 4 = 2.1
 \end{aligned}\end{split}\]</div>
-<p>となります．そして，中心化後の値を用いて，最適なパラメータ<span class="math">\(w\)</span>を導出すると，</p>
-<div class="math">
+<p>となります．そして，中心化後の値を用いて，最適なパラメータ<span class="math notranslate nohighlight">\(w\)</span>を導出すると，</p>
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 w &amp;= \dfrac{\displaystyle \sum_{n=1}^{N}x_{n}t_{n}}{\displaystyle  \sum_{n=1}^{N}x_{n}^{2}} \\
 &amp;= \dfrac{x_{1}t_{1} + x_{2}t_{2} + x_{3}t_{3}}{x_{1}^{2} + x_{2}^{2} + x_{3}^{2}} \\
@@ -538,8 +538,8 @@ w &amp;= \dfrac{\displaystyle \sum_{n=1}^{N}x_{n}t_{n}}{\displaystyle  \sum_{n=1
 \end{aligned}\end{split}\]</div>
 <p>と求まりました．これで単回帰分析の学習が完了しました．この求まったパラメータを使用したモデルが<strong>学習済みモデル</strong>となります．</p>
 <p>続いて，このモデルを使って新しいサンプルに対する予測をしてみましょう．これをモデルを使って入力から予測値を<strong>推論</strong>すると呼びます．例えば，新しいサンプル
-<span class="math">\(x_{q}=1.5\)</span> に対する予測値は次のように求まります，</p>
-<div class="math">
+<span class="math notranslate nohighlight">\(x_{q}=1.5\)</span> に対する予測値は次のように求まります，</p>
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 y_{c} &amp;= wx_{c} \\
 y_{q} - \bar{t} &amp;= w(x_{q}-\bar{x}) \\
@@ -557,10 +557,10 @@ y_{q} - \bar{t} &amp;= w(x_{q}-\bar{x}) \\
 <div class="section" id="問題設定">
 <span id="id5"></span><h3>2.2.1. 問題設定<a class="headerlink" href="#問題設定" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ここでは単回帰分析の場合と同様に家賃を予測する問題を考え，家賃を出力変数
-<span class="math">\(y\)</span>
+<span class="math notranslate nohighlight">\(y\)</span>
 とします．入力変数としては，単回帰分析では考慮しきれていなかった駅からの距離や犯罪発生率なども考慮していきます．例えば，部屋の広さ
-<span class="math">\(x_{1}\)</span>, 駅からの距離 <span class="math">\(x_{2}\)</span>, …, 犯罪発生率 <span class="math">\(x_{M}\)</span>
-のように <span class="math">\(M\)</span> 個の入力変数があるとします．</p>
+<span class="math notranslate nohighlight">\(x_{1}\)</span>, 駅からの距離 <span class="math notranslate nohighlight">\(x_{2}\)</span>, …, 犯罪発生率 <span class="math notranslate nohighlight">\(x_{M}\)</span>
+のように <span class="math notranslate nohighlight">\(M\)</span> 個の入力変数があるとします．</p>
 <p>単回帰分析と同様，以下の3ステップで学習していきます．</p>
 <ul class="simple">
 <li>モデルを決める</li>
@@ -571,24 +571,24 @@ y_{q} - \bar{t} &amp;= w(x_{q}-\bar{x}) \\
 <div class="section" id="Step1.-モデルを決める">
 <span id="step1-1"></span><h3>2.2.2. Step1. モデルを決める<a class="headerlink" href="#Step1.-モデルを決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>単回帰分析のモデルは，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  y = wx + b\\であり，\ :math:`w` を重み（weight），\ :math:`b` をバイアス (bias)\end{aligned}\end{align} \]</div>
 <p>と呼びました．重回帰分析では，この式を複数の入力変数へと拡張し，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[y=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+b\]</div>
 <p>のような<strong>線形結合</strong>の形で表します．この場合，各入力変数は独立に出力変数に影響を与えることを仮定しており，かなり単純なモデル化といえます．実際には，入力変数間に依存関係が存在する場合には，そのことを考慮してモデル化を行う必要があります．それについては今後説明していきます．</p>
 <p>重回帰分析のモデルは総和を使って整理すると，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[y = \sum_{m=1}^{M} w_{m} x_{m} + b\]</div>
-<p>のように書くことができます．さらにここで，<span class="math">\(x_0 = 1\)</span>，<span class="math">\(w_0 = b\)</span>とおくと，</p>
-<div class="math">
+<p>のように書くことができます．さらにここで，<span class="math notranslate nohighlight">\(x_0 = 1\)</span>，<span class="math notranslate nohighlight">\(w_0 = b\)</span>とおくと，</p>
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   y&amp;=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+b\\
   &amp;=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+w_{0} x_{0}\\
   &amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
   \end{aligned}\end{split}\\のようにバイアス :math:`b`\end{aligned}\end{align} \]</div>
 <p>を包含することができます．そして，この式を整理していくと，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 y&amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
 &amp;=\begin{bmatrix}
@@ -601,9 +601,9 @@ x_{M}
 \end{bmatrix}\\
 &amp;=\boldsymbol{w}^{T}\boldsymbol{x}
 \end{aligned}\end{split}\]</div>
-<p>のように，ベクトルの内積で表現することができます．また，今後取り扱う際には，<span class="math">\(\boldsymbol{x}\)</span>
+<p>のように，ベクトルの内積で表現することができます．また，今後取り扱う際には，<span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span>
 が前に来ているほうが計算上便利であるため，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   y&amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
   &amp;=\begin{bmatrix}
@@ -616,19 +616,19 @@ x_{M}
   \end{bmatrix}\\
   &amp;=\boldsymbol{x}^{T}\boldsymbol{w}
   \end{aligned}\end{split}\\として表現します．これが重回帰分析のモデルです．今回はパラメータとして\end{aligned}\end{align} \]</div>
-<p><span class="math">\(M+1\)</span> 個の重み <span class="math">\(\boldsymbol{w}\)</span> を求めていきます．</p>
+<p><span class="math notranslate nohighlight">\(M+1\)</span> 個の重み <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> を求めていきます．</p>
 </div>
 <div class="section" id="Step2.-目的関数を決める">
 <span id="step2-1"></span><h3>2.2.3. Step2. 目的関数を決める<a class="headerlink" href="#Step2.-目的関数を決める" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>単回帰分析では，教師データ<span class="math">\(t\)</span>と予測値<span class="math">\(y\)</span>の二乗誤差が小さいほど良い予測であるとし，その総和を目的関数として定めました．重回帰分析でも，予測値<span class="math">\(y\)</span>を求めるということは同じであるため，次のような同じ目的関数を使います．</p>
-<div class="math">
+<p>単回帰分析では，教師データ<span class="math notranslate nohighlight">\(t\)</span>と予測値<span class="math notranslate nohighlight">\(y\)</span>の二乗誤差が小さいほど良い予測であるとし，その総和を目的関数として定めました．重回帰分析でも，予測値<span class="math notranslate nohighlight">\(y\)</span>を求めるということは同じであるため，次のような同じ目的関数を使います．</p>
+<div class="math notranslate nohighlight">
 \[\begin{aligned}
 L&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + \left( t_{N}-y_{N}\right)^{2}
 \end{aligned}\]</div>
 <p>このように，<strong>二乗誤差の総和</strong>を単回帰分析同様，目的関数として採用します．単回帰分析では，これを</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  \mathcal{L}=\sum^{N}_{n=1} ( t_{n} - y_{n})^{2}\\のように，総和の記号を使ってまとめていましたが，\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \mathcal{L}&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + \left( t_{N}-y_{N}\right)^{2}\\
 &amp;=\begin{bmatrix} t_{1} - y_{1} &amp; t_{2}-y_{2} &amp; \ldots &amp; t_{N}-y_{N} \end{bmatrix} \begin{bmatrix}
@@ -639,9 +639,9 @@ t_{N}-y_{N}
 \end{bmatrix}\\
 &amp;=\left( \boldsymbol{t}-\boldsymbol{y}\right)^{T}\left( \boldsymbol{t}-\boldsymbol{y}\right)
 \end{aligned}\end{split}\]</div>
-<p>のようにベクトル使って表現することもできます．また，<span class="math">\(\boldsymbol{y}\)</span>
+<p>のようにベクトル使って表現することもできます．また，<span class="math notranslate nohighlight">\(\boldsymbol{y}\)</span>
 に関して，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \boldsymbol{y}=\begin{bmatrix}
   y_{1} \\
@@ -662,7 +662,7 @@ t_{N}-y_{N}
   \end{bmatrix}
   \boldsymbol{w}
   \end{aligned}\end{split}\\のように書くことができます．これを整理すると，\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \boldsymbol{y}&amp;=
 \begin{bmatrix}
@@ -680,67 +680,67 @@ w_{M}
 \boldsymbol{y}&amp;=\boldsymbol{X}\boldsymbol{w}
 \end{aligned}\end{split}\]</div>
 <p>と表記できます．ここで，行（横）方向がサンプルを表しており，例えば各物件に対応します．列（縦）方向が入力変数を表しており，例えば，部屋の広さや駅からの距離などが入っています．もう少し具体的な数値で考えると，部屋の広さ
-<span class="math">\(= 50m^{2}\)</span> ，駅からの距離 <span class="math">\(= 600 m\)</span> ，犯罪発生率
-<span class="math">\(= 2\)</span>% のような <span class="math">\(n\)</span> 番目の物件の場合，</p>
-<div class="math">
+<span class="math notranslate nohighlight">\(= 50m^{2}\)</span> ，駅からの距離 <span class="math notranslate nohighlight">\(= 600 m\)</span> ，犯罪発生率
+<span class="math notranslate nohighlight">\(= 2\)</span>% のような <span class="math notranslate nohighlight">\(n\)</span> 番目の物件の場合，</p>
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  \boldsymbol{x}_{n}^{T} = \begin{bmatrix}
   1 &amp; 50 &amp; 600 &amp; \cdots &amp; 0.02
   \end{bmatrix}\\のようにデータが行方向格納されているイメージです．先頭の :math:`1`\end{aligned}\end{align} \]</div>
-<p>はバイアスを包含する際に使用している <span class="math">\(x_{0}\)</span>
+<p>はバイアスを包含する際に使用している <span class="math notranslate nohighlight">\(x_{0}\)</span>
 であることに注意してください．</p>
 </div>
 <div class="section" id="Step3.-パラメータを最適化する">
 <h3>2.2.4. Step3. パラメータを最適化する<a class="headerlink" href="#Step3.-パラメータを最適化する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは，（Step2で定めた）目的関数を最小化する，（Step1で定めた）モデルのパラメータを求めていきましょう．</p>
-<p>まずは目的関数に関して，パラメータ <span class="math">\(\boldsymbol{w}\)</span>
+<p>まずは目的関数に関して，パラメータ <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>
 で表現できるように式変形を行うと，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \mathcal{L}&amp;=\left( \boldsymbol{t}-\boldsymbol{y}\right)^{T}\left( \boldsymbol{t}-\boldsymbol{y}\right) \\
   &amp;=\left( \boldsymbol{t}-\boldsymbol{X}\boldsymbol{w}\right)^{T}\left( \boldsymbol{t}-\boldsymbol{X}\boldsymbol{w}\right) \\
   &amp;= \left\{ \boldsymbol{t}^{T}-(\boldsymbol{X}\boldsymbol{w})^{T}\right\}\left( \boldsymbol{t}-\boldsymbol{X}\boldsymbol{w}\right) \\
   &amp;=\left( \boldsymbol{t}^{T}-\boldsymbol{w}^{T}\boldsymbol{X}^{T}\right)\left( \boldsymbol{t}-\boldsymbol{X}\boldsymbol{w}\right)
   \end{aligned}\end{split}\\となります．ここで，転置の公式\end{aligned}\end{align} \]</div>
-<p><span class="math">\((\boldsymbol{A}\boldsymbol{B})^{T} = \boldsymbol{B}^{T}\boldsymbol{A}^{T}\)</span>
+<p><span class="math notranslate nohighlight">\((\boldsymbol{A}\boldsymbol{B})^{T} = \boldsymbol{B}^{T}\boldsymbol{A}^{T}\)</span>
 を使っていることに注意しましょう．さらに分配法則を使って展開を進めていくと，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \mathcal{L}&amp;=\boldsymbol{t}^{T}\boldsymbol{t}-\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}-\boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{t} + \boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}\\
 \end{aligned}\end{split}\]</div>
-<p>となります．この目的関数に対しパラメータの<span class="math">\(w\)</span>について偏微分をとりたいですが，その前にこの式はもう少し整理することができます．はじめに，</p>
-<div class="math">
+<p>となります．この目的関数に対しパラメータの<span class="math notranslate nohighlight">\(w\)</span>について偏微分をとりたいですが，その前にこの式はもう少し整理することができます．はじめに，</p>
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  (1)^T = 1\\というように，スカラーは転置しても同じです．上式の中で出てくる\end{aligned}\end{align} \]</div>
-<p><span class="math">\(\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}\)</span>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}\)</span>
 はスカラーなので，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  (\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w})^{T} = \boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}\\が成り立ちます．さらに，転置の公式\end{aligned}\end{align} \]</div>
-<p><span class="math">\((\boldsymbol{A}\boldsymbol{B}\boldsymbol{C})^T = \boldsymbol{C}^T\boldsymbol{B}^T\boldsymbol{A}^T\)</span>
+<p><span class="math notranslate nohighlight">\((\boldsymbol{A}\boldsymbol{B}\boldsymbol{C})^T = \boldsymbol{C}^T\boldsymbol{B}^T\boldsymbol{A}^T\)</span>
 より，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  (\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w})^T = \boldsymbol{w}^{T} \boldsymbol{X}^{T} \boldsymbol{t}\\も成り立ちます．これより，\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  (\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w})^{T} = \boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w} = \boldsymbol{w}^{T} \boldsymbol{X}^{T} \boldsymbol{t}\\を導くことができます．目的関数を :math:`\mathcal{L}`\end{aligned}\end{align} \]</div>
 <p>とおくと，上の式を利用して，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \mathcal{L}=\boldsymbol{t}^{T}\boldsymbol{t}-2\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w} + \boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}\\
   \end{aligned}\end{split}\\とまとめることができます．ここで， :math:`\boldsymbol{w}`\end{aligned}\end{align} \]</div>
-<p>に関する偏微分を行っていくため， <span class="math">\(\boldsymbol{w}\)</span>
+<p>に関する偏微分を行っていくため， <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>
 以外の定数項をまとめていくと，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \mathcal{L}&amp;=\boldsymbol{t}^{T}\boldsymbol{t}-2\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}+\boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}\\
   &amp;=\boldsymbol{t}^{T}\boldsymbol{t}-2\left( \boldsymbol{X}^{T}\boldsymbol{t}\right)^{T} \boldsymbol{w}+\boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w} \\
   &amp;=c+\boldsymbol{b}^{T}\boldsymbol{w}+\boldsymbol{w}^{T}\boldsymbol{A}\boldsymbol{w}
   \end{aligned}\end{split}\\のように，線形代数で学んだ :math:`\boldsymbol{w}`\end{aligned}\end{align} \]</div>
-<p>に関する二次形式（二次関数）で表現することができました．ここで，<span class="math">\(\boldsymbol{A}= \boldsymbol{X}^{T}\boldsymbol{X}, \ \boldsymbol{b} =-2 \boldsymbol{X}^{T}\boldsymbol{t}, \ c=\boldsymbol{t}^{T}\boldsymbol{t}\)</span>
-であり，<span class="math">\(\boldsymbol{b}\)</span>
+<p>に関する二次形式（二次関数）で表現することができました．ここで，<span class="math notranslate nohighlight">\(\boldsymbol{A}= \boldsymbol{X}^{T}\boldsymbol{X}, \ \boldsymbol{b} =-2 \boldsymbol{X}^{T}\boldsymbol{t}, \ c=\boldsymbol{t}^{T}\boldsymbol{t}\)</span>
+であり，<span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span>
 を転置の形式にした理由は，線形代数で学んだベクトルで微分の公式の形式に合わせるための工夫です．</p>
 <p>それでは，目的関数を最小化することができるパラメータ
-<span class="math">\(\boldsymbol{w}\)</span>
+<span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>
 の求め方を考えましょう．先述の通り，目的関数はパラメータ
-<span class="math">\(\boldsymbol{w}\)</span>に関して二次関数です．例えば，</p>
-<div class="math">
+<span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>に関して二次関数です．例えば，</p>
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \boldsymbol{w} = \begin{bmatrix}
   w_{1} \\ w_{2}
@@ -753,7 +753,7 @@ w_{M}
   2
   \end{bmatrix},c=1
   \end{aligned}\end{split}\\のように具体的な数値例で考えてみると，\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \mathcal{L} &amp;=
   \boldsymbol{w}^{T}\boldsymbol{A}\boldsymbol{w}+\boldsymbol{b}^{T}\boldsymbol{w}+c\\
@@ -784,7 +784,7 @@ w_{M}
   &amp;=w_{1}\left( w_{1}+2w_{2}\right) +w_{1}\left( 3w_{1}+4w_{2}\right) +w _{1}+2w_{2}+1\\
   &amp;=w^{2}_{1}+5w_{1}w_{2}+4w^{2}_{2}+w_{1}+2w_{2}+1 \\
   \end{aligned}\end{split}\\となり，\ :math:`w_{1}, w_{2}`\ に関してそれぞれまとめると，\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \mathcal{L}
   &amp;=w^{2}_{1}+\left( 5w_{2}+1\right) w_{1} +
@@ -805,18 +805,18 @@ w_{M}
 <img alt="07.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png" />
 <p class="caption"><span class="caption-text">07.png</span></p>
 </div>
-<p>この例では，<span class="math">\(w_{1}\)</span> と <span class="math">\(w_{2}\)</span>
-の２つのパラメータの場合で考えましたが，これは <span class="math">\(w_{0}\)</span>,
-<span class="math">\(w_{1}\)</span>, <span class="math">\(w_{2}\)</span>, <span class="math">\(\ldots\)</span>, <span class="math">\(w_{M}\)</span>
+<p>この例では，<span class="math notranslate nohighlight">\(w_{1}\)</span> と <span class="math notranslate nohighlight">\(w_{2}\)</span>
+の２つのパラメータの場合で考えましたが，これは <span class="math notranslate nohighlight">\(w_{0}\)</span>,
+<span class="math notranslate nohighlight">\(w_{1}\)</span>, <span class="math notranslate nohighlight">\(w_{2}\)</span>, <span class="math notranslate nohighlight">\(\ldots\)</span>, <span class="math notranslate nohighlight">\(w_{M}\)</span>
 の場合でも同様に考えることができ，目的関数が最小となる点は</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{cases}
   \dfrac {\partial }{\partial w_{0}}\mathcal{L}=0\\
   \dfrac {\partial }{\partial w_{1}}\mathcal{L}=0\\
   \ \ \ \ \ \vdots \\
   \dfrac {\partial }{\partial w_{M}}\mathcal{L}=0\\
   \end{cases}\end{split}\\となり，これをまとめると，\end{aligned}\end{align} \]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \begin{bmatrix}
   \dfrac {\partial}{\partial w_{0}} \mathcal{L} \\
@@ -831,9 +831,9 @@ w_{M}
   \end{bmatrix} \\
   \Rightarrow \dfrac {\partial}{\partial \boldsymbol{w}} \mathcal{L} &amp;= \boldsymbol{0} \\
   \end{aligned}\end{split}\\のようにベクトルでの微分として表されます．あとは，上式を満たすように\end{aligned}\end{align} \]</div>
-<p><span class="math">\(\boldsymbol{w}\)</span>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>
 を決めていきます．（下記の計算にはベクトルでの微分をはじめとして，線形代数で学んだ内容を活用しているため，計算途中がわからなくなった場合には，線形代数のパートを確認しながら進めてみてください．）</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \dfrac {\partial }{\partial \boldsymbol{w}}\mathcal{L} =\dfrac {\partial }{\partial \boldsymbol{w}}\left( c+\boldsymbol{b}^{T}\boldsymbol{w}+\boldsymbol{w}^{T}\boldsymbol{A}\boldsymbol{w}\right)
   = \boldsymbol{0}\\
@@ -845,21 +845,21 @@ w_{M}
   -2\boldsymbol{X}^{T}\boldsymbol{t}+2\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}=\boldsymbol{0}\\
   \boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}=\boldsymbol{X}^{T}\boldsymbol{t}\\
   \end{aligned}\end{split}\\ここで，両辺に左側から\end{aligned}\end{align} \]</div>
-<p><span class="math">\(\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\)</span> をかけると，</p>
-<div class="math">
+<p><span class="math notranslate nohighlight">\(\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\)</span> をかけると，</p>
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}\begin{split}  \begin{aligned}
   \left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{X} \boldsymbol{w} =\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t} \\
   \boldsymbol{I}\boldsymbol{w}=\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t} \\
   \boldsymbol{w}=\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t}
   \end{aligned}\end{split}\\となり，与えられたデータセット :math:`\boldsymbol{X}, \boldsymbol{t}`\end{aligned}\end{align} \]</div>
-<p>から，最適なパラメータ <span class="math">\(\boldsymbol{w}\)</span>
-が求まりました．ここで，<span class="math">\(\boldsymbol{I}\)</span>
+<p>から，最適なパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>
+が求まりました．ここで，<span class="math notranslate nohighlight">\(\boldsymbol{I}\)</span>
 は単位行列です．また，式変形の際には，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\boldsymbol{w} = \dfrac{\boldsymbol{X}^{T}\boldsymbol{t}}{\boldsymbol{X}^{T}\boldsymbol{X}}\]</div>
 <p>のような分数が表れないように注意してください．これは行列の計算には割り算がないためです．そのため，逆行列を使って行列積のみで計算しています．</p>
 <p>また，もうひとつよくある間違いとして，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}&amp;=\boldsymbol{X}^{T}\boldsymbol{t}\\
 \left( \boldsymbol{X}^{T}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}&amp;=\left( \boldsymbol{X}^{T}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t}\\
@@ -868,18 +868,18 @@ w_{M}
 \boldsymbol{w}&amp;=\boldsymbol{X}^{-1}\boldsymbol{t}
 \end{aligned}\end{split}\]</div>
 <p>のような式変形をする場合もみられます．しかし，これは一般的には成立しません．その理由として，線形代数の章で説明した逆行列を持つための条件として，<strong>正方行列であること</strong>を満たしていないためです．バイアス
-<span class="math">\(\boldsymbol{b}\)</span> を <span class="math">\(\boldsymbol{w}\)</span>
+<span class="math notranslate nohighlight">\(\boldsymbol{b}\)</span> を <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>
 に包含することを無視する場合
-<span class="math">\(\boldsymbol{X} \in \mathcal{R}^{N \times M}\)</span>
+<span class="math notranslate nohighlight">\(\boldsymbol{X} \in \mathcal{R}^{N \times M}\)</span>
 であり，バイアスの包含を考慮する場合は
-<span class="math">\(\boldsymbol{X} \in \mathcal{R}^{N \times (M+1)}\)</span>
-です．一般的に，サンプル数 <span class="math">\(N\)</span> と入力変数の数 <span class="math">\(M\)</span>
-は等しくないため，<span class="math">\(\boldsymbol{X}\)</span>は正方行列ではなく，逆行列をもちません．それに対し，例えば，<span class="math">\(\boldsymbol{X} \in \mathcal{R}^{N \times M}\)</span>
-の場合，<span class="math">\(\boldsymbol{X}^{T}\boldsymbol{X} \in \mathcal{R}^{M\times M}\)</span>
-となり，サンプル数 <span class="math">\(N\)</span>
+<span class="math notranslate nohighlight">\(\boldsymbol{X} \in \mathcal{R}^{N \times (M+1)}\)</span>
+です．一般的に，サンプル数 <span class="math notranslate nohighlight">\(N\)</span> と入力変数の数 <span class="math notranslate nohighlight">\(M\)</span>
+は等しくないため，<span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span>は正方行列ではなく，逆行列をもちません．それに対し，例えば，<span class="math notranslate nohighlight">\(\boldsymbol{X} \in \mathcal{R}^{N \times M}\)</span>
+の場合，<span class="math notranslate nohighlight">\(\boldsymbol{X}^{T}\boldsymbol{X} \in \mathcal{R}^{M\times M}\)</span>
+となり，サンプル数 <span class="math notranslate nohighlight">\(N\)</span>
 に依存することなく，常に正方行列となります．（逆行列が求まるためにはもう少し厳密な条件があるので，さらに詳しく知りたい方は各自調べてみてください．）</p>
-<p>推論の際は学習で得られたパラメータ <span class="math">\(\boldsymbol{w}\)</span> を用いて，</p>
-<div class="math">
+<p>推論の際は学習で得られたパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> を用いて，</p>
+<div class="math notranslate nohighlight">
 \[ \begin{align}\begin{aligned}  y_{q} = \boldsymbol{w}^{T}\boldsymbol{x}_{q}\\のように計算することで予測値が得られます．\end{aligned}\end{align} \]</div>
 </div>
 </div>
@@ -887,8 +887,8 @@ w_{M}
 <h2>2.3. Numpyによる実装<a class="headerlink" href="#Numpyによる実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>それでは重回帰分析を例に，Pythonで線形代数を用いた実装を行っていきましょう．Pythonには<strong>Numpy</strong>と呼ばれる線形代数を簡単に扱えるライブラリが存在し，広く利用されています．次の章で紹介するChainerの中でもNumpyは多用されており，ディープラーニングを学ぶための第一歩として，まずはNumpyの使い方を習得することが重要です．</p>
 <p>Pythonの文法に関しては把握していることを前提に進めています．具体的には，変数（数値・文字列，リスト，タプル，辞書），制御構文（for，if），関数，クラスを理解している必要があります．</p>
-<p>重回帰分析では，最終的に最適なパラメータ <span class="math">\(\boldsymbol{w}\)</span> が</p>
-<div class="math">
+<p>重回帰分析では，最終的に最適なパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span> が</p>
+<div class="math notranslate nohighlight">
 \[\boldsymbol{w}=\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t}\]</div>
 <p>で求まりました．この最適なパラメータを求めるために，以下の5つを扱います．</p>
 <ul class="simple">
@@ -899,7 +899,7 @@ w_{M}
 <li>逆行列</li>
 </ul>
 <p>具体的に，以下のようなデータセットが与えられているケースを想定してみましょう．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\boldsymbol{X} =
 \begin{bmatrix}
 1 &amp; 2 &amp; 3 \\
@@ -913,32 +913,32 @@ w_{M}
 \end{bmatrix}\end{split}\]</div>
 <p>それぞれの実装について，見ていきましょう．まずは，Numpyの読み込みから始めます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import numpy as np
 </pre></div>
 </div>
 </div>
 <p>ベクトルの定義は以下のように行います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>t = np.array([[1], [5], [6], [8]])
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(t)
 </pre></div>
 </div>
@@ -956,11 +956,11 @@ w_{M}
 </div>
 <p>つぎに，行列の定義も行いましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X = np.array([
     [1, 2, 3],
     [1, 2, 5],
@@ -971,11 +971,11 @@ w_{M}
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(X)
 </pre></div>
 </div>
@@ -991,13 +991,13 @@ w_{M}
  [1 5 9]]
 </pre></div></div>
 </div>
-<p>ここで，Xの転置を行ってみましょう．Numpyの<code class="docutils literal"><span class="pre">array</span></code>で定義されている場合，<code class="docutils literal"><span class="pre">.T</span></code>をつけるだけで転置することができます．</p>
+<p>ここで，Xの転置を行ってみましょう．Numpyの<code class="docutils literal notranslate"><span class="pre">array</span></code>で定義されている場合，<code class="docutils literal notranslate"><span class="pre">.T</span></code>をつけるだけで転置することができます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(X.T)
 </pre></div>
 </div>
@@ -1013,24 +1013,24 @@ w_{M}
 </pre></div></div>
 </div>
 <p>縦と横が入れ替わっていることを確認できます．</p>
-<p>行列積は以下のように <code class="docutils literal"><span class="pre">np.dot</span></code>
+<p>行列積は以下のように <code class="docutils literal notranslate"><span class="pre">np.dot</span></code>
 によって実現できます．行列積を行う際には，一番目の行列の列数と，二番目の行列の行数が同じであることに注意して下さい．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>XX = np.dot(X.T, X)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(XX)
 </pre></div>
 </div>
@@ -1045,23 +1045,23 @@ w_{M}
  [ 21  73 131]]
 </pre></div></div>
 </div>
-<p>この逆行列を求めるには，<code class="docutils literal"><span class="pre">np.linalg.inv</span></code> を用います．</p>
+<p>この逆行列を求めるには，<code class="docutils literal notranslate"><span class="pre">np.linalg.inv</span></code> を用います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>XX_inv = np.linalg.inv(XX)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(XX_inv)
 </pre></div>
 </div>
@@ -1078,21 +1078,21 @@ w_{M}
 </div>
 <p>これで重回帰分析のために必要な演算が揃いました．最適なパラメータを求めると，</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>Xt = np.dot(X.T, t)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(Xt)
 </pre></div>
 </div>
@@ -1108,21 +1108,21 @@ w_{M}
 </pre></div></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>w = np.dot(XX_inv, Xt)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(w)
 </pre></div>
 </div>
@@ -1137,7 +1137,7 @@ w_{M}
  [ 0.57142857]]
 </pre></div></div>
 </div>
-<p>このようにパラメータ <span class="math">\(\boldsymbol{w}\)</span>
+<p>このようにパラメータ <span class="math notranslate nohighlight">\(\boldsymbol{w}\)</span>
 が求まりました．Numpyを使うことで，数式をそのままプログラミング上で書くことができます．</p>
 </div>
 <div class="section" id="Scikit-learnによる本格的な実装">
@@ -1146,24 +1146,24 @@ w_{M}
 <p>まずは重回帰分析をScikit-learnによって実装してみましょう．</p>
 <div class="section" id="Scikit-learn-基礎編">
 <h3>2.4.1. Scikit-learn 基礎編<a class="headerlink" href="#Scikit-learn-基礎編" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Scikit-learnは<code class="docutils literal"><span class="pre">sklearn</span></code>という名前で呼び出すことができます．</p>
+<p>Scikit-learnは<code class="docutils literal notranslate"><span class="pre">sklearn</span></code>という名前で呼び出すことができます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import sklearn
 </pre></div>
 </div>
 </div>
 <p>たとえば，重回帰分析を使用する場合は以下のように呼び出します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.linear_model import LinearRegression
 </pre></div>
 </div>
@@ -1172,22 +1172,22 @@ w_{M}
 Scikit-learn」と検索して，実例のソースコードを見るほうが早い場合も多くあります．</p>
 <p>重回帰分析のアルゴリズムはクラスとして定義されているので，インスタンス化を行います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>model = LinearRegression()
 </pre></div>
 </div>
 </div>
 <p>これだけで，重回帰分析を使用するための準備が完了です．パラメータの学習は以下のように行います．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>model.fit(X, t)
 </pre></div>
 </div>
@@ -1195,18 +1195,18 @@ Scikit-learn」と検索して，実例のソースコードを見るほうが�
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
 </pre></div>
 </div>
 </div>
 <p>結果の検証は，次のように行います．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>model.score(X, t)
 </pre></div>
 </div>
@@ -1214,20 +1214,20 @@ Scikit-learn」と検索して，実例のソースコードを見るほうが�
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.6923076923076926
 </pre></div>
 </div>
 </div>
 <p>分類の場合は<strong>精度</strong>，回帰の場合は<strong>決定係数</strong>とよばれる指標が自動的に計算されるようになっています．
-このように，Scikit-learnでは，簡単なインターフェースでやり取りができるようになっています．Scikit-learnの良い点は，最初にアルゴリズムを決めてしまえば，どのアルゴリズムでも，<code class="docutils literal"><span class="pre">.fit</span></code>で学習，<code class="docutils literal"><span class="pre">.score</span></code>で検証が行える点です．</p>
+このように，Scikit-learnでは，簡単なインターフェースでやり取りができるようになっています．Scikit-learnの良い点は，最初にアルゴリズムを決めてしまえば，どのアルゴリズムでも，<code class="docutils literal notranslate"><span class="pre">.fit</span></code>で学習，<code class="docutils literal notranslate"><span class="pre">.score</span></code>で検証が行える点です．</p>
 <p>また，アルゴリズムによって内容は多少異なりますが，パラメータもインスタンス変数として格納されているため，学習後に確認することができます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># パラメータw
 model.coef_
 </pre></div>
@@ -1236,17 +1236,17 @@ model.coef_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>array([[0.        , 0.71428571, 0.57142857]])
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># バイアスb
 model.intercept_
 </pre></div>
@@ -1255,57 +1255,57 @@ model.intercept_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>array([-0.14285714])
 </pre></div>
 </div>
 </div>
 <p>この例からわかるように，Scikit-learnでは，パラメータとバイアスがそれぞれ準備されているため，入力変数
-<span class="math">\(\boldsymbol{X}\)</span>
+<span class="math notranslate nohighlight">\(\boldsymbol{X}\)</span>
 の左端の列に1を格納した変数を入れる必要がありません．</p>
 </div>
 <div class="section" id="Scikit-learn-応用編">
 <h3>2.4.2. Scikit-learn 応用編<a class="headerlink" href="#Scikit-learn-応用編" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Scikit-learnは機械学習の実装を支援する多くの機能を兼ね備えています．</p>
-<p>まず最初にサンプルのデータセットの取り扱いを紹介します．Scikit-learnにサンプルのデータセットがいくつか提供されています．今回はその中から，<code class="docutils literal"><span class="pre">load_boston</span></code>というボストン近郊の家賃に関するデータセットを使用しましょう．</p>
+<p>まず最初にサンプルのデータセットの取り扱いを紹介します．Scikit-learnにサンプルのデータセットがいくつか提供されています．今回はその中から，<code class="docutils literal notranslate"><span class="pre">load_boston</span></code>というボストン近郊の家賃に関するデータセットを使用しましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.datasets import load_boston
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>boston = load_boston()
 </pre></div>
 </div>
 </div>
-<p>変数の<code class="docutils literal"><span class="pre">boston</span></code>には辞書と同じ形式で格納されており，変数の中身を見ながら入力変数と教師データに対応するものを見つけていきます．</p>
+<p>変数の<code class="docutils literal notranslate"><span class="pre">boston</span></code>には辞書と同じ形式で格納されており，変数の中身を見ながら入力変数と教師データに対応するものを見つけていきます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X = boston[&#39;data&#39;]
 t = boston[&#39;target&#39;]
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(X)
 </pre></div>
 </div>
@@ -1325,11 +1325,11 @@ t = boston[&#39;target&#39;]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(t)
 </pre></div>
 </div>
@@ -1378,13 +1378,13 @@ t = boston[&#39;target&#39;]
  22.  11.9]
 </pre></div></div>
 </div>
-<p>Numpyの形式で入力変数と教師データが格納されており，<code class="docutils literal"><span class="pre">.shape</span></code>を使うことで行と列の数を確認できます．</p>
+<p>Numpyの形式で入力変数と教師データが格納されており，<code class="docutils literal notranslate"><span class="pre">.shape</span></code>を使うことで行と列の数を確認できます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X.shape
 </pre></div>
 </div>
@@ -1392,17 +1392,17 @@ t = boston[&#39;target&#39;]
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(506, 13)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>t.shape
 </pre></div>
 </div>
@@ -1410,7 +1410,7 @@ t = boston[&#39;target&#39;]
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(506,)
 </pre></div>
 </div>
@@ -1418,31 +1418,31 @@ t = boston[&#39;target&#39;]
 <p>つぎに，<strong>訓練データ</strong>と<strong>検証データ</strong>の分割です．学習の時と同じデータを使って性能を検証した場合，モデルが学習データだけをうまくモデル化し，同じような分布からとられた未知のデータはうまくいかない場合があります．これを<strong>過学習</strong>とよびます．機械学習ではこれを防ぐために学習データと別に性能を評価する検証データを分けて評価します．このように分割して検証することを<strong>ホールドアウト法</strong>とよびます．</p>
 <p>Scikit-learnでは訓練用と検証用を分割する機能が用意されています．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.model_selection import train_test_split
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X_train, X_test, t_train, t_test = train_test_split(X, t, test_size=0.3, random_state=0)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X_train.shape
 </pre></div>
 </div>
@@ -1450,17 +1450,17 @@ t = boston[&#39;target&#39;]
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(354, 13)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X_test.shape
 </pre></div>
 </div>
@@ -1468,29 +1468,29 @@ t = boston[&#39;target&#39;]
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(152, 13)
 </pre></div>
 </div>
 </div>
-<p>引数の<code class="docutils literal"><span class="pre">test_size</span></code>は検証用に使うデータの比率であり，0.3と指定すると全体の30%が検証データとなります．また，<code class="docutils literal"><span class="pre">random_state</span></code>は乱数のシードであり，再現性を確保するためのものです．なぜ乱数が登場するかというと，前から70%を訓練用，残りを検証用とするのではなく，全体からランダムに選択した70%を訓練用，残り30%を検証用と選択しているためです．</p>
+<p>引数の<code class="docutils literal notranslate"><span class="pre">test_size</span></code>は検証用に使うデータの比率であり，0.3と指定すると全体の30%が検証データとなります．また，<code class="docutils literal notranslate"><span class="pre">random_state</span></code>は乱数のシードであり，再現性を確保するためのものです．なぜ乱数が登場するかというと，前から70%を訓練用，残りを検証用とするのではなく，全体からランダムに選択した70%を訓練用，残り30%を検証用と選択しているためです．</p>
 <p>訓練データを用いて学習します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>model = LinearRegression()
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>model.fit(X_train, t_train)
 </pre></div>
 </div>
@@ -1498,18 +1498,18 @@ t = boston[&#39;target&#39;]
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
 </pre></div>
 </div>
 </div>
 <p>検証を行う場合は，訓練データと検証データの両方に対してチェックしておくと良いでしょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 訓練データ
 model.score(X_train, t_train)
 </pre></div>
@@ -1518,17 +1518,17 @@ model.score(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.7644563391821222
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証データ
 model.score(X_test, t_test)
 </pre></div>
@@ -1537,7 +1537,7 @@ model.score(X_test, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.673528086534723
 </pre></div>
 </div>
@@ -1573,32 +1573,32 @@ model.score(X_test, t_test)
 <p><strong>アンダーフィッティング</strong>の場合，現状の機械学習アルゴリズムでうまくデータの特徴を捉えられていないと考えられ，アルゴリズムを変更したり，入力データの特徴をより適切に表現できるような変換を考えます．逆に<strong>オーバーフィッティング</strong>の場合，アルゴリズムでデータの特徴をある程度捉えられていることは確認できているので，モデルが過学習しないように対策していきます．代表的な方法として，<strong>ハイパーパラメータ</strong>と呼ばれる各アルゴリズムのパラメータ学習に使われるパラメータ値を調整していくことで解決できる場合があります．このように，望ましい結果が得られない中にも，それぞれの状況を把握することで次に打つべき対策が変わってくるため，訓練データと検証データの両方に対する検証を行うことは重要であることが分かります．</p>
 <p>また，Scikit-learnでは，スケーリングも行うことができます．例えば，平均0，標準偏差1に変換するデータ正規化を行う場合の手順は以下の通りです．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.preprocessing import StandardScaler
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># インスタンス化
 scaler = StandardScaler()
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 平均の分散（標準偏差）を学習
 scaler.fit(X_train)
 </pre></div>
@@ -1607,17 +1607,17 @@ scaler.fit(X_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>StandardScaler(copy=True, with_mean=True, with_std=True)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 変換
 X_train_s = scaler.transform(X_train)
 X_test_s  = scaler.transform(X_test)
@@ -1625,11 +1625,11 @@ X_test_s  = scaler.transform(X_test)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(X_train_s)
 </pre></div>
 </div>
@@ -1655,11 +1655,11 @@ X_test_s  = scaler.transform(X_test)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(X_test_s)
 </pre></div>
 </div>
@@ -1692,7 +1692,7 @@ X_test_s  = scaler.transform(X_test)
 <p>Scikit-learnを使うことによって実装は非常に手軽に行うことができますが，数式を理解していないがゆえに，うまくいかないときの対処法がわからないという問題も出てきます．ここでは，この問題につまずかないように，ハイパーパラメータのチューニングも併せて紹介していきます．</p>
 <div class="section" id="Support-Vector-Machine-(SVM)">
 <h3>2.5.1. Support Vector Machine (SVM)<a class="headerlink" href="#Support-Vector-Machine-(SVM)" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>SVMは実用的によく使われる手法の一つであり，入出力間の非線形性を捉えることができます．ただし，非線形なモデルの場合，<span class="math">\(y = wx^2\)</span>や，<span class="math">\(y = w\sin(x)\)</span>やその重ね合わせといったように，組み合わせの候補が無限に存在するため，モデルの設計が難しくなります．事前にある程度，入出力間の関係性が把握できていれば定式化のアイディアも存在しますが，そのような事前知識があるような状況は，そう多くはありません．</p>
+<p>SVMは実用的によく使われる手法の一つであり，入出力間の非線形性を捉えることができます．ただし，非線形なモデルの場合，<span class="math notranslate nohighlight">\(y = wx^2\)</span>や，<span class="math notranslate nohighlight">\(y = w\sin(x)\)</span>やその重ね合わせといったように，組み合わせの候補が無限に存在するため，モデルの設計が難しくなります．事前にある程度，入出力間の関係性が把握できていれば定式化のアイディアも存在しますが，そのような事前知識があるような状況は，そう多くはありません．</p>
 <p>そこで，SVMでは<strong>カーネルトリック</strong>と呼ばれるテクニックを利用して，データ間の類似度（カーネル）から入出力間の非線形性の定式化を行います．</p>
 <p>SVMには連続値を予測する<strong>回帰 (Regression)</strong>
 とカテゴリを予測する<strong>分類 (Classification)</strong>
@@ -1702,11 +1702,11 @@ Regression (SVR)</strong> と <strong>Support Vector Classification (SVC)</stron
 <div class="section" id="Support-Vector-Regression-(SVR)">
 <h4>2.5.1.1. Support Vector Regression (SVR)<a class="headerlink" href="#Support-Vector-Regression-(SVR)" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># データの準備
 from sklearn.datasets import load_boston
 
@@ -1717,11 +1717,11 @@ t = boston[&#39;target&#39;]
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 訓練と検証データの分割
 from sklearn.model_selection import train_test_split
 
@@ -1730,11 +1730,11 @@ X_train, X_test, t_train, t_test = train_test_split(X, t, test_size=0.3, random_
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># モデルのインスタンス化，学習
 from sklearn.svm import SVR
 
@@ -1746,18 +1746,18 @@ model.fit(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=&#39;auto&#39;,
   kernel=&#39;rbf&#39;, max_iter=-1, shrinking=True, tol=0.001, verbose=False)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train, t_train)
 </pre></div>
@@ -1766,17 +1766,17 @@ model.score(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.14680479454958428
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test, t_test)
 </pre></div>
@@ -1785,7 +1785,7 @@ model.score(X_test, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.01018093344367077
 </pre></div>
 </div>
@@ -1793,11 +1793,11 @@ model.score(X_test, t_test)
 <p>このようにSVRも，Scikit-learnを用いることで重回帰分析のケースとほとんど同じように実装できます．</p>
 <p>しかし結果をみると，重回帰分析に比べて良くなっているとは言えません．ハイパーパラメータ調整が必要そうですが，その前に，スケーリングを行うことで改善できる場合もあります．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
@@ -1809,11 +1809,11 @@ X_test_s = scaler.transform(X_test)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># スケーリング後のデータを使って学習
 model.fit(X_train_s, t_train)
 </pre></div>
@@ -1822,18 +1822,18 @@ model.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=&#39;auto&#39;,
   kernel=&#39;rbf&#39;, max_iter=-1, shrinking=True, tol=0.001, verbose=False)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train_s, t_train)
 </pre></div>
@@ -1842,17 +1842,17 @@ model.score(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.697669153907031
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -1861,7 +1861,7 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.5540391127752358
 </pre></div>
 </div>
@@ -1872,25 +1872,25 @@ model.score(X_test_s, t_test)
 <p><img alt="image0" src="https://github.com/hillbig/medical-ai-course-materials/blob/master/notebooks/images/2/09.png?raw=1" /></p>
 <p>また，<strong>交差検証法（クロスバリデーション）</strong>という手法もあります．これは下図に示すように，データに対して複数パターンの分割を行い，それらの性能の平均を評価する手法です．</p>
 <p><img alt="image1" src="https://github.com/hillbig/medical-ai-course-materials/blob/master/notebooks/images/2/10.png?raw=1" /></p>
-<p>この分割数 <span class="math">\(K\)</span> としたものは特に，<strong>K-fold Cross Validation
-(CV)</strong>と呼ばれます．上記の例だと <span class="math">\(K=3\)</span> です．</p>
-<p>それでは，SVRのハイパーパラメータ調整を交差検証法も使いながら行っていきます．Scikit-learnではハイパーパラメータ調整のための機能も<code class="docutils literal"><span class="pre">GridSearchCV</span></code>という名前で用意されています．<strong>グリッドサーチ</strong>とは各組合せをすべて試す探索方法です．それ以外にも，<strong>ランダムサーチ</strong>や<strong>ベイズ最適化</strong>による探索などの方法もあります．</p>
+<p>この分割数 <span class="math notranslate nohighlight">\(K\)</span> としたものは特に，<strong>K-fold Cross Validation
+(CV)</strong>と呼ばれます．上記の例だと <span class="math notranslate nohighlight">\(K=3\)</span> です．</p>
+<p>それでは，SVRのハイパーパラメータ調整を交差検証法も使いながら行っていきます．Scikit-learnではハイパーパラメータ調整のための機能も<code class="docutils literal notranslate"><span class="pre">GridSearchCV</span></code>という名前で用意されています．<strong>グリッドサーチ</strong>とは各組合せをすべて試す探索方法です．それ以外にも，<strong>ランダムサーチ</strong>や<strong>ベイズ最適化</strong>による探索などの方法もあります．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.model_selection import GridSearchCV
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 調整を行うハイパーパラメータの値の候補
 param_grid = [
     {&#39;C&#39;: [1, 10, 100], &#39;gamma&#39;: [0.01, 0.1, 1, 10]}
@@ -1899,11 +1899,11 @@ param_grid = [
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 交差検証法を使用したハイパーパラメータの各組合せでの学習
 model_cv = GridSearchCV(SVR(), param_grid, cv=3, scoring=&#39;neg_mean_squared_error&#39;)
 model_cv.fit(X_train_s, t_train)
@@ -1913,7 +1913,7 @@ model_cv.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
        estimator=SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma=&#39;auto&#39;,
   kernel=&#39;rbf&#39;, max_iter=-1, shrinking=True, tol=0.001, verbose=False),
@@ -1926,11 +1926,11 @@ model_cv.fit(X_train_s, t_train)
 </div>
 <p>交差検証法とハイパーパラメータのグリッドサーチはこれで完了です．各ハイパーパラメータでの結果も確認することができ，最も結果の良かったハイパーパラメータの値を引き継いだモデルの選択もできます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 結果の確認 (valの対する結果)
 model_cv.grid_scores_
 </pre></div>
@@ -1948,7 +1948,7 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[mean: -40.88957, std: 12.03388, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 0.01},
  mean: -34.94548, std: 12.18057, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 0.1},
  mean: -72.62060, std: 15.99632, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 1},
@@ -1965,11 +1965,11 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータ
 model_cv.best_params_
 </pre></div>
@@ -1978,28 +1978,28 @@ model_cv.best_params_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>{&#39;C&#39;: 10, &#39;gamma&#39;: 0.01}
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータの値を設定したモデル
 model = model_cv.best_estimator_
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -2008,7 +2008,7 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.7685336670918761
 </pre></div>
 </div>
@@ -2024,11 +2024,11 @@ model.score(X_test_s, t_test)
 <h4>2.5.1.2. Support Vector Classification (SVC)<a class="headerlink" href="#Support-Vector-Classification-(SVC)" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>次に，SVMの分類であるSVCも同様にスケーリングからハイパーパラメータの調整まで行ってみます．ここでは分類の例題として，Scikit-learnで用意されているデータセットの中から，乳がんの患者か否かを予測する問題を扱います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># データセットの準備
 from sklearn.datasets import load_breast_cancer
 
@@ -2039,11 +2039,11 @@ t = breast_cancer[&#39;target&#39;]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X.shape
 </pre></div>
 </div>
@@ -2051,17 +2051,17 @@ t = breast_cancer[&#39;target&#39;]
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(569, 30)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(X)
 </pre></div>
 </div>
@@ -2081,11 +2081,11 @@ t = breast_cancer[&#39;target&#39;]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(t)
 </pre></div>
 </div>
@@ -2115,11 +2115,11 @@ t = breast_cancer[&#39;target&#39;]
 </div>
 <p>入力変数のスケールは統一されていないことがわかります．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 訓練データと検証データに分割
 from sklearn.model_selection import train_test_split
 
@@ -2128,11 +2128,11 @@ X_train, X_test, t_train, t_test = train_test_split(X, t, test_size=0.3, random_
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># スケーリング無で学習
 from sklearn.svm import SVC
 
@@ -2144,7 +2144,7 @@ model.fit(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
   decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;auto&#39;, kernel=&#39;rbf&#39;,
   max_iter=-1, probability=False, random_state=None, shrinking=True,
@@ -2153,11 +2153,11 @@ model.fit(X_train, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train, t_train)
 </pre></div>
@@ -2166,17 +2166,17 @@ model.score(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>1.0
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_test, t_test)
 </pre></div>
@@ -2185,7 +2185,7 @@ model.score(X_test, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.631578947368421
 </pre></div>
 </div>
@@ -2194,11 +2194,11 @@ model.score(X_test, t_test)
 と呼ばれる指標の結果が得られます．例えば，100問中3問間違えると，精度は0.97となります．</p>
 <p>次にスケーリングを行った後に学習させていきましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># スケーリング
 from sklearn.preprocessing import StandardScaler
 
@@ -2211,11 +2211,11 @@ X_test_s  = scaler.transform(X_test)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># スケーリングしたデータを用いて学習
 model.fit(X_train_s, t_train)
 </pre></div>
@@ -2224,7 +2224,7 @@ model.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
   decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;auto&#39;, kernel=&#39;rbf&#39;,
   max_iter=-1, probability=False, random_state=None, shrinking=True,
@@ -2233,11 +2233,11 @@ model.fit(X_train_s, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train_s, t_train)
 </pre></div>
@@ -2246,17 +2246,17 @@ model.score(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9824120603015075
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -2265,7 +2265,7 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9766081871345029
 </pre></div>
 </div>
@@ -2273,21 +2273,21 @@ model.score(X_test_s, t_test)
 <p>このように精度が大幅に向上したことがわかります．</p>
 <p>最後にハイパーパラメータのチューニングも行っていきましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.model_selection import GridSearchCV
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 調整を行うハイパーパラメータの値の候補
 param_grid = [
     {&#39;C&#39;: [1, 10, 100], &#39;gamma&#39;: [0.01, 0.1, 1, 10]}
@@ -2296,11 +2296,11 @@ param_grid = [
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 交差検証法を使用したハイパーパラメータの各組合せでの学習
 model_cv = GridSearchCV(SVC(), param_grid, cv=3)
 model_cv.fit(X_train_s, t_train)
@@ -2310,7 +2310,7 @@ model_cv.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
        estimator=SVC(C=1.0, cache_size=200, class_weight=None, coef0=0.0,
   decision_function_shape=&#39;ovr&#39;, degree=3, gamma=&#39;auto&#39;, kernel=&#39;rbf&#39;,
@@ -2324,11 +2324,11 @@ model_cv.fit(X_train_s, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 結果の確認 (valの対する結果)
 model_cv.grid_scores_
 </pre></div>
@@ -2346,7 +2346,7 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[mean: 0.96482, std: 0.01272, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 0.01},
  mean: 0.95226, std: 0.01543, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 0.1},
  mean: 0.62814, std: 0.00310, params: {&#39;C&#39;: 1, &#39;gamma&#39;: 1},
@@ -2363,11 +2363,11 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータ
 model_cv.best_params_
 </pre></div>
@@ -2376,28 +2376,28 @@ model_cv.best_params_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>{&#39;C&#39;: 10, &#39;gamma&#39;: 0.01}
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータの値を設定したモデル
 model = model_cv.best_estimator_
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -2406,7 +2406,7 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9883040935672515
 </pre></div>
 </div>
@@ -2423,11 +2423,11 @@ or
 <div class="section" id="回帰-(Regression)">
 <h4>2.5.2.1. 回帰 (Regression)<a class="headerlink" href="#回帰-(Regression)" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># データの準備
 from sklearn.datasets import load_boston
 
@@ -2438,11 +2438,11 @@ t = boston[&#39;target&#39;]
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 訓練と検証データの分割
 from sklearn.model_selection import train_test_split
 
@@ -2451,11 +2451,11 @@ X_train, X_test, t_train, t_test = train_test_split(X, t, test_size=0.3, random_
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># モデルのインスタンス化，学習
 from sklearn.ensemble import RandomForestRegressor
 
@@ -2467,7 +2467,7 @@ model.fit(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=None,
            max_features=&#39;auto&#39;, max_leaf_nodes=None,
            min_impurity_decrease=0.0, min_impurity_split=None,
@@ -2478,11 +2478,11 @@ model.fit(X_train, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train, t_train)
 </pre></div>
@@ -2491,17 +2491,17 @@ model.score(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9683509759630142
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test, t_test)
 </pre></div>
@@ -2510,17 +2510,17 @@ model.score(X_test, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.8244110898822086
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
@@ -2532,11 +2532,11 @@ X_test_s = scaler.transform(X_test)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># スケーリング後のデータを使って学習
 model.fit(X_train_s, t_train)
 </pre></div>
@@ -2545,7 +2545,7 @@ model.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=None,
            max_features=&#39;auto&#39;, max_leaf_nodes=None,
            min_impurity_decrease=0.0, min_impurity_split=None,
@@ -2556,11 +2556,11 @@ model.fit(X_train_s, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train_s, t_train)
 </pre></div>
@@ -2569,17 +2569,17 @@ model.score(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.980773304078463
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -2588,30 +2588,30 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.7568763837538154
 </pre></div>
 </div>
 </div>
 <p>このように，スケーリングによる影響はほとんど受けないことを，実際に確認できました．</p>
-<p>またランダムフォレストでは，条件分岐させる数である <code class="docutils literal"><span class="pre">max_depth</span></code>
+<p>またランダムフォレストでは，条件分岐させる数である <code class="docutils literal notranslate"><span class="pre">max_depth</span></code>
 をハイパーパラメータとして調整することが多いため，今回はこちらを調整していきましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.model_selection import GridSearchCV
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 調整を行うハイパーパラメータの値の候補
 param_grid = [
     {&#39;max_depth&#39;: [1, 2, 3, 4, 5, 6]}
@@ -2620,11 +2620,11 @@ param_grid = [
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 交差検証法を使用したハイパーパラメータの各組み合わせでの学習
 model_cv = GridSearchCV(RandomForestRegressor(), param_grid, cv=3, scoring=&#39;neg_mean_squared_error&#39;)
 model_cv.fit(X_train_s, t_train)
@@ -2634,7 +2634,7 @@ model_cv.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
        estimator=RandomForestRegressor(bootstrap=True, criterion=&#39;mse&#39;, max_depth=None,
            max_features=&#39;auto&#39;, max_leaf_nodes=None,
@@ -2650,11 +2650,11 @@ model_cv.fit(X_train_s, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 結果の確認 (valの対する結果)
 model_cv.grid_scores_
 </pre></div>
@@ -2672,7 +2672,7 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[mean: -41.89307, std: 9.40057, params: {&#39;max_depth&#39;: 1},
  mean: -25.95305, std: 8.05238, params: {&#39;max_depth&#39;: 2},
  mean: -23.11041, std: 4.68079, params: {&#39;max_depth&#39;: 3},
@@ -2683,11 +2683,11 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータ
 model_cv.best_params_
 </pre></div>
@@ -2696,28 +2696,28 @@ model_cv.best_params_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>{&#39;max_depth&#39;: 6}
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータの値を設定したモデル
 model = model_cv.best_estimator_
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -2726,7 +2726,7 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.8065343207878718
 </pre></div>
 </div>
@@ -2734,11 +2734,11 @@ model.score(X_test_s, t_test)
 <p>今回はもともとオーバーフィッティングしていなかったため，ハイパーパラメータの調整によって改善することはありませんでしたが，オーバーフィッティングしている場合には有効な施策となります．</p>
 <p>またランダムフォレストの大きなメリットとして，各入力変数がどの程度重要であるかを定量評価した値が得られます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 各入力変数の重要度
 model.feature_importances_
 </pre></div>
@@ -2747,7 +2747,7 @@ model.feature_importances_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>array([0.03498355, 0.00122218, 0.00721576, 0.00092089, 0.00898805,
        0.39898526, 0.01894469, 0.04598164, 0.00571163, 0.01607173,
        0.01889314, 0.00701622, 0.43506524])
@@ -2759,11 +2759,11 @@ model.feature_importances_
 <div class="section" id="分類-(Classification)">
 <h4>2.5.2.2. 分類 (Classification)<a class="headerlink" href="#分類-(Classification)" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># データの準備
 from sklearn.datasets import load_boston
 
@@ -2774,11 +2774,11 @@ t = breast_cancer[&#39;target&#39;]
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 訓練と検証データの分割
 from sklearn.model_selection import train_test_split
 
@@ -2787,11 +2787,11 @@ X_train, X_test, t_train, t_test = train_test_split(X, t, test_size=0.3, random_
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># モデルのインスタンス化，学習
 from sklearn.ensemble import RandomForestClassifier
 
@@ -2803,7 +2803,7 @@ model.fit(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>RandomForestClassifier(bootstrap=True, class_weight=None, criterion=&#39;gini&#39;,
             max_depth=None, max_features=&#39;auto&#39;, max_leaf_nodes=None,
             min_impurity_decrease=0.0, min_impurity_split=None,
@@ -2815,11 +2815,11 @@ model.fit(X_train, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train, t_train)
 </pre></div>
@@ -2828,17 +2828,17 @@ model.score(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9949748743718593
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test, t_test)
 </pre></div>
@@ -2847,17 +2847,17 @@ model.score(X_test, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9415204678362573
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
@@ -2869,11 +2869,11 @@ X_test_s = scaler.transform(X_test)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># スケーリング後のデータを使って学習
 model.fit(X_train_s, t_train)
 </pre></div>
@@ -2882,7 +2882,7 @@ model.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>RandomForestClassifier(bootstrap=True, class_weight=None, criterion=&#39;gini&#39;,
             max_depth=None, max_features=&#39;auto&#39;, max_leaf_nodes=None,
             min_impurity_decrease=0.0, min_impurity_split=None,
@@ -2894,11 +2894,11 @@ model.fit(X_train_s, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train_s, t_train)
 </pre></div>
@@ -2907,17 +2907,17 @@ model.score(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>1.0
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -2926,27 +2926,27 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9473684210526315
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.model_selection import GridSearchCV
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 調整を行うハイパーパラメータの値の候補
 param_grid = [
     {&#39;max_depth&#39;: [1, 2, 3, 4, 5, 6]}
@@ -2955,11 +2955,11 @@ param_grid = [
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 交差検証法を使用したハイパーパラメータの各組合せでの学習
 model_cv = GridSearchCV(RandomForestClassifier(), param_grid, cv=3)
 model_cv.fit(X_train_s, t_train)
@@ -2969,7 +2969,7 @@ model_cv.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
        estimator=RandomForestClassifier(bootstrap=True, class_weight=None, criterion=&#39;gini&#39;,
             max_depth=None, max_features=&#39;auto&#39;, max_leaf_nodes=None,
@@ -2986,11 +2986,11 @@ model_cv.fit(X_train_s, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 結果の確認 (valの対する結果)
 model_cv.grid_scores_
 </pre></div>
@@ -3008,7 +3008,7 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[mean: 0.91206, std: 0.01259, params: {&#39;max_depth&#39;: 1},
  mean: 0.93467, std: 0.01763, params: {&#39;max_depth&#39;: 2},
  mean: 0.93467, std: 0.01265, params: {&#39;max_depth&#39;: 3},
@@ -3019,11 +3019,11 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータ
 model_cv.best_params_
 </pre></div>
@@ -3032,28 +3032,28 @@ model_cv.best_params_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>{&#39;max_depth&#39;: 4}
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータの値を設定したモデル
 model = model_cv.best_estimator_
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -3062,17 +3062,17 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9590643274853801
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 各入力変数の重要度
 model.feature_importances_
 </pre></div>
@@ -3081,7 +3081,7 @@ model.feature_importances_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>array([4.55728165e-03, 4.80674523e-03, 7.04751333e-02, 6.67175039e-02,
        0.00000000e+00, 6.38391868e-03, 1.44783793e-01, 2.56851226e-02,
        1.01592678e-03, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
@@ -3099,11 +3099,11 @@ model.feature_importances_
 <h3>2.5.3. ロジスティック回帰<a class="headerlink" href="#ロジスティック回帰" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>シンプルですが，良く利用される手法のひとつです．回帰という名前がついていますが，問題設定としては分類に属する点に注意しましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># データの準備
 from sklearn.datasets import load_boston
 
@@ -3114,11 +3114,11 @@ t = breast_cancer[&#39;target&#39;]
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 訓練と検証データの分割
 from sklearn.model_selection import train_test_split
 
@@ -3127,11 +3127,11 @@ X_train, X_test, t_train, t_test = train_test_split(X, t, test_size=0.3, random_
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># モデルのインスタンス化，学習
 from sklearn.linear_model import LogisticRegression
 
@@ -3143,7 +3143,7 @@ model.fit(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class=&#39;ovr&#39;, n_jobs=1,
           penalty=&#39;l2&#39;, random_state=None, solver=&#39;liblinear&#39;, tol=0.0001,
@@ -3152,11 +3152,11 @@ model.fit(X_train, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train, t_train)
 </pre></div>
@@ -3165,17 +3165,17 @@ model.score(X_train, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.957286432160804
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test, t_test)
 </pre></div>
@@ -3184,17 +3184,17 @@ model.score(X_test, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9649122807017544
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.preprocessing import StandardScaler
 
 scaler = StandardScaler()
@@ -3206,11 +3206,11 @@ X_test_s = scaler.transform(X_test)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># スケーリング後のデータを使って学習
 model.fit(X_train_s, t_train)
 </pre></div>
@@ -3219,7 +3219,7 @@ model.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class=&#39;ovr&#39;, n_jobs=1,
           penalty=&#39;l2&#39;, random_state=None, solver=&#39;liblinear&#39;, tol=0.0001,
@@ -3228,11 +3228,11 @@ model.fit(X_train_s, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（訓練データ）
 model.score(X_train_s, t_train)
 </pre></div>
@@ -3241,17 +3241,17 @@ model.score(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9899497487437185
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -3260,27 +3260,27 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9766081871345029
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.model_selection import GridSearchCV
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 調整を行うハイパーパラメータの値の候補
 param_grid = [
     {&#39;C&#39;: [0.01, 0.1, 1, 10]}
@@ -3289,11 +3289,11 @@ param_grid = [
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 交差検証法を使用したハイパーパラメータの各組合せでの学習
 model_cv = GridSearchCV(LogisticRegression(), param_grid, cv=3)
 model_cv.fit(X_train_s, t_train)
@@ -3303,7 +3303,7 @@ model_cv.fit(X_train_s, t_train)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>GridSearchCV(cv=3, error_score=&#39;raise&#39;,
        estimator=LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=100, multi_class=&#39;ovr&#39;, n_jobs=1,
@@ -3316,11 +3316,11 @@ model_cv.fit(X_train_s, t_train)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 結果の確認 (valの対する結果)
 model_cv.grid_scores_
 </pre></div>
@@ -3338,7 +3338,7 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>[mean: 0.96985, std: 0.01223, params: {&#39;C&#39;: 0.01},
  mean: 0.97990, std: 0.00935, params: {&#39;C&#39;: 0.1},
  mean: 0.98492, std: 0.01624, params: {&#39;C&#39;: 1},
@@ -3347,11 +3347,11 @@ C:\Users\ryosu\Anaconda3\lib\site-packages\sklearn\model_selection\_search.py:76
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータ
 model_cv.best_params_
 </pre></div>
@@ -3360,28 +3360,28 @@ model_cv.best_params_
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>{&#39;C&#39;: 1}
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 最も結果が良かったハイパーパラメータの値を設定したモデル
 model = model_cv.best_estimator_
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 検証（検証データ）
 model.score(X_test_s, t_test)
 </pre></div>
@@ -3390,18 +3390,18 @@ model.score(X_test_s, t_test)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>0.9766081871345029
 </pre></div>
 </div>
 </div>
-<p>新しいサンプルに対する推論を行ってみましょう．Scikit-learnでは，推論には<code class="docutils literal"><span class="pre">predict</span></code>を使用します．</p>
+<p>新しいサンプルに対する推論を行ってみましょう．Scikit-learnでは，推論には<code class="docutils literal notranslate"><span class="pre">predict</span></code>を使用します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 訓練データの一番最初のサンプルで試しに推論
 x_pred = [X_train_s[0]]
 y = model.predict(x_pred)
@@ -3409,11 +3409,11 @@ y = model.predict(x_pred)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(y)
 </pre></div>
 </div>
@@ -3426,24 +3426,24 @@ y = model.predict(x_pred)
 [1]
 </pre></div></div>
 </div>
-<p>また，各カテゴリに属する確率まで求める際には， <code class="docutils literal"><span class="pre">predict_proba</span></code>
+<p>また，各カテゴリに属する確率まで求める際には， <code class="docutils literal notranslate"><span class="pre">predict_proba</span></code>
 を使用します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>y = model.predict_proba(x_pred)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(y)
 </pre></div>
 </div>
@@ -3463,43 +3463,43 @@ y = model.predict(x_pred)
 <p>最後に，教師なし学習である<strong>クラスタリング</strong>手法として有名なk-meansを紹介します．分類では教師データとしてどのカテゴリに属しているかがわかっていましたが，クラスタリングではその教師データがない状況で学習を行います．距離的に近いものをまとめるといった特性を持っています．</p>
 <p>例題では2つのクラスターからなるデータをあらかじめ用意しておき，正しく分けられるかを確認していきましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>np.random.seed(0)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X1 = np.random.randn(50, 2) - 3
 X2 = np.random.randn(50, 2) + 3
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 結合
 X = np.r_[X1, X2]
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X.shape
 </pre></div>
 </div>
@@ -3507,28 +3507,28 @@ X = np.r_[X1, X2]
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>(100, 2)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>%matplotlib inline
 import matplotlib.pyplot as plt
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>plt.scatter(X[:, 0], X[:, 1])
 </pre></div>
 </div>
@@ -3536,7 +3536,7 @@ import matplotlib.pyplot as plt
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.collections.PathCollection at 0x28640957438&gt;
 </pre></div>
 </div>
@@ -3548,23 +3548,23 @@ import matplotlib.pyplot as plt
 <img alt="../_images/notebooks_Introduction_to_ML_libs_184_1.png" src="../_images/notebooks_Introduction_to_ML_libs_184_1.png" />
 </div>
 </div>
-<p>それでは，k-meansを用いてクラスタリングを行いましょう．クラスタリングでは分けるクラスターの数がハイパーパラメータとして必要であることが一般的であり，<code class="docutils literal"><span class="pre">n_clusters</span></code>で指定します．</p>
+<p>それでは，k-meansを用いてクラスタリングを行いましょう．クラスタリングでは分けるクラスターの数がハイパーパラメータとして必要であることが一般的であり，<code class="docutils literal notranslate"><span class="pre">n_clusters</span></code>で指定します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from sklearn.cluster import KMeans
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>model = KMeans(n_clusters=2)
 model.fit(X)
 </pre></div>
@@ -3573,7 +3573,7 @@ model.fit(X)
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>KMeans(algorithm=&#39;auto&#39;, copy_x=True, init=&#39;k-means++&#39;, max_iter=300,
     n_clusters=2, n_init=10, n_jobs=1, precompute_distances=&#39;auto&#39;,
     random_state=None, tol=0.0001, verbose=0)
@@ -3582,21 +3582,21 @@ model.fit(X)
 </div>
 <p>学習したモデルをもとにクラスタリングを行いましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>y = model.predict(X)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(y)
 </pre></div>
 </div>
@@ -3613,22 +3613,22 @@ model.fit(X)
 </div>
 <p>Numpyを使って条件に当てはまるサンプルだけを抽出し，結果を可視化してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>X0 = X[y==0]
 X1 = X[y==1]
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>plt.scatter(X0[:, 0], X0[:, 1], color=&#39;red&#39;)
 plt.scatter(X1[:, 0], X1[:,1 ], color=&#39;blue&#39;)
 </pre></div>
@@ -3637,7 +3637,7 @@ plt.scatter(X1[:, 0], X1[:,1 ], color=&#39;blue&#39;)
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.collections.PathCollection at 0x28640b6c8d0&gt;
 </pre></div>
 </div>
@@ -3694,22 +3694,12 @@ plt.scatter(X1[:, 0], X1[:,1 ], color=&#39;blue&#39;)
 
     
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
