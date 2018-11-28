@@ -53,9 +53,16 @@ Pythonについては変数（数値・文字列，リスト，タプル，辞�
     notebooks/DNA_Sequence_Data_Analysis
     notebooks/Sequential_Data_Analysis_with_Deep_Learning
 
+
+
 本資料の作成者
 ^^^^^^^^^^^^^^
 本資料は株式会社Preferred Networksの岡野原 大輔，齋藤 俊太，菅原 洋平，その他多くの有志，そして株式会社キカガクが中心となって作成しました．
+
+問い合わせ先
+^^^^^^^^^^^^^^
+本資料についての質問、不具合の報告などについては以下の `フォーラム <https://github.com/japan-medical-ai/medical-ai-course-materials>`_ で受け付けています．
+
 
 索引と検索
 ==========

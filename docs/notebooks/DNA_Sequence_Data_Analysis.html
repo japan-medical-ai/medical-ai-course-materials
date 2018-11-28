@@ -362,11 +362,11 @@ Sequencer）の発展により，遺伝子の塩基配列を高速，大量，�
 <p>です．Google
 Colab上では，以下のようにしてインストールすることができます．以下のセルを実行（Shit+Enter）してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!set -ex
 !apt -y -q install cuda-libraries-dev-9-2
 !pip install cupy-cuda92==6.0.0a1
@@ -376,11 +376,11 @@ Colab上では，以下のようにしてインストールすることができ
 </div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンを確認してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import cupy
 import matplotlib
@@ -390,7 +390,7 @@ print(&#39;matplotlib:&#39;, matplotlib.__version__)
 </pre></div>
 </div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
 <span class="n">Chainer</span><span class="p">:</span> <span class="mf">6.0</span><span class="o">.</span><span class="mi">0</span><span class="n">a1</span>
 <span class="n">NumPy</span><span class="p">:</span> <span class="mf">1.14</span><span class="o">.</span><span class="mi">6</span>
 <span class="n">CuPy</span><span class="p">:</span>
@@ -422,22 +422,22 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 <h2>7.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは，データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します．ここでは前処理が既に終わって配列と，各位置ごとの推定カバレッジ値が記録されたデータを利用します．下のセルを実行してデータをダウンロードしてください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!wget https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
 
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!ls -lh
 </pre></div>
 </div>
@@ -458,11 +458,11 @@ drwxr-xr-x 2 root root 4.0K Nov 19 21:53 sample_data
 <p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます．</p>
 <p>以下のセルを実行して格納されているデータを確認してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import h5py
 import numpy as np
 
@@ -472,7 +472,7 @@ with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
 </pre></div>
 </div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;pool_width&#39;</span><span class="p">,</span> <span class="p">())</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;pool_width&#39;</span><span class="p">,</span> <span class="p">())</span>
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_ids&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_labels&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_strands&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
@@ -488,11 +488,11 @@ with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
 <p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータを一部を表示します．</p>
 <p>試しに最初のデータを取り出して，それの出力の値を表示してみます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%matplotlib inline
 import matplotlib.pyplot as plt
 
@@ -552,11 +552,11 @@ bpあたり1つのベクトルが対応する部分に対応し、SqueezeBlock�
 <p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算していく部分であり、DilatedBlockが担当します。</p>
 <p>それでは・以下のコードを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.functions as F
 import chainer.links as L
@@ -624,11 +624,11 @@ class Net(chainer.Chain):
 <p>それぞれ，出力チャンネル，カーネルサイズ，プーリングの三つ組からなるリストと，出力チャンネル，カーネルサイズ，dilatedサイズの三つ組からなるリストを受け取ります．</p>
 <p>次に，ブロックの定義をします．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.functions as F
 import chainer.links as L
@@ -694,11 +694,11 @@ Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだ
 <p>また，計算の際は入力結果に現在の結果を足しこみます．これはResNetと呼ばれるネットワークで提案された手法です．これにより，学習がしやすくなります．</p>
 <p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import numpy as np
 n = Net()
 size = 131072 # 128 * 1024
@@ -709,19 +709,19 @@ print(y.shape)
 </pre></div>
 </div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>ここで，もともとB= 4, L=131072, C=4だった配列が計算後はB=4, L=1024,
 C=3の配列となりました．</p>
 <p>今回の学習では対数ポアソン損失関数を利用します．これはモデルはポアソン分布の唯一のパラメータである平均を出力し，そのポアソン分布を学習データを使った最尤推定をします．この際，学習対象パラメータ以外は無視しています．
-また，この最適化関数の最小値はそのままだと<span class="math notranslate nohighlight">\(0\)</span>にはならので，最小値である<span class="math notranslate nohighlight">\(t \log t\)</span>をひいておき，損失関数の最小値が<span class="math notranslate nohighlight">\(0\)</span>となるようにします．</p>
+また，この最適化関数の最小値はそのままだと<span class="math">\(0\)</span>にはならので，最小値である<span class="math">\(t \log t\)</span>をひいておき，損失関数の最小値が<span class="math">\(0\)</span>となるようにします．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer.functions as F
 import math
 import sklearn
@@ -743,11 +743,11 @@ def log_r2_score(log_x, t):
 <p>また，学習率の調整にCosineSchedulerを使います．ニューラルネットワークの学習では，徐々に学習率を小さくしていくと，より汎化性能の高い解を見つけられることがわかっています．焼きなまし法のように最初は学習率を高くして極小解にはまらないようにし，後半は徐々に学習率を0に近づけていき収束させるというものです．
 CosineSchedulerはCosine関数の0度から90度までの変化のように学習率を変化させます．また学習は初期が不安定なので最初にn_warmup回，学習率を0から初期学習率まで線形に増やしていきます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>from chainer import training
 import numpy as np
 import math
@@ -788,11 +788,11 @@ class CosineScheduler(training.Extension):
 <p>最後に学習中に訓練データに意味を変えない変化を加えるData
 Augmentationを適用します．これは画像において回転させたり，平行移動させたりする場合と同じです．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import random
 
@@ -825,14 +825,14 @@ class PreprocessedDataset(chainer.dataset.DatasetMixin):
 </div>
 </div>
 <p>これで全部準備ができました．残りはchainerのtrainerを改造して学習するだけです．以下のコードを実行してください．</p>
-<p>元々のデータ全体では学習に時間がかかるので、データ/<code class="docutils literal notranslate"><span class="pre">ratio</span></code>分だけを学習、検証用データとして利用します。今回<code class="docutils literal notranslate"><span class="pre">ratio</span></code>は20に設定されています。
+<p>元々のデータ全体では学習に時間がかかるので、データ/<code class="docutils literal"><span class="pre">ratio</span></code>分だけを学習、検証用データとして利用します。今回<code class="docutils literal"><span class="pre">ratio</span></code>は20に設定されています。
 30分程度で学習が完了します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.functions as F
 import chainer.links as L
@@ -902,22 +902,22 @@ trainer.run()
 </div>
 <p>学習は成功したならば，実際にモデルが出力されているのかを確認しましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!ls -l out/
 </pre></div>
 </div>
 </div>
 <p>次に，テストデータに対して学習データを適用します．学習が終わったモデルを読み込み，テストデータに対してモデルを適用します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.links as L
 %matplotlib inline
@@ -944,11 +944,11 @@ print(test_y_estimated[0,:,0])
 </div>
 <p>結果を抜粋して表示してみましょう．ここでは3つ目（i=2）の出力について正解と推定結果を出力しています．今回の場合，学習データが少なく，学習回数も少ないためそれほど精度がでていません．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>y = test_y_estimated.data
 fig_size = plt.rcParams[&quot;figure.figsize&quot;]
 fig_size[0] = 20
@@ -1005,12 +1005,22 @@ plt.bar(range(y.shape[1]), test_y[0,:,i])
 
     
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
