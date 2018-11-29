@@ -53,6 +53,10 @@ Pythonについては変数（数値・文字列，リスト，タプル，辞�
     notebooks/DNA_Sequence_Data_Analysis
     notebooks/Sequential_Data_Analysis_with_Deep_Learning
 
+推奨ブラウザ環境
+^^^^^^^^^^^^^
+
+* 主要なブラウザはサポートしています．特に内部で使用しているGoogle Colaboratory はPC 版のChromeとFirefoxでは完全に動作するよう検証されています．
 
 
 本資料の作成者
