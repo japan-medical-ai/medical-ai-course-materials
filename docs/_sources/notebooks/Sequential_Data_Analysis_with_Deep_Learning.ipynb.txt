@@ -440,7 +440,8 @@
         "\n",
         "![aami_standard](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/aami_standard.png)\n",
         "\n",
-        "(表は[[文献4](https://arxiv.org/abs/1810.04121)]より抜粋)"
+        "(表は[[文献4][4]]より抜粋)\n",
+        "[4]: https://arxiv.org/abs/1810.04121"
       ]
     },
     {
@@ -2646,14 +2647,15 @@
         "また，線形フィルタにおいては，どの帯域の周波数成分を取得するかによって，幾つかの大まかな分類があります．例えば，以下のものがあります．\n",
         "\n",
         "\n",
-        "* **ローパスフィルタ (Low-pass filter)** : 低周波の成分のみを通す ( = 高周波成分を除去する)\n",
-        "* **ハイパスフィルタ (High-pass filter)** : 高周波成分のみを通す ( = 低周波成分を除去する)\n",
-        "* **バンドパスフィルタ(Band-pass filter)** : 特定の帯域成分のみを通す ( = 低周波，高周波成分を除去する)\n",
+        "* **ローパスフィルタ (Low-pass filter)** : 低周波の成分のみ通過 (高周波成分を除去)\n",
+        "* **ハイパスフィルタ (High-pass filter)** : 高周波成分のみ通過 (低周波成分を除去)\n",
+        "* **バンドパスフィルタ(Band-pass filter)** : 特定の帯域成分のみ通過 (低周波，高周波成分を除去)\n",
         "\n",
         "\n",
         "![band_form](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/band_form.png)\n",
         "\n",
-        "(図は[[文献9](https://en.wikipedia.org/wiki/Filter_(signal_processing)]より抜粋)\n"
+        "(図は[[文献9][9]]より抜粋)\n",
+        "[9]: https://en.wikipedia.org/wiki/Filter_(signal_processing)"
       ]
     },
     {
@@ -2958,6 +2960,7 @@
         "本章では，ECGの公開データセットを利用して，不整脈検知の問題に取り組みました．\n",
         "\n",
         "本講義内容を通じてお伝えしたかったことは，以下となります．\n",
+        "\n",
         "1. 心電図を解析するにあたって必要となる最低限の知識\n",
         "1. モニタリングデータを解析するための基本的な前処理手順\n",
         "1. CNNベースのモデルを利用した学習器の構築\n",
@@ -2971,10 +2974,10 @@
         "    * $Ⅱ$誘導シグナルに加えて，$V_1$誘導シグナルも同時に入力として与えます．([[文献10](https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf)]などで実施)\n",
         "* 前処理の工夫\n",
         "    * セグメント長の変更\n",
-        "        * より長時間のセグメントを入力とすることで，長期的な波形情報を抽出．([[文献4](https://arxiv.org/abs/1810.04121)]では10秒のセグメントを解析に利用)\n",
+        "        * より長時間のセグメントを入力とすることで，長期的な波形情報を抽出．([[文献4][4]]では10秒のセグメントを解析に利用)\n",
         "        * 入力情報が増えることで，却って学習が難しくなってしまう可能性あり．\n",
         "    * リサンプリング\n",
-        "        * サンプリング周波数を下げることで，長期的な波形情報を抽出．([[文献4](https://arxiv.org/abs/1810.04121)]では180 Hzにダウンサンプリング)\n",
+        "        * サンプリング周波数を下げることで，長期的な波形情報を抽出．([[文献4][4]]では180 Hzにダウンサンプリング)\n",
         "            * 波形が粗くなることで学習に影響する可能性あり．\n",
         "            * 適切な前処理を行わないと，折り返し雑音と呼ばれる歪みが発生．\n",
         "            * （モデルに入力する前に情報を縮小する処理は，画像解析などの分野では一般的）\n",
@@ -2983,15 +2986,19 @@
         "    * ラベルの与え方の変更\n",
         "        * セグメント範囲内に正常以外のピークラベルが含まれる場合に優先的にそのラベルを付与する，等．\n",
         "* モデルの変更\n",
-        "    * 長期的な特徴を抽出するために，CNNの後段にRNNベースの構造(LSTM, GRUなど)を組み込む ([[文献4](https://arxiv.org/abs/1810.04121)]などで実施)．\n",
-        "* 独自に収集したデータセットの解析\n",
-        "    * DeepHeartでは，Cardiogram社とカリフォルニア大学の共同研究で，活動量計からデータを収集し解析[[文献11](https://arxiv.org/abs/1802.02511)]．\n",
-        "    * スタンフォード大学のAndrew Ng.の研究室でも，独自に収集したECGレコードから$14$種類の波形クラス分類を予測するモデルを構築し，医師と比較実験を実施[[文献12](https://arxiv.org/abs/1707.01836)]．\n",
-        "\n",
+        "    * 長期的な特徴を抽出するために，CNNの後段にRNNベースの構造(LSTMなど)を組み込む ([[文献4][4]]などで実施)．\n",
         "\n",
         "余力がある方は，是非チャレンジしてみてください．\n",
         "\n",
-        "以上で，モニタリングデータの時系列解析の章は終了となります．お疲れ様でした．"
+        "また，最近では独自に収集した大規模なモニタリングデータを対象として，研究成果を発表する事例も幾つか出てきています．\n",
+        "\n",
+        "* Cardiogram社とカリフォルニア大学の共同研究で，活動量計から心拍数データを収集し，深層学習を用いて糖尿病予備群を予測するDeepHeartを発表[[文献11](https://arxiv.org/abs/1802.02511)]．\n",
+        "* スタンフォード大学のAndrew Ng.の研究室でも，独自に収集したECGレコードから$14$種類の波形クラス分類を予測するモデルを構築し，医師と比較実験を実施[[文献12](https://arxiv.org/abs/1707.01836)]．\n",
+        "\n",
+        "デバイスの進歩によって簡単に精緻な情報が収集可能になってきていることから，こうした研究は今後益々盛んになっていくと考えられます．\n",
+        "\n",
+        "以上で，モニタリングデータの時系列解析の章は終了となります．お疲れ様でした．\n",
+        "[4]: https://arxiv.org/abs/1810.04121"
       ]
     },
     {
@@ -3019,10 +3026,12 @@
         "1. **Focal Loss for Dense Object Detection**, Tsung-Yi Lin et al., Aug 2017, [[リンク]](https://arxiv.org/abs/1708.02002)\n",
         "1. **Bayesian Convolutional Neural Networks with Bernoulli Approximate Variational Inference**, Yarin Gal et al., Jun 2015, [[リンク](https://arxiv.org/abs/1506.02158v6)]\n",
         "1. **Noise Analysis and Different Denoising Techniques of ECG Signal - A Survey**, Aswathy Velayudhan et al., ICETEM2016, [[リンク](http://www.iosrjournals.org/iosr-jece/papers/ICETEM/Vol.%201%20Issue%201/ECE%2006-40-44.pdf)]\n",
-        "1. **Filter (signal processing)**, Wikipedia: The Free Encyclopedia. Wikimedia Foundation, Inc. 22 July 2004. Web. 10 Aug. 2004, [[リンク](https://en.wikipedia.org/wiki/Filter_(signal_processing)]\n",
+        "1. **Filter (signal processing)**, Wikipedia: The Free Encyclopedia. Wikimedia Foundation, Inc. 22 July 2004. Web. 10 Aug. 2004, [[リンク][9]]\n",
         "1. **Arrhythmia Detection from 2-lead ECG using Convolutional Denoising Autoencoders**, Keiichi Ochiai et al., KDD2018, [[リンク](https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf)]\n",
         "1. **DeepHeart: Semi-Supervised Sequence Learning for Cardiovascular Risk Prediction**, Brandon Ballinger et al., Feb 2018, [[リンク](https://arxiv.org/abs/1802.02511)]\n",
-        "1. **Cardiologist-Level Arrhythmia Detection with Convolutional Neural Networks**, Pranav Rajpurkar et al., Jul 2017, [[リンク](https://arxiv.org/abs/1707.01836)]"
+        "1. **Cardiologist-Level Arrhythmia Detection with Convolutional Neural Networks**, Pranav Rajpurkar et al., Jul 2017, [[リンク](https://arxiv.org/abs/1707.01836)]\n",
+        "[4]: https://arxiv.org/abs/1810.04121 \n",
+        "[9]: https://en.wikipedia.org/wiki/Filter_(signal_processing)"
       ]
     }
   ]
