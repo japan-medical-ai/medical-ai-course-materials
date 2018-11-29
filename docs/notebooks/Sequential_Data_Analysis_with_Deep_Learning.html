@@ -640,7 +640,7 @@ Finished downloading files
 <img alt="aami_standard" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/aami_standard.png" />
 <p class="caption"><span class="caption-text">aami_standard</span></p>
 </div>
-<p>(表は[[文献4][4]]より抜粋) [4]: <a class="reference external" href="https://arxiv.org/abs/1810.04121">https://arxiv.org/abs/1810.04121</a></p>
+<p>(表は[<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]より抜粋)</p>
 <p>まずは以下のセルを実行して，データ前処理クラスを定義しましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -2174,8 +2174,7 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
 <img alt="band_form" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/band_form.png" />
 <p class="caption"><span class="caption-text">band_form</span></p>
 </div>
-<p>(図は[[文献9][9]]より抜粋) [9]:
-<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_(signal_processing">https://en.wikipedia.org/wiki/Filter_(signal_processing</a>)</p>
+<p>(図は <a class="reference external" href="https://en.wikipedia.org/wiki/Filter_(signal_processing">https://en.wikipedia.org/wiki/Filter_(signal_processing</a>) より抜粋)</p>
 <p>mitdbでは，予め0.1 Hz 以下の低周波と，100 Hz
 以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，25
 Hz のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
@@ -2370,12 +2369,12 @@ accuracy:  0.9843215947429932
 </li>
 <li>前処理の工夫<ul>
 <li>セグメント長の変更<ul>
-<li>より長時間のセグメントを入力とすることで，長期的な波形情報を抽出．([[文献4][4]]では10秒のセグメントを解析に利用)</li>
+<li>より長時間のセグメントを入力とすることで，長期的な波形情報を抽出．([<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]では10秒のセグメントを解析に利用)</li>
 <li>入力情報が増えることで，却って学習が難しくなってしまう可能性あり．</li>
 </ul>
 </li>
 <li>リサンプリング<ul>
-<li>サンプリング周波数を下げることで，長期的な波形情報を抽出．([[文献4][4]]では180
+<li>サンプリング周波数を下げることで，長期的な波形情報を抽出．([<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]では180
 Hzにダウンサンプリング)<ul>
 <li>波形が粗くなることで学習に影響する可能性あり．</li>
 <li>適切な前処理を行わないと，折り返し雑音と呼ばれる歪みが発生．</li>
@@ -2396,7 +2395,7 @@ Hzにダウンサンプリング)<ul>
 </li>
 <li>モデルの変更<ul>
 <li>長期的な特徴を抽出するために，CNNの後段にRNNベースの構造(LSTMなど)を組み込む
-([[文献4][4]]などで実施)．</li>
+([<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]などで実施)．</li>
 </ul>
 </li>
 </ul>
@@ -2408,8 +2407,7 @@ Hzにダウンサンプリング)<ul>
 Ng.の研究室でも，独自に収集したECGレコードから<span class="math">\(14\)</span>種類の波形クラス分類を予測するモデルを構築し，医師と比較実験を実施[<a class="reference external" href="https://arxiv.org/abs/1707.01836">文献12</a>]．</li>
 </ul>
 <p>デバイスの進歩によって簡単に精緻な情報が収集可能になってきていることから，こうした研究は今後益々盛んになっていくと考えられます．</p>
-<p>以上で，モニタリングデータの時系列解析の章は終了となります．お疲れ様でした．
-[4]: <a class="reference external" href="https://arxiv.org/abs/1810.04121">https://arxiv.org/abs/1810.04121</a></p>
+<p>以上で，モニタリングデータの時系列解析の章は終了となります．お疲れ様でした．</p>
 </div>
 <div class="section" id="参考文献">
 <h2>8.8. 参考文献<a class="headerlink" href="#参考文献" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -2437,7 +2435,7 @@ A Survey</strong>, Aswathy Velayudhan et al., ICETEM2016,
 [<a class="reference external" href="http://www.iosrjournals.org/iosr-jece/papers/ICETEM/Vol.%201%20Issue%201/ECE%2006-40-44.pdf">リンク</a>]</li>
 <li><strong>Filter (signal processing)</strong>, Wikipedia: The Free Encyclopedia.
 Wikimedia Foundation, Inc.&nbsp;22 July 2004. Web. 10 Aug.&nbsp;2004,
-[[リンク][9]]</li>
+<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_(signal_processing">https://en.wikipedia.org/wiki/Filter_(signal_processing</a>)</li>
 <li><strong>Arrhythmia Detection from 2-lead ECG using Convolutional Denoising
 Autoencoders</strong>, Keiichi Ochiai et al., KDD2018,
 [<a class="reference external" href="https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf">リンク</a>]</li>
@@ -2446,9 +2444,7 @@ Risk Prediction</strong>, Brandon Ballinger et al., Feb 2018,
 [<a class="reference external" href="https://arxiv.org/abs/1802.02511">リンク</a>]</li>
 <li><strong>Cardiologist-Level Arrhythmia Detection with Convolutional Neural
 Networks</strong>, Pranav Rajpurkar et al., Jul 2017,
-[<a class="reference external" href="https://arxiv.org/abs/1707.01836">リンク</a>] [4]:
-<a class="reference external" href="https://arxiv.org/abs/1810.04121">https://arxiv.org/abs/1810.04121</a> [9]:
-<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_(signal_processing">https://en.wikipedia.org/wiki/Filter_(signal_processing</a>)</li>
+[<a class="reference external" href="https://arxiv.org/abs/1707.01836">リンク</a>]</li>
 </ol>
 </div>
 </div>
