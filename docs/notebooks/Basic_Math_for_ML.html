@@ -639,7 +639,8 @@ x_{31} &amp; x_{32}
 </div>
 <div class="section" id="逆行列">
 <h3>1.3.9. 逆行列<a class="headerlink" href="#逆行列" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><strong>逆行列</strong>とは，元の行列にかけると単位行列になるような行列であり，スカラーにおける逆数(<span class="math">\(2 \times 2^{-1} = 1\)</span>)に対応するような行列です．数式で定義すると，</p>
+<p><strong>逆行列</strong>とは，元の行列にかけると単位行列になるような行列であり，スカラーにおける逆数(<span class="math">\(2 \times 2^{-1} = 1\)</span>)に対応するような行列です．例えば，行列<span class="math">\(\boldsymbol{A}\)</span>に対し，その逆行列は<span class="math">\(\boldsymbol{A}^{-1}\)</span>のように表記します．</p>
+<p>逆行列の定義を数式で表すと，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \boldsymbol{A}\boldsymbol{A}^{-1}=\boldsymbol{I}\\
@@ -797,7 +798,7 @@ x_{2}
 <p>こういった行列などにおける公式は他にもたくさんあり，論文などを読む際にはどういった公式があるのかを知っておくことも重要です．例えば，<a class="reference external" href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">The
 Matrix
 Cookbook</a>などを参考にしてみてください．</p>
-<p>また，今回は多入力単出力関数の微分として勾配まで紹介しましたが，多入力多出力関数の微分であるヤコビ行列（ヤコビアン）もニューラルネットワークの誤差逆伝搬法を理解するために必要となります（ただし殆どの場合，行列を掛けた場合のヤコビ行列は，その転置行列だと覚えるだけで十分です）．さらに詳しく知りたい方は，例えば<a class="reference external" href="https://arxiv.org/abs/1802.01528">The
+<p>また，今回は多入力単出力関数の微分として勾配まで紹介しましたが，多入力多出力関数の微分であるヤコビ行列（ヤコビアン）もニューラルネットワークの誤差逆伝播法を理解するために必要となります（ただし殆どの場合，行列を掛けた場合のヤコビ行列は，その転置行列だと覚えるだけで十分です）．さらに詳しく知りたい方は，例えば<a class="reference external" href="https://arxiv.org/abs/1802.01528">The
 Matrix Calculus You Need For Deep
 Learning</a>などを参考にしてみてください．</p>
 </div>
