@@ -356,7 +356,7 @@ div.nboutput div.output_area.stderr {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
 </style>
-<p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Sequential_Data_Analysis_with_Deep_Learningt%20a.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Sequential_Data_Analysis_with_Deep_Learning.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <div class="section" id="実践編:-ディープラーニングを使ったモニタリングデータの時系列解析">
 <h1>8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析<a class="headerlink" href="#実践編:-ディープラーニングを使ったモニタリングデータの時系列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>健康意識の高まりや運動人口の増加に伴って，活動量計などのウェアラブルデバイスが普及し始めています．センサーデバイスから心拍数などの情報を取得することで，リアルタイムに健康状態をモニタリングできる可能性があることから，近年ではヘルスケア領域での活用事例も増えてきています．2018年2月には，Cardiogram社とカリフォルニア大学が共同研究の成果を発表し，心拍数データに対してDeep
@@ -703,7 +703,7 @@ Finished downloading files
             return (signal - min_val) / (max_val - min_val)
         elif method == &#39;std&#39;:
             # Zero mean and unit variance
-            signal -= np.mean(signal) / np.std(signal)
+            signal = (signal - np.mean(signal)) / np.std(signal)
             return signal
         else:
             raise ValueError(&quot;Invalid method: {}&quot;.format(method))
