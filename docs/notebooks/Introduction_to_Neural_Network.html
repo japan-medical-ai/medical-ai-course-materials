@@ -373,7 +373,7 @@ Network (RNN) といった手法は，ニューラルネットワークの一種
 <p class="caption"><span class="caption-text">02.png</span></p>
 </div>
 <p>まず，最終層にどのような値が入るのか，具体例を見てみましょう．例えば，年数が3年物でアルコール度数が14度，色合いが0.2，匂いが0.8で表されるワインがあるとします．内部の計算は後述するとして，このようなデータをニューラルネットワークに与えると，白ワイン
-<span class="math">\(y_{1} = 0.15\)</span>, 赤ワイン <span class="math">\(y_{2}= 0.85\)</span>
+<span class="math notranslate nohighlight">\(y_{1} = 0.15\)</span>, 赤ワイン <span class="math notranslate nohighlight">\(y_{2}= 0.85\)</span>
 という値が得られました．このとき，出力値の中で最も大きな値となっている変数に対応するクラス，すなわち「赤ワイン」をこの分類問題におけるこのニューラルネットワークによる予測結果とすることができます．</p>
 <p>ここで出力ノードすべての値を合計してみると，1になっていることに気づきます．これは偶然ではなく，そうなるように出力層の値を計算しているためです．つまり，出力層のそれぞれのノードが持つ数値は，入力がそれぞれのクラスに属している確率を表していたのでした．そのため，カテゴリ数と同じ数だけ出力層にはノードが必要となります．</p>
 <p>それでは，ここからニューラルネットワークの内部で行われる計算を詳しく見ていきましょう．ニューラルネットワークの各層は，前の層の値に線形変換と非線形変換を順番に施すことで計算されています．まずは，ここで言う線形変換とは何を表すのか，から見ていきましょう．</p>
@@ -383,23 +383,23 @@ Network (RNN) といった手法は，ニューラルネットワークの一種
 <img alt="03.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/03.png" />
 <p class="caption"><span class="caption-text">03.png</span></p>
 </div>
-<p>ここで言う線形変換とは，重み行列 (<span class="math">\(w\)</span>) ×入力ベクトル (<span class="math">\(h\)</span>) +
-バイアスベクトル (<span class="math">\(b\)</span>)
-のような計算のことを指しています．ここでの掛け算は行列の掛け算であることに注意してください．また，これからは，<span class="math">\(h\)</span>
+<p>ここで言う線形変換とは，重み行列 (<span class="math notranslate nohighlight">\(w\)</span>) ×入力ベクトル (<span class="math notranslate nohighlight">\(h\)</span>) +
+バイアスベクトル (<span class="math notranslate nohighlight">\(b\)</span>)
+のような計算のことを指しています．ここでの掛け算は行列の掛け算であることに注意してください．また，これからは，<span class="math notranslate nohighlight">\(h\)</span>
 が文字としてよく登場しますが，これは隠れ層 (hidden layer) の頭文字である
-<span class="math">\(h\)</span>
+<span class="math notranslate nohighlight">\(h\)</span>
 から来ています．ただし，表記の簡潔にするため入力層（上図における
-<span class="math">\(x_1, x_2, x_3, x_4\)</span>）も，<span class="math">\(0\)</span>層目の隠れ層と考えることにして，以下では
-<span class="math">\(h_{01}, h_{02}, h_{03}, h_{04}\)</span>
+<span class="math notranslate nohighlight">\(x_1, x_2, x_3, x_4\)</span>）も，<span class="math notranslate nohighlight">\(0\)</span>層目の隠れ層と考えることにして，以下では
+<span class="math notranslate nohighlight">\(h_{01}, h_{02}, h_{03}, h_{04}\)</span>
 と表記します．では上図で表される計算を数式で記述してみましょう．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 u_{11}&amp;=w_{11}h_{01}+w_{12}h_{02}+w_{13}h_{03}+w_{14}h_{04}+b_{1} \\
 u_{12}&amp;=w_{21}h_{01}+w_{22}h_{02}+w_{23}h_{03}+w_{24}h_{04}+b_{2} \\
 u_{13}&amp;=w_{31}h_{01}+w_{32}h_{02}+w_{33}h_{03}+w_{34}h_{04}+b_{2}
 \end{aligned}\end{split}\]</div>
 <p>これは，ベクトルと行列の計算として書き直すことができ，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \begin{bmatrix}
 u_{11} \\
@@ -421,8 +421,8 @@ b_{3}
 \end{bmatrix}\\
 {\bf u}_{1}&amp;={\bf W}{\bf h}_{0}+{\bf b}
 \end{aligned}\end{split}\]</div>
-<p>と同じことです．本来は <span class="math">\({\bf W}\)</span> や <span class="math">\({\bf b}\)</span>
-にもどの層とどの層の間の計算に用いられるものなのかを表す添え字をつけるべき（たとえば<span class="math">\({\bf W_{1 \to 2}}\)</span>のように）ですが，ここでは簡単のため省略しています．</p>
+<p>と同じことです．本来は <span class="math notranslate nohighlight">\({\bf W}\)</span> や <span class="math notranslate nohighlight">\({\bf b}\)</span>
+にもどの層とどの層の間の計算に用いられるものなのかを表す添え字をつけるべき（たとえば<span class="math notranslate nohighlight">\({\bf W_{1 \to 2}}\)</span>のように）ですが，ここでは簡単のため省略しています．</p>
 </div>
 <div class="section" id="非線形変換">
 <h3>3.1.2. 非線形変換<a class="headerlink" href="#非線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -438,7 +438,7 @@ b_{3}
 </div>
 <p>ニューラルネットワークでは上図に示す
 <strong>ロジスティックシグモイド関数</strong>（以下シグモイド関数）</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[h = f(u) = \dfrac{1}{1+e^{-u}}\]</div>
 <p>が従来，よく用いられてきました．しかし，近年，層数が多いニューラルネットワークではシグモイド関数は活性化関数としてほとんど用いられていません．その理由の一つは，シグモイド関数を活性化関数に採用することで
 <strong>勾配消失</strong>
@@ -446,7 +446,7 @@ b_{3}
 Linear Unit (ReLU)</strong>
 という関数がよく用いられています．これは，以下のような形をした関数です．</p>
 <p><img alt="06.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/06.png" /></p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[h = f(u) = \max(0, u)\]</div>
 <p>これは，入力が負の値の場合には出力は0で一定であり，正の値の場合は入力をそのまま出力するという関数です．シグモイド関数では，入力が小さな，もしくは大きな値をとった際に，勾配がどんどん小さくなってしまうだろうことがプロットからも明らかに見て取れます．それに対し，ReLU関数は入力の値がいくら大きくなっても，一定の勾配が発生します．これがのちほど紹介する勾配消失という問題に有効に働くのです．</p>
 </div>
@@ -457,27 +457,27 @@ Linear Unit (ReLU)</strong>
 <p class="caption"><span class="caption-text">07.png</span></p>
 </div>
 <p>ここで，上図に書き込まれた具体的な数値を使って，入力
-<span class="math">\(x_1, x_2, x_3\)</span> から出力 <span class="math">\(y\)</span>
+<span class="math notranslate nohighlight">\(x_1, x_2, x_3\)</span> から出力 <span class="math notranslate nohighlight">\(y\)</span>
 が計算される過程を確認してみましょう．今は計算を簡略化するためバイアス
-<span class="math">\({\bf b}\)</span>
-の計算は省略します．数値例として，<span class="math">\({\bf x}^T = \begin{bmatrix} 2 &amp; 3 &amp; 1 \end{bmatrix}\)</span>
-が与えられた時の出力 <span class="math">\(y\)</span>
+<span class="math notranslate nohighlight">\({\bf b}\)</span>
+の計算は省略します．数値例として，<span class="math notranslate nohighlight">\({\bf x}^T = \begin{bmatrix} 2 &amp; 3 &amp; 1 \end{bmatrix}\)</span>
+が与えられた時の出力 <span class="math notranslate nohighlight">\(y\)</span>
 の計算手順を一つ一つ追いかけてみましょう．</p>
 <p>重回帰分析では，目的関数のパラメータについての導関数を0とおいて解析的に最適なパラメータを計算できましたが，ニューラルネットワークでは一般的に解析的にパラメータを解くことはできません．その代わり，この導関数の値（勾配）を利用した別の方法でパラメータを逐次的に最適化していきます．</p>
 <p>このため，ニューラルネットワークの場合は，まずパラメータを乱数で初期化し，ひとまずデータを入力して目的関数の値を計算します．次にその関数の勾配を計算して，それを利用してパラメータを更新し，その更新後の新しいパラメータを使って再度入力を処理して目的関数の値を計算し…といったことを繰り返し行っていくことになります．今，上の図のグラフの枝に与えられているような数値でパラメータを初期化した状態で，入力層の値に線形変換を施すところまでを考えてみましょう．この計算は，以下のようになります．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 u_{11}&amp;=3\times 2+1\times 3+2\times 1=11\\
 u_{12}&amp;=-2\times 2-3\times 3-1\times 1=-11
 \end{aligned}\end{split}\]</div>
 <p>次に非線形変換を行う活性化関数としてReLU関数を採用し，以下のように中間層の値を計算します．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 h_{11} &amp;= \max(0, 11) = 11 \\
 h_{12} &amp;= \max(0, -11)  = 0
 \end{aligned}\end{split}\]</div>
-<p>同様に，出力層の <span class="math">\(y\)</span> の値までを計算すると，</p>
-<div class="math">
+<p>同様に，出力層の <span class="math notranslate nohighlight">\(y\)</span> の値までを計算すると，</p>
+<div class="math notranslate nohighlight">
 \[y = 3 \times 11 + 2 \times 0 = 33\]</div>
 <p>となります．</p>
 <p>さて，次節からは，パラメータを，どうやって更新していくかを見てみましょう．</p>
@@ -486,87 +486,87 @@ h_{12} &amp;= \max(0, -11)  = 0
 <div class="section" id="目的関数">
 <h2>3.2. 目的関数<a class="headerlink" href="#目的関数" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ニューラルネットワークでは，微分可能でさえあれば解きたいタスクに合わせて様々な目的関数を利用することができます．</p>
-<p>例えば，出力層に<span class="math">\(N\)</span>個の値を持つニューラルネットワークで回帰問題を解く場合を考えてみましょう．<span class="math">\(N\)</span>個の出力それぞれ（<span class="math">\(y_n (n=1, 2, \dots, N)\)</span>）に対して望ましい出力（<span class="math">\(t_n (n=1, 2, \dots, N)\)</span>）が与えられたとき，目的関数をそれぞれの出力（<span class="math">\(y_n\)</span>）と対応する正解（<span class="math">\(t_n\)</span>）の間の
+<p>例えば，出力層に<span class="math notranslate nohighlight">\(N\)</span>個の値を持つニューラルネットワークで回帰問題を解く場合を考えてみましょう．<span class="math notranslate nohighlight">\(N\)</span>個の出力それぞれ（<span class="math notranslate nohighlight">\(y_n (n=1, 2, \dots, N)\)</span>）に対して望ましい出力（<span class="math notranslate nohighlight">\(t_n (n=1, 2, \dots, N)\)</span>）が与えられたとき，目的関数をそれぞれの出力（<span class="math notranslate nohighlight">\(y_n\)</span>）と対応する正解（<span class="math notranslate nohighlight">\(t_n\)</span>）の間の
 <strong>平均二乗誤差（mean squared error）</strong>
 とすることで，回帰問題を解くことができます．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\mathcal{L} = \dfrac{1}{N} \sum_{n=1}^{N}(t_{n} - y_{n})^{2}\]</div>
 <p>これを最小にするようなパラメータを求めればよいということになります．例えば，上図の例で正解として
-<span class="math">\(t = 20\)</span> が与えられたときの目的関数の値は，</p>
-<div class="math">
+<span class="math notranslate nohighlight">\(t = 20\)</span> が与えられたときの目的関数の値は，</p>
+<div class="math notranslate nohighlight">
 \[\mathcal{L} = \dfrac{1}{1} (20 - 33)^2 = 169\]</div>
 <p>となります．</p>
 <p>一方，分類問題の場合は <strong>交差エントロピー（cross entropy）</strong>
-が目的関数として多くの場合利用されます．<span class="math">\(N\)</span>クラスの分類問題を考えるとき，<span class="math">\(N\)</span>個の出力
-<span class="math">\(y_n (n=1, 2, \dots, N)\)</span>
-が入力がそれぞれのクラスに属する確率（<span class="math">\(y_i = p(y=i|x)\)</span>）を表しているとして，正解が1-hotベクトルで与えられる時，以下の計算で定義されるものがクロスエントロピーです．ただし，<span class="math">\({\bf t} = \begin{bmatrix} t_1 &amp; t_2 &amp; \dots &amp; t_N \end{bmatrix}^T\)</span>
-が1-hotベクトルであるとは，<span class="math">\(t_n (n=1, 2, \dots, N)\)</span>
-のいずれかが1でありそれ以外は0であるようなベクトルのことを言います．このベクトルの1である要素はその要素のインデックスに対応したクラスが正解であることを意味します．例えば，<span class="math">\(t_3 = 1\)</span>であれば3というインデックスに対応するクラスが正解であることになります．</p>
-<div class="math">
+が目的関数として多くの場合利用されます．<span class="math notranslate nohighlight">\(N\)</span>クラスの分類問題を考えるとき，<span class="math notranslate nohighlight">\(N\)</span>個の出力
+<span class="math notranslate nohighlight">\(y_n (n=1, 2, \dots, N)\)</span>
+が入力がそれぞれのクラスに属する確率（<span class="math notranslate nohighlight">\(y_i = p(y=i|x)\)</span>）を表しているとして，正解が1-hotベクトルで与えられる時，以下の計算で定義されるものがクロスエントロピーです．ただし，<span class="math notranslate nohighlight">\({\bf t} = \begin{bmatrix} t_1 &amp; t_2 &amp; \dots &amp; t_N \end{bmatrix}^T\)</span>
+が1-hotベクトルであるとは，<span class="math notranslate nohighlight">\(t_n (n=1, 2, \dots, N)\)</span>
+のいずれかが1でありそれ以外は0であるようなベクトルのことを言います．このベクトルの1である要素はその要素のインデックスに対応したクラスが正解であることを意味します．例えば，<span class="math notranslate nohighlight">\(t_3 = 1\)</span>であれば3というインデックスに対応するクラスが正解であることになります．</p>
+<div class="math notranslate nohighlight">
 \[\mathcal{L} = - \sum_{n=1}^{N}t_{n}\log y_{n}\]</div>
-<p>以下は交差エントロピーの定義について知りたい方だけ参考にしてください．情報理論などで交差エントロピーの定義を知っている方はこの値が交差エントロピーと違うようにみえます．これは以下のように説明できます．<span class="math">\(q(y|x)\)</span>をニューラルネットワークのモデルが定義する条件付き確率であり，<span class="math">\(p(y|x)\)</span>を実データの条件付き確率とします．<span class="math">\(p(y|x)\)</span>は未知ですが，代わりに学習データの経験分布
-<span class="math">\(p(y|x) = \frac{1}{n} \sum_i I(x =x_i, y=y_i)\)</span>であるとします．ただし<span class="math">\(I\)</span>はディラック関数とよばれ，その等号が成立する時，値が<span class="math">\(\infty\)</span>，それ以外では<span class="math">\(0\)</span>であるような関数です．この時，確率分布<span class="math">\(p(y|x)\)</span>と<span class="math">\(q(y|x)\)</span>間の交差エントロピーは</p>
-<div class="math">
+<p>以下は交差エントロピーの定義について知りたい方だけ参考にしてください．情報理論などで交差エントロピーの定義を知っている方はこの値が交差エントロピーと違うようにみえます．これは以下のように説明できます．<span class="math notranslate nohighlight">\(q(y|x)\)</span>をニューラルネットワークのモデルが定義する条件付き確率であり，<span class="math notranslate nohighlight">\(p(y|x)\)</span>を実データの条件付き確率とします．<span class="math notranslate nohighlight">\(p(y|x)\)</span>は未知ですが，代わりに学習データの経験分布
+<span class="math notranslate nohighlight">\(p(y|x) = \frac{1}{n} \sum_i I(x =x_i, y=y_i)\)</span>であるとします．ただし<span class="math notranslate nohighlight">\(I\)</span>はディラック関数とよばれ，その等号が成立する時，値が<span class="math notranslate nohighlight">\(\infty\)</span>，それ以外では<span class="math notranslate nohighlight">\(0\)</span>であるような関数です．この時，確率分布<span class="math notranslate nohighlight">\(p(y|x)\)</span>と<span class="math notranslate nohighlight">\(q(y|x)\)</span>間の交差エントロピーは</p>
+<div class="math notranslate nohighlight">
 \[\int_{x, y} p(y|x) \log \frac{q(y|x)}{p(y|x)}   dx dy\]</div>
-<p>と定義されます．ここでディラック関数の定義および，<span class="math">\(p\)</span>だけに依存する項を除くと，先程の交差エントロピーの目的関数が導出されます．</p>
+<p>と定義されます．ここでディラック関数の定義および，<span class="math notranslate nohighlight">\(p\)</span>だけに依存する項を除くと，先程の交差エントロピーの目的関数が導出されます．</p>
 </div>
 <div class="section" id="パラメータの最適化">
 <h2>3.3. パラメータの最適化<a class="headerlink" href="#パラメータの最適化" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>最適化の方法を考える前に，まず最適化の対象とはなんであったか，再度確認しましょう．ニューラルネットワークにおける“パラメータ”とは，ここまで紹介したシンプルな全結合型ニューラルネットワークの場合，各層の線形変換に用いられていた
-<span class="math">\({\bf W}\)</span> と <span class="math">\({\bf b}\)</span> のことを指します．</p>
+<span class="math notranslate nohighlight">\({\bf W}\)</span> と <span class="math notranslate nohighlight">\({\bf b}\)</span> のことを指します．</p>
 <p>ニューラルネットワークでは，目的関数の各パラメータについての勾配を0とおいて解析的に解くことは一般的には困難です．しかし，実際にデータをニューラルネットワークに入力してその入力の値における目的関数のパラメータについての勾配を数値的に求めることは可能です．この値が分かれば，パラメータをどのように変化させれば，その入力が再び与えられたときに出力される目的関数の値を小さく（または大きく）することができるのか，が分かります．すなわち，この勾配を使ってパラメータの最適化を行うことができます．この方法について説明を行います．</p>
-<p>では，まず以下の図を見てください．図中の点線は，パラメータ <span class="math">\(w\)</span>
-を変化させた際の目的関数 <span class="math">\(\mathcal{L}\)</span>
+<p>では，まず以下の図を見てください．図中の点線は，パラメータ <span class="math notranslate nohighlight">\(w\)</span>
+を変化させた際の目的関数 <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>
 の値を表しています．この例では簡単のため二次関数の形になっていますが，実際にはもっと複雑な関数であることがほとんどでしょう．この目的関数が最小値を与えるような
-<span class="math">\(w\)</span> は，どのように発見することができるでしょうか．</p>
+<span class="math notranslate nohighlight">\(w\)</span> は，どのように発見することができるでしょうか．</p>
 <div class="figure" id="id17">
 <img alt="13.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/13.png" />
 <p class="caption"><span class="caption-text">13.png</span></p>
 </div>
 <p>前節で説明したように，ニューラルネットワークのパラメータはまず乱数で初期化されます．ここでは，例として
-<span class="math">\(w=3\)</span>
-という初期化が行われたと考えてみましょう．そうすると，<span class="math">\(w=3\)</span>における<span class="math">\(\mathcal{L}\)</span>の勾配
-<span class="math">\(\frac{\partial \mathcal{L}}{\partial w}\)</span>
-が求まります．ここでは，仮に <span class="math">\(w=3\)</span> における
-<span class="math">\(\frac{\partial \mathcal{L}}{\partial w}\)</span> が <span class="math">\(3\)</span>
-であったとしましょう（このことを<span class="math">\(\frac{\partial \mathcal{L}}{\partial w} |_{w=3} = 3\)</span>と書きます）．すると，以下の図のように，この
-<span class="math">\(3\)</span> という値は <span class="math">\(w=3\)</span> における <span class="math">\(\mathcal{L}(w)\)</span>
+<span class="math notranslate nohighlight">\(w=3\)</span>
+という初期化が行われたと考えてみましょう．そうすると，<span class="math notranslate nohighlight">\(w=3\)</span>における<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>の勾配
+<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial w}\)</span>
+が求まります．ここでは，仮に <span class="math notranslate nohighlight">\(w=3\)</span> における
+<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial w}\)</span> が <span class="math notranslate nohighlight">\(3\)</span>
+であったとしましょう（このことを<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial w} |_{w=3} = 3\)</span>と書きます）．すると，以下の図のように，この
+<span class="math notranslate nohighlight">\(3\)</span> という値は <span class="math notranslate nohighlight">\(w=3\)</span> における <span class="math notranslate nohighlight">\(\mathcal{L}(w)\)</span>
 という関数の接線の傾きを表しています．．</p>
 <div class="figure" id="id18">
 <img alt="11.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/11.png" />
 <p class="caption"><span class="caption-text">11.png</span></p>
 </div>
-<p>もし，<span class="math">\(\mathcal{L}\)</span>の値を小さくしたいのであれば，勾配とは逆の方向に
-<span class="math">\(w\)</span> を変化させる，すなわち <strong>:math:`w` から
+<p>もし，<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>の値を小さくしたいのであれば，勾配とは逆の方向に
+<span class="math notranslate nohighlight">\(w\)</span> を変化させる，すなわち <strong>:math:`w` から
 :math:`frac{partial mathcal{L}}{partial w}` を引いてやればよい</strong>
 でしょう．これがニューラルネットワークのパラメータを目的関数の勾配を用いて更新していく際の基本的な考え方です．このときの
-<span class="math">\(w\)</span> のステップサイズ（更新量）のスケールを調整するために，勾配に
+<span class="math notranslate nohighlight">\(w\)</span> のステップサイズ（更新量）のスケールを調整するために，勾配に
 <strong>学習率</strong> (learning rate) と呼ばれる値を乗じるのが一般的です．</p>
-<p>例えば，今学習率を <span class="math">\(0.5\)</span>
-に設定してみます．そうすると，<span class="math">\(w\)</span>の更新量は <span class="math">\(-\)</span> 学習率
-<span class="math">\(\times\)</span> 勾配で決まるので，<span class="math">\(-0.5 \times 3 = -1.5\)</span>
-となります．現在 <span class="math">\(w=3\)</span> なので，<span class="math">\(w \leftarrow w - 1.5\)</span>
-と更新した後は， <span class="math">\(w=1.5\)</span>
+<p>例えば，今学習率を <span class="math notranslate nohighlight">\(0.5\)</span>
+に設定してみます．そうすると，<span class="math notranslate nohighlight">\(w\)</span>の更新量は <span class="math notranslate nohighlight">\(-\)</span> 学習率
+<span class="math notranslate nohighlight">\(\times\)</span> 勾配で決まるので，<span class="math notranslate nohighlight">\(-0.5 \times 3 = -1.5\)</span>
+となります．現在 <span class="math notranslate nohighlight">\(w=3\)</span> なので，<span class="math notranslate nohighlight">\(w \leftarrow w - 1.5\)</span>
+と更新した後は， <span class="math notranslate nohighlight">\(w=1.5\)</span>
 となります．ここでさらに，この点においても，勾配を求めてみます．その結果が
-<span class="math">\(\frac{\partial \mathcal{L}}{\partial w} |_{w=1.5} = -1\)</span>
-であったとしましょう．すると，次の更新量は，<span class="math">\(- 0.5 \times -(-1) = 0.5\)</span>
+<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial w} |_{w=1.5} = -1\)</span>
+であったとしましょう．すると，次の更新量は，<span class="math notranslate nohighlight">\(- 0.5 \times -(-1) = 0.5\)</span>
 となります．以上の通りに2回更新したあとは，以下の図のような位置に
-<span class="math">\(w\)</span> はあるでしょう．</p>
+<span class="math notranslate nohighlight">\(w\)</span> はあるでしょう．</p>
 <div class="figure" id="id19">
 <img alt="12.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/12.png" />
 <p class="caption"><span class="caption-text">12.png</span></p>
 </div>
-<p>徐々に<span class="math">\(\mathcal{L}\)</span>が最小値をとるときの<span class="math">\(w\)</span>の値に近づいていっていることが見て取れます．</p>
-<p>このように，「-1 <span class="math">\(\times\)</span> 学習率 <span class="math">\(\times\)</span>
-勾配」を更新量としてパラメータを変化させていくと，パラメータ<span class="math">\(w\)</span>
-は求めたい <span class="math">\(\mathcal{L}\)</span> の最小値を与える <span class="math">\(w\)</span>
+<p>徐々に<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>が最小値をとるときの<span class="math notranslate nohighlight">\(w\)</span>の値に近づいていっていることが見て取れます．</p>
+<p>このように，「-1 <span class="math notranslate nohighlight">\(\times\)</span> 学習率 <span class="math notranslate nohighlight">\(\times\)</span>
+勾配」を更新量としてパラメータを変化させていくと，パラメータ<span class="math notranslate nohighlight">\(w\)</span>
+は求めたい <span class="math notranslate nohighlight">\(\mathcal{L}\)</span> の最小値を与える <span class="math notranslate nohighlight">\(w\)</span>
 に徐々に近づいていきます．このような勾配を用いた目的関数の最小化を行う手法を
 <strong>勾配降下法</strong> と呼びます．ニューラルネットワークは，基本的に
 <strong>微分可能な関数のみを層間をつなぐ関数として用いて</strong>
 設計されるため，登場する線形変換と非線形変換はすべて微分可能であり，学習データセットを用いて勾配降下法によってパラメータを最適化する方法が適用可能です．</p>
-<p>ニューラルネットワークを勾配降下法で最適化する場合は，学習データセット内に存在するすべてのサンプルに対して目的関数の値を計算し，その総和を最小にするようにパラメータを更新する<strong>バッチ最適化</strong>という方法<strong>ではなく</strong>，「<strong>ミニバッチ学習</strong>」と呼ばれる方法をとるのが一般的です．これは，学習データセットからランダムに<span class="math">\(k (&gt;0)\)</span>個のデータを抽出し，その<span class="math">\(k\)</span>個のデータに対する目的関数の平均の値を小さくするようパラメータを更新することを，異なる<span class="math">\(k\)</span>個のデータの組み合わせに対して繰り返し行うことで，データセットに含まれる全てのデータを使った最適化を行うことです．データセット内のデータを1度ずつ，ただし<span class="math">\(k\)</span>個のかたまりごとに用いて，すべてパラメータ更新に用い終えるまでを一般的に
+<p>ニューラルネットワークを勾配降下法で最適化する場合は，学習データセット内に存在するすべてのサンプルに対して目的関数の値を計算し，その総和を最小にするようにパラメータを更新する<strong>バッチ最適化</strong>という方法<strong>ではなく</strong>，「<strong>ミニバッチ学習</strong>」と呼ばれる方法をとるのが一般的です．これは，学習データセットからランダムに<span class="math notranslate nohighlight">\(k (&gt;0)\)</span>個のデータを抽出し，その<span class="math notranslate nohighlight">\(k\)</span>個のデータに対する目的関数の平均の値を小さくするようパラメータを更新することを，異なる<span class="math notranslate nohighlight">\(k\)</span>個のデータの組み合わせに対して繰り返し行うことで，データセットに含まれる全てのデータを使った最適化を行うことです．データセット内のデータを1度ずつ，ただし<span class="math notranslate nohighlight">\(k\)</span>個のかたまりごとに用いて，すべてパラメータ更新に用い終えるまでを一般的に
 <strong>1エポック</strong>
-と呼びます．また，このときの<span class="math">\(k\)</span>をバッチサイズもしくはミニバッチサイズと呼び，このような方法は，<strong>確率的勾配降下法</strong>
+と呼びます．また，このときの<span class="math notranslate nohighlight">\(k\)</span>をバッチサイズもしくはミニバッチサイズと呼び，このような方法は，<strong>確率的勾配降下法</strong>
 (SGD: Stocastic Gradient Descent)
 と呼ばれます．現在ほとんどすべてのニューラルネットワークのための最適化手法はこのSGDをベースとした手法となっています．SGDを用いると，全体の計算時間が劇的に少なくできるだけでなく，下図のように目的関数が凸関数でなかったとしても，“ほとんど確実に”局所最適解に収束することが知られています．</p>
 <div class="figure" id="id20">
@@ -580,53 +580,53 @@ h_{12} &amp;= \max(0, -11)  = 0
 <p class="caption"><span class="caption-text">08.png</span></p>
 </div>
 <p>それでは今，上図のような3層の全結合型ニューラルネットワークを考え，1層目と2層目の間の線形変換が
-<span class="math">\({\bf w}_1, {\bf b}_1\)</span>
+<span class="math notranslate nohighlight">\({\bf w}_1, {\bf b}_1\)</span>
 というパラメータによって表され，2層目と3層目の間の線形変換が
-<span class="math">\({\bf w}_2, {\bf b}_2\)</span>
+<span class="math notranslate nohighlight">\({\bf w}_2, {\bf b}_2\)</span>
 というパラメータによって表されるとします（図ではバイアス
-<span class="math">\({\bf b}_1, {\bf b}_2\)</span> は省略されています）．これらをまとめて
-<span class="math">\(\boldsymbol{\Theta}\)</span> と表すことにします．</p>
-<p>入力ベクトルは <span class="math">\({\bf x}\)</span>，ニューラルネットワークの出力は
-<span class="math">\({\bf y} \in \mathbb{R}^N\)</span>とし，入力 <span class="math">\({\bf x}\)</span>
-に対応した“望ましい出力”である教師ベクトルを <span class="math">\({\bf t}\)</span>
+<span class="math notranslate nohighlight">\({\bf b}_1, {\bf b}_2\)</span> は省略されています）．これらをまとめて
+<span class="math notranslate nohighlight">\(\boldsymbol{\Theta}\)</span> と表すことにします．</p>
+<p>入力ベクトルは <span class="math notranslate nohighlight">\({\bf x}\)</span>，ニューラルネットワークの出力は
+<span class="math notranslate nohighlight">\({\bf y} \in \mathbb{R}^N\)</span>とし，入力 <span class="math notranslate nohighlight">\({\bf x}\)</span>
+に対応した“望ましい出力”である教師ベクトルを <span class="math notranslate nohighlight">\({\bf t}\)</span>
 とします．ここで，目的関数には前述の平均二乗誤差関数を用いることとします．さて，パラメータをそれぞれ適当な乱数で初期化したあと，入力
-<span class="math">\({\bf x}\)</span>
+<span class="math notranslate nohighlight">\({\bf x}\)</span>
 が与えられたときの目的関数の各パラメータについての勾配を計算して，それぞれのパラメータについて更新量を算出してみましょう．</p>
 <p>まず，目的関数を改めてベクトル表記を用いて書き下すと，以下のようになります．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\mathcal{L}({\bf y}, {\bf t}) = \frac{1}{N} || {\bf t} - {\bf y} ||_2\]</div>
-<p>ここで，ニューラルネットワーク全体を <span class="math">\(f\)</span> と書くことにすると，出力
-<span class="math">\({\bf y}\)</span> は</p>
-<div class="math">
+<p>ここで，ニューラルネットワーク全体を <span class="math notranslate nohighlight">\(f\)</span> と書くことにすると，出力
+<span class="math notranslate nohighlight">\({\bf y}\)</span> は</p>
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 {\bf y} &amp;= f({\bf x}; \boldsymbol{\Theta}) \\
 &amp;= a_2 ( {\bf w}_2 a_1({\bf w}_1 {\bf x} + {\bf b}_1) + {\bf b}_2 )
 \end{aligned}\end{split}\]</div>
-<p>と書くことができます．ここで，<span class="math">\(a_1, a_2\)</span>
+<p>と書くことができます．ここで，<span class="math notranslate nohighlight">\(a_1, a_2\)</span>
 はそれぞれ，1層目と2層目の，および2層目と3層目の間で線形変換のあとに施される非線形変換（活性化関数）です．以下，簡単のために，各層間で行われた線形変換の結果を
-<span class="math">\({\bf u}_1, {\bf u}_2\)</span>とし，中間層の値，すなわち
-<span class="math">\({\bf u}_1\)</span> に活性化関数を適用した結果を <span class="math">\({\bf h}_1\)</span>
-と書きます．<span class="math">\({\bf u}_2\)</span> に活性化関数を適用した結果は
-<span class="math">\({\bf y}\)</span>
+<span class="math notranslate nohighlight">\({\bf u}_1, {\bf u}_2\)</span>とし，中間層の値，すなわち
+<span class="math notranslate nohighlight">\({\bf u}_1\)</span> に活性化関数を適用した結果を <span class="math notranslate nohighlight">\({\bf h}_1\)</span>
+と書きます．<span class="math notranslate nohighlight">\({\bf u}_2\)</span> に活性化関数を適用した結果は
+<span class="math notranslate nohighlight">\({\bf y}\)</span>
 です．すると，これらの関係は以下のように整理することができます．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 {\bf y} &amp;= a_2({\bf u}_2) \\
 {\bf u}_2 &amp;= {\bf w}_2 {\bf h}_1 + {\bf b}_2 \\
 {\bf h}_1 &amp;= a_1({\bf u}_1) \\
 {\bf u}_1 &amp;= {\bf w}_1 {\bf x} + {\bf b}_1
 \end{aligned}\end{split}\]</div>
-<p>それではまず，出力層に近い方のパラメータ，<span class="math">\({\bf w}_2\)</span> についての
-<span class="math">\(\mathcal{L}\)</span>
+<p>それではまず，出力層に近い方のパラメータ，<span class="math notranslate nohighlight">\({\bf w}_2\)</span> についての
+<span class="math notranslate nohighlight">\(\mathcal{L}\)</span>
 の勾配を求めてみましょう．これは，合成関数の偏微分なので，連鎖率を用いて以下のように展開できます．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \frac{\partial \mathcal{L}}{\partial {\bf w}_2}
 &amp;= \frac{\partial \mathcal{L}}{\partial {\bf y}} \frac{\partial {\bf y}}{\partial {\bf w}_2} \\
 &amp;= \frac{\partial \mathcal{L}}{\partial {\bf y}} \frac{\partial {\bf y}}{\partial {\bf u}_2} \frac{\partial {\bf u}_2}{\partial {\bf w}_2}
 \end{aligned}\end{split}\]</div>
 <p>この3つの偏微分はそれぞれ，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \frac{\partial \mathcal{L}}{\partial {\bf y}}
 &amp;= -\frac{2}{N} ({\bf t} - {\bf y}) \\
@@ -635,11 +635,11 @@ h_{12} &amp;= \max(0, -11)  = 0
 \frac{\partial {\bf u}_2}{\partial {\bf w}_2}
 &amp;= {\bf h}_1
 \end{aligned}\end{split}\]</div>
-<p>と求まります．ここで，活性化関数の入力に関する出力の勾配（<span class="math">\(\frac{\partial a_2}{\partial {\bf u}_2}\)</span>）が登場しました．これは，例えば活性化関数にシグモイド関数を用いる場合は，</p>
-<div class="math">
+<p>と求まります．ここで，活性化関数の入力に関する出力の勾配（<span class="math notranslate nohighlight">\(\frac{\partial a_2}{\partial {\bf u}_2}\)</span>）が登場しました．これは，例えば活性化関数にシグモイド関数を用いる場合は，</p>
+<div class="math notranslate nohighlight">
 \[a_2({\bf u}_2) = \frac{1}{1 + \exp(-{\bf u}_2)}\]</div>
 <p>を微分すればよく，すなわち</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \frac{\partial a_2({\bf u}_2)}{\partial {\bf u}_2}
 &amp;= -\frac{-(\exp(-{\bf u}_2))}{(1 + \exp(-{\bf u}_2))^2} \\
@@ -649,14 +649,14 @@ h_{12} &amp;= \max(0, -11)  = 0
 &amp;= a_2({\bf u}_2)(1 - a_2({\bf u}_2))
 \end{aligned}\end{split}\]</div>
 <p>となります．シグモイド関数の勾配は，このようにシグモイド関数の出力値を使って簡単に計算することができます．</p>
-<p>これで <span class="math">\({\bf w}_2\)</span>
+<p>これで <span class="math notranslate nohighlight">\({\bf w}_2\)</span>
 の勾配を計算するのに必要な値は全部計算できそうです．では実際にNumPyを使ってこの勾配を計算してみましょう．ここでは簡単のために，バイアスベクトルはすべて0で初期化されているとします．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import numpy as np
 
 # 入力
@@ -668,15 +668,15 @@ t = np.array([20])
 </div>
 </div>
 <p>まず，NumPyモジュールを読み込んでから，入力の配列を定義します．ここでは，上図と同じになるように
-<code class="docutils literal"><span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">1</span></code>
+<code class="docutils literal notranslate"><span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">1</span></code>
 の3つの値を持つ3次元ベクトルを定義しています．また，正解として仮に
-<code class="docutils literal"><span class="pre">20</span></code> を与えることにしました．次に，パラメータを定義します．</p>
+<code class="docutils literal notranslate"><span class="pre">20</span></code> を与えることにしました．次に，パラメータを定義します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 1-2層間のパラメータ
 w1 = np.array([[3, 1, 2], [-2, -3, -1]])
 b1 = np.array([0, 0])
@@ -689,20 +689,20 @@ b2 = np.array([0])
 </div>
 <p>ここでは，以下の4つのパラメータを定義しました．</p>
 <p><strong>1層目と2層目の間の線形変換のパラメータ</strong></p>
-<p><span class="math">\({\bf w}_1 \in \mathbb{R}^{2 \times 3}\)</span> :
+<p><span class="math notranslate nohighlight">\({\bf w}_1 \in \mathbb{R}^{2 \times 3}\)</span> :
 3次元ベクトルを2次元ベクトルに変換する行列</p>
-<p><span class="math">\({\bf b}_1 \in \mathbb{R}^2\)</span> : 2次元バイアスベクトル</p>
+<p><span class="math notranslate nohighlight">\({\bf b}_1 \in \mathbb{R}^2\)</span> : 2次元バイアスベクトル</p>
 <p><strong>2層目と3層目の間の線形変換のパラメータ</strong></p>
-<p><span class="math">\({\bf w}_2 \in \mathbb{R}^{1 \times 2}\)</span> :
+<p><span class="math notranslate nohighlight">\({\bf w}_2 \in \mathbb{R}^{1 \times 2}\)</span> :
 2次元ベクトルを1次元ベクトルに変換する行列</p>
-<p><span class="math">\({\bf b}_2 \in \mathbb{R}^1\)</span> : 1次元バイアスベクトル</p>
+<p><span class="math notranslate nohighlight">\({\bf b}_2 \in \mathbb{R}^1\)</span> : 1次元バイアスベクトル</p>
 <p>それでは，各層の計算を実際に実行してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># 中間層の計算
 u1 = w1.dot(x) + b1
 h1 = 1. / (1 + np.exp(-u1))
@@ -723,19 +723,19 @@ print(y)
 [0.95257194]
 </pre></div></div>
 </div>
-<p>出力は <span class="math">\(0.95257194\)</span>
-と求まりました．つまり，<span class="math">\(f([2, 3, 1]^T) = 0.95257194\)</span>
+<p>出力は <span class="math notranslate nohighlight">\(0.95257194\)</span>
+と求まりました．つまり，<span class="math notranslate nohighlight">\(f([2, 3, 1]^T) = 0.95257194\)</span>
 ということになります．次に，上で求めた</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\frac{\partial \mathcal{L}}{\partial {\bf w}_2}
 = \frac{\partial \mathcal{L}}{\partial {\bf y}} \frac{\partial {\bf y}}{\partial {\bf u}_2} \frac{\partial {\bf u}_2}{\partial {\bf w}_2}\]</div>
 <p>の右辺の3つの偏微分をそれぞれ計算してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># dL / dy
 g_Ly = -2 / 1 * (t - y)
 
@@ -747,14 +747,14 @@ g_u2w2 = h1
 </pre></div>
 </div>
 </div>
-<p>これらを掛け合わせれば，求めたかったパラメータ <span class="math">\({\bf w}_2\)</span>
+<p>これらを掛け合わせれば，求めたかったパラメータ <span class="math notranslate nohighlight">\({\bf w}_2\)</span>
 についての勾配を得ることができます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># dL / dw_2: 求めたい勾配
 g_Lw2 = g_Ly * g_yu2 * g_u2w2
 
@@ -771,17 +771,17 @@ print(g_Lw_2)
 </pre></div></div>
 </div>
 <p>勾配が求まりました．これが
-<span class="math">\(\frac{\partial \mathcal{L}}{\partial {\bf w}_2}\)</span>
+<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial {\bf w}_2}\)</span>
 の値です．これを学習率でスケールさせたものを使えば，パラメータ
-<span class="math">\({\bf w}_2\)</span>
+<span class="math notranslate nohighlight">\({\bf w}_2\)</span>
 を更新することができます．更新式は，具体的には以下のようになります．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[{\bf w}_2 \leftarrow {\bf w}_2 - \eta \frac{\partial \mathcal{L}}{\partial {\bf w}_2}\]</div>
-<p><span class="math">\(\eta\)</span>
+<p><span class="math notranslate nohighlight">\(\eta\)</span>
 が学習率と呼ばれるもので，これが大きすぎると，繰り返しパラメータ更新を行っていく中で目的関数の値が振動したり，発散したりしてしまいます．小さすぎると，収束に時間がかかってしまいます．そのため，この学習率を適切に決定することがニューラルネットワークの学習においては非常に重要となります．</p>
-<p>次に，<span class="math">\({\bf w}_1\)</span>
+<p>次に，<span class="math notranslate nohighlight">\({\bf w}_1\)</span>
 についての勾配も求めてみましょう．ここで，これは，以下のように計算できるはずです．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \frac{\partial \mathcal{L}}{\partial {\bf w}_1}
 &amp;= \frac{\partial \mathcal{L}}{\partial {\bf y}} \frac{\partial {\bf y}}{\partial {\bf w}_1} \\
@@ -802,7 +802,7 @@ print(g_Lw_2)
 \frac{\partial {\bf u}_1}{\partial {\bf w}_1}
 \end{aligned}\end{split}\]</div>
 <p>この5つの偏微分のうち初めの1つはすでに求めました．残りの3つは，それぞれ，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 \frac{\partial {\bf y}}{\partial {\bf u}_2}
 &amp;= {\bf y}(1 - {\bf y}) \\
@@ -815,11 +815,11 @@ print(g_Lw_2)
 \end{aligned}\end{split}\]</div>
 <p>と計算することができます．では，さっそく実際にNumPyを用いて計算を実行してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>g_yu2 = y * (1 - y)
 g_u2h1 = w2
 g_h1u1 = h1 * (1 - h1)
@@ -848,11 +848,11 @@ print(g_Lw1)
 </pre></div></div>
 </div>
 <p>計算ができました．これが
-<span class="math">\(\frac{\partial \mathcal{L}}{\partial {\bf w}_1}\)</span>
-の値です．これを用いて，<span class="math">\({\bf w}_2\)</span>
-と同様に以下のような更新式でパラメータ <span class="math">\({\bf w}_1\)</span>
+<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial {\bf w}_1}\)</span>
+の値です．これを用いて，<span class="math notranslate nohighlight">\({\bf w}_2\)</span>
+と同様に以下のような更新式でパラメータ <span class="math notranslate nohighlight">\({\bf w}_1\)</span>
 の更新をすることができます．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[{\bf w}_1 \leftarrow {\bf w}_1 - \eta \frac{\partial \mathcal{L}}{\partial {\bf w}_1}\]</div>
 </div>
 </div>
@@ -865,34 +865,34 @@ print(g_Lw1)
 <img alt="backpropagation" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/backpropagation.gif" />
 <p class="caption"><span class="caption-text">backpropagation</span></p>
 </div>
-<p>ここでは，目的関数の出力を <span class="math">\(l = \mathcal{L}({\bf y}, {\bf t})\)</span>
+<p>ここでは，目的関数の出力を <span class="math notranslate nohighlight">\(l = \mathcal{L}({\bf y}, {\bf t})\)</span>
 としています．この図の丸いノードは変数を表し，四角いノードは関数を表しています．上で説明したように，このニューラルネットワーク全体を
-<span class="math">\(f\)</span> と表す場合，各層間の線形変換を <span class="math">\(f_1\)</span>, <span class="math">\(f_2\)</span>
-と表すと，<span class="math">\(f\)</span>
+<span class="math notranslate nohighlight">\(f\)</span> と表す場合，各層間の線形変換を <span class="math notranslate nohighlight">\(f_1\)</span>, <span class="math notranslate nohighlight">\(f_2\)</span>
+と表すと，<span class="math notranslate nohighlight">\(f\)</span>
 は以下のような関数合成で書くことができることになります．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[f = a_2 \circ f_2 \circ a_1 \circ f_1\]</div>
-<p>ここで，<span class="math">\(\circ\)</span>という記号は関数合成を意味します．例えば，関数<span class="math">\(f\)</span>を<span class="math">\(x\)</span>に適用した結果にさらに関数<span class="math">\(g\)</span>を適用するという操作は，</p>
-<div class="math">
+<p>ここで，<span class="math notranslate nohighlight">\(\circ\)</span>という記号は関数合成を意味します．例えば，関数<span class="math notranslate nohighlight">\(f\)</span>を<span class="math notranslate nohighlight">\(x\)</span>に適用した結果にさらに関数<span class="math notranslate nohighlight">\(g\)</span>を適用するという操作は，</p>
+<div class="math notranslate nohighlight">
 \[g(f(x))\]</div>
-<p>と記述できますが，適用する関数がさらに多くなると括弧が大量に登場して記述が煩雑になってしまいます．そのため，このような連続した関数の適用の操作を関数の合成記号<span class="math">\(\circ\)</span>を用いて</p>
-<div class="math">
+<p>と記述できますが，適用する関数がさらに多くなると括弧が大量に登場して記述が煩雑になってしまいます．そのため，このような連続した関数の適用の操作を関数の合成記号<span class="math notranslate nohighlight">\(\circ\)</span>を用いて</p>
+<div class="math notranslate nohighlight">
 \[(g \circ f)(x)\]</div>
 <p>と書くことがあります．これにより多くの関数を適用する際には適用の順番や関数の個数などが見やすくなります．</p>
-<p>さて，ニューラルネットワークの場合，<strong>この全体（:math:`f`）を構成する一つ一つの関数（:math:`a_2, f_2, a_1, f_1`）のそれぞれが全て，それぞれの入力について微分可能になっているはずです</strong>．そのため，事前にそれらの導関数を計算しておけば，新しい入力が渡されたとき，それを導関数に代入するだけですぐに入力に関する勾配の値を計算することができます．例えば，図中の<span class="math">\(\frac{\partial \mathcal{L}}{\partial {\bf y}}\)</span>
-や，<span class="math">\(\frac{\partial a_2}{\partial {\bf u}_2}\)</span>
-などは，<span class="math">\(\mathcal{L}\)</span> や <span class="math">\(a_2\)</span>
+<p>さて，ニューラルネットワークの場合，<strong>この全体（:math:`f`）を構成する一つ一つの関数（:math:`a_2, f_2, a_1, f_1`）のそれぞれが全て，それぞれの入力について微分可能になっているはずです</strong>．そのため，事前にそれらの導関数を計算しておけば，新しい入力が渡されたとき，それを導関数に代入するだけですぐに入力に関する勾配の値を計算することができます．例えば，図中の<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial {\bf y}}\)</span>
+や，<span class="math notranslate nohighlight">\(\frac{\partial a_2}{\partial {\bf u}_2}\)</span>
+などは，<span class="math notranslate nohighlight">\(\mathcal{L}\)</span> や <span class="math notranslate nohighlight">\(a_2\)</span>
 に入力が与えられた時点で計算することができます．</p>
-<p>また，このニューラルネットワークに入力データ <span class="math">\({\bf x}\)</span>
+<p>また，このニューラルネットワークに入力データ <span class="math notranslate nohighlight">\({\bf x}\)</span>
 を与えて，出力へ向けて順番に計算を行っていくことでデータが伝播していくこと（<strong>上の図で青色の矢印で表された左から右方向への計算</strong>）を，<strong>順伝播（forward
 computation）</strong> といいます．</p>
 <p>順伝播が進行していくと，すでに通過した関数に対してはその入力に関する勾配の値が求まっていきます．そして，順伝播計算の終着点にあるのは目的関数の計算です．このとき，計算グラフの途中にでてきた2個めの線形変換
-<span class="math">\(f_2\)</span> に着目すると，この関数が持つパラメータ <span class="math">\({\bf w}_2\)</span>
-についての目的関数 <span class="math">\(\mathcal{L}\)</span>
-の勾配は，<strong>この関数より先にあるすべての関数の勾配をかけ合わせたもの</strong>＝<span class="math">\(\frac{\partial a_2}{\partial {\bf u}_2} \frac{\partial \mathcal{L}}{\partial {\bf y}}\)</span>
-に，<strong>この関数に対するパラメータについての勾配</strong>＝<span class="math">\(\frac{\partial f_2}{\partial {\bf w}_2}\)</span>
+<span class="math notranslate nohighlight">\(f_2\)</span> に着目すると，この関数が持つパラメータ <span class="math notranslate nohighlight">\({\bf w}_2\)</span>
+についての目的関数 <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>
+の勾配は，<strong>この関数より先にあるすべての関数の勾配をかけ合わせたもの</strong>＝<span class="math notranslate nohighlight">\(\frac{\partial a_2}{\partial {\bf u}_2} \frac{\partial \mathcal{L}}{\partial {\bf y}}\)</span>
+に，<strong>この関数に対するパラメータについての勾配</strong>＝<span class="math notranslate nohighlight">\(\frac{\partial f_2}{\partial {\bf w}_2}\)</span>
 を掛け合わせれば，求められるということが分かります．上の図中にも式で示されている，以下の計算のことです．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\frac{\partial \mathcal{L}}{\partial {\bf w}_2}
 =
 \frac{\partial f_2}{\partial {\bf w}_2}
@@ -901,7 +901,7 @@ computation）</strong> といいます．</p>
 <p>つまり，<strong>パラメータ :math:`{bf w}_2` の更新量＝目的関数に対する
 :math:`{bf w}_2` についての勾配</strong>
 は，この図が示すように，<strong>出力側から順に，逆向きに各関数の入力に関する勾配を計算していき，それを掛け合わせていく</strong>ことで計算できるわけです．</p>
-<p>このように，微分の連鎖率の仕組みを用いてニューラルネットワーク <span class="math">\(f\)</span>
+<p>このように，微分の連鎖率の仕組みを用いてニューラルネットワーク <span class="math notranslate nohighlight">\(f\)</span>
 の微分を計算し，パラメータの更新量を求めることを実際のデータを用いて繰り返し行ってパラメータ最適化を行うアルゴリズムを，<strong>誤差逆伝播法（backpropagation）</strong>
 と呼びます．</p>
 <p>また，こうしてみるとニューラルネットワークとは「<strong>微分可能な関数によって構成される計算グラフ</strong>」であるということがよく分かります．</p>
@@ -910,7 +910,7 @@ computation）</strong> といいます．</p>
 <h2>3.5. 勾配消失<a class="headerlink" href="#勾配消失" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>活性化関数について初めに触れた際，シグモイド関数には勾配消失という現象が起きやすくなるという問題があり，現在はあまり使われていないと説明をしました．その理由についてもう少し詳しく見ていきましょう．</p>
 <p>上で既に計算した，シグモイド関数の導関数を思い出してみます．</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 f\left( u\right) &amp;=\dfrac {1}{1+e^{-u}} \\
 f'\left( u\right) &amp;= f\left( u\right) \left( 1-f\left( u\right) \right)
@@ -923,9 +923,9 @@ f'\left( u\right) &amp;= f\left( u\right) \left( 1-f\left( u\right) \right)
 <p>この図を見ると，<strong>シグモイド関数の勾配の最大値は0.25</strong>
 であることに気づきます．それに対し，前述のReLU関数の場合，入力変数が0より大きければ常に勾配は1となるので，その最大値は1でした．</p>
 <p>これにどのような差があるかを考えてみます．各パラメータの更新量を求めるには，そのパラメータが使われた関数よりも<strong>先のすべての関数の勾配をかけ合わせたもの</strong>
-に，さらに自らの勾配を掛け合わせる必要がありました．しかし，活性化関数にシグモイド関数を用いた場合，線形変換が計算グラフ中に現れるたびにそれに続いて現れる活性化関数の勾配が，どんなに大きくても0.25であるため，活性化関数が登場するたびに目的関数の勾配は少なくとも0.25倍ずつ小さくなっていくわけです．これは，層数が増えていけばいくほど最初の方のパラメータについての勾配は<span class="math">\(0\)</span>に近づくという問題があります．別の言い方をすると，下の層のパラメータをどのように動かしても出力の値がほとんど変わらなくなることを意味します．</p>
+に，さらに自らの勾配を掛け合わせる必要がありました．しかし，活性化関数にシグモイド関数を用いた場合，線形変換が計算グラフ中に現れるたびにそれに続いて現れる活性化関数の勾配が，どんなに大きくても0.25であるため，活性化関数が登場するたびに目的関数の勾配は少なくとも0.25倍ずつ小さくなっていくわけです．これは，層数が増えていけばいくほど最初の方のパラメータについての勾配は<span class="math notranslate nohighlight">\(0\)</span>に近づくという問題があります．別の言い方をすると，下の層のパラメータをどのように動かしても出力の値がほとんど変わらなくなることを意味します．</p>
 <p>今回は3層のニューラルネットワークを用いて説明を行っていましたが，もし4層の場合，一番入力に近い線形変換のパラメータの勾配を求めようとすると，少なくとも目的関数の勾配が
-<span class="math">\(0.25 \times 0.25 = 0.0625\)</span>
+<span class="math notranslate nohighlight">\(0.25 \times 0.25 = 0.0625\)</span>
 倍されることとなります．結果として，ディープラーニングと呼ばれる分野でしばしば用いられているような，さらに多くの層を積み重ねたニューラルネットワークを訓練したい場合には，活性化関数としてシグモイド関数を使用すると，<strong>目的関数の勾配が入力に近いパラメータへほとんど伝わらなくなっていき</strong>，勾配降下法による最適化で用いるパラメータの更新量の値が極端に小さくなって，どんなに目的関数が大きなエラーを報告していようとも，ほとんどパラメータの値が更新されないということが起きます．これを<strong>勾配消失</strong>と呼び，長らく深い（十数層を超える）ニューラルネットワークの学習が困難であった一つの要因でした．</p>
 </div>
 </div>
@@ -971,22 +971,12 @@ f'\left( u\right) &amp;= f\left( u\right) \left( 1-f\left( u\right) \right)
 
     
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
