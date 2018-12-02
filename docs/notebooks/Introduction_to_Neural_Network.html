@@ -95,6 +95,11 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#誤差逆伝播法（バックプロパゲーション）">3.4. 誤差逆伝播法（バックプロパゲーション）</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#勾配消失">3.5. 勾配消失</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#様々なレイヤ">3.6. 様々なレイヤ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#畳み込み層（convolution-layer）">3.6.1. 畳み込み層（convolution layer）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#プーリング層（pooling-layer）">3.6.2. プーリング層（pooling layer）</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">4. Deep Learningフレームワークの基礎</a></li>
@@ -362,13 +367,13 @@ Network (RNN) といった手法は，ニューラルネットワークの一種
 <div class="section" id="ニューラルネットワークの構造">
 <h2>3.1. ニューラルネットワークの構造<a class="headerlink" href="#ニューラルネットワークの構造" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まずはニューラルネットワークの構造を図式化して見てみましょう．</p>
-<div class="figure" id="id11">
+<div class="figure" id="id12">
 <img alt="01.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/01.png" />
 <p class="caption"><span class="caption-text">01.png</span></p>
 </div>
 <p>この図のひとつひとつの丸い部分のことを<strong>ノード</strong>と呼び，そのノードの縦方向の集まりを<strong>層</strong>と呼びます．そして，一番初めの層を<strong>入力層</strong>，最後の層を<strong>出力層</strong>，そしてその間を<strong>中間層</strong>もしくは<strong>隠れ層</strong>と呼びます．このモデルは入力層，中間層，出力層の３層の構造となっていますが，中間層の数を増やすことでさらに多層のニューラルネットワークを定義することもできます．この例では各層間の全てのノードが結合されているため，<strong>全結合のニューラルネットワーク</strong>とも呼び，ニューラルネットワークの最も基礎的な構造です．</p>
 <p>入力変数はこれまでと同様ですが，出力変数の扱い方がこれまでと異なります．例えば，上図では出力層の各ノードがそれぞれ白ワインと赤ワインに対応しています．このようにカテゴリの数だけ出力の変数があるということになります．なぜこのような構造となっているのでしょうか．</p>
-<div class="figure" id="id12">
+<div class="figure" id="id13">
 <img alt="02.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/02.png" />
 <p class="caption"><span class="caption-text">02.png</span></p>
 </div>
@@ -379,7 +384,7 @@ Network (RNN) といった手法は，ニューラルネットワークの一種
 <p>それでは，ここからニューラルネットワークの内部で行われる計算を詳しく見ていきましょう．ニューラルネットワークの各層は，前の層の値に線形変換と非線形変換を順番に施すことで計算されています．まずは，ここで言う線形変換とは何を表すのか，から見ていきましょう．</p>
 <div class="section" id="線形変換">
 <h3>3.1.1. 線形変換<a class="headerlink" href="#線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="figure" id="id13">
+<div class="figure" id="id14">
 <img alt="03.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/03.png" />
 <p class="caption"><span class="caption-text">03.png</span></p>
 </div>
@@ -426,13 +431,13 @@ b_{3}
 </div>
 <div class="section" id="非線形変換">
 <h3>3.1.2. 非線形変換<a class="headerlink" href="#非線形変換" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="figure" id="id14">
+<div class="figure" id="id15">
 <img alt="04.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/04.png" />
 <p class="caption"><span class="caption-text">04.png</span></p>
 </div>
 <p>次に，非線形変換について説明します．線形変換のみでは，上図右のように入力と出力の間が非線形な関係である場合は，両者の間の関係を適切に表現することができません．そこで，ニューラルネットワークでは各層で線形変換に引き続いて非線形変換を施すことで，全体の関数が非線形性を持つようにしています．この非線形変換を行う関数を，ニューラルネットワークの文脈においては
 <strong>活性化関数</strong> と呼びます．</p>
-<div class="figure" id="id15">
+<div class="figure" id="id16">
 <img alt="05.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/05.png" />
 <p class="caption"><span class="caption-text">05.png</span></p>
 </div>
@@ -452,7 +457,7 @@ Linear Unit (ReLU)</strong>
 </div>
 <div class="section" id="数値を見ながら計算の流れを確認">
 <h3>3.1.3. 数値を見ながら計算の流れを確認<a class="headerlink" href="#数値を見ながら計算の流れを確認" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="figure" id="id16">
+<div class="figure" id="id17">
 <img alt="07.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/07.png" />
 <p class="caption"><span class="caption-text">07.png</span></p>
 </div>
@@ -503,7 +508,7 @@ h_{12} &amp;= \max(0, -11)  = 0
 が1-hotベクトルであるとは，<span class="math notranslate nohighlight">\(t_n (n=1, 2, \dots, N)\)</span>
 のいずれかが1でありそれ以外は0であるようなベクトルのことを言います．このベクトルの1である要素はその要素のインデックスに対応したクラスが正解であることを意味します．例えば，<span class="math notranslate nohighlight">\(t_3 = 1\)</span>であれば3というインデックスに対応するクラスが正解であることになります．</p>
 <div class="math notranslate nohighlight">
-\[\mathcal{L} = - \sum_{n=1}^{N}t_{n}\log y_{n}\]</div>
+\[\mathcal{L} = - \frac{1}{N} \sum_{n=1}^{N}t_{n}\log y_{n}\]</div>
 <p>以下は交差エントロピーの定義について知りたい方だけ参考にしてください．情報理論などで交差エントロピーの定義を知っている方はこの値が交差エントロピーと違うようにみえます．これは以下のように説明できます．<span class="math notranslate nohighlight">\(q(y|x)\)</span>をニューラルネットワークのモデルが定義する条件付き確率であり，<span class="math notranslate nohighlight">\(p(y|x)\)</span>を実データの条件付き確率とします．<span class="math notranslate nohighlight">\(p(y|x)\)</span>は未知ですが，代わりに学習データの経験分布
 <span class="math notranslate nohighlight">\(p(y|x) = \frac{1}{n} \sum_i I(x =x_i, y=y_i)\)</span>であるとします．ただし<span class="math notranslate nohighlight">\(I\)</span>はディラック関数とよばれ，その等号が成立する時，値が<span class="math notranslate nohighlight">\(\infty\)</span>，それ以外では<span class="math notranslate nohighlight">\(0\)</span>であるような関数です．この時，確率分布<span class="math notranslate nohighlight">\(p(y|x)\)</span>と<span class="math notranslate nohighlight">\(q(y|x)\)</span>間の交差エントロピーは</p>
 <div class="math notranslate nohighlight">
@@ -519,7 +524,7 @@ h_{12} &amp;= \max(0, -11)  = 0
 を変化させた際の目的関数 <span class="math notranslate nohighlight">\(\mathcal{L}\)</span>
 の値を表しています．この例では簡単のため二次関数の形になっていますが，実際にはもっと複雑な関数であることがほとんどでしょう．この目的関数が最小値を与えるような
 <span class="math notranslate nohighlight">\(w\)</span> は，どのように発見することができるでしょうか．</p>
-<div class="figure" id="id17">
+<div class="figure" id="id18">
 <img alt="13.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/13.png" />
 <p class="caption"><span class="caption-text">13.png</span></p>
 </div>
@@ -532,7 +537,7 @@ h_{12} &amp;= \max(0, -11)  = 0
 であったとしましょう（このことを<span class="math notranslate nohighlight">\(\frac{\partial \mathcal{L}}{\partial w} |_{w=3} = 3\)</span>と書きます）．すると，以下の図のように，この
 <span class="math notranslate nohighlight">\(3\)</span> という値は <span class="math notranslate nohighlight">\(w=3\)</span> における <span class="math notranslate nohighlight">\(\mathcal{L}(w)\)</span>
 という関数の接線の傾きを表しています．．</p>
-<div class="figure" id="id18">
+<div class="figure" id="id19">
 <img alt="11.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/11.png" />
 <p class="caption"><span class="caption-text">11.png</span></p>
 </div>
@@ -552,7 +557,7 @@ h_{12} &amp;= \max(0, -11)  = 0
 であったとしましょう．すると，次の更新量は，<span class="math notranslate nohighlight">\(- 0.5 \times -(-1) = 0.5\)</span>
 となります．以上の通りに2回更新したあとは，以下の図のような位置に
 <span class="math notranslate nohighlight">\(w\)</span> はあるでしょう．</p>
-<div class="figure" id="id19">
+<div class="figure" id="id20">
 <img alt="12.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/12.png" />
 <p class="caption"><span class="caption-text">12.png</span></p>
 </div>
@@ -569,13 +574,13 @@ h_{12} &amp;= \max(0, -11)  = 0
 と呼びます．また，このときの<span class="math notranslate nohighlight">\(k\)</span>をバッチサイズもしくはミニバッチサイズと呼び，このような方法は，<strong>確率的勾配降下法</strong>
 (SGD: Stocastic Gradient Descent)
 と呼ばれます．現在ほとんどすべてのニューラルネットワークのための最適化手法はこのSGDをベースとした手法となっています．SGDを用いると，全体の計算時間が劇的に少なくできるだけでなく，下図のように目的関数が凸関数でなかったとしても，“ほとんど確実に”局所最適解に収束することが知られています．</p>
-<div class="figure" id="id20">
+<div class="figure" id="id21">
 <img alt="14.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/14.png" />
 <p class="caption"><span class="caption-text">14.png</span></p>
 </div>
 <div class="section" id="パラメータ更新量の算出">
 <h3>3.3.1. パラメータ更新量の算出<a class="headerlink" href="#パラメータ更新量の算出" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<div class="figure" id="id21">
+<div class="figure" id="id22">
 <img alt="08.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/08.png" />
 <p class="caption"><span class="caption-text">08.png</span></p>
 </div>
@@ -595,8 +600,8 @@ h_{12} &amp;= \max(0, -11)  = 0
 <p>まず，目的関数を改めてベクトル表記を用いて書き下すと，以下のようになります．</p>
 <div class="math notranslate nohighlight">
 \[\mathcal{L}({\bf y}, {\bf t}) = \frac{1}{N} || {\bf t} - {\bf y} ||_2\]</div>
-<p>ここで，ニューラルネットワーク全体を <span class="math notranslate nohighlight">\(f\)</span> と書くことにすると，出力
-<span class="math notranslate nohighlight">\({\bf y}\)</span> は</p>
+<p><span class="math notranslate nohighlight">\(|| {\bf t} - {\bf y} ||_2\)</span>はここでは<span class="math notranslate nohighlight">\(({\bf t} - {\bf y})^T({\bf t} - {\bf y})\)</span>と同等の意味となります．ここで，ニューラルネットワーク全体を
+<span class="math notranslate nohighlight">\(f\)</span> と書くことにすると，出力 <span class="math notranslate nohighlight">\({\bf y}\)</span> は</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{aligned}
 {\bf y} &amp;= f({\bf x}; \boldsymbol{\Theta}) \\
@@ -778,7 +783,7 @@ print(g_Lw_2)
 <div class="math notranslate nohighlight">
 \[{\bf w}_2 \leftarrow {\bf w}_2 - \eta \frac{\partial \mathcal{L}}{\partial {\bf w}_2}\]</div>
 <p><span class="math notranslate nohighlight">\(\eta\)</span>
-が学習率と呼ばれるもので，これが大きすぎると，繰り返しパラメータ更新を行っていく中で目的関数の値が振動したり，発散したりしてしまいます．小さすぎると，収束に時間がかかってしまいます．そのため，この学習率を適切に決定することがニューラルネットワークの学習においては非常に重要となります．</p>
+が学習率と呼ばれるもので，これが大きすぎると，繰り返しパラメータ更新を行っていく中で目的関数の値が振動したり，発散したりしてしまいます．小さすぎると，収束に時間がかかってしまいます．そのため，この学習率を適切に決定することがニューラルネットワークの学習においては非常に重要となります．多くの場合，学習がきちんと進むもっとも大きな値を経験的に見つけるということが行われます．シンプルな画像認識のタスクなどでは大抵，0.1~0.01などが最初に用いられる場合が比較的多く見られます．</p>
 <p>次に，<span class="math notranslate nohighlight">\({\bf w}_1\)</span>
 についての勾配も求めてみましょう．ここで，これは，以下のように計算できるはずです．</p>
 <div class="math notranslate nohighlight">
@@ -861,7 +866,7 @@ print(g_Lw1)
 <p>ここまでで，勾配を手計算により導出して実際に数値計算を行うということを体験しました．しかし，これは層数が増えてくれば増えてくるほど，一つ一つのパラメータに関する勾配を手計算で求めることは大変になっていきます．</p>
 <p>しかし，ここまでで何度か行ってきた合成関数の偏微分を連鎖率によって複数の偏微分の積の形に変形する行程は自動的に計算できそうです．</p>
 <p>そこで，ここまでの説明で用いていた3層全結合型ニューラルネットワークをもう一度見直して，更新量がどのように計算されていたか動画で確かめてみましょう．</p>
-<div class="figure" id="id22">
+<div class="figure" id="id23">
 <img alt="backpropagation" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/backpropagation.gif" />
 <p class="caption"><span class="caption-text">backpropagation</span></p>
 </div>
@@ -915,18 +920,76 @@ computation）</strong> といいます．</p>
 f\left( u\right) &amp;=\dfrac {1}{1+e^{-u}} \\
 f'\left( u\right) &amp;= f\left( u\right) \left( 1-f\left( u\right) \right)
 \end{aligned}\end{split}\]</div>
-<p>さて，この導関数を入力変数に関してプロットしてみると，下記のようになります．</p>
-<div class="figure" id="id23">
+<p>さて，この導関数の値を入力変数に関してプロットしてみると，下記のようになります．</p>
+<div class="figure" id="id24">
 <img alt="09.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png" />
 <p class="caption"><span class="caption-text">09.png</span></p>
 </div>
-<p>この図を見ると，<strong>シグモイド関数の勾配の最大値は0.25</strong>
-であることに気づきます．それに対し，前述のReLU関数の場合，入力変数が0より大きければ常に勾配は1となるので，その最大値は1でした．</p>
-<p>これにどのような差があるかを考えてみます．各パラメータの更新量を求めるには，そのパラメータが使われた関数よりも<strong>先のすべての関数の勾配をかけ合わせたもの</strong>
-に，さらに自らの勾配を掛け合わせる必要がありました．しかし，活性化関数にシグモイド関数を用いた場合，線形変換が計算グラフ中に現れるたびにそれに続いて現れる活性化関数の勾配が，どんなに大きくても0.25であるため，活性化関数が登場するたびに目的関数の勾配は少なくとも0.25倍ずつ小さくなっていくわけです．これは，層数が増えていけばいくほど最初の方のパラメータについての勾配は<span class="math notranslate nohighlight">\(0\)</span>に近づくという問題があります．別の言い方をすると，下の層のパラメータをどのように動かしても出力の値がほとんど変わらなくなることを意味します．</p>
-<p>今回は3層のニューラルネットワークを用いて説明を行っていましたが，もし4層の場合，一番入力に近い線形変換のパラメータの勾配を求めようとすると，少なくとも目的関数の勾配が
+<p>この図の上2つは，導関数を構成する2つの部分 <span class="math notranslate nohighlight">\(f(u)\)</span> と
+<span class="math notranslate nohighlight">\(1 - f(u)\)</span>
+の値を別々にプロットしたもので，中央下の図が実際の導関数の値となります．上図中央下の導関数の形を見ると，入力が原点から遠くなると勾配の値が減少し，0に漸近していくことが見て取れます．</p>
+<p>各パラメータの更新量を求めるには，前節で説明したように，<strong>そのパラメータが使われた関数よりも先のすべての関数の勾配をかけ合わせたもの</strong>
+に，さらに自らの勾配を掛け合わせる必要がありました．このとき，活性化関数にシグモイド関数を用いていると，勾配は必ず<strong>最大でも0.25</strong>という値にしかなりません．すると，線形変換が計算グラフ中に現れるたびに，目的関数の勾配は，多くとも0.25倍されてしまいます．これは，層数が増えていけばいくほど，入力に近い層に流れていく勾配がどんどん0に近づいていってしまうという問題を引き起こします．別の言い方をすると，入力に近い層のパラメータをどのように動かしても出力の値がほとんど変わらなくなるというわけです．今回は3層のニューラルネットワークを用いて説明を行っていましたが，もし4層の場合，一番入力に近い線形変換のパラメータの勾配を求めようとすると，多くとも目的関数の勾配が
 <span class="math notranslate nohighlight">\(0.25 \times 0.25 = 0.0625\)</span>
-倍されることとなります．結果として，ディープラーニングと呼ばれる分野でしばしば用いられているような，さらに多くの層を積み重ねたニューラルネットワークを訓練したい場合には，活性化関数としてシグモイド関数を使用すると，<strong>目的関数の勾配が入力に近いパラメータへほとんど伝わらなくなっていき</strong>，勾配降下法による最適化で用いるパラメータの更新量の値が極端に小さくなって，どんなに目的関数が大きなエラーを報告していようとも，ほとんどパラメータの値が更新されないということが起きます．これを<strong>勾配消失</strong>と呼び，長らく深い（十数層を超える）ニューラルネットワークの学習が困難であった一つの要因でした．</p>
+倍されることとなります．結果として，ディープラーニングと呼ばれる分野でしばしば用いられているような，さらに多くの層を積み重ねたニューラルネットワークを訓練したい場合には，活性化関数としてシグモイド関数を使用すると，<strong>目的関数の勾配が入力に近い層のパラメータへほとんど伝わらなくなっていき</strong>，勾配降下法による最適化で用いるパラメータの更新量の値が極端に小さくなって，どんなに目的関数が大きな値になろうとも，ほとんどパラメータの値が更新されないということが起きます．これを<strong>勾配消失</strong>と呼び，長らく深い（十数層を超える）ニューラルネットワークの学習が困難であった一つの要因でした．</p>
+</div>
+<div class="section" id="様々なレイヤ">
+<h2>3.6. 様々なレイヤ<a class="headerlink" href="#様々なレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここまでで，ニューラルネットワークには大別して線形変換を行う層と非線形変換を行う層が含まれることを説明し，線形変換の例として<strong>全結合層（fully-connected
+layer）</strong>のみを用いてきました．</p>
+<p>しかし，ニューラルネットワークの構成要素として用いることができるレイヤは，全結合層と活性化関数だけではありません．画像認識や画像生成，画像の変換や超解像など，様々なタスクで入力に画像というデータ形式が用いられますが，そのようなタスクでは，しばしば画像というデータ形式に非常に相性の良い種類のレイヤである畳み込みレイヤというものが全結合層の代わりにニューラルネットワークの中で線形変換を担います．</p>
+<p>また，ニューラルネットワークの構成要素となるレイヤには，微分可能な関数であればなんであれ用いることができます．そこで，いわゆる<strong>畳み込みニューラルネットワーク（convolutional
+neural networks;
+CNN）</strong>と呼ばれるネットワークアーキテクチャの種別では，この畳込み層に加えてプーリング層（Pooling
+layer）というレイヤがしばしば用いられてきました．</p>
+<p>本節では，このCNNでしばしば用いられる畳み込み層とプーリング層について，その計算の概要を説明します．</p>
+<div class="section" id="畳み込み層（convolution-layer）">
+<h3>3.6.1. 畳み込み層（convolution layer）<a class="headerlink" href="#畳み込み層（convolution-layer）" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>全結合層では，出力の計算のためにパラメータ行列<span class="math notranslate nohighlight">\({\bf W}\)</span>中の一つ一つの値が入力データの持つ全ての要素（ベクトルであれば，全次元の値）と掛け合わされていました．言い換えると，「結合」を何らかの演算が行われる関係を指すものとすれば，パラメータ行列<span class="math notranslate nohighlight">\({\bf W}\)</span>の<span class="math notranslate nohighlight">\(i, j\)</span>要素である<span class="math notranslate nohighlight">\(W_{ij}\)</span>と，入力データ<span class="math notranslate nohighlight">\({\bf x}\)</span>の全要素の間が，全結合（fully-connected）していたということです．</p>
+<p>一方，畳み込み層では，ここまでで説明した全結合層とは異なり，パラメータと入力データの間の結合が局所的になっています．具体的には，畳み込み層で用いられるパラメータは，カーネル（もしくはフィルタ）と呼ばれる小さな画像パッチのようなものの集合として用意され，そのパッチごとに入力データの一部の値との間の演算が行われる形となります．</p>
+<p>下の図を用いて，<span class="math notranslate nohighlight">\(3 \times 3\)</span>の大きさの小さな画像パッチのような畳み込みカーネルを2つ持つ畳み込み層の実際の計算過程を見てみましょう．</p>
+<p><img alt="convolution" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/convolution.gif" /> （図は<a class="reference external" href="http://cs231n.github.io/convolutional-networks/">CS231n Convolutional Neural Networks for Visual
+Recognition</a>より引用）</p>
+<p>一番左の青いブロックが並ぶ列は，入力画像を表しています．入力は
+幅・高さが<span class="math notranslate nohighlight">\(5 \times 5\)</span>
+の大きさの3チャンネル画像です．上図ではまず，パディング（padding）と呼ばれる処理をして，入力画像の周囲に値が0となる領域を付け足しています．今回は幅1の領域をパディングしています．</p>
+<p>中央2列は，それぞれ1列ごとに1つの畳み込みカーネルを表しています．1つの畳み込みカーネルは，入力の画像（もしくは特徴マップ（feature
+map）と呼ばれる一つ前の畳み込み層 +
+活性化関数の出力）が持つのと同数のチャンネルを持ちます．ここでは入力画像は3チャンネルだったので，各カーネルは3チャンネル分の値を持っています．各チャンネルの大きさは全て共通で，<span class="math notranslate nohighlight">\(3 \times 3\)</span>です．各カーネルの各チャンネルは，対応する入力のチャンネルに対して自らをスライドさせていくような形で計算を施します．このときのスライド幅をストライド（stride）と呼びます．行われる計算は，入力のある位置にカーネルを重ね合わせた際に重なっている位置同士の値を掛け合わせて，全て足すという計算です．上の図では，例えば1つ目のカーネル（W0）の1つ目のチャンネルは，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[
+\begin{matrix}
+1 &amp; 1 &amp; -1 \\
+0 &amp; -1 &amp; 0 \\
+1 &amp; -1 &amp; -1
+\end{matrix}
+\right]\end{split}\]</div>
+<p>という値になっており，それに対応する入力画像の1チャンネル目の左上から<span class="math notranslate nohighlight">\(3 \times 3\)</span>の少領域を切り出したものは</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[
+\begin{matrix}
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 \\
+0 &amp; 2 &amp; 0
+\end{matrix}
+\right]\end{split}\]</div>
+<p>となっています．それぞれ，重ね合わせた位置に重なる値同士を掛け合わせると，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\left[
+\begin{matrix}
+0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+0 &amp; -2 &amp; 0
+\end{matrix}
+\right]\end{split}\]</div>
+<p>となることが分かります．この9つの値を全て足したものが，まずこのカーネルの1つ目のチャンネルの1つ目の計算結果となります．計算すると，結果-2です．これを2チャンネル目，3チャンネル目にも同様に行うと，2チャンネル目は0，3チャンネル目は1です．よって，全てのチャンネルの結果を足し合わせると，-1となります．これにカーネルごとに用意されるバイアスの値（上図では1つ目のカーネルのバイアスは1）を足したものが，このカーネルの1つ目の計算結果となります．結果は，0です．一番緑色のブロックが並んだ右の列の1行目にある左上のマスを見ると，確かに0となっていることが分かります．</p>
+<p>同様に，他のマスの値もいくつか自分で計算してみてください．</p>
+<p>この計算に関して微分を行うとどうなるのかというと，この計算はim2colという入力とカーネルの値を値自体は変えずにただ並べ替えて行列を作る操作を行うと，単純な行列演算として計算できます．そのため，詳細は省きますが，全結合層のときと同様にして微分することができます．全結合層とは値の計算の仕方が局所的になっているという違いはあるものの，一つ一つの計算は重みを掛けてバイアスを足すだけであることに注目すると分かりやすいでしょう．</p>
+</div>
+<div class="section" id="プーリング層（pooling-layer）">
+<h3>3.6.2. プーリング層（pooling layer）<a class="headerlink" href="#プーリング層（pooling-layer）" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>執筆中</p>
+</div>
 </div>
 </div>
 
