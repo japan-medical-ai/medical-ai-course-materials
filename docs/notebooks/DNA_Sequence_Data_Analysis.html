@@ -420,12 +420,11 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 </div>
 <div class="section" id="データセット">
 <h2>7.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ここでは，データセットとして<a class="reference external" href="http://fantom.gsc.riken.jp/5/">FANTOM5</a>のCAGEデータセットを利用します．
-今回はBasnejiのチュートリアルで使われている前処理を適用し、その結果得られた配列を利用します．</p>
+<p>ここでは，Basenji[1]で使われた実験データセットの一部を利用します.これらはCAGEなどの配列解析した結果に作られたデータ・セットです。</p>
 <p>下のセルを実行してデータをダウンロードしてください．</p>
 <p>この配列はそれぞれが長さ131072からなり，128塩基毎に対しそのカバレッジ値が記録されています。このカバレッジ値の配列の長さは131072/128=1024です．</p>
 <p>この問題の目標は長さ131072の配列を入力として受け取った時に、この128塩基毎のカバレッジ値を推定することが目標です。</p>
-<p>今回は3種類の異なる実験のカバレッジ値を予測する問題を扱います。</p>
+<p>今回は10種類の異なる実験のカバレッジ値を同時に予測する問題を扱います。</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -439,7 +438,7 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -452,12 +451,13 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 562M
-drwxr-xr-x 2 root root 4.0K Nov 19 21:53 sample_data
--rw-r--r-- 1 root root 562M Nov 13 09:51 seq.h5
+total 567M
+-rw-r--r-- 1 root root 2.6K Dec  3 06:46 adc.json
+drwxr-xr-x 2 root root 4.0K Nov 29 18:21 sample_data
+-rw-r--r-- 1 root root 567M Dec  3 06:47 seq.h5
 </pre></div></div>
 </div>
-<p>data.h5というファイルが正しくダウンロードされているかを確認してください．サイズは562MBです．</p>
+<p>data.h5というファイルが正しくダウンロードされているかを確認してください．サイズは567MBです．</p>
 <p>data.h5はHDF5形式でデータを格納したファイルです．HDF5ファイルは，ファイルシステムと同様に，階層的にデータを格納することができ，行列やテンソルデータをそれぞれの位置で名前付きで格納することができます．</p>
 <p>HDF5形式のファイルを操作するためにh5pyというライブラリがあります．h5pyのFile()関数でファイルを開き，keys()関数でその中に含まれているキーを列挙します．また取得したキーを’[]’内で指定することでそのキーに紐付けられて格納されている各データを参照することができます．</p>
 <p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます．</p>
@@ -468,9 +468,9 @@ drwxr-xr-x 2 root root 4.0K Nov 19 21:53 sample_data
 T, C, Gの対応する次元の値が1, それ以外は0であるような配列です．</p>
 <p>また,‘train_out’は学習用の出力データであり,（’6240, 1024,
 3’)というサイズを持ちます.これは長さが1024からなる配列が6240個あり,それぞれが3種類の異なるChipSeqの結果のカバレッジ値が格納されています.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -479,29 +479,39 @@ import numpy as np
 
 with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
     for key in hf.keys():
-    print(key, hf[key].shape, hf[key].dtype)
+        print(key, hf[key].shape, hf[key].dtype)
 </pre></div>
 </div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;pool_width&#39;</span><span class="p">,</span> <span class="p">())</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_ids&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_labels&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_strands&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">444</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">444</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_out_full&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">444</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">6240</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">6240</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">338</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">338</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(u&#39;target_labels&#39;, (10,), dtype(&#39;S29&#39;))
+(u&#39;test_in&#39;, (500, 131072, 4), dtype(&#39;bool&#39;))
+(u&#39;test_out&#39;, (500, 1024, 10), dtype(&#39;&lt;f2&#39;))
+(u&#39;train_in&#39;, (5000, 131072, 4), dtype(&#39;bool&#39;))
+(u&#39;train_out&#39;, (5000, 1024, 10), dtype(&#39;&lt;f2&#39;))
+(u&#39;valid_in&#39;, (500, 131072, 4), dtype(&#39;bool&#39;))
+(u&#39;valid_out&#39;, (500, 1024, 10), dtype(&#39;&lt;f2&#39;))
+</pre></div></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_labels&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S29&#39;</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&lt;f2&#39;</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&lt;f2&#39;</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&lt;f2&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータを一部を表示します．</p>
 <p>試しに最初のデータを取り出して，それの出力の値を表示してみます．</p>
 <p>下のセルを実行してみてください．最初のデータの出力の三つの値を線グラフで出力します．（ここまでのセルを実行していてください）．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [11]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -512,10 +522,17 @@ with h5py.File(&#39;seq.h5&#39;) as hf:
     y = hf[&#39;train_out&#39;][:100]
     fig_size = plt.rcParams[&quot;figure.figsize&quot;]
     fig_size[0] = 20
-    fig_size[1] = 10
+    fig_size[1] = 5
     for i in range(3):
         plt.bar(range(y.shape[1]), y[0,:,i])
 </pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_DNA_Sequence_Data_Analysis_15_0.png" src="../_images/notebooks_DNA_Sequence_Data_Analysis_15_0.png" />
 </div>
 </div>
 </div>
@@ -578,41 +595,41 @@ import cupy as cp
 bc = 16 # base channel
 
 default_squeeze_params = [
-    # out_ch, kernel, pool
-    [bc, 21, 2], #1 128 -&gt; 64
-    [bc*2, 7, 4], #2  64 -&gt; 16
-    [bc*4, 7, 4], #3  16 -&gt; 4
-  [bc*8, 7, 4], #4  4 -&gt; 1
+    # out_ch, kernel, pool, dropout
+    [bc, 21, 2, 0.05], #1 128 -&gt; 64
+    [bc*2, 7, 4, 0.05], #2  64 -&gt; 16
+    [bc*4, 7, 4, 0.05], #3  16 -&gt; 4
+    [bc*8, 7, 4, 0.05]  #4  4 -&gt; 1
 ]
 
 
 default_dilated_params = [
 # out_ch, kernel, dilated
-  [bc*8, 3, 1],
-  [bc*8, 3, 2],
-  [bc*8, 3, 4],
-  [bc*8, 3, 8],
-  [bc*8, 3, 16],
-  [bc*8, 3, 32],
-  [bc*8, 3, 64]
+  [bc*8, 3, 1, 0.1],
+  [bc*8, 3, 2, 0.1],
+  [bc*8, 3, 4, 0.1],
+  [bc*8, 3, 8, 0.1],
+  [bc*8, 3, 16, 0.1],
+  [bc*8, 3, 32, 0.1],
+  [bc*8, 3, 64, 0.1]
 ]
 
 
 class Net(chainer.Chain):
 
-    def __init__(self, squeeze_params=default_squeeze_params, dilated_params=default_dilated_params, n_targets=3):
+    def __init__(self, squeeze_params=default_squeeze_params, dilated_params=default_dilated_params, n_targets=10):
         super(Net, self).__init__()
         self._n_squeeze = len(squeeze_params)
         self._n_dilated = len(dilated_params)
         with self.init_scope():
             in_ch = 4
             for i, param in enumerate(squeeze_params):
-                out_ch, kernel, pool = param
-                setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(in_ch, out_ch, kernel, pool))
+                out_ch, kernel, pool, do_rate = param
+                setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(in_ch, out_ch, kernel, pool, do_rate))
                 in_ch = out_ch
             for i, param in enumerate(dilated_params):
-                out_ch, kernel, dilated = param
-                setattr(self, &quot;d_{}&quot;.format(i), DilatedBlock(out_ch, kernel, dilated))
+                out_ch, kernel, dilated, do_rate = param
+                setattr(self, &quot;d_{}&quot;.format(i), DilatedBlock(out_ch, kernel, dilated, do_rate))
             self.l = L.ConvolutionND(1, None, n_targets, 1)
 
     def forward(self, x):
@@ -667,29 +684,31 @@ class WNConvolutionND(L.ConvolutionND):
             self.pad, self.cover_all, self.dilate)
 
 class SqueezeBlock(chainer.Chain):
-    def __init__(self, in_ch, out_ch, kernel, pool):
+    def __init__(self, in_ch, out_ch, kernel, pool, do_rate):
         super(SqueezeBlock, self).__init__()
 
         self.pool = pool
+        self.do_rate = do_rate
         with self.init_scope():
             pad = kernel // 2
             self.conv = WNConvolutionND(1, in_ch, out_ch*2, kernel, pad=pad, stride=pool)
 
     def forward(self, x):
-        h = self.conv(x)
+        h = F.dropout(self.conv(x), self.do_rate)
         h, g = F.split_axis(h, 2, 1)
         h = h * F.sigmoid(g)
         return h
 
 class DilatedBlock(chainer.Chain):
-     def __init__(self, out_ch, kernel, dilate):
+     def __init__(self, out_ch, kernel, dilate, do_rate):
         super(DilatedBlock, self).__init__()
+        self.do_rate = do_rate
         with self.init_scope():
             self.conv = WNConvolutionND(1, out_ch, out_ch*2, kernel, pad=dilate, dilate=dilate)
             self.conv1x1 = WNConvolutionND(1, out_ch, out_ch, 1)
 
-    def forward(self, x):
-        h = self.conv(x)
+     def forward(self, x):
+        h = F.dropout(self.conv(x), self.do_rate)
         h, g = F.split_axis(h, 2, 1)
         h = h * F.sigmoid(g)
         h = self.conv1x1(h)
@@ -709,9 +728,9 @@ Convolutionを使って遠距離にある情報も使って計算していく部
 Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだが，Convolution2Dも同様）の引数にdilatedを加えるだけで計算できます．</p>
 <p>また，計算の際は入力結果に現在の結果を足しこみます．これはResNetと呼ばれるネットワークで提案された手法です．これにより，学習がしやすくなります．</p>
 <p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [17]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -724,6 +743,14 @@ y = n.forward(x)
 print(y.shape)
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(4, 1024, 3)
+</pre></div></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
@@ -832,9 +859,6 @@ class PreprocessedDataset(chainer.dataset.DatasetMixin):
         x = self.xs[i]
         y = self.ys[i]
 
-        if random.randint(0, 1):
-            x = x[::-1, :]
-            y = y[::-1, :]
 
         s = random.randint(-self.max_shift, self.max_shift)
         x = np.roll(x, s, axis=0)
@@ -860,7 +884,6 @@ from chainer import training
 import h5py
 
 ml_h5 = h5py.File(&#39;seq.h5&#39;)
-print(list(ml_h5.keys()))
 
 train_x = ml_h5[&#39;train_in&#39;]
 train_y = ml_h5[&#39;train_out&#39;]
@@ -871,7 +894,7 @@ valid_y = ml_h5[&#39;valid_out&#39;]
 test_x = ml_h5[&#39;test_in&#39;]
 test_y = ml_h5[&#39;test_out&#39;]
 
-ratio = 20
+ratio = 1
 train_x = train_x[:len(train_x)//ratio]
 train_y = train_y[:len(train_y)//ratio]
 valid_x = valid_x[:len(valid_x)//ratio]
@@ -889,7 +912,7 @@ val_iter = chainer.iterators.SerialIterator(val, batchsize, repeat=False, shuffl
 
 model = L.Classifier(Net(), lossfun=log_poisson_loss, accfun=log_r2_score)
 
-lr = 0.002
+lr = 0.001
 optimizer = chainer.optimizers.Adam(alpha=lr, beta1=0.97, beta2=0.98)
 optimizer.setup(model)
 optimizer.add_hook(chainer.optimizer_hooks.GradientClipping(threshold=0.01))
@@ -898,14 +921,14 @@ optimizer.add_hook(chainer.optimizer_hooks.GradientClipping(threshold=0.01))
 updater = training.updaters.StandardUpdater(
      train_iter, optimizer, device=0)
 
-n_epochs = 60
-n_warmups = 5
+n_epochs = 10
+n_warmups = 3
 out = &quot;out&quot;
 trainer = training.Trainer(updater, (n_epochs, &#39;epoch&#39;), out=out)
 trainer.extend(CosineScheduler(attr=&#39;alpha&#39;, init_val=lr, n_decays=n_epochs, n_warmups=n_warmups), trigger=(1, &#39;epoch&#39;))
 
 trainer.extend(extensions.Evaluator(val_iter, model, device = 0))
-trainer.extend(extensions.LogReport())
+trainer.extend(extensions.LogReport(trigger=(0.2, &#39;epoch&#39;)))
 trainer.extend(extensions.snapshot_object(model, &#39;model_epoch_{.updater.epoch}&#39;), trigger=(1, &#39;epoch&#39;))
 
 trainer.extend(extensions.PrintReport(
@@ -930,9 +953,9 @@ trainer.run()
 </div>
 </div>
 <p>次に，学習したモデルを用いてテストデータに対しても予測してみます．次のようにして学習が終わったモデルを読み込み，テストデータに対してモデルを適用してみましょう．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [26]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -941,7 +964,7 @@ import chainer.links as L
 %matplotlib inline
 import matplotlib.pyplot as plt
 
-model_n_epoch = 10
+model_n_epoch = 60
 out_dir = &#39;out&#39;
 model = L.Classifier(Net())
 chainer.serializers.load_npz(&#39;{}/model_epoch_{}&#39;.format(out_dir, model_n_epoch), model)
@@ -960,10 +983,20 @@ print(test_y_estimated[0,:,0])
 </pre></div>
 </div>
 </div>
-<p>結果を抜粋して表示してみましょう．ここでは3つ目（i=2）の出力について正解と推定結果を出力しています．今回の場合，学習データが少なく，学習回数も少ないためそれほど精度がでていません．</p>
-<div class="nbinput nblast docutils container">
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+500
+(1, 1024, 10)
+variable([1.0371194 1.1439321 2.016534  ... 1.8804296 1.7855631 1.1112121])
+</pre></div></div>
+</div>
+<p>結果を抜粋して表示してみましょう．ここでは3つ目（i=2）の出力について正解と推定結果を出力しています．今回の場合，学習データを絞り（クラス数を10とした），学習回数も少ないため精度はそれほど高くありませんが，ピークをいくつか捉えられていることがわかると思います．</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [27]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -977,7 +1010,27 @@ plt.bar(range(y.shape[1]), test_y[0,:,i])
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Out[27]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;Container object of 1024 artists&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_DNA_Sequence_Data_Analysis_44_1.png" src="../_images/notebooks_DNA_Sequence_Data_Analysis_44_1.png" />
+</div>
+</div>
 <p>時間に余裕があれば学習のn_epochsを60から200程度に増やしたり，総数を増やしたり，チャンネル数を増やしたり，学習データ数（ratio=20をratio=5などにして）に増やしたりして，より高精度なモデルが学習できるのかを調べてみましょう．</p>
+<p>[1] “Sequential regulatory activity prediction across chromosomes with
+convolutional neural networks”, D. R. Kelly and et al., Genome Res.
+2018. 28: 739-750</p>
 </div>
 </div>
 </div>
