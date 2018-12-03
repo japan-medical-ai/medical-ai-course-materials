@@ -94,7 +94,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#データセットの準備">5.4.1. データセットの準備</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#モデルの定義">5.4.2. モデルの定義</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Trainerの定義">5.4.3. Trainerの定義</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#学習開始">5.4.4. 学習開始</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#学習">5.4.4. 学習</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#評価">5.4.5. 評価</a></li>
 </ul>
 </li>
@@ -399,9 +399,9 @@ Colab上では，以下のようにしてインストールすることができ
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!curl https://colab.chainer.org/install | sh -  # ChainerとCuPyのインストール
-!pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>curl https://colab.chainer.org/install <span class="p">|</span> sh -  # ChainerとCuPyのインストール
+<span class="o">!</span>pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール
 </pre></div>
 </div>
 </div>
@@ -411,15 +411,15 @@ Colab上では，以下のようにしてインストールすることができ
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import chainer
-import cupy
-import chainercv
-import matplotlib
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">cupy</span>
+<span class="kn">import</span> <span class="nn">chainercv</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
 
-chainer.print_runtime_info()
-print(&#39;ChainerCV:&#39;, chainercv.__version__)
-print(&#39;matplotlib:&#39;, matplotlib.__version__)
+<span class="n">chainer</span><span class="o">.</span><span class="n">print_runtime_info</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ChainerCV:&#39;</span><span class="p">,</span> <span class="n">chainercv</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;matplotlib:&#39;</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -479,9 +479,9 @@ The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge,
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!if [ ! -d train ]; then curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/train.zip &amp;&amp; unzip train.zip &amp;&amp; rm -rf train.zip; fi
-!if [ ! -d val ]; then curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/val.zip &amp;&amp; unzip val.zip &amp;&amp; rm -rf val.zip; fi
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span><span class="k">if</span> <span class="o">[</span> ! -d train <span class="o">]</span><span class="p">;</span> <span class="k">then</span> curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/train.zip <span class="o">&amp;&amp;</span> unzip train.zip <span class="o">&amp;&amp;</span> rm -rf train.zip<span class="p">;</span> <span class="k">fi</span>
+<span class="o">!</span><span class="k">if</span> <span class="o">[</span> ! -d val <span class="o">]</span><span class="p">;</span> <span class="k">then</span> curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/val.zip <span class="o">&amp;&amp;</span> unzip val.zip <span class="o">&amp;&amp;</span> rm -rf val.zip<span class="p">;</span> <span class="k">fi</span>
 </pre></div>
 </div>
 </div>
@@ -491,25 +491,25 @@ The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge,
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>%matplotlib inline
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 
-import matplotlib.pyplot as plt
-import numpy as np
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-from PIL import Image
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span>
 
-# PILライブラリで画像を読み込む
-img = np.asarray(Image.open(&#39;train/image/000.png&#39;))
-label = np.asarray(Image.open(&#39;train/label/000.png&#39;))
+<span class="c1"># PILライブラリで画像を読み込む</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;train/image/000.png&#39;</span><span class="p">))</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;train/label/000.png&#39;</span><span class="p">))</span>
 
-# matplotlibライブラリを使って2つの画像を並べて表示
-fig, axes = plt.subplots(1, 2)
-axes[0].set_axis_off()
-axes[0].imshow(img, cmap=&#39;gray&#39;)
-axes[1].set_axis_off()
-axes[1].imshow(label, cmap=&#39;gray&#39;)
-plt.show()
+<span class="c1"># matplotlibライブラリを使って2つの画像を並べて表示</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -558,7 +558,7 @@ iterationになります）を隠蔽しています．</li>
 </div>
 <div class="section" id="三層パーセプトロンによるセグメンテーション">
 <h2>5.4. 三層パーセプトロンによるセグメンテーション<a class="headerlink" href="#三層パーセプトロンによるセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>まずはシンプルなモデルから学習を開始します．全結合層3つからなる三層パーセプトロンを使って，MRI画像を入力にとり，左心室らしさのグレースケール画像を出力するモデルを学習しましょう．</p>
+<p>まずは単純なモデルから学習を開始します．全結合層3つからなる三層パーセプトロンを使って，MRI画像を入力にとり，左心室らしさのグレースケール画像を出力するモデルを学習しましょう．</p>
 <div class="section" id="データセットの準備">
 <h3>5.4.1. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>まずはデータセットの準備をします．Chainerにはいくつかの便利なデータセットまわりのクラスが用意されています．<code class="docutils literal notranslate"><span class="pre">ImageDataset</span></code>は，画像ファイルへのファイルパスのリストを渡して初期化してやると，そのパスにある画像を<strong>学習時に</strong>ディスクから読み込み，それを返してくれるようなデータセットクラスです．<code class="docutils literal notranslate"><span class="pre">TupleDataset</span></code>は，複数のデータセットオブジェクトを渡して初期化してやると，それらから同じインデックスを持つデータをタプルに束ねて返してくれるようなデータセットオブジェクトを作成するクラスです．（Pythonの<code class="docutils literal notranslate"><span class="pre">zip</span></code>と同様です．）</p>
@@ -569,25 +569,25 @@ Segmentationなので，入力も出力も画像です．なので，2つの<cod
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import glob
-from chainer import datasets
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">datasets</span>
 
-def create_dataset(img_filenames, label_filenames):
-    img = datasets.ImageDataset(img_filenames)
-    img = datasets.TransformDataset(img, lambda x: x / 255.)  # 0-1に正規化
-    label = datasets.ImageDataset(label_filenames, dtype=np.int32)
-    dataset = datasets.TupleDataset(img, label)
-    return dataset
+<span class="k">def</span> <span class="nf">create_dataset</span><span class="p">(</span><span class="n">img_filenames</span><span class="p">,</span> <span class="n">label_filenames</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageDataset</span><span class="p">(</span><span class="n">img_filenames</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">TransformDataset</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">/</span> <span class="mf">255.</span><span class="p">)</span>  <span class="c1"># 0-1に正規化</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">ImageDataset</span><span class="p">(</span><span class="n">label_filenames</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">TupleDataset</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataset</span>
 </pre></div>
 </div>
 </div>
 <p>上の関数は，入力画像のファイルパスのリスト<code class="docutils literal notranslate"><span class="pre">img_filenames</span></code>と，正解ラベル画像（0
 or
 1の画素値を持つ二値画像）のファイルパスのリスト<code class="docutils literal notranslate"><span class="pre">label_filenames</span></code>を与えて，2つのデータセットオブジェクトを<code class="docutils literal notranslate"><span class="pre">TupleDataset</span></code>で束ねて返すものになっています．</p>
-<p><code class="docutils literal notranslate"><span class="pre">img</span></code>は入力画像のデータセットですが，まるで入力画像が入ったリストのようになっています．そのため，<code class="docutils literal notranslate"><span class="pre">img[i]</span></code>のようにすれば<code class="docutils literal notranslate"><span class="pre">i</span></code>番目の画像が返ってきます（<code class="docutils literal notranslate"><span class="pre">[i]</span></code>でアクセスしたときに初めてディスクから画像が読み込まれます）．</p>
-<p><code class="docutils literal notranslate"><span class="pre">label</span></code>も同様に，ラベル画像のリストです．これらを<code class="docutils literal notranslate"><span class="pre">TupleDataset</span></code>で束ねて作った<code class="docutils literal notranslate"><span class="pre">dataset</span></code>は，<code class="docutils literal notranslate"><span class="pre">dataset[i]</span></code>でアクセスすると<code class="docutils literal notranslate"><span class="pre">(img[i],</span> <span class="pre">label[i])</span></code>というタプルを返すものになります．（<code class="docutils literal notranslate"><span class="pre">img</span></code>と<code class="docutils literal notranslate"><span class="pre">label</span></code>が同じ長さのリストだとすると，<code class="docutils literal notranslate"><span class="pre">zip(img,</span> <span class="pre">label)</span></code>を行っているようなイメージです．）</p>
-<p>ここで，この関数内の2行目では，はじめに<code class="docutils literal notranslate"><span class="pre">ImageDataset</span></code>で作った入力データセットを，<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>でくるんでいます．<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>は，第1引数に与えられたデータセットにアクセスする際に<strong>第2引数に与えた関数をくぐらせてから返す</strong>ようにできるクラスで，任意の関数を与えてデータを変換させる処理をはさむことができます．これを使うと，内部で乱数によって様々な変換（画像の場合，ランダムに左右反転を行ったり，ランダムな角度で回転をしたり，などがよく行われます）を施す関数を渡すことでData
+<p><code class="docutils literal notranslate"><span class="pre">img</span></code>は入力画像のデータセットですが，まるで入力画像が入ったリストのように振る舞い，<code class="docutils literal notranslate"><span class="pre">img[i]</span></code>は<code class="docutils literal notranslate"><span class="pre">i</span></code>番目の画像を返します（<code class="docutils literal notranslate"><span class="pre">[i]</span></code>でアクセスしたときに初めてディスクから画像が読み込まれます）．</p>
+<p><code class="docutils literal notranslate"><span class="pre">label</span></code>も同様に，ラベル画像のリストのように振る舞います．これらを<code class="docutils literal notranslate"><span class="pre">TupleDataset</span></code>で束ねて作った<code class="docutils literal notranslate"><span class="pre">dataset</span></code>は，<code class="docutils literal notranslate"><span class="pre">dataset[i]</span></code>でアクセスすると<code class="docutils literal notranslate"><span class="pre">(img[i],</span> <span class="pre">label[i])</span></code>というタプル（値の２つ以上の集まり）を返すものになります．（これは<code class="docutils literal notranslate"><span class="pre">img</span></code>と<code class="docutils literal notranslate"><span class="pre">label</span></code>が同じ長さのリストの場合，<code class="docutils literal notranslate"><span class="pre">zip(img,</span> <span class="pre">label)</span></code>の結果と同じです．）</p>
+<p>次に，この関数内の2行目において，<code class="docutils literal notranslate"><span class="pre">ImageDataset</span></code>で作った入力データセットを元に<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>という新しいデータセットを作っています．<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>は，第1引数に与えられたデータセットにアクセスする際に<strong>第2引数に与えた関数を適用してから返す</strong>ようにできるクラスで，任意の関数を与えてデータを変換させる処理をはさむことができます．これを使うと，例えば内部で乱数によって様々な変換（画像の場合，ランダムに左右反転を行ったり，ランダムな角度で回転をしたり，などがよく行われます）を施す関数を引数として渡すことでData
 augmentationを簡単に実装することができます．ここでは，変換を行う関数を<code class="docutils literal notranslate"><span class="pre">lambda</span></code>関数を使って与え，単純に値域を<span class="math notranslate nohighlight">\([0, 1]\)</span>に変換するだけの処理を行っています．</p>
 <p>この<code class="docutils literal notranslate"><span class="pre">create_dataset</span></code>関数を使って学習用・検証用それぞれのデータセットオブジェクトを作成しましょう．下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
@@ -595,35 +595,35 @@ augmentationを簡単に実装することができます．ここでは，変�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>def create_datasets():
-    # Python標準のglobを使ってMRI画像ファイル名/ラベル画像ファイル名の一覧を取得
-    train_img_filenames = sorted(glob.glob(&#39;train/image/*.png&#39;))
-    train_label_filenames = sorted(glob.glob(&#39;train/label/*.png&#39;))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">create_datasets</span><span class="p">():</span>
+    <span class="c1"># Python標準のglobを使ってMRI画像ファイル名/ラベル画像ファイル名の一覧を取得</span>
+    <span class="n">train_img_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;train/image/*.png&#39;</span><span class="p">))</span>
+    <span class="n">train_label_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;train/label/*.png&#39;</span><span class="p">))</span>
 
-    # リストを渡して，データセットオブジェクト train を作成
-    train = create_dataset(train_img_filenames, train_label_filenames)
+    <span class="c1"># リストを渡して，データセットオブジェクト train を作成</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="n">create_dataset</span><span class="p">(</span><span class="n">train_img_filenames</span><span class="p">,</span> <span class="n">train_label_filenames</span><span class="p">)</span>
 
-    # 同様のことをvalidationデータに対しても行う
-    val_img_filenames = sorted(glob.glob(&#39;val/image/*.png&#39;))
-    val_label_filenames = sorted(glob.glob(&#39;val/label/*.png&#39;))
-    val = create_dataset(val_img_filenames, val_label_filenames)
+    <span class="c1"># 同様のことをvalidationデータに対しても行う</span>
+    <span class="n">val_img_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;val/image/*.png&#39;</span><span class="p">))</span>
+    <span class="n">val_label_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;val/label/*.png&#39;</span><span class="p">))</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="n">create_dataset</span><span class="p">(</span><span class="n">val_img_filenames</span><span class="p">,</span> <span class="n">val_label_filenames</span><span class="p">)</span>
 
-    return train, val
+    <span class="k">return</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span>
 </pre></div>
 </div>
 </div>
-<p>こちらの関数では，まずPython標準に備わっている<code class="docutils literal notranslate"><span class="pre">glob</span></code>を使って，<code class="docutils literal notranslate"><span class="pre">.png</span></code>の拡張子を持つ画像ファイルを指定したディレクトリ以下から探してきて，ファイルパスリストを作っています．次に，入力画像とラベル画像のファイルリストが同じインデックスで対応したデータをそれぞれ指すように，<code class="docutils literal notranslate"><span class="pre">sorted</span></code>を使ってファイル名をソートしています．そのあと，それらのファイル名リストを先程の<code class="docutils literal notranslate"><span class="pre">create_dataset</span></code>関数に渡して，データセットオブジェクトを作成しています．同様のことをvalidation用の画像ファイルに対しても行い，<code class="docutils literal notranslate"><span class="pre">train</span></code>と<code class="docutils literal notranslate"><span class="pre">val</span></code>2つのデータセットオブジェクトを作成して返します．</p>
+<p>この関数<code class="docutils literal notranslate"><span class="pre">create_dataset()</span></code>では，まずPython標準に備わっている<code class="docutils literal notranslate"><span class="pre">glob</span></code>を使って，<code class="docutils literal notranslate"><span class="pre">.png</span></code>の拡張子を持つ画像ファイルを指定したディレクトリ以下から探してきて，ファイルパスが格納されたリストを作ります．次に，入力画像とラベル画像のファイルリストが同じインデックスで対応したデータをそれぞれ指すように，<code class="docutils literal notranslate"><span class="pre">sorted</span></code>を使ってファイル名をソートしています（<code class="docutils literal notranslate"><span class="pre">glob</span></code>関数で列挙されるファイルリストは必ずしもソートされているとは限りません）．そのあと，それらのファイル名リストを先程の<code class="docutils literal notranslate"><span class="pre">create_dataset</span></code>関数に渡して，データセットオブジェクトを作成しています．同様のことを検証用の画像ファイルに対しても行い，<code class="docutils literal notranslate"><span class="pre">train</span></code>と<code class="docutils literal notranslate"><span class="pre">val</span></code>2つのデータセットオブジェクトを作成して返します．</p>
 <p>ではこの関数を呼んでみましょう．下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>train, val = create_datasets()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">create_datasets</span><span class="p">()</span>
 
-print(&#39;Dataset size:\n\ttrain:\t{}\n\tvalid:\t{}&#39;.format(len(train), len(val)))
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dataset size:</span><span class="se">\n\t</span><span class="s1">train:</span><span class="se">\t</span><span class="si">{}</span><span class="se">\n\t</span><span class="s1">valid:</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -637,60 +637,48 @@ Dataset size:
         valid:  26
 </pre></div></div>
 </div>
-<p>この関数を呼べば，訓練用データセットオブジェクトと検証用データセットオブジェクトを作成できます．データセットオブジェクトは基本的にはリストとして扱うことができるので，組み込み関数の<code class="docutils literal notranslate"><span class="pre">len()</span></code>を使っていくつのデータ点が含まれているかを知ることができます．</p>
+<p>この関数を呼べば，訓練用データセットオブジェクトと検証用データセットオブジェクトを作成できます．データセットオブジェクトは基本的にはリストとして扱うことができるます．例えば組み込み関数の<code class="docutils literal notranslate"><span class="pre">len()</span></code>を使っていくつのデータが含まれているかを知ることができます．</p>
 </div>
 <div class="section" id="モデルの定義">
 <h3>5.4.2. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>次に，訓練するモデルの定義です．まずはじめは，最もシンプルな全結合型ネットワークを定義してみます．以下のコードを実行してみましょう．</p>
+<p>次に，訓練するモデルの定義です．はじめは4章でも扱った多層パーセプトロンを使います．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import chainer
-import chainer.functions as F
-import chainer.links as L
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">chainer.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">chainer.links</span> <span class="k">as</span> <span class="nn">L</span>
 
-class MultiLayerPerceptron(chainer.Chain):
+<span class="k">class</span> <span class="nc">MultiLayerPerceptron</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
 
-    def __init__(self, out_h, out_w):
-        super().__init__()
-        with self.init_scope():
-            self.l1 = L.Linear(None, 100)
-            self.l2 = L.Linear(100, 100)
-            self.l3 = L.Linear(100, out_h * out_w)
-        self.out_h = out_h
-        self.out_w = out_w
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_h</span><span class="p">,</span> <span class="n">out_w</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">l1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">l2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">l3</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">out_h</span> <span class="o">*</span> <span class="n">out_w</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_h</span> <span class="o">=</span> <span class="n">out_h</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_w</span> <span class="o">=</span> <span class="n">out_w</span>
 
-    def forward(self, x):
-        h = F.relu(self.l1(x))
-        h = F.relu(self.l2(h))
-        h = self.l3(h)
-        n = x.shape[0]
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l2</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">l3</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        return h.reshape((n, 1, self.out_h, self.out_w))
+        <span class="k">return</span> <span class="n">h</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_w</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
-<p>全結合層（<code class="docutils literal notranslate"><span class="pre">Linear</span></code>レイヤ）で終わるネットワークは，出力が1次元のベクトルになるので，それを画像の形にreshapeするためのサイズ情報（<code class="docutils literal notranslate"><span class="pre">out_h</span></code>,
-<code class="docutils literal notranslate"><span class="pre">out_w</span></code>）をコンストラクタに渡しています．</p>
-<p>Chainerでは，<code class="docutils literal notranslate"><span class="pre">Chain</span></code>クラスを継承したクラスを書いてモデルの定義を行うのが一般的です．コンストラクタで学習対象になるパラメータを持つレイヤ（<code class="docutils literal notranslate"><span class="pre">Link</span></code>と呼ばれます）のオブジェクトを登録していきます．この際，<code class="docutils literal notranslate"><span class="pre">init_scope</span></code>を用いて作ったコンテキストの中で行う必要があります．こうすると，自動的に最適化の対象にしてくれます．</p>
-<p><code class="docutils literal notranslate"><span class="pre">forward</span></code>メソッドでは，実際に行いたいforward計算を記述しています．ここでは3つの全結合層を，活性化関数にReLUを用いる形で繋げています．最後に，正解のマスク画像とそのまま比較しやすいように，画像の形にreshapeして返しています．</p>
+<p>ここでは3つの全結合層を使い，活性化関数にReLUを用いる形で繋げています．最後に，正解のマスク画像とそのまま比較しやすいように，画像の形にreshapeして返しています．</p>
 <p>ここで，出力のチャンネル数を1にしているのは，今回対象とするデータは<strong>左心室か左心室でないか，というニクラス分類</strong>になるので，「左心室である確率」を与える一つの値を考えれば良いことになるからです．通常，<span class="math notranslate nohighlight">\(C\)</span>個のクラスがある場合は<span class="math notranslate nohighlight">\(C\)</span>次元の予測ベクトルを各ピクセルごとに作成し，そのピクセルにおいて最も大きな値を持つチャンネルのインデックスを予測として返すようにしますが，2クラス分類の場合では，これは予測確率が0.5より大きければpositive，0.5以下ならnegativeとすれば同じことになります．</p>
 </div>
 <div class="section" id="Trainerの定義">
 <h3>5.4.3. Trainerの定義<a class="headerlink" href="#Trainerの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Chainerには，学習ループを抽象化する<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>というクラスが用意されており，これを用いて色々なExtensionを活用することで，ログをとったりsnapshotを保存したり，epochごとにvalidationデータで検証したりといったことを簡単に実装することができます．代表的なExtensionには，以下のようなものがあります．</p>
-<ul class="simple">
-<li>ログを自動的にファイルに保存（LogReport)</li>
-<li>標準出力に定期的にロスなどの情報を出力（PrintReport）</li>
-<li>ロスを定期的にグラフで可視化して画像として保存（PlotReport)</li>
-<li>定期的にモデルやOptimizerの状態を自動シリアライズ（snapshot/snapshot_object）</li>
-<li>学習の進捗を示すプログレスバーを表示（ProgressBar）</li>
-<li>モデルの構造をGraphvizのdot形式で保存（dump_graph）</li>
-</ul>
-<p>それでは，</p>
+<p>次にTrainerを定義しましょう．ここでは</p>
 <ul class="simple">
 <li>ミニバッチサイズ（batchsize）</li>
 <li>学習用データセット（train）</li>
@@ -705,67 +693,67 @@ class MultiLayerPerceptron(chainer.Chain):
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from chainer import iterators
-from chainer import training
-from chainer import optimizers
-from chainer.training import extensions
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">iterators</span>
+<span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">training</span>
+<span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">optimizers</span>
+<span class="kn">from</span> <span class="nn">chainer.training</span> <span class="k">import</span> <span class="n">extensions</span>
 
-def create_trainer(batchsize, train, val, stop, device=-1):
-    # 先程定義したモデルを使用
-    model = MultiLayerPerceptron(out_h=256, out_w=256)
+<span class="k">def</span> <span class="nf">create_trainer</span><span class="p">(</span><span class="n">batchsize</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># 先程定義したモデルを使用</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">MultiLayerPerceptron</span><span class="p">(</span><span class="n">out_h</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">out_w</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
 
-    # ピクセルごとの二値分類なので，ロス関数にSigmoid cross entropyを，
-    # 精度をはかる関数としてBinary accuracyを指定しています
-    train_model = L.Classifier(
-        model, lossfun=F.sigmoid_cross_entropy, accfun=F.binary_accuracy)
+    <span class="c1"># ピクセルごとの二値分類なので，ロス関数にSigmoid cross entropyを，</span>
+    <span class="c1"># 精度をはかる関数としてBinary accuracyを指定しています</span>
+    <span class="n">train_model</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">lossfun</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">sigmoid_cross_entropy</span><span class="p">,</span> <span class="n">accfun</span><span class="o">=</span><span class="n">F</span><span class="o">.</span><span class="n">binary_accuracy</span><span class="p">)</span>
 
-    # 最適化手法にAdamを使います
-    optimizer = optimizers.Adam()
-    optimizer.setup(train_model)
+    <span class="c1"># 最適化手法にAdamを使います</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">train_model</span><span class="p">)</span>
 
-    # データセットから，指定したバッチサイズ数のデータ点をまとめて取り出して返すイテレータを定義します
-    train_iter = iterators.MultiprocessIterator(train, batchsize)
-    val_iter = iterators.MultiprocessIterator(val, batchsize, repeat=False, shuffle=False)
+    <span class="c1"># データセットから，指定したバッチサイズ数のデータ点をまとめて取り出して返すイテレータを定義します</span>
+    <span class="n">train_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
+    <span class="n">val_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    # イテレータからデータを引き出し，モデルに渡して，ロスを計算し，backwardしてパラメータを更新，
-    # までの一連の処理を行う updater を定義します
-    updater = training.StandardUpdater(train_iter, optimizer, device=device)
+    <span class="c1"># イテレータからデータを引き出し，モデルに渡して，ロスを計算し，backwardしてパラメータを更新，</span>
+    <span class="c1"># までの一連の処理を行う updater を定義します</span>
+    <span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span><span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
 
-    # 様々な付加機能をExtensionとして与えられるTrainerを使います
-    trainer = training.trainer.Trainer(updater, stop)
+    <span class="c1"># 様々な付加機能をExtensionとして与えられるTrainerを使います</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
 
-    logging_attributes = [
-        &#39;epoch&#39;, &#39;main/loss&#39;, &#39;main/accuracy&#39;, &#39;val/main/loss&#39;, &#39;val/main/accuracy&#39;]
-    trainer.extend(extensions.LogReport(logging_attributes))
-    trainer.extend(extensions.PrintReport(logging_attributes))
-    trainer.extend(extensions.PlotReport([&#39;main/loss&#39;, &#39;val/main/loss&#39;], &#39;epoch&#39;, file_name=&#39;loss.png&#39;))
-    trainer.extend(extensions.PlotReport([&#39;main/accuracy&#39;, &#39;val/main/accuracy&#39;], &#39;epoch&#39;, file_name=&#39;accuracy.png&#39;))
-    trainer.extend(extensions.Evaluator(val_iter, optimizer.target, device=device), name=&#39;val&#39;)
+    <span class="n">logging_attributes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">]</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">logging_attributes</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">(</span><span class="n">logging_attributes</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;accuracy.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">val_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
 
-    return trainer
+    <span class="k">return</span> <span class="n">trainer</span>
 </pre></div>
 </div>
 </div>
 <p>この関数定義の中の最後の方では，<strong>複数の``Extension``を追加しています</strong>．これはログのファイルへの自動保存（<code class="docutils literal notranslate"><span class="pre">LogReport</span></code>）やその標準出力への表示（<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>），ロスや精度のプロットの自動作成（<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>），指定したタイミングおきにvalidationデータで評価（<code class="docutils literal notranslate"><span class="pre">Evaluator</span></code>），などをしてくれる拡張機能の定義です．</p>
-<p>詳しくは，こちらにある<code class="docutils literal notranslate"><span class="pre">Extension</span></code>の一覧から，使い方やできることを調べることができます：
+<p>このh化にも様々な拡張機能が使える様になっています．こちらにある<code class="docutils literal notranslate"><span class="pre">Extension</span></code>の一覧から，使い方やできることを調べることができます：
 <a class="reference external" href="https://docs.chainer.org/en/v2.0.2/reference/extensions.html">Trainer
 extensions</a></p>
 </div>
-<div class="section" id="学習開始">
-<h3>5.4.4. 学習開始<a class="headerlink" href="#学習開始" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>それでは，さっそく学習を開始してみましょう！</p>
-<p>たった今作成した<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを使って，学習を開始してみます．<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトはすでに学習に関する全ての設定・情報を持っているので，<code class="docutils literal notranslate"><span class="pre">run()</span></code>メソッドを呼ぶだけで学習が開始されます．</p>
+<div class="section" id="学習">
+<h3>5.4.4. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>これで学習の準備ができました．</p>
+<p>たった今作成した<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを使って，学習を開始します．<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトはすでに学習に関する全ての設定・情報を持っているので，<code class="docutils literal notranslate"><span class="pre">run()</span></code>メソッドを呼ぶだけで学習が開始されます．</p>
 <p>下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>%%time
-trainer = create_trainer(64, train, val, (20, &#39;epoch&#39;), device=0)
-trainer.run()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%%time</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">create_trainer</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -799,7 +787,7 @@ CPU times: user 34.4 s, sys: 6.38 s, total: 40.8 s
 Wall time: 41.1 s
 </pre></div></div>
 </div>
-<p>学習に40秒程度かかったと思います．表示されたのは<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>というExtensionが出力したログの情報です．現在のエポック数，ロス，精度（学習データセットに対してのものは<code class="docutils literal notranslate"><span class="pre">main/loss</span></code>,
+<p>大体,学習に40秒程度かると思います.この時表示されたのは<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>というExtensionが出力したログの情報です．現在のエポック数，ロス，精度（学習データセットに対してのものは<code class="docutils literal notranslate"><span class="pre">main/loss</span></code>,
 <code class="docutils literal notranslate"><span class="pre">main/accuracy</span></code>，検証データセットに対してのものは<code class="docutils literal notranslate"><span class="pre">val/main/loss</span></code>,
 <code class="docutils literal notranslate"><span class="pre">val/main/accuracy</span></code>）が表示されています．</p>
 <p>それでは次に，<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．学習が終了したら，以下の2つのセルを実行してみてください．</p>
@@ -808,9 +796,9 @@ Wall time: 41.1 s
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from IPython.display import Image
-Image(&#39;result/loss.png&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Image</span>
+<span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result/loss.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -826,8 +814,8 @@ Image(&#39;result/loss.png&#39;)
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Image(&#39;result/accuracy.png&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result/accuracy.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -844,7 +832,7 @@ lossともにほぼ0近くまで下がっており，また両者のデータセ
 </div>
 <div class="section" id="評価">
 <h3>5.4.5. 評価<a class="headerlink" href="#評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>さて，学習結果は一見良好でした．Accuracyは最大値の1にほぼ漸近していました．しかし，この指標はどういう指標なのでしょうか？何をもって「精度（Accuracy）」と言っていたのでしょうか．</p>
+<p>さて，ここまでの結果をみると学習や検証データに対する性能は一見良好のようにみえます．特にAccuracyは最大値の1に近い値となっていました．しかし，この指標はどういう指標なのでしょうか？何をもって「精度（Accuracy）」と言っていたのでしょうか．</p>
 <p>一般的にSemantic
 Segmentationの結果は上で「accuracy」と表示されていた<strong>Pixel
 accuracy</strong>や，それとは異なる指標である<strong>Mean Intersection over Union
@@ -867,29 +855,29 @@ Open Source Software Competition, 2017</p>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from chainer import cuda
-from chainercv import evaluations
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">cuda</span>
+<span class="kn">from</span> <span class="nn">chainercv</span> <span class="k">import</span> <span class="n">evaluations</span>
 
-def evaluate(trainer, val, device=-1):
-    # Trainerオブジェクトから学習済みモデルを取り出す
-    model = trainer.updater.get_optimizer(&#39;main&#39;).target.predictor
+<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># Trainerオブジェクトから学習済みモデルを取り出す</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">predictor</span>
 
-    # validationデータ全部に対して予測を行う
-    preds = []
-    for img, label in val:
-        img = cuda.to_gpu(img[np.newaxis], device)
-        pred = model(img)
-        pred = cuda.to_cpu(pred.data[0, 0] &gt; 0)
-        preds.append((pred, label[0]))
-    pred_labels, gt_labels = zip(*preds)
+    <span class="c1"># validationデータ全部に対して予測を行う</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">val</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">preds</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pred</span><span class="p">,</span> <span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">pred_labels</span><span class="p">,</span> <span class="n">gt_labels</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">preds</span><span class="p">)</span>
 
-    # 評価をして結果を表示
-    evals = evaluations.eval_semantic_segmentation(pred_labels, gt_labels)
-    print(&#39;Pixel Accuracy:&#39;, evals[&#39;pixel_accuracy&#39;])
-    print(&#39;mIou:&#39;, evals[&#39;miou&#39;])
+    <span class="c1"># 評価をして結果を表示</span>
+    <span class="n">evals</span> <span class="o">=</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">eval_semantic_segmentation</span><span class="p">(</span><span class="n">pred_labels</span><span class="p">,</span> <span class="n">gt_labels</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pixel Accuracy:&#39;</span><span class="p">,</span> <span class="n">evals</span><span class="p">[</span><span class="s1">&#39;pixel_accuracy&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mIou:&#39;</span><span class="p">,</span> <span class="n">evals</span><span class="p">[</span><span class="s1">&#39;miou&#39;</span><span class="p">])</span>
 
-evaluate(trainer, val, device=0)
+<span class="n">evaluate</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -905,17 +893,16 @@ mIou: 0.6940267777662379
 <p>2つの数字が表示されました．</p>
 <p>Pixel Accuracyの値は<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>が表示した val/main/accuracy
 と同じ値になっています．学習中に“accuracy”として表示していたものは，Pixel
-Accuracyと同じものでした．こちらは，とても高い値を示しています．最大値が1に対して，0.98以上の値が出ます．</p>
-<p>一方で，同じ最大値1の指標であるmean
-IoU（<code class="docutils literal notranslate"><span class="pre">miou</span></code>）が思ったより低いことが分かります．なぜでしょうか．</p>
+Accuracyと同じものでした．こちらは，とても高い値を示しています．最大値が1であるので0.98というのは高い数値です．</p>
+<p>一方で，同じ最大値1の指標であるmIoU（<code class="docutils literal notranslate"><span class="pre">miou</span></code>）が思ったより低いことが分かります．なぜでしょうか．</p>
 <p>Pixel Accuracyは画像全体の画素数に対して，true positive + true
 negative（つまり，黒を黒，白を白と当てられた合計数）
 の割合を見るため，画像全体に対して negative ( 黒）が多い場合は true
 positive （白を当てられた数）が小さくてもtrue
 negativeが大きければ結果としてPixel
 Accuracyは高い値になります．つまり，<strong>class
-imbalance（白と黒の数が大きく違う）が起きている際に，少ないクラスへの予測誤差が相対的に小さくなる</strong>ということです．</p>
-<p>一方，mean IoU
+imbalance（白と黒の数が大きく違う）が起きている際に，少ないクラスへの予測誤差の影響が相対的に小さくなる</strong>ということです．</p>
+<p>一方，mIoU
 の場合は，予測と正解の両画像における「positiveとtrueの和領域」（白と予測した部分と，白が正解である領域の和）に対する「true
 positive」（白という予測が正解していた領域）の割合を見るので，画像全体の大きさに影響されません．わかりやすく図にすると，以下のようになります．</p>
 <p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
@@ -931,27 +918,27 @@ positive」（白という予測が正解していた領域）の割合を見る
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>def show_predicts(trainer, val, device=-1, n_sample=3):
-    # Trainerオブジェクトから学習済みモデルを取り出す
-    model = trainer.updater.get_optimizer(&#39;main&#39;).target.predictor
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">show_predicts</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_sample</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="c1"># Trainerオブジェクトから学習済みモデルを取り出す</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">predictor</span>
 
-    for i in range(n_sample):
-        img, label = val[i]
-        img = cuda.to_gpu(img, device)
-        pred = model(img[np.newaxis])
-        pred = cuda.to_cpu(pred.data[0, 0] &gt; 0)
-        fig, axes = plt.subplots(1, 2)
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sample</span><span class="p">):</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-        axes[0].set_axis_off()
-        axes[0].imshow(pred, cmap=&#39;gray&#39;)
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 
-        axes[1].set_axis_off()
-        axes[1].imshow(label[0], cmap=&#39;gray&#39;)
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 
-        plt.show()
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-show_predicts(trainer, val, device=0)
+<span class="n">show_predicts</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -976,8 +963,8 @@ show_predicts(trainer, val, device=0)
 <img alt="../_images/notebooks_Image_Segmentation_38_2.png" src="../_images/notebooks_Image_Segmentation_38_2.png" />
 </div>
 </div>
-<p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）はかなり正解に対して小さめに出ています．これでも全体を平均してPixel
-Accuracy 99%以上ということは，Pixel
+<p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）は正解の領域に対して小さくなっています．Pixel
+Accuracyは大部分を占めている黒い部分も含めての正解率ですので，Pixel
 Accuracyは評価指標として今回のようなデータセットにはあまり合っていない可能性があります．</p>
 <p>以降は，どうやって<code class="docutils literal notranslate"><span class="pre">miou</span></code>(mean Intersection over
 Union)を改善するかに取り組んでみましょう．</p>
@@ -985,22 +972,22 @@ Union)を改善するかに取り組んでみましょう．</p>
 </div>
 <div class="section" id="畳み込みネットワークを用いたセグメンテーション">
 <h2>5.5. 畳み込みネットワークを用いたセグメンテーション<a class="headerlink" href="#畳み込みネットワークを用いたセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>mIoU改善のため，モデルを全結合層のみから構成されるものから，画像関連のタスクで多く用いられる，畳み込みレイヤを用いたより深いモデルに変えてみましょう．今回用いるLinkは，<code class="docutils literal notranslate"><span class="pre">Convolution2D</span></code>と<code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>の2つだけです．それぞれ，カーネルサイズ（<code class="docutils literal notranslate"><span class="pre">ksize</span></code>），ストライド（<code class="docutils literal notranslate"><span class="pre">stride</span></code>），パディング（<code class="docutils literal notranslate"><span class="pre">pad</span></code>）を指定することができます．これらがどのように出力を変化させるかを，まずはまとめてみましょう．</p>
+<p>mIoU改善のため，モデルを全結合層のみから構成されるものから，画像関連のタスクで多く用いられる，畳み込み層を用います．それに加えてより深い（層数の多い）モデルに変えてみましょう．今回用いるLinkは，<code class="docutils literal notranslate"><span class="pre">Convolution2D</span></code>と<code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>の2つだけです．それぞれ，カーネルサイズ（<code class="docutils literal notranslate"><span class="pre">ksize</span></code>），ストライド（<code class="docutils literal notranslate"><span class="pre">stride</span></code>），パディング（<code class="docutils literal notranslate"><span class="pre">pad</span></code>）を指定することができます．これらがどのように出力を変化させるかを，まずはまとめてみましょう．</p>
 <div class="section" id="Convolutionレイヤ">
 <h3>5.5.1. Convolutionレイヤ<a class="headerlink" href="#Convolutionレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">Convolution2D</span></code>というLinkは，一般的な畳込みレイヤの実装です．畳み込み層のパラメータを設定する際には，以下の点を知っておくと便利です．</p>
 <ul class="simple">
 <li>paddingを使って計算後の出力サイズを維持しやすくするために，奇数のカーネルサイズにする（<span class="math notranslate nohighlight">\(\lfloor {\rm ksize} / 2 \rfloor\)</span>をpadに指定すると，stride=1の際に画像サイズが変わらなくなる）</li>
 <li>出力feature
-mapを縮小したい場合は，&gt;1の値をstrideに与える（stride=nだと1/nになる）</li>
+mapを縮小したい場合は，&gt;1の値をstrideに与える（stride=nだと変換後の画像の縦横はそれぞれ元の1/nになる）</li>
 <li>出力サイズは，<span class="math notranslate nohighlight">\(({\rm input\_size} + {\rm pad} \times 2) / {\rm stride} + 1\)</span>になる．つまり，strideを大きくすると出力特徴マップは小さくなる．</li>
 </ul>
 </div>
 <div class="section" id="Deconvolutionレイヤ">
 <h3>5.5.2. Deconvolutionレイヤ<a class="headerlink" href="#Deconvolutionレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>は，その名とは異なり数学的な意味でのdeconvolutionではありません（！）そのため，Transposed
+<p><code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>は，歴史的な経緯からその名とは異なり数学的な意味でのdeconvolutionではありません．実際に適用している操作からTransposed
 convolutionや，Backward
-convolutionと呼ばれることも多いレイヤです．フィルタの適用の仕方はConvolutionと同じで，ただ事前に入力特徴マップの値を飛び飛びに配置するなどの処理が入る部分が異なっています．<code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>レイヤのパラメータを設定する際には，以下の点を知っておくと便利です．</p>
+convolutionとよばれることもあります．Deconvolution2Dのフィルタの適用の仕方はConvolutionと同じですが入力特徴マップの値を飛び飛びに配置するなどの処理が入る部分が異なっています．<code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>レイヤのパラメータを設定する際には，以下の点を知っておくと便利です．</p>
 <ul class="simple">
 <li>カーネルサイズをstrideで割り切れる数にする（checker board
 artifactを防ぐため．こちらを参考のこと：<a class="reference external" href="https://distill.pub/2016/deconv-checkerboard/">Deconvolution and
@@ -1008,7 +995,7 @@ Checkerboard
 Artifacts</a>）</li>
 <li>出力サイズは，<span class="math notranslate nohighlight">\({\rm stride} \times ({\rm input\_size} - 1) + {\rm ksize} - 2 * {\rm pad}\)</span>となるので，目的の拡大後サイズになるようパラメータを調整する</li>
 </ul>
-<p>Deconvolution2Dにおいては，padが意味するものが少し直感的でないため，以下に実際に行われる操作を説明した図を用意しました．</p>
+<p>Deconvolution2Dにおいては，padが意味するものが少し直感的でないため，実際に行われる操作を説明した図を以下に用意しています．</p>
 <p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /> <img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
 <p>気をつける点は，ksizeとstrideに従って配置・拡張したfeature
 mapの周囲を「削る量」がpadになっている点です．そのあと行われる演算自体はstride=1,
@@ -1018,7 +1005,7 @@ arithmetic</a></p>
 </div>
 <div class="section" id="全畳込みネットワーク">
 <h3>5.5.3. 全畳込みネットワーク<a class="headerlink" href="#全畳込みネットワーク" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>それではさっそくConvolutionレイヤーとDeconvolutionレイヤーのみからなるネットワークをChainerで書いてみましょう！以下のモデルは，Fully
+<p>それではConvolution層とDeconvolution層からなるネットワークをChainerで書いてみます．以下のモデルは，Fully
 Convolutional
 Networkと呼ばれるネットワークに類似したものです．詳しくはこちらの文献を参照してください
 [4], [5], [6]．</p>
@@ -1042,49 +1029,49 @@ Segmentation”, CVPR 2015.</p>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from chainer import reporter
-from chainer import cuda
-from chainercv import evaluations
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">reporter</span>
+<span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">cuda</span>
+<span class="kn">from</span> <span class="nn">chainercv</span> <span class="k">import</span> <span class="n">evaluations</span>
 
 
-class FullyConvolutionalNetwork(chainer.Chain):
+<span class="k">class</span> <span class="nc">FullyConvolutionalNetwork</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
 
-    def __init__(self, out_h, out_w, n_class=1):
-        super().__init__()
-        with self.init_scope():
-            # L.Convolution2D(in_ch, out_ch, ksize, stride, pad)
-            # in_chは省略することができるので，
-            # L.Convolution2D(out_ch, ksize, stride, pad)
-            # と書いても良い！
-            self.conv1 = L.Convolution2D(None, FIXME_1, ksize=5, stride=2, pad=2)
-            self.conv2 = L.Convolution2D(None, FIXME_2, ksize=5, stride=2, pad=2)
-            self.conv3 = L.Convolution2D(None, FIXME_3, ksize=3, stride=1, pad=1)
-            self.conv4 = L.Convolution2D(None, FIXME_4, ksize=3, stride=1, pad=1)
-            self.conv5 = L.Convolution2D(None, FIXME_5, ksize=1, stride=1, pad=0)
-            # L.Deconvolution2D(in_ch, out_ch, ksize, stride, pad)
-            # in_chは省略することができるので，
-            # L.Deconvolution2D(out_ch, ksize, stride, pad)
-            # と書いても良い！
-            self.deconv6 = L.Deconvolution2D(None, n_class, ksize=32, stride=16, pad=8)
-        self.out_h = out_h
-        self.out_w = out_w
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_h</span><span class="p">,</span> <span class="n">out_w</span><span class="p">,</span> <span class="n">n_class</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+            <span class="c1"># L.Convolution2D(in_ch, out_ch, ksize, stride, pad)</span>
+            <span class="c1"># in_chは省略することができるので，</span>
+            <span class="c1"># L.Convolution2D(out_ch, ksize, stride, pad)</span>
+            <span class="c1"># とかくこともできます．</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">FIXME_1</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">FIXME_2</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">FIXME_3</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conv4</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">FIXME_4</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conv5</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Convolution2D</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">FIXME_5</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="c1"># L.Deconvolution2D(in_ch, out_ch, ksize, stride, pad)</span>
+            <span class="c1"># in_chは省略することができるので，</span>
+            <span class="c1"># L.Deconvolution2D(out_ch, ksize, stride, pad)</span>
+            <span class="c1"># と書くこともできます．</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">deconv6</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Deconvolution2D</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_class</span><span class="p">,</span> <span class="n">ksize</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_h</span> <span class="o">=</span> <span class="n">out_h</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_w</span> <span class="o">=</span> <span class="n">out_w</span>
 
-    def forward(self, x):
-        h = F.relu(self.conv1(x))
-        h = F.max_pooling_2d(h, 2, 2)
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pooling_2d</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-        h = F.relu(self.conv2(h))
-        h = F.max_pooling_2d(h, 2, 2)
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">max_pooling_2d</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
-        h = F.relu(self.conv3(h))
-        h = F.relu(self.conv4(h))
-        h = self.conv5(h)
-        h = self.deconv6(h)
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv4</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv5</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deconv6</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
 
-        return h.reshape(x.shape[0], 1, h.shape[2], h.shape[3])
+        <span class="k">return</span> <span class="n">h</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
-print(FullyConvolutionalNetwork(256, 256)(np.zeros((1, 1, 256, 256), dtype=np.float32)).shape[2:])
+<span class="nb">print</span><span class="p">(</span><span class="n">FullyConvolutionalNetwork</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
 
 </pre></div>
 </div>
@@ -1098,9 +1085,9 @@ print(FullyConvolutionalNetwork(256, 256)(np.zeros((1, 1, 256, 256), dtype=np.fl
 </pre></div></div>
 </div>
 <p>FIXME_1 ~
-FIXME_5を書き換えた上で上のセルを実行すると，ネットワークの出力サイズが表示されます．今回の入力画像は(256,
-256)サイズの画像ですから，出力が256 x 256という同じ大
-きさになっていることが確認できればOKです．</p>
+FIXME_5を定数に書き換えた上で上のセルを実行すると，ネットワークの出力サイズが表示されます．今回の入力画像は(256,
+256)サイズの画像ですから，出力が256 x
+256という同じ大きさになっていれば正しく動作しています．</p>
 </div>
 <div class="section" id="Classifierクラスの改良">
 <h3>5.5.4. Classifierクラスの改良<a class="headerlink" href="#Classifierクラスの改良" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -1111,43 +1098,42 @@ AccuracyだけでなくmIOUも追加するために，ロス関数を計算す�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>class PixelwiseSigmoidClassifier(chainer.Chain):
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">class</span> <span class="nc">PixelwiseSigmoidClassifier</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
 
-    def __init__(self, predictor):
-        super().__init__()
-        with self.init_scope():
-            # 学習対象のモデルをpredictorとして保持しておく
-            self.predictor = predictor
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">predictor</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+            <span class="c1"># 学習対象のモデルをpredictorとして保持しておく</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">predictor</span> <span class="o">=</span> <span class="n">predictor</span>
 
-    def __call__(self, x, t):
-        # 学習対象のモデルでまず推論を行う
-        y = self.predictor(x)
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="c1"># 学習対象のモデルでまず推論を行う</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predictor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-        # 2クラス分類の誤差を計算
-        loss = F.sigmoid_cross_entropy(y, t)
+        <span class="c1"># 2クラス分類の誤差を計算</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">sigmoid_cross_entropy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 
-        # 予測結果（0~1の連続値を持つグレースケール画像）を二値化し，
-        # ChainerCVのeval_semantic_segmentation関数に正解ラベルと
-        # 共に渡して各種スコアを計算
-        y, t = cuda.to_cpu(F.sigmoid(y).data), cuda.to_cpu(t)
-        y = np.asarray(y &gt; 0.5, dtype=np.int32)
-        y, t = y[:, 0, ...], t[:, 0, ...]
-        evals = evaluations.eval_semantic_segmentation(y, t)
+        <span class="c1"># 予測結果（0~1の連続値を持つグレースケール画像）を二値化し，</span>
+        <span class="c1"># ChainerCVのeval_semantic_segmentation関数に正解ラベルと</span>
+        <span class="c1"># 共に渡して各種スコアを計算</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="n">cuda</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">t</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+        <span class="n">evals</span> <span class="o">=</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">eval_semantic_segmentation</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 
-        # 学習中のログに出力
-        reporter.report({&#39;loss&#39;: loss,
-                         &#39;miou&#39;: evals[&#39;miou&#39;],
-                         &#39;pa&#39;: evals[&#39;pixel_accuracy&#39;]}, self)
-        return loss
+        <span class="c1"># 学習中のログに出力</span>
+        <span class="n">reporter</span><span class="o">.</span><span class="n">report</span><span class="p">({</span><span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span>
+                         <span class="s1">&#39;miou&#39;</span><span class="p">:</span> <span class="n">evals</span><span class="p">[</span><span class="s1">&#39;miou&#39;</span><span class="p">],</span>
+                         <span class="s1">&#39;pa&#39;</span><span class="p">:</span> <span class="n">evals</span><span class="p">[</span><span class="s1">&#39;pixel_accuracy&#39;</span><span class="p">]},</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
 </pre></div>
 </div>
 </div>
-<p>Trainerは，Optimizerにセットされたモデルが「ロスの値を返す」ものと考えるので，最初のモデルではモデルの根幹部分をとってロスを計算して返すような<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>でモデルをくるんでOptimizerに渡していました．Chainerが用意しているこの<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>は，内部でロスだけでなくAccuracyも計算し，<code class="docutils literal notranslate"><span class="pre">reporter.report</span></code>に辞書を渡す形で<code class="docutils literal notranslate"><span class="pre">LogReport</span></code>などのExtensionが補足できるように値の報告を行うまでやってくれます．1つ目のモデルでは，この<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>の引数にモデルだけでなく<code class="docutils literal notranslate"><span class="pre">lossfun</span></code>と<code class="docutils literal notranslate"><span class="pre">accfun</span></code>も指定することで，この<code class="docutils literal notranslate"><span class="pre">PixelwiseSigmoidClassifier</span></code>とほぼおなじような処理を行うようにしていました．しかし，<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>はmean
-IoUの計算をしてくれません．</p>
+<p>Trainerは，Optimizerの引数として渡されたモデルが「ロスの値を返す」関数であると考えます．最初のモデルではモデルは出力結果を返しましたが，それを<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>というオブジェクトに渡した上でOptimizerに渡していました．Chainerが用意しているこの<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>は，内部でロスだけでなくAccuracyも計算し，<code class="docutils literal notranslate"><span class="pre">reporter.report</span></code>に辞書を渡す形で<code class="docutils literal notranslate"><span class="pre">LogReport</span></code>などのExtensionが補足できるように値の報告を行います．
+しかし，<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>はmIoUの計算をしてくれません．</p>
 <p>そこで，今回は<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>を自前の<code class="docutils literal notranslate"><span class="pre">PixelwiseSigmoidClassifier</span></code>に置き換え，自分で実際のロスとなる<code class="docutils literal notranslate"><span class="pre">F.sigmoid_cross_entropy</span></code>の計算を書きつつ，予測（上記コード中の<code class="docutils literal notranslate"><span class="pre">y</span></code>）に対してPixel
-Accuracyとmean
-IoUの両方を計算して，報告するようにします．<code class="docutils literal notranslate"><span class="pre">__call__</span></code>自体はロスの値（スカラ）を返すことが期待されているので，<code class="docutils literal notranslate"><span class="pre">F.sigmoid_cross_entropy</span></code>の返り値である<code class="docutils literal notranslate"><span class="pre">loss</span></code>だけを<code class="docutils literal notranslate"><span class="pre">return</span></code>しています．</p>
+AccuracyとmIoUの両方を計算して，報告するようにします．<code class="docutils literal notranslate"><span class="pre">__call__</span></code>自体はロスの値（スカラ）を返すことが期待されているので，<code class="docutils literal notranslate"><span class="pre">F.sigmoid_cross_entropy</span></code>の返り値である<code class="docutils literal notranslate"><span class="pre">loss</span></code>だけを<code class="docutils literal notranslate"><span class="pre">return</span></code>しています．</p>
 </div>
 <div class="section" id="新しいモデルを使った学習">
 <h3>5.5.5. 新しいモデルを使った学習<a class="headerlink" href="#新しいモデルを使った学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -1157,32 +1143,32 @@ IoUの両方を計算して，報告するようにします．<code class="docu
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>def create_trainer(batchsize, train, val, stop, device=-1, log_trigger=(1, &#39;epoch&#39;)):
-    model = FullyConvolutionalNetwork(out_h=256, out_w=256)
-    train_model = PixelwiseSigmoidClassifier(model)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="k">def</span> <span class="nf">create_trainer</span><span class="p">(</span><span class="n">batchsize</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">log_trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">)):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">FullyConvolutionalNetwork</span><span class="p">(</span><span class="n">out_h</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">out_w</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+    <span class="n">train_model</span> <span class="o">=</span> <span class="n">PixelwiseSigmoidClassifier</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-    optimizer = optimizers.Adam(eps=1e-05)
-    optimizer.setup(train_model)
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="mf">1e-05</span><span class="p">)</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">train_model</span><span class="p">)</span>
 
-    train_iter = iterators.MultiprocessIterator(train, batchsize)
-    val_iter = iterators.MultiprocessIterator(val, batchsize, repeat=False, shuffle=False)
+    <span class="n">train_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
+    <span class="n">val_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    updater = training.StandardUpdater(train_iter, optimizer, device=device)
+    <span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span><span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
 
-    trainer = training.trainer.Trainer(updater, stop, out=&#39;result_fcn&#39;)
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;result_fcn&#39;</span><span class="p">)</span>
 
-    logging_attributes = [
-        &#39;epoch&#39;, &#39;main/loss&#39;, &#39;main/miou&#39;, &#39;main/pa&#39;,
-        &#39;val/main/loss&#39;, &#39;val/main/miou&#39;, &#39;val/main/pa&#39;]
-    trainer.extend(extensions.LogReport(logging_attributes), trigger=log_trigger)
-    trainer.extend(extensions.PrintReport(logging_attributes), trigger=log_trigger)
-    trainer.extend(extensions.PlotReport([&#39;main/loss&#39;, &#39;val/main/loss&#39;], &#39;epoch&#39;, file_name=&#39;loss.png&#39;))
-    trainer.extend(extensions.PlotReport([&#39;main/miou&#39;, &#39;val/main/miou&#39;], &#39;epoch&#39;, file_name=&#39;miou.png&#39;))
-    trainer.extend(extensions.PlotReport([&#39;main/pa&#39;, &#39;val/main/pa&#39;], &#39;epoch&#39;, file_name=&#39;pa.png&#39;))
-    trainer.extend(extensions.Evaluator(val_iter, train_model, device=device), name=&#39;val&#39;)
-    trainer.extend(extensions.dump_graph(&#39;main/loss&#39;))
-    return trainer
+    <span class="n">logging_attributes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/miou&#39;</span><span class="p">,</span> <span class="s1">&#39;main/pa&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;val/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/miou&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/pa&#39;</span><span class="p">]</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">logging_attributes</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">log_trigger</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">(</span><span class="n">logging_attributes</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">log_trigger</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/miou&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/miou&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;miou.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/pa&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/pa&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;pa.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">val_iter</span><span class="p">,</span> <span class="n">train_model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">dump_graph</span><span class="p">(</span><span class="s1">&#39;main/loss&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">trainer</span>
 </pre></div>
 </div>
 </div>
@@ -1195,10 +1181,10 @@ Accuracy）だけでなく<code class="docutils literal notranslate"><span class
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>%%time
-trainer = create_trainer(128, train, val, (200, &#39;epoch&#39;), device=0, log_trigger=(10, &#39;epoch&#39;))
-trainer.run()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%%time</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">create_trainer</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">log_trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1242,10 +1228,10 @@ Wall time: 5min 50s
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from IPython.display import Image
-print(&#39;Loss&#39;)
-Image(&#39;result_fcn/loss.png&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Image</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result_fcn/loss.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1269,9 +1255,9 @@ Loss
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>print(&#39;mean IoU&#39;)
-Image(&#39;result_fcn/miou.png&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mean IoU&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result_fcn/miou.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1295,9 +1281,9 @@ mean IoU
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>print(&#39;Pixel Accuracy&#39;)
-Image(&#39;result_fcn/pa.png&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pixel Accuracy&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result_fcn/pa.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1323,9 +1309,9 @@ Accuracyが0.99以上であるだけでなく，mIoUも0.90近くまで上がっ
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>evaluate(trainer, val, device=0)
-show_predicts(trainer, val, device=0, )
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">evaluate</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">show_predicts</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1360,37 +1346,38 @@ mIou: 0.9051467978144511
 </div>
 </div>
 <p>一つ目のモデルの結果を確認した際と同じ画像が3つ並べられています．一つ目の結果よりも，特に3行目に注目すると，だいぶ正解ラベルに近い形のマスクを推定できていることがわかります．</p>
-<p>畳み込み層だけからなるより深いモデルを学習に用いることで，大きく結果を改善することができました．しかし，もう改善の余地が無いというわけではありません．さらに結果を改善するにはどうすればよいのでしょうか？</p>
+<p>畳み込み層だけからなるより深いモデルを学習に用いることで，大きく結果を改善することができました．</p>
 </div>
 </div>
 <div class="section" id="さらなる精度向上へのヒント">
 <h2>5.6. さらなる精度向上へのヒント<a class="headerlink" href="#さらなる精度向上へのヒント" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Semantic
+<p>今回のモデルでも十分うまくいっているようにみえますがまだ性能改善の余地があります.Semantic
 Segmentationでは，どうやって入力画像における広い範囲の情報を1つのピクセルの予測に役立てるか，どうやって複数の解像度における予測結果を考慮するか，などが重要な問題意識となります．また，ニューラルネットワークでは一般に，レイヤを重ねれば重ねるほど，特徴量の抽象度が上がっていくとされています．しかし，Semantic
 Segmentationでは，正確に対象物体の輪郭を表すマスク画像を出力したいので，low
 levelな情報（エッジ・局所的な画素値勾配のような情報，色の一貫性など）も考慮して最終的な予測結果を作りたくなります．そのために，ネットワークの出力に近いレイヤでどうやって入力に近いレイヤで取り出された特徴を活用すればよいか，が重要になってきます．</p>
 <p>これらの視点からいくつもの新しいモデルが提案されています．代表的なものを挙げると，例えば以下のようなものがあります．</p>
 <div class="section" id="SegNet-[8]">
 <h3>5.6.1. SegNet [8]<a class="headerlink" href="#SegNet-[8]" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>下層で行ったMax Poolingの際に「どのピクセルが最大値だったか（pooling
-indices) 」の情報をとっておき，上層でそのpooling
-indicesを使ってUpsamplingする手法．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されている．</p>
+<p>各層でMax Poolingを適用した際に「どのピクセルが最大値だったか（pooling
+indices)
+」の情報をとっておき，後で画像を拡大していく時に記録しておいたpooling
+indicesを使ってUpsamplingする手法です．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されています…</p>
 <p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
 </div>
 <div class="section" id="U-Net-[9]">
 <h3>5.6.2. U-Net [9]<a class="headerlink" href="#U-Net-[9]" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>下層の出力特徴マップを，上層の入力にConcatenateすることで活用する構造．全体がアルファベットの
-“U” のような形をしていることから「U-Net」と呼ばれる</p>
+<p>下層の出力特徴マップを，上層の入力に結合することで活用する構造．全体がアルファベットの
+“U”
+のような形をしていることから「U-Net」とよばれます.セグメンテーションタスクで広く使われています.</p>
 <p><img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
 </div>
 <div class="section" id="PSPNet-[10]">
 <h3>5.6.3. PSPNet [10]<a class="headerlink" href="#PSPNet-[10]" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Pyramid Pooling
-Moduleを提案し，異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet
-2017 Scene Parsing Challengeで優勝したモデル．</p>
+<p>異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet
+2017 Scene Parsing Challengeで優勝したモデルです.</p>
 <p><img alt="image2" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png" /></p>
-<p>それでは，お時間のある方は，こういった論文を参考に，上記二つ目のモデルを改良して，さらに高い精度が出せるよう工夫してみてください．また，今回は簡単のためtraining
-splitとvalidation
+<p>この他に様々な手法が提案されています.例えばクラス間のサンプル数の大小だけでなく，難しいクラスと簡単なクラスがある場合にそれらを考慮した損失関数を使うことで性能をあげることができます．</p>
+<p>また，今回は簡単のためtraining splitとvalidation
 splitのみを持つデータセットを使いましたが，本来はハイパーパラメータをvalidation
 splitでの検証結果を用いて調整したあと，これ以上挙げられないという段階でtest
 splitを使って評価し，モデルの良し悪しについて検討する材料とすべきです．これについては次章でtrain/

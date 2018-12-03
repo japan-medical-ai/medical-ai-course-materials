@@ -86,7 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">5. 実践編: MRI画像のセグメンテーション</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">6. 実践編: 血液の顕微鏡画像からの細胞検出</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#環境構築">6.1. 環境構築</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#物体検出（Object-detection）というタスクについて">6.2. 物体検出（Object detection）というタスクについて</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#物体検出（Object-detection）">6.2. 物体検出（Object detection）</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#データセットの準備">6.3. データセットの準備</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#データセットダウンロード">6.3.1. データセットダウンロード</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#データセットオブジェクト作成">6.3.2. データセットオブジェクト作成</a></li>
@@ -101,7 +101,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#学習結果を用いた推論">6.8. 学習結果を用いた推論</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#学習したモデルの評価">6.9. 学習したモデルの評価</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#おわりに">6.10. おわりに</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="DNA_Sequence_Data_Analysis.html">7. 実践編：ディープラーニングを使った配列解析</a></li>
@@ -365,12 +364,12 @@ div.nboutput div.output_area.stderr {
 <p>の3種の細胞について，それぞれ<strong>何がどの位置にあるか</strong>を個別に認識する方法を考えます．
 これが可能になると，与えられた画像内に<strong>それらの細胞が何個づつあるか，また，どういう位置にあるか</strong>，ということが分かります。</p>
 <p>このようなタスクは一般に<strong>物体検出（object
-detection）</strong>と呼ばれ，画像を入力として，対象の物体（ここでは例えば、上の3種の細胞）ごとに，個別に</p>
+detection）</strong>と呼ばれます．画像を入力として，対象の物体（ここでは例えば、上の3種の細胞）ごとに，個別に</p>
 <ol class="arabic simple">
 <li>物体を包含する最小面積の矩形（Bounding boxと呼ばれる）</li>
 <li>「内側にある物体が何か」＝クラスラベル</li>
 </ol>
-<p>を出力していくことを目的とします．
+<p>を推定することを目的とします．
 ただし，<strong>画像中にいくつの物体が含まれるかは事前に分からない</strong>ため，任意個（または十分な数）の物体の<strong>Bounding
 boxとクラスラベルの予測値の組</strong>を出力できるような手法である必要があります．</p>
 <p>Bounding
@@ -382,31 +381,29 @@ Plateletを検出している例）</p>
 <div class="section" id="環境構築">
 <h2>6.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まず環境構築のためColab上で以下のセルを実行してChainer, CuPy, ChainerCV,
-matplotlibといったPythonパッケージのインストールを済ませましょう．</p>
+matplotlibといったPythonパッケージのインストールを済ませましょう．
+これらのステップは前回までと同様です．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!curl https://colab.chainer.org/install | sh -  # ChainerとCuPyのインストール
-!pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>curl https://colab.chainer.org/install <span class="p">|</span> sh -  # ChainerとCuPyのインストール
+<span class="o">!</span>pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール
 </pre></div>
 </div>
 </div>
-<p>今回は，複雑な物体検出用の畳み込みニューラルネットワークの実装や学習に便利な関数・クラス群を提供してくれているChainerCVというChainerの追加パッケージを利用します．</p>
-<p>ChainerCVのドキュメントへはこちらからアクセスできます：<a class="reference external" href="https://chainercv.readthedocs.io/en/stable/">ChainerCV</a>．
-ChainerCVに関して不明点などがあった場合は適宜ドキュメント内を検索し，それでも不明点が解消しない場合は<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCVのGithubリポジトリ</a>を訪れて，調べたいキーワードなどで検索をかけることで関連のあるコードを読んでみるというのが解決への近道だと思います．ChainerCVはほぼ完全にPythonのみで書かれているため，内部の実装も非常に読みやすくなっています．</p>
 <p>それでは，先程のセルの実行によって環境のセットアップが成功したことを以下のセルを実行して確認しましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [4]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import chainer
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
 
-chainer.print_runtime_info()
+<span class="n">chainer</span><span class="o">.</span><span class="n">print_runtime_info</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -430,10 +427,9 @@ CuPy:
 iDeep: Not Available
 </pre></div></div>
 </div>
-<p>GPUを用いた学習の準備が整っていることを確認するには，上記の出力中の「<code class="docutils literal notranslate"><span class="pre">CuPy:</span></code>」以下のところを見ます．そこにCuPyのバージョンや，cuDNNのバージョンなどの情報が表示されていれば，無事にGPUを用いた学習の準備が整っています．</p>
 </div>
-<div class="section" id="物体検出（Object-detection）というタスクについて">
-<h2>6.2. 物体検出（Object detection）というタスクについて<a class="headerlink" href="#物体検出（Object-detection）というタスクについて" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="物体検出（Object-detection）">
+<h2>6.2. 物体検出（Object detection）<a class="headerlink" href="#物体検出（Object-detection）" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>物体検出（object detection）は，Computer
 Visionの応用分野で現在も活発に研究が行われているタスクの一つで，自動運転やロボティクスなど幅広い領域で重要な役割を果たす技術です．Semantic
 segmentationと違い，物体の形（輪郭）までは認識しませんが，<strong>物の種類と位置を，物体ごとに個別に出力</strong>します．</p>
@@ -442,18 +438,14 @@ segmentationというタスクでは<strong>インスタンスごとに領域が
 “instance-wise” という言葉で表現する場合もあります．</p>
 <p>ニューラルネットワークを用いた物体検出手法は，<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>という2014年に発表された手法を皮切りに，様々な改善手法が提案されてきました．まず一つの流れとして，<a class="reference external" href="https://arxiv.org/abs/1311.2524">R-CNN</a>,
 <a class="reference external" href="https://arxiv.org/abs/1504.08083">Fast R-CNN</a>, そして<a class="reference external" href="https://arxiv.org/abs/1506.01497">Faster
-R-CNN</a>という，同一の著者らを中心として提案されてきたConvolutional
-Neural Networks
-(CNN)をベースとした物体検出手法の系譜がよく知られています．現在**two
-stageタイプ**と呼ばれているものはほぼこのFaster
-R-CNNをベースとしているものがほとんどです．</p>
-<p>それに対して，同じくCNNをベースとはしているものの，全体の構造的な違いから<strong>single
-stageタイプ</strong>と呼ばれている手法の流れがあります．<a class="reference external" href="https://arxiv.org/abs/1512.02325">SSD</a>や<a class="reference external" href="https://arxiv.org/abs/1506.02640">YOLO</a>，<a class="reference external" href="https://arxiv.org/abs/1612.08242">YOLOv2</a>，<a class="reference external" href="https://arxiv.org/abs/1804.02767">YOLOv3</a>などがsingle
-stageタイプとしてよく知られています．特にYOLOとその発展手法は，処理のスピードに着目して工夫を行ってきています．一般的にsingle
+R-CNN</a>という物体検出手法は，はじめに物体の候補を推定し，次に各候補毎に物体のクラスや位置を詳細に推定します．これは<strong>two
+stageタイプ</strong>と呼ばれています．</p>
+<p>それに対して，同じくCNNをベースとはしているものの，<strong>single
+stageタイプ</strong>と呼ばれている手法があります．<a class="reference external" href="https://arxiv.org/abs/1512.02325">SSD</a>や<a class="reference external" href="https://arxiv.org/abs/1506.02640">YOLO</a>，<a class="reference external" href="https://arxiv.org/abs/1612.08242">YOLOv2</a>，<a class="reference external" href="https://arxiv.org/abs/1804.02767">YOLOv3</a>などがsingle
+stageタイプとしてよく知られています．これらは物体の候補を生成せず．直接各物体のクラスと位置を推定します．一般的にsingle
 stageタイプの方がtwo
-stageタイプよりも処理速度は高速である一方，精度が低いと言われています．ただし，最近は高い精度を達成しつつも高速に処理できるような工夫が施された手法も出てきており，その限りではなくなってきています．</p>
-<p>もしご自身の研究や仕事で本格的な物体検出タスクに取り組む必要がある場合は，ここに挙げた一連の論文を順を追って調べてみることで多くのヒントを得ることができると思います．</p>
-<p>この資料では，single
+stageタイプよりも処理速度は高速である一方，精度が低いと言われています．ただし，最近はこれらの手法の境界は曖昧になり、性能差もほとんどなくなってきています．</p>
+<p>ここでは，single
 stageタイプの物体検出手法の一つ，SSDを使って，細胞画像から三種類の細胞の位置と種類を抽出するタスクに挑戦します．</p>
 </div>
 <div class="section" id="データセットの準備">
@@ -471,8 +463,8 @@ Datasetは広く物体検出の研究に用いられているようなベンチ�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!if [ ! -d BCCD_Dataset ]; then git clone https://github.com/Shenggan/BCCD_Dataset.git; fi
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span><span class="k">if</span> <span class="o">[</span> ! -d BCCD_Dataset <span class="o">]</span><span class="p">;</span> <span class="k">then</span> git clone https://github.com/Shenggan/BCCD_Dataset.git<span class="p">;</span> <span class="k">fi</span>
 </pre></div>
 </div>
 </div>
@@ -497,19 +489,20 @@ Datasetは広く物体検出の研究に用いられているようなベンチ�
 </div>
 <p>この構成は，長年物体検出の標準的ベンチマークデータセットとして用いられてきた<strong>Pascal
 VOCデータセット</strong>の形式に沿ったものとなっています．そのため，ChainerCVが用意しているPascal
-VOCデータセットを容易に扱えるようにするクラスを一部，今回のタスクのために書き換えることで，ほとんどそのまま流用することが可能です．</p>
+VOCデータセットを容易に扱えるようにするクラスをほとんどそのまま流用することが可能です．</p>
 <p>実際には他にもディレクトリがありますが，今回用いるのは上記のファイルツリーに含まれているものだけとなります．それぞれのディレクトリに含まれているものを説明します．</p>
 <ul class="simple">
 <li><strong>Annotationsディレクトリ：</strong>Pascal
-VOCデータセットと同様の形式で細胞画像それぞれに対して<strong>どの位置に何があるか</strong>という，一般的に画像からの物体検出タスクで教師あり学習を行うために必要となる正解情報がXMLファイルとして，画像ファイルとの対応がわかりやすいように拡張子を除いて同一のファイル名で保存されています．</li>
-<li><strong>ImageSetsディレクトリ：</strong>学習用データセット（train）・検証用データセット（val）・テスト用データセット（test））のそれぞれに用いる画像のリストが記されたテキストファイルが入っています．これらのリストに従って，データセットを三分割し，それぞれ<code class="docutils literal notranslate"><span class="pre">train.txt</span></code>にリストアップされた画像を学習に，<code class="docutils literal notranslate"><span class="pre">val.txt</span></code>にリストアップされた画像を検証（学習中に汎化性能を大雑把に調べるために使うデータセットスプリット）に，<code class="docutils literal notranslate"><span class="pre">test.txt</span></code>にリストアップされた画像を学習終了後の最終的な性能評価に用います．</li>
+VOCデータセットと同様の形式で細胞画像それぞれに対して<strong>どの位置に何があるか</strong>という正解情報が格納されています．正解情報はXMLファイルとして格納されており，画像ファイルとの対応がわかりやすいように拡張子を除いて同一のファイル名で保存されています．</li>
+<li><strong>ImageSetsディレクトリ：</strong>学習用データセット（train）・検証用データセット（val）・テスト用データセット（test）のそれぞれに用いる画像のリストが記されたテキストファイルが入っています．これらのリストに従って，データセットを三分割し，それぞれ<code class="docutils literal notranslate"><span class="pre">train.txt</span></code>にリストアップされた画像を学習に，<code class="docutils literal notranslate"><span class="pre">val.txt</span></code>にリストアップされた画像を検証（学習中に汎化性能を大雑把に調べるために使うデータセットスプリット）に，<code class="docutils literal notranslate"><span class="pre">test.txt</span></code>にリストアップされた画像を学習終了後の最終的な性能評価に用います．</li>
 <li><strong>JPEGImagesディレクトリ：</strong>このデータセットに含まれるすべての画像データが入っています．</li>
 </ul>
 </div>
 <div class="section" id="データセットオブジェクト作成">
 <h3>6.3.2. データセットオブジェクト作成<a class="headerlink" href="#データセットオブジェクト作成" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ChainerCVにはPascal
-VOCデータセットを簡単に読み込むための便利なクラスが用意されています．これを継承し，<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッドをオーバーライドして，今回使用するデータセットを読み込み可能にします．変更が必要な行は１行だけです．<a class="reference external" href="https://github.com/chainer/chainercv/blob/v0.10.0/chainercv/datasets/voc/voc_bbox_dataset.py#L90-L115">こちら</a>から該当するコード（<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッドの部分）をコピーしてきて，以下の変更を行い，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>を継承する<code class="docutils literal notranslate"><span class="pre">BCCDDataset</span></code>クラスのメソッドとして追加してみましょう．</p>
+VOCデータセットを簡単に読み込むための便利なクラスが用意されています．これを継承し，<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッドをオーバーライドして，今回使用するデータセットを読み込み可能にします．変更が必要な行は１行だけです．<a class="reference external" href="https://github.com/chainer/chainercv/blob/v0.10.0/chainercv/datasets/voc/voc_bbox_dataset.py#L90-L115">こちら</a>から該当するコード（<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッドの部分）をコピーしてきて，以下の変更を行い，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>を継承する<code class="docutils literal notranslate"><span class="pre">BCCDDataset</span></code>クラスのメソッドとして追加してみましょう．
+（以下はdiff形式とよばれ-でははじまる行を削除し，+で始まる行を追加するという意味です）</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">voc_utils</span><span class="o">.</span><span class="n">voc_bbox_label_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 <span class="o">+</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bccd_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 </pre></div>
@@ -519,51 +512,51 @@ VOCデータセットを簡単に読み込むための便利なクラスが用�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import os
-import xml.etree.ElementTree as ET
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">xml.etree.ElementTree</span> <span class="k">as</span> <span class="nn">ET</span>
 
-import numpy as np
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-from chainercv.datasets import VOCBboxDataset
-
-
-bccd_labels = (&#39;rbc&#39;, &#39;wbc&#39;, &#39;platelets&#39;)
+<span class="kn">from</span> <span class="nn">chainercv.datasets</span> <span class="k">import</span> <span class="n">VOCBboxDataset</span>
 
 
-class BCCDDataset(VOCBboxDataset):
+<span class="n">bccd_labels</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rbc&#39;</span><span class="p">,</span> <span class="s1">&#39;wbc&#39;</span><span class="p">,</span> <span class="s1">&#39;platelets&#39;</span><span class="p">)</span>
 
-    def _get_annotations(self, i):
-        id_ = self.ids[i]
 
-        # Pascal VOC形式のアノテーションデータは、XML形式で配布されています
-        anno = ET.parse(
-            os.path.join(self.data_dir, &#39;Annotations&#39;, id_ + &#39;.xml&#39;))
+<span class="k">class</span> <span class="nc">BCCDDataset</span><span class="p">(</span><span class="n">VOCBboxDataset</span><span class="p">):</span>
 
-        # XMLをパースして，bboxの座標・大きさ，bboxごとのクラスラベルなどの
-        # 情報を取り出し，リストに追加していきます
-        bbox = []
-        label = []
-        difficult = []
-        for obj in anno.findall(&#39;object&#39;):
-            bndbox_anno = obj.find(&#39;bndbox&#39;)
+    <span class="k">def</span> <span class="nf">_get_annotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="n">id_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ids</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-            # バウンディングボックスの座標値が0-originになるように1を引いています
-            # subtract 1 to make pixel indexes 0-based
-            bbox.append([
-                int(bndbox_anno.find(tag).text) - 1
-                for tag in (&#39;ymin&#39;, &#39;xmin&#39;, &#39;ymax&#39;, &#39;xmax&#39;)])
-            name = obj.find(&#39;name&#39;).text.lower().strip()
-            label.append(bccd_labels.index(name))
-        bbox = np.stack(bbox).astype(np.float32)
-        label = np.stack(label).astype(np.int32)
+        <span class="c1"># Pascal VOC形式のアノテーションデータは、XML形式で配布されています</span>
+        <span class="n">anno</span> <span class="o">=</span> <span class="n">ET</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;Annotations&#39;</span><span class="p">,</span> <span class="n">id_</span> <span class="o">+</span> <span class="s1">&#39;.xml&#39;</span><span class="p">))</span>
 
-        # オリジナルのPascal VOCには，difficultという
-        # 属性が画像ごとに真偽値で与えられていますが，今回は用いません
-        # （今回のデータセットでは全画像がdifficult = 0に設定されているため）
-        # When `use_difficult==False`, all elements in `difficult` are False.
-        difficult = np.array(difficult, dtype=np.bool)
-        return bbox, label, difficult
+        <span class="c1"># XMLをパースして，bboxの座標・大きさ，bboxごとのクラスラベルなどの</span>
+        <span class="c1"># 情報を取り出し，リストに追加していきます</span>
+        <span class="n">bbox</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">difficult</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">anno</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;object&#39;</span><span class="p">):</span>
+            <span class="n">bndbox_anno</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;bndbox&#39;</span><span class="p">)</span>
+
+            <span class="c1"># バウンディングボックスの座標値が0-originになるように1を引いています</span>
+            <span class="c1"># subtract 1 to make pixel indexes 0-based</span>
+            <span class="n">bbox</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">bndbox_anno</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ymin&#39;</span><span class="p">,</span> <span class="s1">&#39;xmin&#39;</span><span class="p">,</span> <span class="s1">&#39;ymax&#39;</span><span class="p">,</span> <span class="s1">&#39;xmax&#39;</span><span class="p">)])</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bccd_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">bbox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">bbox</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">label</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="c1"># オリジナルのPascal VOCには，difficultという</span>
+        <span class="c1"># 属性が画像ごとに真偽値で与えられていますが，今回は用いません</span>
+        <span class="c1"># （今回のデータセットでは全画像がdifficult = 0に設定されているため）</span>
+        <span class="c1"># When `use_difficult==False`, all elements in `difficult` are False.</span>
+        <span class="n">difficult</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">difficult</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">difficult</span>
 </pre></div>
 </div>
 </div>
@@ -573,10 +566,10 @@ class BCCDDataset(VOCBboxDataset):
 <span></span>In [7]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>train_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;train&#39;)
-valid_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;val&#39;)
-test_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;test&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">BCCDDataset</span><span class="p">(</span><span class="s1">&#39;BCCD_Dataset/BCCD&#39;</span><span class="p">,</span> <span class="s1">&#39;train&#39;</span><span class="p">)</span>
+<span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">BCCDDataset</span><span class="p">(</span><span class="s1">&#39;BCCD_Dataset/BCCD&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">)</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">BCCDDataset</span><span class="p">(</span><span class="s1">&#39;BCCD_Dataset/BCCD&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -598,10 +591,10 @@ Datasetに使っているため出ているものです．</p>
 <span></span>In [8]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>print(&#39;Number of images in &quot;train&quot; dataset:&#39;, len(train_dataset))
-print(&#39;Number of images in &quot;valid&quot; dataset:&#39;, len(valid_dataset))
-print(&#39;Number of images in &quot;test&quot; dataset:&#39;, len(test_dataset))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of images in &quot;train&quot; dataset:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of images in &quot;valid&quot; dataset:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid_dataset</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of images in &quot;test&quot; dataset:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -615,18 +608,18 @@ Number of images in &#34;valid&#34; dataset: 87
 Number of images in &#34;test&#34; dataset: 72
 </pre></div></div>
 </div>
-<p>Chainerで用いるデータセットオブジェクトは，Pythonのリストと同様に，<code class="docutils literal notranslate"><span class="pre">len()</span></code>を使ってそのサイズ（いくつの要素＝データが含まれているか）を調べることができ，また<code class="docutils literal notranslate"><span class="pre">[]</span></code>アクセサで内部のデータへアクセスすることができます．では，<code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>の１つ目のデータにアクセスしてみましょう．</p>
+<p>では，<code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>の１つ目のデータにアクセスしてみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>first_datum = train_dataset[0]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">first_datum</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
-<p>上のコードでは，学習データセットから先頭のデータを取り出し，<code class="docutils literal notranslate"><span class="pre">first_datum</span></code>という変数に代入しています．さて，<code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>は<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>を継承した<code class="docutils literal notranslate"><span class="pre">BCCDDataset</span></code>クラスのオブジェクトでした．そのため，上でオーバーライドした<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッド以外は，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>クラスが提供する機能を継承しているはずです．どのような機能が提供されているのか，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>クラスのドキュメントを見て確認してみましょう：<a class="reference external" href="https://chainercv.readthedocs.io/en/stable/reference/datasets.html?highlight=VOCBboxDataset#vocbboxdataset">VOCBboxDataset</a></p>
+<p>さて，<code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>は<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>を継承した<code class="docutils literal notranslate"><span class="pre">BCCDDataset</span></code>クラスのオブジェクトでした．そのため，上でオーバーライドした<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッド以外は，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>クラスが提供する機能を継承しているはずです．どのような機能が提供されているのか，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>クラスのドキュメントを見て確認してみましょう：<a class="reference external" href="https://chainercv.readthedocs.io/en/stable/reference/datasets.html?highlight=VOCBboxDataset#vocbboxdataset">VOCBboxDataset</a></p>
 <p>以下のような表が記載されています．このデータセットは，それぞれの要素に以下のようなものを持つリストのようになっています．</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -668,15 +661,15 @@ Number of images in &#34;test&#34; dataset: 72
 <ul class="simple">
 <li>difficult is available only if <code class="docutils literal notranslate"><span class="pre">return_difficult</span> <span class="pre">=</span> <span class="pre">True</span></code></li>
 </ul>
-<p>ただし，今回データセットオブジェクトを作成するさいに<code class="docutils literal notranslate"><span class="pre">return_difficult</span></code>オプションを明示的に<code class="docutils literal notranslate"><span class="pre">True</span></code>と指定していないので，デフォルト値の<code class="docutils literal notranslate"><span class="pre">False</span></code>が使われているため，上の表の最後の行にある<code class="docutils literal notranslate"><span class="pre">difficult</span></code>という要素は返ってきません．</p>
-<p>つまり，今回作成した3つのデータセットオブジェクトはすべて，<strong>それぞれの要素が``(画像データ, 正解のbboxリスト, 各bboxごとのクラス)``という３つの配列となっているリストのようになっているということです．</strong></p>
+<p>ただし，今回データセットオブジェクトを作成するさいに<code class="docutils literal notranslate"><span class="pre">return_difficult</span></code>オプションを明示的に<code class="docutils literal notranslate"><span class="pre">True</span></code>と指定していないので，デフォルト値の<code class="docutils literal notranslate"><span class="pre">False</span></code>が使われていません。そのため上の表の最後の行にある<code class="docutils literal notranslate"><span class="pre">difficult</span></code>という要素は返ってきません．</p>
+<p>今回作成した3つのデータセットオブジェクトはすべて，<a href="#id6"><span class="problematic" id="id7">**</span></a>それぞれの要素が<code class="docutils literal notranslate"><span class="pre">(画像データ,</span> <span class="pre">正解のbboxリスト,</span> <span class="pre">各bboxごとのクラス)</span></code>という３つの配列となっている</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [11]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>len(first_datum)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">len</span><span class="p">(</span><span class="n">first_datum</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -696,8 +689,8 @@ Number of images in &#34;test&#34; dataset: 72
 <span></span>In [12]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>print(first_datum[0].shape, first_datum[0].dtype)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">first_datum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">first_datum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -715,9 +708,9 @@ Number of images in &#34;test&#34; dataset: 72
 <span></span>In [14]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>print(first_datum[1])
-print(first_datum[1].shape)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">first_datum</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">first_datum</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -755,9 +748,9 @@ print(first_datum[1].shape)
 <span></span>In [15]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>print(first_datum[2])
-print(first_datum[2].shape)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="n">first_datum</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">first_datum</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -780,14 +773,14 @@ boxと対応するクラスの名前を重ねて表示してみます．</p>
 <span></span>In [16]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>%matplotlib inline
-from chainercv.visualizations import vis_bbox
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">from</span> <span class="nn">chainercv.visualizations</span> <span class="k">import</span> <span class="n">vis_bbox</span>
 
-img, bbox, label = train_dataset[0]
-ax = vis_bbox(img, bbox, label, label_names=bccd_labels)
-ax.set_axis_off()
-ax.figure.tight_layout()
+<span class="n">img</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">train_dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">vis_bbox</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">label_names</span><span class="o">=</span><span class="n">bccd_labels</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -795,20 +788,23 @@ ax.figure.tight_layout()
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_31_0.png" src="../_images/notebooks_Blood_Cell_Detection_31_0.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_29_0.png" src="../_images/notebooks_Blood_Cell_Detection_29_0.png" />
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="Single-Shot-Multibox-Detector-(SSD)">
 <h2>6.4. Single Shot Multibox Detector (SSD)<a class="headerlink" href="#Single-Shot-Multibox-Detector-(SSD)" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>データの準備が完了したので，今回訓練するモデルについて非常に簡単な説明を行います．今回は、<a class="reference external" href="https://arxiv.org/abs/1512.02325">Single
-Shot MultiBox Detector
+<p>データの準備が完了しました。</p>
+<p>次に今回訓練するモデルについて簡単に説明します．今回は、<a class="reference external" href="https://arxiv.org/abs/1512.02325">Single Shot
+MultiBox Detector
 (SSD)</a>という手法を使います．</p>
 <p>SSDは前述のようにsingle
-stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から<strong>特徴マップ</strong>を抽出します．そのあと，予め特徴マップの空間方向にびっしりと候補領域を仮定しておき（SSD論文ではdefault
-boxと呼ばれていますが，anchorという呼び方がより一般的に用いられています），そのそれぞれについて<strong>どの程度正解のbounding
-boxからずれているか</strong>を計算し，これを最小化するように学習を行います．また，このbbox位置と同時にそれぞれその領域内部に写っているものが<strong>どのクラスに属しているか</strong>も予測させ，この間違いも少なくするよう学習を行います．</p>
+stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から<strong>特徴マップ</strong>を抽出します．そして特徴マップの各位置毎に候補を用意します（SSD論文ではdefault
+boxと呼ばれていますが，anchorという呼び方がより一般的に用いられています）．各候補領域は異なる形（正方形、縦長、横長、それらの違うサイズなど）．例えば特徴マップの(x=0,
+y=0)の位置に16x16の候補、16x12の候補、12x16の候補を用意します．
+そして正解と最もあっている候補を求め、その<strong>正解のbounding
+boxから候補がどの程度ずれているか</strong>を計算し、このずれを最小化するように学習します。これと同時にそれぞれその領域内部に写っているものが<strong>どのクラスに属しているか</strong>も予測させ，この間違いも少なくするよう学習を行います．。どの正解と一致しなかった候補は何もその位置にはなかったということを予測できるようにします．</p>
 <p>一方，two stageタイプの手法，例えばFaster
 R-CNNでは，抽出された特徴マップに対してさらに別のネットワークが物体の候補領域（region
 proposal）を予測し，その結果を使って候補領域ごとの特徴ベクトルを作成し（RoI
@@ -821,7 +817,7 @@ detectors</a>）より、以下の図がしばしば参照されます．
 <img alt="speed-accuracy-tradeoffs.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" /></p>
 <p>さて，今回用いるSSDという手法のネットワークアーキテクチャは，以下のような形をしています（SSD論文のFig.
 2より引用）．</p>
-<div class="figure" id="id12">
+<div class="figure" id="id13">
 <img alt="ssd-architecture.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/ssd-architecture.png" />
 <p class="caption"><span class="caption-text">ssd-architecture.png</span></p>
 </div>
@@ -851,36 +847,36 @@ lossとclassification lossを別々に計算します．</p>
 <span></span>In [17]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import chainer
-from chainercv.links import SSD300
-from chainercv.links.model.ssd import multibox_loss
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">from</span> <span class="nn">chainercv.links</span> <span class="k">import</span> <span class="n">SSD300</span>
+<span class="kn">from</span> <span class="nn">chainercv.links.model.ssd</span> <span class="k">import</span> <span class="n">multibox_loss</span>
 
 
-class MultiboxTrainChain(chainer.Chain):
+<span class="k">class</span> <span class="nc">MultiboxTrainChain</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
 
-    def __init__(self, model, alpha=1, k=3):
-        super(MultiboxTrainChain, self).__init__()
-        with self.init_scope():
-            self.model = model
-        self.alpha = alpha
-        self.k = k
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MultiboxTrainChain</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
 
-    def forward(self, imgs, gt_mb_locs, gt_mb_labels):
-        mb_locs, mb_confs = self.model(imgs)
-        loc_loss, conf_loss = multibox_loss(
-            mb_locs, mb_confs, gt_mb_locs, gt_mb_labels, self.k)
-        loss = loc_loss * self.alpha + conf_loss
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">imgs</span><span class="p">,</span> <span class="n">gt_mb_locs</span><span class="p">,</span> <span class="n">gt_mb_labels</span><span class="p">):</span>
+        <span class="n">mb_locs</span><span class="p">,</span> <span class="n">mb_confs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+        <span class="n">loc_loss</span><span class="p">,</span> <span class="n">conf_loss</span> <span class="o">=</span> <span class="n">multibox_loss</span><span class="p">(</span>
+            <span class="n">mb_locs</span><span class="p">,</span> <span class="n">mb_confs</span><span class="p">,</span> <span class="n">gt_mb_locs</span><span class="p">,</span> <span class="n">gt_mb_labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loc_loss</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">conf_loss</span>
 
-        chainer.reporter.report(
-            {&#39;loss&#39;: loss, &#39;loss/loc&#39;: loc_loss, &#39;loss/conf&#39;: conf_loss},
-            self)
+        <span class="n">chainer</span><span class="o">.</span><span class="n">reporter</span><span class="o">.</span><span class="n">report</span><span class="p">(</span>
+            <span class="p">{</span><span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span> <span class="s1">&#39;loss/loc&#39;</span><span class="p">:</span> <span class="n">loc_loss</span><span class="p">,</span> <span class="s1">&#39;loss/conf&#39;</span><span class="p">:</span> <span class="n">conf_loss</span><span class="p">},</span>
+            <span class="bp">self</span><span class="p">)</span>
 
-        return loss
+        <span class="k">return</span> <span class="n">loss</span>
 
 
-model = SSD300(n_fg_class=len(bccd_labels), pretrained_model=&#39;imagenet&#39;)
-train_chain = MultiboxTrainChain(model)
+<span class="n">model</span> <span class="o">=</span> <span class="n">SSD300</span><span class="p">(</span><span class="n">n_fg_class</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">bccd_labels</span><span class="p">),</span> <span class="n">pretrained_model</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">)</span>
+<span class="n">train_chain</span> <span class="o">=</span> <span class="n">MultiboxTrainChain</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -906,86 +902,86 @@ Models</a></p>
 </div>
 <div class="section" id="Data-augmentationの実装">
 <h2>6.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．今回は非常にコンパクトなデータセットを使ってとりあえず学習と結果利用のフローを体験することを目的としているため，実用に耐えうるようなモデルを訓練するのに十分なバリエーションを持ったデータセットは使っていません．ただし，<strong>データを擬似的に増やすように様々な変換を画像とそれに付随するラベルに適用するテクニック（data
-augmentation）</strong>は，大量のデータを集めることができたとしても依然行われることであるため，ここでどのようにそれを行えばよいかを説明します．</p>
-<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．以下のセルを実行しましょう．</p>
+<p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．<strong>データを擬似的に増やすようにデータの意味を変えずに様々な変換を画像とそれに付随するラベルに適用するテクニック（data
+augmentation）</strong>は，学習用データを水増しできる手法です。</p>
+<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり、水平方向に反転させたり、拡大、縮小したりします。それらの際には正解ラベルも適切に変換する必要があることに注意してください。以下のセルを実行しましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import copy
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
 
-import numpy as np
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-from chainercv import transforms
-from chainercv.links.model.ssd import random_crop_with_bbox_constraints
-from chainercv.links.model.ssd import random_distort
-from chainercv.links.model.ssd import resize_with_random_interpolation
+<span class="kn">from</span> <span class="nn">chainercv</span> <span class="k">import</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="nn">chainercv.links.model.ssd</span> <span class="k">import</span> <span class="n">random_crop_with_bbox_constraints</span>
+<span class="kn">from</span> <span class="nn">chainercv.links.model.ssd</span> <span class="k">import</span> <span class="n">random_distort</span>
+<span class="kn">from</span> <span class="nn">chainercv.links.model.ssd</span> <span class="k">import</span> <span class="n">resize_with_random_interpolation</span>
 
 
-class Transform(object):
+<span class="k">class</span> <span class="nc">Transform</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    def __init__(self, coder, size, mean):
-        # to send cpu, make a copy
-        self.coder = copy.copy(coder)
-        self.coder.to_cpu()
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coder</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">mean</span><span class="p">):</span>
+        <span class="c1"># to send cpu, make a copy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coder</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">coder</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coder</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">()</span>
 
-        self.size = size
-        self.mean = mean
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span>
 
-    def __call__(self, in_data):
-        # There are five data augmentation steps
-        # 1. Color augmentation
-        # 2. Random expansion
-        # 3. Random cropping
-        # 4. Resizing with random interpolation
-        # 5. Random horizontal flipping
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_data</span><span class="p">):</span>
+        <span class="c1"># There are five data augmentation steps</span>
+        <span class="c1"># 1. Color augmentation</span>
+        <span class="c1"># 2. Random expansion</span>
+        <span class="c1"># 3. Random cropping</span>
+        <span class="c1"># 4. Resizing with random interpolation</span>
+        <span class="c1"># 5. Random horizontal flipping</span>
 
-        img, bbox, label = in_data
+        <span class="n">img</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">in_data</span>
 
-        # 1. Color augmentation
-        img = random_distort(img)
+        <span class="c1"># 1. Color augmentation</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">random_distort</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
 
-        # 2. Random expansion
-        if np.random.randint(2):
-            img, param = transforms.random_expand(
-                img, fill=self.mean, return_param=True)
-            bbox = transforms.translate_bbox(
-                bbox, y_offset=param[&#39;y_offset&#39;], x_offset=param[&#39;x_offset&#39;])
+        <span class="c1"># 2. Random expansion</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">img</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">random_expand</span><span class="p">(</span>
+                <span class="n">img</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">return_param</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">bbox</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">translate_bbox</span><span class="p">(</span>
+                <span class="n">bbox</span><span class="p">,</span> <span class="n">y_offset</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="s1">&#39;y_offset&#39;</span><span class="p">],</span> <span class="n">x_offset</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="s1">&#39;x_offset&#39;</span><span class="p">])</span>
 
-        # 3. Random cropping
-        img, param = random_crop_with_bbox_constraints(
-            img, bbox, return_param=True)
-        bbox, param = transforms.crop_bbox(
-            bbox, y_slice=param[&#39;y_slice&#39;], x_slice=param[&#39;x_slice&#39;],
-            allow_outside_center=False, return_param=True)
-        label = label[param[&#39;index&#39;]]
+        <span class="c1"># 3. Random cropping</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="n">random_crop_with_bbox_constraints</span><span class="p">(</span>
+            <span class="n">img</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">return_param</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">bbox</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">crop_bbox</span><span class="p">(</span>
+            <span class="n">bbox</span><span class="p">,</span> <span class="n">y_slice</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="s1">&#39;y_slice&#39;</span><span class="p">],</span> <span class="n">x_slice</span><span class="o">=</span><span class="n">param</span><span class="p">[</span><span class="s1">&#39;x_slice&#39;</span><span class="p">],</span>
+            <span class="n">allow_outside_center</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_param</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="p">[</span><span class="n">param</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]]</span>
 
-        # 4. Resizing with random interpolatation
-        _, H, W = img.shape
-        img = resize_with_random_interpolation(img, (self.size, self.size))
-        bbox = transforms.resize_bbox(bbox, (H, W), (self.size, self.size))
+        <span class="c1"># 4. Resizing with random interpolatation</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">resize_with_random_interpolation</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+        <span class="n">bbox</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">resize_bbox</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">),</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
 
-        # 5. Random horizontal flipping
-        img, params = transforms.random_flip(
-            img, x_random=True, return_param=True)
-        bbox = transforms.flip_bbox(
-            bbox, (self.size, self.size), x_flip=params[&#39;x_flip&#39;])
+        <span class="c1"># 5. Random horizontal flipping</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">random_flip</span><span class="p">(</span>
+            <span class="n">img</span><span class="p">,</span> <span class="n">x_random</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_param</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">bbox</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">flip_bbox</span><span class="p">(</span>
+            <span class="n">bbox</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">x_flip</span><span class="o">=</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;x_flip&#39;</span><span class="p">])</span>
 
-        # Preparation for SSD network
-        img -= self.mean
-        mb_loc, mb_label = self.coder.encode(bbox, label)
+        <span class="c1"># Preparation for SSD network</span>
+        <span class="n">img</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span>
+        <span class="n">mb_loc</span><span class="p">,</span> <span class="n">mb_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coder</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
 
-        return img, mb_loc, mb_label
+        <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">mb_loc</span><span class="p">,</span> <span class="n">mb_label</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="学習の開始">
 <h2>6.7. 学習の開始<a class="headerlink" href="#学習の開始" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>以下では，Chainerが用意するデータセットクラスの一つ，<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>を使って，データ点ごとに事前に定義した適用したい変換を順次適用してくれるようにしています．</p>
+<p>以下では，Chainerが用意するデータセットクラスの一つ，<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>を使って，直前に定義した変換<code class="docutils literal notranslate"><span class="pre">Transform</span></code>をデータ毎に適用するようにします．</p>
 <p>基本的な流れはすでに学んだ画像分類やセグメンテーションなどを行うネットワークの訓練の仕方と多くが共通しているため，詳しい説明はここでは割愛します．</p>
 <p>まずは必要なモジュール類をインポートしておきます．ここではChainerCVが提供しているSSD300を学習するニューラルネットワークに採用し，その実装を利用することにします．</p>
 <div class="nbinput nblast docutils container">
@@ -993,18 +989,18 @@ class Transform(object):
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from chainer.datasets import TransformDataset
-from chainer.optimizer_hooks import WeightDecay
-from chainer import serializers
-from chainer import training
-from chainer.training import extensions
-from chainer.training import triggers
-from chainercv.extensions import DetectionVOCEvaluator
-from chainercv.links.model.ssd import GradientScaling
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chainer.datasets</span> <span class="k">import</span> <span class="n">TransformDataset</span>
+<span class="kn">from</span> <span class="nn">chainer.optimizer_hooks</span> <span class="k">import</span> <span class="n">WeightDecay</span>
+<span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">serializers</span>
+<span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">training</span>
+<span class="kn">from</span> <span class="nn">chainer.training</span> <span class="k">import</span> <span class="n">extensions</span>
+<span class="kn">from</span> <span class="nn">chainer.training</span> <span class="k">import</span> <span class="n">triggers</span>
+<span class="kn">from</span> <span class="nn">chainercv.extensions</span> <span class="k">import</span> <span class="n">DetectionVOCEvaluator</span>
+<span class="kn">from</span> <span class="nn">chainercv.links.model.ssd</span> <span class="k">import</span> <span class="n">GradientScaling</span>
 
-chainer.cuda.set_max_workspace_size(1024 * 1024 * 1024)
-chainer.config.autotune = True
+<span class="n">chainer</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">set_max_workspace_size</span><span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span>
+<span class="n">chainer</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">autotune</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </div>
@@ -1021,15 +1017,15 @@ chainer.config.autotune = True
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>batchsize = 32
-gpu_id = 0
-out = &#39;results&#39;
-initial_lr = 0.001
-training_epoch = 300
-log_interval = 10, &#39;epoch&#39;
-lr_decay_rate = 0.1
-lr_decay_timing = [200, 250]
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">batchsize</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">gpu_id</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">out</span> <span class="o">=</span> <span class="s1">&#39;results&#39;</span>
+<span class="n">initial_lr</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">training_epoch</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">log_interval</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span>
+<span class="n">lr_decay_rate</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">lr_decay_timing</span> <span class="o">=</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">250</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1039,11 +1035,11 @@ lr_decay_timing = [200, 250]
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>transformed_train_dataset = TransformDataset(train_dataset, Transform(model.coder, model.insize, model.mean))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">transformed_train_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">Transform</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coder</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">insize</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">mean</span><span class="p">))</span>
 
-train_iter = chainer.iterators.MultiprocessIterator(transformed_train_dataset, batchsize)
-valid_iter = chainer.iterators.SerialIterator(valid_dataset, batchsize, repeat=False, shuffle=False)
+<span class="n">train_iter</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">transformed_train_dataset</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
+<span class="n">valid_iter</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1056,14 +1052,14 @@ decayを行うように設定しています．これらは学習の安定化な
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>optimizer = chainer.optimizers.MomentumSGD()
-optimizer.setup(train_chain)
-for param in train_chain.params():
-    if param.name == &#39;b&#39;:
-        param.update_rule.add_hook(GradientScaling(2))
-    else:
-        param.update_rule.add_hook(WeightDecay(0.0005))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">MomentumSGD</span><span class="p">()</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">train_chain</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">train_chain</span><span class="o">.</span><span class="n">params</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">update_rule</span><span class="o">.</span><span class="n">add_hook</span><span class="p">(</span><span class="n">GradientScaling</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">update_rule</span><span class="o">.</span><span class="n">add_hook</span><span class="p">(</span><span class="n">WeightDecay</span><span class="p">(</span><span class="mf">0.0005</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1073,22 +1069,22 @@ for param in train_chain.params():
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>updater = training.updaters.StandardUpdater(
-    train_iter, optimizer, device=gpu_id)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">updaters</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span>
+    <span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<p>最後に，Trainerオブジェクトを作成します．Trainerの初期化時には，コンストラクタの第１引数に上で作成した<code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>オブジェクトの<code class="docutils literal notranslate"><span class="pre">updater</span></code>を渡します．第２引数には，いつ学習を終了するのかを表すTriggerを渡します．Triggerとしては，ここでは<code class="docutils literal notranslate"><span class="pre">(数字,</span> <span class="pre">単位)</span></code>というタプルを使っています．このような形式のタプルを渡すと，自動的にIntervalTriggerに変換され，意図通りに機能してくれます．第３引数にはログやスナップショットなどを出力するディレクトリのパスを入れます．ここでは上で<code class="docutils literal notranslate"><span class="pre">out</span></code>という変数に<code class="docutils literal notranslate"><span class="pre">'results'</span></code>という文字列を与えたので，今後Trainerが作成するファイルはこの<code class="docutils literal notranslate"><span class="pre">results</span></code>というディレクトリ以下に保存されることになります．<strong>何度も学習を回す際，以前の結果を上書きしたくない場合は，この第３引数の値を実験ごとに変更する必要があります．</strong></p>
+<p>最後に，Trainerオブジェクトを作成します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>trainer = training.Trainer(
-    updater,
-    (training_epoch, &#39;epoch&#39;), out)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
+    <span class="n">updater</span><span class="p">,</span>
+    <span class="p">(</span><span class="n">training_epoch</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">out</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1099,10 +1095,10 @@ Extensionの追加などは以前の章で説明したものから目新しい�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>trainer.extend(
-    extensions.ExponentialShift(&#39;lr&#39;, lr_decay_rate, init=initial_lr),
-    trigger=triggers.ManualScheduleTrigger(lr_decay_timing, &#39;epoch&#39;))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+    <span class="n">extensions</span><span class="o">.</span><span class="n">ExponentialShift</span><span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="n">lr_decay_rate</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="n">initial_lr</span><span class="p">),</span>
+    <span class="n">trigger</span><span class="o">=</span><span class="n">triggers</span><span class="o">.</span><span class="n">ManualScheduleTrigger</span><span class="p">(</span><span class="n">lr_decay_timing</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1121,12 +1117,12 @@ datasetに対して作成したval_iterというイテレータ）を使って�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>trainer.extend(
-    DetectionVOCEvaluator(
-        valid_iter, model, use_07_metric=False,
-        label_names=bccd_labels),
-    trigger=(1, &#39;epoch&#39;))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+    <span class="n">DetectionVOCEvaluator</span><span class="p">(</span>
+        <span class="n">valid_iter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">use_07_metric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">label_names</span><span class="o">=</span><span class="n">bccd_labels</span><span class="p">),</span>
+    <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1136,25 +1132,25 @@ datasetに対して作成したval_iterというイテレータ）を使って�
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>trainer.extend(extensions.LogReport(trigger=log_interval))
-trainer.extend(extensions.observe_lr(), trigger=log_interval)
-trainer.extend(extensions.PrintReport(
-    [&#39;epoch&#39;, &#39;iteration&#39;, &#39;lr&#39;,
-     &#39;main/loss&#39;, &#39;main/loss/loc&#39;, &#39;main/loss/conf&#39;,
-     &#39;validation/main/map&#39;, &#39;elapsed_time&#39;]),
-    trigger=log_interval)
-if extensions.PlotReport.available():
-    trainer.extend(
-        extensions.PlotReport(
-            [&#39;main/loss&#39;, &#39;main/loss/loc&#39;, &#39;main/loss/conf&#39;],
-            &#39;epoch&#39;, file_name=&#39;loss.png&#39;))
-    trainer.extend(
-        extensions.PlotReport(
-            [&#39;validation/main/map&#39;],
-            &#39;epoch&#39;, file_name=&#39;accuracy.png&#39;))
-trainer.extend(extensions.snapshot(
-    filename=&#39;snapshot_epoch_{.updater.epoch}.npz&#39;), trigger=(10, &#39;epoch&#39;))
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="n">log_interval</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">observe_lr</span><span class="p">(),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">log_interval</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">(</span>
+    <span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;iteration&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss/loc&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss/conf&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;validation/main/map&#39;</span><span class="p">,</span> <span class="s1">&#39;elapsed_time&#39;</span><span class="p">]),</span>
+    <span class="n">trigger</span><span class="o">=</span><span class="n">log_interval</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="o">.</span><span class="n">available</span><span class="p">():</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss/loc&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss/conf&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;validation/main/map&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;accuracy.png&#39;</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span>
+    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;snapshot_epoch_{.updater.epoch}.npz&#39;</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1168,8 +1164,8 @@ trainer.extend(extensions.snapshot(
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!wget https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/detection_snapshot_epoch_290.npz
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>wget https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/detection_snapshot_epoch_290.npz
 </pre></div>
 </div>
 </div>
@@ -1179,8 +1175,8 @@ trainer.extend(extensions.snapshot(
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>chainer.serializers.load_npz(&#39;detection_snapshot_epoch_290.npz&#39;, trainer)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">chainer</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="s1">&#39;detection_snapshot_epoch_290.npz&#39;</span><span class="p">,</span> <span class="n">trainer</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1190,8 +1186,8 @@ trainer.extend(extensions.snapshot(
 <span></span>In [30]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>trainer.run()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1233,7 +1229,7 @@ epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  v
 300         1922        1e-05       1.99204     0.497222       1.49482         0.749349             6110.15
 </pre></div></div>
 </div>
-<p>学習が完了しました！次の節からはこの学習の結果得られた新しいスナップショットを使って，<strong>未知のデータに対する推論</strong>を行ってみます．</p>
+<p>学習が完了しました。次の節からはこの学習の結果得られた新しいスナップショットを使って，<strong>未知のデータに対する推論</strong>を行ってみます．</p>
 </div>
 </div>
 <div class="section" id="学習結果を用いた推論">
@@ -1245,8 +1241,8 @@ extensionによってファイルに保存されています．保存先は，�
 <span></span>In [34]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!ls -la results/
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">!</span>ls -la results/
 </pre></div>
 </div>
 </div>
@@ -1272,13 +1268,13 @@ drwxr-xr-x 1 root root      4096 Nov 15 10:16 ..
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span># Create a model object
-model = SSD300(n_fg_class=len(bccd_labels), pretrained_model=&#39;imagenet&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="c1"># Create a model object</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SSD300</span><span class="p">(</span><span class="n">n_fg_class</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">bccd_labels</span><span class="p">),</span> <span class="n">pretrained_model</span><span class="o">=</span><span class="s1">&#39;imagenet&#39;</span><span class="p">)</span>
 
-# Load parameters to the model
-chainer.serializers.load_npz(
-    &#39;results/snapshot_epoch_300.npz&#39;, model, path=&#39;updater/model:main/model/&#39;)
+<span class="c1"># Load parameters to the model</span>
+<span class="n">chainer</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span>
+    <span class="s1">&#39;results/snapshot_epoch_300.npz&#39;</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;updater/model:main/model/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1288,25 +1284,25 @@ chainer.serializers.load_npz(
 <span></span>In [43]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>from chainercv import utils
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chainercv</span> <span class="k">import</span> <span class="n">utils</span>
 
-def inference(image_filename):
-    # Load a test image
-    img = utils.read_image(image_filename, color=True)
+<span class="k">def</span> <span class="nf">inference</span><span class="p">(</span><span class="n">image_filename</span><span class="p">):</span>
+    <span class="c1"># Load a test image</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="n">image_filename</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    # Perform inference
-    bboxes, labels, scores = model.predict([img])
+    <span class="c1"># Perform inference</span>
+    <span class="n">bboxes</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">img</span><span class="p">])</span>
 
-    # Extract the results
-    bbox, label, score = bboxes[0], labels[0], scores[0]
+    <span class="c1"># Extract the results</span>
+    <span class="n">bbox</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">score</span> <span class="o">=</span> <span class="n">bboxes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    # Visualize the detection results
-    ax = vis_bbox(img, bbox, label, label_names=bccd_labels)
-    ax.set_axis_off()
-    ax.figure.tight_layout()
+    <span class="c1"># Visualize the detection results</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">vis_bbox</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">bbox</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">label_names</span><span class="o">=</span><span class="n">bccd_labels</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
-inference(&#39;BCCD_Dataset/BCCD/JPEGImages/BloodImage_00007.jpg&#39;)
+<span class="n">inference</span><span class="p">(</span><span class="s1">&#39;BCCD_Dataset/BCCD/JPEGImages/BloodImage_00007.jpg&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1314,7 +1310,7 @@ inference(&#39;BCCD_Dataset/BCCD/JPEGImages/BloodImage_00007.jpg&#39;)
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_69_0.png" src="../_images/notebooks_Blood_Cell_Detection_69_0.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_67_0.png" src="../_images/notebooks_Blood_Cell_Detection_67_0.png" />
 </div>
 </div>
 <p>さらにいくつかの画像に対して推論を行って，結果を見てみましょう．</p>
@@ -1323,17 +1319,17 @@ inference(&#39;BCCD_Dataset/BCCD/JPEGImages/BloodImage_00007.jpg&#39;)
 <span></span>In [49]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>import matplotlib.pyplot as plt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-for i, image_filename in enumerate(open(&#39;BCCD_Dataset/BCCD/ImageSets/Main/test.txt&#39;)):
-    print(image_filename)
-    plt.clf()
-    inference(&#39;BCCD_Dataset/BCCD/JPEGImages/&#39; + image_filename.strip() + &#39;.jpg&#39;)
-    plt.show()
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">image_filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s1">&#39;BCCD_Dataset/BCCD/ImageSets/Main/test.txt&#39;</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">image_filename</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+    <span class="n">inference</span><span class="p">(</span><span class="s1">&#39;BCCD_Dataset/BCCD/JPEGImages/&#39;</span> <span class="o">+</span> <span class="n">image_filename</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;.jpg&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-    if i &gt; 5:  # 5個表示したら終わる
-        break
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>  <span class="c1"># 5個表示したら終わる</span>
+        <span class="k">break</span>
 </pre></div>
 </div>
 </div>
@@ -1358,7 +1354,7 @@ BloodImage_00007
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_71_2.png" src="../_images/notebooks_Blood_Cell_Detection_71_2.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_69_2.png" src="../_images/notebooks_Blood_Cell_Detection_69_2.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1382,7 +1378,7 @@ BloodImage_00011
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_71_5.png" src="../_images/notebooks_Blood_Cell_Detection_71_5.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_69_5.png" src="../_images/notebooks_Blood_Cell_Detection_69_5.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1406,7 +1402,7 @@ BloodImage_00015
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_71_8.png" src="../_images/notebooks_Blood_Cell_Detection_71_8.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_69_8.png" src="../_images/notebooks_Blood_Cell_Detection_69_8.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1430,7 +1426,7 @@ BloodImage_00016
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_71_11.png" src="../_images/notebooks_Blood_Cell_Detection_71_11.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_69_11.png" src="../_images/notebooks_Blood_Cell_Detection_69_11.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1454,7 +1450,7 @@ BloodImage_00018
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_71_14.png" src="../_images/notebooks_Blood_Cell_Detection_71_14.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_69_14.png" src="../_images/notebooks_Blood_Cell_Detection_69_14.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1478,7 +1474,7 @@ BloodImage_00019
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_71_17.png" src="../_images/notebooks_Blood_Cell_Detection_71_17.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_69_17.png" src="../_images/notebooks_Blood_Cell_Detection_69_17.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1502,7 +1498,7 @@ BloodImage_00021
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_Blood_Cell_Detection_71_20.png" src="../_images/notebooks_Blood_Cell_Detection_71_20.png" />
+<img alt="../_images/notebooks_Blood_Cell_Detection_69_20.png" src="../_images/notebooks_Blood_Cell_Detection_69_20.png" />
 </div>
 </div>
 </div>
@@ -1518,19 +1514,19 @@ Extensionsの一つであるEvaluatorは，実はTrainerと一緒にでなくて
 <span></span>In [51]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>test_batchsize = 256
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">test_batchsize</span> <span class="o">=</span> <span class="mi">256</span>
 
-model.to_gpu()
+<span class="n">model</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">()</span>
 
-test_iter = chainer.iterators.SerialIterator(
-    test_dataset, test_batchsize, repeat=False, shuffle=False)
+<span class="n">test_iter</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span>
+    <span class="n">test_dataset</span><span class="p">,</span> <span class="n">test_batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-test_evaluator = DetectionVOCEvaluator(
-    test_iter, model, use_07_metric=False,
-    label_names=bccd_labels)
+<span class="n">test_evaluator</span> <span class="o">=</span> <span class="n">DetectionVOCEvaluator</span><span class="p">(</span>
+    <span class="n">test_iter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">use_07_metric</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">label_names</span><span class="o">=</span><span class="n">bccd_labels</span><span class="p">)</span>
 
-test_evaluator()
+<span class="n">test_evaluator</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1547,14 +1543,10 @@ test_evaluator()
 </pre></div>
 </div>
 </div>
-<p>ここに表示された結果を見ると，白血球に対する予測が最も正確で，次いで赤血球，一方血小板に対する予測は他の二つに比べるととても低くなっていることが分かりました．そもそも，血小板・赤血球・白血球はそれぞれ，同程度の頻度でデータセット中に登場しているのでしょうか？頻度がクラスごとに大きくことなるとしたら，モデルは頻度の低いクラスを頻度の高いクラスよりも少ない回数しか観測できていないと思われます．それらを完全に同列に扱って（区別せず）学習を行うのは最適なやり方なのでしょうか？こういった疑問から，モデルや学習方法に対する改善点を考えていきます．</p>
-<p>実際に業務で物体検出器を訓練する場合にも，まず有名なモデルを使って学習を行ってみて結果を作ったあと，その結果とデータを突き合わせて，モデルの予測の傾向やデータセット自体の特徴などを吟味する段階が重要になります．</p>
+<p>ここに表示された結果を見ると，白血球に対する予測が最も正確で，次いで赤血球，一方血小板に対する予測は他の二つに比べるとかなり低くなっていることが分かりました．こうした場合は血小板・赤血球・白血球はそれぞれ，同程度の頻度でデータセット中に登場しているのかを確認する必要があります．頻度がクラスごとに大きくことなるとしたら，モデルは頻度の低いクラスを頻度の高いクラスよりも少ない回数しか観測できていないと思われます．それらを完全に同列に扱って（区別せず）学習を行うのは最適なやり方ではありません．</p>
+<p>実際の応用で物体検出器を訓練する場合にも，まず有名なモデルを使って学習を行ってみて結果を作ったあと，その結果とデータを突き合わせて，モデルの予測の傾向やデータセット自体の特徴などを吟味する段階が重要になります．</p>
 <p>Class imbalanceの問題については，<a class="reference external" href="https://arxiv.org/abs/1708.02002">Focal
 loss</a>という手法がシンプルかつ強力な提案を行っています．参考になるかもしれません．</p>
-</div>
-<div class="section" id="おわりに">
-<h2>6.10. おわりに<a class="headerlink" href="#おわりに" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>以上で，SSDを用いた物体検出を細胞画像データセットを用いて体験する章は終了です．</p>
 </div>
 </div>
 
