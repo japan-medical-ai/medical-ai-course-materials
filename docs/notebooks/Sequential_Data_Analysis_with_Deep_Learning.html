@@ -380,11 +380,11 @@ Watch Series
 </ul>
 <p>以下のセルを実行 (Shift + Enter) して下さい.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!set -ex
 !apt -y -q install cuda-libraries-dev-9-2 tree
 !pip install cupy-cuda92==5.0.0
@@ -444,11 +444,11 @@ Requirement already satisfied: scikit-learn&gt;=0.20 in /usr/local/lib/python3.6
 </div>
 <p>インストールが完了したら以下のセルを実行して，各ライブラリのインポート，及びバージョン確認を行って下さい.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import os
 import random
 import numpy as np
@@ -506,7 +506,7 @@ Imbalanced-learn:  0.4.3
 <p><strong>心電図(Electrocardiogram,
 ECG)</strong>は，心筋の活動によって生じる電気的変動を記録したものであり，心電図検査は不整脈の診断に広く利用されている他，虚血性心疾患や呼吸器疾患などの診断にも利用可能です[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>,
 <a class="reference external" href="https://www.ningen-dock.jp/wp/wp-content/uploads/2013/09/d4bb55fcf01494e251d315b76738ab40.pdf">文献2</a>]．</p>
-<p>標準的な心電図は，手足からとる心電図（四肢誘導）として，双極誘導（<span class="math notranslate nohighlight">\(Ⅰ\)</span>，<span class="math notranslate nohighlight">\(Ⅱ\)</span>，<span class="math notranslate nohighlight">\(Ⅲ\)</span>），及び単極誘導（<span class="math notranslate nohighlight">\(aV_R\)</span>，<span class="math notranslate nohighlight">\(aV_L\)</span>，<span class="math notranslate nohighlight">\(aV_F\)</span>）の6誘導，胸部からとる心電図（胸部誘導）として，<span class="math notranslate nohighlight">\(V_1\)</span>，<span class="math notranslate nohighlight">\(V_2\)</span>，<span class="math notranslate nohighlight">\(V_3\)</span>，<span class="math notranslate nohighlight">\(V_4\)</span>，<span class="math notranslate nohighlight">\(V_5\)</span>，<span class="math notranslate nohighlight">\(V_6\)</span>の6誘導，計12誘導から成ります．このうち，特に不整脈のスクリーニングを行う際には，<span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導と<span class="math notranslate nohighlight">\(V_1\)</span>誘導に注目して診断が行われるのが一般的とされています．</p>
+<p>標準的な心電図は，手足からとる心電図（四肢誘導）として，双極誘導（<span class="math">\(Ⅰ\)</span>，<span class="math">\(Ⅱ\)</span>，<span class="math">\(Ⅲ\)</span>），及び単極誘導（<span class="math">\(aV_R\)</span>，<span class="math">\(aV_L\)</span>，<span class="math">\(aV_F\)</span>）の6誘導，胸部からとる心電図（胸部誘導）として，<span class="math">\(V_1\)</span>，<span class="math">\(V_2\)</span>，<span class="math">\(V_3\)</span>，<span class="math">\(V_4\)</span>，<span class="math">\(V_5\)</span>，<span class="math">\(V_6\)</span>の6誘導，計12誘導から成ります．このうち，特に不整脈のスクリーニングを行う際には，<span class="math">\(Ⅱ\)</span>誘導と<span class="math">\(V_1\)</span>誘導に注目して診断が行われるのが一般的とされています．</p>
 <p>心臓が正常な状態では，ECGにおいては規則的な波形が観測され，これを<strong>正常洞調律
 (Normal sinus rhythm, NSR)</strong>といいます．</p>
 <p>具体的には，以下の3つの主要な波形で構成されており，</p>
@@ -527,14 +527,14 @@ ECG)</strong>は，心筋の活動によって生じる電気的変動を記録�
 <h2>8.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここでは，ECGの公開データとして有名な<a class="reference external" href="https://www.physionet.org/physiobank/database/mitdb/">MIT-BIH Arrhythmia Database
 (mitdb)</a>を使用します．</p>
-<p>47名の患者から収集した48レコードが登録されており，各レコードファイルには約30分間の2誘導(<span class="math notranslate nohighlight">\(II\)</span>，<span class="math notranslate nohighlight">\(V_1\)</span>)のシグナルデータが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データとアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
+<p>47名の患者から収集した48レコードが登録されており，各レコードファイルには約30分間の2誘導(<span class="math">\(II\)</span>，<span class="math">\(V_1\)</span>)のシグナルデータが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データとアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
 <p>データベースは<a class="reference external" href="https://www.physionet.org/">PhysioNet</a>によって管理されており，ダウンロードや読み込み用のPythonパッケージが提供されているので，今回はそちらを利用してデータを入手します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>dataset_root = &#39;./dataset&#39;
 download_dir = os.path.join(dataset_root, &#39;download&#39;)
 </pre></div>
@@ -543,11 +543,11 @@ download_dir = os.path.join(dataset_root, &#39;download&#39;)
 <p>まずはmitdbデータベースをダウンロードしましょう．
 ※実行時にエラーが出た場合は，再度実行して下さい．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>wfdb.dl_database(&#39;mitdb&#39;, dl_dir=download_dir)
 </pre></div>
 </div>
@@ -561,15 +561,15 @@ Downloading files...
 Finished downloading files
 </pre></div></div>
 </div>
-<p>無事ダウンロードが完了すると， <code class="docutils literal notranslate"><span class="pre">Finished</span> <span class="pre">downloading</span> <span class="pre">files</span></code>
+<p>無事ダウンロードが完了すると， <code class="docutils literal"><span class="pre">Finished</span> <span class="pre">downloading</span> <span class="pre">files</span></code>
 というメッセージが表示されます．</p>
 <p>ファイル一覧を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print(sorted(os.listdir(download_dir)))
 </pre></div>
 </div>
@@ -584,9 +584,9 @@ Finished downloading files
 </div>
 <p>ファイル名の数字はレコードIDを表しています．各レコードには3種類のファイルがあり，</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">.dat</span></code> : シグナル（バイナリ形式）</li>
-<li><code class="docutils literal notranslate"><span class="pre">.atr</span></code> : アノテーション（バイナリ形式）</li>
-<li><code class="docutils literal notranslate"><span class="pre">.hea</span></code> : ヘッダ（バイナリファイルの読み込みに必要）</li>
+<li><code class="docutils literal"><span class="pre">.dat</span></code> : シグナル（バイナリ形式）</li>
+<li><code class="docutils literal"><span class="pre">.atr</span></code> : アノテーション（バイナリ形式）</li>
+<li><code class="docutils literal"><span class="pre">.hea</span></code> : ヘッダ（バイナリファイルの読み込みに必要）</li>
 </ul>
 <p>となっています．</p>
 </div>
@@ -609,7 +609,7 @@ Finished downloading files
 </ul>
 </li>
 <li>シグナルファイル (.dat) の読み込み<ul>
-<li><span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導シグナルと<span class="math notranslate nohighlight">\(V_1\)</span>誘導シグナルが格納されていますが，今回は<span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導のみ利用します．</li>
+<li><span class="math">\(Ⅱ\)</span>誘導シグナルと<span class="math">\(V_1\)</span>誘導シグナルが格納されていますが，今回は<span class="math">\(Ⅱ\)</span>誘導のみ利用します．</li>
 <li>サンプリング周波数は360 Hz
 なので，1秒間に360回のペースで数値が記録されていることになります．</li>
 </ul>
@@ -643,11 +643,11 @@ Finished downloading files
 <p>(表は[<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]より抜粋)</p>
 <p>まずは以下のセルを実行して，データ前処理クラスを定義しましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>class BaseECGDatasetPreprocessor(object):
 
     def __init__(
@@ -759,14 +759,14 @@ Finished downloading files
 </div>
 </div>
 <p>データ保存先のrootディレクトリ(dataset_root)を指定し，
-<code class="docutils literal notranslate"><span class="pre">preprocess_dataset()</span></code> を実行することで，前処理後のデータがNumpy
+<code class="docutils literal"><span class="pre">preprocess_dataset()</span></code> を実行することで，前処理後のデータがNumpy
 Array形式で所定の場所に保存されます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>BaseECGDatasetPreprocessor(dataset_root).preprocess_dataset()
 </pre></div>
 </div>
@@ -779,11 +779,11 @@ Array形式で所定の場所に保存されます．</p>
 <li>test/y.npy : 評価用ラベル</li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!tree ./dataset/preprocessed
 </pre></div>
 </div>
@@ -806,11 +806,11 @@ Array形式で所定の場所に保存されます．</p>
 </div>
 <p>次に，保存したファイルを読み込み，中身を確認してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>X_train = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;train&#39;, &#39;X.npy&#39;))
 y_train = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;train&#39;, &#39;y.npy&#39;))
 X_test = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;test&#39;, &#39;X.npy&#39;))
@@ -826,11 +826,11 @@ y_test = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;test&#3
 <p>各シグナルデータは，2 (sec) * 360 (Hz) =
 720次元ベクトルとして表現されています．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print(&quot;X_train.shape = &quot;, X_train.shape, &quot; \t y_train.shape = &quot;, y_train.shape)
 print(&quot;X_test.shape = &quot;, X_test.shape, &quot; \t y_test.shape = &quot;, y_test.shape)
 </pre></div>
@@ -853,11 +853,11 @@ X_test.shape =  (45349, 720)    y_test.shape =  (45349,)
 <p>となっています．</p>
 <p>学習用データセットに含まれている各ラベル毎のサンプル数をカウントしてみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>uniq_train, counts_train = np.unique(y_train, return_counts=True)
 print(&quot;y_train count each labels: &quot;, dict(zip(uniq_train, counts_train)))
 </pre></div>
@@ -873,11 +873,11 @@ y_train count each labels:  {0: 43995, 1: 3743}
 </div>
 <p>評価用データについても同様にラベル毎のサンプル数をカウントします．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>uniq_test, counts_test = np.unique(y_test, return_counts=True)
 print(&quot;y_test count each labels: &quot;, dict(zip(uniq_test, counts_test)))
 </pre></div>
@@ -894,11 +894,11 @@ y_test count each labels:  {0: 42149, 1: 3200}
 <p>学習用データ，評価用データ共に，VEBサンプルは全体の10%未満であり，大多数は正常拍動サンプルであることが分かります．</p>
 <p>次に，正常拍動，及びVEBのシグナルデータを可視化してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%matplotlib inline
 import matplotlib.pyplot as plt
 </pre></div>
@@ -907,11 +907,11 @@ import matplotlib.pyplot as plt
 <p>正常拍動の例を図示したものが以下になります．</p>
 <p>P波 - QRS波 - T波が規則的に出現していることが確認できます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>idx_n = np.where(y_train == 0)[0]
 plt.plot(X_train[idx_n[0]])
 </pre></div>
@@ -920,7 +920,7 @@ plt.plot(X_train[idx_n[0]])
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area highlight-none"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x7f4c03541ef0&gt;]
 </pre></div>
 </div>
@@ -934,11 +934,11 @@ plt.plot(X_train[idx_n[0]])
 </div>
 <p>一方でVEBの波形は規則性が乱れ，R波ピークの形状やピーク間距離も正常例とは異なる性質を示していることが分かります．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>idx_s = np.where(y_train == 1)[0]
 plt.plot(X_train[idx_s[0]])
 </pre></div>
@@ -947,7 +947,7 @@ plt.plot(X_train[idx_s[0]])
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area highlight-none"><div class="highlight"><pre>
 <span></span>[&lt;matplotlib.lines.Line2D at 0x7f4c0a8dc668&gt;]
 </pre></div>
 </div>
@@ -968,11 +968,11 @@ plt.plot(X_train[idx_s[0]])
 <h3>8.5.1. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>まずはじめに，前節で準備した前処理済みデータをChainerで読み込むためのデータセットクラスを定義します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>class ECGDataset(chainer.dataset.DatasetMixin):
 
     def __init__(
@@ -1003,11 +1003,11 @@ plt.plot(X_train[idx_s[0]])
 Convolutionではなく，前章の遺伝子解析と同様，1D
 Convolutionを利用します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer.functions as F
 import chainer.links as L
 from chainer import reporter
@@ -1127,16 +1127,16 @@ class Classifier(chainer.Chain):
 </div>
 <p>学習を実行するための準備として，以下の関数を用意します．</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">create_train_dataset()</span></code>：学習用データセットを <code class="docutils literal notranslate"><span class="pre">ECGDataset</span></code>
+<li><code class="docutils literal"><span class="pre">create_train_dataset()</span></code>：学習用データセットを <code class="docutils literal"><span class="pre">ECGDataset</span></code>
 クラスに渡す</li>
-<li><code class="docutils literal notranslate"><span class="pre">create_trainer()</span></code>：学習に必要な設定を行い，Trainerオブジェクトを作成</li>
+<li><code class="docutils literal"><span class="pre">create_trainer()</span></code>：学習に必要な設定を行い，Trainerオブジェクトを作成</li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>from chainer import optimizers
 from chainer.optimizer import WeightDecay
 from chainer.iterators import MultiprocessIterator
@@ -1196,32 +1196,32 @@ def create_trainer(
 </div>
 <p>これで学習の準備が整ったので，関数を呼び出してtrainerを作成します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>train_dataset = create_train_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>trainer = create_trainer(256, train_dataset, nb_epoch=1, device=0)
 </pre></div>
 </div>
 </div>
 <p>それでは学習を開始しましょう. (1分30秒程度で学習が完了します．)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%time trainer.run()
 </pre></div>
 </div>
@@ -1269,17 +1269,17 @@ Wall time: 1min 13s
 <h3>8.5.2. 評価<a class="headerlink" href="#評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>学習したモデルを評価用データに当てはめて識別性能を確認するため，以下の関数を用意します．</p>
 <ul class="simple">
-<li><code class="docutils literal notranslate"><span class="pre">create_test_dataset()</span></code> : 評価用データの読み込み</li>
-<li><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code> : 推論を行い結果を出力</li>
-<li><code class="docutils literal notranslate"><span class="pre">print_confusion_matrix()</span></code> : 予測結果から混同行列を作成</li>
-<li><code class="docutils literal notranslate"><span class="pre">print_scores()</span></code> : 予測結果から各種スコアを計算して表示</li>
+<li><code class="docutils literal"><span class="pre">create_test_dataset()</span></code> : 評価用データの読み込み</li>
+<li><code class="docutils literal"><span class="pre">evaluate()</span></code> : 推論を行い結果を出力</li>
+<li><code class="docutils literal"><span class="pre">print_confusion_matrix()</span></code> : 予測結果から混同行列を作成</li>
+<li><code class="docutils literal"><span class="pre">print_scores()</span></code> : 予測結果から各種スコアを計算して表示</li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>from chainer import cuda
 from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score
@@ -1329,22 +1329,22 @@ def print_scores(y_true, y_pred):
 </div>
 <p>評価用データセットを用意し，</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>test_dataset = create_test_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
 <p>評価用データに対して予測を行います． (17秒程度で予測が完了します)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%time y_true_test, y_pred_test = evaluate(trainer, test_dataset, 256, 0)
 </pre></div>
 </div>
@@ -1360,11 +1360,11 @@ Wall time: 16.6 s
 </div>
 <p>予測結果の混同行列を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_confusion_matrix(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -1378,11 +1378,11 @@ Wall time: 16.6 s
 </div>
 <p>続いて，予測結果の各種スコアを表示してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_scores(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -1459,15 +1459,15 @@ accuracy:  0.9773093122229818
 </ul>
 </li>
 </ol>
-<p>サンプリングを行うために， <code class="docutils literal notranslate"><span class="pre">SampledECGDataset</span></code> クラスを定義します．</p>
+<p>サンプリングを行うために， <code class="docutils literal"><span class="pre">SampledECGDataset</span></code> クラスを定義します．</p>
 <p>また，そのクラスを読み込んで学習用データセットオブジェクトを作成する
-<code class="docutils literal notranslate"><span class="pre">create_sampled_train_datset()</span></code> 関数を用意します．</p>
+<code class="docutils literal"><span class="pre">create_sampled_train_datset()</span></code> 関数を用意します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>from imblearn.datasets import make_imbalance
 from imblearn.over_sampling import SMOTE
 
@@ -1497,22 +1497,22 @@ def create_sampled_train_dataset(root_path):
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>train_dataset = create_sampled_train_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
 <p>それでは先程と同様に，trainerを作成して学習を実行してみましょう．(1分程度で学習が完了します．)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>trainer = create_trainer(256, train_dataset, nb_epoch=2, device=0)
 %time trainer.run()
 </pre></div>
@@ -1554,11 +1554,11 @@ Wall time: 1min 8s
 </div>
 <p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%time y_true_test, y_pred_test = evaluate(trainer, test_dataset, 256, 0)
 </pre></div>
 </div>
@@ -1573,11 +1573,11 @@ Wall time: 16.9 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_confusion_matrix(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -1590,11 +1590,11 @@ Wall time: 16.9 s
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_scores(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -1627,12 +1627,12 @@ loss</strong> という損失関数を利用します．</p>
 <a class="reference external" href="https://arxiv.org/abs/1708.02002">[文献6]</a>
 の中で提案された損失関数です．One-stage物体検知手法において，大量の候補領域の中で実際に物体が存在する領域はたかだか数個であることが多く，クラス不均衡なタスクになっており，学習がうまく進まないという問題があります．こうした問題に対処するために提案されたのがfocal
 lossであり，以下の式によって記述されます．</p>
-<div class="math notranslate nohighlight">
+<div class="math">
 \[FL(p_t) = - (1 - p_t)^{\gamma}\log(p_t)\]</div>
-<p>ここで<span class="math notranslate nohighlight">\(p_t\)</span>はSoftmax関数の出力（確率値）です．<span class="math notranslate nohighlight">\(\gamma = 0\)</span>の場合，通常のSoftmax
+<p>ここで<span class="math">\(p_t\)</span>はSoftmax関数の出力（確率値）です．<span class="math">\(\gamma = 0\)</span>の場合，通常のSoftmax
 cross-entorpy
-lossと等しくなりますが，<span class="math notranslate nohighlight">\(\gamma &gt; 0\)</span>の場合，明確に分類可能な（識別が簡単な）サンプルに対して，相対ロスを小さくする効果があります．その結果，分類が難しいサンプルにより注目して学習が進んでいくことが期待されます．</p>
-<p>下図は，正解クラスの予測確率値と，その際のlossの関係をプロットしており，<span class="math notranslate nohighlight">\(\gamma\)</span>の値を変化させた場合に，相対ロスがどのように下がっていくかを示しています．</p>
+lossと等しくなりますが，<span class="math">\(\gamma &gt; 0\)</span>の場合，明確に分類可能な（識別が簡単な）サンプルに対して，相対ロスを小さくする効果があります．その結果，分類が難しいサンプルにより注目して学習が進んでいくことが期待されます．</p>
+<p>下図は，正解クラスの予測確率値と，その際のlossの関係をプロットしており，<span class="math">\(\gamma\)</span>の値を変化させた場合に，相対ロスがどのように下がっていくかを示しています．</p>
 <div class="figure" id="id18">
 <img alt="focal_plot" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/focal_plot.png" />
 <p class="caption"><span class="caption-text">focal_plot</span></p>
@@ -1640,11 +1640,11 @@ lossと等しくなりますが，<span class="math notranslate nohighlight">\(\
 <p>(図は <a class="reference external" href="https://arxiv.org/abs/1708.02002">[文献6]</a>より抜粋)</p>
 <p>それでは実際に，Focal loss関数を定義してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>from chainer.backends.cuda import get_array_module
 
 def focal_loss(x, t, class_num=2, gamma=1.0, eps=1e-6):
@@ -1665,32 +1665,32 @@ def focal_loss(x, t, class_num=2, gamma=1.0, eps=1e-6):
 <p>前項目で実施したデータサンプリングは行わず，初期(§8.5)の学習時と同様の設定にした上で，損失関数をfocal
 lossに変更します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>train_dataset = create_train_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>trainer = create_trainer(256, train_dataset, nb_epoch=1, device=0, lossfun=focal_loss)
 </pre></div>
 </div>
 </div>
 <p>それでは学習を開始しましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%time trainer.run()
 </pre></div>
 </div>
@@ -1733,11 +1733,11 @@ Wall time: 1min 14s
 </div>
 <p>学習が完了したら，評価用データにて予測結果を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%time y_true_test, y_pred_test = evaluate(trainer, test_dataset, 256, 0)
 </pre></div>
 </div>
@@ -1752,11 +1752,11 @@ Wall time: 16.6 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_confusion_matrix(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -1769,11 +1769,11 @@ Wall time: 16.6 s
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_scores(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -1796,7 +1796,7 @@ accuracy:  0.9620939822267305
 </pre></div></div>
 </div>
 <p>初期モデルの予測結果と，今回の予測結果を比較してみて下さい．</p>
-<p>（余力があれば，<span class="math notranslate nohighlight">\(\gamma\)</span>の値を変化させた場合に，予測結果にどのような影響があるか確認してみて下さい．）</p>
+<p>（余力があれば，<span class="math">\(\gamma\)</span>の値を変化させた場合に，予測結果にどのような影響があるか確認してみて下さい．）</p>
 </div>
 </div>
 <div class="section" id="ネットワーク構造の変更">
@@ -1817,11 +1817,11 @@ Convolutionを用いることで，パラメータ数の増大を抑えながら
 </ol>
 <p>それでは，上記の拡張を加えたネットワークを定義しましょう．（ResBlockクラスは，初期モデル構築時に定義済み）</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>class DilatedResNet34(chainer.Chain):
 
     def __init__(self):
@@ -1849,13 +1849,13 @@ Convolutionを用いることで，パラメータ数の増大を抑えながら
 </div>
 </div>
 <p>初期(§8.5)の学習時と同様の設定にした上で，ネットワーク構造を
-<code class="docutils literal notranslate"><span class="pre">DilatedResNet34</span></code> に変更して学習を行います．</p>
+<code class="docutils literal"><span class="pre">DilatedResNet34</span></code> に変更して学習を行います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>def create_trainer(
     batchsize, train_dataset, nb_epoch=1,
     device=0, lossfun=F.softmax_cross_entropy
@@ -1898,33 +1898,33 @@ Convolutionを用いることで，パラメータ数の増大を抑えながら
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>train_dataset = create_train_dataset(dataset_root)
 test_dataset = create_test_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>trainer = create_trainer(256, train_dataset, nb_epoch=1, device=0)
 </pre></div>
 </div>
 </div>
 <p>それでは，これまでと同様に学習を開始しましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%time trainer.run()
 </pre></div>
 </div>
@@ -1967,11 +1967,11 @@ Wall time: 1min 14s
 </div>
 <p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%time y_true_test, y_pred_test = evaluate(trainer, test_dataset, 256, 0)
 </pre></div>
 </div>
@@ -1986,11 +1986,11 @@ Wall time: 16.6 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_confusion_matrix(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -2003,11 +2003,11 @@ Wall time: 16.6 s
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_scores(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -2062,14 +2062,14 @@ accuracy:  0.9758759840349291
 </ul>
 <p>心電図を解析する際は，頻脈や徐脈などの異常波形を正確に判別するために，上記のようなノイズを除去する前処理が行われるのが一般的です．</p>
 <p>ノイズを除去する方法は幾つかありますが，最も単純なのは，線形フィルタを適用する方法です．今回は線形フィルタの一つであるバターワースフィルタを用いて，ノイズ除去を試してみましょう．</p>
-<p><code class="docutils literal notranslate"><span class="pre">BaseECGDatasetPreprocessor</span></code> にシグナルノイズ除去の機能を追加した，
-<code class="docutils literal notranslate"><span class="pre">DenoiseECGDatasetPreprocessor</span></code> クラスを定義します．</p>
+<p><code class="docutils literal"><span class="pre">BaseECGDatasetPreprocessor</span></code> にシグナルノイズ除去の機能を追加した，
+<code class="docutils literal"><span class="pre">DenoiseECGDatasetPreprocessor</span></code> クラスを定義します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>from scipy.signal import butter, lfilter
 
 
@@ -2161,14 +2161,14 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
 </div>
 </div>
 <p>線形フィルタを適用することで，学習モデルが異常拍動のパターンを特徴として捉えやすくなる可能性があります．一方で，異常拍動を検出するにあたって重要な情報も除去されてしまう可能性があることに注意してください．</p>
-<p>また，線形フィルタにおいては，どの帯域の周波数成分を取得するかによって，幾つかの大まかな分類があります．例えば，以下のものがあります．</p>
+<p>また，線形フィルタにおいては，その周波数特性（どの帯域の周波数成分を遮断するか）によって，幾つかの大まかな分類があります．例えば，以下のものがあります．</p>
 <ul class="simple">
-<li><strong>ローパスフィルタ (Low-pass filter)</strong> : 低周波の成分のみ通過
-(高周波成分を除去)</li>
+<li><strong>ローパスフィルタ (Low-pass filter)</strong> : 低周波成分のみ通過
+(高周波成分を遮断)</li>
 <li><strong>ハイパスフィルタ (High-pass filter)</strong> : 高周波成分のみ通過
-(低周波成分を除去)</li>
+(低周波成分を遮断)</li>
 <li><strong>バンドパスフィルタ(Band-pass filter)</strong> : 特定の帯域成分のみ通過
-(低周波，高周波成分を除去)</li>
+(低周波，高周波成分を遮断)</li>
 </ul>
 <div class="figure" id="id19">
 <img alt="band_form" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/band_form.png" />
@@ -2180,32 +2180,32 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
 Hz のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
 <p>それでは，ノイズ除去オプションを有効にして，前処理を実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>DenoiseECGDatasetPreprocessor(dataset_root).prepare_dataset(denoise=True)
 </pre></div>
 </div>
 </div>
 <p>実際に，高周波ノイズ除去後の波形を可視化してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>X_train_d = np.load(os.path.join(dataset_root, &#39;preprocessed&#39;, &#39;train&#39;, &#39;X.npy&#39;))
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>plt.subplots(figsize=(12, 4))
 plt.subplot(1, 2, 1)
 plt.plot(X_train[idx_n[0]])
@@ -2226,22 +2226,22 @@ plt.show()
 細かな振動が取り除かれていることが確認できると思います．</p>
 <p>これまでと同様に，ノイズ除去後のデータを用いて学習を行ってみましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>train_dataset = create_train_dataset(dataset_root)
 test_dataset = create_test_dataset(dataset_root)
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>trainer = create_trainer(256, train_dataset, nb_epoch=1, device=0)
 %time trainer.run()
 </pre></div>
@@ -2285,11 +2285,11 @@ Wall time: 1min 14s
 </div>
 <p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%time y_true_test, y_pred_test = evaluate(trainer, test_dataset, 256, 0)
 </pre></div>
 </div>
@@ -2304,11 +2304,11 @@ Wall time: 16.9 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_confusion_matrix(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -2321,11 +2321,11 @@ Wall time: 16.9 s
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>print_scores(y_true_test, y_pred_test)
 </pre></div>
 </div>
@@ -2364,7 +2364,7 @@ accuracy:  0.9843215947429932
 <p>さらなる取り組みとしては，例えば下記内容を検討する余地があります．</p>
 <ul class="simple">
 <li>情報の追加<ul>
-<li><span class="math notranslate nohighlight">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math notranslate nohighlight">\(V_1\)</span>誘導シグナルも同時に入力として与えます．([<a class="reference external" href="https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf">文献10</a>]などで実施)</li>
+<li><span class="math">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math">\(V_1\)</span>誘導シグナルも同時に入力として与えます．([<a class="reference external" href="https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf">文献10</a>]などで実施)</li>
 </ul>
 </li>
 <li>前処理の工夫<ul>
@@ -2404,7 +2404,7 @@ Hzにダウンサンプリング)<ul>
 <ul class="simple">
 <li>Cardiogram社とカリフォルニア大学の共同研究で，活動量計から心拍数データを収集し，深層学習を用いて糖尿病予備群を予測するDeepHeartを発表[<a class="reference external" href="https://arxiv.org/abs/1802.02511">文献11</a>]．</li>
 <li>スタンフォード大学のAndrew
-Ng.の研究室でも，独自に収集したECGレコードから<span class="math notranslate nohighlight">\(14\)</span>種類の波形クラス分類を予測するモデルを構築し，医師と比較実験を実施[<a class="reference external" href="https://arxiv.org/abs/1707.01836">文献12</a>]．</li>
+Ng.の研究室でも，独自に収集したECGレコードから<span class="math">\(14\)</span>種類の波形クラス分類を予測するモデルを構築し，医師と比較実験を実施[<a class="reference external" href="https://arxiv.org/abs/1707.01836">文献12</a>]．</li>
 </ul>
 <p>デバイスの進歩によって簡単に精緻な情報が収集可能になってきていることから，こうした研究は今後益々盛んになっていくと考えられます．</p>
 <p>以上で，モニタリングデータの時系列解析の章は終了となります．お疲れ様でした．</p>
@@ -2488,12 +2488,22 @@ Networks</strong>, Pranav Rajpurkar et al., Jul 2017,
 
     
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
