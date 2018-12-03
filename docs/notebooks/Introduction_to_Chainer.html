@@ -519,9 +519,9 @@ Downloading from http://yann.lecun.com/exdb/mnist/t10k-images-idx3-ubyte.gz...
 Downloading from http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz...
 </pre></div></div>
 </div>
-<p>データセットオブジェクトの準備ができました．このオブジェクトは， **
-<code class="docutils literal"><span class="pre">train_val[i]</span></code> のように指定すると，i番目の (data, label)
-というタプルを返すリスト**
+<p>データセットオブジェクトの準備ができました．このオブジェクトは，
+<code class="docutils literal"><span class="pre">train_val[i]</span></code> のように指定すると，<strong>i番目の (data, label)
+というタプルを返すリスト</strong>
 と同様のものと考えてください．（実際ただのPythonリストもChainerのデータセットオブジェクトとして利用可能です）．それでは，0番目のデータとラベルを取り出して，表示してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -1365,7 +1365,7 @@ Image(filename=&#39;results/mnist_result/loss.png&#39;)
 </div>
 </div>
 <p>もう少し学習を続ければ，さらに精度の向上が期待できそうです．</p>
-<p>さいごに，<code class="docutils literal"><span class="pre">dump_graph</span></code>という<code class="docutils literal"><span class="pre">Extension</span></code>によって出力された計算グラフのファイルを，<code class="docutils literal"><span class="pre">Graphviz</span></code>で画像化してみましょう．</p>
+<p>最後に，<code class="docutils literal"><span class="pre">dump_graph</span></code>という<code class="docutils literal"><span class="pre">Extension</span></code>によって出力された計算グラフのファイルを，<code class="docutils literal"><span class="pre">Graphviz</span></code>で画像化してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1393,12 +1393,11 @@ Image(filename=&#39;results/mnist_result/loss.png&#39;)
 <img alt="../_images/notebooks_Introduction_to_Chainer_83_0.png" src="../_images/notebooks_Introduction_to_Chainer_83_0.png" />
 </div>
 </div>
-<p>データやパラメータが関数に次々と渡されて計算が行われ，損失が出力されるまでの一連の流れが確認できます．</p>
+<p>データやパラメータが関数に次々と渡され，損失が出力されるまでの一連の計算過程が確認できます．</p>
 </div>
 <div class="section" id="テストデータ評価">
 <h3>4.3.6. テストデータ評価<a class="headerlink" href="#テストデータ評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>上でもValidationデータに対しての評価を学習中に行うために使用されているTrainer
-Extensionの一つであるEvaluatorは，Trainerと関係なく独立して使うこともできます．以下のようにして<code class="docutils literal"><span class="pre">Iterator</span></code>とネットワークのオブジェクト（<code class="docutils literal"><span class="pre">net</span></code>），使用するデバイスIDを渡してEvaluatorオブジェクトを作成し，これを関数として実行するだけです．</p>
+<p>Validationデータに対する評価を学習中に行うために使用されるEvaluatorは，Trainerと関係なく独立して使うこともできます．以下のようにして<code class="docutils literal"><span class="pre">Iterator</span></code>とネットワークのオブジェクト（<code class="docutils literal"><span class="pre">net</span></code>），使用するデバイスIDを渡してEvaluatorオブジェクトを作成し，これを関数として実行するだけです．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1424,7 +1423,7 @@ Test accuracy: 0.92494065
 <h3>4.3.7. 学習済みモデルで推論する<a class="headerlink" href="#学習済みモデルで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは，Trainer
 Extensionのsnapshotが自動的に保存したネットワークのスナップショットから学習済みパラメータを読み込んで，学習ループを書いて学習したときと同様に1番目のテストデータで推論を行ってみましょう．</p>
-<p>ここで注意すべきは，snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため，extensionの内部のパラメータなども一緒に保存されています．これは，学習自体を再開するために必要だからです．しかし，今回はネットワークのパラメータだけを読み込めば良いので，<code class="docutils literal"><span class="pre">serializers.load_npz()</span></code>のpath引数にネットワーク部分までのパス（<code class="docutils literal"><span class="pre">updater/model:main/predictor/</span></code>）を指定しています．こうすることで，ネットワークのオブジェクトにパラメータだけを読み込ませることができます．</p>
+<p>ここで一点注意が必要ですが，snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため，extensionの内部のパラメータなども一緒に保存されています．これは，学習自体を再開するために必要なためです．しかし，今回はネットワークのパラメータだけを読み込めば良いので，<code class="docutils literal"><span class="pre">serializers.load_npz()</span></code>のpath引数にネットワーク部分までのパス（<code class="docutils literal"><span class="pre">updater/model:main/predictor/</span></code>）を指定しています．こうすることで，ネットワークのオブジェクトにパラメータだけを読み込ませることができます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1730,7 +1729,7 @@ Test accuracy: 0.6062105
 </div>
 </div>
 <p>学習データでの精度（<code class="docutils literal"><span class="pre">main/accuracy</span></code>)は77%程度まで到達していますが，テストデータでの損失（<code class="docutils literal"><span class="pre">val/main/loss</span></code>）は途中から下げ止まり，精度（<code class="docutils literal"><span class="pre">val/main/accuracy</span></code>）も60%前後で頭打ちになってしまっています．表示されたログの最後の行を確認すると，テストデータでの精度も同様に60%程度となっています．学習データでは精度が良いが，
-テストデータでは精度が良くない場合，<strong>モデルが学習データにオーバーフィッティングしている</strong>と考えられます．．</p>
+テストデータでは精度が良くない場合，<strong>モデルが学習データにオーバーフィッティングしている</strong>と考えられます．</p>
 </div>
 <div class="section" id="学習済みネットワークを使った予測">
 <h3>4.4.3. 学習済みネットワークを使った予測<a class="headerlink" href="#学習済みネットワークを使った予測" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -1841,7 +1840,7 @@ answer: truck
 <img alt="../_images/notebooks_Introduction_to_Chainer_101_9.png" src="../_images/notebooks_Introduction_to_Chainer_101_9.png" />
 </div>
 </div>
-<p>うまく分類できているものもあれば，そうでないものもありました．ネットワークの学習に使用したデータセット上ではほぼ百発百中で正解できても，未知のデータ，すなわちテストデータセットの画像に対して高精度な予測ができなければ意味がありません．テストデータでの精度は，モデルの<strong>汎化性能</strong>に関係していると言われます．</p>
+<p>うまく分類できているものもあれば，そうでないものもありました．ネットワークの学習に使用したデータセット上ではほぼ百発百中で正解できても，未知のデータ，すなわちテストデータセットの画像に対して高精度な予測ができなければ意味がありません．テストデータでの精度は，モデルの<strong>汎化性能</strong>に関係していると言われています．</p>
 <p>どうすれば高い汎化性能を持つネットワークを設計し，学習することができるでしょうか？これは非常に難しい問いですが，機械学習を使った応用を考えるとき，最も重要な問いの一つです．</p>
 </div>
 <div class="section" id="深いネットワークの定義">
@@ -2136,7 +2135,7 @@ augmentation）や，複数のモデルの出力を一つの出力に統合す�
 </div>
 <div class="section" id="データセットクラスの使用方法">
 <h2>4.5. データセットクラスの使用方法<a class="headerlink" href="#データセットクラスの使用方法" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ここでは，Chainerにすでに用意されているCIFAR10のデータを取得する機能を使って，データセットクラスを自分で書いてみます．Chainerでは，データセットを表すクラスは以下の機能を持っていることが必要とされます．</p>
+<p>ここでは，Chainerにすでに用意されているCIFAR10のデータを取得する機能を使って，データセットクラスを自分で書いてみます．Chainerでは，データセットを表すクラスは以下の機能を持っている必要があります．</p>
 <ul class="simple">
 <li>データセット内のデータ数を返す<code class="docutils literal"><span class="pre">__len__</span></code>メソッド</li>
 <li>引数として渡される<code class="docutils literal"><span class="pre">i</span></code>に対応したデータもしくはデータとラベルの組を返す<code class="docutils literal"><span class="pre">get_example</span></code>メソッド</li>
