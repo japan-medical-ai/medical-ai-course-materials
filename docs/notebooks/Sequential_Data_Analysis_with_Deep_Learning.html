@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="prev" title="7. 実践編：ディープラーニングを使った配列解析" href="DNA_Sequence_Data_Analysis.html" /> 
+    <link rel="prev" title="7. 実践編: ディープラーニングを使った配列解析" href="DNA_Sequence_Data_Analysis.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -84,7 +84,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Introduction_to_Chainer.html">4. Deep Learningフレームワークの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Image_Segmentation.html">5. 実践編: MRI画像のセグメンテーション</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DNA_Sequence_Data_Analysis.html">7. 実践編：ディープラーニングを使った配列解析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DNA_Sequence_Data_Analysis.html">7. 実践編: ディープラーニングを使った配列解析</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#環境構築">8.1. 環境構築</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#心電図(ECG)と不整脈診断について">8.2. 心電図(ECG)と不整脈診断について</a></li>
@@ -517,8 +517,8 @@ ECG)</strong>は，心筋の活動によって生じる電気的変動を記録�
 </ol>
 <p>の順番で，下図のような波形が観測されます．</p>
 <div class="figure" id="id16">
-<img alt="sinus_rhythm.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/sinus_rhythm.png" />
-<p class="caption"><span class="caption-text">sinus_rhythm.png</span></p>
+<img alt="正常心電図の概略図" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/sinus_rhythm.png" />
+<p class="caption"><span class="caption-text">正常心電図の概略図</span></p>
 </div>
 <p>(図は[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>]より抜粋)</p>
 <p>こうした規則的な波形に乱れが生じ，調律に異常があると判断された場合，不整脈などの疑いがあるため，診断が行われることになります．</p>
@@ -636,11 +636,8 @@ Finished downloading files
 </ol>
 <p>※ Association for the Advancement of Medical Instrumentation
 (AAMI)が推奨している基準([<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">文献3</a>])で，5種類に大別して整理されています．</p>
-<div class="figure" id="id17">
-<img alt="aami_standard" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/aami_standard.png" />
-<p class="caption"><span class="caption-text">aami_standard</span></p>
-</div>
-<p>(表は[<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]より抜粋)</p>
+<p><img alt="aami_standard" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/aami_standard.png" />
+(表は[<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]より抜粋)</p>
 <p>まずは以下のセルを実行して，データ前処理クラスを定義しましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -1633,11 +1630,8 @@ lossであり，以下の式によって記述されます．</p>
 cross-entorpy
 lossと等しくなりますが，<span class="math">\(\gamma &gt; 0\)</span>の場合，明確に分類可能な（識別が簡単な）サンプルに対して，相対ロスを小さくする効果があります．その結果，分類が難しいサンプルにより注目して学習が進んでいくことが期待されます．</p>
 <p>下図は，正解クラスの予測確率値と，その際のlossの関係をプロットしており，<span class="math">\(\gamma\)</span>の値を変化させた場合に，相対ロスがどのように下がっていくかを示しています．</p>
-<div class="figure" id="id18">
-<img alt="focal_plot" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/focal_plot.png" />
-<p class="caption"><span class="caption-text">focal_plot</span></p>
-</div>
-<p>(図は [<a class="reference external" href="https://arxiv.org/abs/1708.02002">文献6</a>]より抜粋)</p>
+<p><img alt="focal_plot" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/focal_plot.png" /> (図は
+[<a class="reference external" href="https://arxiv.org/abs/1708.02002">文献6</a>]より抜粋)</p>
 <p>それでは実際に，Focal loss関数を定義してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -2170,11 +2164,7 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
 <li><strong>バンドパスフィルタ(Band-pass filter)</strong> : 特定の帯域成分のみ通過
 (低周波，高周波成分を遮断)</li>
 </ul>
-<div class="figure" id="id19">
-<img alt="band_form" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/band_form.png" />
-<p class="caption"><span class="caption-text">band_form</span></p>
-</div>
-<p>(図は
+<p><img alt="band_form" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/band_form.png" /> (図は
 [<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_%28signal_processing%29">文献9</a>]
 より抜粋)</p>
 <p>mitdbでは，予め0.1 Hz 以下の低周波と，100 Hz
@@ -2460,7 +2450,7 @@ Networks</strong>, Pranav Rajpurkar et al., Jul 2017,
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="DNA_Sequence_Data_Analysis.html" class="btn btn-neutral" title="7. 実践編：ディープラーニングを使った配列解析" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="DNA_Sequence_Data_Analysis.html" class="btn btn-neutral" title="7. 実践編: ディープラーニングを使った配列解析" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
