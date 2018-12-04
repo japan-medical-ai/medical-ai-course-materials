@@ -361,9 +361,9 @@ Sequencer）の発展により，遺伝子の塩基配列が高速，大量，�
 </ul>
 <p>です．Google
 Colab上では，以下のようにしてインストールすることができます．以下のセルを実行（Shit+Enter）してください．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [1]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -374,10 +374,104 @@ Colab上では，以下のようにしてインストールすることができ
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
+  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-npp-dev-9-2
+  cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
+The following NEW packages will be installed:
+  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
+  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-libraries-dev-9-2
+  cuda-npp-dev-9-2 cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
+0 upgraded, 9 newly installed, 0 to remove and 7 not upgraded.
+Need to get 332 MB of archives.
+After this operation, 972 MB of additional disk space will be used.
+Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cublas-dev-9-2 9.2.148.1-1 [50.4 MB]
+Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cufft-dev-9-2 9.2.148-1 [106 MB]
+Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-curand-dev-9-2 9.2.148-1 [57.8 MB]
+Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusolver-dev-9-2 9.2.148-1 [8,184 kB]
+Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusparse-dev-9-2 9.2.148-1 [27.8 MB]
+Get:6 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvrtc-dev-9-2 9.2.148-1 [9,348 B]
+Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvgraph-dev-9-2 9.2.148-1 [30.1 MB]
+Get:8 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-npp-dev-9-2 9.2.148-1 [52.0 MB]
+Get:9 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-libraries-dev-9-2 9.2.148-1 [2,598 B]
+Fetched 332 MB in 6s (51.9 MB/s)
+Selecting previously unselected package cuda-cublas-dev-9-2.
+(Reading database ... 26397 files and directories currently installed.)
+Preparing to unpack .../0-cuda-cublas-dev-9-2_9.2.148.1-1_amd64.deb ...
+Unpacking cuda-cublas-dev-9-2 (9.2.148.1-1) ...
+Selecting previously unselected package cuda-cufft-dev-9-2.
+Preparing to unpack .../1-cuda-cufft-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cufft-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-curand-dev-9-2.
+Preparing to unpack .../2-cuda-curand-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-curand-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-cusolver-dev-9-2.
+Preparing to unpack .../3-cuda-cusolver-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cusolver-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-cusparse-dev-9-2.
+Preparing to unpack .../4-cuda-cusparse-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-cusparse-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-nvrtc-dev-9-2.
+Preparing to unpack .../5-cuda-nvrtc-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-nvrtc-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-nvgraph-dev-9-2.
+Preparing to unpack .../6-cuda-nvgraph-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-nvgraph-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-npp-dev-9-2.
+Preparing to unpack .../7-cuda-npp-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-npp-dev-9-2 (9.2.148-1) ...
+Selecting previously unselected package cuda-libraries-dev-9-2.
+Preparing to unpack .../8-cuda-libraries-dev-9-2_9.2.148-1_amd64.deb ...
+Unpacking cuda-libraries-dev-9-2 (9.2.148-1) ...
+Setting up cuda-npp-dev-9-2 (9.2.148-1) ...
+Setting up cuda-curand-dev-9-2 (9.2.148-1) ...
+Setting up cuda-nvrtc-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cusolver-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cufft-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cusparse-dev-9-2 (9.2.148-1) ...
+Setting up cuda-cublas-dev-9-2 (9.2.148.1-1) ...
+Setting up cuda-nvgraph-dev-9-2 (9.2.148-1) ...
+Setting up cuda-libraries-dev-9-2 (9.2.148-1) ...
+Collecting cupy-cuda92==6.0.0a1
+  Downloading https://files.pythonhosted.org/packages/51/8a/b18c425488fb7ed3a42662767363b822de697f9bcfca19eb3fa980e07817/cupy_cuda92-6.0.0a1-cp27-cp27mu-manylinux1_x86_64.whl (260.4MB)
+    100% |████████████████████████████████| 260.4MB 77kB/s
+Collecting fastrlock&gt;=0.3 (from cupy-cuda92==6.0.0a1)
+  Downloading https://files.pythonhosted.org/packages/d4/e6/6d198d91ae20353140563ba32eac2efba236446aa6cf73b2d652d9d9d038/fastrlock-0.4-cp27-cp27mu-manylinux1_x86_64.whl
+Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92==6.0.0a1) (1.14.6)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92==6.0.0a1) (1.11.0)
+Installing collected packages: fastrlock, cupy-cuda92
+Successfully installed cupy-cuda92-6.0.0a1 fastrlock-0.4
+Collecting chainer==6.0.0a1
+  Downloading https://files.pythonhosted.org/packages/64/53/970152ecb9684a96950b81323b6511bfcc169b5c3981c2c2611579179955/chainer-6.0.0a1.tar.gz (517kB)
+    100% |████████████████████████████████| 522kB 20.3MB/s
+Collecting filelock (from chainer==6.0.0a1)
+  Downloading https://files.pythonhosted.org/packages/2a/bd/6a87635dba4906ae56377b22f64805b2f00d8cafb26e411caaf3559a5475/filelock-3.0.10.tar.gz
+Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer==6.0.0a1) (1.14.6)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python2.7/dist-packages (from chainer==6.0.0a1) (3.6.1)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer==6.0.0a1) (1.11.0)
+Requirement already satisfied: setuptools in /usr/local/lib/python2.7/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer==6.0.0a1) (40.6.2)
+Building wheels for collected packages: chainer, filelock
+  Running setup.py bdist_wheel for chainer ... - \ | / - done
+  Stored in directory: /root/.cache/pip/wheels/06/17/03/677a942d2d45e98fa9d137d6dd5de27a9d8351f52fa2b37af0
+  Running setup.py bdist_wheel for filelock ... - done
+  Stored in directory: /root/.cache/pip/wheels/46/b3/26/8803692ec1f1729fcf201583b5de74f112da1f1488f36e47b0
+Successfully built chainer filelock
+Installing collected packages: filelock, chainer
+Successfully installed chainer-6.0.0a1 filelock-3.0.10
+</pre></div></div>
+</div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンを確認してください．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [2]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -389,6 +483,27 @@ chainer.print_runtime_info()
 print(&#39;matplotlib:&#39;, matplotlib.__version__)
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 6.0.0a1
+NumPy: 1.14.6
+CuPy:
+  CuPy Version          : 6.0.0a1
+  CUDA Root             : /usr/local/cuda
+  CUDA Build Version    : 9020
+  CUDA Driver Version   : 9020
+  CUDA Runtime Version  : 9020
+  cuDNN Build Version   : 7201
+  cuDNN Version         : 7201
+  NCCL Build Version    : 2213
+iDeep: Not Available
+(&#39;matplotlib:&#39;, &#39;2.1.2&#39;)
+</pre></div></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
 <span class="n">Chainer</span><span class="p">:</span> <span class="mf">6.0</span><span class="o">.</span><span class="mi">0</span><span class="n">a1</span>
@@ -425,9 +540,9 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 <p>この配列はそれぞれが長さ131072からなり，128塩基毎に対しそのカバレッジ値が記録されています。このカバレッジ値の配列の長さは131072/128=1024です．</p>
 <p>この問題の目標は長さ131072の配列を入力として受け取った時に、この128塩基毎のカバレッジ値を推定することが目標です。</p>
 <p>今回は10種類の異なる実験のカバレッジ値を同時に予測する問題を扱います。</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [3]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -436,9 +551,32 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2018-12-03 19:34:11--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
+Resolving github.com (github.com)... 192.30.253.112, 192.30.253.113
+Connecting to github.com (github.com)|192.30.253.112|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181203%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181203T193412Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=ceb275d8272fc12568fd7fad12a9b708b9d9bd084ad0cac0db633bf7608948b8&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream [following]
+--2018-12-03 19:34:12--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181203%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181203T193412Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=ceb275d8272fc12568fd7fad12a9b708b9d9bd084ad0cac0db633bf7608948b8&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.236.27
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.236.27|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 594118876 (567M) [application/octet-stream]
+Saving to: ‘seq.h5’
+
+seq.h5              100%[===================&gt;] 566.60M  29.8MB/s    in 19s
+
+2018-12-03 19:34:31 (29.7 MB/s) - ‘seq.h5’ saved [594118876/594118876]
+
+</pre></div></div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -452,9 +590,8 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 total 567M
--rw-r--r-- 1 root root 2.6K Dec  3 06:46 adc.json
 drwxr-xr-x 2 root root 4.0K Nov 29 18:21 sample_data
--rw-r--r-- 1 root root 567M Dec  3 06:47 seq.h5
+-rw-r--r-- 1 root root 567M Dec  3 06:54 seq.h5
 </pre></div></div>
 </div>
 <p>data.h5というファイルが正しくダウンロードされているかを確認してください．サイズは567MBです．</p>
@@ -470,7 +607,7 @@ T, C, Gの対応する次元の値が1, それ以外は0であるような配列
 3’)というサイズを持ちます.これは長さが1024からなる配列が6240個あり,それぞれが3種類の異なるChipSeqの結果のカバレッジ値が格納されています.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -511,7 +648,7 @@ with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
 <p>下のセルを実行してみてください．最初のデータの出力の三つの値を線グラフで出力します．（ここまでのセルを実行していてください）．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -592,26 +729,26 @@ import chainer.functions as F
 import chainer.links as L
 import cupy as cp
 
-bc = 16 # base channel
+bc = 24 # base channel
 
 default_squeeze_params = [
-    # out_ch, kernel, pool, dropout
-    [bc, 21, 2, 0.05], #1 128 -&gt; 64
-    [bc*2, 7, 4, 0.05], #2  64 -&gt; 16
-    [bc*4, 7, 4, 0.05], #3  16 -&gt; 4
-    [bc*8, 7, 4, 0.05]  #4  4 -&gt; 1
+    # out_ch, kernel, stride, dropout
+    [bc*2, 21, 2, 0], #1 128 -&gt; 64
+    [int(bc*2.5), 7, 4, 0.05], #2  64 -&gt; 16
+    [int(bc*3.2), 7, 4, 0.05], #3  16 -&gt; 4
+    [bc*4, 7, 4, 0.05]  #4  4 -&gt; 1
 ]
 
 
 default_dilated_params = [
 # out_ch, kernel, dilated
-  [bc*8, 3, 1, 0.1],
-  [bc*8, 3, 2, 0.1],
-  [bc*8, 3, 4, 0.1],
-  [bc*8, 3, 8, 0.1],
-  [bc*8, 3, 16, 0.1],
-  [bc*8, 3, 32, 0.1],
-  [bc*8, 3, 64, 0.1]
+  [bc, 3, 1, 0.1],
+  [bc, 3, 2, 0.1],
+  [bc, 3, 4, 0.1],
+  [bc, 3, 8, 0.1],
+  [bc, 3, 16, 0.1],
+  [bc, 3, 32, 0.1],
+  [bc, 3, 64, 0.1]
 ]
 
 
@@ -624,12 +761,13 @@ class Net(chainer.Chain):
         with self.init_scope():
             in_ch = 4
             for i, param in enumerate(squeeze_params):
-                out_ch, kernel, pool, do_rate = param
-                setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(in_ch, out_ch, kernel, pool, do_rate))
+                out_ch, kernel, stride, do_rate = param
+                setattr(self, &quot;s_{}&quot;.format(i), SqueezeBlock(in_ch, out_ch, kernel, stride, do_rate))
                 in_ch = out_ch
             for i, param in enumerate(dilated_params):
                 out_ch, kernel, dilated, do_rate = param
-                setattr(self, &quot;d_{}&quot;.format(i), DilatedBlock(out_ch, kernel, dilated, do_rate))
+                setattr(self, &quot;d_{}&quot;.format(i), DilatedBlock(in_ch, out_ch, kernel, dilated, do_rate))
+                in_ch += out_ch
             self.l = L.ConvolutionND(1, None, n_targets, 1)
 
     def forward(self, x):
@@ -639,12 +777,14 @@ class Net(chainer.Chain):
         h = h.astype(xp.float32)
 
         for i in range(self._n_squeeze):
-            h = F.forget(self[&quot;s_{}&quot;.format(i)], h)
+            h = self[&quot;s_{}&quot;.format(i)](h)
 
+        hs = [h]
         for i in range(self._n_dilated):
-            h = F.forget(self[&quot;d_{}&quot;.format(i)], h)
+            h = self[&quot;d_{}&quot;.format(i)](hs)
+            hs.append(h)
 
-        h = self.l(h)
+        h = self.l(F.concat(hs, axis=1))
         h = xp.transpose(h, (0, 2, 1))
         return h
 </pre></div>
@@ -684,35 +824,33 @@ class WNConvolutionND(L.ConvolutionND):
             self.pad, self.cover_all, self.dilate)
 
 class SqueezeBlock(chainer.Chain):
-    def __init__(self, in_ch, out_ch, kernel, pool, do_rate):
+    def __init__(self, in_ch, out_ch, kernel, stride, do_rate):
         super(SqueezeBlock, self).__init__()
 
-        self.pool = pool
         self.do_rate = do_rate
         with self.init_scope():
             pad = kernel // 2
-            self.conv = WNConvolutionND(1, in_ch, out_ch*2, kernel, pad=pad, stride=pool)
+            self.conv = WNConvolutionND(1, in_ch, out_ch*2, kernel, pad=pad, stride=stride)
 
     def forward(self, x):
-        h = F.dropout(self.conv(x), self.do_rate)
+        h = self.conv(x)
         h, g = F.split_axis(h, 2, 1)
-        h = h * F.sigmoid(g)
+        h = F.dropout(h * F.sigmoid(g), self.do_rate)
         return h
 
 class DilatedBlock(chainer.Chain):
-     def __init__(self, out_ch, kernel, dilate, do_rate):
+     def __init__(self, in_ch, out_ch, kernel, dilate, do_rate):
         super(DilatedBlock, self).__init__()
         self.do_rate = do_rate
         with self.init_scope():
-            self.conv = WNConvolutionND(1, out_ch, out_ch*2, kernel, pad=dilate, dilate=dilate)
-            self.conv1x1 = WNConvolutionND(1, out_ch, out_ch, 1)
+            self.conv = WNConvolutionND(1, in_ch, out_ch*2, kernel, pad=dilate, dilate=dilate)
 
-     def forward(self, x):
-        h = F.dropout(self.conv(x), self.do_rate)
+     def forward(self, xs):
+        x = F.concat(xs, axis=1)
+        h = self.conv(x)
         h, g = F.split_axis(h, 2, 1)
-        h = h * F.sigmoid(g)
-        h = self.conv1x1(h)
-        return h + x
+        h = F.dropout(h * F.sigmoid(g), self.do_rate)
+        return h
 
 </pre></div>
 </div>
@@ -730,7 +868,7 @@ Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだ
 <p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [17]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -749,7 +887,7 @@ print(y.shape)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(4, 1024, 3)
+(4, 1024, 10)
 </pre></div></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
@@ -867,11 +1005,10 @@ class PreprocessedDataset(chainer.dataset.DatasetMixin):
 </div>
 </div>
 <p>これで全部準備ができました．残りはchainerのtrainerを改造して学習するだけです．以下のコードを実行してください．</p>
-<p>元々のデータ全体では学習に時間がかかるので、データ/<code class="docutils literal"><span class="pre">ratio</span></code>分だけを学習、検証用データとして利用します。今回<code class="docutils literal"><span class="pre">ratio</span></code>は20に設定されています。
-30分程度で学習が完了します．</p>
-<div class="nbinput nblast docutils container">
+<p>元々のデータ全体では学習に時間がかかるので、データ/<code class="docutils literal"><span class="pre">ratio</span></code>分だけを学習、検証用データとして利用します。今回<code class="docutils literal"><span class="pre">ratio</span></code>は1に設定されています。この場合30分程度で学習が完了します．短い時間で試したい方はratio=1をratio=10やratio=20として実験してみてください．</p>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [13]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -883,7 +1020,7 @@ from chainer.training import extensions
 from chainer import training
 import h5py
 
-ml_h5 = h5py.File(&#39;seq.h5&#39;)
+ml_h5 = h5py.File(&#39;seq.h5&#39;)e
 
 train_x = ml_h5[&#39;train_in&#39;]
 train_y = ml_h5[&#39;train_out&#39;]
@@ -901,7 +1038,7 @@ valid_x = valid_x[:len(valid_x)//ratio]
 valid_y = valid_y[:len(valid_y)//ratio]
 
 
-max_shift_for_data_augmentation = 3
+max_shift_for_data_augmentation = 5
 train = PreprocessedDataset(train_x, train_y, max_shift_for_data_augmentation)
 val = chainer.datasets.TupleDataset(valid_x, valid_y)
 
@@ -922,7 +1059,7 @@ updater = training.updaters.StandardUpdater(
      train_iter, optimizer, device=0)
 
 n_epochs = 10
-n_warmups = 3
+n_warmups = 0
 out = &quot;out&quot;
 trainer = training.Trainer(updater, (n_epochs, &#39;epoch&#39;), out=out)
 trainer.extend(CosineScheduler(attr=&#39;alpha&#39;, init_val=lr, n_decays=n_epochs, n_warmups=n_warmups), trigger=(1, &#39;epoch&#39;))
@@ -941,10 +1078,67 @@ trainer.run()
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       main/loss   validation/main/loss  elapsed_time
+0           2.0873                            63.4775
+0           1.94705                           109.895
+0           1.89719                           156.686
+0           1.85084                           202.743
+1           1.77888     1.86543               258.092
+1           1.78996                           304.509
+1           1.78814                           350.91
+1           1.74196                           396.958
+1           1.73552                           443.75
+2           1.75989     1.746                 498.737
+2           1.77673                           544.786
+2           1.73285                           591.564
+2           1.69361                           637.962
+2           1.59723                           684.382
+3           1.67331     1.70796               739.356
+3           1.68685                           785.395
+3           1.62153                           832.188
+3           1.70951                           878.581
+3           1.60378                           925.019
+4           1.65392     1.69343               980.008
+4           1.63665                           1026.45
+4           1.66334                           1072.52
+4           1.61375                           1119.34
+4           1.60533                           1165.77
+5           1.58547     1.68659               1220.76
+5           1.62216                           1267.17
+5           1.53686                           1313.22
+5           1.66557                           1360.02
+5           1.62918                           1406.44
+6           1.53379     1.63333               1461.43
+6           1.56805                           1507.85
+6           1.60791                           1553.91
+6           1.55378                           1600.67
+6           1.5594                            1647.1
+7           1.6058      1.62044               1702.11
+7           1.57387                           1748.55
+7           1.54682                           1794.97
+7           1.55528                           1841.4
+7           1.57045                           1887.83
+8           1.58875     1.62074               1942.82
+8           1.56817                           1989.25
+8           1.57042                           2035.68
+8           1.57602                           2082.11
+8           1.54231                           2128.17
+9           1.53811     1.61316               2183.5
+9           1.55894                           2229.94
+9           1.53187                           2276.37
+9           1.57317                           2322.8
+9           1.55031                           2368.86
+</pre></div></div>
+</div>
 <p>学習が成功したならば，ディレクトリのout以下に学習されたモデルが出力されているはずです．実際にモデルが出力されているのかを確認しましょう．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [14]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -952,10 +1146,29 @@ trainer.run()
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 14168
+-rw-r--r-- 1 root root   10468 Dec  3 20:15 log
+-rw-r--r-- 1 root root 1445790 Dec  3 19:40 model_epoch_1
+-rw-r--r-- 1 root root 1447771 Dec  3 20:16 model_epoch_10
+-rw-r--r-- 1 root root 1446082 Dec  3 19:44 model_epoch_2
+-rw-r--r-- 1 root root 1446744 Dec  3 19:48 model_epoch_3
+-rw-r--r-- 1 root root 1447061 Dec  3 19:52 model_epoch_4
+-rw-r--r-- 1 root root 1447356 Dec  3 19:56 model_epoch_5
+-rw-r--r-- 1 root root 1447450 Dec  3 20:00 model_epoch_6
+-rw-r--r-- 1 root root 1447525 Dec  3 20:04 model_epoch_7
+-rw-r--r-- 1 root root 1447743 Dec  3 20:08 model_epoch_8
+-rw-r--r-- 1 root root 1447760 Dec  3 20:12 model_epoch_9
+</pre></div></div>
+</div>
 <p>次に，学習したモデルを用いてテストデータに対しても予測してみます．次のようにして学習が終わったモデルを読み込み，テストデータに対してモデルを適用してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [26]:
+<span></span>In [15]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -964,7 +1177,7 @@ import chainer.links as L
 %matplotlib inline
 import matplotlib.pyplot as plt
 
-model_n_epoch = 60
+model_n_epoch = 10
 out_dir = &#39;out&#39;
 model = L.Classifier(Net())
 chainer.serializers.load_npz(&#39;{}/model_epoch_{}&#39;.format(out_dir, model_n_epoch), model)
@@ -990,13 +1203,13 @@ print(test_y_estimated[0,:,0])
 <div class="highlight"><pre>
 500
 (1, 1024, 10)
-variable([1.0371194 1.1439321 2.016534  ... 1.8804296 1.7855631 1.1112121])
+variable([1.7427167 1.7872047 1.7081542 ... 0.8705853 0.7520541 0.6031048])
 </pre></div></div>
 </div>
-<p>結果を抜粋して表示してみましょう．ここでは3つ目（i=2）の出力について正解と推定結果を出力しています．今回の場合，学習データを絞り（クラス数を10とした），学習回数も少ないため精度はそれほど高くありませんが，ピークをいくつか捉えられていることがわかると思います．</p>
+<p>結果を抜粋して表示してみましょう．ここでは3つ目（i=2）の出力について正解と推定結果を出力しています．今回の場合でも，学習データを絞り（クラス数を10とした），学習回数も少ないですが，ピークをか捉えられていることがわかると思います．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [27]:
+<span></span>In [21]:
 </pre></div>
 </div>
 <div class="input_area highlight-none"><div class="highlight"><pre>
@@ -1004,19 +1217,21 @@ variable([1.0371194 1.1439321 2.016534  ... 1.8804296 1.7855631 1.1112121])
 fig_size = plt.rcParams[&quot;figure.figsize&quot;]
 fig_size[0] = 20
 fig_size[1] = 10
-i = 2
-plt.bar(range(y.shape[1]), y[0,:,i])
-plt.bar(range(y.shape[1]), test_y[0,:,i])
+i = 0
+b1 = plt.bar(range(y.shape[1]), y[0,:,i])
+b2 = plt.bar(range(y.shape[1]), test_y[0,:,i])
+plt.legend((b1, b2), (&#39;estimated&#39;, &#39;observed&#39;))
+
 </pre></div>
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[27]:
+<span></span>Out[21]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>&lt;Container object of 1024 artists&gt;
+<span></span>&lt;matplotlib.legend.Legend at 0x7f30e6b6d590&gt;
 </pre></div>
 </div>
 </div>
