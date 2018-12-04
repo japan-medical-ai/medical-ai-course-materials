@@ -2653,7 +2653,7 @@
         "\n",
         "![band_form](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/band_form.png)\n",
         "\n",
-        "(図は https://en.wikipedia.org/wiki/Filter_(signal_processing) より抜粋)"
+        "(図は [[文献9](https://en.wikipedia.org/wiki/Filter_(signal_processing%29)] より抜粋)"
       ]
     },
     {
@@ -3023,7 +3023,7 @@
         "1. **Focal Loss for Dense Object Detection**, Tsung-Yi Lin et al., Aug 2017, [[リンク]](https://arxiv.org/abs/1708.02002)\n",
         "1. **Bayesian Convolutional Neural Networks with Bernoulli Approximate Variational Inference**, Yarin Gal et al., Jun 2015, [[リンク](https://arxiv.org/abs/1506.02158v6)]\n",
         "1. **Noise Analysis and Different Denoising Techniques of ECG Signal - A Survey**, Aswathy Velayudhan et al., ICETEM2016, [[リンク](http://www.iosrjournals.org/iosr-jece/papers/ICETEM/Vol.%201%20Issue%201/ECE%2006-40-44.pdf)]\n",
-        "1. **Filter (signal processing)**, Wikipedia: The Free Encyclopedia. Wikimedia Foundation, Inc. 22 July 2004. Web. 10 Aug. 2004, https://en.wikipedia.org/wiki/Filter_(signal_processing)\n",
+        "1. **Filter (signal processing)**, Wikipedia: The Free Encyclopedia. Wikimedia Foundation, Inc. 22 July 2004. Web. 10 Aug. 2004, [[リンク](https://en.wikipedia.org/wiki/Filter_(signal_processing%29)]\n",
         "1. **Arrhythmia Detection from 2-lead ECG using Convolutional Denoising Autoencoders**, Keiichi Ochiai et al., KDD2018, [[リンク](https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf)]\n",
         "1. **DeepHeart: Semi-Supervised Sequence Learning for Cardiovascular Risk Prediction**, Brandon Ballinger et al., Feb 2018, [[リンク](https://arxiv.org/abs/1802.02511)]\n",
         "1. **Cardiologist-Level Arrhythmia Detection with Convolutional Neural Networks**, Pranav Rajpurkar et al., Jul 2017, [[リンク](https://arxiv.org/abs/1707.01836)]"
