@@ -116,7 +116,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#Trainerの使用方法">4.3. Trainerの使用方法</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#データセット・Iterator・ネットワークの準備">4.3.1. データセット・Iterator・ネットワークの準備</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#Updaterの準備">4.3.2. Updaterの準備</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Updaterの準備">4.3.2. Updaterの準備</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#損失計算のためのChain">4.3.2.1. 損失計算のためのChain</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#Trainerの準備">4.3.3. Trainerの準備</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#TrainerにExtensionを追加">4.3.4. TrainerにExtensionを追加</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#LogReport">4.3.4.1. <code class="docutils literal"><span class="pre">LogReport</span></code></a></li>
@@ -1194,8 +1197,11 @@ updater = training.StandardUpdater(train_iter, optimizer, device=gpu_id)
 </pre></div>
 </div>
 </div>
+<div class="section" id="損失計算のためのChain">
+<h4>4.3.2.1. 損失計算のためのChain<a class="headerlink" href="#損失計算のためのChain" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>ここでは，ネットワークを<code class="docutils literal"><span class="pre">L.Classifier</span></code>で包んでいます．<code class="docutils literal"><span class="pre">L.Classifier</span></code>は，渡されたネットワーク自体を<code class="docutils literal"><span class="pre">predictor</span></code>というattributeに持ち，<strong>損失計算を行う機能を追加してくれます</strong>．こうすることで，<code class="docutils literal"><span class="pre">net()</span></code>はデータ<code class="docutils literal"><span class="pre">x</span></code>だけでなくラベル<code class="docutils literal"><span class="pre">t</span></code>も取るようになり，受け取ったデータを<code class="docutils literal"><span class="pre">predictor</span></code>に通して予測値を計算し，正解ラベル<code class="docutils literal"><span class="pre">t</span></code>と比較して<strong>損失のVariableを返します．</strong>損失関数として何を用いるかはデフォルトでは<code class="docutils literal"><span class="pre">F.softmax_cross_entropy</span></code>となっていますが，<code class="docutils literal"><span class="pre">L.Classifier</span></code>の引数<code class="docutils literal"><span class="pre">lossfunc</span></code>に損失計算を行う関数を渡してやれば変更することができ，（Classifierという名前ながら）回帰問題などの損失計算機能の追加にも使うことができます．（<code class="docutils literal"><span class="pre">L.Classifier(net,</span> <span class="pre">lossfun=L.mean_squared_error,</span> <span class="pre">compute_accuracy=False)</span></code>のようにする）</p>
 <p><code class="docutils literal"><span class="pre">StandardUpdater</span></code>は前述のような<code class="docutils literal"><span class="pre">Updater</span></code>の担当する処理を遂行するための最もシンプルなクラスです．この他にも複数のGPUを用いるための<code class="docutils literal"><span class="pre">ParallelUpdater</span></code>などが用意されています．</p>
+</div>
 </div>
 <div class="section" id="Trainerの準備">
 <h3>4.3.3. Trainerの準備<a class="headerlink" href="#Trainerの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -1221,7 +1227,7 @@ trainer = training.Trainer(
 </div>
 <p><code class="docutils literal"><span class="pre">out</span></code>引数では，この次に説明する<code class="docutils literal"><span class="pre">Extension</span></code>を使って，ログファイルや損失の変化の過程を描画したグラフの画像ファイルなどを保存するディレクトリを指定しています．</p>
 <p>Trainerと，その内側にあるいろいろなオブジェクトの関係は，図にまとめると以下のようになっています．このイメージを持っておくと自分で部分的に改造したりする際に便利だと思います．</p>
-<div class="figure" id="id48">
+<div class="figure" id="id49">
 <img alt="image" src="https://qiita-image-store.s3.amazonaws.com/0/17934/a751df31-b999-f692-d839-488c26b1c48a.png" />
 <p class="caption"><span class="caption-text">image</span></p>
 </div>
@@ -1423,7 +1429,10 @@ Test accuracy: 0.92494065
 <h3>4.3.7. 学習済みモデルで推論する<a class="headerlink" href="#学習済みモデルで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは，Trainer
 Extensionのsnapshotが自動的に保存したネットワークのスナップショットから学習済みパラメータを読み込んで，学習ループを書いて学習したときと同様に1番目のテストデータで推論を行ってみましょう．</p>
-<p>ここで一点注意が必要ですが，snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため，extensionの内部のパラメータなども一緒に保存されています．これは，学習自体を再開するために必要なためです．しかし，今回はネットワークのパラメータだけを読み込めば良いので，<code class="docutils literal"><span class="pre">serializers.load_npz()</span></code>のpath引数にネットワーク部分までのパス（<code class="docutils literal"><span class="pre">updater/model:main/predictor/</span></code>）を指定しています．こうすることで，ネットワークのオブジェクトにパラメータだけを読み込ませることができます．</p>
+<p>ここで一点注意が必要ですが，snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため，extensionの内部のパラメータなども一緒に保存されています．これは，学習自体を再開するのに必要なためです．しかし，今回はネットワークのパラメータだけを読み込めば良いので，
+<code class="docutils literal"><span class="pre">serializers.load_npz()</span></code> のpath引数にネットワーク部分までのパス（
+<code class="docutils literal"><span class="pre">updater/model:main/predictor/</span></code>
+）を指定しています．こうすることで，ネットワークのオブジェクトにパラメータだけを読み込ませることができます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1506,34 +1515,34 @@ k</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><a href="#id19"><span class="problematic" id="id20">|</span></a>ima
+<tr class="row-even"><td><a href="#id20"><span class="problematic" id="id21">|</span></a>ima
 ge10
 |</td>
-<td><a href="#id21"><span class="problematic" id="id22">|</span></a>ima
+<td><a href="#id22"><span class="problematic" id="id23">|</span></a>ima
 ge11
 |</td>
-<td><a href="#id23"><span class="problematic" id="id24">|</span></a>ima
+<td><a href="#id24"><span class="problematic" id="id25">|</span></a>ima
 ge12
 |</td>
-<td><a href="#id25"><span class="problematic" id="id26">|</span></a>ima
+<td><a href="#id26"><span class="problematic" id="id27">|</span></a>ima
 ge13
 |</td>
-<td><a href="#id27"><span class="problematic" id="id28">|</span></a>ima
+<td><a href="#id28"><span class="problematic" id="id29">|</span></a>ima
 ge14
 |</td>
-<td><a href="#id29"><span class="problematic" id="id30">|</span></a>ima
+<td><a href="#id30"><span class="problematic" id="id31">|</span></a>ima
 ge15
 |</td>
-<td><a href="#id31"><span class="problematic" id="id32">|</span></a>ima
+<td><a href="#id32"><span class="problematic" id="id33">|</span></a>ima
 ge16
 |</td>
-<td><a href="#id33"><span class="problematic" id="id34">|</span></a>ima
+<td><a href="#id34"><span class="problematic" id="id35">|</span></a>ima
 ge17
 |</td>
-<td><a href="#id35"><span class="problematic" id="id36">|</span></a>ima
+<td><a href="#id36"><span class="problematic" id="id37">|</span></a>ima
 ge18
 |</td>
-<td><a href="#id37"><span class="problematic" id="id38">|</span></a>ima
+<td><a href="#id38"><span class="problematic" id="id39">|</span></a>ima
 ge19
 |</td>
 </tr>
@@ -1892,7 +1901,7 @@ class LinearBlock(chainer.Chain):
 <p><code class="docutils literal"><span class="pre">ConvBlock</span></code>は<code class="docutils literal"><span class="pre">Chain</span></code>を継承した小さなネットワークとして定義されており，一つの畳み込み層とBatch
 Normalization層で構成されます．Batch
 Normalization層は，ネットワークの学習プロセスを安定させるために広く利用されている手法の一つで，例えば今回のように，畳み込み層の直後に挿入する形で利用されます．<code class="docutils literal"><span class="pre">forward</span></code>メソッドでは，これらにデータを渡しつつ，活性化関数ReLUを適用して，さらに<code class="docutils literal"><span class="pre">pool_drop</span></code>引数が<code class="docutils literal"><span class="pre">True</span></code>であれば，Max
-PoolingとDropoutを適用するような順伝播の計算が行われます．</p>
+PoolingとDropoutを適用するような順伝播の計算が行われます．Dropoutは，ネットワークの過学習を避けて汎化性能を上げる目的で利用される手法の一つで，層の中のノードの内，一定割合をランダムに無効にしながら学習を行います（無効にする割合は<code class="docutils literal"><span class="pre">ratio</span></code>という引数で指定でき，何も指定しなければ50%が無効化されます）．</p>
 <p>Chainerでは，Pythonを使って書いたforward計算のコード自体がネットワークの構造を表します．すなわち，実行時にデータがどの層を通過していったか，によってネットワークそのものが定義されます．この性質によって，上記のような分岐などを含むネットワークも簡単に記述でき，柔軟かつシンプルで可読性の高いネットワーク定義が可能になります．これが<strong>Define-by-Run</strong>の大きな特徴となっています．</p>
 </div>
 <div class="section" id="大きなネットワークの定義">
