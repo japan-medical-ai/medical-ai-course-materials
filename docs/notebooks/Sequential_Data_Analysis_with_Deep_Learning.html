@@ -998,7 +998,7 @@ plt.plot(X_train[idx_s[0]])
 </div>
 </div>
 <p>続いて，学習（＋予測）に利用するネットワーク構造を定義します．</p>
-<p>今回は，画像認識タスクで有名な，CNNベースの<strong>ResNet34</strong>と同様のネットワーク構造を利用します．<a class="reference external" href="https://arxiv.org/abs/1512.03385">[文献5]</a></p>
+<p>今回は，画像認識タスクで有名な，CNNベースの<strong>ResNet34</strong>と同様のネットワーク構造を利用します．[<a class="reference external" href="https://arxiv.org/abs/1512.03385">文献5</a>]</p>
 <p>ただし，入力シグナルは1次元配列であることから，ここでは画像解析等で一般的に利用される2D
 Convolutionではなく，前章の遺伝子解析と同様，1D
 Convolutionを利用します．</p>
@@ -1624,7 +1624,7 @@ accuracy:  0.9548832388806809
 <p>続いて，<strong>損失関数を変更</strong>することで，少数の異常サンプルに対して精度向上させる方法を検討します．少数クラスの予測精度向上に注目した損失関数はこれまでに幾つも提案されていますが，今回はその中で，<strong>Focal
 loss</strong> という損失関数を利用します．</p>
 <p>Focal lossは，画像の物体検知手法の研究論文
-<a class="reference external" href="https://arxiv.org/abs/1708.02002">[文献6]</a>
+[<a class="reference external" href="https://arxiv.org/abs/1708.02002">文献6</a>]
 の中で提案された損失関数です．One-stage物体検知手法において，大量の候補領域の中で実際に物体が存在する領域はたかだか数個であることが多く，クラス不均衡なタスクになっており，学習がうまく進まないという問題があります．こうした問題に対処するために提案されたのがfocal
 lossであり，以下の式によって記述されます．</p>
 <div class="math">
@@ -1637,7 +1637,7 @@ lossと等しくなりますが，<span class="math">\(\gamma &gt; 0\)</span>の
 <img alt="focal_plot" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/focal_plot.png" />
 <p class="caption"><span class="caption-text">focal_plot</span></p>
 </div>
-<p>(図は <a class="reference external" href="https://arxiv.org/abs/1708.02002">[文献6]</a>より抜粋)</p>
+<p>(図は [<a class="reference external" href="https://arxiv.org/abs/1708.02002">文献6</a>]より抜粋)</p>
 <p>それでは実際に，Focal loss関数を定義してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -2175,7 +2175,7 @@ class DenoiseECGDatasetPreprocessor(BaseECGDatasetPreprocessor):
 <p class="caption"><span class="caption-text">band_form</span></p>
 </div>
 <p>(図は
-[[文献9](<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_(signal_processing%29">https://en.wikipedia.org/wiki/Filter_(signal_processing%29</a>)]
+[<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_%28signal_processing%29">文献9</a>]
 より抜粋)</p>
 <p>mitdbでは，予め0.1 Hz 以下の低周波と，100 Hz
 以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，25
@@ -2416,37 +2416,37 @@ Ng.の研究室でも，独自に収集したECGレコードから<span class="m
 <ol class="arabic simple">
 <li><strong>Electrocardiography</strong> Wikipedia: The Free Encyclopedia. Wikimedia
 Foundation, Inc.&nbsp;22 July 2004. Web. 10 Aug.&nbsp;2004,
-[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">リンク</a>]</li>
+[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">Link</a>]</li>
 <li><strong>心電図健診判定マニュアル</strong>, 日本人間ドック学会, 平成26年4月,
-[<a class="reference external" href="https://www.ningen-dock.jp/wp/wp-content/uploads/2013/09/d4bb55fcf01494e251d315b76738ab40.pdf">リンク</a>]</li>
+[<a class="reference external" href="https://www.ningen-dock.jp/wp/wp-content/uploads/2013/09/d4bb55fcf01494e251d315b76738ab40.pdf">Link</a>]</li>
 <li><strong>Automatic classification of heartbeats using ECG morphology and
 heartbeat interval features</strong>, Phillip de Chazal et al., June 2004,
-[<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">リンク</a>]</li>
+[<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">Link</a>]</li>
 <li><strong>Inter-Patient ECG Classification with Convolutional and Recurrent
 Neural Networks</strong>, Li Guo et al., Sep 2018,
-<a class="reference external" href="https://arxiv.org/abs/1810.04121">[リンク]</a></li>
+[<a class="reference external" href="https://arxiv.org/abs/1810.04121">Link</a>]</li>
 <li><strong>Deep Residual Learning for Image Recognition</strong>, Kaiming He et al.,
-Dec 2015, <a class="reference external" href="https://arxiv.org/abs/1512.03385">[リンク]</a></li>
+Dec 2015, [<a class="reference external" href="https://arxiv.org/abs/1512.03385">Link</a>]</li>
 <li><strong>Focal Loss for Dense Object Detection</strong>, Tsung-Yi Lin et al., Aug
-2017, <a class="reference external" href="https://arxiv.org/abs/1708.02002">[リンク]</a></li>
+2017, [<a class="reference external" href="https://arxiv.org/abs/1708.02002">Link</a>]</li>
 <li><strong>Bayesian Convolutional Neural Networks with Bernoulli Approximate
 Variational Inference</strong>, Yarin Gal et al., Jun 2015,
-[<a class="reference external" href="https://arxiv.org/abs/1506.02158v6">リンク</a>]</li>
+[<a class="reference external" href="https://arxiv.org/abs/1506.02158v6">Link</a>]</li>
 <li><strong>Noise Analysis and Different Denoising Techniques of ECG Signal -
 A Survey</strong>, Aswathy Velayudhan et al., ICETEM2016,
-[<a class="reference external" href="http://www.iosrjournals.org/iosr-jece/papers/ICETEM/Vol.%201%20Issue%201/ECE%2006-40-44.pdf">リンク</a>]</li>
+[<a class="reference external" href="http://www.iosrjournals.org/iosr-jece/papers/ICETEM/Vol.%201%20Issue%201/ECE%2006-40-44.pdf">Link</a>]</li>
 <li><strong>Filter (signal processing)</strong>, Wikipedia: The Free Encyclopedia.
 Wikimedia Foundation, Inc.&nbsp;22 July 2004. Web. 10 Aug.&nbsp;2004,
-[[リンク](<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_(signal_processing%29">https://en.wikipedia.org/wiki/Filter_(signal_processing%29</a>)]</li>
+[<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_%28signal_processing%29">Link</a>]</li>
 <li><strong>Arrhythmia Detection from 2-lead ECG using Convolutional Denoising
 Autoencoders</strong>, Keiichi Ochiai et al., KDD2018,
-[<a class="reference external" href="https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf">リンク</a>]</li>
+[<a class="reference external" href="https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf">Link</a>]</li>
 <li><strong>DeepHeart: Semi-Supervised Sequence Learning for Cardiovascular
 Risk Prediction</strong>, Brandon Ballinger et al., Feb 2018,
-[<a class="reference external" href="https://arxiv.org/abs/1802.02511">リンク</a>]</li>
+[<a class="reference external" href="https://arxiv.org/abs/1802.02511">Link</a>]</li>
 <li><strong>Cardiologist-Level Arrhythmia Detection with Convolutional Neural
 Networks</strong>, Pranav Rajpurkar et al., Jul 2017,
-[<a class="reference external" href="https://arxiv.org/abs/1707.01836">リンク</a>]</li>
+[<a class="reference external" href="https://arxiv.org/abs/1707.01836">Link</a>]</li>
 </ol>
 </div>
 </div>
