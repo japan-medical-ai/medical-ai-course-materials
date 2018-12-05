@@ -362,9 +362,9 @@ div.nboutput div.output_area.stderr {
 <li>血小板（Platelet）</li>
 </ul>
 <p>の3種の細胞について，それぞれ<strong>何がどの位置にあるか</strong>を個別に認識する方法を考えます．
-これが可能になると，与えられた画像内に<strong>それらの細胞が何個ずつあるか，また，どういう位置にあるか</strong>，ということが分かります。</p>
+これが可能になると，与えられた画像内に<strong>それらの細胞が何個ずつあるか，また，どういう位置にあるか</strong>，ということが分かります．</p>
 <p>このようなタスクは一般に<strong>物体検出（object
-detection）</strong>と呼ばれます．画像を入力として，対象の物体（ここでは例えば、上の3種の細胞）ごとに，個別に</p>
+detection）</strong>と呼ばれます．画像を入力として，対象の物体（ここでは例えば，上の3種の細胞）ごとに，個別に</p>
 <ol class="arabic simple">
 <li>物体を包含する最小面積の矩形（Bounding boxと呼ばれる）</li>
 <li>「内側にある物体が何か」＝クラスラベル</li>
@@ -447,7 +447,7 @@ stageタイプ</strong>と呼ばれています．</p>
 stageタイプ</strong>と呼ばれている手法があります．<a class="reference external" href="https://arxiv.org/abs/1512.02325">SSD</a>や<a class="reference external" href="https://arxiv.org/abs/1506.02640">YOLO</a>，<a class="reference external" href="https://arxiv.org/abs/1612.08242">YOLOv2</a>，<a class="reference external" href="https://arxiv.org/abs/1804.02767">YOLOv3</a>などがsingle
 stageタイプとしてよく知られています．これらは物体の候補を生成せず．直接各物体のクラスと位置を推定します．一般的にsingle
 stageタイプの方がtwo
-stageタイプよりも処理速度は高速である一方，精度が低いと言われています．ただし，最近はこれらの手法の境界は曖昧になり、性能差もほとんどなくなってきています．</p>
+stageタイプよりも処理速度は高速である一方，精度が低いと言われています．ただし，最近はこれらの手法の境界は曖昧になり，性能差もほとんどなくなってきています．</p>
 <p>ここでは，single
 stageタイプの物体検出手法の一つ，SSDを使って，細胞画像から三種類の細胞の位置と種類を抽出するタスクに挑戦します．</p>
 </div>
@@ -532,7 +532,7 @@ class BCCDDataset(VOCBboxDataset):
     def _get_annotations(self, i):
         id_ = self.ids[i]
 
-        # Pascal VOC形式のアノテーションデータは、XML形式で配布されています
+        # Pascal VOC形式のアノテーションデータは，XML形式で配布されています
         anno = ET.parse(
             os.path.join(self.data_dir, &#39;Annotations&#39;, id_ + &#39;.xml&#39;))
 
@@ -665,7 +665,7 @@ Number of images in &#34;test&#34; dataset: 72
 <li>#fg_classはforeground（前景）のクラス数</li>
 <li>difficult is available only if <code class="docutils literal"><span class="pre">return_difficult</span> <span class="pre">=</span> <span class="pre">True</span></code></li>
 </ul>
-<p>ただし，今回データセットオブジェクトを作成する際に<code class="docutils literal"><span class="pre">return_difficult</span></code>オプションを明示的に<code class="docutils literal"><span class="pre">True</span></code>と指定していないので，デフォルト値の<code class="docutils literal"><span class="pre">False</span></code>が使われていません。そのため上の表の最後の行にある<code class="docutils literal"><span class="pre">difficult</span></code>という要素は返ってきません．</p>
+<p>ただし，今回データセットオブジェクトを作成する際に<code class="docutils literal"><span class="pre">return_difficult</span></code>オプションを明示的に<code class="docutils literal"><span class="pre">True</span></code>と指定していないので，デフォルト値の<code class="docutils literal"><span class="pre">False</span></code>が使われていません．そのため上の表の最後の行にある<code class="docutils literal"><span class="pre">difficult</span></code>という要素は返ってきません．</p>
 <p>今回作成した3つのデータセットオブジェクトはすべて，<a href="#id6"><span class="problematic" id="id7">**</span></a>それぞれの要素が<code class="docutils literal"><span class="pre">(画像データ,</span> <span class="pre">正解のbboxリスト,</span> <span class="pre">各bboxごとのクラス)</span></code>という３つの配列となっている</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -767,8 +767,8 @@ print(first_datum[2].shape)
 </div>
 <p>19個の数字が入っていました．これはそれぞれ，上で表示してみたbbox（<code class="docutils literal"><span class="pre">first_datum[1]</span></code>）に順番に対応しており，それぞれのbboxがどのクラスに属する物体か（0:
 RBC, 1: WBC, 2: Platelet）を表しています．</p>
-<p>ではこの節の最後に，これら3つの要素で1くくりとされているデータセット中の1データを，可視化して確認してみます。
-trainデータセットから取り出した画像一つと，それに対応するbbox，それぞれのクラスラベルを取り出し、ChainerCVが用意している可視化用の便利な関数を使って、画像を表示した上でそこにbounding
+<p>ではこの節の最後に，これら3つの要素で1くくりとされているデータセット中の1データを，可視化して確認してみます．
+trainデータセットから取り出した画像一つと，それに対応するbbox，それぞれのクラスラベルを取り出し，ChainerCVが用意している可視化用の便利な関数を使って，画像を表示した上でそこにbounding
 boxと対応するクラスの名前を重ねて表示してみます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
@@ -797,25 +797,25 @@ ax.figure.tight_layout()
 </div>
 <div class="section" id="Single-Shot-Multibox-Detector-(SSD)">
 <h2>6.4. Single Shot Multibox Detector (SSD)<a class="headerlink" href="#Single-Shot-Multibox-Detector-(SSD)" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>データの準備が完了しました。</p>
-<p>次に今回訓練するモデルについて簡単に説明します．今回は、<a class="reference external" href="https://arxiv.org/abs/1512.02325">Single Shot
+<p>データの準備が完了しました．</p>
+<p>次に今回訓練するモデルについて簡単に説明します．今回は，<a class="reference external" href="https://arxiv.org/abs/1512.02325">Single Shot
 MultiBox Detector
 (SSD)</a>という手法を使います．</p>
 <p>SSDは前述のようにsingle
 stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から<strong>特徴マップ</strong>を抽出します．そして特徴マップの各位置毎に候補を用意します（SSD論文ではdefault
-boxと呼ばれていますが，anchorという呼び方がより一般的に用いられています）．各候補領域は異なる形（正方形、縦長、横長、それらの違うサイズなど）．例えば特徴マップの(x=0,
-y=0)の位置に16x16の候補、16x12の候補、12x16の候補を用意します．
-そして正解と最もあっている候補を求め、その<strong>正解のbounding
-boxから候補がどの程度ずれているか</strong>を計算し、このずれを最小化するように学習します。これと同時にそれぞれその領域内部に写っているものが<strong>どのクラスに属しているか</strong>も予測させ，この間違いも少なくするよう学習を行います．。どの正解と一致しなかった候補は何もその位置にはなかったということを予測できるようにします．</p>
+boxと呼ばれていますが，anchorという呼び方がより一般的に用いられています）．各候補領域は異なる形（正方形，縦長，横長，それらの違うサイズなど）．例えば特徴マップの(x=0,
+y=0)の位置に16x16の候補，16x12の候補，12x16の候補を用意します．
+そして正解と最もあっている候補を求め，その<strong>正解のbounding
+boxから候補がどの程度ずれているか</strong>を計算し，このずれを最小化するように学習します．これと同時にそれぞれその領域内部に写っているものが<strong>どのクラスに属しているか</strong>も予測させ，この間違いも少なくするよう学習を行います．．どの正解と一致しなかった候補は何もその位置にはなかったということを予測できるようにします．</p>
 <p>一方，two stageタイプの手法，例えばFaster
 R-CNNでは，抽出された特徴マップに対してさらに別のネットワークが物体の候補領域（region
 proposal）を予測し，その結果を使って候補領域ごとの特徴ベクトルを作成し（RoI
 poolingと呼ばれる計算が用いられます），それらを<strong>クラス分類問題と候補領域の位置・大きさに対する修正量を求める回帰問題を解くための2つの異なる小さなネットワークにさらに渡す</strong>，という構造をとります．</p>
 <p>このため，一般にsingle
 stageタイプのネットワークの方が高速であると言われます．一方，two
-stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては、様々な物体検出手法を比較調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy
+stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては，様々な物体検出手法を比較調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy
 trade-offs for modern convolutional object
-detectors</a>）より、以下の図がしばしば参照されます．</p>
+detectors</a>）より，以下の図がしばしば参照されます．</p>
 <div class="figure" id="id14">
 <img alt="予測精度と実行速度の関係" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" />
 <p class="caption"><span class="caption-text">予測精度と実行速度の関係</span></p>
@@ -835,15 +835,15 @@ detectors</a>）より、以下の図がしばしば参照されます．</p>
 <p>学習に必要なロス関数を計算するクラスを用意しましょう．</p>
 <p>以下に定義するクラスは，まずSSDモデルのオブジェクトと，ロス計算のためのハイパーパラメータである
 <code class="docutils literal"><span class="pre">alpha</span></code> と <code class="docutils literal"><span class="pre">k</span></code> をコンストラクタで受け取っています．<code class="docutils literal"><span class="pre">alpha</span></code>
-は、位置の予測に対する誤差とクラスの予測に対する誤差それぞれの間の重み付けを行う係数です．<code class="docutils literal"><span class="pre">k</span></code>
+は，位置の予測に対する誤差とクラスの予測に対する誤差それぞれの間の重み付けを行う係数です．<code class="docutils literal"><span class="pre">k</span></code>
 は hard negative mining
 のためのパラメータです．学習時，一つの正解bounding
 boxに対して，モデルは最低一つの近しい（positiveな）予測と，多くの間違った（negativeな）予測を出力します．この多くの間違った予測をconfidence
 score（モデルがどの程度確信を持ってその予測を出力しているかを表す値）によってソートした上で，上から
 positive : negative が 1:k になるように negative
 サンプルを選択し，ロスの計算に使用します．このバランスを決めているのが
-<code class="docutils literal"><span class="pre">k</span></code> というパラメータで、上記論文中では <span class="math">\(k = 3\)</span>
-とされているため、ここでもデフォルトで3を使っています．</p>
+<code class="docutils literal"><span class="pre">k</span></code> というパラメータで，上記論文中では <span class="math">\(k = 3\)</span>
+とされているため，ここでもデフォルトで3を使っています．</p>
 <p><code class="docutils literal"><span class="pre">forward</span></code>
 メソッドでは，入力画像と正解の位置・ラベルのリストを受け取って，実際にロスの計算を行っています．物体検出は，物体のlocalization（位置の予測）とclassification（種類（＝クラス）の予測）の二つの問題を同時に解きますが，SSDでは，localization
 lossとclassification lossを別々に計算します．</p>
@@ -908,8 +908,8 @@ Models</a></p>
 <div class="section" id="Data-augmentationの実装">
 <h2>6.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．<strong>データを擬似的に増やすようにデータの意味を変えずに様々な変換を画像とそれに付随するラベルに適用するテクニック（data
-augmentation）</strong>は，学習用データを水増しできる手法です。</p>
-<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり、水平方向に反転させたり、拡大、縮小したりします。それらの際には正解ラベルも適切に変換する必要があることに注意してください。以下のセルを実行しましょう．</p>
+augmentation）</strong>は，学習用データを水増しできる手法です．</p>
+<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり，水平方向に反転させたり，拡大，縮小したりします．それらの際には正解ラベルも適切に変換する必要があることに注意してください．以下のセルを実行しましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1234,7 +1234,7 @@ epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  v
 300         1922        1e-05       1.99204     0.497222       1.49482         0.749349             6110.15
 </pre></div></div>
 </div>
-<p>学習が完了しました。次の節からはこの学習の結果得られた新しいスナップショットを使って，<strong>未知のデータに対する推論</strong>を行ってみます．</p>
+<p>学習が完了しました．次の節からはこの学習の結果得られた新しいスナップショットを使って，<strong>未知のデータに対する推論</strong>を行ってみます．</p>
 </div>
 </div>
 <div class="section" id="学習結果を用いた推論">
