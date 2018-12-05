@@ -1227,7 +1227,7 @@ trainer = training.Trainer(
 </div>
 <p><code class="docutils literal"><span class="pre">out</span></code>引数では，この次に説明する<code class="docutils literal"><span class="pre">Extension</span></code>を使って，ログファイルや損失の変化の過程を描画したグラフの画像ファイルなどを保存するディレクトリを指定しています．</p>
 <p>Trainerと，その内側にあるいろいろなオブジェクトの関係は，図にまとめると以下のようになっています．このイメージを持っておくと自分で部分的に改造したりする際に便利だと思います．</p>
-<div class="figure" id="id49">
+<div class="figure" id="id29">
 <img alt="Trainerに関連するオブジェクト間の関係図" src="https://qiita-image-store.s3.amazonaws.com/0/17934/a751df31-b999-f692-d839-488c26b1c48a.png" />
 <p class="caption"><span class="caption-text">Trainerに関連するオブジェクト間の関係図</span></p>
 </div>
@@ -1428,11 +1428,10 @@ Test accuracy: 0.92494065
 <div class="section" id="学習済みモデルで推論する">
 <h3>4.3.7. 学習済みモデルで推論する<a class="headerlink" href="#学習済みモデルで推論する" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは，Trainer
-Extensionのsnapshotが自動的に保存したネットワークのスナップショットから学習済みパラメータを読み込んで，学習ループを書いて学習したときと同様に1番目のテストデータで推論を行ってみましょう．</p>
-<p>ここで一点注意が必要ですが，snapshotが保存するnpzファイルはTrainer全体のスナップショットであるため，extensionの内部のパラメータなども一緒に保存されています．これは，学習自体を再開するのに必要なためです．しかし，今回はネットワークのパラメータだけを読み込めば良いので，
-<code class="docutils literal"><span class="pre">serializers.load_npz()</span></code> のpath引数にネットワーク部分までのパス（
-<code class="docutils literal"><span class="pre">updater/model:main/predictor/</span></code>
-）を指定しています．こうすることで，ネットワークのオブジェクトにパラメータだけを読み込ませることができます．</p>
+Extensionのsnapshotが保存した学習済みパラメータを読み込んで，以前と同様に1番目のテストデータで推論を行ってみましょう．</p>
+<p>ここで一点注意が必要ですが，snapshotが保存するnpzファイルはTrainer全体のスナップショットとなっており，学習の再開に必要となるextensionの内部のパラメータなども一緒に保存されています．しかし，今回はネットワークのパラメータだけを読み込めば良いので，
+<code class="docutils literal"><span class="pre">serializers.load_npz()</span></code>
+の<code class="docutils literal"><span class="pre">path</span></code>引数にネットワーク部分までのパスを指定します．こうすることで，ネットワークのオブジェクトにパラメータだけを読み込ませることができます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1485,66 +1484,41 @@ print(&#39;予測ラベル:&#39;, y.argmax(axis=1)[0])
 <p>ここでは，MNISTデータセットではなくCIFAR10という32x32サイズの小さなカラー画像に10クラスのいずれかのラベルがついたデータセットを用いて，いろいろなモデルを自分で書いて試行錯誤する流れを体験してみます．</p>
 <table border="1" class="docutils">
 <colgroup>
+<col width="13%" />
+<col width="16%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
 <col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
-<col width="10%" />
+<col width="9%" />
 <col width="10%" />
 </colgroup>
 <thead valign="bottom">
-<tr class="row-odd"><th class="head">airp
-lane</th>
-<th class="head">auto
-mobi
-le</th>
+<tr class="row-odd"><th class="head">airplane</th>
+<th class="head">automobile</th>
 <th class="head">bird</th>
 <th class="head">cat</th>
 <th class="head">deer</th>
 <th class="head">dog</th>
 <th class="head">frog</th>
-<th class="head">hors
-e</th>
+<th class="head">horse</th>
 <th class="head">ship</th>
-<th class="head">truc
-k</th>
+<th class="head">truck</th>
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><a href="#id20"><span class="problematic" id="id21">|</span></a>ima
-ge10
-|</td>
-<td><a href="#id22"><span class="problematic" id="id23">|</span></a>ima
-ge11
-|</td>
-<td><a href="#id24"><span class="problematic" id="id25">|</span></a>ima
-ge12
-|</td>
-<td><a href="#id26"><span class="problematic" id="id27">|</span></a>ima
-ge13
-|</td>
-<td><a href="#id28"><span class="problematic" id="id29">|</span></a>ima
-ge14
-|</td>
-<td><a href="#id30"><span class="problematic" id="id31">|</span></a>ima
-ge15
-|</td>
-<td><a href="#id32"><span class="problematic" id="id33">|</span></a>ima
-ge16
-|</td>
-<td><a href="#id34"><span class="problematic" id="id35">|</span></a>ima
-ge17
-|</td>
-<td><a href="#id36"><span class="problematic" id="id37">|</span></a>ima
-ge18
-|</td>
-<td><a href="#id38"><span class="problematic" id="id39">|</span></a>ima
-ge19
-|</td>
+<tr class="row-even"><td><img alt="Airplane" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/airplane4.png" /></td>
+<td><img alt="Automobile" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/automobile4.png" /></td>
+<td><img alt="Bird" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/bird4.png" /></td>
+<td><img alt="Cat" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/cat4.png" /></td>
+<td><img alt="Deer" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/deer4.png" /></td>
+<td><img alt="Dog" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/dog4.png" /></td>
+<td><img alt="Frog" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/frog4.png" /></td>
+<td><img alt="Horse" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/horse4.png" /></td>
+<td><img alt="Ship" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/ship4.png" /></td>
+<td><img alt="Truck" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/truck4.png" /></td>
 </tr>
 </tbody>
 </table>

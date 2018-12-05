@@ -377,7 +377,7 @@ boxとクラスラベルの予測値の組</strong>を出力できるような�
 <code class="docutils literal"><span class="pre">矩形の右下のx座標</span></code>]のような形式で定義されることが多く，クラスは物体の種類ごとに割り振られたID（以下クラスラベル）で表されることが多いようです．例えば，RBCは0，WBCは1，Plateletは2といったように，対象とする物体に1体1対応した非負整数が割り当てられるのが一般的です．</p>
 <p>以下に，今回この資料で用いる<strong>細胞画像のデータセット</strong>から１例を取り出し，その画像の上に正解として与えられているbboxと，それに対応するクラスの名前を可視化したものを示します．</p>
 <p>赤い長方形がbboxと呼ばれるものです．対象となる血液細胞を一つ一つ，別々の長方形が囲っていることがわかります．この長方形の上辺に重なるように白いラベルが表示されています．それがその矩形の内部にある物体の種類（クラス）を表しています．</p>
-<div class="figure" id="id13">
+<div class="figure" id="id11">
 <img alt="血液の顕微鏡画像からRBC, WBC, Plateletを検出している例" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png" />
 <p class="caption"><span class="caption-text">血液の顕微鏡画像からRBC, WBC, Plateletを検出している例</span></p>
 </div>
@@ -666,7 +666,7 @@ Number of images in &#34;test&#34; dataset: 72
 <li>difficult is available only if <code class="docutils literal"><span class="pre">return_difficult</span> <span class="pre">=</span> <span class="pre">True</span></code></li>
 </ul>
 <p>ただし，今回データセットオブジェクトを作成する際に<code class="docutils literal"><span class="pre">return_difficult</span></code>オプションを明示的に<code class="docutils literal"><span class="pre">True</span></code>と指定していないので，デフォルト値の<code class="docutils literal"><span class="pre">False</span></code>が使われていません．そのため上の表の最後の行にある<code class="docutils literal"><span class="pre">difficult</span></code>という要素は返ってきません．</p>
-<p>今回作成した3つのデータセットオブジェクトはすべて，<a href="#id6"><span class="problematic" id="id7">**</span></a>それぞれの要素が<code class="docutils literal"><span class="pre">(画像データ,</span> <span class="pre">正解のbboxリスト,</span> <span class="pre">各bboxごとのクラス)</span></code>という３つの配列となっている</p>
+<p>今回作成した3つのデータセットオブジェクトはすべて，それぞれの要素が<code class="docutils literal"><span class="pre">(画像データ,</span> <span class="pre">正解のbboxリスト,</span> <span class="pre">各bboxごとのクラス)</span></code>という３つの配列となっています．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -816,13 +816,13 @@ stageタイプのネットワークの方が高速であると言われます．
 stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては，様々な物体検出手法を比較調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy
 trade-offs for modern convolutional object
 detectors</a>）より，以下の図がしばしば参照されます．</p>
-<div class="figure" id="id14">
+<div class="figure" id="id12">
 <img alt="予測精度と実行速度の関係" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" />
 <p class="caption"><span class="caption-text">予測精度と実行速度の関係</span></p>
 </div>
 <p>さて，今回用いるSSDという手法のネットワークアーキテクチャは，以下のような形をしています（SSD論文のFig.
 2より引用）．</p>
-<div class="figure" id="id15">
+<div class="figure" id="id13">
 <img alt="SSDのネットワーク構造" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/ssd-architecture.png" />
 <p class="caption"><span class="caption-text">SSDのネットワーク構造</span></p>
 </div>
