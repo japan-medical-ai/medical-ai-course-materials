@@ -387,17 +387,11 @@ or
 <p>まずStep1では<strong>モデル</strong>を決めます．モデルとは，出力変数 <span class="math">\(y\)</span>
 と入力変数 <span class="math">\(x\)</span>
 の関係性を<strong>定式化</strong>したものです．どのように定式化すれば，家賃をうまく予測することができるのでしょうか．このモデル設計は現在は人手で行うのが一般的であり，機械が自動的に決めてくれるわけではありません（最近ではAutoMLなど，モデルも自動決定する研究も進展してきています）．</p>
-<p>例えば，与えられたデータセットにおいて，家賃と部屋の広さの関係性が次のようになっていたとします．</p>
-<div class="figure" id="id11">
-<img alt="01.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png" />
-<p class="caption"><span class="caption-text">01.png</span></p>
-</div>
+<p>例えば，家賃と部屋の広さの関係性が次のようになっていたとします．
+<img alt="01.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png" /></p>
 <p>この場合，部屋が広くなるほど，家賃が高くなるという関係がみられ，直線を予測に用いるのが妥当にみえます．</p>
-<div class="figure" id="id12">
-<img alt="02.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png" />
-<p class="caption"><span class="caption-text">02.png</span></p>
-</div>
-<p>そこで今回は直線をモデルとして採用して，Step1のモデルを以下のように定式化します．</p>
+<p><img alt="02.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png" />
+そこで今回は直線をモデルとして採用して，Step1のモデルを以下のように定式化します．</p>
 <div class="math">
 \[y = wx + b\]</div>
 <p>ここで<span class="math">\(w\)</span>は傾き，<span class="math">\(b\)</span>は切片と呼ばれるパラメータです（機械学習では，傾きを<strong>重み
@@ -803,22 +797,11 @@ w_{1} + 2w_{2} \\
 \left( 4w^{2}_{2}+2w_{2}+1\right) \\
 &amp;=4w^{2}_{2} + \left(5w_{1} + 2\right) w_{2} + \left( w^{2}_{1} + w_{1} + 1\right) \end{aligned}\end{split}\]</div>
 <p>のようにそれぞれの二次関数であることがわかります．</p>
-<p>そして，二次関数であれば，下図のような形となります．</p>
-<div class="figure" id="id13">
-<img alt="06.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png" />
-<p class="caption"><span class="caption-text">06.png</span></p>
-</div>
+<p>そして，二次関数であれば，下図のような形となります． <img alt="06.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png" /></p>
 <p>これを3次元でイメージすると，下図のようになります．</p>
-<div class="figure" id="id14">
-<img alt="08.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png" />
-<p class="caption"><span class="caption-text">08.png</span></p>
-</div>
-<p>そして，目的関数である二乗誤差の総和が最小となる点では各変数で微分した時の傾きが0となります．</p>
-<div class="figure" id="id15">
-<img alt="07.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png" />
-<p class="caption"><span class="caption-text">07.png</span></p>
-</div>
-<p>この例では，<span class="math">\(w_{1}\)</span> と <span class="math">\(w_{2}\)</span>
+<p><img alt="08.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png" />
+そして，目的関数である二乗誤差の総和が最小となる点では各変数で微分した時の傾きが0となります．</p>
+<p><img alt="07.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png" /> この例では，<span class="math">\(w_{1}\)</span> と <span class="math">\(w_{2}\)</span>
 の２つのパラメータの場合で考えましたが，これは <span class="math">\(w_{0}\)</span>,
 <span class="math">\(w_{1}\)</span>, <span class="math">\(w_{2}\)</span>, <span class="math">\(\ldots\)</span>, <span class="math">\(w_{M}\)</span>
 の場合でも同様に考えることができ，目的関数が最小となる点は</p>
