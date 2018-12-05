@@ -39,6 +39,8 @@ Pythonについては変数（数値・文字列，リスト，タプル，辞�
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
 
+（このボタンをクリックしてもGoogle Colabは開きません．各章のページへ移動してからお試しください．）
+
 利用
 ^^^^
 本資料はコースの受講者以外も誰でも自由に無料で使うことができます．
