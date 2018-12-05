@@ -388,10 +388,13 @@ or
 と入力変数 <span class="math">\(x\)</span>
 の関係性を<strong>定式化</strong>したものです．どのように定式化すれば，家賃をうまく予測することができるのでしょうか．このモデル設計は現在は人手で行うのが一般的であり，機械が自動的に決めてくれるわけではありません（最近ではAutoMLなど，モデルも自動決定する研究も進展してきています）．</p>
 <p>例えば，家賃と部屋の広さの関係性が次のようになっていたとします．
-<img alt="01.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png" /></p>
+<img alt="家賃と部屋の広さの関係" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png" /></p>
 <p>この場合，部屋が広くなるほど，家賃が高くなるという関係がみられ，直線を予測に用いるのが妥当にみえます．</p>
-<p><img alt="02.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png" />
-そこで今回は直線をモデルとして採用して，Step1のモデルを以下のように定式化します．</p>
+<div class="figure" id="id11">
+<img alt="直線式によるモデル化" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png" />
+<p class="caption"><span class="caption-text">直線式によるモデル化</span></p>
+</div>
+<p>そこで今回は直線をモデルとして採用して，Step1のモデルを以下のように定式化します．</p>
 <div class="math">
 \[y = wx + b\]</div>
 <p>ここで<span class="math">\(w\)</span>は傾き，<span class="math">\(b\)</span>は切片と呼ばれるパラメータです（機械学習では，傾きを<strong>重み
@@ -410,19 +413,26 @@ or
 (<span class="math">\(n=1,2,\ldots,N\)</span>) は <span class="math">\(n\)</span>
 番目の物件という意味であり，<span class="math">\(N\)</span> は全体の物件数のことです．この
 <span class="math">\(N\)</span> は<strong>サンプル数</strong>と呼ばれています．</p>
-<p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを紹介します．下図に示すように，部屋の広さと家賃は両方とも正の値であるため，左のグラフのような形になります．中心化では，<strong>平均を:math:`0`</strong>とした中央に配置するような変換の処理を施します．この中心化は多くのアルゴリズムで前処理として行うことが一般的です．厳密には前章で紹介した中心化込みのスケーリングがよく用いられます．
-<img alt="03.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png" /></p>
+<p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを紹介します．下図に示すように，部屋の広さと家賃は両方とも正の値であるため，左のグラフのような形になります．中心化では，<strong>平均を:math:`0`</strong>とした中央に配置するような変換の処理を施します．この中心化は多くのアルゴリズムで前処理として行うことが一般的です．厳密には前章で紹介した中心化込みのスケーリングがよく用いられます．</p>
+<div class="figure" id="id12">
+<img alt="中心化処理" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png" />
+<p class="caption"><span class="caption-text">中心化処理</span></p>
+</div>
 <p>この処理を行う理由の一つとして，下図のように，データの中心化によってバイアス
 <span class="math">\(b\)</span> が<span class="math">\(0\)</span>となり，<span class="math">\(y_{c} = wx_{c}\)</span>
-のように，モデルをバイアス成分なしで表現することができるということが挙げられます，これによって，調整すべきパラメータを減らすことができます．
-<img alt="04.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png" /></p>
+のように，モデルをバイアス成分なしで表現することができるということが挙げられます，これによって，調整すべきパラメータを減らすことができます．</p>
+<div class="figure" id="id13">
+<img alt="中心化後の直線式" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png" />
+<p class="caption"><span class="caption-text">中心化後の直線式</span></p>
+</div>
 <p>データの中心化は入出力の平均をデータの全体から引くことで実現されます．つまり，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 x_{c} &amp;= x - \bar{x} \\
 t_{c} &amp;= t - \bar{t}
 \end{aligned}\end{split}\]</div>
-<p>となります．例えば，具体的な数値で見ると，下図の通りです． <img alt="05.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/05.png" /></p>
+<p>となります．例えば，具体的な数値で見ると，下図の通りです．
+<img alt="中心化前後の数値比較" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/05.png" /></p>
 <p>中心化後を示す添え字の <span class="math">\(c\)</span>
 に関しては表現が冗長となるため，今後はこの添え字を省略し，データの中心化を事前に行っていることを前提とします．この時，モデルは</p>
 <div class="math">
@@ -797,11 +807,22 @@ w_{1} + 2w_{2} \\
 \left( 4w^{2}_{2}+2w_{2}+1\right) \\
 &amp;=4w^{2}_{2} + \left(5w_{1} + 2\right) w_{2} + \left( w^{2}_{1} + w_{1} + 1\right) \end{aligned}\end{split}\]</div>
 <p>のようにそれぞれの二次関数であることがわかります．</p>
-<p>そして，二次関数であれば，下図のような形となります． <img alt="06.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png" /></p>
+<p>そして，二次関数であれば，下図のような形となります．</p>
+<div class="figure" id="id14">
+<img alt="パラメータと目的関数の関係（2次元）" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png" />
+<p class="caption"><span class="caption-text">パラメータと目的関数の関係（2次元）</span></p>
+</div>
 <p>これを3次元でイメージすると，下図のようになります．</p>
-<p><img alt="08.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png" />
-そして，目的関数である二乗誤差の総和が最小となる点では各変数で微分した時の傾きが0となります．</p>
-<p><img alt="07.png" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png" /> この例では，<span class="math">\(w_{1}\)</span> と <span class="math">\(w_{2}\)</span>
+<div class="figure" id="id15">
+<img alt="パラメータと目的関数の関係（3次元）" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png" />
+<p class="caption"><span class="caption-text">パラメータと目的関数の関係（3次元）</span></p>
+</div>
+<p>そして，目的関数である二乗誤差の総和が最小となる点では各変数で微分した時の傾きが0となります．</p>
+<div class="figure" id="id16">
+<img alt="目的関数が最小となる点" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png" />
+<p class="caption"><span class="caption-text">目的関数が最小となる点</span></p>
+</div>
+<p>この例では，<span class="math">\(w_{1}\)</span> と <span class="math">\(w_{2}\)</span>
 の２つのパラメータの場合で考えましたが，これは <span class="math">\(w_{0}\)</span>,
 <span class="math">\(w_{1}\)</span>, <span class="math">\(w_{2}\)</span>, <span class="math">\(\ldots\)</span>, <span class="math">\(w_{M}\)</span>
 の場合でも同様に考えることができ，目的関数が最小となる点は</p>
