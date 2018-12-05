@@ -44,16 +44,13 @@
         "を推定することを目的とします．\n",
         "ただし，**画像中にいくつの物体が含まれるかは事前に分からない**ため，任意個（または十分な数）の物体の**Bounding boxとクラスラベルの予測値の組**を出力できるような手法である必要があります．\n",
         "\n",
-        "Bounding box（以下bbox）は，`[矩形の左上のy座標, 矩形の左上のx座標, 矩形の右下のy座標, 矩形の右下のx座標]`のような形式で定義されることが多く，クラスは物体の種類ごとに割り振られたID（以下クラスラベル）で表されることが多いようです．例えば，RBCは0，WBCは1，Plateletは2といったように，対象とする物体に1体1対応した非負整数が割り当てられるのが一般的です．\n",
+        "Bounding box（以下bbox）は，[`矩形の左上のy座標`, `矩形の左上のx座標`, `矩形の右下のy座標`, `矩形の右下のx座標`]のような形式で定義されることが多く，クラスは物体の種類ごとに割り振られたID（以下クラスラベル）で表されることが多いようです．例えば，RBCは0，WBCは1，Plateletは2といったように，対象とする物体に1体1対応した非負整数が割り当てられるのが一般的です．\n",
         "\n",
         "以下に，今回この資料で用いる**細胞画像のデータセット**から１例を取り出し，その画像の上に正解として与えられているbboxと，それに対応するクラスの名前を可視化したものを示します．\n",
         "\n",
         "赤い長方形がbboxと呼ばれるものです．対象となる血液細胞を一つ一つ，別々の長方形が囲っていることがわかります．この長方形の上辺に重なるように白いラベルが表示されています．それがその矩形の内部にある物体の種類（クラス）を表しています．\n",
         "\n",
-        "![detection_sample.png](https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png)\n",
-        "\n",
-        "（上図：血液の顕微鏡画像からRBC, WBC, Plateletを検出している例）\n",
-        "\n"
+        "![血液の顕微鏡画像からRBC, WBC, Plateletを検出している例](https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png)\n"
       ]
     },
     {
@@ -672,11 +669,12 @@
         "一方，two stageタイプの手法，例えばFaster R-CNNでは，抽出された特徴マップに対してさらに別のネットワークが物体の候補領域（region proposal）を予測し，その結果を使って候補領域ごとの特徴ベクトルを作成し（RoI poolingと呼ばれる計算が用いられます），それらを**クラス分類問題と候補領域の位置・大きさに対する修正量を求める回帰問題を解くための2つの異なる小さなネットワークにさらに渡す**，という構造をとります．\n",
         "\n",
         "このため，一般にsingle stageタイプのネットワークの方が高速であると言われます．一方，two stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては、様々な物体検出手法を比較調査した論文（[Speed/accuracy trade-offs for modern convolutional object detectors](https://arxiv.org/abs/1611.10012)）より、以下の図がしばしば参照されます．\n",
-        "![speed-accuracy-tradeoffs.png](https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png)\n",
+        "\n",
+        "![予測精度と実行速度の関係](https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png)\n",
         "\n",
         "さて，今回用いるSSDという手法のネットワークアーキテクチャは，以下のような形をしています（SSD論文のFig. 2より引用）．\n",
         "\n",
-        "![ssd-architecture.png](https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/ssd-architecture.png)\n",
+        "![SSDのネットワーク構造](https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/ssd-architecture.png)\n",
         "\n",
         "特徴抽出を行うVGG-16ネットワークは，多くの畳み込み層を積み重ねて構成されており，いくつかの畳込み層をまとめたブロックごとにプーリング処理が適用されることで特徴マップの解像度を下げ，層が積み重なるにつれてより抽象的な表現が獲得されるように設計されています．そこで，データがそれぞれのブロックを通過した時点での中間出力を保持しておき，最後に複数の異なる深さから取り出された中間出力（異なる大きさの特徴マップ）を合わせて活用することで，複数スケールの考慮を可能にしている点が，SSDの特徴となっています．"
       ]

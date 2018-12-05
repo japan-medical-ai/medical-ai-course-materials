@@ -526,8 +526,11 @@ iDeep: Not Available
 <h2>7.2. 配列解析について<a class="headerlink" href="#配列解析について" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome
 Wide Association Study;
-ゲノムワイド関連解析）が行われてきましたが，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．（以下図）</p>
-<p><img alt="代替テキスト" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/&#64;&#64;download/attachment/EncodeDatatypes2013-7.png" /> [Encode Projectより引用]</p>
+ゲノムワイド関連解析）が行われてきましたが，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．</p>
+<div class="figure" id="id8">
+<img alt="エピゲノム解析概略図(Encode Projectより引用)" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/&#64;&#64;download/attachment/EncodeDatatypes2013-7.png" />
+<p class="caption"><span class="caption-text">エピゲノム解析概略図(Encode Projectより引用)</span></p>
+</div>
 <p>例えば，ChIP-Seq（クロマチン免疫沈降）は，転写調節因子やそのほかのタンパク質が直接の相互作用を起こすDNAの特定部位を分離し，それらをシーケンシングして同定し，どの程度出現していたかを定量化します．これにより，タンパク質のDNA中の結合部位を正確かつ効率的に同定することができます．</p>
 <p>このような技術で抽出された配列を学習データとして利用し，DNA配列のみからそこが結合部位かどうかだけでなく，どの程度，出現していたのかというカバレッジ値を推定します．例えば，修飾ヒストンのChiPの学習データを利用した場合はDNA配列を入力としてそのどこがヒストン修飾サイトであるかを推定できるようになります，様々な種類の実験データを学習データと用いることでDNA配列から，転写因子，クロマチンアクセシビリティ，ヒストン修飾を予測することができるようになり，様々な遺伝子変異に対する有益な洞察を与えてくれます．</p>
 <p>一方で，DNA配列中のどの領域がそのような特徴を持つのかを調べるためには非常に遠距離のDNA配列も必要である場合が多く，これが機械学習による解析を困難としていました．今回紹介する手法はこのような遠距離の関係を捉えるため，10万超の長さのDNA配列を入力として受け取り，128
@@ -691,9 +694,9 @@ Convolutionについてさらに詳しくみていきます．</p>
 <h3>7.4.2. Dilated Convolution<a class="headerlink" href="#Dilated-Convolution" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>従来の畳み込み層を使って配列解析をする場合を考えてみます．
 以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません．どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され，カーネルサイズがKの時，Dだけ離れた距離にある情報を取得するためにはD/K層必要となります．今回の問題の場合Dは数百から数万，Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません．</p>
-<div class="figure" id="id8">
-<img alt="orig conv" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png" />
-<p class="caption"><span class="caption-text">orig conv</span></p>
+<div class="figure" id="id9">
+<img alt="従来の畳み込み層の計算イメージ" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png" />
+<p class="caption"><span class="caption-text">従来の畳み込み層の計算イメージ</span></p>
 </div>
 <p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WaveNet: A Generative Model for Raw
 Audio</a>より引用</p>
@@ -703,9 +706,9 @@ log_2
 D層だけ必要になります．今回のDが数百から数万の場合，10から20層程度あれば済むことになります．</p>
 <p>今回はこのDilated
 Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します．</p>
-<div class="figure" id="id9">
-<img alt="dilated convolution" src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif" />
-<p class="caption"><span class="caption-text">dilated convolution</span></p>
+<div class="figure" id="id10">
+<img alt="Dilated Convolutionの計算イメージ" src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif" />
+<p class="caption"><span class="caption-text">Dilated Convolutionの計算イメージ</span></p>
 </div>
 <p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WAVENET: A GENERATIVE MODEL FOR RAW AUDIO,
 blog</a>より</p>

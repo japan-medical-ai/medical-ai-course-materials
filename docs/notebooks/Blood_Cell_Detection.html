@@ -372,15 +372,15 @@ detection）</strong>と呼ばれます．画像を入力として，対象の�
 <p>を推定することを目的とします．
 ただし，<strong>画像中にいくつの物体が含まれるかは事前に分からない</strong>ため，任意個（または十分な数）の物体の<strong>Bounding
 boxとクラスラベルの予測値の組</strong>を出力できるような手法である必要があります．</p>
-<p>Bounding
-box（以下bbox）は，<code class="docutils literal"><span class="pre">[矩形の左上のy座標,</span> <span class="pre">矩形の左上のx座標,</span> <span class="pre">矩形の右下のy座標,</span> <span class="pre">矩形の右下のx座標]</span></code>のような形式で定義されることが多く，クラスは物体の種類ごとに割り振られたID（以下クラスラベル）で表されることが多いようです．例えば，RBCは0，WBCは1，Plateletは2といったように，対象とする物体に1体1対応した非負整数が割り当てられるのが一般的です．</p>
+<p>Bounding box（以下bbox）は，[<code class="docutils literal"><span class="pre">矩形の左上のy座標</span></code>,
+<code class="docutils literal"><span class="pre">矩形の左上のx座標</span></code>, <code class="docutils literal"><span class="pre">矩形の右下のy座標</span></code>,
+<code class="docutils literal"><span class="pre">矩形の右下のx座標</span></code>]のような形式で定義されることが多く，クラスは物体の種類ごとに割り振られたID（以下クラスラベル）で表されることが多いようです．例えば，RBCは0，WBCは1，Plateletは2といったように，対象とする物体に1体1対応した非負整数が割り当てられるのが一般的です．</p>
 <p>以下に，今回この資料で用いる<strong>細胞画像のデータセット</strong>から１例を取り出し，その画像の上に正解として与えられているbboxと，それに対応するクラスの名前を可視化したものを示します．</p>
 <p>赤い長方形がbboxと呼ばれるものです．対象となる血液細胞を一つ一つ，別々の長方形が囲っていることがわかります．この長方形の上辺に重なるように白いラベルが表示されています．それがその矩形の内部にある物体の種類（クラス）を表しています．</p>
 <div class="figure" id="id13">
-<img alt="detection_sample.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png" />
-<p class="caption"><span class="caption-text">detection_sample.png</span></p>
+<img alt="血液の顕微鏡画像からRBC, WBC, Plateletを検出している例" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/detection_samples.png" />
+<p class="caption"><span class="caption-text">血液の顕微鏡画像からRBC, WBC, Plateletを検出している例</span></p>
 </div>
-<p>（上図：血液の顕微鏡画像からRBC, WBC, Plateletを検出している例）</p>
 <div class="section" id="環境構築">
 <h2>6.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>まず環境構築のためColab上で以下のセルを実行してChainer, CuPy, ChainerCV,
@@ -815,13 +815,16 @@ poolingと呼ばれる計算が用いられます），それらを<strong>ク�
 stageタイプのネットワークの方が高速であると言われます．一方，two
 stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては、様々な物体検出手法を比較調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy
 trade-offs for modern convolutional object
-detectors</a>）より、以下の図がしばしば参照されます．
-<img alt="speed-accuracy-tradeoffs.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" /></p>
+detectors</a>）より、以下の図がしばしば参照されます．</p>
+<div class="figure" id="id14">
+<img alt="予測精度と実行速度の関係" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png" />
+<p class="caption"><span class="caption-text">予測精度と実行速度の関係</span></p>
+</div>
 <p>さて，今回用いるSSDという手法のネットワークアーキテクチャは，以下のような形をしています（SSD論文のFig.
 2より引用）．</p>
-<div class="figure" id="id14">
-<img alt="ssd-architecture.png" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/ssd-architecture.png" />
-<p class="caption"><span class="caption-text">ssd-architecture.png</span></p>
+<div class="figure" id="id15">
+<img alt="SSDのネットワーク構造" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/ssd-architecture.png" />
+<p class="caption"><span class="caption-text">SSDのネットワーク構造</span></p>
 </div>
 <p>特徴抽出を行うVGG-16ネットワークは，多くの畳み込み層を積み重ねて構成されており，いくつかの畳込み層をまとめたブロックごとにプーリング処理が適用されることで特徴マップの解像度を下げ，層が積み重なるにつれてより抽象的な表現が獲得されるように設計されています．そこで，データがそれぞれのブロックを通過した時点での中間出力を保持しておき，最後に複数の異なる深さから取り出された中間出力（異なる大きさの特徴マップ）を合わせて活用することで，複数スケールの考慮を可能にしている点が，SSDの特徴となっています．</p>
 </div>

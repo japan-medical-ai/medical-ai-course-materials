@@ -270,10 +270,9 @@
       "source": [
         "## 配列解析について\n",
         "\n",
-        "次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome Wide Association Study; ゲノムワイド関連解析）が行われてきましたが，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．（以下図）\n",
+        "次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome Wide Association Study; ゲノムワイド関連解析）が行われてきましたが，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．\n",
         "\n",
-        "![代替テキスト](https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/@@download/attachment/EncodeDatatypes2013-7.png)\n",
-        "[Encode Projectより引用]\n",
+        "![エピゲノム解析概略図(Encode Projectより引用)](https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/@@download/attachment/EncodeDatatypes2013-7.png)\n",
         "\n",
         "例えば，ChIP-Seq（クロマチン免疫沈降）は，転写調節因子やそのほかのタンパク質が直接の相互作用を起こすDNAの特定部位を分離し，それらをシーケンシングして同定し，どの程度出現していたかを定量化します．これにより，タンパク質のDNA中の結合部位を正確かつ効率的に同定することができます．\n",
         "\n",
@@ -523,9 +522,6 @@
         "二つ目は配列中の要素を左から右に順に読み込んでいき計算していく手法です．これは4章でも少し触れたRNNを用いて解析します．RNNは各時刻毎に入力を一つずつ読み取り内部状態を更新していきます．RNNの問題点はその計算が逐次的であり計算量が配列長に比例するという点です．現在の計算機は計算を並列化することで高速化を達成していますがRNNは計算を並列化することが困難です．もう一つの問題は遠距離間の関係を捉えることが難しいという点です．RNNはその計算方式から，計算の途中結果を全て固定長の内部状態ベクトルに格納する必要があります．遠距離間の関係を捉えようとすると，多くの情報を覚えておかなければなりませんが状態ベクトルサイズは有限なので，遠距離間の関係を捉えることが困難となっていきます．\n",
         "\n",
         "三つ目は配列データを1次元の画像とみなし，画像処理の時と同様にCNNを用いて解析する手法です．CNNはRNNの場合と違って各位置の処理を独立に実行できるため並列に処理することができます．また，後述するDilated Convolutionを使うことで各位置の処理は遠距離にある情報を直接読み取ることができます．次の章でDilated Convolutionについてさらに詳しくみていきます．\n",
-        "\n",
-        "\n",
-        "\n",
         "\n"
       ]
     },
@@ -549,7 +545,8 @@
       },
       "cell_type": "markdown",
       "source": [
-        "![orig conv](http://musyoku.github.io/images/post/2016-09-17/naive_conv.png)\n",
+        "\n",
+        "![従来の畳み込み層の計算イメージ](http://musyoku.github.io/images/post/2016-09-17/naive_conv.png)\n",
         "\n",
         "[WaveNet: A Generative Model for Raw Audio](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)より引用"
       ]
@@ -573,7 +570,8 @@
       },
       "cell_type": "markdown",
       "source": [
-        "![dilated convolution](https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif)\n",
+        "\n",
+        "![Dilated Convolutionの計算イメージ](https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif)\n",
         "\n",
         "[WAVENET: A GENERATIVE MODEL FOR RAW AUDIO, blog](https://deepmind.com/blog/wavenet-generative-model-raw-audio/)より\n"
       ]
