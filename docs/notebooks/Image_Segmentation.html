@@ -371,12 +371,12 @@ div.nboutput div.output_area.stderr {
 <h1>5. 実践編: MRI画像のセグメンテーション<a class="headerlink" href="#実践編:-MRI画像のセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>画像を対象とした深層学習の応用技術には様々なものがあります．例えば，画像の中の個別の物体の周りを矩形で囲むようにして検出する<strong>物体検出</strong>や，画像内で個別物体が占める領域を認識する<strong>画像セグメンテーション</strong>などがあります．</p>
 <p><strong>物体検出</strong>は，対象物体の<strong>「種類」と「位置」を認識する技術</strong>であるといえます．</p>
-<p><img alt="FasterRCNN-result.png" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/FasterRCNN-result.png" />
+<p><img alt="物体検出の例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/FasterRCNN-result.png" />
 （上図：物体検出の例．矩形で対象物体を囲い，そのクラスを答えるタスク．）</p>
 <p><strong>画像セグメンテーション</strong>には2種類あります．1つは，個別の物体を区別するInstance-aware
 Segmentationです．もう一つは，同一クラスの物体であれば個を区別しないSemantic
 Segmentationです．今回は，後者を扱います．</p>
-<p><img alt="PSPNet-result.png" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet-result.png" /> （上図：Semantic
+<p><img alt="セグメンテーションの例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet-result.png" /> （上図：Semantic
 Segmentationの例．ピクセル単位でクラス分類を行うタスク．画像を，予め決められた数の色で塗り絵をするようなイメージ．）</p>
 <p>画像セグメンテーションは，4章で扱った画像全体に対して一つのクラスを割り当てる分類問題とは異なり，画像内の全ピクセルを，ピクセルごとに分類していきます．そのため，Pixel
 labeling
@@ -541,7 +541,10 @@ Segmentationタスクに取り組みます．<code class="docutils literal"><spa
 <li><code class="docutils literal"><span class="pre">Trainer</span></code>オブジェクトの作成（学習ループの管理）</li>
 </ol>
 <p><code class="docutils literal"><span class="pre">Trainer</span></code>に含まれるコンポーネントは，以下のような関係になっています．</p>
-<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
+<div class="figure" id="id14">
+<img alt="Trainer関連のコンポーネント間の関係" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/trainer.png" />
+<p class="caption"><span class="caption-text">Trainer関連のコンポーネント間の関係</span></p>
+</div>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">Updater</span></code>は，<code class="docutils literal"><span class="pre">Iterator</span></code>から<code class="docutils literal"><span class="pre">Dataset</span></code>にあるデータを指定したバッチサイズ数だけ取り出し，<code class="docutils literal"><span class="pre">Model</span></code>に与えてロスを計算し，<code class="docutils literal"><span class="pre">Optimizer</span></code>によってパラメータを更新する，という一連の作業（これが1
 iterationになります）を隠蔽しています．</li>
@@ -900,7 +903,10 @@ imbalance（白と黒の数が大きく違う）が起きている際に，少�
 <p>一方，mIoU
 の場合は，予測と正解の両画像における「positiveとtrueの和領域」（白と予測した部分と，白が正解である領域の和）に対する「true
 positive」（白という予測が正解していた領域）の割合を見るので，画像全体の大きさに影響されません．わかりやすく図にすると，以下のようになります．</p>
-<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
+<div class="figure" id="id15">
+<img alt="IoUで求める領域" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/miou.png" />
+<p class="caption"><span class="caption-text">IoUで求める領域</span></p>
+</div>
 <p>この図の言葉で書くと，IoUは，</p>
 <div class="math">
 \[IoU = \frac{\rm true\_positive}{{\rm positive} + {\rm true} - {\rm true\_positive}}\]</div>
@@ -990,7 +996,14 @@ Artifacts</a>）</li>
 <li>出力サイズは，<span class="math">\({\rm stride} \times ({\rm input\_size} - 1) + {\rm ksize} - 2 \times {\rm pad}\)</span>となるので，目的の拡大後サイズになるようパラメータを調整する</li>
 </ul>
 <p>Deconvolution2Dにおいては，padが意味するものが少し直感的でないため，実際に行われる操作を説明した図を以下に用意しています．</p>
-<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /> <img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
+<div class="figure" id="id16">
+<img alt="Deconvolution2Dの計算(pad=0の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-0.png" />
+<p class="caption"><span class="caption-text">Deconvolution2Dの計算(pad=0の場合)</span></p>
+</div>
+<div class="figure" id="id17">
+<img alt="Deconvolution2Dの計算(pad=1の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-1.png" />
+<p class="caption"><span class="caption-text">Deconvolution2Dの計算(pad=1の場合)</span></p>
+</div>
 <p>気をつける点は，ksizeとstrideに従って配置・拡張したfeature
 mapの周囲を「削る量」がpadになっている点です．そのあと行われる演算自体はstride=1,
 pad=0のConvolutionと同じになります．</p>
@@ -1356,20 +1369,29 @@ levelな情報（エッジ・局所的な画素値勾配のような情報，色
 indices)
 」の情報をとっておき，後で画像を拡大していく時に記録しておいたpooling
 indicesを使ってUpsamplingする手法です．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されています…</p>
-<p><img alt="image0" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
+<div class="figure" id="id18">
+<img alt="SegNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" />
+<p class="caption"><span class="caption-text">SegNet</span></p>
+</div>
 </div>
 <div class="section" id="U-Net-[9]">
 <h3>5.6.2. U-Net [9]<a class="headerlink" href="#U-Net-[9]" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>下層の出力特徴マップを，上層の入力に結合することで活用する構造．全体がアルファベットの
 “U”
 のような形をしていることから「U-Net」とよばれます.セグメンテーションタスクで広く使われています.</p>
-<p><img alt="image1" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
+<div class="figure" id="id19">
+<img alt="U-Net" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" />
+<p class="caption"><span class="caption-text">U-Net</span></p>
+</div>
 </div>
 <div class="section" id="PSPNet-[10]">
 <h3>5.6.3. PSPNet [10]<a class="headerlink" href="#PSPNet-[10]" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet
 2017 Scene Parsing Challengeで優勝したモデルです.</p>
-<p><img alt="image2" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png" /></p>
+<div class="figure" id="id20">
+<img alt="PSPNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png" />
+<p class="caption"><span class="caption-text">PSPNet</span></p>
+</div>
 <p>この他に様々な手法が提案されています.例えばクラス間のサンプル数の大小だけでなく，難しいクラスと簡単なクラスがある場合にそれらを考慮した損失関数を使うことで性能をあげることができます．</p>
 <p>また，今回は簡単のためtraining splitとvalidation
 splitのみを持つデータセットを使いましたが，本来はハイパーパラメータをvalidation
