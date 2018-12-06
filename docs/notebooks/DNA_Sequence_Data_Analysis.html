@@ -373,10 +373,7 @@ Colab上では，以下のようにしてインストールすることができ
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>!set -ex
-!apt -y -q install cuda-libraries-dev-9-2
-!pip install cupy-cuda92==6.0.0a1
-!pip install chainer==6.0.0a1
+<span></span>!curl https://colab.chainer.org/install | sh -
 </pre></div>
 </div>
 </div>
@@ -385,6 +382,10 @@ Colab上では，以下のようにしてインストールすることができ
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1379  100  1379    0     0   7790      0 --:--:-- --:--:-- --:--:--  7790
++ apt -y -q install cuda-libraries-dev-9-2
 Reading package lists...
 Building dependency tree...
 Reading state information...
@@ -396,7 +397,7 @@ The following NEW packages will be installed:
   cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
   cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-libraries-dev-9-2
   cuda-npp-dev-9-2 cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
-0 upgraded, 9 newly installed, 0 to remove and 7 not upgraded.
+0 upgraded, 9 newly installed, 0 to remove and 8 not upgraded.
 Need to get 332 MB of archives.
 After this operation, 972 MB of additional disk space will be used.
 Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cublas-dev-9-2 9.2.148.1-1 [50.4 MB]
@@ -408,7 +409,7 @@ Get:6 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64
 Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvgraph-dev-9-2 9.2.148-1 [30.1 MB]
 Get:8 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-npp-dev-9-2 9.2.148-1 [52.0 MB]
 Get:9 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-libraries-dev-9-2 9.2.148-1 [2,598 B]
-Fetched 332 MB in 6s (51.9 MB/s)
+Fetched 332 MB in 7s (50.0 MB/s)
 Selecting previously unselected package cuda-cublas-dev-9-2.
 (Reading database ... 26397 files and directories currently installed.)
 Preparing to unpack .../0-cuda-cublas-dev-9-2_9.2.148.1-1_amd64.deb ...
@@ -446,32 +447,9 @@ Setting up cuda-cusparse-dev-9-2 (9.2.148-1) ...
 Setting up cuda-cublas-dev-9-2 (9.2.148.1-1) ...
 Setting up cuda-nvgraph-dev-9-2 (9.2.148-1) ...
 Setting up cuda-libraries-dev-9-2 (9.2.148-1) ...
-Collecting cupy-cuda92==6.0.0a1
-  Downloading https://files.pythonhosted.org/packages/51/8a/b18c425488fb7ed3a42662767363b822de697f9bcfca19eb3fa980e07817/cupy_cuda92-6.0.0a1-cp27-cp27mu-manylinux1_x86_64.whl (260.4MB)
-    100% |████████████████████████████████| 260.4MB 77kB/s
-Collecting fastrlock&gt;=0.3 (from cupy-cuda92==6.0.0a1)
-  Downloading https://files.pythonhosted.org/packages/d4/e6/6d198d91ae20353140563ba32eac2efba236446aa6cf73b2d652d9d9d038/fastrlock-0.4-cp27-cp27mu-manylinux1_x86_64.whl
-Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92==6.0.0a1) (1.14.6)
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from cupy-cuda92==6.0.0a1) (1.11.0)
-Installing collected packages: fastrlock, cupy-cuda92
-Successfully installed cupy-cuda92-6.0.0a1 fastrlock-0.4
-Collecting chainer==6.0.0a1
-  Downloading https://files.pythonhosted.org/packages/64/53/970152ecb9684a96950b81323b6511bfcc169b5c3981c2c2611579179955/chainer-6.0.0a1.tar.gz (517kB)
-    100% |████████████████████████████████| 522kB 20.3MB/s
-Collecting filelock (from chainer==6.0.0a1)
-  Downloading https://files.pythonhosted.org/packages/2a/bd/6a87635dba4906ae56377b22f64805b2f00d8cafb26e411caaf3559a5475/filelock-3.0.10.tar.gz
-Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer==6.0.0a1) (1.14.6)
-Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python2.7/dist-packages (from chainer==6.0.0a1) (3.6.1)
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python2.7/dist-packages (from chainer==6.0.0a1) (1.11.0)
-Requirement already satisfied: setuptools in /usr/local/lib/python2.7/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer==6.0.0a1) (40.6.2)
-Building wheels for collected packages: chainer, filelock
-  Running setup.py bdist_wheel for chainer ... - \ | / - done
-  Stored in directory: /root/.cache/pip/wheels/06/17/03/677a942d2d45e98fa9d137d6dd5de27a9d8351f52fa2b37af0
-  Running setup.py bdist_wheel for filelock ... - done
-  Stored in directory: /root/.cache/pip/wheels/46/b3/26/8803692ec1f1729fcf201583b5de74f112da1f1488f36e47b0
-Successfully built chainer filelock
-Installing collected packages: filelock, chainer
-Successfully installed chainer-6.0.0a1 filelock-3.0.10
++ pip install -q cupy-cuda92  chainer
++ set +ex
+Installation succeeded!
 </pre></div></div>
 </div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンを確認してください．</p>
@@ -496,34 +474,34 @@ print(&#39;matplotlib:&#39;, matplotlib.__version__)
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
-Chainer: 6.0.0a1
+Chainer: 5.1.0
 NumPy: 1.14.6
 CuPy:
-  CuPy Version          : 6.0.0a1
+  CuPy Version          : 5.1.0
   CUDA Root             : /usr/local/cuda
   CUDA Build Version    : 9020
   CUDA Driver Version   : 9020
   CUDA Runtime Version  : 9020
-  cuDNN Build Version   : 7201
-  cuDNN Version         : 7201
-  NCCL Build Version    : 2213
-iDeep: Not Available
+  cuDNN Build Version   : 7301
+  cuDNN Version         : 7301
+  NCCL Build Version    : 2307
+iDeep: 2.0.0.post3
 (&#39;matplotlib:&#39;, &#39;2.1.2&#39;)
 </pre></div></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
-<span class="n">Chainer</span><span class="p">:</span> <span class="mf">6.0</span><span class="o">.</span><span class="mi">0</span><span class="n">a1</span>
+<span class="n">Chainer</span><span class="p">:</span> <span class="mf">5.1</span><span class="o">.</span><span class="mi">0</span>
 <span class="n">NumPy</span><span class="p">:</span> <span class="mf">1.14</span><span class="o">.</span><span class="mi">6</span>
 <span class="n">CuPy</span><span class="p">:</span>
-  <span class="n">CuPy</span> <span class="n">Version</span>          <span class="p">:</span> <span class="mf">6.0</span><span class="o">.</span><span class="mi">0</span><span class="n">a1</span>
+  <span class="n">CuPy</span> <span class="n">Version</span>          <span class="p">:</span> <span class="mf">5.1</span><span class="o">.</span><span class="mi">0</span>
   <span class="n">CUDA</span> <span class="n">Root</span>             <span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span>
   <span class="n">CUDA</span> <span class="n">Build</span> <span class="n">Version</span>    <span class="p">:</span> <span class="mi">9020</span>
   <span class="n">CUDA</span> <span class="n">Driver</span> <span class="n">Version</span>   <span class="p">:</span> <span class="mi">9020</span>
   <span class="n">CUDA</span> <span class="n">Runtime</span> <span class="n">Version</span>  <span class="p">:</span> <span class="mi">9020</span>
-  <span class="n">cuDNN</span> <span class="n">Build</span> <span class="n">Version</span>   <span class="p">:</span> <span class="mi">7201</span>
-  <span class="n">cuDNN</span> <span class="n">Version</span>         <span class="p">:</span> <span class="mi">7201</span>
-  <span class="n">NCCL</span> <span class="n">Build</span> <span class="n">Version</span>    <span class="p">:</span> <span class="mi">2213</span>
-<span class="n">iDeep</span><span class="p">:</span> <span class="n">Not</span> <span class="n">Available</span>
+  <span class="n">cuDNN</span> <span class="n">Build</span> <span class="n">Version</span>   <span class="p">:</span> <span class="mi">7301</span>
+  <span class="n">cuDNN</span> <span class="n">Version</span>         <span class="p">:</span> <span class="mi">7301</span>
+  <span class="n">NCCL</span> <span class="n">Build</span> <span class="n">Version</span>    <span class="p">:</span> <span class="mi">2307</span>
+<span class="n">iDeep</span><span class="p">:</span> <span class="mf">2.0</span><span class="o">.</span><span class="mf">0.</span><span class="n">post3</span>
 <span class="p">(</span><span class="s1">&#39;matplotlib:&#39;</span><span class="p">,</span> <span class="s1">&#39;2.1.2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -565,27 +543,27 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2018-12-03 19:34:11--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
+--2018-12-05 13:40:51--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
 Resolving github.com (github.com)... 192.30.253.112, 192.30.253.113
 Connecting to github.com (github.com)|192.30.253.112|:443... connected.
 HTTP request sent, awaiting response... 302 Found
-Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181203%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181203T193412Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=ceb275d8272fc12568fd7fad12a9b708b9d9bd084ad0cac0db633bf7608948b8&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream [following]
---2018-12-03 19:34:12--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181203%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181203T193412Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=ceb275d8272fc12568fd7fad12a9b708b9d9bd084ad0cac0db633bf7608948b8&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream
-Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.236.27
-Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.236.27|:443... connected.
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181205%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181205T134051Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=682297718ad4a994248d2253502dd963b7904bee8c8125900c6ff21136040293&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream [following]
+--2018-12-05 13:40:51--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181205%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181205T134051Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=682297718ad4a994248d2253502dd963b7904bee8c8125900c6ff21136040293&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.228.232
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.228.232|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 594118876 (567M) [application/octet-stream]
 Saving to: ‘seq.h5’
 
-seq.h5              100%[===================&gt;] 566.60M  29.8MB/s    in 19s
+seq.h5              100%[===================&gt;] 566.60M  45.5MB/s    in 13s
 
-2018-12-03 19:34:31 (29.7 MB/s) - ‘seq.h5’ saved [594118876/594118876]
+2018-12-05 13:41:05 (43.0 MB/s) - ‘seq.h5’ saved [594118876/594118876]
 
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -616,7 +594,7 @@ T, C, Gの対応する次元の値が1, それ以外は0であるような配列
 3’)というサイズを持ちます.これは長さが1024からなる配列が6240個あり,それぞれが3種類の異なるChipSeqの結果のカバレッジ値が格納されています.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -657,7 +635,7 @@ with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
 <p>下のセルを実行してみてください．最初のデータの出力の三つの値を線グラフで出力します．（ここまでのセルを実行していてください）．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [6]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -877,7 +855,7 @@ Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだ
 <p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [9]:
+<span></span>In [8]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1029,7 +1007,7 @@ from chainer.training import extensions
 from chainer import training
 import h5py
 
-ml_h5 = h5py.File(&#39;seq.h5&#39;)e
+ml_h5 = h5py.File(&#39;seq.h5&#39;)
 
 train_x = ml_h5[&#39;train_in&#39;]
 train_y = ml_h5[&#39;train_out&#39;]
@@ -1093,55 +1071,55 @@ trainer.run()
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   validation/main/loss  elapsed_time
-0           2.0873                            63.4775
-0           1.94705                           109.895
-0           1.89719                           156.686
-0           1.85084                           202.743
-1           1.77888     1.86543               258.092
-1           1.78996                           304.509
-1           1.78814                           350.91
-1           1.74196                           396.958
-1           1.73552                           443.75
-2           1.75989     1.746                 498.737
-2           1.77673                           544.786
-2           1.73285                           591.564
-2           1.69361                           637.962
-2           1.59723                           684.382
-3           1.67331     1.70796               739.356
-3           1.68685                           785.395
-3           1.62153                           832.188
-3           1.70951                           878.581
-3           1.60378                           925.019
-4           1.65392     1.69343               980.008
-4           1.63665                           1026.45
-4           1.66334                           1072.52
-4           1.61375                           1119.34
-4           1.60533                           1165.77
-5           1.58547     1.68659               1220.76
-5           1.62216                           1267.17
-5           1.53686                           1313.22
-5           1.66557                           1360.02
-5           1.62918                           1406.44
-6           1.53379     1.63333               1461.43
-6           1.56805                           1507.85
-6           1.60791                           1553.91
-6           1.55378                           1600.67
-6           1.5594                            1647.1
-7           1.6058      1.62044               1702.11
-7           1.57387                           1748.55
-7           1.54682                           1794.97
-7           1.55528                           1841.4
-7           1.57045                           1887.83
-8           1.58875     1.62074               1942.82
-8           1.56817                           1989.25
-8           1.57042                           2035.68
-8           1.57602                           2082.11
-8           1.54231                           2128.17
-9           1.53811     1.61316               2183.5
-9           1.55894                           2229.94
-9           1.53187                           2276.37
-9           1.57317                           2322.8
-9           1.55031                           2368.86
+0           2.09475                           67.376
+0           1.83986                           117.536
+0           1.89423                           167.924
+0           1.81473                           217.551
+1           1.85181     1.85538               277.913
+1           1.79594                           328.016
+1           1.75834                           378.054
+1           1.75767                           427.627
+1           1.72855                           478.089
+2           1.73131     1.73589               538.179
+2           1.70612                           587.781
+2           1.71587                           638.244
+2           1.65469                           688.26
+2           1.70864                           738.252
+3           1.62061     1.72332               798.245
+3           1.67583                           848.08
+3           1.64706                           898.58
+3           1.68464                           948.667
+3           1.64478                           998.855
+4           1.62203     1.69327               1058.92
+4           1.61279                           1109.06
+4           1.65285                           1158.67
+4           1.61581                           1209.11
+4           1.63106                           1259.33
+5           1.57932     1.6559                1319.33
+5           1.64708                           1369.34
+5           1.59305                           1418.89
+5           1.6324                            1469.35
+5           1.57734                           1519.27
+6           1.57082     1.63748               1579.2
+6           1.57364                           1629.27
+6           1.56504                           1678.91
+6           1.59908                           1729.31
+6           1.5736                            1779.31
+7           1.58521     1.62563               1839.25
+7           1.54763                           1889.26
+7           1.59983                           1939.32
+7           1.55214                           1989.29
+7           1.58855                           2039.31
+8           1.58165     1.62321               2099.19
+8           1.57746                           2149.05
+8           1.51869                           2199.07
+8           1.54404                           2249.08
+8           1.56723                           2298.59
+9           1.59699     1.61174               2359.01
+9           1.55694                           2409.1
+9           1.54513                           2459.19
+9           1.51078                           2509.35
+9           1.5535                            2559.16
 </pre></div></div>
 </div>
 <p>学習が成功したならば，ディレクトリのout以下に学習されたモデルが出力されているはずです．実際にモデルが出力されているのかを確認しましょう．</p>
@@ -1160,18 +1138,18 @@ epoch       main/loss   validation/main/loss  elapsed_time
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-total 14168
--rw-r--r-- 1 root root   10468 Dec  3 20:15 log
--rw-r--r-- 1 root root 1445790 Dec  3 19:40 model_epoch_1
--rw-r--r-- 1 root root 1447771 Dec  3 20:16 model_epoch_10
--rw-r--r-- 1 root root 1446082 Dec  3 19:44 model_epoch_2
--rw-r--r-- 1 root root 1446744 Dec  3 19:48 model_epoch_3
--rw-r--r-- 1 root root 1447061 Dec  3 19:52 model_epoch_4
--rw-r--r-- 1 root root 1447356 Dec  3 19:56 model_epoch_5
--rw-r--r-- 1 root root 1447450 Dec  3 20:00 model_epoch_6
--rw-r--r-- 1 root root 1447525 Dec  3 20:04 model_epoch_7
--rw-r--r-- 1 root root 1447743 Dec  3 20:08 model_epoch_8
--rw-r--r-- 1 root root 1447760 Dec  3 20:12 model_epoch_9
+total 14172
+-rw-r--r-- 1 root root   10463 Dec  5 14:26 log
+-rw-r--r-- 1 root root 1446319 Dec  5 13:48 model_epoch_1
+-rw-r--r-- 1 root root 1447573 Dec  5 14:27 model_epoch_10
+-rw-r--r-- 1 root root 1446569 Dec  5 13:52 model_epoch_2
+-rw-r--r-- 1 root root 1446831 Dec  5 13:56 model_epoch_3
+-rw-r--r-- 1 root root 1447090 Dec  5 14:01 model_epoch_4
+-rw-r--r-- 1 root root 1447341 Dec  5 14:05 model_epoch_5
+-rw-r--r-- 1 root root 1447398 Dec  5 14:09 model_epoch_6
+-rw-r--r-- 1 root root 1447855 Dec  5 14:14 model_epoch_7
+-rw-r--r-- 1 root root 1447819 Dec  5 14:18 model_epoch_8
+-rw-r--r-- 1 root root 1447746 Dec  5 14:22 model_epoch_9
 </pre></div></div>
 </div>
 <p>次に，学習したモデルを用いてテストデータに対しても予測してみます．次のようにして学習が終わったモデルを読み込み，テストデータに対してモデルを適用してみましょう．</p>
@@ -1212,13 +1190,14 @@ print(test_y_estimated[0,:,0])
 <div class="highlight"><pre>
 500
 (1, 1024, 10)
-variable([1.7427167 1.7872047 1.7081542 ... 0.8705853 0.7520541 0.6031048])
+variable([1.8609519  1.5452818  1.5602845  ... 1.0467381  0.81922424
+          0.8216049 ])
 </pre></div></div>
 </div>
 <p>結果を抜粋して表示してみましょう．ここでは3つ目（i=2）の出力について正解と推定結果を出力しています．今回の場合でも，学習データを絞り（クラス数を10とした），学習回数も少ないですが，ピークをか捉えられていることがわかると思います．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [21]:
+<span></span>In [16]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -1236,11 +1215,11 @@ plt.legend((b1, b2), (&#39;estimated&#39;, &#39;observed&#39;))
 </div>
 <div class="nboutput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>Out[21]:
+<span></span>Out[16]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.legend.Legend at 0x7f30e6b6d590&gt;
+<span></span>&lt;matplotlib.legend.Legend at 0x7f4fe18dbb10&gt;
 </pre></div>
 </div>
 </div>
