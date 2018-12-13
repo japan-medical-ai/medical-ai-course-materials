@@ -33,6 +33,15 @@
 
   
   <script src="../_static/js/modernizr.min.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-797798-11');
+  </script>
 
 </head>
 
@@ -915,7 +924,8 @@ Models</a></p>
 <h2>6.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．<strong>データを擬似的に増やすようにデータの意味を変えずに様々な変換を画像とそれに付随するラベルに適用するテクニック（data
 augmentation）</strong>は，学習用データを水増しできる手法です．</p>
-<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり，水平方向に反転させたり，拡大，縮小したりします．それらの際には正解ラベルも適切に変換する必要があることに注意してください．以下のセルを実行しましょう．</p>
+<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり，水平方向に反転させたり，拡大，縮小したりします．それらの際には正解ラベルも適切に変換する必要があることに注意してください．例えば、水平方向に反転させる場合は，正解ラベルも水平方向に反転させたものを正解とします．また，画像の一部分をマスクし、隠すこと有効な手法です．これにより認識の際，一つの情報だけに依存せず様々な情報に基づいて認識できるようになります．</p>
+<p>以下のセルを実行しましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:

@@ -33,6 +33,15 @@
 
   
   <script src="../_static/js/modernizr.min.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-797798-11');
+  </script>
 
 </head>
 
@@ -972,7 +981,7 @@ show_predicts(trainer, val, device=0)
 </div>
 <p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）は正解の領域に対して小さくなっています．Pixel
 Accuracyは大部分を占めている黒い部分も含めての正解率ですので，Pixel
-Accuracyは評価指標として今回のようなデータセットにはあまり合っていない可能性があります．</p>
+Accuracyは評価指標として今回のようなデータセットにはあまり合っていない可能性があります．それに対し<code class="docutils literal notranslate"><span class="pre">mIoU</span></code>は今回のような画像中の予測対象領域の割合が少ない場合に有効な指標となります．</p>
 <p>以降は，どうやって<code class="docutils literal notranslate"><span class="pre">mIoU</span></code>を改善するかに取り組んでみましょう．</p>
 </div>
 </div>
