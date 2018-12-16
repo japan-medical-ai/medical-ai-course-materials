@@ -365,7 +365,7 @@ div.nboutput div.output_area.stderr {
 <h1>7. 実践編: ディープラーニングを使った配列解析<a class="headerlink" href="#実践編:-ディープラーニングを使った配列解析" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>近年，次世代シーケンサ（NGS; Next Generation
 Sequencer）の発展により，遺伝子の塩基配列が高速，大量，安価に読み取られるようになってきました．</p>
-<p>ここではディープラーニングを用いて，DNA配列からエピジェネティックな影響や転写制御を予測する問題に取り組みます．ディープラーニングは複雑なモデルを表現でき，遠距離の影響も考慮することができます．この予測モデルを使うことで，ある遺伝子変異が遺伝子発現にどのような影響を与えるのかを予測することができるようになります．</p>
+<p>ここではディープラーニングを用いて，DNA配列からエピジェネティックな影響や転写制御を予測する問題に取り組みます．ディープラーニングは複雑なモデルを表現でき，遠距離の影響も考慮することができ，より高い精度で予測することが期待できます．</p>
 <div class="section" id="環境構築">
 <h2>7.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここで用いるライブラリは</p>
@@ -376,90 +376,15 @@ Sequencer）の発展により，遺伝子の塩基配列が高速，大量，�
 </ul>
 <p>です．Google
 Colab上では，以下のようにしてインストールすることができます．以下のセルを実行（Shit+Enter）してください．</p>
-<div class="nbinput docutils container">
+<div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [1]:
+<span></span>In [ ]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!curl https://colab.chainer.org/install | sh -
 </pre></div>
 </div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  1379  100  1379    0     0   7790      0 --:--:-- --:--:-- --:--:--  7790
-+ apt -y -q install cuda-libraries-dev-9-2
-Reading package lists...
-Building dependency tree...
-Reading state information...
-The following additional packages will be installed:
-  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
-  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-npp-dev-9-2
-  cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
-The following NEW packages will be installed:
-  cuda-cublas-dev-9-2 cuda-cufft-dev-9-2 cuda-curand-dev-9-2
-  cuda-cusolver-dev-9-2 cuda-cusparse-dev-9-2 cuda-libraries-dev-9-2
-  cuda-npp-dev-9-2 cuda-nvgraph-dev-9-2 cuda-nvrtc-dev-9-2
-0 upgraded, 9 newly installed, 0 to remove and 8 not upgraded.
-Need to get 332 MB of archives.
-After this operation, 972 MB of additional disk space will be used.
-Get:1 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cublas-dev-9-2 9.2.148.1-1 [50.4 MB]
-Get:2 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cufft-dev-9-2 9.2.148-1 [106 MB]
-Get:3 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-curand-dev-9-2 9.2.148-1 [57.8 MB]
-Get:4 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusolver-dev-9-2 9.2.148-1 [8,184 kB]
-Get:5 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-cusparse-dev-9-2 9.2.148-1 [27.8 MB]
-Get:6 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvrtc-dev-9-2 9.2.148-1 [9,348 B]
-Get:7 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-nvgraph-dev-9-2 9.2.148-1 [30.1 MB]
-Get:8 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-npp-dev-9-2 9.2.148-1 [52.0 MB]
-Get:9 https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1710/x86_64  cuda-libraries-dev-9-2 9.2.148-1 [2,598 B]
-Fetched 332 MB in 7s (50.0 MB/s)
-Selecting previously unselected package cuda-cublas-dev-9-2.
-(Reading database ... 26397 files and directories currently installed.)
-Preparing to unpack .../0-cuda-cublas-dev-9-2_9.2.148.1-1_amd64.deb ...
-Unpacking cuda-cublas-dev-9-2 (9.2.148.1-1) ...
-Selecting previously unselected package cuda-cufft-dev-9-2.
-Preparing to unpack .../1-cuda-cufft-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cufft-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-curand-dev-9-2.
-Preparing to unpack .../2-cuda-curand-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-curand-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-cusolver-dev-9-2.
-Preparing to unpack .../3-cuda-cusolver-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cusolver-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-cusparse-dev-9-2.
-Preparing to unpack .../4-cuda-cusparse-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-cusparse-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-nvrtc-dev-9-2.
-Preparing to unpack .../5-cuda-nvrtc-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-nvrtc-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-nvgraph-dev-9-2.
-Preparing to unpack .../6-cuda-nvgraph-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-nvgraph-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-npp-dev-9-2.
-Preparing to unpack .../7-cuda-npp-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-npp-dev-9-2 (9.2.148-1) ...
-Selecting previously unselected package cuda-libraries-dev-9-2.
-Preparing to unpack .../8-cuda-libraries-dev-9-2_9.2.148-1_amd64.deb ...
-Unpacking cuda-libraries-dev-9-2 (9.2.148-1) ...
-Setting up cuda-npp-dev-9-2 (9.2.148-1) ...
-Setting up cuda-curand-dev-9-2 (9.2.148-1) ...
-Setting up cuda-nvrtc-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cusolver-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cufft-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cusparse-dev-9-2 (9.2.148-1) ...
-Setting up cuda-cublas-dev-9-2 (9.2.148.1-1) ...
-Setting up cuda-nvgraph-dev-9-2 (9.2.148-1) ...
-Setting up cuda-libraries-dev-9-2 (9.2.148-1) ...
-+ pip install -q cupy-cuda92  chainer
-+ set +ex
-Installation succeeded!
-</pre></div></div>
 </div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンを確認してください．</p>
 <div class="nbinput docutils container">
@@ -483,19 +408,19 @@ print(&#39;matplotlib:&#39;, matplotlib.__version__)
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
-Chainer: 5.1.0
+Chainer: 5.0.0
 NumPy: 1.14.6
 CuPy:
-  CuPy Version          : 5.1.0
+  CuPy Version          : 5.0.0
   CUDA Root             : /usr/local/cuda
   CUDA Build Version    : 9020
   CUDA Driver Version   : 9020
   CUDA Runtime Version  : 9020
-  cuDNN Build Version   : 7301
-  cuDNN Version         : 7301
-  NCCL Build Version    : 2307
+  cuDNN Build Version   : 7201
+  cuDNN Version         : 7201
+  NCCL Build Version    : 2213
 iDeep: 2.0.0.post3
-(&#39;matplotlib:&#39;, &#39;2.1.2&#39;)
+matplotlib: 2.1.2
 </pre></div></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
@@ -520,21 +445,19 @@ iDeep: 2.0.0.post3
 <p>次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome
 Wide Association Study;
 ゲノムワイド関連解析）が行われてきましたが，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．</p>
-<div class="figure" id="id8">
-<img alt="エピゲノム解析概略図(Encode Projectより引用)" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/&#64;&#64;download/attachment/EncodeDatatypes2013-7.png" />
-<p class="caption"><span class="caption-text">エピゲノム解析概略図(Encode Projectより引用)</span></p>
-</div>
-<p>例えば，ChIP-Seq（クロマチン免疫沈降）は，転写調節因子やそのほかのタンパク質が直接の相互作用を起こすDNAの特定部位を分離し，それらをシーケンシングして同定し，どの程度出現していたかを定量化します．これにより，タンパク質のDNA中の結合部位を正確かつ効率的に同定することができます．</p>
-<p>このような技術で抽出された配列を学習データとして利用し，DNA配列のみからそこが結合部位かどうかだけでなく，どの程度，出現していたのかというカバレッジ値を推定します．例えば，修飾ヒストンのChiPの学習データを利用した場合はDNA配列を入力としてそのどこがヒストン修飾サイトであるかを推定できるようになります，様々な種類の実験データを学習データと用いることでDNA配列から，転写因子，クロマチンアクセシビリティ，ヒストン修飾を予測することができるようになり，様々な遺伝子変異に対する有益な洞察を与えてくれます．</p>
-<p>一方で，DNA配列中のどの領域がそのような特徴を持つのかを調べるためには非常に遠距離のDNA配列も必要である場合が多く，これが機械学習による解析を困難としていました．今回紹介する手法はこのような遠距離の関係を捉えるため，10万超の長さのDNA配列を入力として受け取り，128
-bpごとにその領域がどの程度各手法で発現していたのか，カバレッジ値を予測するタスクを考えます．</p>
+<p>例えば，ChiP-Seq（クロマチン免疫沈降シーケンス）は，ChiP（クロマチン免疫沈降）とシーケンスを組み合わせることで転写調節因子やそのほかのタンパク質（以下，DNA関連タンパク質）が直接の相互作用を起こすDNAの特定部位を分離し，それらをシーケンシングして同定し，かつそれぞれの結合の頻度を定量化する手法です．これにより，ゲノム中のどのDNA配列がDNA関連タンパク質との結合に関与していることができ，遺伝子変異だけでは説明しきれない細胞の表現型の解釈が可能になります．</p>
+<p>そこで本節では，ChiP-Seqにより得られたDNA関連タンパク質の結合部位に当たるDNA配列のパターンを深層学習により学習することで，未知のDNA配列に対してDNA関連タンパク質との結合可能性の予測を行います．例えば，DNA関連タンパク質として修飾ヒストンを想定する場合には，これはゲノム中のヒストン修飾部位を予測する問題とみなせます．この手法はその他のDNA関連タンパク質とDNA配列の結合予測にも利用可能なため，転写因子，クロマチンアクセシビリティ，ヒストン修飾などの幅広い生命現象を取り扱うことが可能であり有益な洞察を与えてくれます．</p>
+<p>この課題を機械学習で取り扱う際の技術的な難しさの一つが，DNA配列の長距離相互作用と呼ばれる現象です．これは，核内のDNAは複雑に折り畳まれた様式で存在しており，塩基配列上の並びとしては遠く離れた2つの領域が空間的には近い距離に位置し，DNA関連タンパク質の結合に影響を及ぼすことがあるということです．そこで，この長距離相互作用を考慮した学習を可能する効率的なモデルを構築し，10万bp
+(ベース・ペア：DNAを構成する塩基を数える単位)
+超の長さのDNA配列を入力として受け取り，DNA配列中のある領域がDNA関連タンパク質の結合部位になり得るかを予測することとします.</p>
+<p>今回は，数百種類の人の細胞型から得られた数千のエピジェネティックや転写制御のプロファイルを利用して，DNA配列を入力としてCAGEの結果計測されたmRNAの発現量を推定する問題を考えます[1]．</p>
 </div>
 <div class="section" id="データセット">
 <h2>7.3. データセット<a class="headerlink" href="#データセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ここでは，Basenji[1]で使われた実験データセットの一部を利用します.これらはCAGEなどの配列解析した結果に作られたデータ・セットです．</p>
+<p>ここでは，Basenji[1]で使われた実験データセットの一部を利用します.これらはCAGEなどの配列解析して作られたデータセットです．</p>
 <p>下のセルを実行してデータをダウンロードしてください．</p>
-<p>この配列はそれぞれが長さ131072からなり，128塩基毎に対しそのカバレッジ値が記録されています．このカバレッジ値の配列の長さは131072/128=1024です．</p>
-<p>この問題の目標は長さ131072の配列を入力として受け取った時に，この128塩基毎のカバレッジ値を推定することが目標です．</p>
+<p>この配列はそれぞれが長さ131072bpからなり，128bp毎に対しそのカバレッジ値が記録されています．このカバレッジ値の配列の長さは131072/128=1024です．</p>
+<p>この問題の目標は長さ131072bpの配列を入力として受け取った時に，この128bp毎のカバレッジ値を推定することが目標です．</p>
 <p>今回は10種類の異なる実験のカバレッジ値を同時に予測する問題を扱います．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -543,7 +466,6 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!wget https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
-
 </pre></div>
 </div>
 </div>
@@ -552,27 +474,27 @@ bpごとにその領域がどの程度各手法で発現していたのか，カ
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2018-12-05 13:40:51--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
-Resolving github.com (github.com)... 192.30.253.112, 192.30.253.113
-Connecting to github.com (github.com)|192.30.253.112|:443... connected.
+--2018-12-16 04:41:34--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
+Resolving github.com (github.com)... 192.30.253.113, 192.30.253.112
+Connecting to github.com (github.com)|192.30.253.113|:443... connected.
 HTTP request sent, awaiting response... 302 Found
-Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181205%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181205T134051Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=682297718ad4a994248d2253502dd963b7904bee8c8125900c6ff21136040293&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream [following]
---2018-12-05 13:40:51--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181205%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181205T134051Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=682297718ad4a994248d2253502dd963b7904bee8c8125900c6ff21136040293&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream
-Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.228.232
-Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.228.232|:443... connected.
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181216%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181216T044134Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=df390bc2ed4392cbdd65444198dcec236c19532e06158d89cda5c2fe4e17f5db&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream [following]
+--2018-12-16 04:41:34--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181216%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181216T044134Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=df390bc2ed4392cbdd65444198dcec236c19532e06158d89cda5c2fe4e17f5db&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.137.212
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.137.212|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 594118876 (567M) [application/octet-stream]
 Saving to: ‘seq.h5’
 
-seq.h5              100%[===================&gt;] 566.60M  45.5MB/s    in 13s
+seq.h5              100%[===================&gt;] 566.60M  71.1MB/s    in 8.5s
 
-2018-12-05 13:41:05 (43.0 MB/s) - ‘seq.h5’ saved [594118876/594118876]
+2018-12-16 04:41:43 (66.7 MB/s) - ‘seq.h5’ saved [594118876/594118876]
 
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [ ]:
+<span></span>In [4]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -586,7 +508,7 @@ seq.h5              100%[===================&gt;] 566.60M  45.5MB/s    in 13s
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 total 567M
-drwxr-xr-x 2 root root 4.0K Nov 29 18:21 sample_data
+drwxr-xr-x 1 root root 4.0K Dec 10 17:34 sample_data
 -rw-r--r-- 1 root root 567M Dec  3 06:54 seq.h5
 </pre></div></div>
 </div>
@@ -596,14 +518,14 @@ drwxr-xr-x 2 root root 4.0K Nov 29 18:21 sample_data
 <p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます．</p>
 <p>以下のセルを実行して格納されているデータを確認してください．</p>
 <p>各データの名前にtrain（学習），validate（検証），test（テスト）の接頭辞がつけられ，inが入力の塩基配列，outが出力のカバレッジ値に対応します．</p>
-<p>例えば，’train_in’は学習用の入力データであり(6240, 131072,
-4)というサイズを持ちます．これは長さが130172からなる配列が6240個あり，それぞれA,
+<p>例えば，’train_in’は学習用の入力データであり(5000, 131072,
+4)というサイズを持ちます．これは長さが130172からなる配列が5000個あり，それぞれA,
 T, C, Gの対応する次元の値が1, それ以外は0であるような配列です．</p>
-<p>また,‘train_out’は学習用の出力データであり,（’6240, 1024,
-3’)というサイズを持ちます.これは長さが1024からなる配列が6240個あり,それぞれが3種類の異なるChipSeqの結果のカバレッジ値が格納されています.</p>
+<p>また,‘train_out’は学習用の出力データであり,（’5000, 1024,
+10’)というサイズを持ちます.これは長さが1024からなる配列が5000個あり,それぞれが10種類の異なるChiPSeqの結果のカバレッジ値が格納されています.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [4]:
+<span></span>In [5]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -621,13 +543,13 @@ with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-(u&#39;target_labels&#39;, (10,), dtype(&#39;S29&#39;))
-(u&#39;test_in&#39;, (500, 131072, 4), dtype(&#39;bool&#39;))
-(u&#39;test_out&#39;, (500, 1024, 10), dtype(&#39;&lt;f2&#39;))
-(u&#39;train_in&#39;, (5000, 131072, 4), dtype(&#39;bool&#39;))
-(u&#39;train_out&#39;, (5000, 1024, 10), dtype(&#39;&lt;f2&#39;))
-(u&#39;valid_in&#39;, (500, 131072, 4), dtype(&#39;bool&#39;))
-(u&#39;valid_out&#39;, (500, 1024, 10), dtype(&#39;&lt;f2&#39;))
+target_labels (10,) |S29
+test_in (500, 131072, 4) bool
+test_out (500, 1024, 10) float16
+train_in (5000, 131072, 4) bool
+train_out (5000, 1024, 10) float16
+valid_in (500, 131072, 4) bool
+valid_out (500, 1024, 10) float16
 </pre></div></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_labels&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S29&#39;</span><span class="p">))</span>
@@ -639,12 +561,12 @@ with h5py.File(&#39;seq.h5&#39;, &#39;r&#39;) as hf:
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&lt;f2&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータを一部を表示します．</p>
+<p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは’train_in’というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータの一部を表示します．</p>
 <p>試しに最初のデータを取り出して，それの出力の値を表示してみます．</p>
 <p>下のセルを実行してみてください．最初のデータの出力の三つの値を線グラフで出力します．（ここまでのセルを実行していてください）．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [5]:
+<span></span>In [6]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -665,7 +587,7 @@ with h5py.File(&#39;seq.h5&#39;) as hf:
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_DNA_Sequence_Data_Analysis_15_0.png" src="../_images/notebooks_DNA_Sequence_Data_Analysis_15_0.png" />
+<img alt="../_images/notebooks_DNA_Sequence_Data_Analysis_14_0.png" src="../_images/notebooks_DNA_Sequence_Data_Analysis_14_0.png" />
 </div>
 </div>
 </div>
@@ -678,16 +600,17 @@ with h5py.File(&#39;seq.h5&#39;) as hf:
 <p>一つ目は，配列中の順序情報は捨てて，配列をその特徴の集合とみなすことです．これはBag
 of
 Words（BoW）表現とよびます．このBoW表現は特徴に十分情報が含まれていれば強力な手法ですがDNA配列のような4種類の文字からなる配列やその部分配列だけではその特徴を捉えることは困難です．</p>
-<p>二つ目は配列中の要素を左から右に順に読み込んでいき計算していく手法です．これは4章でも少し触れたRNNを用いて解析します．RNNは各時刻毎に入力を一つずつ読み取り内部状態を更新していきます．RNNの問題点はその計算が逐次的であり計算量が配列長に比例するという点です．現在の計算機は計算を並列化することで高速化を達成していますがRNNは計算を並列化することが困難です．もう一つの問題は遠距離間の関係を捉えることが難しいという点です．RNNはその計算方式から，計算の途中結果を全て固定長の内部状態ベクトルに格納する必要があります．遠距離間の関係を捉えようとすると，多くの情報を覚えておかなければなりませんが状態ベクトルサイズは有限なので，遠距離間の関係を捉えることが困難となっていきます．</p>
-<p>三つ目は配列データを1次元の画像とみなし，画像処理の時と同様にCNNを用いて解析する手法です．CNNはRNNの場合と違って各位置の処理を独立に実行できるため並列に処理することができます．また，後述するDilated
+<p>二つ目は配列中の要素を左から右に順に読み込んでいき計算していく手法です．これは4章でも少し触れたRNNを用いて解析します．RNNは時刻毎に入力を一つずつ読み取り内部状態を更新していきます．RNNの問題点はその計算が逐次的であり計算量が配列長に比例するという点です．現在の計算機は計算を並列化することで高速化を達成していますがRNNは計算を並列化することが困難です．もう一つの問題は遠距離間の関係を捉えることが難しいという点です．RNNはその計算方式から，計算の途中結果を全て固定長の内部状態ベクトルに格納する必要があります．遠距離間の関係を捉えようとすると，多くの情報を覚えておかなければなりませんが状態ベクトルサイズは有限なので，遠距離間の関係を捉えることが困難となっていきます．</p>
+<p>三つ目は配列データを1次元の画像とみなし，画像処理の時と同様にCNNを用いて解析する手法です．CNNはRNNの場合と違って各位置の処理を独立に実行できるため並列に処理することができます．</p>
+<p>今回はこの３つ目の戦略，CNNを用いて解析する手法を採用します．また，Dilated
 Convolutionを使うことで各位置の処理は遠距離にある情報を直接読み取ることができます．次の章でDilated
-Convolutionについてさらに詳しくみていきます．</p>
+Convolutionについて詳しくみていきます．</p>
 </div>
 <div class="section" id="Dilated-Convolution">
 <h3>7.4.2. Dilated Convolution<a class="headerlink" href="#Dilated-Convolution" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>従来の畳み込み層を使って配列解析をする場合を考えてみます．
 以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません．どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され，カーネルサイズがKの時，Dだけ離れた距離にある情報を取得するためにはD/K層必要となります．今回の問題の場合Dは数百から数万，Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません．</p>
-<div class="figure" id="id9">
+<div class="figure" id="id8">
 <img alt="従来の畳み込み層の計算イメージ" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png" />
 <p class="caption"><span class="caption-text">従来の畳み込み層の計算イメージ</span></p>
 </div>
@@ -695,11 +618,10 @@ Convolutionについてさらに詳しくみていきます．</p>
 Audio</a>より引用</p>
 <p>それに対し，Dilated Convolution（atrous convolutionやconvolution weith
 holesともよばれます）は読み取る場所をずらしたところからうけとります．例えばDilation=4の場合，4だけ離れた位置から情報を受け取ります．このDilatedを倍々にしていき，カーネルサイズを2とした場合，Dだけ離れた位置の情報を受取るには
-log_2
-D層だけ必要になります．今回のDが数百から数万の場合，10から20層程度あれば済むことになります．</p>
+<span class="math notranslate nohighlight">\(\log_2 D\)</span>層だけ必要になります．今回のDが数百から数万の場合，10から20層程度あれば済むことになります．</p>
 <p>今回はこのDilated
 Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します．</p>
-<div class="figure" id="id10">
+<div class="figure" id="id9">
 <img alt="Dilated Convolutionの計算イメージ" src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif" />
 <p class="caption"><span class="caption-text">Dilated Convolutionの計算イメージ</span></p>
 </div>
@@ -711,8 +633,9 @@ blog</a>より</p>
 <p>それでは最初に，ネットワークの全体を設計します．
 このネットワークは二つのブロックから構成されます．</p>
 <p>１つ目のブロックは長さが<span class="math notranslate nohighlight">\(2^{17}\)</span>から配列を入力として長さが<span class="math notranslate nohighlight">\(2^{10}\)</span>のベクトルを出力とします．これにより入力の128
-bpが出力の1つの位置に対応するようになります．これを実現しているのが，SqueezeBlockです．</p>
-<p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算していく部分であり，DilatedBlockが担当します．</p>
+(<span class="math notranslate nohighlight">\(=2^{17}/2^{10}\)</span>)bpが出力の1つの位置に対応するようになります．これを実現しているのが，SqueezeBlockです．すなわち，SqueezeBlockは長さ131072bpからなるDNAの塩基配列を入力として受け取り，各フラグメントの長さに相当する128bp毎の情報が一つの値となるような畳込み処理を行います．結果として131072/128=1024の長さのベクトル列が出力されます．このベクトル列はフラグメント毎の特徴が一つのベクトルに圧縮されたものとみなすことができます．</p>
+<p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算していく部分であり，DilatedBlockが担当します．DilatedBlockは，SqueezeBlockから出力された1024の長さのベクトル列を受け取り，Dilated
+Convolutionの仕組みを使うことで互いに離れた位置の情報を効率的に考慮した上で処理していき，入力と同じ1024の長さの出力を返します．この出力が，フラグメント毎に与えられたDNA関連タンパク質の結合可能性を表す数値（カバレッジ値）と一致するように学習を進めます．</p>
 <p>それでは，以下のコードを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
@@ -851,20 +774,25 @@ class DilatedBlock(chainer.Chain):
 </pre></div>
 </div>
 </div>
-<p>WeightNormalizationはパラメータの表現を長さと向きに分解して表現する手法で，今回の系列問題のような場合に使われる正規化法です．コード中ではWeightNormalizationが適用された畳み込み層である<code class="docutils literal notranslate"><span class="pre">WNConvolutionND</span></code>が定義されています.</p>
-<p>SqueezeBlockは配列を縮めていき，長さが<span class="math notranslate nohighlight">\(2^{17}\)</span>の配列を<span class="math notranslate nohighlight">\(2^{10}\)</span>に縮めるためのブロックです．
+<div class="figure" id="id10">
+<img alt="ネットワーク構造" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/7/network.png" />
+<p class="caption"><span class="caption-text">ネットワーク構造</span></p>
+</div>
+<p>WeightNormalization[2]はパラメータの表現を長さと向きに分解して表現する手法で，今回の系列問題のような場合に使われる正規化法です．コード中ではWeightNormalizationが適用された畳み込み層である<code class="docutils literal notranslate"><span class="pre">WNConvolutionND</span></code>が定義されています.</p>
+<p>SqueezeBlockは配列を縮めていき，長さが<span class="math notranslate nohighlight">\(2^{17}\)</span>の配列を<span class="math notranslate nohighlight">\(2^{10}\)</span>に縮めるためのブロックです（上図）．
 1次元配列を扱うためWNConvolutionNDを使い，最初の引数で1次元配列であることを示す<code class="docutils literal notranslate"><span class="pre">1</span></code>を指定しています．
 また，活性化関数では<span class="math notranslate nohighlight">\(h = Wx * sigmoid(Ux)\)</span>と表されるGated
 Linear
-Unitを利用しています．これは，2倍のチャンネル数を持つ出力を計算した後にチャンネルをそれぞれ半分にし<span class="math notranslate nohighlight">\((Wx, Ux)\)</span>片方にsigmoid関数を適用しています．</p>
+Unit[3]を利用しています．計算では効率化のため，WxとUxを別々に計算するのではなく2倍の出力チャンネル数を持つConvolutionを適用した後に出力結果をチャンネル方向に２つに分割し<span class="math notranslate nohighlight">\((Wx, Ux)\)</span>，片方にsigmoid関数を適用した後，それらを要素毎にかけ合わせます．</p>
 <p>DilatedBlockはすでに長さ1024の長さになった配列に対し，Dilated
 Convolutionを使って遠距離にある情報も使って計算していく部分です．引数としてdilatedを受け取ります．Dilated
 Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだが，Convolution2Dも同様）の引数にdilatedを加えるだけで計算できます．</p>
-<p>また，計算の際は入力結果に現在の結果を足しこみます．これはResNetと呼ばれるネットワークで提案された手法です．これにより，学習がしやすくなります．</p>
+<p>また，DilatedBlockではDenseNet[4]と呼ばれる，以前の途中結果が全て次の層の入力として使われる手法を採用します（DilatedBlock内
+forward()内の<code class="docutils literal notranslate"><span class="pre">concat</span></code>がそれに対応）．これはニューラルネットワークで多くのスキップ接続を作ることで，層が増えても勾配が減衰せず，学習がしやすくなることを利用したものです．</p>
 <p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
-<span></span>In [8]:
+<span></span>In [9]:
 </pre></div>
 </div>
 <div class="input_area highlight-none notranslate"><div class="highlight"><pre>
@@ -892,8 +820,9 @@ print(y.shape)
 <p>ここで，もともとバッチサイズ(B)=4, 入力長(L)=131072,
 入力チャンネル数(C)=4だった配列が計算後はB=4, L=1024,
 C=3の配列となりました．</p>
-<p>今回の学習では対数ポアソン損失関数を利用します．これはモデルはポアソン分布の唯一のパラメータである平均を出力し，そのポアソン分布を学習データを使った最尤推定をします．この際，学習対象パラメータ以外は無視しています．
-また，この最適化関数の最小値はそのままだと<span class="math notranslate nohighlight">\(0\)</span>にはならので，最小値である<span class="math notranslate nohighlight">\(t \log t\)</span>をひいておき，損失関数の最小値が<span class="math notranslate nohighlight">\(0\)</span>となるようにします．</p>
+<p>今回予測するカバレッチ値は，フラグメント毎にDNA関連タンパク質がどの程度の頻度で結合したかを表すカウントデータであるとみなせます．そこで学習ではカウントデータに対する損失関数である対数ポアソン損失関数を利用します．</p>
+<p>対数ポアソン損失関数を使う場合，モデルはポアソン分布の唯一のパラメータである平均を予測し，その予測された平均をもったポアソン分布を使った場合の学習データの尤度を計算します．そしてその尤度の最大化，それと同じである負の対数尤度の最小化を行います．プログラム上では，この際，学習対象パラメータ以外は無視しています．
+なお，この関数の最小値はそのままだと<span class="math notranslate nohighlight">\(0\)</span>にはならので，最小値である<span class="math notranslate nohighlight">\(t \log t\)</span>をあらかじめひいておき，損失関数の最小値が<span class="math notranslate nohighlight">\(0\)</span>となるようにします．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -918,8 +847,8 @@ def log_r2_score(log_x, t):
 </pre></div>
 </div>
 </div>
-<p>また，学習率の調整にCosineSchedulerを使います．ニューラルネットワークの学習では，徐々に学習率を小さくしていくと，より汎化性能の高い解を見つけられることがわかっています．焼きなまし法のように最初は学習率を高くして極小解にはまらないようにし，後半は徐々に学習率を0に近づけていき収束させるというものです．
-CosineSchedulerはCosine関数の0度から90度までの変化のように学習率を変化させます．また学習は初期が不安定なので最初にn_warmup回，学習率を0から初期学習率まで線形に増やしていきます．</p>
+<p>また，学習率の調整にCosineSchedulerを使います．ニューラルネットワークの学習では，徐々に学習率を小さくしていくと，より汎化性能の高い解を見つけられることがわかっています．ニューラルネットワークの学習の目的関数は多くの性能の悪い局所解があるため，最初は学習率を高くして局所解にはまらないようにして全体の中での良い解を探し，後半は徐々に学習率を0に近づけていき収束させるというものです．
+CosineSchedulerはCosine関数の0度から90度までの変化のように学習率を変化させます．また学習は初期が不安定なので最初のn_warmup回，学習率を0から初期学習率まで線形に増やすことも一般的です．今回は学習率が低めで学習も安定しているのでn_warmupは0としてあります．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -965,7 +894,7 @@ class CosineScheduler(training.Extension):
 </div>
 <p>最後に学習中に訓練データに意味を変えない変化を加えるData
 Augmentationを適用します．これは画像において回転させたり，平行移動させたりする場合と同じです．
-まず，入力配列を反転させたものを入力としても出力を反転させたものと一致するはずなので0.5の確率で入力と出力を同時に反転させます．また，今回は128bp毎にカバレッジ値を予測していますが，数塩基（例えば4~8など）移動したとしてもカバレッジ値は同じ程度になることが規定されます．そこで最大max_shift分だけ配列を前後にシフトします（完全にランダムな塩基配列を余った部分に入れると実際の塩基配列の分布と変わる可能性があるのでここではroll()関数を巡回シフトしています）．</p>
+今回は128bp毎にカバレッジ値を予測していますが，数塩基（例えば4~8など）移動したとしてもカバレッジ値は同じ程度になることが規定されます．そこで最大max_shift分だけ配列を前後にシフトします（完全にランダムな塩基配列を余った部分に入れると実際の塩基配列の分布と変わる可能性があるのでここではroll()関数を巡回シフトしています）．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
@@ -1080,55 +1009,55 @@ trainer.run()
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   validation/main/loss  elapsed_time
-0           2.09475                           67.376
-0           1.83986                           117.536
-0           1.89423                           167.924
-0           1.81473                           217.551
-1           1.85181     1.85538               277.913
-1           1.79594                           328.016
-1           1.75834                           378.054
-1           1.75767                           427.627
-1           1.72855                           478.089
-2           1.73131     1.73589               538.179
-2           1.70612                           587.781
-2           1.71587                           638.244
-2           1.65469                           688.26
-2           1.70864                           738.252
-3           1.62061     1.72332               798.245
-3           1.67583                           848.08
-3           1.64706                           898.58
-3           1.68464                           948.667
-3           1.64478                           998.855
-4           1.62203     1.69327               1058.92
-4           1.61279                           1109.06
-4           1.65285                           1158.67
-4           1.61581                           1209.11
-4           1.63106                           1259.33
-5           1.57932     1.6559                1319.33
-5           1.64708                           1369.34
-5           1.59305                           1418.89
-5           1.6324                            1469.35
-5           1.57734                           1519.27
-6           1.57082     1.63748               1579.2
-6           1.57364                           1629.27
-6           1.56504                           1678.91
-6           1.59908                           1729.31
-6           1.5736                            1779.31
-7           1.58521     1.62563               1839.25
-7           1.54763                           1889.26
-7           1.59983                           1939.32
-7           1.55214                           1989.29
-7           1.58855                           2039.31
-8           1.58165     1.62321               2099.19
-8           1.57746                           2149.05
-8           1.51869                           2199.07
-8           1.54404                           2249.08
-8           1.56723                           2298.59
-9           1.59699     1.61174               2359.01
-9           1.55694                           2409.1
-9           1.54513                           2459.19
-9           1.51078                           2509.35
-9           1.5535                            2559.16
+0           2.48903                           67.7519
+0           1.84639                           117.127
+0           1.89686                           166.72
+0           1.81704                           215.449
+1           1.85827     1.85512               274.106
+1           1.81286                           323.281
+1           1.74802                           372.488
+1           1.80567                           421.261
+1           1.7467                            470.755
+2           1.70371     1.78047               528.83
+2           1.77928                           577.477
+2           1.67051                           626.814
+2           1.6415                            675.927
+2           1.67238                           725.017
+3           1.69656     1.70897               782.987
+3           1.63935                           831.673
+3           1.64996                           881.092
+3           1.63925                           930.107
+3           1.71683                           979.111
+4           1.63116     1.71748               1036.98
+4           1.64786                           1085.9
+4           1.6442                            1134.54
+4           1.57821                           1183.92
+4           1.62886                           1232.91
+5           1.61523     1.66392               1290.8
+5           1.65216                           1339.78
+5           1.61142                           1388.37
+5           1.61483                           1437.71
+5           1.57835                           1486.61
+6           1.56529     1.63406               1544.53
+6           1.59062                           1593.49
+6           1.61102                           1642.09
+6           1.60003                           1691.49
+6           1.57222                           1740.46
+7           1.55098     1.62176               1798.31
+7           1.54207                           1847.28
+7           1.5653                            1895.92
+7           1.57523                           1944.68
+7           1.61043                           1993.73
+8           1.57391     1.62377               2051.65
+8           1.51835                           2100.61
+8           1.58225                           2149.57
+8           1.59289                           2198.5
+8           1.56643                           2247.32
+9           1.55151     1.62115               2305.72
+9           1.53593                           2354.7
+9           1.57812                           2403.76
+9           1.54277                           2452.85
+9           1.55514                           2501.51
 </pre></div></div>
 </div>
 <p>学習が成功したならば，ディレクトリのout以下に学習されたモデルが出力されているはずです．実際にモデルが出力されているのかを確認しましょう．</p>
@@ -1148,17 +1077,17 @@ epoch       main/loss   validation/main/loss  elapsed_time
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 total 14172
--rw-r--r-- 1 root root   10463 Dec  5 14:26 log
--rw-r--r-- 1 root root 1446319 Dec  5 13:48 model_epoch_1
--rw-r--r-- 1 root root 1447573 Dec  5 14:27 model_epoch_10
--rw-r--r-- 1 root root 1446569 Dec  5 13:52 model_epoch_2
--rw-r--r-- 1 root root 1446831 Dec  5 13:56 model_epoch_3
--rw-r--r-- 1 root root 1447090 Dec  5 14:01 model_epoch_4
--rw-r--r-- 1 root root 1447341 Dec  5 14:05 model_epoch_5
--rw-r--r-- 1 root root 1447398 Dec  5 14:09 model_epoch_6
--rw-r--r-- 1 root root 1447855 Dec  5 14:14 model_epoch_7
--rw-r--r-- 1 root root 1447819 Dec  5 14:18 model_epoch_8
--rw-r--r-- 1 root root 1447746 Dec  5 14:22 model_epoch_9
+-rw-r--r-- 1 root root   10080 Dec 16 05:24 log
+-rw-r--r-- 1 root root 1445890 Dec 16 04:47 model_epoch_1
+-rw-r--r-- 1 root root 1447626 Dec 16 05:25 model_epoch_10
+-rw-r--r-- 1 root root 1446428 Dec 16 04:51 model_epoch_2
+-rw-r--r-- 1 root root 1446742 Dec 16 04:55 model_epoch_3
+-rw-r--r-- 1 root root 1447061 Dec 16 04:59 model_epoch_4
+-rw-r--r-- 1 root root 1447268 Dec 16 05:04 model_epoch_5
+-rw-r--r-- 1 root root 1447473 Dec 16 05:08 model_epoch_6
+-rw-r--r-- 1 root root 1447585 Dec 16 05:12 model_epoch_7
+-rw-r--r-- 1 root root 1447649 Dec 16 05:16 model_epoch_8
+-rw-r--r-- 1 root root 1447650 Dec 16 05:21 model_epoch_9
 </pre></div></div>
 </div>
 <p>次に，学習したモデルを用いてテストデータに対しても予測してみます．次のようにして学習が終わったモデルを読み込み，テストデータに対してモデルを適用してみましょう．</p>
@@ -1199,11 +1128,11 @@ print(test_y_estimated[0,:,0])
 <div class="highlight"><pre>
 500
 (1, 1024, 10)
-variable([1.8609519  1.5452818  1.5602845  ... 1.0467381  0.81922424
-          0.8216049 ])
+variable([1.8674504  2.004048   1.68377    ... 0.81418294 0.7608197
+          0.8720923 ])
 </pre></div></div>
 </div>
-<p>結果を抜粋して表示してみましょう．ここでは3つ目（i=2）の出力について正解と推定結果を出力しています．今回の場合でも，学習データを絞り（クラス数を10とした），学習回数も少ないですが，ピークをか捉えられていることがわかると思います．</p>
+<p>結果を抜粋して表示してみましょう．ここでは1つ目（i=0）の出力について正解と推定結果を出力しています．今回の場合でも，学習データを絞り（クラス数を10とした），学習回数も少ないですが，ピークをか捉えられていることがわかると思います．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [16]:
@@ -1228,7 +1157,7 @@ plt.legend((b1, b2), (&#39;estimated&#39;, &#39;observed&#39;))
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>&lt;matplotlib.legend.Legend at 0x7f4fe18dbb10&gt;
+<span></span>&lt;matplotlib.legend.Legend at 0x7f037ea9f6d8&gt;
 </pre></div>
 </div>
 </div>
@@ -1239,10 +1168,19 @@ plt.legend((b1, b2), (&#39;estimated&#39;, &#39;observed&#39;))
 <img alt="../_images/notebooks_DNA_Sequence_Data_Analysis_44_1.png" src="../_images/notebooks_DNA_Sequence_Data_Analysis_44_1.png" />
 </div>
 </div>
-<p>時間に余裕があれば学習のn_epochsを60から200程度に増やしたり，総数を増やしたり，チャンネル数を増やしたり，学習データ数（ratio=20をratio=5などにして）に増やしたりして，より高精度なモデルが学習できるのかを調べてみましょう．</p>
-<p>[1] “Sequential regulatory activity prediction across chromosomes with
-convolutional neural networks”, D. R. Kelly and et al., Genome Res.
-2018. 28: 739-750</p>
+<p>時間に余裕があれば学習のn_epochsを10から30~50程度に増やしたり，層数を増やしたり，チャンネル数を増やしたりして，より高精度なモデルが学習できるのかを調べてみましょう．</p>
+<ul class="simple">
+<li>[1] “Sequential regulatory activity prediction across chromosomes
+with convolutional neural networks”, D. R. Kelly and et al., Genome
+Res. 2018. 28: 739-750</li>
+<li>[2] “Weight Normalization: A Simple Reparameterization to Accelerate
+Training of Deep Neural Networks”, T. Salimans and et al.,
+arXiv:1602.07868</li>
+<li>[3] “Language Modeling with Gated Convolutional Networks”, Y. N.
+Dauphin and et al., arXiv:1612.08083</li>
+<li>[4] 」 Densely Connected Convolutional Networks」, G. Huang, and et
+al., CVPR 2017</li>
+</ul>
 </div>
 </div>
 </div>
