@@ -75,7 +75,7 @@ Pythonについては変数（数値・文字列，リスト，タプル，辞�
 
 問い合わせ先
 ^^^^^^^^^^^^^^
-本資料についての質問、不具合の報告などについては以下の `フォーラム <https://github.com/japan-medical-ai/medical-ai-course-materials>`_ で受け付けています．
+本資料についての質問、不具合の報告などについては以下の `フォーラム <https://groups.google.com/forum/#!forum/japan-medical-ai>`_ で受け付けています．
 
 
 索引と検索
