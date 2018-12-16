@@ -159,7 +159,7 @@
         "\n",
         "次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome Wide Association Study; ゲノムワイド関連解析）が行われてきましたが，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．\n",
         "\n",
-        "![エピゲノム解析概略図(Encode Project https://www.encodeproject.org/ より引用)](https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/@@download/attachment/EncodeDatatypes2013-7.png)\n",
+        "![エピゲノム解析概略図（Encode Projectより引用）](https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png)\n",
         "\n",
         "例えば，ChiP-Seq（クロマチン免疫沈降シーケンス）は，ChiP（クロマチン免疫沈降）とシーケンスを組み合わせることで転写調節因子やそのほかのタンパク質（以下，DNA関連タンパク質）が直接の相互作用を起こすDNAの特定部位を分離し，それらをシーケンシングして同定し，かつそれぞれの結合の頻度を定量化する手法です．これにより，ゲノム中のどのDNA配列がDNA関連タンパク質との結合に関与していることができ，遺伝子変異だけでは説明しきれない細胞の表現型の解釈が可能になります．\n",
         "\n",
