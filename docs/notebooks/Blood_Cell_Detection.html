@@ -387,9 +387,9 @@ detection）</strong>と呼ばれます．画像を入力として，対象の�
 <p>を推定することを目的とします．
 ただし，<strong>画像中にいくつの物体が含まれるかは事前に分からない</strong>ため，任意個（または十分な数）の物体の<strong>Bounding
 boxとクラスラベルの予測値の組</strong>を出力できるような手法である必要があります．</p>
-<p>Bounding box（以下bbox）は，[<code class="docutils literal"><span class="pre">矩形の左上のy座標</span></code>,
-<code class="docutils literal"><span class="pre">矩形の左上のx座標</span></code>, <code class="docutils literal"><span class="pre">矩形の右下のy座標</span></code>,
-<code class="docutils literal"><span class="pre">矩形の右下のx座標</span></code>]のような形式で定義されることが多く，クラスは物体の種類ごとに割り振られたID（以下クラスラベル）で表されることが多いようです．例えば，RBCは0，WBCは1，Plateletは2といったように，対象とする物体に1対1対応した非負整数が割り当てられるのが一般的です．</p>
+<p>Bounding box（以下bbox）は，[<code class="docutils literal notranslate"><span class="pre">矩形の左上のy座標</span></code>,
+<code class="docutils literal notranslate"><span class="pre">矩形の左上のx座標</span></code>, <code class="docutils literal notranslate"><span class="pre">矩形の右下のy座標</span></code>,
+<code class="docutils literal notranslate"><span class="pre">矩形の右下のx座標</span></code>]のような形式で定義されることが多く，クラスは物体の種類ごとに割り振られたID（以下クラスラベル）で表されることが多いようです．例えば，RBCは0，WBCは1，Plateletは2といったように，対象とする物体に1対1対応した非負整数が割り当てられるのが一般的です．</p>
 <p>以下に，今回この資料で用いる<strong>細胞画像のデータセット</strong>から１例を取り出し，その画像の上に正解として与えられているbboxと，それに対応するクラスの名前を可視化したものを示します．</p>
 <p>赤い長方形がbboxと呼ばれるものです．対象となる血液細胞を一つ一つ，別々の長方形が囲っていることがわかります．この長方形の上辺に重なるように白いラベルが表示されています．それがその矩形の内部にある物体の種類（クラス）を表しています．</p>
 <div class="figure" id="id11">
@@ -402,11 +402,11 @@ boxとクラスラベルの予測値の組</strong>を出力できるような�
 matplotlibといったPythonパッケージのインストールを済ませましょう．
 これらのステップは前回までと同様です．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!curl https://colab.chainer.org/install | sh -  # ChainerとCuPyのインストール
 !pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール
 </pre></div>
@@ -414,11 +414,11 @@ matplotlibといったPythonパッケージのインストールを済ませま�
 </div>
 <p>それでは，先程のセルの実行によって環境のセットアップが成功したことを以下のセルを実行して確認しましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [2]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import chainer
 
 chainer.print_runtime_info()
@@ -477,11 +477,11 @@ boxの座標情報が格納されています．一つの画像中に複数の�
 <p>BCCD
 Datasetは広く物体検出の研究に用いられているようなベンチマークデータセットに比べると非常に小規模であり，Github上で配布されています．以下のセルを実行してまずはデータセットをダウンロードしてみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [3]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!if [ ! -d BCCD_Dataset ]; then git clone https://github.com/Shenggan/BCCD_Dataset.git; fi
 </pre></div>
 </div>
@@ -498,8 +498,8 @@ Receiving objects: 100% (770/770), 7.33 MiB | 9.58 MiB/s, done.
 Resolving deltas: 100% (367/367), done.
 </pre></div></div>
 </div>
-<p>ダウンロードが完了したら，<code class="docutils literal"><span class="pre">BCCD_Dataset</span></code>ディレクトリ以下のファイル構成を見てみましょう．このデータセットは，以下のようなファイル構成で配布されています．</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>BCCD
+<p>ダウンロードが完了したら，<code class="docutils literal notranslate"><span class="pre">BCCD_Dataset</span></code>ディレクトリ以下のファイル構成を見てみましょう．このデータセットは，以下のようなファイル構成で配布されています．</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>BCCD
 |-- Annotations
 |   |
 |   `-- BloodImage_00XYZ.xml (364 items)
@@ -524,25 +524,25 @@ VOCデータセットを容易に扱えるようにするクラスをほとん�
 <ul class="simple">
 <li><strong>Annotationsディレクトリ：</strong>Pascal
 VOCデータセットと同様の形式で細胞画像それぞれに対して<strong>どの位置に何があるか</strong>という正解情報が格納されています．正解情報はXMLファイルとして格納されており，画像ファイルとの対応がわかりやすいように拡張子を除いて同一のファイル名で保存されています．</li>
-<li><strong>ImageSetsディレクトリ：</strong>学習用データセット（train）・検証用データセット（val）・テスト用データセット（test）のそれぞれに用いる画像のリストが記されたテキストファイルが入っています．これらのリストに従って，データセットを三分割し，それぞれ<code class="docutils literal"><span class="pre">train.txt</span></code>にリストアップされた画像を学習に，<code class="docutils literal"><span class="pre">val.txt</span></code>にリストアップされた画像を検証（学習中に汎化性能を大雑把に調べるために使うデータセットスプリット）に，<code class="docutils literal"><span class="pre">test.txt</span></code>にリストアップされた画像を学習終了後の最終的な性能評価に用います．</li>
+<li><strong>ImageSetsディレクトリ：</strong>学習用データセット（train）・検証用データセット（val）・テスト用データセット（test）のそれぞれに用いる画像のリストが記されたテキストファイルが入っています．これらのリストに従って，データセットを三分割し，それぞれ<code class="docutils literal notranslate"><span class="pre">train.txt</span></code>にリストアップされた画像を学習に，<code class="docutils literal notranslate"><span class="pre">val.txt</span></code>にリストアップされた画像を検証（学習中に汎化性能を大雑把に調べるために使うデータセットスプリット）に，<code class="docutils literal notranslate"><span class="pre">test.txt</span></code>にリストアップされた画像を学習終了後の最終的な性能評価に用います．</li>
 <li><strong>JPEGImagesディレクトリ：</strong>このデータセットに含まれるすべての画像データが入っています．</li>
 </ul>
 </div>
 <div class="section" id="データセットオブジェクト作成">
 <h3>6.3.2. データセットオブジェクト作成<a class="headerlink" href="#データセットオブジェクト作成" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ChainerCVにはPascal
-VOCデータセットを簡単に読み込むための便利なクラスが用意されています．これを継承し，<code class="docutils literal"><span class="pre">_get_annotations</span></code>メソッドをオーバーライドして，今回使用するデータセットを読み込み可能にします．変更が必要な行は１行だけです．<a class="reference external" href="https://github.com/chainer/chainercv/blob/v0.10.0/chainercv/datasets/voc/voc_bbox_dataset.py#L90-L115">こちら</a>から該当するコード（<code class="docutils literal"><span class="pre">_get_annotations</span></code>メソッドの部分）をコピーしてきて，以下の変更を行い，<code class="docutils literal"><span class="pre">VOCBboxDataset</span></code>を継承する<code class="docutils literal"><span class="pre">BCCDDataset</span></code>クラスのメソッドとして追加してみましょう．
+VOCデータセットを簡単に読み込むための便利なクラスが用意されています．これを継承し，<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッドをオーバーライドして，今回使用するデータセットを読み込み可能にします．変更が必要な行は１行だけです．<a class="reference external" href="https://github.com/chainer/chainercv/blob/v0.10.0/chainercv/datasets/voc/voc_bbox_dataset.py#L90-L115">こちら</a>から該当するコード（<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッドの部分）をコピーしてきて，以下の変更を行い，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>を継承する<code class="docutils literal notranslate"><span class="pre">BCCDDataset</span></code>クラスのメソッドとして追加してみましょう．
 （以下はdiff形式とよばれ-でははじまる行を削除し，+で始まる行を追加するという意味です）</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">voc_utils</span><span class="o">.</span><span class="n">voc_bbox_label_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">voc_utils</span><span class="o">.</span><span class="n">voc_bbox_label_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 <span class="o">+</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bccd_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import os
 import xml.etree.ElementTree as ET
 
@@ -592,11 +592,11 @@ class BCCDDataset(VOCBboxDataset):
 </div>
 <p>さて，これで学習や検証，テストなどにデータセットを用いるためのデータ読み込み等を行うクラスを準備することができました．さっそくこのクラスを用いて学習・検証・テスト用のデータセットオブジェクトを作成してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [5]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>train_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;train&#39;)
 valid_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;val&#39;)
 test_dataset = BCCDDataset(&#39;BCCD_Dataset/BCCD&#39;, &#39;test&#39;)
@@ -617,11 +617,11 @@ VOCデータセットだけに特化して作られたクラスをBCCD
 Datasetに使っているため出ているものです．</p>
 <p>さて，3つのデータセットオブジェクトを作成することができました．それぞれの大きさ（いくつのデータが含まれているか）を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [6]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(&#39;Number of images in &quot;train&quot; dataset:&#39;, len(train_dataset))
 print(&#39;Number of images in &quot;valid&quot; dataset:&#39;, len(valid_dataset))
 print(&#39;Number of images in &quot;test&quot; dataset:&#39;, len(test_dataset))
@@ -638,18 +638,18 @@ Number of images in &#34;valid&#34; dataset: 87
 Number of images in &#34;test&#34; dataset: 72
 </pre></div></div>
 </div>
-<p>では，<code class="docutils literal"><span class="pre">train_dataset</span></code>の１つ目のデータにアクセスしてみましょう．</p>
+<p>では，<code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>の１つ目のデータにアクセスしてみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>first_datum = train_dataset[0]
 </pre></div>
 </div>
 </div>
-<p>さて，<code class="docutils literal"><span class="pre">train_dataset</span></code>は<code class="docutils literal"><span class="pre">VOCBboxDataset</span></code>を継承した<code class="docutils literal"><span class="pre">BCCDDataset</span></code>クラスのオブジェクトでした．そのため，上でオーバーライドした<code class="docutils literal"><span class="pre">_get_annotations</span></code>メソッド以外は，<code class="docutils literal"><span class="pre">VOCBboxDataset</span></code>クラスが提供する機能を継承しているはずです．どのような機能が提供されているのか，<code class="docutils literal"><span class="pre">VOCBboxDataset</span></code>クラスのドキュメントを見て確認してみましょう：<a class="reference external" href="https://chainercv.readthedocs.io/en/stable/reference/datasets.html?highlight=VOCBboxDataset#vocbboxdataset">VOCBboxDataset</a></p>
+<p>さて，<code class="docutils literal notranslate"><span class="pre">train_dataset</span></code>は<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>を継承した<code class="docutils literal notranslate"><span class="pre">BCCDDataset</span></code>クラスのオブジェクトでした．そのため，上でオーバーライドした<code class="docutils literal notranslate"><span class="pre">_get_annotations</span></code>メソッド以外は，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>クラスが提供する機能を継承しているはずです．どのような機能が提供されているのか，<code class="docutils literal notranslate"><span class="pre">VOCBboxDataset</span></code>クラスのドキュメントを見て確認してみましょう：<a class="reference external" href="https://chainercv.readthedocs.io/en/stable/reference/datasets.html?highlight=VOCBboxDataset#vocbboxdataset">VOCBboxDataset</a></p>
 <p>以下のような表が記載されています．このデータセットは，それぞれの要素に以下のようなものを持つリストのようになっています．</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -690,37 +690,37 @@ Number of images in &#34;test&#34; dataset: 72
 </table>
 <ul class="simple">
 <li>#fg_classはforeground（前景）のクラス数</li>
-<li>difficultは <code class="docutils literal"><span class="pre">return_difficult</span> <span class="pre">=</span> <span class="pre">True</span></code> のときのみ有効</li>
+<li>difficultは <code class="docutils literal notranslate"><span class="pre">return_difficult</span> <span class="pre">=</span> <span class="pre">True</span></code> のときのみ有効</li>
 </ul>
-<p>ただし，今回データセットオブジェクトを作成する際に<code class="docutils literal"><span class="pre">return_difficult</span></code>オプションを明示的に<code class="docutils literal"><span class="pre">True</span></code>と指定していないので，デフォルト値の<code class="docutils literal"><span class="pre">False</span></code>が使われています．そのため上の表の最後の行にある<code class="docutils literal"><span class="pre">difficult</span></code>という要素は返ってきません．</p>
-<p>今回作成した3つのデータセットオブジェクトはすべて，それぞれの要素が<code class="docutils literal"><span class="pre">(画像データ,</span> <span class="pre">正解のbboxリスト,</span> <span class="pre">各bboxごとのクラス)</span></code>という３つの配列となっています．</p>
+<p>ただし，今回データセットオブジェクトを作成する際に<code class="docutils literal notranslate"><span class="pre">return_difficult</span></code>オプションを明示的に<code class="docutils literal notranslate"><span class="pre">True</span></code>と指定していないので，デフォルト値の<code class="docutils literal notranslate"><span class="pre">False</span></code>が使われています．そのため上の表の最後の行にある<code class="docutils literal notranslate"><span class="pre">difficult</span></code>という要素は返ってきません．</p>
+<p>今回作成した3つのデータセットオブジェクトはすべて，それぞれの要素が<code class="docutils literal notranslate"><span class="pre">(画像データ,</span> <span class="pre">正解のbboxリスト,</span> <span class="pre">各bboxごとのクラス)</span></code>という３つの配列となっています．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [8]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>len(first_datum)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>Out[8]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>3
 </pre></div>
 </div>
 </div>
 <p>確かに，要素数は3でした．では，画像データを取り出して，そのshapeとdtypeを見てみます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [9]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(first_datum[0].shape, first_datum[0].dtype)
 </pre></div>
 </div>
@@ -733,13 +733,13 @@ Number of images in &#34;test&#34; dataset: 72
 (3, 480, 640) float32
 </pre></div></div>
 </div>
-<p>確かに，<code class="docutils literal"><span class="pre">(3=チャンネル数,</span> <span class="pre">H=高さ,</span> <span class="pre">W=幅)</span></code>という形になっており，またデータ型は<code class="docutils literal"><span class="pre">float32</span></code>になっています．上の表にあったとおりでした．ではbboxはどのような形式になっているのでしょうか．中身と，そのshapeを表示して見てみます．</p>
+<p>確かに，<code class="docutils literal notranslate"><span class="pre">(3=チャンネル数,</span> <span class="pre">H=高さ,</span> <span class="pre">W=幅)</span></code>という形になっており，またデータ型は<code class="docutils literal notranslate"><span class="pre">float32</span></code>になっています．上の表にあったとおりでした．ではbboxはどのような形式になっているのでしょうか．中身と，そのshapeを表示して見てみます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [10]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(first_datum[1])
 print(first_datum[1].shape)
 </pre></div>
@@ -772,14 +772,14 @@ print(first_datum[1].shape)
 (19, 4)
 </pre></div></div>
 </div>
-<p>19個のbboxの情報が並んでおり，ひとつひとつは<code class="docutils literal"><span class="pre">(y_min,</span> <span class="pre">x_min,</span> <span class="pre">y_max,</span> <span class="pre">x_max)</span></code>という4つの数字で表されています．この4つの数字はbboxの左上と右下の画像座標値（画像平面上の位置）を表しています．</p>
+<p>19個のbboxの情報が並んでおり，ひとつひとつは<code class="docutils literal notranslate"><span class="pre">(y_min,</span> <span class="pre">x_min,</span> <span class="pre">y_max,</span> <span class="pre">x_max)</span></code>という4つの数字で表されています．この4つの数字はbboxの左上と右下の画像座標値（画像平面上の位置）を表しています．</p>
 <p>画像内に登場している物体のそれぞれについて，この4つの数字を出力するというのが物体検出の一つの目的となります．ただし，それだけでなく，それぞれのbboxがどのクラスに属しているか（そのbboxの内部にある物体の種類）も出力する必要があります．これについての正解情報が，最後の要素に入っています．これを表示してみます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [11]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(first_datum[2])
 print(first_datum[2].shape)
 </pre></div>
@@ -794,17 +794,17 @@ print(first_datum[2].shape)
 (19,)
 </pre></div></div>
 </div>
-<p>19個の数字が入っていました．これはそれぞれ，上で表示してみたbbox（<code class="docutils literal"><span class="pre">first_datum[1]</span></code>）に順番に対応しており，それぞれのbboxがどのクラスに属する物体か（0:
+<p>19個の数字が入っていました．これはそれぞれ，上で表示してみたbbox（<code class="docutils literal notranslate"><span class="pre">first_datum[1]</span></code>）に順番に対応しており，それぞれのbboxがどのクラスに属する物体か（0:
 RBC, 1: WBC, 2: Platelet）を表しています．</p>
 <p>ではこの節の最後に，これら3つの要素で一括りとされているデータセット中の1つのデータを，可視化して確認してみます．
 trainデータセットから取り出した画像一つと，それに対応するbbox，それぞれのクラスラベルを取り出し，ChainerCVが用意している可視化用の便利な関数を使って，画像を表示した上でそこにbounding
 boxと対応するクラスの名前を重ねて表示してみます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [12]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>%matplotlib inline
 from chainercv.visualizations import vis_bbox
 
@@ -859,29 +859,29 @@ detectors</a>）より，以下の図がしばしば参照されます．</p>
 </div>
 <div class="section" id="モデルの定義">
 <h2>6.5. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>SSDのネットワーク部分の実装は，ChainerCVが提供してくれています．ChainerCVの<code class="docutils literal"><span class="pre">chainercv.links.SSD300</span></code>
+<p>SSDのネットワーク部分の実装は，ChainerCVが提供してくれています．ChainerCVの<code class="docutils literal notranslate"><span class="pre">chainercv.links.SSD300</span></code>
 というクラスは，縦横が300ピクセルの画像を入力にとるSSDのモデルを表していて，デフォルトで特徴抽出器には<a class="reference external" href="https://arxiv.org/abs/1409.1556">VGG16</a>という16層のネットワーク構造が用いられます．</p>
 <p>学習に必要なロス関数を計算するクラスを用意しましょう．</p>
 <p>以下に定義するクラスは，まずSSDモデルのオブジェクトと，ロス計算のためのハイパーパラメータである
-<code class="docutils literal"><span class="pre">alpha</span></code> と <code class="docutils literal"><span class="pre">k</span></code> をコンストラクタで受け取っています．<code class="docutils literal"><span class="pre">alpha</span></code>
-は，位置の予測に対する誤差とクラスの予測に対する誤差それぞれの間の重み付けを行う係数です．<code class="docutils literal"><span class="pre">k</span></code>
+<code class="docutils literal notranslate"><span class="pre">alpha</span></code> と <code class="docutils literal notranslate"><span class="pre">k</span></code> をコンストラクタで受け取っています．<code class="docutils literal notranslate"><span class="pre">alpha</span></code>
+は，位置の予測に対する誤差とクラスの予測に対する誤差それぞれの間の重み付けを行う係数です．<code class="docutils literal notranslate"><span class="pre">k</span></code>
 は hard negative mining
 のためのパラメータです．学習時，一つの正解bounding
 boxに対して，モデルは最低一つの近しい（positiveな）予測と，多くの間違った（negativeな）予測を出力します．この多くの間違った予測をconfidence
 score（モデルがどの程度確信を持ってその予測を出力しているかを表す値）によってソートした上で，上から
 positive : negative が 1:k になるように negative
 サンプルを選択し，ロスの計算に使用します．このバランスを決めているのが
-<code class="docutils literal"><span class="pre">k</span></code> というパラメータで，上記論文中では <span class="math">\(k = 3\)</span>
+<code class="docutils literal notranslate"><span class="pre">k</span></code> というパラメータで，上記論文中では <span class="math notranslate nohighlight">\(k = 3\)</span>
 とされているため，ここでもデフォルトで3を使っています．</p>
-<p><code class="docutils literal"><span class="pre">forward</span></code>
+<p><code class="docutils literal notranslate"><span class="pre">forward</span></code>
 メソッドでは，入力画像と正解の位置・ラベルのリストを受け取って，実際にロスの計算を行っています．物体検出は，物体のlocalization（位置の予測）とclassification（種類（＝クラス）の予測）の二つの問題を同時に解きますが，SSDでは，localization
 lossとclassification lossを別々に計算します．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [13]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import chainer
 from chainercv.links import SSD300
 from chainercv.links.model.ssd import multibox_loss
@@ -940,14 +940,14 @@ Models</a></p>
 <h2>6.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．<strong>データを擬似的に増やすようにデータの意味を変えずに様々な変換を画像とそれに付随するラベルに適用するテクニック（data
 augmentation）</strong>は，学習用データを水増しできる手法です．</p>
-<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり，水平方向に反転させたり，拡大，縮小したりします．それらの際には正解ラベルも適切に変換する必要があることに注意してください．例えば、水平方向に反転させる場合は，正解ラベルも水平方向に反転させたものを正解とします．また，画像の一部分をマスクし、隠すこと有効な手法です．これにより認識の際，一つの情報だけに依存せず様々な情報に基づいて認識できるようになります．</p>
+<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal notranslate"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり，水平方向に反転させたり，拡大，縮小したりします．それらの際には正解ラベルも適切に変換する必要があることに注意してください．例えば、水平方向に反転させる場合は，正解ラベルも水平方向に反転させたものを正解とします．また，画像の一部分をマスクし、隠すこと有効な手法です．これにより認識の際，一つの情報だけに依存せず様々な情報に基づいて認識できるようになります．</p>
 <p>以下のセルを実行しましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import copy
 
 import numpy as np
@@ -1018,15 +1018,15 @@ class Transform(object):
 </div>
 <div class="section" id="学習の開始">
 <h2>6.7. 学習の開始<a class="headerlink" href="#学習の開始" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>以下では，Chainerが用意するデータセットクラスの一つ，<code class="docutils literal"><span class="pre">TransformDataset</span></code>を使って，直前に定義した変換<code class="docutils literal"><span class="pre">Transform</span></code>をデータ毎に適用するようにします．</p>
+<p>以下では，Chainerが用意するデータセットクラスの一つ，<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>を使って，直前に定義した変換<code class="docutils literal notranslate"><span class="pre">Transform</span></code>をデータ毎に適用するようにします．</p>
 <p>基本的な流れはすでに学んだ画像分類やセグメンテーションなどを行うネットワークの訓練の仕方と多くが共通しているため，詳しい説明はここでは割愛します．</p>
 <p>まずは必要なモジュール類をインポートしておきます．ここではChainerCVが提供しているSSD300を学習するニューラルネットワークに採用し，その実装を利用することにします．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from chainer.datasets import TransformDataset
 from chainer.optimizer_hooks import WeightDecay
 from chainer import serializers
@@ -1050,11 +1050,11 @@ chainer.config.autotune = True
 <li>学習を行うエポック数</li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>batchsize = 32
 gpu_id = 0
 out = &#39;results&#39;
@@ -1066,13 +1066,13 @@ lr_decay_timing = [200, 250]
 </pre></div>
 </div>
 </div>
-<p>次に，データセットクラスやイテレータを作成します．こちらはすでに学んだ画像分類の場合などと同様です．データセットから取り出されるデータ点は，それぞれ事前に定義しておいた<code class="docutils literal"><span class="pre">Transform</span></code>クラスで定義した変換処理にて変換されます．</p>
+<p>次に，データセットクラスやイテレータを作成します．こちらはすでに学んだ画像分類の場合などと同様です．データセットから取り出されるデータ点は，それぞれ事前に定義しておいた<code class="docutils literal notranslate"><span class="pre">Transform</span></code>クラスで定義した変換処理にて変換されます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>transformed_train_dataset = TransformDataset(train_dataset, Transform(model.coder, model.insize, model.mean))
 
 train_iter = chainer.iterators.MultiprocessIterator(transformed_train_dataset, batchsize)
@@ -1081,15 +1081,15 @@ valid_iter = chainer.iterators.SerialIterator(valid_dataset, batchsize, repeat=F
 </div>
 </div>
 <p>次にOptimizerを作成します．今回はMomentum
-SGDという手法を用いてモデルのパラメータの最適化を行います．その際に，モデルの中にある線形変換が持つバイアスのパラメータに対しては勾配が2倍の大きさになるように<code class="docutils literal"><span class="pre">update_rule</span></code>に対してフックを設定します．また，バイアスパラメータの場合にはweight
+SGDという手法を用いてモデルのパラメータの最適化を行います．その際に，モデルの中にある線形変換が持つバイアスのパラメータに対しては勾配が2倍の大きさになるように<code class="docutils literal notranslate"><span class="pre">update_rule</span></code>に対してフックを設定します．また，バイアスパラメータの場合にはweight
 decayは行わず，バイアスパラメータ以外のパラメータに対してはweight
 decayを行うように設定しています．これらは学習の安定化などのためにしばしば用いられるテクニックです．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>optimizer = chainer.optimizers.MomentumSGD()
 optimizer.setup(train_chain)
 for param in train_chain.params():
@@ -1100,13 +1100,13 @@ for param in train_chain.params():
 </pre></div>
 </div>
 </div>
-<p>次にUpdaterのオブジェクトを作成します．今回はUpdaterに最もシンプルな<code class="docutils literal"><span class="pre">StandardUpdater</span></code>を用いました．CPUもしくはシングルGPUを用いて学習を行う際には，このUpdaterを使います．</p>
+<p>次にUpdaterのオブジェクトを作成します．今回はUpdaterに最もシンプルな<code class="docutils literal notranslate"><span class="pre">StandardUpdater</span></code>を用いました．CPUもしくはシングルGPUを用いて学習を行う際には，このUpdaterを使います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>updater = training.updaters.StandardUpdater(
     train_iter, optimizer, device=gpu_id)
 </pre></div>
@@ -1114,11 +1114,11 @@ for param in train_chain.params():
 </div>
 <p>最後に，Trainerオブジェクトを作成します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>trainer = training.Trainer(
     updater,
     (training_epoch, &#39;epoch&#39;), out)
@@ -1126,13 +1126,13 @@ for param in train_chain.params():
 </div>
 </div>
 <p>Trainer
-Extensionの追加などは以前の章で説明したものから目新しいものはありませんが，以下のExponentialShiftを使った学習率の減衰については，<code class="docutils literal"><span class="pre">ManualScheduleTrigger</span></code>という新しい減衰のタイミングの指定方法が使われています．これはシンプルに，<code class="docutils literal"><span class="pre">[200,</span> <span class="pre">250]</span></code>などのようにそのExtentionを起動したいタイミングを表す数字が並んだリストと，その単位（ここでは<code class="docutils literal"><span class="pre">epoch</span></code>）を渡すと，指定されたタイミングのみでそのExtensionが発動するというものです．以下のコードでは，<code class="docutils literal"><span class="pre">lr_decay_timing</span></code>に上で<code class="docutils literal"><span class="pre">[200,</span> <span class="pre">250]</span></code>を代入していますので，200エポックと250エポックの時点でExponentialShiftが発動し，学習率を<code class="docutils literal"><span class="pre">lr_decay_rate</span></code>倍，つまり上で設定したように，<span class="math">\(0.1\)</span>倍するというものになっています．</p>
+Extensionの追加などは以前の章で説明したものから目新しいものはありませんが，以下のExponentialShiftを使った学習率の減衰については，<code class="docutils literal notranslate"><span class="pre">ManualScheduleTrigger</span></code>という新しい減衰のタイミングの指定方法が使われています．これはシンプルに，<code class="docutils literal notranslate"><span class="pre">[200,</span> <span class="pre">250]</span></code>などのようにそのExtentionを起動したいタイミングを表す数字が並んだリストと，その単位（ここでは<code class="docutils literal notranslate"><span class="pre">epoch</span></code>）を渡すと，指定されたタイミングのみでそのExtensionが発動するというものです．以下のコードでは，<code class="docutils literal notranslate"><span class="pre">lr_decay_timing</span></code>に上で<code class="docutils literal notranslate"><span class="pre">[200,</span> <span class="pre">250]</span></code>を代入していますので，200エポックと250エポックの時点でExponentialShiftが発動し，学習率を<code class="docutils literal notranslate"><span class="pre">lr_decay_rate</span></code>倍，つまり上で設定したように，<span class="math notranslate nohighlight">\(0.1\)</span>倍するというものになっています．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>trainer.extend(
     extensions.ExponentialShift(&#39;lr&#39;, lr_decay_rate, init=initial_lr),
     trigger=triggers.ManualScheduleTrigger(lr_decay_timing, &#39;epoch&#39;))
@@ -1147,14 +1147,14 @@ Positive</strong>として，<strong>平均適合率（Average precision;
 AP）</strong>を用いて評価を行うのが一般的です．また，これをクラスごとに算出していき全体で平均をとったMean
 average precision（mAP）も用いられます．IoUについては，前章のSemantic
 Segmentationについての解説の中で説明していますが，物体検出におけるIoUも同様で，予測した矩形と正解の矩形のいずれかまたは両方が囲っている領域の大きさで共通して囲っている領域の大きさを割ったものを指します．</p>
-<p>ChainerCVが提供する<code class="docutils literal"><span class="pre">DetectionVOCEvaluator</span></code>というExtensionは，渡されたイテレータ（ここではvalidation
+<p>ChainerCVが提供する<code class="docutils literal notranslate"><span class="pre">DetectionVOCEvaluator</span></code>というExtensionは，渡されたイテレータ（ここではvalidation
 datasetに対して作成したval_iterというイテレータ）を使って，各クラスごとのAPや全体のmAPを学習中に計算してくれます．ここでもこのExtensionを利用します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>trainer.extend(
     DetectionVOCEvaluator(
         valid_iter, model, use_07_metric=False,
@@ -1165,11 +1165,11 @@ datasetに対して作成したval_iterというイテレータ）を使って�
 </div>
 <p>では，その他のよく用いるExtensionを一通り追加しておきましょう．今回，学習の途中結果は10エポックごとに保存することにします．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>trainer.extend(extensions.LogReport(trigger=log_interval))
 trainer.extend(extensions.observe_lr(), trigger=log_interval)
 trainer.extend(extensions.PrintReport(
@@ -1192,16 +1192,16 @@ trainer.extend(extensions.snapshot(
 </div>
 </div>
 <p>さて，本来，ここで</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>と実行すれば，早速学習が始まるのですが，100分ほどの時間がかかってしまいます．そこで，まさにこのスクリプトを事前に実行し，290エポックまで学習した結果を保存しておきましたので，これを読みこんで，最後の10エポックだけ学習してみましょう．まず，290エポック時点までの学習途中のsnapshotをダウンロードします．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [24]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!wget https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/detection_snapshot_epoch_290.npz
 </pre></div>
 </div>
@@ -1229,24 +1229,24 @@ detection_snapshot_ 100%[===================&gt;] 171.33M  23.7MB/s    in 11s
 
 </pre></div></div>
 </div>
-<p>次に，このダウンロードした<code class="docutils literal"><span class="pre">detection_snapshot_epoch_250.npz</span></code>というファイルを先程作成したTrainerオブジェクトに読み込んでみましょう．</p>
+<p>次に，このダウンロードした<code class="docutils literal notranslate"><span class="pre">detection_snapshot_epoch_250.npz</span></code>というファイルを先程作成したTrainerオブジェクトに読み込んでみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>chainer.serializers.load_npz(&#39;detection_snapshot_epoch_290.npz&#39;, trainer)
 </pre></div>
 </div>
 </div>
 <p>では，最後の10エポックだけ学習を行いましょう．以下のセルを実行して，少しだけ待ってください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [26]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>trainer.run()
 </pre></div>
 </div>
@@ -1294,14 +1294,14 @@ epoch       iteration   lr          main/loss   main/loss/loc  main/loss/conf  v
 </div>
 <div class="section" id="学習結果を用いた推論">
 <h2>6.8. 学習結果を用いた推論<a class="headerlink" href="#学習結果を用いた推論" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>学習を行った結果得られるモデルのパラメータは，<code class="docutils literal"><span class="pre">extensions.snapshot()</span></code>というTrainer
-extensionによってファイルに保存されています．保存先は，デフォルトではTrainerオブジェクト初期化時に渡した<code class="docutils literal"><span class="pre">out</span></code>という引数によって指定されたディレクトリ以下となります．今回は，<code class="docutils literal"><span class="pre">results</span></code>以下にあるはずです．</p>
+<p>学習を行った結果得られるモデルのパラメータは，<code class="docutils literal notranslate"><span class="pre">extensions.snapshot()</span></code>というTrainer
+extensionによってファイルに保存されています．保存先は，デフォルトではTrainerオブジェクト初期化時に渡した<code class="docutils literal notranslate"><span class="pre">out</span></code>という引数によって指定されたディレクトリ以下となります．今回は，<code class="docutils literal notranslate"><span class="pre">results</span></code>以下にあるはずです．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [27]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!ls -la results/
 </pre></div>
 </div>
@@ -1320,15 +1320,15 @@ drwxr-xr-x 1 root root      4096 Dec 16 13:36 ..
 -rw-r--r-- 1 root root 179665430 Dec 16 13:41 snapshot_epoch_300.npz
 </pre></div></div>
 </div>
-<p>以上のようなシェルコマンドを実行した結果，<code class="docutils literal"><span class="pre">snapshot_epoch_300.npz</span></code>というファイルが見つかったはずです．これは学習中にTrainerの中にあった学習を再開するために必要なパラメータをまとめて保存したものです．そのため，Optimizerが内部にもつパラメータなど，モデルそのものが内部に持っていたパラメータ以外のものも一緒に保存されています．そこで，今回は推論に必要なモデルのパラメータだけをこのファイルから取り出して用いてみます．</p>
-<p>モデルのパラメータを取り出す方法としては，<code class="docutils literal"><span class="pre">chainer.serializers.load_npz</span></code>を用いて<code class="docutils literal"><span class="pre">.npz</span></code>ファイルをモデルオブジェクトにロードする際に，<code class="docutils literal"><span class="pre">.npz</span></code>ファイルのキーに対して<strong>ある階層以下のものだけ見るように指定する</strong>方法があります．Trainerオブジェクト全体のスナップショットをとった場合には，Optimizerが持つiteration回数の情報など，モデル内部のパラメータ以外のものも格納されていますが，<code class="docutils literal"><span class="pre">updater/model:main/model</span></code>というprefixを渡せば，モデルのパラメータ部分のみを取り出すことができます．</p>
+<p>以上のようなシェルコマンドを実行した結果，<code class="docutils literal notranslate"><span class="pre">snapshot_epoch_300.npz</span></code>というファイルが見つかったはずです．これは学習中にTrainerの中にあった学習を再開するために必要なパラメータをまとめて保存したものです．そのため，Optimizerが内部にもつパラメータなど，モデルそのものが内部に持っていたパラメータ以外のものも一緒に保存されています．そこで，今回は推論に必要なモデルのパラメータだけをこのファイルから取り出して用いてみます．</p>
+<p>モデルのパラメータを取り出す方法としては，<code class="docutils literal notranslate"><span class="pre">chainer.serializers.load_npz</span></code>を用いて<code class="docutils literal notranslate"><span class="pre">.npz</span></code>ファイルをモデルオブジェクトにロードする際に，<code class="docutils literal notranslate"><span class="pre">.npz</span></code>ファイルのキーに対して<strong>ある階層以下のものだけ見るように指定する</strong>方法があります．Trainerオブジェクト全体のスナップショットをとった場合には，Optimizerが持つiteration回数の情報など，モデル内部のパラメータ以外のものも格納されていますが，<code class="docutils literal notranslate"><span class="pre">updater/model:main/model</span></code>というprefixを渡せば，モデルのパラメータ部分のみを取り出すことができます．</p>
 <p>では，学習に用いたのとは別の場所で，このスナップショットとモデルの定義のコードだけが渡された状況を想定して，新しいモデルオブジェクトを作成し，そこに学習済みパラメータをロードしてみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span># Create a model object
 model = SSD300(n_fg_class=len(bccd_labels), pretrained_model=&#39;imagenet&#39;)
 
@@ -1340,11 +1340,11 @@ chainer.serializers.load_npz(
 </div>
 <p>では，学習済みの重みをロードしたモデルを使って，テスト画像の一つに対して細胞の検出処理を行ってみます．以下のコードでは，画像の読み込み，推論の実行，そして結果の可視化までをChainerCVを用いて順に行っています．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [29]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from chainercv import utils
 
 def inference(image_filename):
@@ -1375,11 +1375,11 @@ inference(&#39;BCCD_Dataset/BCCD/JPEGImages/BloodImage_00007.jpg&#39;)
 </div>
 <p>さらにいくつかの画像に対して推論を行って，結果を見てみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [30]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import matplotlib.pyplot as plt
 
 for i, image_filename in enumerate(open(&#39;BCCD_Dataset/BCCD/ImageSets/Main/test.txt&#39;)):
@@ -1405,7 +1405,7 @@ BloodImage_00007
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.figure.Figure at 0x7fbfcaac8710&gt;
 </pre></div>
 </div>
@@ -1429,7 +1429,7 @@ BloodImage_00011
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.figure.Figure at 0x7fbfcee0d2e8&gt;
 </pre></div>
 </div>
@@ -1453,7 +1453,7 @@ BloodImage_00015
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.figure.Figure at 0x7fbfcefd5c50&gt;
 </pre></div>
 </div>
@@ -1477,7 +1477,7 @@ BloodImage_00016
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.figure.Figure at 0x7fbfceeca908&gt;
 </pre></div>
 </div>
@@ -1501,7 +1501,7 @@ BloodImage_00018
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.figure.Figure at 0x7fbfced83c50&gt;
 </pre></div>
 </div>
@@ -1525,7 +1525,7 @@ BloodImage_00019
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.figure.Figure at 0x7fbfced1ca58&gt;
 </pre></div>
 </div>
@@ -1549,7 +1549,7 @@ BloodImage_00021
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.figure.Figure at 0x7fbfceea6668&gt;
 </pre></div>
 </div>
@@ -1567,14 +1567,14 @@ BloodImage_00021
 <p>学習が終わったら，得られたモデルをテストデータセットで評価します．検証用データセット（validation
 dataset）は，学習中にパラメータの更新量を計算するためには直接用いていませんが，学習率や学習率減衰の比率・タイミングなどの<strong>ハイパーパラメータの調整を行うために用いている</strong>ため，<strong>厳密に言えば学習時に使っていないデータとは呼べません．</strong>そのため，最終的に得られたモデルがどの程度の汎化性能を発揮しそうか目安を得るためには，<strong>学習用・検証用データセットのいずれにも含まれない第三のデータセットを用いた評価を行う必要があります．</strong></p>
 <p>ChainerのTrainer
-Extensionsの一つであるEvaluatorは，実はTrainerと一緒にでなくても，単独で使用することができます．ChainerCVが提供している<code class="docutils literal"><span class="pre">DetectionVOCEvaluator</span></code>も，ChainerのEvaluatorを継承して作られた機能拡張版Evaluatorなので，同様にTrainerとは無関係に評価のためだけに使うことができます．</p>
-<p>それでは，初めの方に用意しておいた<code class="docutils literal"><span class="pre">test_dataset</span></code>を使ってまずはイテレータを作り，それを<code class="docutils literal"><span class="pre">DetectionVOCEvaluator</span></code>に先程も使った学習済みモデルと一緒に渡して，<strong>テストデータセットを用いた最終的な性能評価</strong>を行ってみましょう．</p>
+Extensionsの一つであるEvaluatorは，実はTrainerと一緒にでなくても，単独で使用することができます．ChainerCVが提供している<code class="docutils literal notranslate"><span class="pre">DetectionVOCEvaluator</span></code>も，ChainerのEvaluatorを継承して作られた機能拡張版Evaluatorなので，同様にTrainerとは無関係に評価のためだけに使うことができます．</p>
+<p>それでは，初めの方に用意しておいた<code class="docutils literal notranslate"><span class="pre">test_dataset</span></code>を使ってまずはイテレータを作り，それを<code class="docutils literal notranslate"><span class="pre">DetectionVOCEvaluator</span></code>に先程も使った学習済みモデルと一緒に渡して，<strong>テストデータセットを用いた最終的な性能評価</strong>を行ってみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [31]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>test_batchsize = 256
 
 model.to_gpu()
@@ -1591,11 +1591,11 @@ test_evaluator()
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>Out[31]:
 </pre></div>
 </div>
-<div class="output_area highlight-none"><div class="highlight"><pre>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>{&#39;main/ap/platelets&#39;: 0.43220927662530395,
  &#39;main/ap/rbc&#39;: 0.760081977582848,
  &#39;main/ap/wbc&#39;: 0.9651693947468596,
@@ -1651,22 +1651,12 @@ loss</a>という手法がシンプルかつ強力な提案を行っています
 
     
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   

@@ -348,80 +348,80 @@ div.nboutput div.output_area.stderr {
 }
 </style>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>%matplotlib inline
-import numpy as np
-import matplotlib.pyplot as plt
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-fig = plt.figure(dpi=300)
-ax = fig.add_subplot(111)
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 
-# removing the default axis on all sides:
-for side in [&#39;bottom&#39;,&#39;right&#39;,&#39;top&#39;,&#39;left&#39;]:
-    ax.spines[side].set_visible(False)
+<span class="c1"># removing the default axis on all sides:</span>
+<span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span><span class="s1">&#39;right&#39;</span><span class="p">,</span><span class="s1">&#39;top&#39;</span><span class="p">,</span><span class="s1">&#39;left&#39;</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">side</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
-ymin = -0.1
-ymax = 1.5
-xmin = -10
-xmax = 10
+<span class="n">ymin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.1</span>
+<span class="n">ymax</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">xmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+<span class="n">xmax</span> <span class="o">=</span> <span class="mi">10</span>
 
-ax.set_ylim([ymin, ymax])
-ax.set_xlim([xmin, xmax])
-ax.set_xlabel(&#39;u&#39;)
-h = ax.set_ylabel(&#39;$f(u)$&#39;)
-h.set_rotation(0)
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$f(u)$&#39;</span><span class="p">)</span>
+<span class="n">h</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-# removing the axis ticks
-plt.xticks([]) # labels
-plt.yticks([0, 0.5, 1])
-ax.spines[&#39;left&#39;].set_position(&#39;center&#39;)
-ax.xaxis.set_ticks_position(&#39;none&#39;) # tick markers
-ax.yaxis.set_ticks_position(&#39;left&#39;)
+<span class="c1"># removing the axis ticks</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span> <span class="c1"># labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="c1"># tick markers</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
 
-# wider figure for demonstration
-fig.set_size_inches(4,2.2)
+<span class="c1"># wider figure for demonstration</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mf">2.2</span><span class="p">)</span>
 
-# get width and height of axes object to compute
-# matching arrowhead length and width
-dps = fig.dpi_scale_trans.inverted()
-bbox = ax.get_window_extent().transformed(dps)
-width, height = bbox.width, bbox.height
+<span class="c1"># get width and height of axes object to compute</span>
+<span class="c1"># matching arrowhead length and width</span>
+<span class="n">dps</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
+<span class="n">bbox</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">()</span><span class="o">.</span><span class="n">transformed</span><span class="p">(</span><span class="n">dps</span><span class="p">)</span>
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">bbox</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">bbox</span><span class="o">.</span><span class="n">height</span>
 
-# manual arrowhead width and length
-hw = 1. / 20. * (ymax - ymin)
-hl = 1. / 20. * (xmax - xmin)
-lw = 1. # axis line width
-ohg = 0.3 # arrow overhang
+<span class="c1"># manual arrowhead width and length</span>
+<span class="n">hw</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">20.</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span>
+<span class="n">hl</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">20.</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span>
+<span class="n">lw</span> <span class="o">=</span> <span class="mf">1.</span> <span class="c1"># axis line width</span>
+<span class="n">ohg</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="c1"># arrow overhang</span>
 
-# compute matching arrowhead length and width
-yhw = hw / (ymax - ymin) * (xmax - xmin) * height / width
-yhl = hl / (xmax - xmin) * (ymax - ymin) * width / height
+<span class="c1"># compute matching arrowhead length and width</span>
+<span class="n">yhw</span> <span class="o">=</span> <span class="n">hw</span> <span class="o">/</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span> <span class="o">/</span> <span class="n">width</span>
+<span class="n">yhl</span> <span class="o">=</span> <span class="n">hl</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span>
 
-# draw x and y axis
-ax.arrow(xmin, 0, xmax-xmin, 0., fc=&#39;k&#39;, ec=&#39;k&#39;, lw = lw,
-         head_width=hw, head_length=hl, overhang = ohg,
-         length_includes_head= True, clip_on = False)
+<span class="c1"># draw x and y axis</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">-</span><span class="n">xmin</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">lw</span><span class="p">,</span>
+         <span class="n">head_width</span><span class="o">=</span><span class="n">hw</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="n">hl</span><span class="p">,</span> <span class="n">overhang</span> <span class="o">=</span> <span class="n">ohg</span><span class="p">,</span>
+         <span class="n">length_includes_head</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clip_on</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-ax.arrow(0, ymin, 0., ymax-ymin, fc=&#39;k&#39;, ec=&#39;k&#39;, lw = lw,
-         head_width=yhw, head_length=yhl, overhang = ohg,
-         length_includes_head= True, clip_on = False)
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">ymax</span><span class="o">-</span><span class="n">ymin</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">lw</span><span class="p">,</span>
+         <span class="n">head_width</span><span class="o">=</span><span class="n">yhw</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="n">yhl</span><span class="p">,</span> <span class="n">overhang</span> <span class="o">=</span> <span class="n">ohg</span><span class="p">,</span>
+         <span class="n">length_includes_head</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clip_on</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-ax.xaxis.set_label_coords(1.05, 0.1)
-ax.yaxis.set_label_coords(0.5, 1.05)
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_coords</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_coords</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
 
-# clip_on = False if only positive x or y values.
+<span class="c1"># clip_on = False if only positive x or y values.</span>
 
-ax.plot(np.arange(0, xmax, 0.01), np.ones(len(np.arange(0, xmax, 0.01))), &#39;--&#39;, color=&#39;red&#39;)
-ax.plot(np.arange(0, xmin, -0.01), np.zeros(len(np.arange(0, xmax, 0.01))), &#39;--&#39;, color=&#39;red&#39;)
-ax.plot(np.zeros(len(np.arange(0, 1.0, 0.01))), np.arange(0, 1.0, 0.01), &#39;--&#39;, color=&#39;red&#39;)
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
 
-ax.plot(x, 1 / (1 + np.exp(-x)), color=&#39;blue&#39;)
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
 
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -433,76 +433,76 @@ plt.show()
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [63]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>fig = plt.figure(dpi=300)
-ax = fig.add_subplot(111)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 
-# removing the default axis on all sides:
-for side in [&#39;bottom&#39;,&#39;right&#39;,&#39;top&#39;,&#39;left&#39;]:
-    ax.spines[side].set_visible(False)
+<span class="c1"># removing the default axis on all sides:</span>
+<span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span><span class="s1">&#39;right&#39;</span><span class="p">,</span><span class="s1">&#39;top&#39;</span><span class="p">,</span><span class="s1">&#39;left&#39;</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">side</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
-ymin = -0.1
-ymax = 1.5
-xmin = -10
-xmax = 10
+<span class="n">ymin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.1</span>
+<span class="n">ymax</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">xmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+<span class="n">xmax</span> <span class="o">=</span> <span class="mi">10</span>
 
-ax.set_ylim([ymin, ymax])
-ax.set_xlim([xmin, xmax])
-ax.set_xlabel(&#39;u&#39;)
-h = ax.set_ylabel(&#39;$1 - f(u)$&#39;)
-h.set_rotation(0)
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$1 - f(u)$&#39;</span><span class="p">)</span>
+<span class="n">h</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-# removing the axis ticks
-plt.xticks([]) # labels
-plt.yticks([0, 0.5, 1])
-ax.spines[&#39;left&#39;].set_position(&#39;center&#39;)
-ax.xaxis.set_ticks_position(&#39;none&#39;) # tick markers
-ax.yaxis.set_ticks_position(&#39;left&#39;)
+<span class="c1"># removing the axis ticks</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span> <span class="c1"># labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="c1"># tick markers</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
 
-# wider figure for demonstration
-fig.set_size_inches(4,2.2)
+<span class="c1"># wider figure for demonstration</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mf">2.2</span><span class="p">)</span>
 
-# get width and height of axes object to compute
-# matching arrowhead length and width
-dps = fig.dpi_scale_trans.inverted()
-bbox = ax.get_window_extent().transformed(dps)
-width, height = bbox.width, bbox.height
+<span class="c1"># get width and height of axes object to compute</span>
+<span class="c1"># matching arrowhead length and width</span>
+<span class="n">dps</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
+<span class="n">bbox</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">()</span><span class="o">.</span><span class="n">transformed</span><span class="p">(</span><span class="n">dps</span><span class="p">)</span>
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">bbox</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">bbox</span><span class="o">.</span><span class="n">height</span>
 
-# manual arrowhead width and length
-hw = 1. / 20. * (ymax - ymin)
-hl = 1. / 20. * (xmax - xmin)
-lw = 1. # axis line width
-ohg = 0.3 # arrow overhang
+<span class="c1"># manual arrowhead width and length</span>
+<span class="n">hw</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">20.</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span>
+<span class="n">hl</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">20.</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span>
+<span class="n">lw</span> <span class="o">=</span> <span class="mf">1.</span> <span class="c1"># axis line width</span>
+<span class="n">ohg</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="c1"># arrow overhang</span>
 
-# compute matching arrowhead length and width
-yhw = hw / (ymax - ymin) * (xmax - xmin) * height / width
-yhl = hl / (xmax - xmin) * (ymax - ymin) * width / height
+<span class="c1"># compute matching arrowhead length and width</span>
+<span class="n">yhw</span> <span class="o">=</span> <span class="n">hw</span> <span class="o">/</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span> <span class="o">/</span> <span class="n">width</span>
+<span class="n">yhl</span> <span class="o">=</span> <span class="n">hl</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span>
 
-# draw x and y axis
-ax.arrow(xmin, 0, xmax-xmin, 0., fc=&#39;k&#39;, ec=&#39;k&#39;, lw = lw,
-         head_width=hw, head_length=hl, overhang = ohg,
-         length_includes_head= True, clip_on = False)
+<span class="c1"># draw x and y axis</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">-</span><span class="n">xmin</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">lw</span><span class="p">,</span>
+         <span class="n">head_width</span><span class="o">=</span><span class="n">hw</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="n">hl</span><span class="p">,</span> <span class="n">overhang</span> <span class="o">=</span> <span class="n">ohg</span><span class="p">,</span>
+         <span class="n">length_includes_head</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clip_on</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-ax.arrow(0, ymin, 0., ymax-ymin, fc=&#39;k&#39;, ec=&#39;k&#39;, lw = lw,
-         head_width=yhw, head_length=yhl, overhang = ohg,
-         length_includes_head= True, clip_on = False)
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">ymax</span><span class="o">-</span><span class="n">ymin</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">lw</span><span class="p">,</span>
+         <span class="n">head_width</span><span class="o">=</span><span class="n">yhw</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="n">yhl</span><span class="p">,</span> <span class="n">overhang</span> <span class="o">=</span> <span class="n">ohg</span><span class="p">,</span>
+         <span class="n">length_includes_head</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clip_on</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-ax.xaxis.set_label_coords(1.05, 0.1)
-ax.yaxis.set_label_coords(0.5, 1.05)
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_coords</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_coords</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
 
-# clip_on = False if only positive x or y values.
+<span class="c1"># clip_on = False if only positive x or y values.</span>
 
-ax.plot(np.arange(0, xmin, -0.01), np.ones(len(np.arange(0, xmax, 0.01))), &#39;--&#39;, color=&#39;red&#39;)
-ax.plot(np.arange(0, xmax, 0.01), np.zeros(len(np.arange(0, xmax, 0.01))), &#39;--&#39;, color=&#39;red&#39;)
-ax.plot(np.zeros(len(np.arange(0, 1.0, 0.01))), np.arange(0, 1.0, 0.01), &#39;--&#39;, color=&#39;red&#39;)
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.01</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
 
-ax.plot(x, 1 - 1 / (1 + np.exp(-x)), color=&#39;blue&#39;)
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
 
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -514,76 +514,76 @@ plt.show()
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [62]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span>fig = plt.figure(dpi=300)
-ax = fig.add_subplot(111)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 
-# removing the default axis on all sides:
-for side in [&#39;bottom&#39;,&#39;right&#39;,&#39;top&#39;,&#39;left&#39;]:
-    ax.spines[side].set_visible(False)
+<span class="c1"># removing the default axis on all sides:</span>
+<span class="k">for</span> <span class="n">side</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span><span class="s1">&#39;right&#39;</span><span class="p">,</span><span class="s1">&#39;top&#39;</span><span class="p">,</span><span class="s1">&#39;left&#39;</span><span class="p">]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="n">side</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
-ymin = -0.1
-ymax = 1.5
-xmin = -10
-xmax = 10
+<span class="n">ymin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.1</span>
+<span class="n">ymax</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">xmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+<span class="n">xmax</span> <span class="o">=</span> <span class="mi">10</span>
 
-ax.set_ylim([ymin, ymax])
-ax.set_xlim([xmin, xmax])
-ax.set_xlabel(&#39;u&#39;)
-h = ax.set_ylabel(&#39;$f(u)(1 - f(u))$&#39;)
-h.set_rotation(0)
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;u&#39;</span><span class="p">)</span>
+<span class="n">h</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$f(u)(1 - f(u))$&#39;</span><span class="p">)</span>
+<span class="n">h</span><span class="o">.</span><span class="n">set_rotation</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-# removing the axis ticks
-plt.xticks([]) # labels
-plt.yticks([0, 0.25, 1])
-ax.spines[&#39;left&#39;].set_position(&#39;center&#39;)
-ax.xaxis.set_ticks_position(&#39;none&#39;) # tick markers
-ax.yaxis.set_ticks_position(&#39;left&#39;)
+<span class="c1"># removing the axis ticks</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span> <span class="c1"># labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;none&#39;</span><span class="p">)</span> <span class="c1"># tick markers</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticks_position</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
 
-# wider figure for demonstration
-fig.set_size_inches(4,2.2)
+<span class="c1"># wider figure for demonstration</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mf">2.2</span><span class="p">)</span>
 
-# get width and height of axes object to compute
-# matching arrowhead length and width
-dps = fig.dpi_scale_trans.inverted()
-bbox = ax.get_window_extent().transformed(dps)
-width, height = bbox.width, bbox.height
+<span class="c1"># get width and height of axes object to compute</span>
+<span class="c1"># matching arrowhead length and width</span>
+<span class="n">dps</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">dpi_scale_trans</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
+<span class="n">bbox</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">()</span><span class="o">.</span><span class="n">transformed</span><span class="p">(</span><span class="n">dps</span><span class="p">)</span>
+<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">bbox</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">bbox</span><span class="o">.</span><span class="n">height</span>
 
-# manual arrowhead width and length
-hw = 1. / 20. * (ymax - ymin)
-hl = 1. / 20. * (xmax - xmin)
-lw = 1. # axis line width
-ohg = 0.3 # arrow overhang
+<span class="c1"># manual arrowhead width and length</span>
+<span class="n">hw</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">20.</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span>
+<span class="n">hl</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="mf">20.</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span>
+<span class="n">lw</span> <span class="o">=</span> <span class="mf">1.</span> <span class="c1"># axis line width</span>
+<span class="n">ohg</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="c1"># arrow overhang</span>
 
-# compute matching arrowhead length and width
-yhw = hw / (ymax - ymin) * (xmax - xmin) * height / width
-yhl = hl / (xmax - xmin) * (ymax - ymin) * width / height
+<span class="c1"># compute matching arrowhead length and width</span>
+<span class="n">yhw</span> <span class="o">=</span> <span class="n">hw</span> <span class="o">/</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span> <span class="o">/</span> <span class="n">width</span>
+<span class="n">yhl</span> <span class="o">=</span> <span class="n">hl</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">/</span> <span class="n">height</span>
 
-# draw x and y axis
-ax.arrow(xmin, 0, xmax-xmin, 0., fc=&#39;k&#39;, ec=&#39;k&#39;, lw = lw,
-         head_width=hw, head_length=hl, overhang = ohg,
-         length_includes_head= True, clip_on = False)
+<span class="c1"># draw x and y axis</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">xmax</span><span class="o">-</span><span class="n">xmin</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">lw</span><span class="p">,</span>
+         <span class="n">head_width</span><span class="o">=</span><span class="n">hw</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="n">hl</span><span class="p">,</span> <span class="n">overhang</span> <span class="o">=</span> <span class="n">ohg</span><span class="p">,</span>
+         <span class="n">length_includes_head</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clip_on</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-ax.arrow(0, ymin, 0., ymax-ymin, fc=&#39;k&#39;, ec=&#39;k&#39;, lw = lw,
-         head_width=yhw, head_length=yhl, overhang = ohg,
-         length_includes_head= True, clip_on = False)
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="n">ymax</span><span class="o">-</span><span class="n">ymin</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="n">lw</span><span class="p">,</span>
+         <span class="n">head_width</span><span class="o">=</span><span class="n">yhw</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="n">yhl</span><span class="p">,</span> <span class="n">overhang</span> <span class="o">=</span> <span class="n">ohg</span><span class="p">,</span>
+         <span class="n">length_includes_head</span><span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">clip_on</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 
-ax.xaxis.set_label_coords(1.05, 0.1)
-ax.yaxis.set_label_coords(0.5, 1.05)
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_coords</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_label_coords</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">)</span>
 
-# clip_on = False if only positive x or y values.
+<span class="c1"># clip_on = False if only positive x or y values.</span>
 
-# ax.plot(np.arange(0, xmin, -0.01), np.ones(len(np.arange(0, xmax, 0.01))), &#39;--&#39;, color=&#39;red&#39;)
-# ax.plot(np.arange(0, xmax, 0.01), np.zeros(len(np.arange(0, xmax, 0.01))), &#39;--&#39;, color=&#39;red&#39;)
-# ax.plot(np.zeros(len(np.arange(0, 1.0, 0.01))), np.arange(0, 1.0, 0.01), &#39;--&#39;, color=&#39;red&#39;)
+<span class="c1"># ax.plot(np.arange(0, xmin, -0.01), np.ones(len(np.arange(0, xmax, 0.01))), &#39;--&#39;, color=&#39;red&#39;)</span>
+<span class="c1"># ax.plot(np.arange(0, xmax, 0.01), np.zeros(len(np.arange(0, xmax, 0.01))), &#39;--&#39;, color=&#39;red&#39;)</span>
+<span class="c1"># ax.plot(np.zeros(len(np.arange(0, 1.0, 0.01))), np.arange(0, 1.0, 0.01), &#39;--&#39;, color=&#39;red&#39;)</span>
 
-ax.plot(x, (1 / (1 + np.exp(-x))) * (1 - 1 / (1 + np.exp(-x))), color=&#39;blue&#39;)
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
 
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -627,22 +627,12 @@ plt.show()
 
     
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../../',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
         <script type="text/javascript" src="../../_static/jquery.js"></script>
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
