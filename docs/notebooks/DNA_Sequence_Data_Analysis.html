@@ -48,8 +48,8 @@
   <meta property="og:description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしてオンライン資料として無料公開。">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://japan-medical-ai.github.io/medical-ai-course-materials/">
-  <meta property="og:image" content="https://japan-medical-ai.org/_files/200000028-a2188a3153/200/JMAILOGO-6.jpg">
-  <meta name="twitter:card" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしてオンライン資料として無料公開。">
+  <meta property="og:image" content="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/medical_ai.png">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@PreferredNetJP">
   <meta name="twitter:creator" content="@PreferredNetJP">
 
@@ -851,7 +851,6 @@ import sklearn
 import numpy as np
 
 def log_poisson_loss(log_x, t):
-    #return F.mean(F.exp(log_x) - t * log_
     loss =  F.mean(F.exp(log_x) - t * log_x)
     t = chainer.cuda.to_cpu(t.astype(np.float32))
     offset = F.mean(cp.array(t - t * np.ma.log(t)))

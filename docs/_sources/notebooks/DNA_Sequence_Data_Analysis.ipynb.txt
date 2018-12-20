@@ -771,7 +771,6 @@
         "import numpy as np\n",
         "\n",
         "def log_poisson_loss(log_x, t):\n",
-        "    #return F.mean(F.exp(log_x) - t * log_\n",
         "    loss =  F.mean(F.exp(log_x) - t * log_x) \n",
         "    t = chainer.cuda.to_cpu(t.astype(np.float32))  \n",
         "    offset = F.mean(cp.array(t - t * np.ma.log(t)))\n",
