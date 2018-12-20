@@ -10,7 +10,7 @@ News
 ^^^^^^^^^^^^^^^^^^
 
 本ページは **日本メディカルAI学会公認資格：メディカルAI専門コースのオンライン講義資料（以下本資料）** です．
-本講料を読むことで，医療で人工知能技術を使う際に最低限必要な知識や実践方法を学ぶことができます．
+本講料を読むことで，医療で人工知能技術を使う際に最低限必要な知識や実践方法を学ぶことができます．本資料は全てGoogle Colaboratoryというサービスを用いて執筆されており，各章はJupyter notebook (iPython notebook)の形式（.ipynb）で以下のリポジトリにて配布されています（notebooksディレクトリ以下に全ての.ipynbファイルが入っています）： [japan-medical-ai/medical-ai-course-materials](https://github.com/japan-medical-ai/medical-ai-course-materials)
 
 想定受講者
 ^^^^^^^^^^
