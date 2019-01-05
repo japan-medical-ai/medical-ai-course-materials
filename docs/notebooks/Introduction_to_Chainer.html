@@ -688,7 +688,7 @@ test_iter = iterators.SerialIterator(
 </pre></div>
 </div>
 </div>
-<p>この<code class="docutils literal notranslate"><span class="pre">batch</span></code>という変数は，<code class="docutils literal notranslate"><span class="pre">(img,</span> <span class="pre">label)</span></code>というタプルが128個（ミニバッチサイズだけ）並んだリストになっています．実際に，このリストの長さが128であることを確認してみましょう．</p>
+<p>この<code class="docutils literal notranslate"><span class="pre">minibatch</span></code>という変数は，<code class="docutils literal notranslate"><span class="pre">(img,</span> <span class="pre">label)</span></code>というタプルが128個（ミニバッチサイズだけ）並んだリストになっています．実際に，このリストの長さが128であることを確認してみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [10]:
@@ -707,7 +707,7 @@ test_iter = iterators.SerialIterator(
 batchsize: 128
 </pre></div></div>
 </div>
-<p>次に，この<code class="docutils literal notranslate"><span class="pre">batch</span></code>というリストの一つ目の要素（画像とラベルを持つタプルになっているはずです）を<code class="docutils literal notranslate"><span class="pre">batch[0]</span></code>として取り出してみます．</p>
+<p>次に，この<code class="docutils literal notranslate"><span class="pre">minibatch</span></code>というリストの一つ目の要素（画像とラベルを持つタプルになっているはずです）を<code class="docutils literal notranslate"><span class="pre">minibatch[0]</span></code>として取り出してみます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre>
 <span></span>In [11]:
