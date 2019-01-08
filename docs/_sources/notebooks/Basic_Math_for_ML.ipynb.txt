@@ -95,7 +95,6 @@
         "\\begin{aligned}\n",
         "a &=\\lim _{h\\rightarrow 0}\\dfrac {f\\left( x+h\\right) -f\\left( x\\right) }{\\left( x+h\\right) -x}\\\\\n",
         "&=\\lim _{h\\rightarrow 0}\\dfrac {f\\left( x+h\\right) -f\\left( x\\right) }{h}\\\\\n",
-        " &=\\lim _{h\\rightarrow 0}\\dfrac {f\\left( x+h\\right) -f\\left( x\\right) }{h}\\\\\n",
         "\\end{aligned}\n",
         "$$\n",
         "\n",
