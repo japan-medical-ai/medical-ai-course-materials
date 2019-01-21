@@ -600,7 +600,7 @@
         "# dL / dw_2: 求めたい勾配\n",
         "g_Lw2 = g_Ly * g_yu2 * g_u2w2\n",
         "\n",
-        "print(g_Lw_2)"
+        "print(g_Lw2)"
       ],
       "execution_count": 0,
       "outputs": [
@@ -710,7 +710,7 @@
         "g_u1w1 = x\n",
         "\n",
         "# 上から du1 / dw1 の直前までを一旦計算\n",
-        "g_Lu1 = g_Ly * g_yu_2 * g_u_2h_1 * g_h_1u_1\n",
+        "g_Lu1 = g_Ly * g_yu2 * g_u2h1 * g_h1u1\n",
         "\n",
         "# g_u1w1は (3,) というshapeなので，g_u1w1[None]として(1, 3)に変形\n",
         "g_u1w1 = g_u1w1[None]\n",
