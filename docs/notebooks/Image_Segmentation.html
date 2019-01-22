@@ -1014,7 +1014,7 @@ Accuracyは評価指標として今回のようなデータセットにはあま
 <li>paddingを使って計算後の出力サイズを維持しやすくするために，奇数のカーネルサイズにする（<span class="math">\(\lfloor {\rm ksize} / 2 \rfloor\)</span>をpadに指定すると，stride=1の際に画像サイズが変わらなくなる）</li>
 <li>出力feature
 mapを縮小したい場合は，&gt;1の値をstrideに与える（stride=nだと変換後の画像の縦横はそれぞれ元の1/nになる）</li>
-<li>出力サイズは，<span class="math">\(({\rm input\_size} + {\rm pad} \times 2) / {\rm stride} + 1\)</span>になる．つまり，strideを大きくすると出力特徴マップは小さくなる．</li>
+<li>出力サイズは，<span class="math">\(({\rm input\_size} - {\rm ksize} + {\rm pad} \times 2) / {\rm stride} + 1\)</span>になる．つまり，strideを大きくすると出力特徴マップは小さくなる．</li>
 </ul>
 </div>
 <div class="section" id="Deconvolutionレイヤ">

@@ -961,7 +961,7 @@
         "\n",
         "- paddingを使って計算後の出力サイズを維持しやすくするために，奇数のカーネルサイズにする（$\\lfloor {\\rm ksize} / 2 \\rfloor$をpadに指定すると，stride=1の際に画像サイズが変わらなくなる）\n",
         "- 出力feature mapを縮小したい場合は，>1の値をstrideに与える（stride=nだと変換後の画像の縦横はそれぞれ元の1/nになる）\n",
-        "- 出力サイズは，$({\\rm input\\_size} + {\\rm pad} \\times 2) / {\\rm stride} + 1$になる．つまり，strideを大きくすると出力特徴マップは小さくなる．"
+        "- 出力サイズは，$({\\rm input\\_size} - {\\rm ksize} + {\\rm pad} \\times 2) / {\\rm stride} + 1$になる．つまり，strideを大きくすると出力特徴マップは小さくなる．"
       ]
     },
     {
