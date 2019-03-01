@@ -387,22 +387,22 @@ Sequencer）の発展により，遺伝子の塩基配列が高速，大量，�
 <p>です．Google
 Colab上では，以下のようにしてインストールすることができます．以下のセルを実行（Shit+Enter）してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!curl https://colab.chainer.org/install | sh -
 </pre></div>
 </div>
 </div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンを確認してください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import cupy
 import matplotlib
@@ -433,7 +433,7 @@ iDeep: 2.0.0.post3
 matplotlib: 2.1.2
 </pre></div></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
 <span class="n">Chainer</span><span class="p">:</span> <span class="mf">5.1</span><span class="o">.</span><span class="mi">0</span>
 <span class="n">NumPy</span><span class="p">:</span> <span class="mf">1.14</span><span class="o">.</span><span class="mi">6</span>
 <span class="n">CuPy</span><span class="p">:</span>
@@ -476,11 +476,11 @@ Expression）の結果計測されたmRNAの発現量を推定する問題を考
 <p>この問題の目標は長さ131072bpの配列を入力として受け取った時に，この128bp毎のカバレッジ値を推定することが目標です．</p>
 <p>今回は10種類の異なる実験のカバレッジ値を同時に予測する問題を扱います．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!wget https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
 </pre></div>
 </div>
@@ -509,11 +509,11 @@ seq.h5              100%[===================&gt;] 566.60M  71.1MB/s    in 8.5s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!ls -lh
 </pre></div>
 </div>
@@ -540,11 +540,11 @@ T, C, Gの対応する次元の値が1, それ以外は0であるような配列
 <p>また,‘train_out’は学習用の出力データであり,（’5000, 1024,
 10’)というサイズを持ちます.これは長さが1024からなる配列が5000個あり,それぞれが10種類の異なるChIP-Seqの結果のカバレッジ値が格納されています.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import h5py
 import numpy as np
 
@@ -568,7 +568,7 @@ valid_in (500, 131072, 4) bool
 valid_out (500, 1024, 10) float16
 </pre></div></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_labels&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S29&#39;</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_labels&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S29&#39;</span><span class="p">))</span>
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">))</span>
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&lt;f2&#39;</span><span class="p">))</span>
 <span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">))</span>
@@ -581,11 +581,11 @@ valid_out (500, 1024, 10) float16
 <p>試しに最初のデータを取り出して，それの出力の値を表示してみます．</p>
 <p>下のセルを実行してみてください．最初のデータの出力の三つの値を線グラフで出力します．（ここまでのセルを実行していてください）．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>%matplotlib inline
 import matplotlib.pyplot as plt
 
@@ -634,7 +634,7 @@ Convolutionについて詳しくみていきます．</p>
 Audio</a>より引用</p>
 <p>それに対し，Dilated Convolution（atrous convolutionやconvolution weith
 holesともよばれます）は読み取る場所をずらしたところからうけとります．例えばDilation=4の場合，4だけ離れた位置から情報を受け取ります．このDilatedを倍々にしていき，カーネルサイズを2とした場合，Dだけ離れた位置の情報を受取るには
-<span class="math notranslate nohighlight">\(\log_2 D\)</span>層だけ必要になります．今回のDが数百から数万の場合，10から20層程度あれば済むことになります．</p>
+<span class="math">\(\log_2 D\)</span>層だけ必要になります．今回のDが数百から数万の場合，10から20層程度あれば済むことになります．</p>
 <p>今回はこのDilated
 Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します．</p>
 <div class="figure" id="id10">
@@ -648,17 +648,17 @@ blog</a>より</p>
 <h3>7.4.3. ブロック<a class="headerlink" href="#ブロック" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>それでは最初に，ネットワークの全体を設計します．
 このネットワークは二つのブロックから構成されます．</p>
-<p>１つ目のブロックは長さが<span class="math notranslate nohighlight">\(2^{17}\)</span>から配列を入力として長さが<span class="math notranslate nohighlight">\(2^{10}\)</span>のベクトルを出力とします．これにより入力の128
-(<span class="math notranslate nohighlight">\(=2^{17}/2^{10}\)</span>)bpが出力の1つの位置に対応するようになります．これを実現しているのが，SqueezeBlockです．すなわち，SqueezeBlockは長さ131072bpからなるDNAの塩基配列を入力として受け取り，各フラグメントの長さに相当する128bp毎の情報が一つの値となるような畳込み処理を行います．結果として131072/128=1024の長さのベクトル列が出力されます．このベクトル列はフラグメント毎の特徴が一つのベクトルに圧縮されたものとみなすことができます．</p>
+<p>１つ目のブロックは長さが<span class="math">\(2^{17}\)</span>から配列を入力として長さが<span class="math">\(2^{10}\)</span>のベクトルを出力とします．これにより入力の128
+(<span class="math">\(=2^{17}/2^{10}\)</span>)bpが出力の1つの位置に対応するようになります．これを実現しているのが，SqueezeBlockです．すなわち，SqueezeBlockは長さ131072bpからなるDNAの塩基配列を入力として受け取り，各フラグメントの長さに相当する128bp毎の情報が一つの値となるような畳込み処理を行います．結果として131072/128=1024の長さのベクトル列が出力されます．このベクトル列はフラグメント毎の特徴が一つのベクトルに圧縮されたものとみなすことができます．</p>
 <p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算していく部分であり，DilatedBlockが担当します．DilatedBlockは，SqueezeBlockから出力された1024の長さのベクトル列を受け取り，Dilated
 Convolutionの仕組みを使うことで互いに離れた位置の情報を効率的に考慮した上で処理していき，入力と同じ1024の長さの出力を返します．この出力が，フラグメント毎に与えられたDNA関連タンパク質の結合可能性を表す数値（カバレッジ値）と一致するように学習を進めます．</p>
 <p>それでは，以下のコードを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.functions as F
 import chainer.links as L
@@ -729,11 +729,11 @@ class Net(chainer.Chain):
 <p>それぞれ，出力チャンネル，カーネルサイズ，プーリングの三つ組からなるリストと，出力チャンネル，カーネルサイズ，dilatedサイズの三つ組からなるリストを受け取ります．</p>
 <p>次に，ブロックの定義をします．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.functions as F
 import chainer.links as L
@@ -794,24 +794,24 @@ class DilatedBlock(chainer.Chain):
 <img alt="ネットワーク構造" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/7/network.png" />
 <p class="caption"><span class="caption-text">ネットワーク構造</span></p>
 </div>
-<p>WeightNormalization[2]はパラメータの表現を長さと向きに分解して表現する手法で，今回の系列問題のような場合に使われる正規化法です．コード中ではWeightNormalizationが適用された畳み込み層である<code class="docutils literal notranslate"><span class="pre">WNConvolutionND</span></code>が定義されています.</p>
-<p>SqueezeBlockは配列を縮めていき，長さが<span class="math notranslate nohighlight">\(2^{17}\)</span>の配列を<span class="math notranslate nohighlight">\(2^{10}\)</span>に縮めるためのブロックです（上図）．
-1次元配列を扱うためWNConvolutionNDを使い，最初の引数で1次元配列であることを示す<code class="docutils literal notranslate"><span class="pre">1</span></code>を指定しています．
-また，活性化関数では<span class="math notranslate nohighlight">\(h = Wx * sigmoid(Ux)\)</span>と表されるGated
+<p>WeightNormalization[2]はパラメータの表現を長さと向きに分解して表現する手法で，今回の系列問題のような場合に使われる正規化法です．コード中ではWeightNormalizationが適用された畳み込み層である<code class="docutils literal"><span class="pre">WNConvolutionND</span></code>が定義されています.</p>
+<p>SqueezeBlockは配列を縮めていき，長さが<span class="math">\(2^{17}\)</span>の配列を<span class="math">\(2^{10}\)</span>に縮めるためのブロックです（上図）．
+1次元配列を扱うためWNConvolutionNDを使い，最初の引数で1次元配列であることを示す<code class="docutils literal"><span class="pre">1</span></code>を指定しています．
+また，活性化関数では<span class="math">\(h = Wx * sigmoid(Ux)\)</span>と表されるGated
 Linear
-Unit[3]を利用しています．計算では効率化のため，WxとUxを別々に計算するのではなく2倍の出力チャンネル数を持つConvolutionを適用した後に出力結果をチャンネル方向に２つに分割し<span class="math notranslate nohighlight">\((Wx, Ux)\)</span>，片方にsigmoid関数を適用した後，それらを要素毎にかけ合わせます．</p>
+Unit[3]を利用しています．計算では効率化のため，WxとUxを別々に計算するのではなく2倍の出力チャンネル数を持つConvolutionを適用した後に出力結果をチャンネル方向に２つに分割し<span class="math">\((Wx, Ux)\)</span>，片方にsigmoid関数を適用した後，それらを要素毎にかけ合わせます．</p>
 <p>DilatedBlockはすでに長さ1024の長さになった配列に対し，Dilated
 Convolutionを使って遠距離にある情報も使って計算していくブロックです（上図）．引数としてdilatedを受け取ります．Dilated
 Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだが，Convolution2Dも同様）の引数にdilatedを加えるだけで計算できます．</p>
 <p>また，DilatedBlockではDenseNet[4]と呼ばれる，以前の途中結果が全て次の層の入力として使われる手法を採用します（DilatedBlock内
-forward()内の<code class="docutils literal notranslate"><span class="pre">concat</span></code>がそれに対応）．これはニューラルネットワークで多くのスキップ接続を作ることで，層が増えても勾配が減衰せず，学習がしやすくなることを利用したものです．</p>
+forward()内の<code class="docutils literal"><span class="pre">concat</span></code>がそれに対応）．これはニューラルネットワークで多くのスキップ接続を作ることで，層が増えても勾配が減衰せず，学習がしやすくなることを利用したものです．</p>
 <p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import numpy as np
 n = Net()
 size = 131072 # 128 * 1024
@@ -830,7 +830,7 @@ print(y.shape)
 (4, 1024, 10)
 </pre></div></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>ここで，もともとバッチサイズ(B)=4, 入力長(L)=131072,
@@ -838,13 +838,13 @@ print(y.shape)
 C=3の配列となりました．</p>
 <p>今回予測するカバレッチ値は，フラグメント毎にDNA関連タンパク質がどの程度の頻度で結合したかを表すカウントデータであるとみなせます．そこで学習ではカウントデータに対する損失関数である対数ポアソン損失関数を利用します．</p>
 <p>対数ポアソン損失関数を使う場合，モデルはポアソン分布の唯一のパラメータである平均を予測し，その予測された平均をもったポアソン分布を使った場合の学習データの尤度を計算します．そしてその尤度の最大化，それと同じである負の対数尤度の最小化を行います．この際，プログラム上では学習対象パラメータが含まれない項を無視しています．
-なお，この関数の最小値はそのままだと<span class="math notranslate nohighlight">\(0\)</span>にはならので，最小値である<span class="math notranslate nohighlight">\(t \log t\)</span>をあらかじめひいておき，損失関数の最小値が<span class="math notranslate nohighlight">\(0\)</span>となるようにします．</p>
+なお，この関数の最小値はそのままだと<span class="math">\(0\)</span>にはならので，最小値である<span class="math">\(t \log t\)</span>をあらかじめひいておき，損失関数の最小値が<span class="math">\(0\)</span>となるようにします．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer.functions as F
 import math
 import sklearn
@@ -865,11 +865,11 @@ def log_r2_score(log_x, t):
 <p>また，学習率の調整にCosineSchedulerを使います．ニューラルネットワークの学習では，徐々に学習率を小さくしていくと，より汎化性能の高い解を見つけられることがわかっています．ニューラルネットワークの学習の目的関数は多くの性能の悪い局所解があるため，最初は学習率を高くして局所解にはまらないようにして全体の中での良い解を探し，後半は徐々に学習率を0に近づけていき収束させるというものです．
 CosineSchedulerはCosine関数の0度から90度までの変化のように学習率を変化させます．また学習は初期が不安定なので最初のn_warmup回，学習率を0から初期学習率まで線形に増やすことも一般的です．今回は学習率が低めで学習も安定しているのでn_warmupは0としてあります．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>from chainer import training
 import numpy as np
 import math
@@ -911,11 +911,11 @@ class CosineScheduler(training.Extension):
 Augmentationを適用します．これは画像において回転させたり，平行移動させたりする場合と同じです．
 今回は128bp毎にカバレッジ値を予測していますが，数塩基（例えば4~8など）移動したとしてもカバレッジ値は同じ程度になることが期待されます．そこで最大max_shift分だけ配列を前後にシフトします（完全にランダムな塩基配列を余った部分に入れると実際の塩基配列の分布と変わる可能性があるのでここではroll()関数を巡回シフトしています）．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import random
 
@@ -945,13 +945,13 @@ class PreprocessedDataset(chainer.dataset.DatasetMixin):
 </div>
 </div>
 <p>これで全部準備ができました．残りはchainerのtrainerを改造して学習するだけです．以下のコードを実行してください．</p>
-<p>元々のデータ全体では学習に時間がかかるので，データ/<code class="docutils literal notranslate"><span class="pre">ratio</span></code>分だけを学習，検証用データとして利用します．今回<code class="docutils literal notranslate"><span class="pre">ratio</span></code>は1に設定されています．この場合30分程度で学習が完了します．短い時間で試したい方はratio=1をratio=10やratio=20として実験してみてください．</p>
+<p>元々のデータ全体では学習に時間がかかるので，データ/<code class="docutils literal"><span class="pre">ratio</span></code>分だけを学習，検証用データとして利用します．今回<code class="docutils literal"><span class="pre">ratio</span></code>は1に設定されています．この場合30分程度で学習が完了します．短い時間で試したい方はratio=1をratio=10やratio=20として実験してみてください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.functions as F
 import chainer.links as L
@@ -1077,11 +1077,11 @@ epoch       main/loss   validation/main/loss  elapsed_time
 </div>
 <p>学習が成功したならば，ディレクトリのout以下に学習されたモデルが出力されているはずです．実際にモデルが出力されているのかを確認しましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>!ls -l out/
 </pre></div>
 </div>
@@ -1107,11 +1107,11 @@ total 14172
 </div>
 <p>次に，学習したモデルを用いてテストデータに対しても予測してみます．次のようにして学習が終わったモデルを読み込み，テストデータに対してモデルを適用してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.links as L
 %matplotlib inline
@@ -1149,11 +1149,11 @@ variable([1.8674504  2.004048   1.68377    ... 0.81418294 0.7608197
 </div>
 <p>結果を抜粋して表示してみましょう．ここでは1つ目（i=0）の出力について正解と推定結果を出力しています．今回の場合でも，学習データを絞り（クラス数を10とした），学習回数も少ないですが，ピークを捉えられていることがわかると思います．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre>
+<div class="prompt highlight-none"><div class="highlight"><pre>
 <span></span>In [ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="input_area highlight-none"><div class="highlight"><pre>
 <span></span>y = test_y_estimated.data
 fig_size = plt.rcParams[&quot;figure.figsize&quot;]
 fig_size[0] = 20
@@ -1169,7 +1169,7 @@ plt.legend((b1, b2), (&#39;estimated&#39;, &#39;observed&#39;))
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<div class="output_area highlight-none"><div class="highlight"><pre>
 <span></span>&lt;matplotlib.legend.Legend at 0x7f037ea9f6d8&gt;
 </pre></div>
 </div>
@@ -1239,12 +1239,22 @@ CVPR 2017</li>
 
     
     
-      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
 
   
