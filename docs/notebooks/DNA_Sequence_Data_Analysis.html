@@ -753,7 +753,7 @@ class WNConvolutionND(L.ConvolutionND):
         norm_broadcasted = F.broadcast_to(
             F.reshape(norm, (channel_size, 1, 1)), self.W.data.shape)
         g_broadcasted = F.broadcast_to(
-            F.reshape(norm, (channel_size, 1, 1)), self.W.data.shape)
+            F.reshape(self.g, (channel_size, 1, 1)), self.W.data.shape)
         return F.convolution_nd(
             x, g_broadcasted * self.W / norm_broadcasted, self.b, self.stride,
             self.pad, self.cover_all, self.dilate)
@@ -830,12 +830,12 @@ print(y.shape)
 (4, 1024, 10)
 </pre></div></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>ここで，もともとバッチサイズ(B)=4, 入力長(L)=131072,
 入力チャンネル数(C)=4だった配列が計算後はB=4, L=1024,
-C=3の配列となりました．</p>
+C=10の配列となりました．</p>
 <p>今回予測するカバレッチ値は，フラグメント毎にDNA関連タンパク質がどの程度の頻度で結合したかを表すカウントデータであるとみなせます．そこで学習ではカウントデータに対する損失関数である対数ポアソン損失関数を利用します．</p>
 <p>対数ポアソン損失関数を使う場合，モデルはポアソン分布の唯一のパラメータである平均を予測し，その予測された平均をもったポアソン分布を使った場合の学習データの尤度を計算します．そしてその尤度の最大化，それと同じである負の対数尤度の最小化を行います．この際，プログラム上では学習対象パラメータが含まれない項を無視しています．
 なお，この関数の最小値はそのままだと<span class="math">\(0\)</span>にはならので，最小値である<span class="math">\(t \log t\)</span>をあらかじめひいておき，損失関数の最小値が<span class="math">\(0\)</span>となるようにします．</p>
