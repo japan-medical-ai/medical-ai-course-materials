@@ -193,6 +193,11 @@
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
 </style>
 <div class="section" id="ai">
 <h1>メディカルAI専門コース オンライン講義資料<a class="headerlink" href="#ai" title="このヘッドラインへのパーマリンク">¶</a></h1>
@@ -227,8 +232,8 @@ Python，Google Colaboratoryについては様々な参考資料や解説サイ�
 </ul>
 </div>
 <div class="section" id="open-in-colab">
-<h2>「Open in Colab」ボタンについて<a class="headerlink" href="#open-in-colab" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>各章のページの冒頭には，以下のような」Open in Colab」と書かれたボタンが設置されています．これをクリックすると，Google Colaboratory上で資料が開き，途中のコードを実際に実行しながら読み進めることができます．4章以降は基本的にGoogle Colaboratory上でコードを実行しながら読み進めていくことを前提に書かれています．すべての講義資料はGoogle Colaboratoryが動作している環境（Ubuntu 18.04）を前提としています．それ以外の環境で動作させることは想定していません．</p>
+<h2>&quot;Open in Colab&quot;ボタンについて<a class="headerlink" href="#open-in-colab" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>各章のページの冒頭には，以下のような&quot;Open in Colab&quot;と書かれたボタンが設置されています．これをクリックすると，Google Colaboratory上で資料が開き，途中のコードを実際に実行しながら読み進めることができます．4章以降は基本的にGoogle Colaboratory上でコードを実行しながら読み進めていくことを前提に書かれています．すべての講義資料はGoogle Colaboratoryが動作している環境（Ubuntu 18.04）を前提としています．それ以外の環境で動作させることは想定していません．</p>
 <img alt="https://colab.research.google.com/assets/colab-badge.svg" src="https://colab.research.google.com/assets/colab-badge.svg" /><p>（このボタンをクリックしてもGoogle Colabは開きません．各章のページへ移動してからお試しください．）</p>
 </div>
 <div class="section" id="id4">
@@ -312,22 +317,14 @@ Python，Google Colaboratoryについては様々な参考資料や解説サイ�
 
     
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'./',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
         <script type="text/javascript" src="_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   

@@ -263,18 +263,18 @@ div.nblast {
 
 /* input prompt */
 div.nbinput div.prompt pre {
-    color: #303F9F;
+    color: #307FC1;
 }
 
 /* output prompt */
 div.nboutput div.prompt pre {
-    color: #D84315;
+    color: #BF5B3D;
 }
 
 /* all prompts */
 div.nbinput div.prompt,
 div.nboutput div.prompt {
-    min-width: 8ex;
+    min-width: 5ex;
     padding-top: 0.4em;
     padding-right: 0.4em;
     text-align: right;
@@ -314,9 +314,9 @@ div.nboutput div.output_area {
 
 /* input area */
 div.nbinput div.input_area {
-    border: 1px solid #cfcfcf;
+    border: 1px solid #e0e0e0;
     border-radius: 2px;
-    background: #f7f7f7;
+    background: #f5f5f5;
 }
 
 /* override MathJax center alignment in output cells */
@@ -324,7 +324,7 @@ div.nboutput div[class*=MathJax] {
     text-align: left !important;
 }
 
-/* override sphinx.ext.pngmath center alignment in output cells */
+/* override sphinx.ext.imgmath center alignment in output cells */
 div.nboutput div.math p {
     text-align: left;
 }
@@ -374,6 +374,40 @@ div.nboutput div.output_area.stderr {
 .ansi-bold { font-weight: bold; }
 .ansi-underline { text-decoration: underline; }
 
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
 /* CSS overrides for sphinx_rtd_theme */
 
 /* 24px margin */
@@ -390,26 +424,22 @@ div.nboutput div.output_area.stderr {
 .admonition > p:before {
     margin-right: 4px;  /* make room for the exclamation icon */
 }
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
 </style>
 <p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/Image_Segmentation.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
 <div class="section" id="実践編:-MRI画像のセグメンテーション">
 <h1>5. 実践編: MRI画像のセグメンテーション<a class="headerlink" href="#実践編:-MRI画像のセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>画像を対象とした深層学習の応用技術には様々なものがあります．例えば，画像の中の個別の物体の周りを矩形で囲むようにして検出する<strong>物体検出</strong>や，画像内で個別物体が占める領域を認識する<strong>画像セグメンテーション</strong>などがあります．</p>
 <p><strong>物体検出</strong>は，対象物体の<strong>「種類」と「位置」を認識する技術</strong>であるといえます．</p>
-<p><img alt="物体検出の例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/FasterRCNN-result.png" />
-（上図：物体検出の例．矩形で対象物体を囲い，そのクラスを答えるタスク．元画像はPascal
-VOCデータセットより．これにChainerCVによるFaster
-R-CNN（両者とも後述）を適用した結果．）</p>
-<p><strong>画像セグメンテーション</strong>には2種類あります．1つは，個別の物体を区別するInstance-aware
-Segmentationです．もう一つは，同一クラスの物体であれば個を区別しないSemantic
-Segmentationです．今回は，後者を扱います．</p>
-<p><img alt="セグメンテーションの例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet-result.png" /> （上図：Semantic
-Segmentationの例．ピクセル単位でクラス分類を行うタスク．画像を，予め決められた数の色で塗り絵をするようなイメージ．図はCityscapesデータセットを用いて学習したあるセグメンテーションモデルの出力結果例．）</p>
-<p>画像セグメンテーションは，4章で扱った画像全体に対して一つのクラスを割り当てる分類問題とは異なり，画像内の全ピクセルを，ピクセルごとに分類していきます．そのため，Pixel
-labeling
-タスクとも呼ばれます．これは，対象物体の<strong>「種類」と「位置」と「形」を認識する技術</strong>であるといえるでしょう．</p>
-<p>今回は，深層学習フレームワークChainerを用いて，このSemantic
-Segmentationタスクに取り組んでみましょう．</p>
+<p><img alt="物体検出の例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/FasterRCNN-result.png" /> （上図：物体検出の例．矩形で対象物体を囲い，そのクラスを答えるタスク．元画像はPascal VOCデータセットより．これにChainerCVによるFaster R-CNN（両者とも後述）を適用した結果．）</p>
+<p><strong>画像セグメンテーション</strong>には2種類あります．1つは，個別の物体を区別するInstance-aware Segmentationです．もう一つは，同一クラスの物体であれば個を区別しないSemantic Segmentationです．今回は，後者を扱います．</p>
+<p><img alt="セグメンテーションの例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet-result.png" /> （上図：Semantic Segmentationの例．ピクセル単位でクラス分類を行うタスク．画像を，予め決められた数の色で塗り絵をするようなイメージ．図はCityscapesデータセットを用いて学習したあるセグメンテーションモデルの出力結果例．）</p>
+<p>画像セグメンテーションは，4章で扱った画像全体に対して一つのクラスを割り当てる分類問題とは異なり，画像内の全ピクセルを，ピクセルごとに分類していきます．そのため，Pixel labeling タスクとも呼ばれます．これは，対象物体の<strong>「種類」と「位置」と「形」を認識する技術</strong>であるといえるでしょう．</p>
+<p>今回は，深層学習フレームワークChainerを用いて，このSemantic Segmentationタスクに取り組んでみましょう．</p>
 <div class="section" id="環境構築">
 <h2>5.1. 環境構築<a class="headerlink" href="#環境構築" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ここで用いるライブラリは，</p>
@@ -419,14 +449,12 @@ Segmentationタスクに取り組んでみましょう．</p>
 <li>ChainerCV</li>
 <li>matplotlib</li>
 </ul>
-<p>です．Google
-Colab上では，以下のようにしてインストールすることができます．以下のセルを実行してください．</p>
+<p>です．Google Colab上では，以下のようにしてインストールすることができます．以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!curl https://colab.chainer.org/install | sh -  # ChainerとCuPyのインストール
 !pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール
 </pre></div>
@@ -434,11 +462,10 @@ Colab上では，以下のようにしてインストールすることができ
 </div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンなどを確認します．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import chainer
 import cupy
 import chainercv
@@ -475,33 +502,23 @@ matplotlib: 2.1.2
 </div>
 <div class="section" id="Semantic-Segmentationについて">
 <h2>5.2. Semantic Segmentationについて<a class="headerlink" href="#Semantic-Segmentationについて" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Semantic Segmentationは，Computer
-Visionの分野で現在も活発に研究が行われているタスクの一つで，入力画像の画素ひとつひとつに対して，なんらかのクラスを与えていくという問題です．しかし，<strong>人間ですら，あるピクセルひとつだけを見てそれが何かを推測するのは不可能です</strong>．そのため，いかにして<strong>周囲のピクセルの情報を加味</strong>しながら，ひとつひとつのピクセルの分類を行うか，が重要となります．</p>
+<p>Semantic Segmentationは，Computer Visionの分野で現在も活発に研究が行われているタスクの一つで，入力画像の画素ひとつひとつに対して，なんらかのクラスを与えていくという問題です．しかし，<strong>人間ですら，あるピクセルひとつだけを見てそれが何かを推測するのは不可能です</strong>．そのため，いかにして<strong>周囲のピクセルの情報を加味</strong>しながら，ひとつひとつのピクセルの分類を行うか，が重要となります．</p>
 <p>ニューラルネットワークを用いてこの問題を解く場合は，<strong>「画像を入力して，画像を出力するネットワーク」</strong>を作って学習することになります．そのため，入力画像とペアになる正解ラベル画像は，同じ大きさを持つ，各ピクセルの所属クラス番号が入ったシングルチャンネルの画像とすることが一般的です．</p>
-<p>ネットワークの出力は，<span class="math">\(C\)</span>クラス分類をする場合は<span class="math">\(C\)</span>チャンネルの画像になります．それを各ピクセルごとにチャンネル方向にSoftmax関数を適用して確率ベクトルにし，正解のクラスの値が大きくなるよう（高い確信をもって正解クラスを予測できるよう）にすることで学習を行います．画像分類（Classification）の際の目的関数の計算を，<strong>ピクセルごとに行っている</strong>と考えることもできます．そして，ピクセルごとの分類誤差を，画像サイズ分だけ足し合わせたものが最小化の対象となります．</p>
-<p>ここで，<span class="math">\(C=2\)</span>の場合だけは，ネットワークの出力を<span class="math">\(1\)</span>チャンネルにし，損失関数をSigmoid
-Cross Entropyとすることもあります．</p>
+<p>ネットワークの出力は，<span class="math notranslate nohighlight">\(C\)</span>クラス分類をする場合は<span class="math notranslate nohighlight">\(C\)</span>チャンネルの画像になります．それを各ピクセルごとにチャンネル方向にSoftmax関数を適用して確率ベクトルにし，正解のクラスの値が大きくなるよう（高い確信をもって正解クラスを予測できるよう）にすることで学習を行います．画像分類（Classification）の際の目的関数の計算を，<strong>ピクセルごとに行っている</strong>と考えることもできます．そして，ピクセルごとの分類誤差を，画像サイズ分だけ足し合わせたものが最小化の対象となります．</p>
+<p>ここで，<span class="math notranslate nohighlight">\(C=2\)</span>の場合だけは，ネットワークの出力を<span class="math notranslate nohighlight">\(1\)</span>チャンネルにし，損失関数をSigmoid Cross Entropyとすることもあります．</p>
 </div>
 <div class="section" id="使用するデータセット">
 <h2>5.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>これから使用するデータセットは，心臓MRI画像（短軸像）と，それに専門家がラベルを付けたものです．データについて詳しくはこちらをご参照ください[1,
-2, 3]．</p>
-<p>[1] Sunnybrook cardiac images from earlier competition
-<a class="reference external" href="http://smial.sri.utoronto.ca/LV_Challenge/Data.html">http://smial.sri.utoronto.ca/LV_Challenge/Data.html</a></p>
-<p>[2] 「This “Sunnybrook Cardiac MR Database” is made available under the
-CC0 1.0 Universal license described above, and with more detail here:
-<a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a>」</p>
-<p>[3] Attribution: Radau P, Lu Y, Connelly K, Paul G, Dick AJ, Wright GA.
-“Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI.”
-The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge,
-<a class="reference external" href="http://hdl.handle.net/10380/3070">http://hdl.handle.net/10380/3070</a></p>
+<p>これから使用するデータセットは，心臓MRI画像（短軸像）と，それに専門家がラベルを付けたものです．データについて詳しくはこちらをご参照ください[1, 2, 3]．</p>
+<p>[1] Sunnybrook cardiac images from earlier competition <a class="reference external" href="http://smial.sri.utoronto.ca/LV_Challenge/Data.html">http://smial.sri.utoronto.ca/LV_Challenge/Data.html</a></p>
+<p>[2] 「This 「Sunnybrook Cardiac MR Database」 is made available under the CC0 1.0 Universal license described above, and with more detail here: <a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a>」</p>
+<p>[3] Attribution: Radau P, Lu Y, Connelly K, Paul G, Dick AJ, Wright GA. 「Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI.」 The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge, <a class="reference external" href="http://hdl.handle.net/10380/3070">http://hdl.handle.net/10380/3070</a></p>
 <p>まずは，データをダウンロードします．これは配布元のデータセットを今回用いやすいように加工し終えたものです．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>!if [ ! -d train ]; then curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/train.zip &amp;&amp; unzip train.zip &amp;&amp; rm -rf train.zip; fi
 !if [ ! -d val ]; then curl -L -O https://github.com/mitmul/chainer-handson/releases/download/SegmentationDataset/val.zip &amp;&amp; unzip val.zip &amp;&amp; rm -rf val.zip; fi
 </pre></div>
@@ -509,11 +526,10 @@ The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge,
 </div>
 <p>次に，このデータセットから抜き出した画像ペアの例を示します．下のセルを実行してみてください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>%matplotlib inline
 
 import matplotlib.pyplot as plt
@@ -543,42 +559,29 @@ plt.show()
 </div>
 </div>
 <p>左側がMRI画像，右側がそれに対し専門家が作成した左心室の部分をマスクした画像となっています．右側のマスク画像のうち，<strong>白く塗りつぶされている領域が，今回見つけ出したい左心室の領域となっています</strong>．左心室の大きさは，画像ごとに異なっており，形もまた様々です．ただし，<strong>画像全体に対して左心室が占める領域は比較的小さい</strong>ということは共通しています．</p>
-<p>今回は，MRI画像データを，提供元が配布している形式（DICOM形式）から扱いやすいよう一般的な画像フォーマット（PNG）に変換して用いますが，そのための作業については説明しません．もし今回用いるMRI画像群のデータ整形の方法について興味をお持ちの方は，以前行われたKaggleのコンペティションに関連して提供されているこちらのチュートリアルをご参照ください：<a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">Kaggle
-competition: Second Annual Data Science
-Bowl</a>
-[7]）</p>
-<p>今回用いるデータセットの元となったデータは，医療画像では一般的な画像フォーマットである
-<a class="reference external" href="https://en.wikipedia.org/wiki/DICOM">DICOM</a>
-形式で配布されており，画像サイズは 256 x 256
+<p>今回は，MRI画像データを，提供元が配布している形式（DICOM形式）から扱いやすいよう一般的な画像フォーマット（PNG）に変換して用いますが，そのための作業については説明しません．もし今回用いるMRI画像群のデータ整形の方法について興味をお持ちの方は，以前行われたKaggleのコンペティションに関連して提供されているこちらのチュートリアルをご参照ください：<a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">Kaggle competition: Second Annual Data Science Bowl</a> [7]）</p>
+<p>今回用いるデータセットの元となったデータは，医療画像では一般的な画像フォーマットである <a class="reference external" href="https://en.wikipedia.org/wiki/DICOM">DICOM</a> 形式で配布されており，画像サイズは 256 x 256
 のグレースケール画像になっています．今回は，これをあらかじめPNG画像に変換してあります．ラベル画像は，同じ大きさの二値画像となっており，<strong>左心室の領域内部のピクセルは画素値として1を持ち，それ以外のピクセルは0で埋められています</strong>．今回用いる学習用データセットは234枚の画像ペア（グレースケールのMRI画像と，対応する二値のラベル画像のペア）からなり．検証用データは，26枚の画像からなります．検証用データは学習用データとは別に用意されたものです．</p>
-<p>[7]
-<a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial</a></p>
+<p>[7] <a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial</a></p>
 <div class="section" id="Chainerを用いた学習の流れ">
 <h3>5.3.1. Chainerを用いた学習の流れ<a class="headerlink" href="#Chainerを用いた学習の流れ" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>今回は，4章で扱ったChainerを使ってSemantic
-Segmentationに取り組みます．画像から画像を出力するネットワークを記述します．
-4章でも述べたように，Chainerには，学習ループ抽象化のためのクラスである<code class="docutils literal"><span class="pre">Trainer</span></code>が用意されています．これを用いて，左心房であるかそれ以外かの2クラスにすべてのピクセルを分類するSemantic
-Segmentationタスクに取り組みます．<code class="docutils literal"><span class="pre">Trainer</span></code>を使って学習を行う際にユーザがする必要がある準備について再度復習しましょう．</p>
+<p>今回は，4章で扱ったChainerを使ってSemantic Segmentationに取り組みます．画像から画像を出力するネットワークを記述します． 4章でも述べたように，Chainerには，学習ループ抽象化のためのクラスである<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>が用意されています．これを用いて，左心室であるかそれ以外かの2クラスにすべてのピクセルを分類するSemantic Segmentationタスクに取り組みます．<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>を使って学習を行う際にユーザがする必要がある準備について再度復習しましょう．</p>
 <ol class="arabic simple">
 <li>Datasetオブジェクトの準備（学習に使うデータを一つ一つ返す）</li>
 <li>DatasetオブジェクトをIteratorにくるむ（Dataset内のデータをバッチサイズ分束ねて返す）</li>
-<li>モデルの定義（学習対象になるニューラルネットワーク．<code class="docutils literal"><span class="pre">chainer.Chain</span></code>クラスを継承して書く）</li>
-<li>最適化手法の選択（<code class="docutils literal"><span class="pre">chainer.optimizers</span></code>以下にある最適化手法から選ぶ）</li>
-<li><code class="docutils literal"><span class="pre">Updater</span></code>オブジェクトの準備（<code class="docutils literal"><span class="pre">Iterator</span></code>と<code class="docutils literal"><span class="pre">Optimizer</span></code>をとり，実際の学習部分（パラメータアップデート）を行うもの）</li>
-<li><code class="docutils literal"><span class="pre">Trainer</span></code>オブジェクトの作成（学習ループの管理）</li>
+<li>モデルの定義（学習対象になるニューラルネットワーク．<code class="docutils literal notranslate"><span class="pre">chainer.Chain</span></code>クラスを継承して書く）</li>
+<li>最適化手法の選択（<code class="docutils literal notranslate"><span class="pre">chainer.optimizers</span></code>以下にある最適化手法から選ぶ）</li>
+<li><code class="docutils literal notranslate"><span class="pre">Updater</span></code>オブジェクトの準備（<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>と<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>をとり，実際の学習部分（パラメータアップデート）を行うもの）</li>
+<li><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトの作成（学習ループの管理）</li>
 </ol>
-<p><code class="docutils literal"><span class="pre">Trainer</span></code>に含まれるコンポーネントは，以下のような関係になっています．</p>
-<div class="figure" id="id14">
-<img alt="Trainer関連のコンポーネント間の関係" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/trainer.png" />
-<p class="caption"><span class="caption-text">Trainer関連のコンポーネント間の関係</span></p>
-</div>
+<p><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>に含まれるコンポーネントは，以下のような関係になっています．</p>
+<p><img alt="Trainer関連のコンポーネント間の関係" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/trainer.png" /></p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Updater</span></code>は，<code class="docutils literal"><span class="pre">Iterator</span></code>から<code class="docutils literal"><span class="pre">Dataset</span></code>にあるデータを指定したバッチサイズ数だけ取り出し，<code class="docutils literal"><span class="pre">Model</span></code>に与えて目的関数の値を計算し，<code class="docutils literal"><span class="pre">Optimizer</span></code>によってパラメータを更新する，という一連の作業（これが1
-iterationになります）を隠蔽しています．</li>
-<li><code class="docutils literal"><span class="pre">Trainer</span></code>は<code class="docutils literal"><span class="pre">Extension</span></code>という拡張機能を使うことができ，指定したタイミング（毎iterationや，毎epoch）でログを取る，目的関数の値や精度のプロットを描画して保存，などを自動的に行うことができます．</li>
+<li><code class="docutils literal notranslate"><span class="pre">Updater</span></code>は，<code class="docutils literal notranslate"><span class="pre">Iterator</span></code>から<code class="docutils literal notranslate"><span class="pre">Dataset</span></code>にあるデータを指定したバッチサイズ数だけ取り出し，<code class="docutils literal notranslate"><span class="pre">Model</span></code>に与えて目的関数の値を計算し，<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>によってパラメータを更新する，という一連の作業（これが1 iterationになります）を隠蔽しています．</li>
+<li><code class="docutils literal notranslate"><span class="pre">Trainer</span></code>は<code class="docutils literal notranslate"><span class="pre">Extension</span></code>という拡張機能を使うことができ，指定したタイミング（毎iterationや，毎epoch）でログを取る，目的関数の値や精度のプロットを描画して保存，などを自動的に行うことができます．</li>
 </ul>
-<p>Chainerを用いてネットワークの学習を記述する場合は，上の図の<strong>内側から順に定義していき</strong>，最後にすべてを持った<code class="docutils literal"><span class="pre">Trainer</span></code>オブジェクトを作成し，<code class="docutils literal"><span class="pre">trainer.run()</span></code>のようにして学習を開始することになります．</p>
-<p>（<code class="docutils literal"><span class="pre">Trainer</span></code>を使わず，自分で学習ループを記述することもできますが，今回は<code class="docutils literal"><span class="pre">Trainer</span></code>を使用することを前提とします．自分で学習ループを記述する方法を知りたい場合は4章を参照してください）</p>
+<p>Chainerを用いてネットワークの学習を記述する場合は，上の図の<strong>内側から順に定義していき</strong>，最後にすべてを持った<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを作成し，<code class="docutils literal notranslate"><span class="pre">trainer.run()</span></code>のようにして学習を開始することになります．</p>
+<p>（<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>を使わず，自分で学習ループを記述することもできますが，今回は<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>を使用することを前提とします．自分で学習ループを記述する方法を知りたい場合は4章を参照してください）</p>
 </div>
 </div>
 <div class="section" id="全結合型ニューラルネットワークによるセグメンテーション">
@@ -586,15 +589,13 @@ iterationになります）を隠蔽しています．</li>
 <p>まずは単純なモデルから学習を開始します．全結合層3つからなるニューラルネットワークを使って，MRI画像を入力にとり，左心室らしさのグレースケール画像を出力するモデルを学習しましょう．</p>
 <div class="section" id="データセットの準備">
 <h3>5.4.1. データセットの準備<a class="headerlink" href="#データセットの準備" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>まずはデータセットの準備をします．Chainerにはいくつかの便利なデータセットまわりのクラスが用意されています．<code class="docutils literal"><span class="pre">ImageDataset</span></code>は，画像ファイルへのファイルパスのリストを渡して初期化してやると，そのパスにある画像を<strong>学習時に</strong>ディスクから読み込み，それを返してくれるようなデータセットクラスです．<code class="docutils literal"><span class="pre">TupleDataset</span></code>は，複数のデータセットオブジェクトを渡して初期化すると，それらから同じインデックスを持つデータをタプルに束ねて返してくれるようなデータセットオブジェクトを作成するクラスです．（Pythonの<code class="docutils literal"><span class="pre">zip</span></code>と同様です．）</p>
-<p>今回はSemantic
-Segmentationなので，入力も出力も画像です．なので，2つの<code class="docutils literal"><span class="pre">ImageDataset</span></code>オブジェクトを作成します．以下のセルを実行してください．</p>
+<p>まずはデータセットの準備をします．Chainerにはいくつかの便利なデータセットまわりのクラスが用意されています．<code class="docutils literal notranslate"><span class="pre">ImageDataset</span></code>は，画像ファイルへのファイルパスのリストを渡して初期化してやると，そのパスにある画像を<strong>学習時に</strong>ディスクから読み込み，それを返してくれるようなデータセットクラスです．<code class="docutils literal notranslate"><span class="pre">TupleDataset</span></code>は，複数のデータセットオブジェクトを渡して初期化すると，それらから同じインデックスを持つデータをタプルに束ねて返してくれるようなデータセットオブジェクトを作成するクラスです．（Pythonの<code class="docutils literal notranslate"><span class="pre">zip</span></code>と同様です．）</p>
+<p>今回はSemantic Segmentationなので，入力も出力も画像です．なので，2つの<code class="docutils literal notranslate"><span class="pre">ImageDataset</span></code>オブジェクトを作成します．以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import glob
 from chainer import datasets
 
@@ -607,20 +608,17 @@ def create_dataset(img_filenames, label_filenames):
 </pre></div>
 </div>
 </div>
-<p>上の関数は，入力画像のファイルパスのリスト<code class="docutils literal"><span class="pre">img_filenames</span></code>と，正解ラベル画像（0
-or
-1の画素値を持つ二値画像）のファイルパスのリスト<code class="docutils literal"><span class="pre">label_filenames</span></code>を与えて，2つのデータセットオブジェクトを<code class="docutils literal"><span class="pre">TupleDataset</span></code>で束ねて返すものになっています．</p>
-<p><code class="docutils literal"><span class="pre">img</span></code>は入力画像のデータセットですが，まるで入力画像が入ったリストのように振る舞い，<code class="docutils literal"><span class="pre">img[i]</span></code>は<code class="docutils literal"><span class="pre">i</span></code>番目の画像を返します（<code class="docutils literal"><span class="pre">[i]</span></code>でアクセスしたときに初めてディスクから画像が読み込まれます）．</p>
-<p><code class="docutils literal"><span class="pre">label</span></code>も同様に，ラベル画像のリストのように振る舞います．これらを<code class="docutils literal"><span class="pre">TupleDataset</span></code>で束ねて作った<code class="docutils literal"><span class="pre">dataset</span></code>は，<code class="docutils literal"><span class="pre">dataset[i]</span></code>でアクセスすると<code class="docutils literal"><span class="pre">(img[i],</span> <span class="pre">label[i])</span></code>というタプル（値の２つ以上の集まり）を返すものになります．（これは<code class="docutils literal"><span class="pre">img</span></code>と<code class="docutils literal"><span class="pre">label</span></code>が同じ長さのリストの場合，<code class="docutils literal"><span class="pre">zip(img,</span> <span class="pre">label)</span></code>の結果と同じです．）</p>
-<p>次に，この関数内の2行目において，<code class="docutils literal"><span class="pre">ImageDataset</span></code>で作った入力データセットを元に<code class="docutils literal"><span class="pre">TransformDataset</span></code>という新しいデータセットを作っています．<code class="docutils literal"><span class="pre">TransformDataset</span></code>は，第1引数に与えられたデータセットにアクセスする際に<strong>第2引数に与えた関数を適用してから返す</strong>ようにできるクラスで，任意の関数を与えてデータを変換させる処理をはさむことができます．ここでは，変換を行う関数を<code class="docutils literal"><span class="pre">lambda</span></code>関数を使って与え，単純に値域を<span class="math">\([0, 1]\)</span>に変換するだけの処理を行っています．この他，例えば内部で乱数によって様々な変換（画像の場合，ランダムに左右反転を行ったり，ランダムな角度で回転をしたり，などがよく行われます）を施す関数を引数として渡すことでData
+<p>上の関数は，入力画像のファイルパスのリスト<code class="docutils literal notranslate"><span class="pre">img_filenames</span></code>と，正解ラベル画像（0 or 1の画素値を持つ二値画像）のファイルパスのリスト<code class="docutils literal notranslate"><span class="pre">label_filenames</span></code>を与えて，2つのデータセットオブジェクトを<code class="docutils literal notranslate"><span class="pre">TupleDataset</span></code>で束ねて返すものになっています．</p>
+<p><code class="docutils literal notranslate"><span class="pre">img</span></code>は入力画像のデータセットですが，まるで入力画像が入ったリストのように振る舞い，<code class="docutils literal notranslate"><span class="pre">img[i]</span></code>は<code class="docutils literal notranslate"><span class="pre">i</span></code>番目の画像を返します（<code class="docutils literal notranslate"><span class="pre">[i]</span></code>でアクセスしたときに初めてディスクから画像が読み込まれます）．</p>
+<p><code class="docutils literal notranslate"><span class="pre">label</span></code>も同様に，ラベル画像のリストのように振る舞います．これらを<code class="docutils literal notranslate"><span class="pre">TupleDataset</span></code>で束ねて作った<code class="docutils literal notranslate"><span class="pre">dataset</span></code>は，<code class="docutils literal notranslate"><span class="pre">dataset[i]</span></code>でアクセスすると<code class="docutils literal notranslate"><span class="pre">(img[i],</span> <span class="pre">label[i])</span></code>というタプル（値の２つ以上の集まり）を返すものになります．（これは<code class="docutils literal notranslate"><span class="pre">img</span></code>と<code class="docutils literal notranslate"><span class="pre">label</span></code>が同じ長さのリストの場合，<code class="docutils literal notranslate"><span class="pre">zip(img,</span> <span class="pre">label)</span></code>の結果と同じです．）</p>
+<p>次に，この関数内の2行目において，<code class="docutils literal notranslate"><span class="pre">ImageDataset</span></code>で作った入力データセットを元に<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>という新しいデータセットを作っています．<code class="docutils literal notranslate"><span class="pre">TransformDataset</span></code>は，第1引数に与えられたデータセットにアクセスする際に<strong>第2引数に与えた関数を適用してから返す</strong>ようにできるクラスで，任意の関数を与えてデータを変換させる処理をはさむことができます．ここでは，変換を行う関数を<code class="docutils literal notranslate"><span class="pre">lambda</span></code>関数を使って与え，単純に値域を<span class="math notranslate nohighlight">\([0, 1]\)</span>に変換するだけの処理を行っています．この他，例えば内部で乱数によって様々な変換（画像の場合，ランダムに左右反転を行ったり，ランダムな角度で回転をしたり，などがよく行われます）を施す関数を引数として渡すことでData
 augmentationを簡単に実装することができます．</p>
-<p>この<code class="docutils literal"><span class="pre">create_dataset</span></code>関数を使って学習用・検証用それぞれのデータセットオブジェクトを作成しましょう．下のセルを実行してください．</p>
+<p>この<code class="docutils literal notranslate"><span class="pre">create_dataset</span></code>関数を使って学習用・検証用それぞれのデータセットオブジェクトを作成しましょう．下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>def create_datasets():
     # Python標準のglobを使ってMRI画像ファイル名/ラベル画像ファイル名の一覧を取得
     train_img_filenames = sorted(glob.glob(&#39;train/image/*.png&#39;))
@@ -638,14 +636,13 @@ augmentationを簡単に実装することができます．</p>
 </pre></div>
 </div>
 </div>
-<p>この関数<code class="docutils literal"><span class="pre">create_datasets()</span></code>では，まずPython標準に備わっている<code class="docutils literal"><span class="pre">glob</span></code>を使って，<code class="docutils literal"><span class="pre">.png</span></code>の拡張子を持つ画像ファイルを指定したディレクトリ以下から探してきて，ファイルパスが格納されたリストを作ります．次に，入力画像とラベル画像のファイルリストが同じインデックスで対応したデータをそれぞれ指すように，<code class="docutils literal"><span class="pre">sorted</span></code>を使ってファイル名をソートしています（<code class="docutils literal"><span class="pre">glob</span></code>関数で列挙されるファイルリストは必ずしもソートされているとは限りません）．そのあと，それらのファイル名リストを先程の<code class="docutils literal"><span class="pre">create_dataset</span></code>関数に渡して，データセットオブジェクトを作成しています．同様のことを検証用の画像ファイルに対しても行い，<code class="docutils literal"><span class="pre">train</span></code>と<code class="docutils literal"><span class="pre">val</span></code>2つのデータセットオブジェクトを作成して返します．</p>
+<p>この関数<code class="docutils literal notranslate"><span class="pre">create_datasets()</span></code>では，まずPython標準に備わっている<code class="docutils literal notranslate"><span class="pre">glob</span></code>を使って，<code class="docutils literal notranslate"><span class="pre">.png</span></code>の拡張子を持つ画像ファイルを指定したディレクトリ以下から探してきて，ファイルパスが格納されたリストを作ります．次に，入力画像とラベル画像のファイルリストが同じインデックスで対応したデータをそれぞれ指すように，<code class="docutils literal notranslate"><span class="pre">sorted</span></code>を使ってファイル名をソートしています（<code class="docutils literal notranslate"><span class="pre">glob</span></code>関数で列挙されるファイルリストは必ずしもソートされているとは限りません）．そのあと，それらのファイル名リストを先程の<code class="docutils literal notranslate"><span class="pre">create_dataset</span></code>関数に渡して，データセットオブジェクトを作成しています．同様のことを検証用の画像ファイルに対しても行い，<code class="docutils literal notranslate"><span class="pre">train</span></code>と<code class="docutils literal notranslate"><span class="pre">val</span></code>2つのデータセットオブジェクトを作成して返します．</p>
 <p>ではこの関数を呼んでみましょう．下のセルを実行してください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>train, val = create_datasets()
 
 print(&#39;Dataset size:\n\ttrain:\t{}\n\tvalid:\t{}&#39;.format(len(train), len(val)))
@@ -662,17 +659,16 @@ Dataset size:
         valid:  26
 </pre></div></div>
 </div>
-<p>この関数を呼べば，訓練用データセットオブジェクトと検証用データセットオブジェクトを作成できます．データセットオブジェクトは基本的にはリストとして扱うことができるます．例えば組み込み関数の<code class="docutils literal"><span class="pre">len()</span></code>を使っていくつのデータが含まれているかを知ることができます．</p>
+<p>この関数を呼べば，訓練用データセットオブジェクトと検証用データセットオブジェクトを作成できます．データセットオブジェクトは基本的にはリストとして扱うことができるます．例えば組み込み関数の<code class="docutils literal notranslate"><span class="pre">len()</span></code>を使っていくつのデータが含まれているかを知ることができます．</p>
 </div>
 <div class="section" id="モデルの定義">
 <h3>5.4.2. モデルの定義<a class="headerlink" href="#モデルの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>次に，訓練するモデルの定義です．ここでは4章でも扱った全結合型ニューラルネットワークを使います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>import chainer
 import chainer.functions as F
 import chainer.links as L
@@ -703,22 +699,20 @@ class MultiLayerPerceptron(chainer.Chain):
 </div>
 <div class="section" id="Trainerの定義">
 <h3>5.4.3. Trainerの定義<a class="headerlink" href="#Trainerの定義" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>次にTrainerを定義しましょう．<code class="docutils literal"><span class="pre">Trainer</span></code>オブジェクトを作成して返してくれる<code class="docutils literal"><span class="pre">create_trainer</span></code>関数を定義しましょう．各引数の定義は以下の通りです‥</p>
+<p>次にTrainerを定義しましょう．<code class="docutils literal notranslate"><span class="pre">Trainer</span></code>オブジェクトを作成して返してくれる<code class="docutils literal notranslate"><span class="pre">create_trainer</span></code>関数を定義しましょう．各引数の定義は以下の通りです‥</p>
 <ul class="simple">
 <li>ミニバッチサイズ（batchsize）</li>
 <li>学習用データセット（train）</li>
 <li>検証用データセット（val）</li>
 <li>学習を停止するタイミング（stop）</li>
-<li>使用するデバイス（device）←
-<code class="docutils literal"><span class="pre">-1</span></code>にするとCPU，<code class="docutils literal"><span class="pre">&gt;=0</span></code>の場合はそのIDを持つGPU</li>
+<li>使用するデバイス（device）← <code class="docutils literal notranslate"><span class="pre">-1</span></code>にするとCPU，<code class="docutils literal notranslate"><span class="pre">&gt;=0</span></code>の場合はそのIDを持つGPU</li>
 </ul>
 <p>以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from chainer import iterators
 from chainer import training
 from chainer import optimizers
@@ -760,23 +754,18 @@ def create_trainer(batchsize, train, val, stop, device=-1):
 </pre></div>
 </div>
 </div>
-<p>この関数定義の中の最後の方では，<strong>複数の Extension
-を追加しています</strong>．これらはログのファイルへの自動保存（<code class="docutils literal"><span class="pre">LogReport</span></code>）やその標準出力への表示（<code class="docutils literal"><span class="pre">PrintReport</span></code>），目的関数の値や精度のプロットの自動作成（<code class="docutils literal"><span class="pre">PlotReport</span></code>），指定したタイミングおきにvalidationデータで評価（<code class="docutils literal"><span class="pre">Evaluator</span></code>），などをしてくれる拡張機能です.</p>
-<p>この他にも様々な拡張機能が使える様になっています．こちらにある<code class="docutils literal"><span class="pre">Extension</span></code>の一覧から，使い方やできることを調べることができます：
-<a class="reference external" href="https://docs.chainer.org/en/v2.0.2/reference/extensions.html">Trainer
-extensions</a></p>
+<p>この関数定義の中の最後の方では，<strong>複数の Extension を追加しています</strong>．これらはログのファイルへの自動保存（<code class="docutils literal notranslate"><span class="pre">LogReport</span></code>）やその標準出力への表示（<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>），目的関数の値や精度のプロットの自動作成（<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>），指定したタイミングおきにvalidationデータで評価（<code class="docutils literal notranslate"><span class="pre">Evaluator</span></code>），などをしてくれる拡張機能です.</p>
+<p>この他にも様々な拡張機能が使える様になっています．こちらにある<code class="docutils literal notranslate"><span class="pre">Extension</span></code>の一覧から，使い方やできることを調べることができます： <a class="reference external" href="https://docs.chainer.org/en/v2.0.2/reference/extensions.html">Trainer extensions</a></p>
 </div>
 <div class="section" id="学習">
 <h3>5.4.4. 学習<a class="headerlink" href="#学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>これで学習の準備ができました．
-あとは作成した<code class="docutils literal"><span class="pre">trainer</span></code>からrun()関数を呼び出すだけです.</p>
+<p>これで学習の準備ができました． あとは作成した<code class="docutils literal notranslate"><span class="pre">trainer</span></code>からrun()関数を呼び出すだけです.</p>
 <p>下のセルを実行してください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>%%time
 trainer = create_trainer(64, train, val, (20, &#39;epoch&#39;), device=0)
 trainer.run()
@@ -813,24 +802,20 @@ CPU times: user 20.7 s, sys: 6.38 s, total: 27.1 s
 Wall time: 26 s
 </pre></div></div>
 </div>
-<p>大体,学習に40秒程度かると思います.この時表示されたのは<code class="docutils literal"><span class="pre">PrintReport</span></code>というExtensionが出力したログの情報です．現在のエポック数，目的関数の値，精度（学習データセットに対してのものは<code class="docutils literal"><span class="pre">main/loss</span></code>,
-<code class="docutils literal"><span class="pre">main/accuracy</span></code>，検証データセットに対してのものは<code class="docutils literal"><span class="pre">val/main/loss</span></code>,
-<code class="docutils literal"><span class="pre">val/main/accuracy</span></code>）が表示されています．</p>
-<p>それでは次に，<code class="docutils literal"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．学習が終了したら，以下の2つのセルを実行してみてください．</p>
+<p>大体,学習に40秒程度かると思います.この時表示されたのは<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>というExtensionが出力したログの情報です．現在のエポック数，目的関数の値，精度（学習データセットに対してのものは<code class="docutils literal notranslate"><span class="pre">main/loss</span></code>, <code class="docutils literal notranslate"><span class="pre">main/accuracy</span></code>，検証データセットに対してのものは<code class="docutils literal notranslate"><span class="pre">val/main/loss</span></code>, <code class="docutils literal notranslate"><span class="pre">val/main/accuracy</span></code>）が表示されています．</p>
+<p>それでは次に，<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．学習が終了したら，以下の2つのセルを実行してみてください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from IPython.display import Image
 Image(&#39;result/loss.png&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -838,55 +823,43 @@ Image(&#39;result/loss.png&#39;)
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>Image(&#39;result/accuracy.png&#39;)
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_32_0.png" src="../_images/notebooks_Image_Segmentation_32_0.png" />
 </div>
 </div>
-<p>うまく学習が進んでいるようです．Training loss, Validation
-lossともにほぼ0近くまで下がっており，また両者のデータセットに対するAccuracyも最大の1に近づいていっています．</p>
-<p>これらのプロットは，Trainerの初期化の際に渡す<code class="docutils literal"><span class="pre">out</span></code>という引数で指定された場所に画像として保存されています．これは逐次更新されているので，実際には学習の途中でもその時点でのプロットを確認することができます．学習の進み具合を視覚的に確認するのに便利です．</p>
+<p>うまく学習が進んでいるようです．Training loss, Validation lossともにほぼ0近くまで下がっており，また両者のデータセットに対するAccuracyも最大の1に近づいていっています．</p>
+<p>これらのプロットは，Trainerの初期化の際に渡す<code class="docutils literal notranslate"><span class="pre">out</span></code>という引数で指定された場所に画像として保存されています．これは逐次更新されているので，実際には学習の途中でもその時点でのプロットを確認することができます．学習の進み具合を視覚的に確認するのに便利です．</p>
 </div>
 <div class="section" id="評価">
 <h3>5.4.5. 評価<a class="headerlink" href="#評価" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>さて，ここまでの結果をみると学習や検証データに対する性能は一見良好のようにみえます．特にAccuracyは最大値の1に近い値となっていました．しかし，この指標はどういう指標なのでしょうか？何をもって「精度（Accuracy）」と言っていたのでしょうか．</p>
-<p>一般的にSemantic
-Segmentationの結果は上で「accuracy」と表示されていた<strong>Pixel
-accuracy</strong>や，それとは異なる指標である<strong>Mean Intersection over Union
-(mIoU)</strong>といった値で評価が行われます．それぞれの定義は以下のようになっています．</p>
-<p>正解クラスが<span class="math">\(i\)</span>であるピクセルをモデルがクラス<span class="math">\(j\)</span>に分類した数を<span class="math">\(N_{ij}\)</span>とすると，クラス数が
-<span class="math">\(k\)</span> のとき</p>
-<div class="math">
+<p>一般的にSemantic Segmentationの結果は上で「accuracy」と表示されていた<strong>Pixel accuracy</strong>や，それとは異なる指標である<strong>Mean Intersection over Union (mIoU)</strong>といった値で評価が行われます．それぞれの定義は以下のようになっています．</p>
+<p>正解クラスが<span class="math notranslate nohighlight">\(i\)</span>であるピクセルをモデルがクラス<span class="math notranslate nohighlight">\(j\)</span>に分類した数を<span class="math notranslate nohighlight">\(N_{ij}\)</span>とすると，クラス数が <span class="math notranslate nohighlight">\(k\)</span> のとき</p>
+<div class="math notranslate nohighlight">
 \[{\rm Pixel\ Accuracy} = \frac{\sum_{i=1}^k N_{ii}}{\sum_{i=1}^k \sum_{j=1}^k N_{ij}}\]</div>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[{\rm mIoU} = \frac{1}{k} \sum_{i=1}^k \frac{N_{ii}}{\sum_{j=1}^k N_{ij} + \sum_{j=1}^k N_{ji} - N_{ii}}\]</div>
 <p>です．では，改めてこの2つの値をValidationデータセットに対して，<strong>今学習したモデルを使って計算してみましょう．</strong></p>
-<p>今回は，これらの値を計算するために，<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>
-[11]を用います．ChainerCVはコンピュータビジョンタスクで頻出する計算やモデル・データ等の扱いを統一的に行えるChainerの追加パッケージです．上の2つの指標をあらためて計算するために，ChainerCVが提供するSemantic
-Segmentationタスク用の評価指標計算のための関数を用いてみましょう．</p>
+<p>今回は，これらの値を計算するために，<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a> [11]を用います．ChainerCVはコンピュータビジョンタスクで頻出する計算やモデル・データ等の扱いを統一的に行えるChainerの追加パッケージです．上の2つの指標をあらためて計算するために，ChainerCVが提供するSemantic Segmentationタスク用の評価指標計算のための関数を用いてみましょう．</p>
 <p>以下のセルを実行してください．</p>
-<p>[11] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, “ChainerCV:
-a Library for Deep Learning in Computer Vision”, ACM Multimedia (ACMMM),
-Open Source Software Competition, 2017</p>
+<p>[11] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, 「ChainerCV: a Library for Deep Learning in Computer Vision」, ACM Multimedia (ACMMM), Open Source Software Competition, 2017</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from chainer import cuda
 from chainercv import evaluations
 
@@ -922,38 +895,21 @@ mIoU: 0.6810346076820649
 </pre></div></div>
 </div>
 <p>2つの数字が表示されました．</p>
-<p>Pixel Accuracyの値は<code class="docutils literal"><span class="pre">PrintReport</span></code>が表示した val/main/accuracy
-と同じ値になっています．学習中に“accuracy”として表示していたものは，Pixel
-Accuracyと同じものでした．こちらは，とても高い値を示しています．最大値が1であるので0.98というのは高い数値です．</p>
-<p>一方で，同じ最大値1の指標であるmIoU（<code class="docutils literal"><span class="pre">miou</span></code>）が思ったより低いことが分かります．なぜでしょうか．</p>
-<p>Pixel Accuracyは画像全体の画素数に対して，true positive + true
-negative（つまり，黒を黒，白を白と当てられた合計数）
-の割合を見るため，画像全体に対して negative ( 黒）が多い場合は true
-positive （白を当てられた数）が小さくてもtrue
-negativeが大きければ結果としてPixel
-Accuracyは高い値になります．つまり，<strong>class
-imbalance（白と黒の数が大きく違う）が起きている際に，少ないクラスへの予測誤差の影響が相対的に小さくなる</strong>ということです．</p>
-<p>一方，mIoU
-の場合は，予測と正解の両画像における「positiveとtrueの和領域」（白と予測した部分と，白が正解である領域の和）に対する「true
-positive」（白という予測が正解していた領域）の割合を見るので，画像全体の大きさに影響されません．わかりやすく図にすると，以下のようになります．</p>
-<div class="figure" id="id15">
-<img alt="IoUで求める領域" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/miou.png" />
-<p class="caption"><span class="caption-text">IoUで求める領域</span></p>
-</div>
+<p>Pixel Accuracyの値は<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>が表示した val/main/accuracy と同じ値になっています．学習中に」accuracy」として表示していたものは，Pixel Accuracyと同じものでした．こちらは，とても高い値を示しています．最大値が1であるので0.98というのは高い数値です．</p>
+<p>一方で，同じ最大値1の指標であるmIoU（<code class="docutils literal notranslate"><span class="pre">miou</span></code>）が思ったより低いことが分かります．なぜでしょうか．</p>
+<p>Pixel Accuracyは画像全体の画素数に対して，true positive + true negative（つまり，黒を黒，白を白と当てられた合計数） の割合を見るため，画像全体に対して negative ( 黒）が多い場合は true positive （白を当てられた数）が小さくてもtrue negativeが大きければ結果としてPixel Accuracyは高い値になります．つまり，<strong>class imbalance（白と黒の数が大きく違う）が起きている際に，少ないクラスへの予測誤差の影響が相対的に小さくなる</strong>ということです．</p>
+<p>一方，mIoU の場合は，予測と正解の両画像における「positiveとtrueの和領域」（白と予測した部分と，白が正解である領域の和）に対する「true positive」（白という予測が正解していた領域）の割合を見るので，画像全体の大きさに影響されません．わかりやすく図にすると，以下のようになります．</p>
+<p><img alt="IoUで求める領域" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/miou.png" /></p>
 <p>この図の言葉で書くと，IoUは，</p>
-<div class="math">
+<div class="math notranslate nohighlight">
 \[IoU = \frac{\rm true\_positive}{{\rm positive} + {\rm true} - {\rm true\_positive}}\]</div>
-<p>となります．true_positiveはTrue
-Positiveのピクセル数，positiveは予測画像中で1の値をとるピクセル数，trueは正解画像中で1の値をとるピクセル数です．</p>
-<p>では，実際に得られたモデルを使って validation
-データに予測を行った結果を可視化して，<strong>「Pixel Accuracy は高いが mIoU
-が低い」ことの問題を確認してみましょう</strong>．以下のセルを実行してください．</p>
+<p>となります．true_positiveはTrue Positiveのピクセル数，positiveは予測画像中で1の値をとるピクセル数，trueは正解画像中で1の値をとるピクセル数です．</p>
+<p>では，実際に得られたモデルを使って validation データに予測を行った結果を可視化して，<strong>「Pixel Accuracy は高いが mIoU が低い」ことの問題を確認してみましょう</strong>．以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>def show_predicts(trainer, val, device=-1, n_sample=3):
     # Trainerオブジェクトから学習済みモデルを取り出す
     model = trainer.updater.get_optimizer(&#39;main&#39;).target.predictor
@@ -998,60 +954,39 @@ show_predicts(trainer, val, device=0)
 <img alt="../_images/notebooks_Image_Segmentation_37_2.png" src="../_images/notebooks_Image_Segmentation_37_2.png" />
 </div>
 </div>
-<p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）は正解の領域に対して小さくなっています．Pixel
-Accuracyは大部分を占めている黒い部分も含めての正解率ですので，Pixel
-Accuracyは評価指標として今回のようなデータセットにはあまり合っていない可能性があります．それに対し<code class="docutils literal"><span class="pre">mIoU</span></code>は今回のような画像中の予測対象領域の割合が少ない場合に有効な指標となります．</p>
-<p>以降は，どうやって<code class="docutils literal"><span class="pre">mIoU</span></code>を改善するかに取り組んでみましょう．</p>
+<p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）は正解の領域に対して小さくなっています．Pixel Accuracyは大部分を占めている黒い部分も含めての正解率ですので，Pixel Accuracyは評価指標として今回のようなデータセットにはあまり合っていない可能性があります．それに対し<code class="docutils literal notranslate"><span class="pre">mIoU</span></code>は今回のような画像中の予測対象領域の割合が少ない場合に有効な指標となります．</p>
+<p>以降は，どうやって<code class="docutils literal notranslate"><span class="pre">mIoU</span></code>を改善するかに取り組んでみましょう．</p>
 </div>
 </div>
 <div class="section" id="畳み込みネットワークを用いたセグメンテーション">
 <h2>5.5. 畳み込みネットワークを用いたセグメンテーション<a class="headerlink" href="#畳み込みネットワークを用いたセグメンテーション" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>mIoU改善のため，モデルを全結合層のみから構成されるものから，画像関連のタスクで多く用いられる，畳み込み層を用います．それに加えてより深い（層数の多い）モデルに変えてみましょう．今回用いるLinkは，<code class="docutils literal"><span class="pre">Convolution2D</span></code>と<code class="docutils literal"><span class="pre">Deconvolution2D</span></code>の2つだけです．それぞれ，カーネルサイズ（<code class="docutils literal"><span class="pre">ksize</span></code>），ストライド（<code class="docutils literal"><span class="pre">stride</span></code>），パディング（<code class="docutils literal"><span class="pre">pad</span></code>）を指定することができます．これらがどのように出力を変化させるかを，まずはまとめてみましょう．</p>
+<p>mIoU改善のため，モデルを全結合層のみから構成されるものから，画像関連のタスクで多く用いられる，畳み込み層を用います．それに加えてより深い（層数の多い）モデルに変えてみましょう．今回用いるLinkは，<code class="docutils literal notranslate"><span class="pre">Convolution2D</span></code>と<code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>の2つだけです．それぞれ，カーネルサイズ（<code class="docutils literal notranslate"><span class="pre">ksize</span></code>），ストライド（<code class="docutils literal notranslate"><span class="pre">stride</span></code>），パディング（<code class="docutils literal notranslate"><span class="pre">pad</span></code>）を指定することができます．これらがどのように出力を変化させるかを，まずはまとめてみましょう．</p>
 <div class="section" id="Convolutionレイヤ">
 <h3>5.5.1. Convolutionレイヤ<a class="headerlink" href="#Convolutionレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">Convolution2D</span></code>というLinkは，一般的な畳込みレイヤの実装です．Convolutionがどのようなレイヤかは前章で説明しました．畳み込み層のパラメータを設定する際には，以下の点を知っておくと便利です．</p>
+<p><code class="docutils literal notranslate"><span class="pre">Convolution2D</span></code>というLinkは，一般的な畳込みレイヤの実装です．Convolutionがどのようなレイヤかは前章で説明しました．畳み込み層のパラメータを設定する際には，以下の点を知っておくと便利です．</p>
 <ul class="simple">
-<li>paddingを使って計算後の出力サイズを維持しやすくするために，奇数のカーネルサイズにする（<span class="math">\(\lfloor {\rm ksize} / 2 \rfloor\)</span>をpadに指定すると，stride=1の際に画像サイズが変わらなくなる）</li>
-<li>出力feature
-mapを縮小したい場合は，&gt;1の値をstrideに与える（stride=nだと変換後の画像の縦横はそれぞれ元の1/nになる）</li>
-<li>出力サイズは，<span class="math">\(({\rm input\_size} - {\rm ksize} + {\rm pad} \times 2) / {\rm stride} + 1\)</span>になる．つまり，strideを大きくすると出力特徴マップは小さくなる．</li>
+<li>paddingを使って計算後の出力サイズを維持しやすくするために，奇数のカーネルサイズにする（<span class="math notranslate nohighlight">\(\lfloor {\rm ksize} / 2 \rfloor\)</span>をpadに指定すると，stride=1の際に画像サイズが変わらなくなる）</li>
+<li>出力feature mapを縮小したい場合は，&gt;1の値をstrideに与える（stride=nだと変換後の画像の縦横はそれぞれ元の1/nになる）</li>
+<li>出力サイズは，<span class="math notranslate nohighlight">\(({\rm input\_size} - {\rm ksize} + {\rm pad} \times 2) / {\rm stride} + 1\)</span>になる．つまり，strideを大きくすると出力特徴マップは小さくなる．</li>
 </ul>
 </div>
 <div class="section" id="Deconvolutionレイヤ">
 <h3>5.5.2. Deconvolutionレイヤ<a class="headerlink" href="#Deconvolutionレイヤ" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">Deconvolution2D</span></code>は，歴史的な経緯からその名とは異なり数学的な意味でのdeconvolutionではありません．実際に適用している操作からTransposed
-convolutionや，Backward
-convolutionとよばれることもあります．Deconvolution2Dはフィルタの適用の仕方はConvolutionと同じですが入力特徴マップの値を飛び飛びに配置するなどの処理が入る部分が異なる処理のことです．<code class="docutils literal"><span class="pre">Deconvolution2D</span></code>レイヤのパラメータを設定する際には，以下の点を知っておくと便利です．</p>
+<p><code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>は，歴史的な経緯からその名とは異なり数学的な意味でのdeconvolutionではありません．実際に適用している操作からTransposed convolutionや，Backward convolutionとよばれることもあります．Deconvolution2Dはフィルタの適用の仕方はConvolutionと同じですが入力特徴マップの値を飛び飛びに配置するなどの処理が入る部分が異なる処理のことです．<code class="docutils literal notranslate"><span class="pre">Deconvolution2D</span></code>レイヤのパラメータを設定する際には，以下の点を知っておくと便利です．</p>
 <ul class="simple">
-<li>カーネルサイズをstrideで割り切れる数にする（checker board
-artifactを防ぐため．こちらを参考のこと：<a class="reference external" href="https://distill.pub/2016/deconv-checkerboard/">Deconvolution and
-Checkerboard
-Artifacts</a>）</li>
-<li>出力サイズは，<span class="math">\({\rm stride} \times ({\rm input\_size} - 1) + {\rm ksize} - 2 \times {\rm pad}\)</span>となるので，目的の拡大後サイズになるようパラメータを調整する</li>
+<li>カーネルサイズをstrideで割り切れる数にする（checker board artifactを防ぐため．こちらを参考のこと：<a class="reference external" href="https://distill.pub/2016/deconv-checkerboard/">Deconvolution and Checkerboard Artifacts</a>）</li>
+<li>出力サイズは，<span class="math notranslate nohighlight">\({\rm stride} \times ({\rm input\_size} - 1) + {\rm ksize} - 2 \times {\rm pad}\)</span>となるので，目的の拡大後サイズになるようパラメータを調整する</li>
 </ul>
 <p>Deconvolution2Dにおいては，padが意味するものが少し直感的でないため，実際に行われる操作を説明した図を以下に用意しています．</p>
-<div class="figure" id="id16">
-<img alt="Deconvolution2Dの計算(pad=0の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-0.png" />
-<p class="caption"><span class="caption-text">Deconvolution2Dの計算(pad=0の場合)</span></p>
-</div>
-<div class="figure" id="id17">
-<img alt="Deconvolution2Dの計算(pad=1の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-1.png" />
-<p class="caption"><span class="caption-text">Deconvolution2Dの計算(pad=1の場合)</span></p>
-</div>
-<p>気をつける点は，ksizeとstrideに従って配置・拡張したfeature
-mapの周囲を「削る量」がpadになっている点です．そのあと行われる演算自体はstride=1,
-pad=0のConvolutionと同じになります．</p>
-<p>こちらに，非常にわかりやすく各種Convolution/Deconvolutionの計算を表したGIFアニメがあるので，参考にしてください：<a class="reference external" href="https://github.com/vdumoulin/conv_arithmetic">Convolution
-arithmetic</a></p>
+<p><img alt="Deconvolution2Dの計算(pad=0の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-0.png" /></p>
+<p><img alt="Deconvolution2Dの計算(pad=1の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-1.png" /></p>
+<p>気をつける点は，ksizeとstrideに従って配置・拡張したfeature mapの周囲を「削る量」がpadになっている点です．そのあと行われる演算自体はstride=1, pad=0のConvolutionと同じになります．</p>
+<p>こちらに，非常にわかりやすく各種Convolution/Deconvolutionの計算を表したGIFアニメがあるので，参考にしてください：<a class="reference external" href="https://github.com/vdumoulin/conv_arithmetic">Convolution arithmetic</a></p>
 </div>
 <div class="section" id="全畳込みネットワーク">
 <h3>5.5.3. 全畳込みネットワーク<a class="headerlink" href="#全畳込みネットワーク" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>それではConvolution層とDeconvolution層からなるネットワークをChainerで書いてみます．以下のモデルは，Fully
-Convolutional
-Networkと呼ばれるネットワークに類似したものです．詳しくはこちらの文献を参照してください
-[4], [5], [6]．</p>
-<p>以下のFullyConvolutionalNetworkというモデルの定義には，FIXME_1 ~
-FIXME_5まで，5つの定数が含まれていますが，値が与えられていません．それぞれは，Convolutionの出力側のチャンネル数になります．試しにこれを，</p>
+<p>それではConvolution層とDeconvolution層からなるネットワークをChainerで書いてみます．以下のモデルは，Fully Convolutional Networkと呼ばれるネットワークに類似したものです．詳しくはこちらの文献を参照してください [4], [5], [6]．</p>
+<p>以下のFullyConvolutionalNetworkというモデルの定義には，FIXME_1 ~ FIXME_5まで，5つの定数が含まれていますが，値が与えられていません．それぞれは，Convolutionの出力側のチャンネル数になります．試しにこれを，</p>
 <ul class="simple">
 <li>FIXME_1 = 64</li>
 <li>FIXME_2 = 128</li>
@@ -1059,18 +994,15 @@ FIXME_5まで，5つの定数が含まれていますが，値が与えられて
 <li>FIXME_4 = 128</li>
 <li>FIXME_5 = 128</li>
 </ul>
-<p>と書き換えて，下のセルを実行してみましょう．入力チャンネル数は，<code class="docutils literal"><span class="pre">None</span></code>を与えておくと，実行時に自動的に決定してくれます．</p>
+<p>と書き換えて，下のセルを実行してみましょう．入力チャンネル数は，<code class="docutils literal notranslate"><span class="pre">None</span></code>を与えておくと，実行時に自動的に決定してくれます．</p>
 <p>[4] <a class="reference external" href="http://fcn.berkeleyvision.org/">http://fcn.berkeleyvision.org/</a></p>
-<p>[5] Long, Shelhamer, Darrell; “Fully Convoutional Networks for Semantic
-Segmentation”, CVPR 2015.</p>
-<p>[6] Zeiler, Krishnan, Taylor, Fergus; “Deconvolutional Networks”, CVPR
-2010.</p>
+<p>[5] Long, Shelhamer, Darrell; 「Fully Convoutional Networks for Semantic Segmentation」, CVPR 2015.</p>
+<p>[6] Zeiler, Krishnan, Taylor, Fergus; 「Deconvolutional Networks」, CVPR 2010.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from chainer import reporter
 from chainer import cuda
 from chainercv import evaluations
@@ -1125,21 +1057,16 @@ print(FullyConvolutionalNetwork(256, 256)(np.zeros((1, 1, 256, 256), dtype=np.fl
 (256, 256)
 </pre></div></div>
 </div>
-<p>FIXME_1 ~
-FIXME_5を定数に書き換えた上で上のセルを実行すると，ネットワークの出力サイズが表示されます．今回の入力画像は(256,
-256)サイズの画像ですから，出力が256 x
-256という同じ大きさになっていれば正しく動作しています．</p>
+<p>FIXME_1 ~ FIXME_5を定数に書き換えた上で上のセルを実行すると，ネットワークの出力サイズが表示されます．今回の入力画像は(256, 256)サイズの画像ですから，出力が256 x 256という同じ大きさになっていれば正しく動作しています．</p>
 </div>
 <div class="section" id="Classifierクラスの改良">
 <h3>5.5.4. Classifierクラスの改良<a class="headerlink" href="#Classifierクラスの改良" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>次に，学習中にチェックするものとして，Pixel
-AccuracyだけでなくmIOUも追加するために，目的関数を計算するClassifierクラスを，自分でカスタマイズしたものに置き換えます．それは，以下のように定義されます．下記のセルを実行してみましょう．</p>
+<p>次に，学習中にチェックするものとして，Pixel AccuracyだけでなくmIoUも追加するために，目的関数を計算するClassifierクラスを，自分でカスタマイズしたものに置き換えます．それは，以下のように定義されます．下記のセルを実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>class PixelwiseSigmoidClassifier(chainer.Chain):
 
     def __init__(self, predictor):
@@ -1171,20 +1098,17 @@ AccuracyだけでなくmIOUも追加するために，目的関数を計算す�
 </pre></div>
 </div>
 </div>
-<p>Trainerは，Optimizerの引数として渡されたモデルが「目的関数の値を返す」関数であると考えます．最初のモデルではモデルは出力結果を返しましたが，それを<code class="docutils literal"><span class="pre">L.Classifier</span></code>というオブジェクトに渡した上でOptimizerに渡していました．Chainerが用意しているこの<code class="docutils literal"><span class="pre">L.Classifier</span></code>は，内部で目的関数の値だけでなくAccuracyも計算し，<code class="docutils literal"><span class="pre">reporter.report</span></code>に辞書を渡す形で<code class="docutils literal"><span class="pre">LogReport</span></code>などのExtensionが補足できるように値の報告を行います．
-しかし，<code class="docutils literal"><span class="pre">L.Classifier</span></code>はmIoUの計算をしてくれません．</p>
-<p>そこで，今回は<code class="docutils literal"><span class="pre">L.Classifier</span></code>を自前の<code class="docutils literal"><span class="pre">PixelwiseSigmoidClassifier</span></code>に置き換え，自分で実際の目的関数となる<code class="docutils literal"><span class="pre">F.sigmoid_cross_entropy</span></code>の計算を書きつつ，予測（上記コード中の<code class="docutils literal"><span class="pre">y</span></code>）に対してPixel
-AccuracyとmIoUの両方を計算して，報告するようにします．<code class="docutils literal"><span class="pre">__call__</span></code>自体は目的関数の値（スカラ）を返すことが期待されているので，<code class="docutils literal"><span class="pre">F.sigmoid_cross_entropy</span></code>の返り値である<code class="docutils literal"><span class="pre">loss</span></code>だけを<code class="docutils literal"><span class="pre">return</span></code>しています．</p>
+<p>Trainerは，Optimizerの引数として渡されたモデルが「目的関数の値を返す」関数であると考えます．最初のモデルではモデルは出力結果を返しましたが，それを<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>というオブジェクトに渡した上でOptimizerに渡していました．Chainerが用意しているこの<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>は，内部で目的関数の値だけでなくAccuracyも計算し，<code class="docutils literal notranslate"><span class="pre">reporter.report</span></code>に辞書を渡す形で<code class="docutils literal notranslate"><span class="pre">LogReport</span></code>などのExtensionが補足できるように値の報告を行います． しかし，<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>はmIoUの計算をしてくれません．</p>
+<p>そこで，今回は<code class="docutils literal notranslate"><span class="pre">L.Classifier</span></code>を自前の<code class="docutils literal notranslate"><span class="pre">PixelwiseSigmoidClassifier</span></code>に置き換え，自分で実際の目的関数となる<code class="docutils literal notranslate"><span class="pre">F.sigmoid_cross_entropy</span></code>の計算を書きつつ，予測（上記コード中の<code class="docutils literal notranslate"><span class="pre">y</span></code>）に対してPixel AccuracyとmIoUの両方を計算して，報告するようにします．<code class="docutils literal notranslate"><span class="pre">__call__</span></code>自体は目的関数の値（スカラ）を返すことが期待されているので，<code class="docutils literal notranslate"><span class="pre">F.sigmoid_cross_entropy</span></code>の返り値である<code class="docutils literal notranslate"><span class="pre">loss</span></code>だけを<code class="docutils literal notranslate"><span class="pre">return</span></code>しています．</p>
 </div>
 <div class="section" id="新しいモデルを使った学習">
 <h3>5.5.5. 新しいモデルを使った学習<a class="headerlink" href="#新しいモデルを使った学習" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>では，これらのモデルとカスタムClassifierを使って，Trainerによる学習を行ってみましょう．以下のセルを実行してください．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>def create_trainer(batchsize, train, val, stop, device=-1, log_trigger=(1, &#39;epoch&#39;)):
     model = FullyConvolutionalNetwork(out_h=256, out_w=256)
     train_model = PixelwiseSigmoidClassifier(model)
@@ -1213,16 +1137,14 @@ AccuracyとmIoUの両方を計算して，報告するようにします．<code
 </pre></div>
 </div>
 </div>
-<p>これが今回用いるTrainerオブジェクトを作成する関数です．最初のケースと違うところは，ログをファイルに記録する<code class="docutils literal"><span class="pre">LogReport</span></code>や標準出力にログを指定項目を出力する<code class="docutils literal"><span class="pre">PrintReport</span></code>，またグラフを出力する<code class="docutils literal"><span class="pre">PlotReport</span></code>拡張で<code class="docutils literal"><span class="pre">loss</span></code>と<code class="docutils literal"><span class="pre">accuracy</span></code>（ここでは<code class="docutils literal"><span class="pre">pa</span></code>=Pixel
-Accuracy）だけでなく<code class="docutils literal"><span class="pre">miou</span></code>も出力しているところです．</p>
-<p>それでは学習を開始します．最初のモデルではmiouが0.68強までしかいかなかったことを思い出しつつ，経過を見てみましょう．今回はモデルが大きくなりパラメータ数も増えているため，少し学習に時間がかかります（6分強かかります）</p>
+<p>これが今回用いるTrainerオブジェクトを作成する関数です．最初のケースと違うところは，ログをファイルに記録する<code class="docutils literal notranslate"><span class="pre">LogReport</span></code>や標準出力にログを指定項目を出力する<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>，またグラフを出力する<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張で<code class="docutils literal notranslate"><span class="pre">loss</span></code>と<code class="docutils literal notranslate"><span class="pre">accuracy</span></code>（ここでは<code class="docutils literal notranslate"><span class="pre">pa</span></code>=Pixel Accuracy）だけでなく<code class="docutils literal notranslate"><span class="pre">miou</span></code>も出力しているところです．</p>
+<p>それでは学習を開始します．最初のモデルではmIoUが0.68強までしかいかなかったことを思い出しつつ，経過を見てみましょう．今回はモデルが大きくなりパラメータ数も増えているため，少し学習に時間がかかります（6分強かかります）</p>
 <p>下記のセルを実行してください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>%%time
 trainer = create_trainer(128, train, val, (200, &#39;epoch&#39;), device=0, log_trigger=(10, &#39;epoch&#39;))
 trainer.run()
@@ -1259,17 +1181,16 @@ CPU times: user 4min 52s, sys: 1min 52s, total: 6min 44s
 Wall time: 5min 37s
 </pre></div></div>
 </div>
-<p>学習が終了しました．<code class="docutils literal"><span class="pre">PrintReport</span></code>が出力した経過の値を見る限り，mIoUが少なくとも0.90近くまで到達していることがわかります．</p>
+<p>学習が終了しました．<code class="docutils literal notranslate"><span class="pre">PrintReport</span></code>が出力した経過の値を見る限り，mIoUが少なくとも0.90近くまで到達していることがわかります．</p>
 </div>
 <div class="section" id="学習結果を見てみよう">
 <h3>5.5.6. 学習結果を見てみよう<a class="headerlink" href="#学習結果を見てみよう" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>では，今回の学習で<code class="docutils literal"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．下記の3つのセルを実行してください．</p>
+<p>では，今回の学習で<code class="docutils literal notranslate"><span class="pre">PlotReport</span></code>拡張が出力したグラフを見てみましょう．下記の3つのセルを実行してください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>from IPython.display import Image
 print(&#39;Loss&#39;)
 Image(&#39;result_fcn/loss.png&#39;)
@@ -1285,8 +1206,7 @@ Loss
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1294,11 +1214,10 @@ Loss
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(&#39;mean IoU&#39;)
 Image(&#39;result_fcn/miou.png&#39;)
 </pre></div>
@@ -1313,8 +1232,7 @@ mean IoU
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -1322,11 +1240,10 @@ mean IoU
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>print(&#39;Pixel Accuracy&#39;)
 Image(&#39;result_fcn/pa.png&#39;)
 </pre></div>
@@ -1341,22 +1258,19 @@ Pixel Accuracy
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>Out[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_Image_Segmentation_56_1.png" src="../_images/notebooks_Image_Segmentation_56_1.png" />
 </div>
 </div>
-<p>Pixel
-Accuracyが0.99以上であるだけでなく，mIoUも0.90近くまで上がっています．mIoUに注目すると，最初のモデル（0.68程度）と比べて随分精度が上がっていることがわかると思います．実際にvalidationデータに対して推論を行った際の予測ラベル画像を見て，結果を確認しましょう．以下のセルを実行してください．</p>
+<p>Pixel Accuracyが0.99以上であるだけでなく，mIoUも0.90近くまで上がっています．mIoUに注目すると，最初のモデル（0.68程度）と比べて随分精度が上がっていることがわかると思います．実際にvalidationデータに対して推論を行った際の予測ラベル画像を見て，結果を確認しましょう．以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre>
-<span></span>In [23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
-<div class="input_area highlight-none"><div class="highlight"><pre>
+<div class="input_area highlight-none notranslate"><div class="highlight"><pre>
 <span></span>evaluate(trainer, val, device=0)
 show_predicts(trainer, val, device=0, )
 </pre></div>
@@ -1398,52 +1312,28 @@ mIoU: 0.8948934203314065
 </div>
 <div class="section" id="さらなる精度向上へのヒント">
 <h2>5.6. さらなる精度向上へのヒント<a class="headerlink" href="#さらなる精度向上へのヒント" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>今回のモデルでも十分うまくいっているようにみえますがまだ性能改善の余地があります.Semantic
-Segmentationでは，どうやって入力画像における広い範囲の情報を1つのピクセルの予測に役立てるか，どうやって複数の解像度における予測結果を考慮するか，などが重要な問題意識となります．また，ニューラルネットワークでは一般に，レイヤを重ねれば重ねるほど，特徴量の抽象度が上がっていくとされています．しかし，Semantic
-Segmentationでは，正確に対象物体の輪郭を表すマスク画像を出力したいので，low
+<p>今回のモデルでも十分うまくいっているようにみえますがまだ性能改善の余地があります.Semantic Segmentationでは，どうやって入力画像における広い範囲の情報を1つのピクセルの予測に役立てるか，どうやって複数の解像度における予測結果を考慮するか，などが重要な問題意識となります．また，ニューラルネットワークでは一般に，レイヤを重ねれば重ねるほど，特徴量の抽象度が上がっていくとされています．しかし，Semantic Segmentationでは，正確に対象物体の輪郭を表すマスク画像を出力したいので，low
 levelな情報（エッジ・局所的な画素値勾配のような情報，色の一貫性など）も考慮して最終的な予測結果を作りたくなります．そのために，ネットワークの出力に近いレイヤでどうやって入力に近いレイヤで取り出された特徴を活用すればよいか，が重要になってきます．</p>
 <p>これらの視点からいくつもの新しいモデルが提案されています．代表的なものを挙げると，例えば以下のようなものがあります．</p>
 <div class="section" id="SegNet-[8]">
 <h3>5.6.1. SegNet [8]<a class="headerlink" href="#SegNet-[8]" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>各層でMax Poolingを適用した際に「どのピクセルが最大値だったか（pooling
-indices)
-」の情報をとっておき，後で画像を拡大していく時に記録しておいたpooling
-indicesを使ってUpsamplingする手法です．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されています．</p>
-<div class="figure" id="id18">
-<img alt="SegNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" />
-<p class="caption"><span class="caption-text">SegNet</span></p>
-</div>
+<p>各層でMax Poolingを適用した際に「どのピクセルが最大値だったか（pooling indices) 」の情報をとっておき，後で画像を拡大していく時に記録しておいたpooling indicesを使ってUpsamplingする手法です．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されています．</p>
+<p><img alt="SegNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
 </div>
 <div class="section" id="U-Net-[9]">
 <h3>5.6.2. U-Net [9]<a class="headerlink" href="#U-Net-[9]" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>下層の出力特徴マップを，上層の入力に結合することで活用する構造．全体がアルファベットの
-“U”
-のような形をしていることから「U-Net」とよばれます.セグメンテーションタスクで広く使われています.</p>
-<div class="figure" id="id19">
-<img alt="U-Net" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" />
-<p class="caption"><span class="caption-text">U-Net</span></p>
-</div>
+<p>下層の出力特徴マップを，上層の入力に結合することで活用する構造．全体がアルファベットの 「U」 のような形をしていることから「U-Net」とよばれます.セグメンテーションタスクで広く使われています.</p>
+<p><img alt="U-Net" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
 </div>
 <div class="section" id="PSPNet-[10]">
 <h3>5.6.3. PSPNet [10]<a class="headerlink" href="#PSPNet-[10]" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet
-2017 Scene Parsing Challengeで優勝したモデルです.</p>
-<div class="figure" id="id20">
-<img alt="PSPNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png" />
-<p class="caption"><span class="caption-text">PSPNet</span></p>
-</div>
+<p>異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet 2017 Scene Parsing Challengeで優勝したモデルです.</p>
+<p><img alt="PSPNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png" /></p>
 <p>この他に様々な手法が提案されています.例えばクラス間のサンプル数の大小だけでなく，難しいクラスと簡単なクラスがある場合にそれらを考慮した損失関数を使うことで性能をあげることができます．</p>
-<p>また，今回は簡単のためtraining splitとvalidation
-splitのみを持つデータセットを使いましたが，本来はハイパーパラメータをvalidation
-splitでの検証結果を用いて調整したあと，最終的な性能を評価する段階でtest
-splitを使うべきです．</p>
-<p>[8] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla “SegNet: A
-Deep Convolutional Encoder-Decoder Architecture for Image Segmentation.”
-PAMI, 2017</p>
-<p>[9] Olaf Ronneberger, Philipp Fischer, Thomas Brox, “U-Net:
-Convolutional Networks for Biomedical Image Segmentation”, MICCAI 2015</p>
-<p>[10] Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang and Jiaya
-Jia, “Pyramid Scene Parsing Network”, CVPR 2017</p>
+<p>また，今回は簡単のためtraining splitとvalidation splitのみを持つデータセットを使いましたが，本来はハイパーパラメータをvalidation splitでの検証結果を用いて調整したあと，最終的な性能を評価する段階でtest splitを使うべきです．</p>
+<p>[8] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla 「SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation.」 PAMI, 2017</p>
+<p>[9] Olaf Ronneberger, Philipp Fischer, Thomas Brox, 「U-Net: Convolutional Networks for Biomedical Image Segmentation」, MICCAI 2015</p>
+<p>[10] Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang and Jiaya Jia, 「Pyramid Scene Parsing Network」, CVPR 2017</p>
 </div>
 </div>
 <div class="section" id="その他の参考資料">
@@ -1451,14 +1341,11 @@ Jia, “Pyramid Scene Parsing Network”, CVPR 2017</p>
 <p>最後に，本資料作成者によるいくつかのセグメンテーションに関する資料をここに載せます．</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.slideshare.net/mitmul/a-brief-introduction-to-recent-segmentation-methods">最近のセグメンテーション手法の簡単な紹介</a></li>
-<li><a class="reference external" href="https://www.slideshare.net/mitmul/unofficial-pyramid-scene-parsing-network-cvpr-2017">Pyramid Scene Parsing Network (CVPR
-2017)の紹介</a></li>
+<li><a class="reference external" href="https://www.slideshare.net/mitmul/unofficial-pyramid-scene-parsing-network-cvpr-2017">Pyramid Scene Parsing Network (CVPR 2017)の紹介</a></li>
 </ul>
-<p>また，以下のレビュー論文も昨今のDeep
-learningを活用したセグメンテーション手法についてよくまとまっており，参考になります．</p>
+<p>また，以下のレビュー論文も昨今のDeep learningを活用したセグメンテーション手法についてよくまとまっており，参考になります．</p>
 <ul class="simple">
-<li><a class="reference external" href="https://arxiv.org/abs/1704.06857">A Review on Deep Learning Techniques Applied to Semantic
-Segmentation</a></li>
+<li><a class="reference external" href="https://arxiv.org/abs/1704.06857">A Review on Deep Learning Techniques Applied to Semantic Segmentation</a></li>
 </ul>
 </div>
 </div>
@@ -1504,22 +1391,14 @@ Segmentation</a></li>
 
     
     
-      <script type="text/javascript">
-          var DOCUMENTATION_OPTIONS = {
-              URL_ROOT:'../',
-              VERSION:'',
-              LANGUAGE:'ja',
-              COLLAPSE_INDEX:false,
-              FILE_SUFFIX:'.html',
-              HAS_SOURCE:  true,
-              SOURCELINK_SUFFIX: '.txt'
-          };
-      </script>
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
         <script type="text/javascript" src="../_static/jquery.js"></script>
         <script type="text/javascript" src="../_static/underscore.js"></script>
         <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
         <script type="text/javascript" src="../_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true, "ignoreClass": "document", "processClass": "math|output_area"}})</script>
     
 
   
