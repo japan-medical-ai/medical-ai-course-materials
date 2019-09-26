@@ -41,3 +41,9 @@ https://japan-medical-ai.github.io/medical-ai-course-materials/
 docker pull mitmul/medical-ai-course-materials
 docker run -v "$PWD:/medical" --rm -t mitmul/medical-ai-course-materials bash -c "cd /medical && bash build.sh"
 ```
+
+## デプロイ
+
+```bash
+GH_TOKEN=<YOUR_GITHUB_TOKEN> bash deploy.sh
+```
