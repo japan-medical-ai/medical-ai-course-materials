@@ -20,3 +20,7 @@ RUN pip install \
     chainer==${CHAINER_VERSION} \
     cupy-cuda101==${CUPY_VERSION} \
     numpy==${NUMPY_VERSION}
+
+RUN pip install nbsphinx recommonmark sphinx_rtd_theme beautifulsoup4 ipython jupyter
+
+RUN pip install matplotlib pandas scipy seaborn
