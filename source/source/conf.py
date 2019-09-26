@@ -19,9 +19,6 @@
 import os
 import glob
 import shutil
-from distutils import dir_util
-
-dir_util.copy_tree('../../notebooks', './notebooks')
 
 # -- Project information -----------------------------------------------------
 

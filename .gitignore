@@ -1,9 +1,4 @@
-source/source/notebooks/train/
-source/source/notebooks/val/
-source/source/notebooks/result/
-source/source/notebooks/results/
-source/source/notebooks/result_fcn/
-source/source/notebooks/BCCD_Dataset/
+source/source/notebooks/
 
 notebooks/val/
 notebooks/train/
