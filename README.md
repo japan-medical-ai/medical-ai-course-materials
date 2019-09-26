@@ -35,3 +35,7 @@ https://japan-medical-ai.github.io/medical-ai-course-materials/
 ## 本資料の作成者
 本資料は株式会社Preferred Networksの岡野原 大輔，齋藤 俊太，菅原 洋平，その他多くの有志，そして株式会社キカガクの吉崎 亮介が中心となって作成しました．
 
+## ビルド方法
+
+```bash
+docker pull mitmul/medical-ai-course-materials
