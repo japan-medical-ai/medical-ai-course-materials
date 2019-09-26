@@ -11,6 +11,6 @@ configs {
     }
     command:
       "docker run -v $PWD:/medical --rm -t mitmul/medical-ai-course-materials bash -c 'cd /medical && bash build.sh'\n"
-      "docker run --rm -t mitmul/medical-ai-course-materials 'GH_TOKEN=$GH_TOKEN bash deploy.sh'\n"
+      "docker run -v $PWD:/medical -e GH_TOKEN=$GH_TOKEN --rm -t mitmul/medical-ai-course-materials bash -c 'cd /medical && bash deploy.sh'\n"
   }
 }
