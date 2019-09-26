@@ -2,14 +2,30 @@ configs {
   key: "medical-ai-course-materials"
   value {
     requirement {
-      cpu: 4
-      memory: 8
+      cpu: 1
       image: "docker"
     }
     time_limit {
       seconds: 1800
     }
     command:
-      "docker run -v $PWD/build.sh:/build.sh -e GH_TOKEN=$GH_TOKEN --rm -t mitmul/medical-ai-course-materials bash build.sh\n"
+      "docker run -v $PWD/build.sh:/build.sh -e GH_TOKEN=$GH_TOKEN --rm -t mitmul/medical-ai-course-materials:build bash build.sh\n"
+  }
+}
+
+configs {
+  key: "medical-ai-course-materials.test"
+  value {
+    requirement {
+      cpu: 4
+      gpu: 1
+      memory: 8
+      image: ""
+    }
+    time_limit {
+      seconds: 1800
+    }
+    command:
+      "docker run -v $PWD/notebooks:/notebooks --rm -t mitmul/medical-ai-course-materials:test python3 -c 'import chainer; print(chainer.print_runtime_info())'\n"
   }
 }
