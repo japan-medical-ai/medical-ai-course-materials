@@ -1,14 +1,16 @@
 configs {
-  key: "medical-ai-course-materials.build"
+  key: "medical-ai-course-materials"
   value {
     requirement {
       cpu: 4
       memory: 8
-      image: "mitmul/medical-ai-course-materials"
+      image: "docker"
     }
     time_limit {
       seconds: 1800
     }
-    command: "ls -la"
+    command:
+      "docker run -v $PWD:/medical --rm -t mitmul/medical-ai-course-materials bash -c 'cd /medical && bash build.sh'\n"
+      "docker run --rm -t mitmul/medical-ai-course-materials 'GH_TOKEN=$GH_TOKEN bash deploy.sh'\n"
   }
 }
