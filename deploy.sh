@@ -1,7 +1,7 @@
 #!/bin/bash
 
-git config user.email "example@example.com"
-git config user.name "Travis-CI"
+git config user.email "shunta@preferred.jp"
+git config user.name "Shunta Saito"
 
 git add -A
 git commit -m "Deploy to GitHub Pages"

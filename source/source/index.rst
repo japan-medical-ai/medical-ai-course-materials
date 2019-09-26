@@ -54,14 +54,14 @@ Pythonについては変数（数値・文字列，リスト，タプル，辞�
     :maxdepth: 1
     :numbered:
     
-    notebooks/Basic_Math_for_ML
-    notebooks/Introduction_to_ML_libs
-    notebooks/Introduction_to_Neural_Network
-    notebooks/Introduction_to_Chainer
-    notebooks/Image_Segmentation
-    notebooks/Blood_Cell_Detection
-    notebooks/DNA_Sequence_Data_Analysis
-    notebooks/Sequential_Data_Analysis_with_Deep_Learning
+    notebooks/01_Basic_Math_for_ML
+    notebooks/02_Introduction_to_ML_libs
+    notebooks/03_Introduction_to_Neural_Network
+    notebooks/04_Introduction_to_Chainer
+    notebooks/05_Image_Segmentation
+    notebooks/06_Blood_Cell_Detection
+    notebooks/07_DNA_Sequence_Data_Analysis
+    notebooks/08_Sequential_Data_Analysis_with_Deep_Learning
 
 推奨ブラウザ環境
 ^^^^^^^^^^^^^^^^^

@@ -1,25 +1,6 @@
-source/source/notebooks/train/
-source/source/notebooks/val/
-source/source/notebooks/result/
-source/source/notebooks/results/
-source/source/notebooks/result_fcn/
-source/source/notebooks/BCCD_Dataset/
-
-notebooks/val/
-notebooks/train/
-notebooks/result/
-notebooks/results/
-notebooks/result_fcn/
-notebooks/BCCD_Dataset/
-notebooks/DeepCNN_cifar10_augmented2_result
-notebooks/DeepCNN_cifar10_augmented_result
-notebooks/DeepCNN_cifar10_result
-notebooks/MyNet_cifar10_result
-notebooks/mnist_result
+source/source/notebooks/
 
 .vscode/
-
-!docs/build/html/
 
 .DS_Store
 

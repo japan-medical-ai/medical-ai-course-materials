@@ -1,0 +1,1130 @@
+
+<!DOCTYPE html>
+
+<!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja"> <!--<![endif]-->
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>7. 実践編: ディープラーニングを使った配列解析 — メディカルAI専門コース オンライン講義資料  documentation</title>
+<link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="08_Sequential_Data_Analysis_with_Deep_Learning.html" rel="next" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析"/>
+<link href="06_Blood_Cell_Detection.html" rel="prev" title="6. 実践編: 血液の顕微鏡画像からの細胞検出"/>
+<script src="../_static/js/modernizr.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'UA-797798-11');
+  </script>
+<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" name="description"/>
+<meta content="メディカルAI専門コース オンライン講義資料" property="og:title"/>
+<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://japan-medical-ai.github.io/medical-ai-course-materials/" property="og:url"/>
+<meta content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="@PreferredNetJP" name="twitter:site"/>
+<meta content="@PreferredNetJP" name="twitter:creator"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> メディカルAI専門コース オンライン講義資料
+          
+
+          
+          </a>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div>
+<div aria-label="main navigation" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01_Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_Introduction_to_Neural_Network.html">3. ニューラルネットワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_Introduction_to_Chainer.html">4. Deep Learningフレームワークの基礎</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05_Image_Segmentation.html">5. 実践編: MRI画像のセグメンテーション</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06_Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. 実践編: ディープラーニングを使った配列解析</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#環境構築">7.1. 環境構築</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#配列解析について">7.2. 配列解析について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#データセット">7.3. データセット</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Dilated-Convolutionを用いた解析">7.4. Dilated Convolutionを用いた解析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#配列解析の戦略">7.4.1. 配列解析の戦略</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Dilated-Convolution">7.4.2. Dilated Convolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ブロック">7.4.3. ブロック</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="08_Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
+</ul>
+<div style="padding-right:20px; bottom:10px;">
+<a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
+<img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png"/>
+<p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
+</a>
+</div>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="top navigation" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li>7. 実践編: ディープラーニングを使った配列解析</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/notebooks/07_DNA_Sequence_Data_Analysis.ipynb.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="実践編:-ディープラーニングを使った配列解析">
+<h1>7. 実践編: ディープラーニングを使った配列解析<a class="headerlink" href="#実践編:-ディープラーニングを使った配列解析" title="Permalink to this headline">¶</a></h1><p><a class="reference external" href="https://github.com/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/07_DNA_Sequence_Data_Analysis.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
+<p>近年，次世代シーケンサ（NGS; Next Generation Sequencer）の発展により，遺伝子の塩基配列が高速，大量，安価に読み取られるようになってきました．</p>
+<p>ここではディープラーニングを用いて，DNA配列からエピジェネティックな影響や転写制御を予測する問題に取り組みます．ディープラーニングは複雑なモデルを表現でき，遠距離の影響も考慮することができ，より高い精度で予測することが期待できます．</p>
+<div class="section" id="環境構築">
+<h2>7.1. 環境構築<a class="headerlink" href="#環境構築" title="Permalink to this headline">¶</a></h2>
+<p>ここで用いるライブラリは</p>
+<ul class="simple">
+<li>Chainer</li>
+<li>Cupy</li>
+<li>matplotlib</li>
+</ul>
+<p>です．Google Colab上では，以下のようにしてインストールすることができます．以下のセルを実行（Shit+Enter）してください．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">!</span>curl https://colab.chainer.org/install <span class="p">|</span> sh -
+</pre></div>
+</div>
+</div>
+<p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンを確認してください．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">cupy</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+
+<span class="n">chainer</span><span class="o">.</span><span class="n">print_runtime_info</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'matplotlib:'</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 5.0.0
+NumPy: 1.14.6
+CuPy:
+  CuPy Version          : 5.0.0
+  CUDA Root             : /usr/local/cuda
+  CUDA Build Version    : 9020
+  CUDA Driver Version   : 9020
+  CUDA Runtime Version  : 9020
+  cuDNN Build Version   : 7201
+  cuDNN Version         : 7201
+  NCCL Build Version    : 2213
+iDeep: 2.0.0.post3
+matplotlib: 2.1.2
+</pre></div></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Platform</span><span class="p">:</span> <span class="n">Linux</span><span class="o">-</span><span class="mf">4.14</span><span class="o">.</span><span class="mi">65</span><span class="o">+-</span><span class="n">x86_64</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">Ubuntu</span><span class="o">-</span><span class="mf">18.04</span><span class="o">-</span><span class="n">bionic</span>
+<span class="n">Chainer</span><span class="p">:</span> <span class="mf">5.1</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">NumPy</span><span class="p">:</span> <span class="mf">1.14</span><span class="o">.</span><span class="mi">6</span>
+<span class="n">CuPy</span><span class="p">:</span>
+  <span class="n">CuPy</span> <span class="n">Version</span>          <span class="p">:</span> <span class="mf">5.1</span><span class="o">.</span><span class="mi">0</span>
+  <span class="n">CUDA</span> <span class="n">Root</span>             <span class="p">:</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">cuda</span>
+  <span class="n">CUDA</span> <span class="n">Build</span> <span class="n">Version</span>    <span class="p">:</span> <span class="mi">9020</span>
+  <span class="n">CUDA</span> <span class="n">Driver</span> <span class="n">Version</span>   <span class="p">:</span> <span class="mi">9020</span>
+  <span class="n">CUDA</span> <span class="n">Runtime</span> <span class="n">Version</span>  <span class="p">:</span> <span class="mi">9020</span>
+  <span class="n">cuDNN</span> <span class="n">Build</span> <span class="n">Version</span>   <span class="p">:</span> <span class="mi">7301</span>
+  <span class="n">cuDNN</span> <span class="n">Version</span>         <span class="p">:</span> <span class="mi">7301</span>
+  <span class="n">NCCL</span> <span class="n">Build</span> <span class="n">Version</span>    <span class="p">:</span> <span class="mi">2307</span>
+<span class="n">iDeep</span><span class="p">:</span> <span class="mf">2.0</span><span class="o">.</span><span class="mf">0.</span><span class="n">post3</span>
+<span class="p">(</span><span class="s1">'matplotlib:'</span><span class="p">,</span> <span class="s1">'2.1.2'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="配列解析について">
+<h2>7.2. 配列解析について<a class="headerlink" href="#配列解析について" title="Permalink to this headline">¶</a></h2>
+<p>次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome Wide Association Study;
+ゲノムワイド関連解析）が行われてきましたが，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．</p>
+<p><img alt="エピゲノム解析概略図（Encode Projectより引用）" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png"/></p>
+<p>例えば，ChIP-Seq（クロマチン免疫沈降シーケンス）は，ChIP（クロマチン免疫沈降）と高速DNAシーケンスを組み合わせることで，ヒストン修飾状況や転写調節因子の結合部位を網羅的（ゲノムワイド）に同定する手法です．これにより，転写調節機能を司るヒストン修飾やDNA結合タンパクの結合部位をゲノム全体で同定することができ，遺伝子変異だけでは説明しきれない細胞の表現型に関与する膨大な情報の取得が可能になります．</p>
+<p>そこで本節では，ChIP-Seqにより得られた転写調節因子の結合部位に当たるDNA塩基配列のパターンを深層学習により学習することで，任意のDNA塩基配列に対して特定の転写調節因子との結合可能性の予測を行います．この手法はゲノム全体のヒストン修飾部位の予測やオープンクロマチン領域の予測など幅広い生命現象を取り扱うことが可能であり有益な洞察を与えてくれます．</p>
+<p>この課題を機械学習で取り扱う際の技術的な難しさの一つが，DNA塩基配列の長距離相互作用と呼ばれる現象です．これは，核内のDNAは複雑に折り畳まれた様式で存在しており，塩基配列上の並びとしては遠く離れた2つの領域が空間的には近い距離に位置し，転写調節因子の結合に影響を及ぼすことがあるということです．そこで，この長距離相互作用を考慮した学習を可能する効率的なモデルを構築し，10万bp (ベース・ペア：DNAを構成する塩基を数える単位)
+超の長さのDNA塩基配列を入力として受け取り，DNA塩基配列中のある領域が転写調節因子の結合部位になり得るかを予測することとします.</p>
+<p>今回は，数百種類の人の細胞型から得られた数千のChIP-Seq，DNase-seq（オープンクロマチン領域の網羅的解析の一手法）のデータセットから得られたDNA塩基配列を入力としてCAGE（Cap Analysis of Gene Expression）の結果計測されたmRNAの発現量を推定する問題を考えます[1]．</p>
+</div>
+<div class="section" id="データセット">
+<h2>7.3. データセット<a class="headerlink" href="#データセット" title="Permalink to this headline">¶</a></h2>
+<p>ここでは，Basenji[1]で使われた実験データセットの一部を利用します.これらはCAGEなどの配列解析処理を行って得られたデータセットです．</p>
+<p>下のセルを実行してデータをダウンロードしてください．</p>
+<p>この配列はそれぞれが長さ131072bpからなり，128bp毎に対しそのカバレッジ値が記録されています．このカバレッジ値の配列の長さは131072/128=1024です．</p>
+<p>この問題の目標は長さ131072bpの配列を入力として受け取った時に，この128bp毎のカバレッジ値を推定することが目標です．</p>
+<p>今回は10種類の異なる実験のカバレッジ値を同時に予測する問題を扱います．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">!</span>wget https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2018-12-16 04:41:34--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/seq.h5
+Resolving github.com (github.com)... 192.30.253.113, 192.30.253.112
+Connecting to github.com (github.com)|192.30.253.113|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181216%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181216T044134Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=df390bc2ed4392cbdd65444198dcec236c19532e06158d89cda5c2fe4e17f5db&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream [following]
+--2018-12-16 04:41:34--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/c79a0800-f713-11e8-8d6c-255563d45b1b?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20181216%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20181216T044134Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=df390bc2ed4392cbdd65444198dcec236c19532e06158d89cda5c2fe4e17f5db&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3Dseq.h5&amp;response-content-type=application%2Foctet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.137.212
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.137.212|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 594118876 (567M) [application/octet-stream]
+Saving to: ‘seq.h5’
+
+seq.h5              100%[===================&gt;] 566.60M  71.1MB/s    in 8.5s
+
+2018-12-16 04:41:43 (66.7 MB/s) - ‘seq.h5’ saved [594118876/594118876]
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">!</span>ls -lh
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 567M
+drwxr-xr-x 1 root root 4.0K Dec 10 17:34 sample_data
+-rw-r--r-- 1 root root 567M Dec  3 06:54 seq.h5
+</pre></div></div>
+</div>
+<p>seq.h5というファイルが正しくダウンロードされているかを確認してください．サイズは567MBです．</p>
+<p>seq.h5はHDF5形式でデータを格納したファイルです．HDF5ファイルは，ファイルシステムと同様に，階層的にデータを格納することができ，行列やテンソルデータをそれぞれの位置で名前付きで格納することができます．</p>
+<p>HDF5形式のファイルを操作するためにh5pyというライブラリがあります．h5pyのFile()関数でファイルを開き，keys()関数でその中に含まれているキーを列挙します．また取得したキーを'[]'内で指定することでそのキーに紐付けられて格納されている各データを参照することができます．</p>
+<p>テンソルデータはnumpyと同様にshapeという属性でそのサイズを取得することができます．</p>
+<p>以下のセルを実行して格納されているデータを確認してください．</p>
+<p>各データの名前にtrain（学習），validate（検証），test（テスト）の接頭辞がつけられ，inが入力の塩基配列，outが出力のカバレッジ値に対応します．</p>
+<p>例えば，'train_in'は学習用の入力データであり(5000, 131072, 4)というサイズを持ちます．これは長さが130172からなる配列が5000個あり，それぞれA, T, C, Gの対応する次元の値が1, それ以外は0であるような配列です．</p>
+<p>また,'train_out'は学習用の出力データであり,（'5000, 1024, 10')というサイズを持ちます.これは長さが1024からなる配列が5000個あり,それぞれが10種類の異なるChIP-Seqの結果のカバレッジ値が格納されています.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">h5py</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'seq.h5'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">hf</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">hf</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">hf</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+target_labels (10,) |S29
+test_in (500, 131072, 4) bool
+test_out (500, 1024, 10) float16
+train_in (5000, 131072, 4) bool
+train_out (5000, 1024, 10) float16
+valid_in (500, 131072, 4) bool
+valid_out (500, 1024, 10) float16
+</pre></div></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">'target_labels'</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'S29'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'test_in'</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'bool'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'test_out'</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'&lt;f2'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'train_in'</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'bool'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'train_out'</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'&lt;f2'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'valid_in'</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'bool'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'valid_out'</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'&lt;f2'</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは'train_in'というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータの一部を表示します．</p>
+<p>試しに最初のデータを取り出して，それの出力の値を表示してみます．</p>
+<p>下のセルを実行してみてください．最初のデータの出力の三つの値を線グラフで出力します．（ここまでのセルを実行していてください）．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'seq.h5'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">hf</span><span class="p">[</span><span class="s1">'train_out'</span><span class="p">][:</span><span class="mi">100</span><span class="p">]</span>
+    <span class="n">fig_size</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"figure.figsize"</span><span class="p">]</span>
+    <span class="n">fig_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">fig_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,</span><span class="n">i</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_07_DNA_Sequence_Data_Analysis_14_0.png" src="../_images/notebooks_07_DNA_Sequence_Data_Analysis_14_0.png"/>
+</div>
+</div>
+</div>
+<div class="section" id="Dilated-Convolutionを用いた解析">
+<h2>7.4. Dilated Convolutionを用いた解析<a class="headerlink" href="#Dilated-Convolutionを用いた解析" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="配列解析の戦略">
+<h3>7.4.1. 配列解析の戦略<a class="headerlink" href="#配列解析の戦略" title="Permalink to this headline">¶</a></h3>
+<p>今回は配列データが入力であるような問題である．</p>
+<p>配列データを扱うためには大きく３つの戦略があります．</p>
+<p>一つ目は，配列中の順序情報は捨てて，配列をその特徴の集合とみなすことです．これはBag of Words（BoW）表現とよびます．このBoW表現は特徴に十分情報が含まれていれば強力な手法ですがDNA配列のような4種類の文字からなる配列やその部分配列だけではその特徴を捉えることは困難です．</p>
+<p>二つ目は配列中の要素を左から右に順に読み込んでいき計算していく手法です．これは4章でも少し触れたRNNを用いて解析します．RNNは時刻毎に入力を一つずつ読み取り内部状態を更新していきます．RNNの問題点はその計算が逐次的であり計算量が配列長に比例するという点です．現在の計算機は計算を並列化することで高速化を達成していますがRNNは計算を並列化することが困難です．もう一つの問題は遠距離間の関係を捉えることが難しいという点です．RNNはその計算方式から，計算の途中結果を全て固定長の内部状態ベクトルに格納する必要があります．遠距離間の関係を捉えようとすると，多くの情報を覚えておかなければなりませんが状態ベクトルサイズは有限なので，遠距離間の関係を捉えることが困難となっていきます．</p>
+<p>三つ目は配列データを1次元の画像とみなし，画像処理の時と同様にCNNを用いて解析する手法です．CNNはRNNの場合と違って各位置の処理を独立に実行できるため並列に処理することができます．</p>
+<p>今回はこの３つ目の戦略，CNNを用いて解析する手法を採用します．また，Dilated Convolutionを使うことで各位置の処理は遠距離にある情報を直接読み取ることができます．次の章でDilated Convolutionについて詳しくみていきます．</p>
+</div>
+<div class="section" id="Dilated-Convolution">
+<h3>7.4.2. Dilated Convolution<a class="headerlink" href="#Dilated-Convolution" title="Permalink to this headline">¶</a></h3>
+<p>従来の畳み込み層を使って配列解析をする場合を考えてみます． 以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません．どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され，カーネルサイズがKの時，Dだけ離れた距離にある情報を取得するためにはD/K層必要となります．今回の問題の場合Dは数百から数万，Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません．</p>
+<p><img alt="従来の畳み込み層の計算イメージ" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png"/></p>
+<p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WaveNet: A Generative Model for Raw Audio</a>より引用</p>
+<p>それに対し，Dilated Convolution（atrous convolutionやconvolution weith holesともよばれます）は読み取る場所をずらしたところからうけとります．例えばDilation=4の場合，4だけ離れた位置から情報を受け取ります．このDilatedを倍々にしていき，カーネルサイズを2とした場合，Dだけ離れた位置の情報を受取るには <span class="math">\(\log_2 D\)</span>層だけ必要になります．今回のDが数百から数万の場合，10から20層程度あれば済むことになります．</p>
+<p>今回はこのDilated Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します．</p>
+<p><img alt="Dilated Convolutionの計算イメージ" src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif"/></p>
+<p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WAVENET: A GENERATIVE MODEL FOR RAW AUDIO, blog</a>より</p>
+</div>
+<div class="section" id="ブロック">
+<h3>7.4.3. ブロック<a class="headerlink" href="#ブロック" title="Permalink to this headline">¶</a></h3>
+<p>それでは最初に，ネットワークの全体を設計します． このネットワークは二つのブロックから構成されます．</p>
+<p>１つ目のブロックは長さが<span class="math">\(2^{17}\)</span>から配列を入力として長さが<span class="math">\(2^{10}\)</span>のベクトルを出力とします．これにより入力の128
+(<span class="math">\(=2^{17}/2^{10}\)</span>)bpが出力の1つの位置に対応するようになります．これを実現しているのが，SqueezeBlockです．すなわち，SqueezeBlockは長さ131072bpからなるDNAの塩基配列を入力として受け取り，各フラグメントの長さに相当する128bp毎の情報が一つの値となるような畳込み処理を行います．結果として131072/128=1024の長さのベクトル列が出力されます．このベクトル列はフラグメント毎の特徴が一つのベクトルに圧縮されたものとみなすことができます．</p>
+<p>二つ目のブロックは遠距離にある情報を考慮して各ベクトルの値を計算していく部分であり，DilatedBlockが担当します．DilatedBlockは，SqueezeBlockから出力された1024の長さのベクトル列を受け取り，Dilated Convolutionの仕組みを使うことで互いに離れた位置の情報を効率的に考慮した上で処理していき，入力と同じ1024の長さの出力を返します．この出力が，フラグメント毎に与えられたDNA関連タンパク質の結合可能性を表す数値（カバレッジ値）と一致するように学習を進めます．</p>
+<p>それでは，以下のコードを実行してみましょう．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">chainer.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">chainer.links</span> <span class="k">as</span> <span class="nn">L</span>
+<span class="kn">import</span> <span class="nn">cupy</span> <span class="k">as</span> <span class="nn">cp</span>
+
+<span class="n">bc</span> <span class="o">=</span> <span class="mi">24</span> <span class="c1"># base channel</span>
+
+<span class="n">default_squeeze_params</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># out_ch, kernel, stride, dropout</span>
+    <span class="p">[</span><span class="n">bc</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1">#1 128 -&gt; 64</span>
+    <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">bc</span><span class="o">*</span><span class="mf">2.5</span><span class="p">),</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span> <span class="c1">#2  64 -&gt; 16</span>
+    <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">bc</span><span class="o">*</span><span class="mf">3.2</span><span class="p">),</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">],</span> <span class="c1">#3  16 -&gt; 4</span>
+    <span class="p">[</span><span class="n">bc</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>  <span class="c1">#4  4 -&gt; 1</span>
+<span class="p">]</span>
+
+
+<span class="n">default_dilated_params</span> <span class="o">=</span> <span class="p">[</span>
+<span class="c1"># out_ch, kernel, dilated</span>
+  <span class="p">[</span><span class="n">bc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+  <span class="p">[</span><span class="n">bc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+  <span class="p">[</span><span class="n">bc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+  <span class="p">[</span><span class="n">bc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+  <span class="p">[</span><span class="n">bc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+  <span class="p">[</span><span class="n">bc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span>
+  <span class="p">[</span><span class="n">bc</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">squeeze_params</span><span class="o">=</span><span class="n">default_squeeze_params</span><span class="p">,</span> <span class="n">dilated_params</span><span class="o">=</span><span class="n">default_dilated_params</span><span class="p">,</span> <span class="n">n_targets</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Net</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_squeeze</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">squeeze_params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_dilated</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dilated_params</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+            <span class="n">in_ch</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">squeeze_params</span><span class="p">):</span>
+                <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">do_rate</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"s_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">SqueezeBlock</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">do_rate</span><span class="p">))</span>
+                <span class="n">in_ch</span> <span class="o">=</span> <span class="n">out_ch</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dilated_params</span><span class="p">):</span>
+                <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">dilated</span><span class="p">,</span> <span class="n">do_rate</span> <span class="o">=</span> <span class="n">param</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"d_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">DilatedBlock</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">dilated</span><span class="p">,</span> <span class="n">do_rate</span><span class="p">))</span>
+                <span class="n">in_ch</span> <span class="o">+=</span> <span class="n">out_ch</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">ConvolutionND</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_targets</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># x : (B, X, 4)</span>
+        <span class="n">xp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get_array_module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_squeeze</span><span class="p">):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">"s_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)](</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="n">hs</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_dilated</span><span class="p">):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">"d_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)](</span><span class="n">hs</span><span class="p">)</span>
+            <span class="n">hs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">xp</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">h</span>
+</pre></div>
+</div>
+</div>
+<p>このネットワークは初期化時の引数としてSqueezeBlockに関するパラメータと，DilatedBlockに関するパラメータを受け取ります．</p>
+<p>それぞれ，出力チャンネル，カーネルサイズ，プーリングの三つ組からなるリストと，出力チャンネル，カーネルサイズ，dilatedサイズの三つ組からなるリストを受け取ります．</p>
+<p>次に，ブロックの定義をします．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">chainer.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">chainer.links</span> <span class="k">as</span> <span class="nn">L</span>
+<span class="kn">import</span> <span class="nn">cupy</span> <span class="k">as</span> <span class="nn">cp</span>
+
+<span class="k">class</span> <span class="nc">WNConvolutionND</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">ConvolutionND</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">WNConvolutionND</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_param</span><span class="p">(</span><span class="s1">'g'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">batch_l2_norm_squared</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+        <span class="n">channel_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">norm_broadcasted</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">norm</span><span class="p">,</span> <span class="p">(</span><span class="n">channel_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">g_broadcasted</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span>
+            <span class="n">F</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="p">,</span> <span class="p">(</span><span class="n">channel_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">convolution_nd</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">g_broadcasted</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">/</span> <span class="n">norm_broadcasted</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pad</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cover_all</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dilate</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SqueezeBlock</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">do_rate</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SqueezeBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_rate</span> <span class="o">=</span> <span class="n">do_rate</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="n">kernel</span> <span class="o">//</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">WNConvolutionND</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">split_axis</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="n">F</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_rate</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span>
+
+<span class="k">class</span> <span class="nc">DilatedBlock</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">Chain</span><span class="p">):</span>
+     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">dilate</span><span class="p">,</span> <span class="n">do_rate</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DilatedBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">do_rate</span> <span class="o">=</span> <span class="n">do_rate</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_scope</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">WNConvolutionND</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="n">dilate</span><span class="p">,</span> <span class="n">dilate</span><span class="o">=</span><span class="n">dilate</span><span class="p">)</span>
+
+     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">split_axis</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="n">F</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_rate</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span>
+
+</pre></div>
+</div>
+</div>
+<p><img alt="ネットワーク構造" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/7/network.png"/></p>
+<p>WeightNormalization[2]はパラメータの表現を長さと向きに分解して表現する手法で，今回の系列問題のような場合に使われる正規化法です．コード中ではWeightNormalizationが適用された畳み込み層である<code class="docutils literal"><span class="pre">WNConvolutionND</span></code>が定義されています.</p>
+<p>SqueezeBlockは配列を縮めていき，長さが<span class="math">\(2^{17}\)</span>の配列を<span class="math">\(2^{10}\)</span>に縮めるためのブロックです（上図）． 1次元配列を扱うためWNConvolutionNDを使い，最初の引数で1次元配列であることを示す<code class="docutils literal"><span class="pre">1</span></code>を指定しています． また，活性化関数では<span class="math">\(h = Wx * sigmoid(Ux)\)</span>と表されるGated Linear
+Unit[3]を利用しています．計算では効率化のため，WxとUxを別々に計算するのではなく2倍の出力チャンネル数を持つConvolutionを適用した後に出力結果をチャンネル方向に２つに分割し<span class="math">\((Wx, Ux)\)</span>，片方にsigmoid関数を適用した後，それらを要素毎にかけ合わせます．</p>
+<p>DilatedBlockはすでに長さ1024の長さになった配列に対し，Dilated Convolutionを使って遠距離にある情報も使って計算していくブロックです（上図）．引数としてdilatedを受け取ります．Dilated Convolutionを使う場合は通常のConvolution層（今回はConvolutionNDだが，Convolution2Dも同様）の引数にdilatedを加えるだけで計算できます．</p>
+<p>また，DilatedBlockではDenseNet[4]と呼ばれる，以前の途中結果が全て次の層の入力として使われる手法を採用します（DilatedBlock内 forward()内の<code class="docutils literal"><span class="pre">concat</span></code>がそれに対応）．これはニューラルネットワークで多くのスキップ接続を作ることで，層が増えても勾配が減衰せず，学習がしやすくなることを利用したものです．</p>
+<p>それでは，試しにネットワークを構築して，そこにサンプルデータを流してみましょう．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">131072</span> <span class="c1"># 128 * 1024</span>
+<span class="n">batchsize</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">batchsize</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(4, 1024, 10)
+</pre></div></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>ここで，もともとバッチサイズ(B)=4, 入力長(L)=131072, 入力チャンネル数(C)=4だった配列が計算後はB=4, L=1024, C=10の配列となりました．</p>
+<p>今回予測するカバレッチ値は，フラグメント毎にDNA関連タンパク質がどの程度の頻度で結合したかを表すカウントデータであるとみなせます．そこで学習ではカウントデータに対する損失関数である対数ポアソン損失関数を利用します．</p>
+<p>対数ポアソン損失関数を使う場合，モデルはポアソン分布の唯一のパラメータである平均を予測し，その予測された平均をもったポアソン分布を使った場合の学習データの尤度を計算します．そしてその尤度の最大化，それと同じである負の対数尤度の最小化を行います．この際，プログラム上では学習対象パラメータが含まれない項を無視しています． なお，この関数の最小値はそのままだと<span class="math">\(0\)</span>にはならので，最小値である<span class="math">\(t \log t\)</span>をあらかじめひいておき，損失関数の最小値が<span class="math">\(0\)</span>となるようにします．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">log_poisson_loss</span><span class="p">(</span><span class="n">log_x</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="n">loss</span> <span class="o">=</span>  <span class="n">F</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_x</span><span class="p">)</span> <span class="o">-</span> <span class="n">t</span> <span class="o">*</span> <span class="n">log_x</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">t</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">t</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">loss</span> <span class="o">-</span> <span class="n">offset</span>
+
+
+<span class="k">def</span> <span class="nf">log_r2_score</span><span class="p">(</span><span class="n">log_x</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">r2_score</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_x</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>また，学習率の調整にCosineSchedulerを使います．ニューラルネットワークの学習では，徐々に学習率を小さくしていくと，より汎化性能の高い解を見つけられることがわかっています．ニューラルネットワークの学習の目的関数は多くの性能の悪い局所解があるため，最初は学習率を高くして局所解にはまらないようにして全体の中での良い解を探し，後半は徐々に学習率を0に近づけていき収束させるというものです．
+CosineSchedulerはCosine関数の0度から90度までの変化のように学習率を変化させます．また学習は初期が不安定なので最初のn_warmup回，学習率を0から初期学習率まで線形に増やすことも一般的です．今回は学習率が低めで学習も安定しているのでn_warmupは0としてあります．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">training</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="k">class</span> <span class="nc">CosineScheduler</span><span class="p">(</span><span class="n">training</span><span class="o">.</span><span class="n">Extension</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">'lr'</span><span class="p">,</span> <span class="n">init_val</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">n_decays</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">n_warmups</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span> <span class="o">=</span> <span class="n">attr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_target</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_min_loss</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_val</span> <span class="o">=</span> <span class="n">init_val</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_decays</span> <span class="o">=</span> <span class="n">n_decays</span> <span class="o">-</span> <span class="n">n_warmups</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_decay_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_warmups</span> <span class="o">=</span> <span class="n">n_warmups</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">):</span>
+        <span class="n">updater</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span>
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_optimizer</span><span class="p">(</span><span class="n">trainer</span><span class="p">)</span>
+        <span class="n">epoch</span> <span class="o">=</span> <span class="n">updater</span><span class="o">.</span><span class="n">epoch</span>
+        <span class="k">if</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_warmups</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_val</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_warmups</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_val</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_warmups</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_decays</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_value</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">_get_optimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="ow">or</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">'main'</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_update_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_value</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+</div>
+</div>
+<p>最後に学習中に訓練データに意味を変えない変化を加えるData Augmentationを適用します．これは画像において回転させたり，平行移動させたりする場合と同じです． 今回は128bp毎にカバレッジ値を予測していますが，数塩基（例えば4~8など）移動したとしてもカバレッジ値は同じ程度になることが期待されます．そこで最大max_shift分だけ配列を前後にシフトします（完全にランダムな塩基配列を余った部分に入れると実際の塩基配列の分布と変わる可能性があるのでここではroll()関数を巡回シフトしています）．</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">class</span> <span class="nc">PreprocessedDataset</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">DatasetMixin</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">max_shift</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">xs</span> <span class="o">=</span> <span class="n">xs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ys</span> <span class="o">=</span> <span class="n">ys</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_shift</span> <span class="o">=</span> <span class="n">max_shift</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="c1"># It applies following preprocesses:</span>
+        <span class="c1">#     - Cropping</span>
+        <span class="c1">#     - Random flip</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ys</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+
+        <span class="n">s</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">max_shift</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_shift</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+<p>これで全部準備ができました．残りはchainerのtrainerを改造して学習するだけです．以下のコードを実行してください．</p>
+<p>元々のデータ全体では学習に時間がかかるので，データ/<code class="docutils literal"><span class="pre">ratio</span></code>分だけを学習，検証用データとして利用します．今回<code class="docutils literal"><span class="pre">ratio</span></code>は1に設定されています．この場合30分程度で学習が完了します．短い時間で試したい方はratio=1をratio=10やratio=20として実験してみてください．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">chainer.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">chainer.links</span> <span class="k">as</span> <span class="nn">L</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">chainer.training</span> <span class="k">import</span> <span class="n">extensions</span>
+<span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">training</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+
+<span class="n">ml_h5</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'seq.h5'</span><span class="p">)</span>
+
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'train_in'</span><span class="p">]</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'train_out'</span><span class="p">]</span>
+
+<span class="n">valid_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'valid_in'</span><span class="p">]</span>
+<span class="n">valid_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'valid_out'</span><span class="p">]</span>
+
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'test_in'</span><span class="p">]</span>
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'test_out'</span><span class="p">]</span>
+
+<span class="n">ratio</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">train_x</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">train_x</span><span class="p">)</span><span class="o">//</span><span class="n">ratio</span><span class="p">]</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">train_y</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">train_y</span><span class="p">)</span><span class="o">//</span><span class="n">ratio</span><span class="p">]</span>
+<span class="n">valid_x</span> <span class="o">=</span> <span class="n">valid_x</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">valid_x</span><span class="p">)</span><span class="o">//</span><span class="n">ratio</span><span class="p">]</span>
+<span class="n">valid_y</span> <span class="o">=</span> <span class="n">valid_y</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">valid_y</span><span class="p">)</span><span class="o">//</span><span class="n">ratio</span><span class="p">]</span>
+
+
+<span class="n">max_shift_for_data_augmentation</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">PreprocessedDataset</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">max_shift_for_data_augmentation</span><span class="p">)</span>
+<span class="n">val</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">TupleDataset</span><span class="p">(</span><span class="n">valid_x</span><span class="p">,</span> <span class="n">valid_y</span><span class="p">)</span>
+
+<span class="n">batchsize</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="n">train_iter</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">)</span>
+<span class="n">val_iter</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">iterators</span><span class="o">.</span><span class="n">SerialIterator</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">Net</span><span class="p">(),</span> <span class="n">lossfun</span><span class="o">=</span><span class="n">log_poisson_loss</span><span class="p">,</span> <span class="n">accfun</span><span class="o">=</span><span class="n">log_r2_score</span><span class="p">)</span>
+
+<span class="n">lr</span> <span class="o">=</span> <span class="mf">0.001</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">beta1</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">beta2</span><span class="o">=</span><span class="mf">0.98</span><span class="p">)</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">optimizer</span><span class="o">.</span><span class="n">add_hook</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">optimizer_hooks</span><span class="o">.</span><span class="n">GradientClipping</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="mf">0.01</span><span class="p">))</span>
+
+
+<span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">updaters</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span>
+     <span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">n_warmups</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">out</span> <span class="o">=</span> <span class="s2">"out"</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">n_epochs</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">CosineScheduler</span><span class="p">(</span><span class="n">attr</span><span class="o">=</span><span class="s1">'alpha'</span><span class="p">,</span> <span class="n">init_val</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">n_decays</span><span class="o">=</span><span class="n">n_epochs</span><span class="p">,</span> <span class="n">n_warmups</span><span class="o">=</span><span class="n">n_warmups</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">val_iter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">)))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot_object</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">'model_epoch_{.updater.epoch}'</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">(</span>
+          <span class="p">[</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'validation/main/loss'</span><span class="p">,</span> <span class="s1">'elapsed_time'</span><span class="p">]),</span> <span class="n">trigger</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
+
+<span class="c1"># trainer.extend(extensions.ProgressBar())</span>
+
+<span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+epoch       main/loss   validation/main/loss  elapsed_time
+0           2.48903                           67.7519
+0           1.84639                           117.127
+0           1.89686                           166.72
+0           1.81704                           215.449
+1           1.85827     1.85512               274.106
+1           1.81286                           323.281
+1           1.74802                           372.488
+1           1.80567                           421.261
+1           1.7467                            470.755
+2           1.70371     1.78047               528.83
+2           1.77928                           577.477
+2           1.67051                           626.814
+2           1.6415                            675.927
+2           1.67238                           725.017
+3           1.69656     1.70897               782.987
+3           1.63935                           831.673
+3           1.64996                           881.092
+3           1.63925                           930.107
+3           1.71683                           979.111
+4           1.63116     1.71748               1036.98
+4           1.64786                           1085.9
+4           1.6442                            1134.54
+4           1.57821                           1183.92
+4           1.62886                           1232.91
+5           1.61523     1.66392               1290.8
+5           1.65216                           1339.78
+5           1.61142                           1388.37
+5           1.61483                           1437.71
+5           1.57835                           1486.61
+6           1.56529     1.63406               1544.53
+6           1.59062                           1593.49
+6           1.61102                           1642.09
+6           1.60003                           1691.49
+6           1.57222                           1740.46
+7           1.55098     1.62176               1798.31
+7           1.54207                           1847.28
+7           1.5653                            1895.92
+7           1.57523                           1944.68
+7           1.61043                           1993.73
+8           1.57391     1.62377               2051.65
+8           1.51835                           2100.61
+8           1.58225                           2149.57
+8           1.59289                           2198.5
+8           1.56643                           2247.32
+9           1.55151     1.62115               2305.72
+9           1.53593                           2354.7
+9           1.57812                           2403.76
+9           1.54277                           2452.85
+9           1.55514                           2501.51
+</pre></div></div>
+</div>
+<p>学習が成功したならば，ディレクトリのout以下に学習されたモデルが出力されているはずです．実際にモデルが出力されているのかを確認しましょう．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="o">!</span>ls -l out/
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+total 14172
+-rw-r--r-- 1 root root   10080 Dec 16 05:24 log
+-rw-r--r-- 1 root root 1445890 Dec 16 04:47 model_epoch_1
+-rw-r--r-- 1 root root 1447626 Dec 16 05:25 model_epoch_10
+-rw-r--r-- 1 root root 1446428 Dec 16 04:51 model_epoch_2
+-rw-r--r-- 1 root root 1446742 Dec 16 04:55 model_epoch_3
+-rw-r--r-- 1 root root 1447061 Dec 16 04:59 model_epoch_4
+-rw-r--r-- 1 root root 1447268 Dec 16 05:04 model_epoch_5
+-rw-r--r-- 1 root root 1447473 Dec 16 05:08 model_epoch_6
+-rw-r--r-- 1 root root 1447585 Dec 16 05:12 model_epoch_7
+-rw-r--r-- 1 root root 1447649 Dec 16 05:16 model_epoch_8
+-rw-r--r-- 1 root root 1447650 Dec 16 05:21 model_epoch_9
+</pre></div></div>
+</div>
+<p>次に，学習したモデルを用いてテストデータに対しても予測してみます．次のようにして学習が終わったモデルを読み込み，テストデータに対してモデルを適用してみましょう．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">chainer.links</span> <span class="k">as</span> <span class="nn">L</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">model_n_epoch</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">out_dir</span> <span class="o">=</span> <span class="s1">'out'</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">Net</span><span class="p">())</span>
+<span class="n">chainer</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="s1">'</span><span class="si">{}</span><span class="s1">/model_epoch_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">model_n_epoch</span><span class="p">),</span> <span class="n">model</span><span class="p">)</span>
+<span class="n">predictor</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predictor</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_x</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">no_backprop_mode</span><span class="p">():</span>
+    <span class="n">test_y_estimated</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">predictor</span><span class="p">(</span><span class="n">test_x</span><span class="p">[:</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">test_y</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">test_y_estimated</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_y_estimated</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,</span><span class="mi">0</span><span class="p">])</span>
+
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+500
+(1, 1024, 10)
+variable([1.8674504  2.004048   1.68377    ... 0.81418294 0.7608197
+          0.8720923 ])
+</pre></div></div>
+</div>
+<p>結果を抜粋して表示してみましょう．ここでは1つ目（i=0）の出力について正解と推定結果を出力しています．今回の場合でも，学習データを絞り（クラス数を10とした），学習回数も少ないですが，ピークを捉えられていることがわかると思います．</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">y</span> <span class="o">=</span> <span class="n">test_y_estimated</span><span class="o">.</span><span class="n">data</span>
+<span class="n">fig_size</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"figure.figsize"</span><span class="p">]</span>
+<span class="n">fig_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">fig_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,</span><span class="n">i</span><span class="p">])</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">test_y</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,</span><span class="n">i</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'estimated'</span><span class="p">,</span> <span class="s1">'observed'</span><span class="p">))</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area highlight-none"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.legend.Legend at 0x7f037ea9f6d8&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_07_DNA_Sequence_Data_Analysis_44_1.png" src="../_images/notebooks_07_DNA_Sequence_Data_Analysis_44_1.png"/>
+</div>
+</div>
+<p>時間に余裕があれば学習のn_epochsを10から30~50程度に増やしたり，層数を増やしたり，チャンネル数を増やしたりして，より高精度なモデルが学習できるのかを調べてみましょう．</p>
+<ul class="simple">
+<li>[1] "Sequential regulatory activity prediction across chromosomes with convolutional neural networks", D. R. Kelly and et al., Genome Res. 2018. 28: 739-750</li>
+<li>[2] "Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks", T. Salimans and et al., arXiv:1602.07868</li>
+<li>[3] "Language Modeling with Gated Convolutional Networks", Y. N. Dauphin and et al., arXiv:1612.08083</li>
+<li>[4] "Densely Connected Convolutional Networks", G. Huang, and et al., CVPR 2017</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<footer>
+<div aria-label="footer navigation" class="rst-footer-buttons" role="navigation">
+<a accesskey="n" class="btn btn-neutral float-right" href="08_Sequential_Data_Analysis_with_Deep_Learning.html" rel="next" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析">Next <span class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="p" class="btn btn-neutral" href="06_Blood_Cell_Detection.html" rel="prev" title="6. 実践編: 血液の顕微鏡画像からの細胞検出"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>
+        © Copyright 2018, Preferred Networks &amp; キカガク
+
+    </p>
+</div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'',
+              LANGUAGE:'ja',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+<script src="../_static/jquery.js" type="text/javascript"></script>
+<script src="../_static/underscore.js" type="text/javascript"></script>
+<script src="../_static/doctools.js" type="text/javascript"></script>
+<script src="../_static/translations.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+<script src="../_static/js/theme.js" type="text/javascript"></script>
+<script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>
