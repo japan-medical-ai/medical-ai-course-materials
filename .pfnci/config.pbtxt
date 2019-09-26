@@ -9,6 +9,6 @@ configs {
     time_limit {
       seconds: 1800
     }
-    command: "bash build.sh"
+    command: "ls -la"
   }
 }
