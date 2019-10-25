@@ -17,11 +17,10 @@ News
 
 受講想定者として大学生，大学院生，医療従事者を想定しています．
 また，Python，Google Colaboratoryの基本的な使い方を知っていることを想定しています．
-Python，Google Colaboratoryについては様々な参考資料や解説サイトがあります．例えば，以下のような資料も参考にしてください．
+Python，Google Colaboratoryについての学習が必要な場合は，下記のサイトを参照してください．
 
-* `Python学習サイト集 <https://qiita.com/kita33/items/8891c7c04b664e7669bf>`_
-* `ゼロからはじめるPython第26回 (Colaboratorの使い方について） <https://news.mynavi.jp/article/zeropython-26/>`_
-* `Google colaboratory FAQ <https://research.google.com/colaboratory/faq.html>`_
+* `Python 入門 <https://tutorials.chainer.org/ja/02_Basics_of_Python.html>`_
+* `Google Colaboratory の基本 <https://tutorials.chainer.org/ja/01_Welcome_to_Chainer_Tutorial.html#Google-Colaboratory-%E3%81%AE%E5%9F%BA%E6%9C%AC>`_
 
 Pythonについては変数（数値・文字列，リスト，タプル，辞書），制御構文（for，if），関数，クラスを理解している必要があります．
 
