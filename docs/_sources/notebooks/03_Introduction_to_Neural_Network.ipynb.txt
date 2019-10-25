@@ -28,11 +28,11 @@
  },
  "cells": [
   {
-   "metadata": {
-    "id": "Da9LzFk5G38W",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "Da9LzFk5G38W"
+   },
    "source": [
     "# ニューラルネットワークの基礎\n",
     "\n",
@@ -46,11 +46,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "LICMyO4rKUX9",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "LICMyO4rKUX9"
+   },
    "source": [
     "## ニューラルネットワークの構造\n",
     "\n",
@@ -64,11 +64,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "meyqKCr-NUDs",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "meyqKCr-NUDs"
+   },
    "source": [
     "![ニューラルネットワークの出力値](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/02.png)\n",
     "\n",
@@ -82,11 +82,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "X9-RYTlXNzNQ",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "X9-RYTlXNzNQ"
+   },
    "source": [
     "### 線形変換\n",
     "\n",
@@ -136,11 +136,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "JmlTx1YF4xMD",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "JmlTx1YF4xMD"
+   },
    "source": [
     "### 非線形変換\n",
     "\n",
@@ -166,11 +166,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "s-eFDAuJ-Cse",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "s-eFDAuJ-Cse"
+   },
    "source": [
     "### 数値を見ながら計算の流れを確認\n",
     "\n",
@@ -212,11 +212,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "ivVppUOibSHy",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "ivVppUOibSHy"
+   },
    "source": [
     "## 目的関数\n",
     "\n",
@@ -224,11 +224,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "BCGZbTKcbUpe",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "BCGZbTKcbUpe"
+   },
    "source": [
     "### 平均二乗誤差\n",
     "\n",
@@ -248,11 +248,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "WqFc0jYJFLYz",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "WqFc0jYJFLYz"
+   },
    "source": [
     "### 交差エントロピー\n",
     "\n",
@@ -270,11 +270,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "kxqfo4Yrekaw",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "kxqfo4Yrekaw"
+   },
    "source": [
     "#### 補足：交差エントロピーについて\n",
     "\n",
@@ -294,11 +294,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "Drh35j_lCYiy",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "Drh35j_lCYiy"
+   },
    "source": [
     "## ニューラルネットワークの最適化\n",
     "\n",
@@ -338,11 +338,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "gtJOsYWkKPDj",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "gtJOsYWkKPDj"
+   },
    "source": [
     "### パラメータ更新量の算出\n",
     "\n",
@@ -382,11 +382,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "k1L6xptUs3l4",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "k1L6xptUs3l4"
+   },
    "source": [
     "#### パラメータ ${\\bf w}_2$ の更新量\n",
     "\n",
@@ -444,12 +444,10 @@
    ]
   },
   {
-   "metadata": {
-    "id": "fD0MA510V1f-",
-    "colab_type": "code",
-    "colab": {}
-   },
    "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {},
+   "outputs": [],
    "source": [
     "import numpy as np\n",
     "\n",
@@ -458,27 +456,23 @@
     "\n",
     "# 正解\n",
     "t = np.array([20])"
-   ],
-   "execution_count": 1,
-   "outputs": []
+   ]
   },
   {
-   "metadata": {
-    "id": "VOznWs5PV3pQ",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "VOznWs5PV3pQ"
+   },
    "source": [
     "まず，NumPyモジュールを読み込んでから，入力の配列を定義します．ここでは，上図と同じになるように `2, 3, 1` の3つの値を持つ3次元ベクトルを定義しています．また，正解として仮に `20` を与えることにしました．次に，パラメータを定義します．"
    ]
   },
   {
-   "metadata": {
-    "id": "cBuj19ptXu1f",
-    "colab_type": "code",
-    "colab": {}
-   },
    "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
    "source": [
     "# 1-2層間のパラメータ\n",
     "w1 = np.array([[3, 1, 2], [-2, -3, -1]])\n",
@@ -487,16 +481,14 @@
     "# 2-3層間のパラメータ\n",
     "w2 = np.array([[3, 2]])\n",
     "b2 = np.array([0])"
-   ],
-   "execution_count": 2,
-   "outputs": []
+   ]
   },
   {
-   "metadata": {
-    "id": "2xT4AnmBXwIb",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "2xT4AnmBXwIb"
+   },
    "source": [
     "ここでは，以下の4つのパラメータを定義しました．\n",
     "\n",
@@ -516,16 +508,16 @@
    ]
   },
   {
-   "metadata": {
-    "id": "d-ELmfkiKQfd",
-    "colab_type": "code",
-    "outputId": "ef26b9e1-ecac-4e5c-f69b-d7443a2338ea",
-    "colab": {
-     "base_uri": "https://localhost:8080/",
-     "height": 34
-    }
-   },
    "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": "[0.95257194]\n"
+    }
+   ],
    "source": [
     "# 中間層の計算\n",
     "u1 = w1.dot(x) + b1\n",
@@ -536,24 +528,14 @@
     "y = 1. / (1 + np.exp(-u2))\n",
     "\n",
     "print(y)"
-   ],
-   "execution_count": 3,
-   "outputs": [
-    {
-     "output_type": "stream",
-     "text": [
-      "[0.95257194]\n"
-     ],
-     "name": "stdout"
-    }
    ]
   },
   {
-   "metadata": {
-    "id": "8t-YjO8BZ6kU",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "8t-YjO8BZ6kU"
+   },
    "source": [
     "出力は $0.95257194$ と求まりました．つまり，$f([2, 3, 1]^T) = 0.95257194$ ということになります．次に，上で求めた\n",
     "\n",
@@ -566,12 +548,10 @@
    ]
   },
   {
-   "metadata": {
-    "id": "8RkBjaaaZ7U8",
-    "colab_type": "code",
-    "colab": {}
-   },
    "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [],
    "source": [
     "# dL / dy\n",
     "g_Ly = -2 / 1 * (t - y)\n",
@@ -581,54 +561,42 @@
     "\n",
     "# du_2 / dw_2\n",
     "g_u2w2 = h1"
-   ],
-   "execution_count": 4,
-   "outputs": []
+   ]
   },
   {
-   "metadata": {
-    "id": "uPmRfu3_aXJG",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "uPmRfu3_aXJG"
+   },
    "source": [
     "これらを掛け合わせれば，求めたかったパラメータ ${\\bf w}_2$ についての勾配を得ることができます．"
    ]
   },
   {
-   "metadata": {
-    "id": "ZrKfXtzfaWk4",
-    "colab_type": "code",
-    "outputId": "cc2060bc-b039-465c-b156-cb4b45264c5a",
-    "colab": {
-     "base_uri": "https://localhost:8080/",
-     "height": 34
-    }
-   },
    "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": "[-1.72104507e+00 -1.43112111e-06]\n"
+    }
+   ],
    "source": [
     "# dL / dw_2: 求めたい勾配\n",
     "g_Lw2 = g_Ly * g_yu2 * g_u2w2\n",
     "\n",
     "print(g_Lw2)"
-   ],
-   "execution_count": 5,
-   "outputs": [
-    {
-     "output_type": "stream",
-     "text": [
-      "[-1.72104507e+00 -1.43112111e-06]\n"
-     ],
-     "name": "stdout"
-    }
    ]
   },
   {
-   "metadata": {
-    "id": "XN293R5NU1zP",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "XN293R5NU1zP"
+   },
    "source": [
     "勾配が求まりました．これが $\\partial \\mathcal{L} / \\partial {\\bf w}_2$ の値です．これを学習率でスケールさせたものを使えば，パラメータ ${\\bf w}_2$ を更新することができます．更新式は，具体的には以下のようになります．\n",
     "\n",
@@ -640,11 +608,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "HLAwYypPshj8",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "HLAwYypPshj8"
+   },
    "source": [
     "#### 学習率（learning rate）について\n",
     "\n",
@@ -652,11 +620,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "SC0RoRpucZh9",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "SC0RoRpucZh9"
+   },
    "source": [
     "#### パラメータ ${\\bf w}_1$ の更新量\n",
     "\n",
@@ -703,16 +671,16 @@
    ]
   },
   {
-   "metadata": {
-    "id": "v41tSnDkcbPk",
-    "colab_type": "code",
-    "outputId": "d6075fb2-5da9-4981-f1b7-d65eaf219fbe",
-    "colab": {
-     "base_uri": "https://localhost:8080/",
-     "height": 51
-    }
-   },
    "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": "[[-1.72463398e-04 -2.58695098e-04 -8.62316992e-05]\n [-5.72447970e-06 -8.58671954e-06 -2.86223985e-06]]\n"
+    }
+   ],
    "source": [
     "g_yu2 = y * (1 - y)\n",
     "g_u2h1 = w2\n",
@@ -729,25 +697,14 @@
     "g_Lw1 = g_Lu1.T.dot(g_u1w1)\n",
     "\n",
     "print(g_Lw1)"
-   ],
-   "execution_count": 6,
-   "outputs": [
-    {
-     "output_type": "stream",
-     "text": [
-      "[[-1.72463398e-04 -2.58695098e-04 -8.62316992e-05]\n",
-      " [-5.72447970e-06 -8.58671954e-06 -2.86223985e-06]]\n"
-     ],
-     "name": "stdout"
-    }
    ]
   },
   {
-   "metadata": {
-    "id": "Al0CmLzTtyvR",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "Al0CmLzTtyvR"
+   },
    "source": [
     "これが $\\partial \\mathcal{L} / \\partial {\\bf w}_1$ の値です．これを用いて，${\\bf w}_2$ と同様に以下のような更新式でパラメータ ${\\bf w}_1$ の更新をすることができます．\n",
     "\n",
@@ -757,11 +714,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "zIv_rP32uH1y",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "zIv_rP32uH1y"
+   },
    "source": [
     "## 誤差逆伝播法（バックプロパゲーション）\n",
     "\n",
@@ -774,11 +731,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "R8YaTki1Dhhx",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "R8YaTki1Dhhx"
+   },
    "source": [
     "まず，目的関数の出力を $l = \\mathcal{L}({\\bf y}, {\\bf t})$ とします．この図の丸いノードは変数を表し，四角いノードは関数を表しています．今，一つの巨大な合成関数として見ることができるニューラルネットワーク全体を $f$ と表し，その中で各層間の線形変換に用いられる関数を $f_1$, $f_2$，非線形変換をそれぞれ $a_1$, $a_2$ と表します．このとき，前節で行った更新量の算出はどのように捉えることができるでしょうか．\n",
     "\n",
@@ -790,11 +747,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "uHGp6qIBcKOI",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "uHGp6qIBcKOI"
+   },
    "source": [
     "## 勾配消失\n",
     "\n",
@@ -823,11 +780,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "IRvZlChZ9Qna",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "IRvZlChZ9Qna"
+   },
    "source": [
     "## 「レイヤ」が指すもの\n",
     "\n",
@@ -835,11 +792,11 @@
    ]
   },
   {
-   "metadata": {
-    "id": "7dD2mgCOTvdW",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "7dD2mgCOTvdW"
+   },
    "source": [
     "## 様々なレイヤタイプ\n",
     "\n",
@@ -853,28 +810,41 @@
    ]
   },
   {
-   "metadata": {
-    "id": "w-3rsIzXpCBo",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "w-3rsIzXpCBo"
+   },
    "source": [
     "### 畳み込み層（convolution layer）\n",
     "\n",
-    "全結合層では，出力の計算のためにパラメータ行列${\\bf W}$中の一つ一つの値が入力データの持つ全ての要素（ベクトルであれば，全次元の値）と掛け合わされていました．言い換えると，「結合」を何らかの演算が行われる関係を指すものとすれば，パラメータ行列${\\bf W}$の$i, j$要素である$W_{ij}$と，入力データ${\\bf x}$の全要素の間が，全結合（fully-connected）していたということです．\n",
+    "全結合層では，入力${\\bf x}$の各要素と出力${\\bf y}$の各要素が，互いにすべて結合していました．\n",
+    "そのため，一つの出力ユニットの値は，全ての入力ユニットの値の影響を受けます．\n",
+    "一方，一つの出力ユニットの値を計算するために，入力ユニットのうちの一部を局所的にしか用いないこともあります．\n",
+    "2次元畳み込み層では，パラメータはカーネル（もしくはフィルタ）と呼ばれる小さな画像パッチのようなものの集合として用意されます．\n",
+    "そして，このカーネルの大きさが入力より小さい場合は，一つの出力ユニットの値は，入力ユニットの内カーネルでカバーされる一部分を元にして計算されます．\n",
     "\n",
-    "一方，畳み込み層では，ここまでで説明した全結合層とは異なり，パラメータと入力データの間の結合が局所的になっており，各々のパラメータは入力データの全ての要素と結合しているとは限りません．具体的には，2次元畳み込み層の場合，パラメータはカーネル（もしくはフィルタ）と呼ばれる小さな画像パッチのようなものの集合として用意され，そのパッチごとに入力データの一部の値との間の演算が行われる形になっています．\n",
-    "\n",
-    "下の図を用いて，$3 \\times 3$の大きさの小さな画像パッチのような畳み込みカーネルを2つ持つ畳み込み層の実際の計算過程を調べてみましょう．\n",
+    "下の図は，$3 \\times 3$の大きさの小さな画像パッチのような畳み込みカーネルを2つ持つ畳み込み層での計算を模式的に表しています．\n",
     "\n",
     "![畳み込み層の計算過程](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/convolution.gif)\n",
     "\n",
     "（図は[CS231n Convolutional Neural Networks for Visual Recognition\n",
     "](http://cs231n.github.io/convolutional-networks/)より引用）\n",
     "\n",
-    "一番左の青いブロックが並ぶ列は，入力画像を表しています．入力は 幅・高さが$5 \\times 5$ の大きさの3チャンネル画像です．上図ではまず，パディング（padding）と呼ばれる処理をして，入力画像の周囲に値が0となる領域を付け足しています．今回は幅1の領域をパディングしています．\n",
+    "一番左の青いブロックが並ぶ列は，入力画像を表しています．\n",
+    "入力は 幅・高さが$5 \\times 5$ の大きさの3チャンネル画像です．\n",
+    "上図ではまず，**パディング（padding）**と呼ばれる処理をして，入力画像の周囲に値が0となる領域を付け足しています．\n",
+    "今回は幅1の領域をパディングしています．\n",
     "\n",
-    "中央2列は，それぞれ1列ごとに1つの畳み込みカーネルを表しています．1つの畳み込みカーネルは，入力の画像（もしくは特徴マップ（feature map）と呼ばれる一つ前の層の出力）が持つのと同数のチャンネルを持ちます．ここでは入力画像は3チャンネルだったので，各カーネルは3チャンネル分の値を持っています．これが縦に並んだ3つの赤い$3 \\times 3$の大きさのブロックで表されています．各カーネルの各チャンネルは，対応する入力のチャンネルに対して自らをスライドさせていくような形で計算を行います．このときのスライド幅をストライド（stride）と呼びます．図では，2個飛びに入力画像上を$3 \\times 3$の枠が移動しているようすが見て取れます．すなわち，ストライドは2に設定されています．ここで行われる計算は，入力のある位置にカーネルを重ね合わせた際に，重なっている$3 \\times 3 = 9$個の要素を互いに掛け合わせて，結果を全て足すという計算です．上の図では，例えば1つ目のカーネル（W0）の1つ目のチャンネルは，\n",
+    "中央2列は，それぞれ1列ごとに1つの畳み込みカーネルを表しています．\n",
+    "1つの畳み込みカーネルは，入力の画像（もしくは**特徴マップ（feature map）**と呼ばれる一つ前の層の出力）が持つのと同数のチャンネルを持ちます．\n",
+    "ここでは入力画像は3チャンネルだったので，各カーネルは3チャンネル分の値を持っています．\n",
+    "これが縦に並んだ3つの赤い$3 \\times 3$の大きさのブロックで表されています．\n",
+    "各カーネルの各チャンネルは，対応する入力のチャンネルに対して自らをスライドさせていくような形で計算を行います．\n",
+    "このときのスライド幅を**ストライド（stride）**と呼びます．\n",
+    "図では，2個飛びに入力画像上を$3 \\times 3$の枠が移動しているので，ストライドは2です．\n",
+    "ここで行われる計算は，入力のある位置にカーネルを重ね合わせた際に，重なっている$3 \\times 3 = 9$個の要素を互いに掛け合わせて，結果を全て足すという計算です．\n",
+    "例えば，上の図では1つ目のカーネル（w0）の1つ目のチャンネルは，\n",
     "\n",
     "$$\n",
     "\\left[\n",
@@ -886,7 +856,8 @@
     "\\right]\n",
     "$$\n",
     "\n",
-    "という値をもっており，それに対応する入力画像の1チャンネル目の左上から$3 \\times 3$の小領域には\n",
+    "という値を持っています．\n",
+    "また，それに対応する入力画像の1チャンネル目の左上から$3 \\times 3$の小領域には\n",
     "\n",
     "$$\n",
     "\\left[\n",
@@ -898,36 +869,54 @@
     "\\right]\n",
     "$$\n",
     "\n",
-    "\n",
-    "という値が並んでいます．そのため，それぞれ重なりあっている値同士を掛け合わせると，\n",
+    "という値が並んでいます．\n",
+    "そのため，それぞれ重なりあっている値同士を掛け合わせると，\n",
     "\n",
     "$$\n",
     "\\left[\n",
     "\\begin{matrix}\n",
-    "0 & 0 & 0 \\\\\n",
-    "0 & 0 & 0 \\\\\n",
+    "1 \\times 0 & 1 \\times 0  & -1 \\times 0 \\\\\n",
+    "0 \\times 0 & -1 \\times 0 & 0 \\times 1 \\\\\n",
+    "1 \\times 0 & -1 \\times 2 & -1 \\times 0\n",
+    "\\end{matrix}\n",
+    "\\right]\n",
+    "=\n",
+    "\\left[\n",
+    "\\begin{matrix}\n",
+    "0 & 0  & 0 \\\\\n",
+    "0 & 0  & 0 \\\\\n",
     "0 & -2 & 0\n",
     "\\end{matrix}\n",
     "\\right]\n",
     "$$\n",
     "\n",
-    "となることが分かります．この9つの値を全て足したものが，まずこのカーネルの1つ目のチャンネルの1つ目の計算結果となります．計算すると，結果は-2です．これを2チャンネル目，3チャンネル目の値でも同様に行うと，2チャンネル目は0，3チャンネル目は1という計算結果になります．そして，最後にこの全てのチャンネルの結果を足し合わせます．その結果は-1となります．これにカーネルごとに用意されるバイアスの値（上図では1つ目のカーネルのバイアスは1）を足したものが，このカーネルの入力の左上隅の領域に対する出力結果となります．結果は，0です．一番右の列の緑色のブロックはこの畳込み層の出力値を表しており，1つ目のブロックの左上のマスを見ると，確かに0となっていることが分かります．\n",
+    "となります．\n",
+    "この9つの値を全て足したものが，まずこのカーネルの1つ目のチャンネルの1つ目の計算結果となります．\n",
+    "計算すると，結果は-2です．\n",
+    "これを2チャンネル目，3チャンネル目の値でも同様に行うと，2チャンネル目は0，3チャンネル目は1という計算結果になります．\n",
+    "そして，最後にこの全てのチャンネルの結果を足し合わせます．\n",
+    "その結果は-1となります．\n",
+    "これにカーネルごとに用意されるバイアスの値（上図では1つ目のカーネルのバイアスは1）を足したものが，このカーネルの入力の左上隅の領域に対する出力結果となります．結果は，0です．一番右の列の緑色のブロックはこの畳込み層の出力値を表しており，1つ目のブロックの左上のマスを見ると，確かに0となっていることが分かります．\n",
     "\n",
-    "同様に，他のマスの値もいくつか自分で計算してみてください．\n",
+    "同様に，他のマスの値もいくつか計算してみましょう．\n",
     "\n",
-    "このレイヤの微分を考えるようとすると一見複雑に感じられますが，個別のパラメータ値を使って行われる演算は **重みを掛けてバイアスを足す** だけであるため，原理的にはシンプルな線形変換のみで構成されていることからこの変換をパラメータおよび入力について微分することは可能であることが分かります．実際，カーネルサイズが $1 \\times 1$ のカーネルを用いた畳み込み演算は各入力次元に同一の重み行列を用いた線形変換を施すのと同等です．たとえば，入力の幅と高さが $W \\times H$ で3チャンネルの場合，カーネルサイズが $1 \\times 1$ の畳み込み層のカーネルは $1 \\times 1 \\times 3$ のテンソル，バイアスは1次元のスカラーとなり，$W \\times H$ 個の全ての入力次元にこのテンソルとスカラーによる線形変換を施します．\n",
+    "畳み込み層で行われている計算は一見複雑に感じられますが，カーネルの中の一つの値は入力に掛け合わされているだけであり，バイアスもその結果に足し合わされているだけです．\n",
+    "このため，細かく見れば線形変換のみで構成されていることが分かります．\n",
+    "よって，畳み込み層で行われる変換全体は，パラメータおよび入力について微分することができます．\n",
     "\n",
-    "このように，畳み込み層はカーネルを様々に定義することで多様なデータ形式を扱うことができます．1次元のカーネルを使うと1次元の系列データなどにも適用でき，3次元のカーネルを用いれば動画やボクセルのようなデータにも適用できます．"
+    "最後に，畳み込み層はカーネルを問題に合わせて適切に定義することで，多様なデータ形式を扱うことができます．\n",
+    "例えば，1次元のカーネルを使うと1次元の系列データなどにも適用でき，3次元のカーネルを用いれば動画やボクセルのようなデータにも適用できます．"
    ]
   },
   {
-   "metadata": {
-    "id": "SUEmd9pOKe2D",
-    "colab_type": "text"
-   },
    "cell_type": "markdown",
+   "metadata": {
+    "colab_type": "text",
+    "id": "SUEmd9pOKe2D"
+   },
    "source": [
     "### プーリング層（pooling layer）\n",
+    "\n",
     "\n",
     "プーリングは，主に特徴マップに対して行われる操作で，特徴マップの空間方向の次元（spatial dimension，入力画像における幅・高さに対応する次元）の大きさを削減し計算量を抑えたり，微小な平行移動について出力を不変とすることで画像認識タスクなどにおけるロバスト性の向上のためなどに用いられます．\n",
     "\n",
