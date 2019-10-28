@@ -363,18 +363,9 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="o">!</span>curl https://colab.chainer.org/install <span class="p">|</span> sh -
-</pre></div>
-</div>
-</div>
 <p>インストールが完了したら以下のセルを実行して，各ライブラリのインポート，及びバージョン確認を行って下さい.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -431,7 +422,7 @@ Imbalanced-learn:  0.4.3
 <p>また，本章の実行結果を再現可能なように，4章 (4.2.4.4) で紹介した乱数シードの固定を行います．</p>
 <p>（以降の計算を行う上で必ず必要となる設定ではありません．）</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -468,7 +459,7 @@ Imbalanced-learn:  0.4.3
 <p>47名の患者から収集した48レコードが登録されており，各レコードファイルには約30分間の2誘導(<span class="math">\(II\)</span>，<span class="math">\(V_1\)</span>)のシグナルデータが格納されています．また，各R波のピーク位置に対してアノテーションが付与されています．(データとアノテーションの詳細については<a class="reference external" href="https://www.physionet.org/physiobank/database/html/mitdbdir/intro.htm">こちら</a>を御覧ください．)</p>
 <p>データベースは<a class="reference external" href="https://www.physionet.org/">PhysioNet</a>によって管理されており，ダウンロードや読み込み用のPythonパッケージが提供されているので，今回はそちらを利用してデータを入手します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -479,7 +470,7 @@ Imbalanced-learn:  0.4.3
 </div>
 <p>まずはmitdbデータベースをダウンロードしましょう． ※実行時にエラーが出た場合は，再度実行して下さい．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -500,7 +491,7 @@ Finished downloading files
 <p>無事ダウンロードが完了すると， <code class="docutils literal"><span class="pre">Finished</span> <span class="pre">downloading</span> <span class="pre">files</span></code> というメッセージが表示されます．</p>
 <p>ファイル一覧を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -575,7 +566,7 @@ Finished downloading files
 <li><code class="docutils literal"><span class="pre">_preprocess_dataset_core()</span></code> : <code class="docutils literal"><span class="pre">preprocess_datataset()</span></code>内で呼ばれるメインの処理．</li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -691,7 +682,7 @@ Finished downloading files
 </div>
 <p>データ保存先のrootディレクトリ(dataset_root)を指定し， <code class="docutils literal"><span class="pre">preprocess_dataset()</span></code> を実行することで，前処理後のデータがNumpy Array形式で所定の場所に保存されます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -707,7 +698,7 @@ Finished downloading files
 <li>test/y.npy : 評価用ラベル</li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -733,7 +724,7 @@ Finished downloading files
 </div>
 <p>次に，保存したファイルを読み込み，中身を確認してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -751,7 +742,7 @@ Finished downloading files
 </ul>
 <p>各シグナルデータは，2 (sec) * 360 (Hz) = 720次元ベクトルとして表現されています．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -777,7 +768,7 @@ X_test.shape =  (45349, 720)     y_test.shape =  (45349,)
 <p>となっています．</p>
 <p>学習用データセットに含まれている各ラベル毎のサンプル数をカウントしてみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -796,7 +787,7 @@ y_train count each labels:  {0: 43995, 1: 3743}
 </div>
 <p>評価用データについても同様にラベル毎のサンプル数をカウントします．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -816,7 +807,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 <p>学習用データ，評価用データ共に，VEBサンプルは全体の10%未満であり，大多数は正常拍動サンプルであることが分かります．</p>
 <p>次に，正常拍動，及びVEBのシグナルデータを可視化してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -828,7 +819,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 <p>正常拍動の例を図示したものが以下になります．</p>
 <p>P波 - QRS波 - T波が規則的に出現していることが確認できます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -838,7 +829,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -850,12 +841,12 @@ y_test count each labels:  {0: 42149, 1: 3200}
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_42_1.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_42_1.png"/>
+<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_41_1.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_41_1.png"/>
 </div>
 </div>
 <p>一方でVEBの波形は規則性が乱れ，R波ピークの形状やピーク間距離も正常例とは異なる性質を示していることが分かります．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -865,7 +856,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 </div>
 </div>
 <div class="nboutput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
@@ -877,7 +868,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_44_1.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_44_1.png"/>
+<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_43_1.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_43_1.png"/>
 </div>
 </div>
 <p>本章の目的は，ECGシグナル特徴をうまく捉え，新たな波形サンプルに対しても高精度に正常/異常を予測するモデルを構築することです．</p>
@@ -889,7 +880,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 <h3>8.5.1. 学習<a class="headerlink" href="#学習" title="Permalink to this headline">¶</a></h3>
 <p>まず，前節で準備した前処理済みデータをChainerで読み込むためのデータセットクラスを定義します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -921,7 +912,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 <p>今回は，画像認識タスクで有名な，CNNベースの<strong>ResNet34</strong>と同様のネットワーク構造を利用します．[<a class="reference external" href="https://arxiv.org/abs/1512.03385">文献5</a>]</p>
 <p>ただし，入力シグナルは1次元配列であることから，ここでは画像解析等で一般的に利用される2D Convolutionではなく，前章の遺伝子解析と同様，1D Convolutionを利用します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1048,7 +1039,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 <li><code class="docutils literal"><span class="pre">create_trainer()</span></code>：学習に必要な設定を行い，Trainerオブジェクトを作成</li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1111,7 +1102,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 </div>
 <p>これで学習の準備が整ったので，関数を呼び出してtrainerを作成します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1120,7 +1111,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1130,7 +1121,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 </div>
 <p>それでは学習を開始しましょう. (1分30秒程度で学習が完了します．)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1186,7 +1177,7 @@ Wall time: 1min 27s
 <li><code class="docutils literal"><span class="pre">print_scores()</span></code> : 予測結果から予測精度の評価指標を出力</li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1239,7 +1230,7 @@ Wall time: 1min 27s
 </div>
 <p>評価用データセットを用意し，</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1249,7 +1240,7 @@ Wall time: 1min 27s
 </div>
 <p>評価用データに対して予測を行います． (17秒程度で予測が完了します)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1275,7 +1266,7 @@ Wall time: 18.3 s
 <li>右下 : 実際にVEBであるサンプルが，VEBと予測された数</li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1287,7 +1278,7 @@ Wall time: 18.3 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_68_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_68_0.png"/>
+<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_67_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_67_0.png"/>
 </div>
 </div>
 <p>続いて，予測結果から計算される予測精度の評価指標スコアを表示してみましょう．</p>
@@ -1299,7 +1290,7 @@ Wall time: 18.3 s
 <li>正解率 (Accuracy) : 全ての診断結果 (Normal and VEB) のうち，正しく予測できていた（予測も同じ診断結果であった）割合</li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1380,7 +1371,7 @@ accuracy:  0.9351694634942336
 <p>サンプリングを行うために， <code class="docutils literal"><span class="pre">SampledECGDataset</span></code> クラスを定義します．</p>
 <p>また，そのクラスを読み込んで学習用データセットオブジェクトを作成する <code class="docutils literal"><span class="pre">create_sampled_train_datset()</span></code> 関数を用意します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1413,7 +1404,7 @@ accuracy:  0.9351694634942336
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1423,7 +1414,7 @@ accuracy:  0.9351694634942336
 </div>
 <p>それでは先程と同様に，trainerを作成して学習を実行してみましょう．(1分程度で学習が完了します．)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1468,7 +1459,7 @@ Wall time: 1min 8s
 </div>
 <p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1486,7 +1477,7 @@ Wall time: 18 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1498,11 +1489,11 @@ Wall time: 18 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_84_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_84_0.png"/>
+<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_83_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_83_0.png"/>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1542,7 +1533,7 @@ accuracy:  0.9144854351804891
 <p>([<a class="reference external" href="https://arxiv.org/abs/1708.02002">文献6</a>]より引用)</p>
 <p>それでは実際に，Focal loss関数を定義してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1565,7 +1556,7 @@ accuracy:  0.9144854351804891
 </div>
 <p>前項目で実施したデータサンプリングは行わず，初期(§8.5)の学習時と同様の設定にした上で，損失関数をfocal lossに変更します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1574,7 +1565,7 @@ accuracy:  0.9144854351804891
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1584,7 +1575,7 @@ accuracy:  0.9144854351804891
 </div>
 <p>それでは学習を開始しましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1630,7 +1621,7 @@ Wall time: 1min 17s
 </div>
 <p>学習が完了したら，評価用データにて予測結果を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1648,7 +1639,7 @@ Wall time: 17.9 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1660,11 +1651,11 @@ Wall time: 17.9 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_97_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_97_0.png"/>
+<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_96_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_96_0.png"/>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1710,7 +1701,7 @@ accuracy:  0.9456437848684646
 </ol>
 <p>それでは，上記の拡張を加えたネットワークを定義しましょう．（ResBlockクラスは，初期モデル構築時に定義済み）</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1742,7 +1733,7 @@ accuracy:  0.9456437848684646
 </div>
 <p>初期(§8.5)の学習時と同様の設定にした上で，ネットワーク構造を <code class="docutils literal"><span class="pre">DilatedResNet34</span></code> に変更して学習を行います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1788,7 +1779,7 @@ accuracy:  0.9456437848684646
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1798,7 +1789,7 @@ accuracy:  0.9456437848684646
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1808,7 +1799,7 @@ accuracy:  0.9456437848684646
 </div>
 <p>それでは，これまでと同様に学習を開始しましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[46]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1854,7 +1845,7 @@ Wall time: 1min 14s
 </div>
 <p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1872,7 +1863,7 @@ Wall time: 17.9 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1884,11 +1875,11 @@ Wall time: 17.9 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_111_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_111_0.png"/>
+<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_110_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_110_0.png"/>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1948,7 +1939,7 @@ accuracy:  0.9553683653443296
 <p>ノイズを除去する方法は幾つかありますが，最も単純なのは，線形フィルタを適用する方法です．今回は線形フィルタの一つであるバターワースフィルタを用いて，ノイズ除去を試してみましょう．</p>
 <p><code class="docutils literal"><span class="pre">BaseECGDatasetPreprocessor</span></code> にシグナルノイズ除去の機能を追加した， <code class="docutils literal"><span class="pre">DenoiseECGDatasetPreprocessor</span></code> クラスを定義します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2054,7 +2045,7 @@ accuracy:  0.9553683653443296
 <p>mitdbでは，予め0.1 Hz 以下の低周波と，100 Hz 以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，25 Hz のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
 <p>それでは，ノイズ除去オプションを有効にして，前処理を実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[51]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2064,7 +2055,7 @@ accuracy:  0.9553683653443296
 </div>
 <p>実際に，高周波ノイズ除去後の波形を可視化してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[52]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2073,7 +2064,7 @@ accuracy:  0.9553683653443296
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[53]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2090,13 +2081,13 @@ accuracy:  0.9553683653443296
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_124_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_124_0.png"/>
+<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_123_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_123_0.png"/>
 </div>
 </div>
 <p>左図がフィルタリング前の波形，右図がフィルタリング後の波形です． 細かな振動が取り除かれていることが確認できると思います．</p>
 <p>これまでと同様に，ノイズ除去後のデータを用いて学習を行ってみましょう．(1分30秒ほどで学習が完了します．)</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[54]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2106,7 +2097,7 @@ accuracy:  0.9553683653443296
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[55]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2153,7 +2144,7 @@ Wall time: 1min 13s
 </div>
 <p>学習が完了したら，評価用データで予測を行い，精度を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[56]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2171,7 +2162,7 @@ Wall time: 18 s
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[57]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2183,11 +2174,11 @@ Wall time: 18 s
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_130_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_130_0.png"/>
+<img alt="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_129_0.png" src="../_images/notebooks_08_Sequential_Data_Analysis_with_Deep_Learning_129_0.png"/>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[58]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
