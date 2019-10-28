@@ -75,14 +75,16 @@
   {
    "cell_type": "code",
    "execution_count": 1,
-   "metadata": {
-    "colab": {},
-    "colab_type": "code",
-    "id": "QbU-na_HWMpR"
-   },
-   "outputs": [],
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": "Requirement already satisfied: chainercv in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (0.13.1)\nRequirement already satisfied: Pillow in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainercv) (6.1.0)\nRequirement already satisfied: chainer>=6.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainercv) (6.5.0)\nRequirement already satisfied: six>=1.9.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer>=6.0->chainercv) (1.12.0)\nRequirement already satisfied: typing-extensions<=3.6.6 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer>=6.0->chainercv) (3.6.6)\nRequirement already satisfied: numpy>=1.9.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer>=6.0->chainercv) (1.17.0)\nRequirement already satisfied: protobuf>=3.0.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer>=6.0->chainercv) (3.9.1)\nRequirement already satisfied: setuptools in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer>=6.0->chainercv) (41.0.1)\nRequirement already satisfied: typing<=3.6.6 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer>=6.0->chainercv) (3.6.6)\nRequirement already satisfied: filelock in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer>=6.0->chainercv) (3.0.12)\n"
+    }
+   ],
    "source": [
-    "!pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール"
+    "!pip install chainercv"
    ]
   },
   {

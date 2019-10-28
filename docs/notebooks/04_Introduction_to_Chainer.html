@@ -459,31 +459,7 @@ CuPy:
 iDeep: 2.0.0.post3
 </pre></div></div>
 </div>
-<p>Chainer, NumPy, そしてCuPy, さらにCuPyの下にCUDAやcuDNN, NCCLといった項目があり，それぞれバージョン番号が表示されていれば成功です．以下のチュートリアルでは，matplotlibをグラフの可視化に使いますので，これも同時にインストールしておきましょう．</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="o">!</span>pip install matplotlib
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (3.0.2)
-Requirement already satisfied: numpy&gt;=1.10.0 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)
-Requirement already satisfied: python-dateutil&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.0.1)
-Requirement already satisfied: cycler&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)
-Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,&gt;=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.1)
-Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil&gt;=2.1-&gt;matplotlib) (1.11.0)
-Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from kiwisolver&gt;=1.0.1-&gt;matplotlib) (40.8.0)
-</pre></div></div>
-</div>
+<p>Chainer, NumPy, そしてCuPy, さらにCuPyの下にCUDAやcuDNN, NCCLといった項目があり，それぞれバージョン番号が表示されていれば成功です．</p>
 </div>
 <div class="section" id="Chainerの基本的な使い方">
 <h2>4.2. Chainerの基本的な使い方<a class="headerlink" href="#Chainerの基本的な使い方" title="Permalink to this headline">¶</a></h2>
@@ -493,7 +469,7 @@ Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packa
 <p>まずは学習対象となる<strong>データセット</strong>の準備をします．教師あり学習の場合，データセットは<strong>「入力データ」と「それと対になるラベルデータ」のペアを返すオブジェクト</strong>である必要があります．</p>
 <p>Chainerには，MNISTやCIFAR10/100のような良く用いられるデータセットに対して，データのダウンロードからオブジェクト作成までを自動的に行ってくれる便利なメソッドがあります．ここではひとまずこれを用いましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -517,7 +493,7 @@ Downloading from http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz...
 </div>
 <p>データセットオブジェクトの準備ができました．このオブジェクトは， <code class="docutils literal"><span class="pre">train_val[i]</span></code> のように指定すると，<strong>i番目の (data, label) というタプルを返すリスト</strong> と同様のものと考えてください．（実際ただのPythonリストもChainerのデータセットオブジェクトとして利用可能です）．それでは，0番目のデータとラベルを取り出して，表示してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -538,7 +514,7 @@ Downloading from http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz...
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_11_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_11_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_10_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_10_0.png"/>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -554,7 +530,7 @@ label: 5
 <h3>4.2.2. Validation用データセットを作る<a class="headerlink" href="#Validation用データセットを作る" title="Permalink to this headline">¶</a></h3>
 <p>次に，さきほど作成した<code class="docutils literal"><span class="pre">train_val</span></code>データセットを，Training用のデータセットとValidation用のデータセットに分割します．Validationデータセットとは，学習には用いずにモデルの汎化性能をチェックしたり，学習率などのハイパーパラメータを調整するために用いる検証用のデータセットスプリットのことです．分割処理も，Chainerが提供しているデータセット分割用の関数を用いて行うことができます．元々60000個のデータが入っている<code class="docutils literal"><span class="pre">train</span></code>データセットを，ランダムに選択された50000個のデータと残りの10000個のデータの2つに分割しましょう．これには，<code class="docutils literal"><span class="pre">split_dataset_random</span></code>という関数を使用します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -566,7 +542,7 @@ label: 5
 </div>
 <p>関数の第1引数が分割したい対象のデータセットオブジェクト，第2引数が1つ目のデータセットの要素数，第3引数がランダムな抽出を行う際に用いられる乱数シード（これは省略可）となります．第3引数の<code class="docutils literal"><span class="pre">seed</span></code>として同じ値を指定すると，再実行した際にデータセットを同じように分割するようになります．それでは，それぞれのデータセットの中に入っているデータの数を確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -592,7 +568,7 @@ Validation dataset size: 10000
 <p><code class="docutils literal"><span class="pre">Iterator</span></code>は，さきほど作成したデータセットオブジェクトを引数として指定し，<code class="docutils literal"><span class="pre">next()</span></code>メソッドを呼ぶことで新しいミニバッチを返してくれます．データセット内のデータすべてを1度ずつ学習に利用し終えた時点のことを <strong>1エポック（epoch）</strong> と呼びます．Iteratorの内部では，学習中に何エポックまで学習を行ったか，などの情報が逐次記録されており，データセット内のデータを何度も使って学習のループを回すようなコードを簡単に書くことができるようになります．</p>
 <p>データセットオブジェクトからイテレータを作るには，以下のようにします．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -610,7 +586,7 @@ Validation dataset size: 10000
 </div>
 <p>今，学習データセット用のイテレータ（<code class="docutils literal"><span class="pre">train_iter</span></code>）と，検証データセット用のイテレータ（<code class="docutils literal"><span class="pre">valid_iter</span></code>），および学習したネットワークの評価に用いるテストデータセット用のイテレータ（<code class="docutils literal"><span class="pre">test_iter</span></code>）の計3つを作成しました．ここでは<code class="docutils literal"><span class="pre">batchsize</span> <span class="pre">=</span> <span class="pre">128</span></code>としているため，作成した3つのイテレータは<code class="docutils literal"><span class="pre">next()</span></code>メソッドが（<code class="docutils literal"><span class="pre">train_iter.next()</span></code>のように）呼ばれると，<strong>128枚の数字画像データ</strong>を一括りにして返します．実際に<code class="docutils literal"><span class="pre">next()</span></code>の返り値を調べてみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -620,7 +596,7 @@ Validation dataset size: 10000
 </div>
 <p>この<code class="docutils literal"><span class="pre">minibatch</span></code>という変数は，<code class="docutils literal"><span class="pre">(img,</span> <span class="pre">label)</span></code>というタプルが128個（ミニバッチサイズだけ）並んだリストになっています．実際に，このリストの長さが128であることを確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -638,7 +614,7 @@ batchsize: 128
 </div>
 <p>次に，この<code class="docutils literal"><span class="pre">minibatch</span></code>というリストの一つ目の要素（画像とラベルを持つタプルになっているはずです）を<code class="docutils literal"><span class="pre">minibatch[0]</span></code>として取り出してみます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -694,7 +670,7 @@ t: ()
 <h4>4.2.4.3. 同じ結果を保証する<a class="headerlink" href="#同じ結果を保証する" title="Permalink to this headline">¶</a></h4>
 <p>ネットワークを書き始める際に乱数シードを固定すると，本記事とほぼ同様の結果が再現できるようになります．（cuDNNが有効になっている環境下でより厳密に計算結果の再現性を保証したい場合は，<code class="docutils literal"><span class="pre">chainer.config.cudnn_deterministic</span></code>というConfiguringオプションについて知る必要があります．こちらのドキュメントを参照してください：<a class="reference external" href="https://docs.chainer.org/en/stable/reference/configuration.html?highlight=chainer.config.cudnn_deterministic">chainer.config.cudnn_deterministic</a>．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -717,7 +693,7 @@ t: ()
 <h4>4.2.4.4. Chainを継承したネットワークの定義<a class="headerlink" href="#Chainを継承したネットワークの定義" title="Permalink to this headline">¶</a></h4>
 <p>Chainerでは，ネットワークは <code class="docutils literal"><span class="pre">Chain</span></code> クラスを継承したクラスとして定義されることが一般的です． <code class="docutils literal"><span class="pre">Chain</span></code> を継承することで，中間層のユニット数=100，出力ユニット数=10とした3層の多層パーセプトロンは以下のように書くことができます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -780,7 +756,7 @@ IDとして-1を指定すると，CPUを使用します．</p>
 <p>ここでは最もシンプルな勾配降下法の手法である<code class="docutils literal"><span class="pre">optimizers.SGD</span></code>を用います．<code class="docutils literal"><span class="pre">Optimizer</span></code>のオブジェクトには，<code class="docutils literal"><span class="pre">setup</span></code>メソッドを使ってモデル（<code class="docutils literal"><span class="pre">Chain</span></code>オブジェクト）を渡します．こうすることで<code class="docutils literal"><span class="pre">Optimizer</span></code>に，何を最適化すればいいか把握させることができます．</p>
 <p>他にもいろいろな最適化手法が手軽に試せるので，色々と試してみて結果の変化を見てみてください．例えば，下の<code class="docutils literal"><span class="pre">chainer.optimizers.SGD</span></code>のうち<code class="docutils literal"><span class="pre">SGD</span></code>の部分を<code class="docutils literal"><span class="pre">MomentumSGD</span></code>, <code class="docutils literal"><span class="pre">RMSprop</span></code>, <code class="docutils literal"><span class="pre">Adam</span></code>などに変えるだけで，最適化手法の違いがどのような学習曲線（ロスカーブとも言う．目的関数の値のプロットのこと）の違いを生むかなどを簡単に調べることができます．最適化の手法によっては，人が与える必要があった学習率を適切に自動決定するものもあります．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -822,7 +798,7 @@ IDとして-1を指定すると，CPUを使用します．</p>
 <div class="section" id="学習ループのコード">
 <h4>4.2.6.2. 学習ループのコード<a class="headerlink" href="#学習ループのコード" title="Permalink to this headline">¶</a></h4>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -959,7 +935,7 @@ test_accuracy:0.9237
 <h3>4.2.7. 学習済みモデルの保存<a class="headerlink" href="#学習済みモデルの保存" title="Permalink to this headline">¶</a></h3>
 <p>学習が終了後，その結果を保存します．Chainerには，2種類のフォーマットで学習済みネットワークをファイルに保存する機能が用意されています．一つはHDF5形式，もう一つはNumPyのNPZ形式で，ネットワークを保存します．今回は，追加ライブラリのインストールが必要なHDF5ではなく，NumPy標準機能で提供されているシリアライズ機能（<code class="docutils literal"><span class="pre">numpy.savez()</span></code>）を利用したNPZ形式でのモデルの保存を行います．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -970,7 +946,7 @@ test_accuracy:0.9237
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -992,7 +968,7 @@ test_accuracy:0.9237
 <h3>4.2.8. 保存したモデルを読み込んで推論<a class="headerlink" href="#保存したモデルを読み込んで推論" title="Permalink to this headline">¶</a></h3>
 <p>学習が終了して保存したモデルを読み込み，推論を行う方法について説明します．はじめに，学習に利用したネットワークを再度インスタンス化して，そこにさきほど保存したNPZファイルを読み込ませます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1006,7 +982,7 @@ test_accuracy:0.9237
 </div>
 <p>以上で準備が整いました．それでは，試しにテストデータの中から一つ目の画像を取ってきて，それに対する分類を行ってみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1053,7 +1029,7 @@ test_accuracy:0.9237
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_54_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_54_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_53_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_53_0.png"/>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1075,7 +1051,7 @@ test_accuracy:0.9237
 <h3>4.3.1. データセット・Iterator・ネットワークの準備<a class="headerlink" href="#データセット・Iterator・ネットワークの準備" title="Permalink to this headline">¶</a></h3>
 <p>データセット，Iterator，ネットワークは，Trainerを使用する場合にも同様に準備します．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1124,7 +1100,7 @@ test_accuracy:0.9237
 <p>Chainerの機能として提供されている<code class="docutils literal"><span class="pre">Updater</span></code>を用いることで，これらの一連の処理を簡単に書けるようになります．<code class="docutils literal"><span class="pre">Updater</span></code>には<code class="docutils literal"><span class="pre">Iterator</span></code>と<code class="docutils literal"><span class="pre">Optimizer</span></code>を渡します．
 <code class="docutils literal"><span class="pre">Iterator</span></code>はデータセットオブジェクトを持っているため，そこからミニバッチを作成します．<code class="docutils literal"><span class="pre">Optimizer</span></code>は最適化対象のネットワークを持っているため，それを使って順伝播と誤差計算・パラメータのアップデートをすることができます．従って，この2つを渡すことで，<code class="docutils literal"><span class="pre">Updater</span></code>内で全ての処理が完結します．さっそく，<code class="docutils literal"><span class="pre">Updater</span></code>オブジェクトを作成してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1156,7 +1132,7 @@ test_accuracy:0.9237
 iteration（1000回更新）で学習を終了してください，といったことが指定できます．<code class="docutils literal"><span class="pre">Trainer</span></code>を作るときに，<code class="docutils literal"><span class="pre">stop_trigger</span></code>を指定しないと，学習は自動的には止まりません．</p>
 <p>では，実際に<code class="docutils literal"><span class="pre">Trainer</span></code>オブジェクトを作ってみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1186,7 +1162,7 @@ iteration（1000回更新）で学習を終了してください，といった�
 </ul>
 <p>などの様々な便利な機能を簡単に利用することができる点があります．これらの機能を利用するには，<code class="docutils literal"><span class="pre">Trainer</span></code>オブジェクトに対して<code class="docutils literal"><span class="pre">extend</span></code>メソッドを使って追加したい<code class="docutils literal"><span class="pre">Extension</span></code>のオブジェクトを渡すだけです．では実際に幾つかの<code class="docutils literal"><span class="pre">Extension</span></code>を追加してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1242,7 +1218,7 @@ iteration（1000回更新）で学習を終了してください，といった�
 <h3>4.3.5. 学習の開始 (Trainer利用)<a class="headerlink" href="#学習の開始-(Trainer利用)" title="Permalink to this headline">¶</a></h3>
 <p>学習を開始するために，<code class="docutils literal"><span class="pre">Trainer</span></code>オブジェクトのメソッド<code class="docutils literal"><span class="pre">run</span></code>を実行してください．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1271,7 +1247,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 <p>学習ループを自分で書いた場合よりも遥かに簡単に，同様の結果を得ることができました．さらに，<code class="docutils literal"><span class="pre">Extension</span></code>の機能を利用することで，様々なスコアや，学習曲線の可視化も自動で出力されます．</p>
 <p>では，保存されている損失のグラフを確認してみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1281,16 +1257,16 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_78_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_78_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_77_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_77_0.png"/>
 </div>
 </div>
 <p>精度のグラフも見てみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1299,17 +1275,17 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[26]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_80_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_80_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_79_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_79_0.png"/>
 </div>
 </div>
 <p>もう少し学習を続ければ，さらに精度の向上が期待できそうです．</p>
 <p>最後に，<code class="docutils literal"><span class="pre">dump_graph</span></code>という<code class="docutils literal"><span class="pre">Extension</span></code>によって出力された計算グラフのファイルを，<code class="docutils literal"><span class="pre">Graphviz</span></code>で画像化してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1318,7 +1294,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1327,11 +1303,11 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_83_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_83_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_82_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_82_0.png"/>
 </div>
 </div>
 <p>データやパラメータが関数に次々と渡され，損失が出力されるまでの一連の計算過程が確認できます．</p>
@@ -1340,7 +1316,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 <h3>4.3.6. テストデータ評価<a class="headerlink" href="#テストデータ評価" title="Permalink to this headline">¶</a></h3>
 <p>Validationデータに対する評価を学習中に行うために使用されるEvaluatorは，Trainerと関係なく独立して使うこともできます．以下のようにして<code class="docutils literal"><span class="pre">Iterator</span></code>とネットワークのオブジェクト（<code class="docutils literal"><span class="pre">net</span></code>），使用するデバイスIDを渡してEvaluatorオブジェクトを作成し，これを関数として実行するだけです．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1364,7 +1340,7 @@ Test accuracy: 0.92494065
 <p>それでは，Trainer Extensionのsnapshotが保存した学習済みパラメータを読み込んで，以前と同様に1番目のテストデータで推論を行ってみましょう．</p>
 <p>ここで一点注意が必要ですが，snapshotが保存するnpzファイルはTrainer全体のスナップショットとなっており，学習の再開に必要となるextensionの内部のパラメータなども一緒に保存されています．しかし，今回はネットワークのパラメータだけを読み込めば良いので， <code class="docutils literal"><span class="pre">serializers.load_npz()</span></code> の<code class="docutils literal"><span class="pre">path</span></code>引数にネットワーク部分までのパスを指定します．こうすることで，ネットワークのオブジェクトにパラメータだけを読み込ませることができます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1395,7 +1371,7 @@ Test accuracy: 0.92494065
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_88_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_88_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_87_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_87_0.png"/>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1456,7 +1432,7 @@ Test accuracy: 0.92494065
 <h3>4.4.1. 新しいネットワークの定義<a class="headerlink" href="#新しいネットワークの定義" title="Permalink to this headline">¶</a></h3>
 <p>ここでは，さきほど試した全結合層だけからなるネットワークではなく，前章で紹介した，畳込み層を持つネットワークを定義してみます．3つの畳み込み層を持ち，2つの全結合層がそのあとに続いています．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1498,7 +1474,7 @@ Test accuracy: 0.92494065
 <p>また，ここでは<code class="docutils literal"><span class="pre">cifar.get_cifar10()</span></code>が返す学習用データセットのうち9割のデータを<code class="docutils literal"><span class="pre">train</span></code>，残りの1割を<code class="docutils literal"><span class="pre">valid</span></code>として使うようにしています．</p>
 <p>この<code class="docutils literal"><span class="pre">train</span></code>関数を用いて，上で定義した<code class="docutils literal"><span class="pre">MyModel</span></code>モデルを訓練してみます．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[32]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1558,7 +1534,7 @@ Test accuracy: 0.92494065
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1605,11 +1581,28 @@ Test accuracy: 0.610265
 </div>
 <p>学習が20エポックまで終わりました．損失と精度のプロットを見てみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/MyNet_cifar10_result/loss.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_96_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_96_0.png"/>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/MyNet_cifar10_result/accuracy.png'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1621,30 +1614,13 @@ Test accuracy: 0.610265
 <img alt="../_images/notebooks_04_Introduction_to_Chainer_97_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_97_0.png"/>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[35]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/MyNet_cifar10_result/accuracy.png'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[35]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_98_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_98_0.png"/>
-</div>
-</div>
 <p>学習データでの精度（<code class="docutils literal"><span class="pre">main/accuracy</span></code>)は77%程度まで到達していますが，テストデータでの損失（<code class="docutils literal"><span class="pre">val/main/loss</span></code>）は途中から下げ止まり，精度（<code class="docutils literal"><span class="pre">val/main/accuracy</span></code>）も60%前後で頭打ちになってしまっています．表示されたログの最後の行を確認すると，テストデータでの精度も同様に60%程度となっています．学習データでは精度が良いが， テストデータでは精度が良くない場合，<strong>モデルが学習データにオーバーフィッティングしている</strong>と考えられます．</p>
 </div>
 <div class="section" id="学習済みネットワークを使った予測">
 <h3>4.4.3. 学習済みネットワークを使った予測<a class="headerlink" href="#学習済みネットワークを使った予測" title="Permalink to this headline">¶</a></h3>
 <p>テスト精度は60%程度でしたが，試しにこの学習済みネットワークを使っていくつかのテスト画像を分類させてみましょう．あとで使いまわせるように<code class="docutils literal"><span class="pre">predict</span></code>関数を作っておきます．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1672,7 +1648,7 @@ Test accuracy: 0.610265
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_101_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_101_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_0.png"/>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1688,7 +1664,7 @@ answer: airplane
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_101_2.png" src="../_images/notebooks_04_Introduction_to_Chainer_101_2.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_2.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_2.png"/>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1704,7 +1680,7 @@ answer: truck
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_101_4.png" src="../_images/notebooks_04_Introduction_to_Chainer_101_4.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_4.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_4.png"/>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1720,7 +1696,7 @@ answer: dog
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_101_6.png" src="../_images/notebooks_04_Introduction_to_Chainer_101_6.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_6.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_6.png"/>
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1736,7 +1712,7 @@ answer: horse
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_101_8.png" src="../_images/notebooks_04_Introduction_to_Chainer_101_8.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_8.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_8.png"/>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1758,7 +1734,7 @@ answer: truck
 <h4>4.4.4.1. 構成要素を定義する<a class="headerlink" href="#構成要素を定義する" title="Permalink to this headline">¶</a></h4>
 <p>まず，ネットワークの構成要素となる<code class="docutils literal"><span class="pre">ConvBlock</span></code>と<code class="docutils literal"><span class="pre">LinearBlock</span></code>を定義してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[37]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1806,7 +1782,7 @@ averaging</a>)するような効果があると言われ，汎化性能が向上
 <h4>4.4.4.2. 大きなネットワークの定義<a class="headerlink" href="#大きなネットワークの定義" title="Permalink to this headline">¶</a></h4>
 <p>次に，これらの小さなネットワークを構成要素として積み重ねて，大きなネットワークを定義してみましょう．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[38]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1841,7 +1817,7 @@ averaging</a>)するような効果があると言われ，汎化性能が向上
 <h4>4.4.4.3. 高速化のTIPS<a class="headerlink" href="#高速化のTIPS" title="Permalink to this headline">¶</a></h4>
 <p>今回は多くの畳込み層を使う大きなネットワークを使うので，Chainerが用意してくれているcuDNNのautotune機能を有効にしてみます．やり方は簡単で，以下の二行を事前に実行しておくだけです．これを有効にすると，cuDNNが自動的に高速な畳み込みのアルゴリズムを選択するなどの実行時の調整を行ってくれるようになります．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1858,7 +1834,7 @@ averaging</a>)するような効果があると言われ，汎化性能が向上
 </pre></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -1997,11 +1973,28 @@ Test accuracy: 0.8966574
 </div>
 <p>学習が終了しました．学習曲線と精度のグラフを見てみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_result/loss.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_115_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_115_0.png"/>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_result/accuracy.png'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2011,23 +2004,6 @@ Test accuracy: 0.8966574
 </div>
 <div class="output_area docutils container">
 <img alt="../_images/notebooks_04_Introduction_to_Chainer_116_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_116_0.png"/>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[42]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_result/accuracy.png'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[42]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_117_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_117_0.png"/>
 </div>
 </div>
 <p>先程の浅い（層数の少ない）CNNを用いた際には60%前後だったValidationデータでの精度が，90%程度まで上がりました．また，テストデータを用いた精度も，およそ90%程度となっています．しかし最新の研究成果では97%以上まで達成されています．さらに精度を上げるには，今回行ったようなネットワークの構造自体の改良ももちろんのこと，学習データを擬似的に増やす操作（Data augmentation）や，複数のモデルの出力を一つの出力に統合する操作（Ensemble）などなど，いろいろな工夫が考えられます．</p>
@@ -2045,7 +2021,7 @@ Test accuracy: 0.8966574
 <div class="section" id="CIFAR10データセットクラス">
 <h3>4.5.1. CIFAR10データセットクラス<a class="headerlink" href="#CIFAR10データセットクラス" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2099,7 +2075,7 @@ Test accuracy: 0.8966574
 <p>それではさっそくこの<code class="docutils literal"><span class="pre">CIFAR10</span></code>クラスを使って学習を行ってみましょう．先程と同じネットワークを用い，Data augmentationの効果がどの程度あるのかを調べてみましょう．<code class="docutils literal"><span class="pre">train</span></code>関数も含め，データセットクラス以外は先程とすべて同様です．</p>
 <p>ここでも，40分ほどの時間がかかりますので，上と同様に90エポックまで学習したあとのsnapshotをダウンロードして読み込ませ，最後の10エポックだけ実際に学習させてみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2239,11 +2215,28 @@ Test accuracy: 0.91702926
 <p>先程のData augmentationなしの場合は90%程度だったテスト精度が，学習データにaugmentationを施すことでおよそ1.8%程度向上していることが分かりました．</p>
 <p>損失と精度のグラフを見てみましょう．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_augmented_result/loss.png'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_125_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_125_0.png"/>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3"><div class="highlight"><pre>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_augmented_result/accuracy.png'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2255,23 +2248,6 @@ Test accuracy: 0.91702926
 <img alt="../_images/notebooks_04_Introduction_to_Chainer_126_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_126_0.png"/>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[46]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_augmented_result/accuracy.png'</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[46]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_127_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_127_0.png"/>
-</div>
-</div>
 </div>
 </div>
 <div class="section" id="Data-Augmentationの簡単な使い方">
@@ -2279,7 +2255,7 @@ Test accuracy: 0.91702926
 <p>前述のようにデータセット内の各画像についていろいろな変換を行って擬似的にデータを増やすような操作をData Augmentationといいます．上では，オリジナルのデータセットクラスを作る方法を示すために変換の操作も<code class="docutils literal"><span class="pre">get_example()</span></code>内に書くという実装を行いましたが，実はもっと簡単にいろいろな変換をデータに対して行う方法があります．</p>
 <p>それは，<code class="docutils literal"><span class="pre">TransformDataset</span></code>クラスを使う方法です．<code class="docutils literal"><span class="pre">TransformDataset</span></code>は，元になるデータセットオブジェクトと，そこからサンプルしてきた各データ点に対して行いたい変換を関数の形で与えると，変換済みのデータを返してくれるようなデータセットオブジェクトに加工してくれる便利なクラスです．簡単な使い方は以下のようになります．</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[47]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[46]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2317,7 +2293,7 @@ Test accuracy: 0.91702926
 <p>さて，先ほどご紹介したコードでは，画像に対するランダムクロップ，及びランダムな左右反転の処理を自ら実装していました．もし，より多様な変換を行いたい場合，上記の<code class="docutils literal"><span class="pre">transform</span></code>関数に処理を追加していくことになりますが，一般的に用いられる変換処理をその度に自ら実装するのは手間です．そこで本項では最後に，<a class="reference external" href="http://chainercv.readthedocs.io/en/stable">ChainerCV</a><a class="reference external" href="https://arxiv.org/abs/1708.08169">[Niitani 2017]</a>をご紹介します．ChainerCVは，Computer
 Visionに特化した機能が豊富に追加された，Chainerの補助パッケージとしての役割を担うオープンソース・ソフトウェアです．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[48]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[47]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2367,7 +2343,7 @@ Successfully installed chainercv-0.12.0
 <li>Random crop: <code class="docutils literal"><span class="pre">(28,</span> <span class="pre">28)</span></code>の大きさの領域をランダムにクロップします</li>
 </ol>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[49]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[48]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
@@ -2411,7 +2387,7 @@ Successfully installed chainercv-0.12.0
 <p>では，standardizationとChainerCVによるPCA Lightingを追加した<code class="docutils literal"><span class="pre">TransformDataset</span></code>を使って学習をしてみましょう．</p>
 <p>これまでと同様，90エポックまで学習させておいたsnapshotを用いて，最後の10エポックだけ学習を行います．</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[50]:
+<div class="prompt highlight-none"><div class="highlight"><pre><span></span>[49]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>

@@ -362,14 +362,31 @@ div.rendered_html tbody tr:hover {
 <li>matplotlib</li>
 </ul>
 <p>です．Google ColabではChainerとCuPyはすでにインストールされているため，残りのライブラリを以下のようにしてインストールします．以下のセルを実行してください．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="o">!</span>pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール
+<span></span><span class="o">!</span>pip install chainercv
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Requirement already satisfied: chainercv in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (0.13.1)
+Requirement already satisfied: Pillow in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainercv) (6.1.0)
+Requirement already satisfied: chainer&gt;=6.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainercv) (6.5.0)
+Requirement already satisfied: six&gt;=1.9.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (1.12.0)
+Requirement already satisfied: typing-extensions&lt;=3.6.6 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: numpy&gt;=1.9.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (1.17.0)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (3.9.1)
+Requirement already satisfied: setuptools in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (41.0.1)
+Requirement already satisfied: typing&lt;=3.6.6 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: filelock in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (3.0.12)
+</pre></div></div>
 </div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンなどを確認します．</p>
 <div class="nbinput docutils container">

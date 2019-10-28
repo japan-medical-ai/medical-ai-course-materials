@@ -71,7 +71,7 @@
    "source": [
     "## 環境構築\n",
     "\n",
-    "まず環境構築のためColab上で以下のセルを実行してChainerCV, matplotlibといったPythonパッケージのインストールを済ませましょう．\n",
+    "まず環境構築のためColab上で以下のセルを実行してChainerCVのインストールを済ませましょう．\n",
     "これらのステップは前回までと同様です．"
    ]
   },
@@ -85,7 +85,7 @@
    },
    "outputs": [],
    "source": [
-    "!pip install chainercv matplotlib               # ChainerCVとmatplotlibのインストール"
+    "!pip install chainercv  # ChainerCVのインストール"
    ]
   },
   {

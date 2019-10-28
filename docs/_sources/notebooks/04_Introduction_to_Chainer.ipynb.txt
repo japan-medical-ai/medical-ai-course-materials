@@ -148,39 +148,7 @@
     "id": "8GFokOwXMq3b"
    },
    "source": [
-    "Chainer, NumPy, そしてCuPy, さらにCuPyの下にCUDAやcuDNN, NCCLといった項目があり，それぞれバージョン番号が表示されていれば成功です．以下のチュートリアルでは，matplotlibをグラフの可視化に使いますので，これも同時にインストールしておきましょう．"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": 3,
-   "metadata": {
-    "colab": {
-     "base_uri": "https://localhost:8080/",
-     "height": 153
-    },
-    "colab_type": "code",
-    "id": "AGHezHvdMq3b",
-    "outputId": "3e6c2f21-6865-4ab4-8d6e-adb0cf02f121"
-   },
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "Requirement already satisfied: matplotlib in /usr/local/lib/python3.6/dist-packages (3.0.2)\n",
-      "Requirement already satisfied: numpy>=1.10.0 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.14.6)\n",
-      "Requirement already satisfied: python-dateutil>=2.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.5.3)\n",
-      "Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (1.0.1)\n",
-      "Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (0.10.0)\n",
-      "Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1 in /usr/local/lib/python3.6/dist-packages (from matplotlib) (2.3.1)\n",
-      "Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil>=2.1->matplotlib) (1.11.0)\n",
-      "Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from kiwisolver>=1.0.1->matplotlib) (40.8.0)\n"
-     ]
-    }
-   ],
-   "source": [
-    "!pip install matplotlib"
+    "Chainer, NumPy, そしてCuPy, さらにCuPyの下にCUDAやcuDNN, NCCLといった項目があり，それぞれバージョン番号が表示されていれば成功です．"
    ]
   },
   {
@@ -211,7 +179,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
+   "execution_count": 3,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -252,7 +220,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 5,
+   "execution_count": 4,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -310,7 +278,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 6,
+   "execution_count": 5,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -335,7 +303,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 7,
+   "execution_count": 6,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -378,7 +346,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 8,
+   "execution_count": 7,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -409,7 +377,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 9,
+   "execution_count": 8,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -432,7 +400,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 10,
+   "execution_count": 9,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -467,7 +435,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 11,
+   "execution_count": 10,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -582,7 +550,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 12,
+   "execution_count": 11,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -617,7 +585,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 13,
+   "execution_count": 12,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -717,7 +685,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 14,
+   "execution_count": 13,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -801,7 +769,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 15,
+   "execution_count": 14,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -994,7 +962,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 16,
+   "execution_count": 15,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1009,7 +977,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 17,
+   "execution_count": 16,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -1047,7 +1015,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 18,
+   "execution_count": 17,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1074,7 +1042,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 19,
+   "execution_count": 18,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -1181,7 +1149,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 20,
+   "execution_count": 19,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1243,7 +1211,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 21,
+   "execution_count": 20,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1297,7 +1265,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 22,
+   "execution_count": 21,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1350,7 +1318,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 23,
+   "execution_count": 22,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1483,7 +1451,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 24,
+   "execution_count": 23,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -1530,7 +1498,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 25,
+   "execution_count": 24,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -1572,7 +1540,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 26,
+   "execution_count": 25,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -1615,7 +1583,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 27,
+   "execution_count": 26,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1628,7 +1596,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 28,
+   "execution_count": 27,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -1681,7 +1649,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 29,
+   "execution_count": 28,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -1722,7 +1690,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 30,
+   "execution_count": 29,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -1817,7 +1785,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 31,
+   "execution_count": 30,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1873,7 +1841,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 32,
+   "execution_count": 31,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -1937,7 +1905,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 33,
+   "execution_count": 32,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2000,7 +1968,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 34,
+   "execution_count": 33,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2031,7 +1999,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 35,
+   "execution_count": 34,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2084,7 +2052,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 36,
+   "execution_count": 35,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2254,7 +2222,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 37,
+   "execution_count": 36,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -2321,7 +2289,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 38,
+   "execution_count": 37,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -2378,7 +2346,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 39,
+   "execution_count": 38,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -2418,7 +2386,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 40,
+   "execution_count": 39,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2574,7 +2542,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 41,
+   "execution_count": 40,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2605,7 +2573,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 42,
+   "execution_count": 41,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2673,7 +2641,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 43,
+   "execution_count": 42,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -2749,7 +2717,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 44,
+   "execution_count": 43,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2907,7 +2875,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 45,
+   "execution_count": 44,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2938,7 +2906,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 46,
+   "execution_count": 45,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -2983,7 +2951,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 47,
+   "execution_count": 46,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -3042,7 +3010,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 48,
+   "execution_count": 47,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
@@ -3110,7 +3078,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 49,
+   "execution_count": 48,
    "metadata": {
     "colab": {},
     "colab_type": "code",
@@ -3168,7 +3136,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 50,
+   "execution_count": 49,
    "metadata": {
     "colab": {
      "base_uri": "https://localhost:8080/",
