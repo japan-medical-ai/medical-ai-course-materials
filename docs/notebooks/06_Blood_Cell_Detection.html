@@ -351,7 +351,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="環境構築">
 <h2>6.1. 環境構築<a class="headerlink" href="#環境構築" title="Permalink to this headline">¶</a></h2>
 <p>まず環境構築のためColab上で以下のセルを実行してChainerCVのインストールを済ませましょう． これらのステップは前回までと同様です．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -360,6 +360,33 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Collecting chainercv
+  Downloading https://files.pythonhosted.org/packages/e8/1c/1f267ccf5ebdf1f63f1812fa0d2d0e6e35f0d08f63d2dcdb1351b0e77d85/chainercv-0.13.1.tar.gz (260kB)
+     |████████████████████████████████| 266kB 3.3MB/s
+Requirement already satisfied: chainer&gt;=6.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (6.5.0)
+Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.3.0)
+Requirement already satisfied: typing&lt;=3.6.6 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (1.17.4)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.10.0)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.0.12)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (41.4.0)
+Requirement already satisfied: typing-extensions&lt;=3.6.6 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (1.12.0)
+Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
+Building wheels for collected packages: chainercv
+  Building wheel for chainercv (setup.py) ... done
+  Created wheel for chainercv: filename=chainercv-0.13.1-cp36-cp36m-linux_x86_64.whl size=537362 sha256=9f205b26c5c35c261e4e646f0e560aa291b63696df06fc76c56fb342dc9b7794
+  Stored in directory: /root/.cache/pip/wheels/ea/10/01/e221beaa4b3d8341aa819a39ab8d4677457c79c81f521f3a94
+Successfully built chainercv
+Installing collected packages: chainercv
+Successfully installed chainercv-0.13.1
+</pre></div></div>
+</div>
 <p>それでは，先程のセルの実行によって環境のセットアップが成功したことを以下のセルを実行して確認しましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[2]:
@@ -367,8 +394,13 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">cupy</span>
+<span class="kn">import</span> <span class="nn">chainercv</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
 
 <span class="n">chainer</span><span class="o">.</span><span class="n">print_runtime_info</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'ChainerCV:'</span><span class="p">,</span> <span class="n">chainercv</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'matplotlib:'</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -377,19 +409,23 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
-Chainer: 5.0.0
-NumPy: 1.14.6
+Platform: Linux-4.14.137+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 6.5.0
+ChainerX: Not Available
+NumPy: 1.17.4
 CuPy:
-  CuPy Version          : 5.0.0
+  CuPy Version          : 6.5.0
   CUDA Root             : /usr/local/cuda
-  CUDA Build Version    : 9020
-  CUDA Driver Version   : 9020
-  CUDA Runtime Version  : 9020
-  cuDNN Build Version   : 7201
-  cuDNN Version         : 7201
-  NCCL Build Version    : 2213
+  CUDA Build Version    : 10000
+  CUDA Driver Version   : 10010
+  CUDA Runtime Version  : 10000
+  cuDNN Build Version   : 7603
+  cuDNN Version         : 7603
+  NCCL Build Version    : 2402
+  NCCL Runtime Version  : 2402
 iDeep: 2.0.0.post3
+ChainerCV: 0.13.1
+matplotlib: 3.1.1
 </pre></div></div>
 </div>
 </div>
@@ -424,15 +460,31 @@ stageタイプよりも処理速度は高速である一方，精度が低いと
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Cloning into 'BCCD_Dataset'...
-remote: Enumerating objects: 770, done.
-remote: Total 770 (delta 0), reused 0 (delta 0), pack-reused 770
-Receiving objects: 100% (770/770), 7.33 MiB | 9.58 MiB/s, done.
-Resolving deltas: 100% (367/367), done.
+remote: Enumerating objects: 786, done.
+remote: Total 786 (delta 0), reused 0 (delta 0), pack-reused 786
+Receiving objects: 100% (786/786), 7.34 MiB | 23.63 MiB/s, done.
+Resolving deltas: 100% (375/375), done.
 </pre></div></div>
 </div>
 <p>ダウンロードが完了したら，<code class="docutils literal"><span class="pre">BCCD_Dataset</span></code>ディレクトリ以下のファイル構成を見てみましょう．このデータセットは，以下のようなファイル構成で配布されています．</p>
-<p><code class="docutils literal"><span class="pre">BCCD</span>  <span class="pre">|--</span> <span class="pre">Annotations</span>  <span class="pre">|</span>   <span class="pre">|</span>  <span class="pre">|</span>   <span class="pre">`--</span> <span class="pre">BloodImage_00XYZ.xml</span> <span class="pre">(364</span> <span class="pre">items)</span>  <span class="pre">|</span>  <span class="pre">|--</span> <span class="pre">ImageSets</span>  <span class="pre">|</span>   <span class="pre">|</span>  <span class="pre">|</span>   <span class="pre">`--</span> <span class="pre">Main</span>  <span class="pre">|</span>       <span class="pre">|</span>  <span class="pre">|</span>       <span class="pre">|--</span> <span class="pre">test.txt</span>  <span class="pre">|</span>       <span class="pre">|--</span> <span class="pre">train.txt</span>  <span class="pre">|</span>       <span class="pre">`--</span> <span class="pre">val.txt</span>  <span class="pre">|</span>  <span class="pre">`--</span> <span class="pre">JPEGImages</span>    <span class="pre">|</span>     <span class="pre">`--</span> <span class="pre">BloodImage_00XYZ.jpg</span> <span class="pre">(364</span> <span class="pre">items)</span></code></p>
-<p>この構成は，長年物体検出の標準的ベンチマークデータセットとして用いられてきた<strong>Pascal VOCデータセット</strong>の形式に沿ったものとなっています．そのため，ChainerCVが用意しているPascal VOCデータセットを容易に扱えるようにするクラスをほとんどそのまま流用することが可能です．</p>
+<pre>
+| BCCD
+| |-- Annotations
+| |   |
+| |   `-- BloodImage_00XYZ.xml (364 items)
+| |
+| |-- ImageSets
+| |   |
+| |   `-- Main
+| |       |
+| |       |-- test.txt
+| |       |-- train.txt
+| |       `-- val.txt
+| |
+| `-- JPEGImages
+|    |
+|    `-- BloodImage_00XYZ.jpg (364 items)
+</pre><p>この構成は，長年物体検出の標準的ベンチマークデータセットとして用いられてきた<strong>Pascal VOCデータセット</strong>の形式に沿ったものとなっています．そのため，ChainerCVが用意しているPascal VOCデータセットを容易に扱えるようにするクラスをほとんどそのまま流用することが可能です．</p>
 <p>実際には他にもディレクトリがありますが，今回用いるのは上記のファイルツリーに含まれているものだけとなります．それぞれのディレクトリに含まれているものを説明します．</p>
 <ul class="simple">
 <li><strong>Annotationsディレクトリ：</strong>Pascal VOCデータセットと同様の形式で細胞画像それぞれに対して<strong>どの位置に何があるか</strong>という正解情報が格納されています．正解情報はXMLファイルとして格納されており，画像ファイルとの対応がわかりやすいように拡張子を除いて同一のファイル名で保存されています．</li>

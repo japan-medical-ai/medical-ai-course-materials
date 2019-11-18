@@ -371,7 +371,7 @@ div.rendered_html tbody tr:hover {
 <p>単回帰分析では，このようにモデルを直線 <span class="math">\(y = wx + b\)</span> と決めて，重み<span class="math">\(w\)</span>とバイアス<span class="math">\(b\)</span>をデータにうまくフィットするように調整していきます．</p>
 <p>多くの機械学習ではこのようなパラメータで特徴付けられたモデルを使い，与えられた<strong>データセット</strong>に適合するように最適なパラメータを求めることが目標となります．ここでデータセットは，<strong>入力変数</strong>である部屋の広さ <span class="math">\(x\)</span> と，<strong>教師データ</strong>となる家賃 <span class="math">\(t\)</span> の組からなるデータの集合です（本解説では，機械学習による予測値を <span class="math">\(y\)</span> ，教師データとして与えるものを <span class="math">\(t\)</span> と使い分けています）．</p>
 <p>データセットは <span class="math">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span> として表されることもあります．ここで，添え字 <span class="math">\(n\)</span> (<span class="math">\(n=1,2,\ldots,N\)</span>) は <span class="math">\(n\)</span> 番目の物件という意味であり，<span class="math">\(N\)</span> は全体の物件数のことです．この <span class="math">\(N\)</span> は<strong>サンプル数</strong>とよばれています．</p>
-<p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを紹介します．下図に示すように，部屋の広さと家賃は両方とも正の値であるため，左のグラフのような形になります．中心化では，<strong>平均を</strong> <span class="math">\(\boldsymbol{0}\)</span>とした中央に配置するような変換の処理を施します．この中心化は多くのアルゴリズムで前処理として行うことが一般的です．厳密には前章で紹介した中心化込みのスケーリングがよく用いられます．</p>
+<p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを紹介します．下図に示すように，部屋の広さと家賃は両方とも正の値であるため，左のグラフのような形になります．中心化では，<strong>平均を</strong> <span class="math">\(\boldsymbol{0}\)</span>とした中央に配置するような変換の処理を施します．この中心化は多くのアルゴリズムで前処理として行うことが一般的です．厳密には前章で紹介したスケーリング方法の一つである標準化（正規化）がよく用いられます．</p>
 <p><img alt="中心化処理" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png"/></p>
 <p>この処理を行う理由の一つとして，下図のように，データの中心化によってバイアス <span class="math">\(b\)</span> が<span class="math">\(0\)</span>となり，<span class="math">\(y_{c} = wx_{c}\)</span> のように，モデルをバイアス成分なしで表現することができるということが挙げられます，これによって，調整すべきパラメータを減らすことができます．</p>
 <p><img alt="中心化後の直線式" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png"/></p>
@@ -390,7 +390,7 @@ t_{c} &amp;= t - \bar{t}
 <div class="section" id="Step2.-目的関数を決める（単回帰分析）">
 <h3>2.1.3. Step2. 目的関数を決める（単回帰分析）<a class="headerlink" href="#Step2.-目的関数を決める（単回帰分析）" title="Permalink to this headline">¶</a></h3>
 <p>1章で説明したように，教師あり学習では多くの場合，目的関数を設計し，その目的関数を最小化（または最大化）することでモデルの学習を行います．</p>
-<p>今回は教師データと予測値が一致することが目標であり，それを表す目的関数として教師データと予測値の二乗誤差を使います．二乗誤差が<span class="math">\(0\)</span>であるとき，またその時のみ<span class="math">\(t = y\)</span> となり，完璧な予測を達成しているといえます．<span class="math">\(n\)</span> 番目の物件に対する教師データ<span class="math">\(t_{n}\)</span> と予測値<span class="math">\(y_{n}\)</span>の二乗誤差は</p>
+<p>今回は教師データと予測値が一致することが目標であり，それを表す目的関数として教師データと予測値の二乗誤差を使います．二乗誤差が<span class="math">\(0\)</span>である時，またその時のみ<span class="math">\(t = y\)</span> となり，完璧な予測を達成しているといえます．<span class="math">\(n\)</span> 番目の物件に対する教師データ<span class="math">\(t_{n}\)</span> と予測値<span class="math">\(y_{n}\)</span>の二乗誤差は</p>
 <div class="math">
 \[(t_{n} - y_{n})^{2}\]</div>
 <p>となります．これを全物件で考慮する必要があるため，最終的な目的関数はその総和をとり，</p>
@@ -1513,7 +1513,7 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p>テストデータをスケーリングする際にも，訓練データの平均・分散を利用していることに注意しましょう．テストデータはモデルにとっては未知のデータセットであるため，訓練データとテストデータを合わせた全データの平均・分散を利用すると，それは本来知りえないテストデータの情報をモデルに与えてしまうことになります．そこで，モデルが利用可能な訓練データのみを用いてスケーリングが行われます．</p>
+<p>テストデータをスケーリングする際にも，訓練データの平均・分散を利用していることに注意しましょう．テストデータはモデルにとっては未知のデータセットであるため，訓練データとテストデータを合わせた全データの平均・分散を利用すると，それは本来知りえないテストデータの情報をモデルに与えてしまうことになります．そこで，モデルが利用可能な訓練データのみを用いてスケーリングを行います．</p>
 <p>訓練データとテストデータでは平均・分散が異なるため，訓練データの平均・分散でスケーリングされたテストデータについては，その平均が<span class="math">\(0\)</span>，分散が<span class="math">\(1\)</span>になるとは限らないことに注意してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[41]:

@@ -439,7 +439,7 @@ matplotlib: 2.1.2
 <h2>5.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="Permalink to this headline">¶</a></h2>
 <p>これから使用するデータセットは，心臓MRI画像（短軸像）と，それに専門家がラベルを付けたものです．データについて詳しくはこちらをご参照ください[1, 2, 3]．</p>
 <p>[1] Sunnybrook cardiac images from earlier competition <a class="reference external" href="http://smial.sri.utoronto.ca/LV_Challenge/Data.html">http://smial.sri.utoronto.ca/LV_Challenge/Data.html</a></p>
-<p>[2] 「This "Sunnybrook Cardiac MR Database" is made available under the CC0 1.0 Universal license described above, and with more detail here: <a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a>」</p>
+<p>[2] This "Sunnybrook Cardiac MR Database" is made available under the CC0 1.0 Universal license described above, and with more detail here: <a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a></p>
 <p>[3] Attribution: Radau P, Lu Y, Connelly K, Paul G, Dick AJ, Wright GA. "Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI." The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge, <a class="reference external" href="http://hdl.handle.net/10380/3070">http://hdl.handle.net/10380/3070</a></p>
 <p>まずは，データをダウンロードします．これは配布元のデータセットを今回用いやすいように加工し終えたものです．</p>
 <div class="nbinput nblast docutils container">
@@ -587,7 +587,7 @@ Dataset size:
         valid:  26
 </pre></div></div>
 </div>
-<p>この関数を呼べば，訓練用データセットオブジェクトと検証用データセットオブジェクトを作成できます．データセットオブジェクトは基本的にはリストとして扱うことができるます．例えば組み込み関数の<code class="docutils literal"><span class="pre">len()</span></code>を使っていくつのデータが含まれているかを知ることができます．</p>
+<p>この関数を呼べば，訓練用データセットオブジェクトと検証用データセットオブジェクトを作成できます．データセットオブジェクトは基本的にはリストとして扱うことができます．例えば組み込み関数の<code class="docutils literal"><span class="pre">len()</span></code>を使っていくつのデータが含まれているかを知ることができます．</p>
 </div>
 <div class="section" id="モデルの定義">
 <h3>5.4.2. モデルの定義<a class="headerlink" href="#モデルの定義" title="Permalink to this headline">¶</a></h3>
@@ -900,7 +900,7 @@ mIoU: 0.6810346076820649
 </div>
 <div class="section" id="Deconvolutionレイヤ">
 <h3>5.5.2. Deconvolutionレイヤ<a class="headerlink" href="#Deconvolutionレイヤ" title="Permalink to this headline">¶</a></h3>
-<p><code class="docutils literal"><span class="pre">Deconvolution2D</span></code>は，歴史的な経緯からその名とは異なり数学的な意味でのdeconvolutionではありません．実際に適用している操作からTransposed convolutionや，Backward convolutionとよばれることもあります．Deconvolution2Dはフィルタの適用の仕方はConvolutionと同じですが入力特徴マップの値を飛び飛びに配置するなどの処理が入る部分が異なる処理のことです．<code class="docutils literal"><span class="pre">Deconvolution2D</span></code>レイヤのパラメータを設定する際には，以下の点を知っておくと便利です．</p>
+<p><code class="docutils literal"><span class="pre">Deconvolution2D</span></code>は，歴史的な経緯からその名とは異なり数学的な意味でのdeconvolutionではありません．実際に適用している操作からTransposed convolutionや，Backward convolutionとよばれることもあります．Deconvolution2Dとはフィルタの適用の仕方はConvolutionと同じですが入力特徴マップの値を飛び飛びに配置するなどの処理が入る部分が異なる処理のことです．<code class="docutils literal"><span class="pre">Deconvolution2D</span></code>レイヤのパラメータを設定する際には，以下の点を知っておくと便利です．</p>
 <ul class="simple">
 <li>カーネルサイズをstrideで割り切れる数にする（checker board artifactを防ぐため．こちらを参考のこと：<a class="reference external" href="https://distill.pub/2016/deconv-checkerboard/">Deconvolution and Checkerboard Artifacts</a>）</li>
 <li>出力サイズは，<span class="math">\({\rm stride} \times ({\rm input\_size} - 1) + {\rm ksize} - 2 \times {\rm pad}\)</span>となるので，目的の拡大後サイズになるようパラメータを調整する</li>
@@ -1026,7 +1026,7 @@ mIoU: 0.6810346076820649
 </pre></div>
 </div>
 </div>
-<p>Trainerは，Optimizerの引数として渡されたモデルが「目的関数の値を返す」関数であると考えます．最初のモデルではモデルは出力結果を返しましたが，それを<code class="docutils literal"><span class="pre">L.Classifier</span></code>というオブジェクトに渡した上でOptimizerに渡していました．Chainerが用意しているこの<code class="docutils literal"><span class="pre">L.Classifier</span></code>は，内部で目的関数の値だけでなくAccuracyも計算し，<code class="docutils literal"><span class="pre">reporter.report</span></code>に辞書を渡す形で<code class="docutils literal"><span class="pre">LogReport</span></code>などのExtensionが補足できるように値の報告を行います． しかし，<code class="docutils literal"><span class="pre">L.Classifier</span></code>はmIoUの計算をしてくれません．</p>
+<p>Trainerは，Optimizerの引数として渡されたモデルが「目的関数の値を返す」関数である，と考えます．最初のモデルではモデルは出力結果を返しましたが，それを<code class="docutils literal"><span class="pre">L.Classifier</span></code>というオブジェクトに渡した上でOptimizerに渡していました．Chainerが用意しているこの<code class="docutils literal"><span class="pre">L.Classifier</span></code>は，内部で目的関数の値だけでなくAccuracyも計算し，<code class="docutils literal"><span class="pre">reporter.report</span></code>に辞書を渡す形で<code class="docutils literal"><span class="pre">LogReport</span></code>などのExtensionが補足できるように値の報告を行います． しかし，<code class="docutils literal"><span class="pre">L.Classifier</span></code>はmIoUの計算をしてくれません．</p>
 <p>そこで，今回は<code class="docutils literal"><span class="pre">L.Classifier</span></code>を自前の<code class="docutils literal"><span class="pre">PixelwiseSigmoidClassifier</span></code>に置き換え，自分で実際の目的関数となる<code class="docutils literal"><span class="pre">F.sigmoid_cross_entropy</span></code>の計算を書きつつ，予測（上記コード中の<code class="docutils literal"><span class="pre">y</span></code>）に対してPixel AccuracyとmIoUの両方を計算して，報告するようにします．<code class="docutils literal"><span class="pre">__call__</span></code>自体は目的関数の値（スカラ）を返すことが期待されているので，<code class="docutils literal"><span class="pre">F.sigmoid_cross_entropy</span></code>の返り値である<code class="docutils literal"><span class="pre">loss</span></code>だけを<code class="docutils literal"><span class="pre">return</span></code>しています．</p>
 </div>
 <div class="section" id="新しいモデルを使った学習">
@@ -1257,7 +1257,7 @@ levelな情報（エッジ・局所的な画素値勾配のような情報，色
 <h3>5.6.3. PSPNet [10]<a class="headerlink" href="#PSPNet-[10]" title="Permalink to this headline">¶</a></h3>
 <p>異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet 2017 Scene Parsing Challengeで優勝したモデルです.</p>
 <p><img alt="PSPNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png"/></p>
-<p>この他に様々な手法が提案されています.例えばクラス間のサンプル数の大小だけでなく，難しいクラスと簡単なクラスがある場合にそれらを考慮した損失関数を使うことで性能をあげることができます．</p>
+<p>この他にも様々な手法が提案されています．例えばクラス間のサンプル数の大小だけでなく，難しいクラスと簡単なクラスがある場合にそれらを考慮した損失関数を使うことで性能をあげることができます．</p>
 <p>また，今回は簡単のためtraining splitとvalidation splitのみを持つデータセットを使いましたが，本来はハイパーパラメータをvalidation splitでの検証結果を用いて調整したあと，最終的な性能を評価する段階でtest splitを使うべきです．</p>
 <p>[8] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation." PAMI, 2017</p>
 <p>[9] Olaf Ronneberger, Philipp Fischer, Thomas Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation", MICCAI 2015</p>
