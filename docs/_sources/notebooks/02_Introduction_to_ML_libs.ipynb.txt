@@ -1,0 +1,2420 @@
+{
+ "nbformat": 4,
+ "nbformat_minor": 0,
+ "metadata": {
+  "colab": {
+   "name": "Medical AI Course Materials : 02_Introduction_to_ML_libs.ipynb",
+   "version": "0.3.2",
+   "provenance": [],
+   "collapsed_sections": []
+  },
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.2"
+  }
+ },
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "Q9BTOJCpkYxM",
+    "colab_type": "text"
+   },
+   "source": [
+    "# 機械学習ライブラリの基礎\n",
+    "\n",
+    "本章では，基礎的な機械学習手法として代表的な**単回帰分析**と**重回帰分析**の仕組みを、数式を用いて説明します．\n",
+    "ここで単回帰分析と重回帰分析を紹介することには 2 つの理由があります．\n",
+    "1 つ目は，回帰分析と重回帰分析の数学がニューラルネットワーク含めたディープラーニングの数学の基礎となるためです．\n",
+    "2 つ目は，単回帰分析のアルゴリズムを通して微分，重回帰分析のアルゴリズムを通して線形代数に関する理解を深めることができるためです．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "_G7E-ocIkeT5",
+    "colab_type": "text"
+   },
+   "source": [
+    "## 単回帰分析\n",
+    "\n",
+    "まずはじめに，単回帰分析について説明します．\n",
+    "機械学習手法は，**教師あり学習 (supervised learning)**，**教師なし学習 (unsupervised learning)**，**強化学習 (reinforcement learning)**に大別され，単回帰分析は教師あり学習に含まれます．\n",
+    "\n",
+    "教師あり学習の中でも典型的な問題設定は 2 つに大別されます．\n",
+    "与えられた入力変数から，$10$ や $0.1$ といった実数値を予測する**回帰 (regression)**と、「赤ワイン」，「白ワイン」といったカテゴリを予測する**分類 (classification)**の 2 つです．\n",
+    "\n",
+    "単回帰分析は回帰を行うための手法であり，1 つの入力変数から 1 つの出力変数を予測します．\n",
+    "それに対し，重回帰分析は，複数の入力変数から 1 つの出力変数を予測します．\n",
+    "この両手法は教師あり学習であるため，訓練の際には、入力変数 $x$ と目的変数 $t$ がペアで準備されている必要があります．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "217f60sek4sf",
+    "colab_type": "text"
+   },
+   "source": [
+    "### 問題設定（単回帰分析）\n",
+    "\n",
+    "まず，データに含まれる情報の中から何を利用し，何を予測させるかを決めます．\n",
+    "\n",
+    "ここでは例として，家賃を予測する問題を考えることにします．\n",
+    "従って，家賃が **出力変数** $y$ となります．\n",
+    "\n",
+    "次に， **入力変数** として何を採用するかを考えます．\n",
+    "家賃の予測には，部屋の広さ，駅からの距離，犯罪発生率などを考慮する必要があると思われます．\n",
+    "ここでは部屋の広さを入力変数 $x$ として採用することにします．\n",
+    "複数の入力変数の候補がある場合に，それらを同時に扱う方法は，次の重回帰分析の説明の際に紹介します．\n",
+    "\n",
+    "多くの機械学習手法は，大きく分けて次の3ステップで構成されています．\n",
+    "\n",
+    "- Step1: モデルを決める\n",
+    "- Step2: 目的関数を決める\n",
+    "- Step3: 最適なパラメータを求める\n",
+    "\n",
+    "上記の3ステップについて，順に説明していきます．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "si6_D1jYk-_n",
+    "colab_type": "text"
+   },
+   "source": [
+    "### Step1. モデルを決める（単回帰分析）\n",
+    "\n",
+    "まずはじめに、入力変数 x と出力変数 y との関係をどのように定式化するかを決定します．\n",
+    "この定式化したものを**モデル**もしくは**数理モデル**と呼びます．\n",
+    "\n",
+    "どのように定式化すれば，家賃をうまく予測することができるのでしょうか．\n",
+    "このモデル設計は現在は人手で行うのが一般的であり，機械が自動的に決めてくれるわけではありません（ただし最近ではAutoMLなどモデルを自動決定するための研究も進展してきています）．\n",
+    "\n",
+    "例えば，家賃と部屋の広さの組で表されるデータを 3 つ集め，「家賃」を y 軸に，「部屋の広さ」を x 軸にとってそれらをプロットしたとき，次のようになっていたとします．\n",
+    "\n",
+    "![家賃と部屋の広さの関係](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png)\n",
+    "\n",
+    "この場合，部屋が広くなるほど，家賃が高くなるという関係が予想されます．\n",
+    "また，この 2 変数間の関係性は直線によって表現を行うことができそうだと考えられます．\n",
+    "そこで、2 つのパラメータ $w$ と $b$ によって特徴づけられる直線の方程式\n",
+    "\n",
+    "$$\n",
+    "f(x; w, b) = wx + b\n",
+    "$$\n",
+    "\n",
+    "によって，部屋の広さと家賃の関係を表すことを考えます．\n",
+    "ここで，$w$ は**重み (weight)**，$b$ は**バイアス (bias)**の頭文字を採用しています．\n",
+    "\n",
+    "![直線式によるモデル化](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png)\n",
+    "\n",
+    "単回帰分析では，このようにモデルとして直線 $f(x; w, b) = wx + b$ を用います．\n",
+    "そして，2 つのパラメータ $w$ と $b$ を，直線がデータによくフィットするように調整します．\n",
+    "\n",
+    "パラメータで特徴づけられたモデルを用いる場合，与えられた**データセット**に適合するように最適なパラメータを求めることが目標となります．\n",
+    "今回はデータセットとして部屋の広さ $x$ と家賃 $t$ の組からなるデータの集合を用います．\n",
+    "全部で $N$ 個のデータがあり，$n$ 番目のデータが $(x^{(n)}, t^{(n)})$ と表されるとき，データセットは\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{D} &= \\{(x^{(1)}, t^{(1)}), (x^{(2)}, t^{(2)}), \\dots, (x^{(N)}, t^{(N)})\\} \\\\\n",
+    "&= \\{(x^{(n)}, t^{(n)}\\}_{n=1}^N\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "と表すことができます．\n",
+    "これを用いて、新しい $x$ を入力すると，それに対応する $t$ を予測するモデルを訓練します．\n",
+    "\n",
+    "ここで，データセット中の入力値とのことを**データ点（datum）**ということがあることに注意してください．\n",
+    "データ点とは，具体的には上の説明で登場した $\\mathcal{D}$ 中の各 $(x^{(1)},t^{(1)})$ などのことです．\n",
+    "\n",
+    "ここで，この後の計算を楽に進めるために，**データの中心化**というテクニックを紹介します．\n",
+    "部屋の広さと家賃は両方とも正の値であるため，各データ点をいくつかプロットすると，下図の左のグラフのようになります．\n",
+    "中心化では，各次元の**平均が** $\\boldsymbol{0}$ となるよう全てのデータを同量平行移動します．\n",
+    "中心化はしばしば前処理として採用されます．\n",
+    "厳密には前章で紹介したスケーリング方法の一つである標準化（正規化）がよく用いられます．\n",
+    "\n",
+    "![中心化処理](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png)\n",
+    "\n",
+    "この処理を行うと，下図のように，バイアス $b$ を $0$ とおけるため，$f_c(x; w) = wx_{c}$ のように，モデルをバイアス成分なしで表現することができるようになります．\n",
+    "これによって，調整すべきパラメータを減らすことができます．\n",
+    "\n",
+    "![中心化後の直線式](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png)\n",
+    "\n",
+    "データの中心化は入出力の平均をデータの全体から引くことで実現されます．\n",
+    "つまり，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "x^{(n)}_{c} &= x^{(n)} - \\bar{x} \\\\\n",
+    "t^{(n)}_{c} &= t^{(n)} - \\bar{t}\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "という変換を全ての $n$ について行います．\n",
+    "\n",
+    "例えば，具体的な数値で見ると，下の表のようになります．\n",
+    "\n",
+    "| n | $x^{(n)}$ | $\\bar{x}$ | $x^{(n)}_c$ |\n",
+    "|---|-----------|-----------|-------------|\n",
+    "| 1 | 1         | 3         | -2          |\n",
+    "| 2 | 3         | 3         | 0           |\n",
+    "| 3 | 5         | 3         | 2           |\n",
+    "\n",
+    "中心化後を示す添え字の $c$ に関しては表現が冗長となるため，今後はこの添え字を省略し，データの中心化を事前に行っていることを前提とします．\n",
+    "この時，モデルは\n",
+    "\n",
+    "$$\n",
+    "f(x; w) = wx\n",
+    "$$\n",
+    "\n",
+    "となり，単回帰分析の目標は，データセット $\\mathcal{D} = \\{ x^{(n)}, t^{(n)} \\}_{n=1}^{N}$ に基づいて，パラメータ $w$ を**適切**に調整することになります．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "u_pmv6helEDO",
+    "colab_type": "text"
+   },
+   "source": [
+    "### Step2. 目的関数を決める（単回帰分析）\n",
+    "\n",
+    "1章で説明したように，教師あり学習では多くの場合，目的関数を設計し，その目的関数を最小化（または最大化）することでモデルの訓練を行います．\n",
+    "\n",
+    "今回は教師データと予測値が一致することが目標であり，乖離度を表す最小化すべき目的関数として教師データと予測値の二乗誤差を使います．\n",
+    "ここで，モデルの出力が予測値となります．すなわち，$y = f(x; w)$ です．\n",
+    "二乗誤差が $0$ であれば $t = y$ となり予測が完全に教師データと一致していることを意味します．\n",
+    "$n$ 番目の物件に対する教師データ $t^{(n)}$ と予測値 $y^{(n)} = f(x^{(n)}; w)$ の二乗誤差は\n",
+    "\n",
+    "$$\n",
+    "(t^{(n)} - y^{(n)})^2\n",
+    "$$\n",
+    "\n",
+    "です．\n",
+    "特定の物件についてだけ考慮するのではなく，データセット中の全ての物件の情報を考慮してモデルの訓練を行うために，上式で計算される各データ点における二乗誤差を全物件に対してそれぞれ計算して和をとったものを目的関数とします．\n",
+    "すなわち，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{L} &=\n",
+    "\\left( t^{(1)} - y^{(1)} \\right)^2 +\n",
+    "\\left( t^{(2)} - y^{(2)} \\right)^2 +\n",
+    "\\dots +\n",
+    "\\left( t^{(N)} - y^{(N)} \\right)^2 \\\\\n",
+    "&=\n",
+    "\\sum^{N}_{n=1} \\left( t^{(n)} - y^{(n)} \\right)^2 \\\\\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "です．\n",
+    "また，Step1で決めたモデル\n",
+    "\n",
+    "$$\n",
+    "y^{(n)} = f(x^{(n)}; w) = wx^{(n)}\n",
+    "$$\n",
+    "\n",
+    "をこれに代入すると，目的関数は\n",
+    "\n",
+    "$$\n",
+    "\\mathcal{L} = \\sum^{N}_{n=1}\\left( t^{(n)} - wx^{(n)} \\right)^2\n",
+    "$$\n",
+    "\n",
+    "とパラメータを含んだ形式で表現することができます．このような関数を損失関数とよぶことを思い出してください．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "CGB-WHJ1lKMF",
+    "colab_type": "text"
+   },
+   "source": [
+    "### Step3. 最適なパラメータを求める（単回帰分析） \n",
+    "\n",
+    "次に目的関数を最小にするようなパラメータを求めます．\n",
+    "今回用いた目的関数は二次関数であるため，微分して求まる導関数を 0 とおいてそのときの x を求めれば，最小値を取る時の x が分かります．\n",
+    "すなわち，目的関数の「傾きが0」となる点が値 $0$ をとる点です．\n",
+    "\n",
+    "それでは，目的関数を微分しましょう．\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\dfrac{\\partial }{\\partial w} \\mathcal{L} &=\n",
+    "\\dfrac{\\partial}{\\partial w} { \\sum^{N}_{n=1} ( t^{(n)}-wx^{(n)})^{2} }\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "微分という操作は**線形性**を持っているため，和の微分は，微分の和と等しくなります．\n",
+    "これを利用して次を得ます．\n",
+    "\n",
+    "$$\n",
+    "\\dfrac{\\partial}{\\partial w} \\mathcal{L} =\n",
+    "\\sum^{N}_{n=1} \\dfrac {\\partial }{\\partial w} \\left( t^{(n)}-wx^{(n)} \\right)^2\n",
+    "$$\n",
+    "\n",
+    "パラメータ $w$ による微分を表す $\\dfrac {\\partial }{\\partial w}$ と総和を表す $\\sum$ が入れ替わっています．\n",
+    "次に和の各項を見ます．\n",
+    "\n",
+    "$$\n",
+    "\\dfrac {\\partial }{\\partial w}\\left( t^{(n)}-wx^{(n)} \\right)^2\n",
+    "$$\n",
+    "\n",
+    "$t^{(n)} - wx^{(n)}$ と $(\\cdot)^2$ の**合成関数**になっています．\n",
+    "\n",
+    "$u^{(n)} = t^{(n)} - wx^{(n)}$, $g(u^{(n)}; w) = (u^{(n)})^2$ とおくと，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\dfrac {\\partial }{\\partial w}\n",
+    "\\left(\n",
+    "    t^{(n)} - wx^{(n)}\n",
+    "\\right)^2\n",
+    "&= \\dfrac {\\partial }{\\partial w} g(u^{(n)}) \\\\\n",
+    "&= \\dfrac {\\partial u^{(n)}}{\\partial w}\n",
+    "\\dfrac{\\partial g(u^{(n)})}{\\partial u^{(n)}} \\\\\n",
+    "&= -x^{(n)} \\cdot (2 u^{(n)}) \\\\\n",
+    "&= -2x^{(n)}( t^{(n)} - wx^{(n)} )\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "が得られます．これより，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\dfrac{\\partial }{\\partial w} \\mathcal{L}\n",
+    "&= \\sum^{N}_{n=1}\n",
+    "\\dfrac {\\partial }{\\partial w}\n",
+    "\\left( t^{(n)} - wx^{(n)} \\right)^2 \\\\\n",
+    "&= -\\sum^{N}_{n=1} 2x^{(n)} \\left( t^{(n)} - wx^{(n)} \\right)\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "となります．この微分の値を 0 とおいて $w$ について解くと，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\dfrac {\\partial }{\\partial w} \\mathcal{L} &= 0 \\\\\n",
+    "-2 \\sum^{N}_{n=1} x^{(n)} \\left( t^{(n)} - wx^{(n)} \\right) &= 0 \\\\\n",
+    "-2 \\sum^{N}_{n=1} x^{(n)} t^{(n)} + 2 \\sum^{N}_{n=1} w(x^{(n)})^2 &= 0 \\\\\n",
+    "-2 \\sum^{N}_{n=1} x^{(n)} t^{(n)} + 2w \\sum^{N}_{n=1} (x^{(n)})^2 &= 0 \\\\\n",
+    "w \\sum^{N}_{n=1} (x^{(n)})^2 &= \\sum^{N}_{n=1} x^{(n)} t^{(n)}\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "より，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "w &= \\dfrac\n",
+    "{\\displaystyle \\sum^{N}_{n=1} x^{(n)} t^{(n)}}\n",
+    "{\\displaystyle \\sum^{N}_{n=1} (x^{(n)})^2}\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "と求まります．\n",
+    "この右辺に着目すると，与えられたデータセット $\\mathcal{D} = \\{x^{(n)}, t^{(n)}\\}_{n=1}^{N}$ のみから決定されていることがわかります．\n",
+    "\n",
+    "それでは，以下の数値例を使って実際にパラメータ $w$ を求めてみましょう．\n",
+    "\n",
+    "| n | $x^{(n)}$ | $t^{(n)}$ |\n",
+    "|---|-----------|-----------|\n",
+    "| 1 | 1         | 2         |\n",
+    "| 2 | 2         | 3.9       |\n",
+    "| 3 | 3         | 6.1       |\n",
+    "\n",
+    "\n",
+    "まずは，データの中心化を行うために，平均を求めます．\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\bar{x} &= \\dfrac{1}{3} (1 + 2 + 3) = 2 \\\\\n",
+    "\\bar{t} &= \\dfrac{1}{3}(2 + 3.9 + 6.1) = 4\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "各データ点からそれぞれの値を引きます．\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "x_{1} &= 1 - 2 = -1 \\\\\n",
+    "x_{2} &= 2 -2 = 0 \\\\\n",
+    "x_{3} &= 3- 2 = 1\\\\\n",
+    "t_{1} &= 2 - 4 = -2\\\\\n",
+    "t_{2} &= 3.9 - 4 = -0.1\\\\\n",
+    "t_{3} &= 6.1 - 4 = 2.1 \n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "それでは，中心化後の値を用いて，最適なパラメータ$w$ を計算します．\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "w &= \\dfrac\n",
+    "{\\displaystyle \\sum_{n=1}^{N} x^{(n)} t^{(n)}}\n",
+    "{\\displaystyle  \\sum_{n=1}^{N} (x^{(n)})^2} \\\\\n",
+    "&= \\dfrac\n",
+    "{ x^{(1)} t^{(1)} + x^{(2)} t^{(2)} + x^{(3)} t^{(3)} }\n",
+    "{ (x^{(1)})^2 + (x^{(2)})^2 + (x^{(3)})^2 } \\\\\n",
+    "&= \\dfrac\n",
+    "{ -1 \\times (-2) + 0 \\times 0.1 + 1 \\times 2.1 }{ (-1)^2 + 0^2 + 1^2 } \\\\\n",
+    "&= 2.05\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "これで単回帰分析の学習が完了しました．\n",
+    "この求まったパラメータを $\\hat{w}$ とすると，これを使用したモデル $f(x; \\hat{w})$ が**学習済みモデル**となります．\n",
+    "\n",
+    "続いて，このモデルを使って新しいサンプルに対する予測をしてみましょう．\n",
+    "学習したモデルを使って新たな入力データについて予測値を計算する処理を**推論 (inference)**とよびます．\n",
+    "例えば，新しいサンプル $x^{(q)}=1.5$ に対する予測値は次のように求まります，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "y^{(q)} - \\bar{t} &= \\hat{w}(x^{(q)}-\\bar{x}) \\\\\n",
+    "\\Rightarrow y^{(q)} &= \\hat{w}(x^{(q)}-\\bar{x}) + \\bar{t} \\\\\n",
+    "&= 2.05 \\times (1.5 - 2) + 4 \\\\\n",
+    "&= 2.975\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "モデルは中心化データを用いて学習を行ったので，推論の際にも入力値・予測値それぞれに同様の操作を行う必要があることに注意しましょう．\n",
+    "\n",
+    "以上が，単回帰分析の一連の手順となります．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "e7YsGhBplQ-v",
+    "colab_type": "text"
+   },
+   "source": [
+    "## 重回帰分析\n",
+    "\n",
+    "次に，多変数の入力変数を扱う重回帰分析を扱います．\n",
+    "この重回帰分析を学ぶことで線形代数に関する知識が深まります．\n",
+    "\n",
+    "重回帰分析は単回帰分析と同様に教師あり学習の一種であり，回帰を行う手法です．\n",
+    "問題設定はほとんど単回帰分析と同じですが，重回帰分析では入力変数の数が複数となります．\n",
+    "つまり，複数の入力変数から出力変数を予測する機械学習手法の一つです．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "OUffLUWClZ2b",
+    "colab_type": "text"
+   },
+   "source": [
+    "### 問題設定（重回帰分析）\n",
+    "\n",
+    "ここでは単回帰分析の場合と同様に家賃を予測する問題を考え，家賃を出力変数 $y$ とします．\n",
+    "入力変数としては，単回帰分析では考慮しきれていなかった駅からの距離や犯罪発生率なども同時に考慮します．\n",
+    "例えば，部屋の広さ $x_{1}$, 駅からの距離 $x_{2}$, ..., 犯罪発生率 $x_{M}$ のように $M$ 個の入力変数があるとします（$M=1$の場合，単回帰分析の問題に帰着されます）．\n",
+    "\n",
+    "単回帰分析と同様，以下の3ステップに従います．\n",
+    "\n",
+    "- Step1: モデルを決める\n",
+    "- Step2: 目的関数を決める\n",
+    "- Step3: 最適なパラメータを求める"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "x7RyM1QqlchF",
+    "colab_type": "text"
+   },
+   "source": [
+    "### Step1. モデルを決める（重回帰分析）\n",
+    "\n",
+    "単回帰分析のモデルは，\n",
+    "\n",
+    "$$\n",
+    "f(x; w, b) = wx + b\n",
+    "$$\n",
+    "\n",
+    "であり，$w$ を重み（weight），$b$ をバイアス (bias) とよびました．\n",
+    "重回帰分析では，この式を複数の入力変数へと拡張し，\n",
+    "\n",
+    "$$\n",
+    "f({\\bf x}; {\\bf w}, b) = w_{1}x_{1} + w_{2}x_{2} + \\dots + w_{M}x_{M} + b\n",
+    "$$\n",
+    "\n",
+    "のような**線形結合**の形で表します．\n",
+    "ここで，太字の ${\\bf x}, {\\bf w}$ はそれぞれベクトルを表し，それぞれの $m$ 番目の要素が $w_m, x_m$ で表されています．\n",
+    "\n",
+    "ここでは，各入力変数は出力変数に線形に影響を与えることが仮定されています．\n",
+    "一方，もし入力変数間に非線形な依存関係が想定される場合には，そのことを考慮したモデル化を行う必要があります．\n",
+    "それについては後述します．\n",
+    "\n",
+    "重回帰分析のモデルは総和の記号を使って整理すると，\n",
+    "\n",
+    "$$\n",
+    "f({\\bf x}; {\\bf w}, b) = \\sum_{m=1}^{M} w_{m} x_{m} + b\n",
+    "$$\n",
+    "\n",
+    "のように書くことができます．さらにここで，$x_0 = 1$，$w_0 = b$とおくと，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "f({\\bf x}; {\\bf w}, b)\n",
+    "&= w_{1}x_{1} + w_{2}x_{2} + \\dots + w_{M}x_{M} + b\\\\\n",
+    "&= w_{1}x_{1} + w_{2}x_{2} + \\dots + w_{M}x_{M} + w_{0}x_{0}\\\\\n",
+    "&= w_{0}x_{0} + w_{1}x_{1} + \\dots + w_{M}x_{M} \\\\\n",
+    "&= \\sum_{m=0}^M w_m x_m\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "のようにバイアス $b$ を総和記号の中に含めることができます．\n",
+    "$w_0$ を含む ${\\bf w}$ を改めて ${\\bf w}$，最初の要素 $x_0$ として $1$ を付け加えた入力ベクトルを改めて ${\\bf x}$ と定義しなおすと，このモデルはベクトルを用いて\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "f({\\bf x}; {\\bf w})\n",
+    "&= \\begin{bmatrix}\n",
+    "w_{0} & w_{1} & \\dots  & w_{M}\n",
+    "\\end{bmatrix}\n",
+    "\\begin{bmatrix}\n",
+    "x_{0} \\\\\n",
+    "x_{1} \\\\\n",
+    "\\vdots  \\\\\n",
+    "x_{M}\n",
+    "\\end{bmatrix} \\\\\n",
+    "&= {\\bf w}^{T} {\\bf x} = {\\bf x}^T {\\bf w}\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "と書けます．\n",
+    "これで，ベクトルの内積を用いて表現することができました．\n",
+    "\n",
+    "これで重回帰分析を行うためのモデルが決定できました．\n",
+    "このモデルはパラメータとして $M+1$ 個の重み ${\\bf w}$ を持っています．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "lC_QrRUblhsU",
+    "colab_type": "text"
+   },
+   "source": [
+    "### Step2. 目的関数を決める（重回帰分析）\n",
+    "\n",
+    "単回帰分析では，目標値 $t$ と予測値 $y$ の二乗誤差が小さいほど良い予測であるとし，その総和を目的関数にしました．\n",
+    "重回帰分析でも，そのような予測値 $y$ を求めるというのは同じであるため，同じ目的関数を使います．\n",
+    "\n",
+    "ここで，$n$ 個目の入力値 ${\\bf x}^{(n)}$ に対する予測値 $f({\\bf x}^{(n)}; {\\bf w})$ を $y^{(n)}$，目標値を $t^{(n)}$ とおくと，目的関数は\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{L}\n",
+    "&= \\left( t^{(1)} - y^{(1)} \\right)^2\n",
+    "+ \\left( t^{(2)} - y^{(2)} \\right)^2\n",
+    "+ \\dots\n",
+    "+ \\left( t^{(N)} - y^{(N)} \\right)^2\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "となります．\n",
+    "単回帰分析では，これを総和記号 $\\sum$ を用いて表すことができましたが，これは以下のようにベクトル同士の内積を用いて表すこともできます．\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{L}\n",
+    "&= \\left( t^{(1)} - y^{(1)} \\right)^2\n",
+    "+ \\left( t^{(2)} - y^{(2)} \\right)^2\n",
+    "+ \\dots\n",
+    "+ \\left( t^{(N)} - y^{(N)} \\right)^2 \\\\\n",
+    "&= \\begin{bmatrix}\n",
+    "t^{(1)} - y^{(1)} & t^{(2)} - y^{(2)} & \\dots & t^{(N)} - y^{(N)}\n",
+    "\\end{bmatrix}\n",
+    "\\begin{bmatrix}\n",
+    "t^{(1)} - y^{(1)} \\\\\n",
+    "t^{(2)} - y^{(2)} \\\\\n",
+    "\\vdots \\\\\n",
+    "t^{(N)} - y^{(N)}\n",
+    "\\end{bmatrix} \\\\\n",
+    "&= \\left( {\\bf t} - {\\bf y} \\right)^{\\rm T}\n",
+    "\\left( {\\bf t} - {\\bf y} \\right)\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "また，${\\bf y}$ は\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "{\\bf y}\n",
+    "=\n",
+    "\\begin{bmatrix}\n",
+    "y^{(1)} \\\\\n",
+    "y^{(2)} \\\\\n",
+    "\\vdots \\\\\n",
+    "y^{(N)}\n",
+    "\\end{bmatrix}\n",
+    "=\n",
+    "\\begin{bmatrix}\n",
+    "({\\bf x}^{(1)})^{\\rm T} {\\bf w} \\\\\n",
+    "({\\bf x}^{(2)})^{\\rm T} {\\bf w} \\\\\n",
+    "\\vdots \\\\\n",
+    "({\\bf x}^{(N)})^{\\rm T} {\\bf w}\n",
+    "\\end{bmatrix}\n",
+    "=\n",
+    "\\begin{bmatrix}\n",
+    "({\\bf x}^{(1)})^{\\rm T} \\\\\n",
+    "({\\bf x}^{(2)})^{\\rm T} \\\\\n",
+    "\\vdots \\\\\n",
+    "({\\bf x}^{(N)})^{\\rm T}\n",
+    "\\end{bmatrix}\n",
+    "\\boldsymbol{w}\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "のように書くことができます．\n",
+    "ここで，${\\bf x}^{(n)}$ の $m$ 番目の要素を $x_{nm}$ と書くことにすると，上式はさらに\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "{\\bf y}\n",
+    "&=\n",
+    "\\begin{bmatrix}\n",
+    "x_{10} & x_{11} & x_{12} & \\dots  & x_{1M} \\\\\n",
+    "x_{20} & x_{21} & x_{22} & \\dots  & x_{2M} \\\\\n",
+    "\\vdots  & \\vdots  & \\vdots  & \\ddots  \\\\\n",
+    "x_{N0} & x_{N1} & x_{N{2}} & \\dots  & x_{NM}\n",
+    "\\end{bmatrix}\n",
+    "\\begin{bmatrix}\n",
+    "w_{0} \\\\\n",
+    "w_{1} \\\\\n",
+    "w_{2} \\\\\n",
+    "\\vdots \\\\\n",
+    "w_{M}\n",
+    "\\end{bmatrix} \\\\\n",
+    "&=\n",
+    "{\\bf X}{\\bf w}\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "と表せます．\n",
+    "${\\bf X}$ の各行が各サンプルを表しており，各列が入力変数を表しています．\n",
+    "つまり，各サンプルごとに $M$ 個の入力変数（$x_{n0}$ は常に $1$）を持ちます．\n",
+    "\n",
+    "具体例を挙げてみます．\n",
+    "例えば，$m=1$ が部屋の広さ，$m=2$ が駅からの距離，$m=3$ が犯罪発生率に対応する入力変数だとして，$n$ 個目のデータ点が部屋の広さ $= 50m^{2}$ ，駅からの距離 $= 600 m$ ，犯罪発生率 $= 2$% であるような物件を表している場合，これは\n",
+    "\n",
+    "$$\n",
+    "{\\bf x}_{n}^{T} =\n",
+    "\\begin{bmatrix}\n",
+    "1 & 50 & 600 & 0.02\n",
+    "\\end{bmatrix}\n",
+    "$$\n",
+    "\n",
+    "というベクトルになります．\n",
+    "今，3 つの入力変数を考えているので，$M=3$ ですが，入力ベクトル ${\\bf x}_n$ の１つ目の要素 $x_{n1}$ はバイアス $w_0$ に対応する要素で常に値は $1$ となることに注意してください．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "D-9QSHa5gkqc",
+    "colab_type": "text"
+   },
+   "source": [
+    "### Step3. パラメータを最適化する（重回帰分析）\n",
+    "\n",
+    "それでは，目的関数を最小化するパラメータ ${\\bf w}$を求めてみましょう．\n",
+    "\n",
+    "**※ここでは，式変形を駆使しながら最適パラメータの解析的な解を求めていきますが，導出過程が少々複雑になります．導出結果は次節(§2.3)で示されているので，導出に興味のある方以外は本節はスキップしていただいて構いません．**\n",
+    "\n",
+    "まずは目的関数をパラメータ ${\\bf w}$ を用いて表し直すと\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{L}\n",
+    "&=\n",
+    "\\left( {\\bf t} - {\\bf y} \\right)^{\\rm T}\n",
+    "\\left( {\\bf t} - {\\bf y} \\right) \\\\\n",
+    "&=\n",
+    "\\left( {\\bf t} - {\\bf X}{\\bf w} \\right)^{\\rm T}\n",
+    "\\left( {\\bf t} - {\\bf X}{\\bf w} \\right) \\\\\n",
+    "&=\n",
+    "\\left\\{ {\\bf t}^{\\rm T} - ({\\bf X}{\\bf w})^{\\rm T} \\right\\}\n",
+    "\\left( {\\bf t} - {\\bf X}{\\bf w} \\right) \\\\\n",
+    "&=\n",
+    "\\left( {\\bf t}^{\\rm T} - {\\bf w}^{\\rm T}{\\bf X}^{\\rm T} \\right)\n",
+    "\\left( {\\bf t} - {\\bf X}{\\bf w} \\right)\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "となります．\n",
+    "ここで，転置の公式 $({\\bf A}{\\bf B})^{\\rm T} = {\\bf B}^{\\rm T}{\\bf A}^{\\rm T}$ を使っていることに注意しましょう．\n",
+    "さらに分配法則を使って展開すると，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{L}\n",
+    "&=\n",
+    "{\\bf t}^{\\rm T}{\\bf t}\n",
+    "- {\\bf t}^{\\rm T}{\\bf X}{\\bf w}\n",
+    "- {\\bf w}^{\\rm T}{\\bf X}^{\\rm T}{\\bf t}\n",
+    "+ {\\bf w}^{\\rm T}{\\bf X}^{\\rm T}{\\bf X}{\\bf w} \\\\\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "となります．\n",
+    "この目的関数に対しパラメータの $w$ についての偏微分を計算します．\n",
+    "その前にこの式はもう少し整理することができます．\n",
+    "はじめに，\n",
+    "\n",
+    "$$\n",
+    "(1)^T = 1\n",
+    "$$\n",
+    "\n",
+    "のようにスカラは転置しても変化しません．\n",
+    "上式の中で出てくる ${\\bf t}^{\\rm T}{\\bf X}{\\bf w}$ はスカラなので，\n",
+    "\n",
+    "$$\n",
+    "({\\bf t}^{\\rm T}{\\bf X}{\\bf w})^{\\rm T} =\n",
+    "{\\bf t}^{\\rm T}{\\bf X}{\\bf w}\n",
+    "$$\n",
+    "\n",
+    "が成り立ちます．\n",
+    "さらに，転置の公式 $({\\bf A}{\\bf B}{\\bf C})^{\\rm T} = {\\bf C}^{\\rm T}{\\bf B}^{\\rm T}{\\bf A}^{\\rm T}$ より，\n",
+    "\n",
+    "$$\n",
+    "({\\bf t}^{\\rm T}{\\bf X}{\\bf w})^{\\rm T}\n",
+    "= {\\bf w}^{\\rm T}{\\bf X}^{\\rm T}{\\bf t}\n",
+    "$$\n",
+    "\n",
+    "も成り立ちます．これより，\n",
+    "\n",
+    "$$\n",
+    "({\\bf t}^{\\rm T}{\\bf X}{\\bf w})^{\\rm T}\n",
+    "= {\\bf t}^{\\rm T}{\\bf X}{\\bf w}\n",
+    "= {\\bf w}^{\\rm T}{\\bf X}^{\\rm T}{\\bf t}\n",
+    "$$\n",
+    "\n",
+    "を導くことができます．\n",
+    "目的関数を $\\mathcal{L}$ とおくと，上の式を利用して，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{L}\n",
+    "= {\\bf t}^{\\rm T}{\\bf t}\n",
+    "- 2 {\\bf t}^{\\rm T}{\\bf X}{\\bf w}\n",
+    "+ {\\bf w}^{\\rm T}{\\bf X}^{\\rm T}{\\bf X}{\\bf w} \\\\\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "とまとめることができます．ここで， ${\\bf w}$ について偏微分を行いやすくするため， ${\\bf w}$ 以外の定数項をまとめると，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{L}\n",
+    "&= {\\bf t}^{\\rm T}{\\bf t}\n",
+    "- 2 {\\bf t}^{\\rm T}{\\bf X}{\\bf w}\n",
+    "+ {\\bf w}^{\\rm T}{\\bf X}^{\\rm T}{\\bf X}{\\bf w} \\\\\n",
+    "&= {\\bf t}^{\\rm T}{\\bf t}\n",
+    "- 2 \\left( {\\bf X}^{\\rm T}{\\bf t} \\right)^{\\rm T}{\\bf w}\n",
+    "+ {\\bf w}^{\\rm T}{\\bf X}^{\\rm T}{\\bf X}{\\bf w} \\\\\n",
+    "&= \\gamma + \\boldsymbol{\\beta}^{\\rm T}{\\bf w} + {\\bf w}^{\\rm T}{\\bf A}{\\bf w} \n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "となります．\n",
+    "線形代数の章で学んだような ${\\bf w}$ に関する二次形式（二次関数）で表現することができました．\n",
+    "ここで，${\\bf A}= {\\bf X}^{\\rm T}{\\bf X}, \\ \\boldsymbol{\\beta} =-2 {\\bf X}^{\\rm T}{\\bf t}, \\ \\gamma = {\\bf t}^{\\rm T}{\\bf t}$ です．\n",
+    "また，$\\boldsymbol{\\beta}$ を転置の形式にした理由は，線形代数の章で学んだベクトルで微分するための公式集にある形式に合わせるためです．\n",
+    "\n",
+    "それでは，この目的関数を最小化するパラメータ ${\\bf w}$ の求め方を考えましょう．\n",
+    "前述の通り，目的関数はパラメータ ${\\bf w}$ に関しては二次関数になっています．\n",
+    "例えば，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "{\\bf w} = \\begin{bmatrix}\n",
+    "w_{1} \\\\ w_{2}\n",
+    "\\end{bmatrix}, \n",
+    "{\\bf A} = \\begin{bmatrix}\n",
+    "1 & 2 \\\\\n",
+    "3 & 4\n",
+    "\\end{bmatrix},\n",
+    "\\boldsymbol{\\beta} = \\begin{bmatrix}\n",
+    "1 \\\\\n",
+    "2\n",
+    "\\end{bmatrix},\n",
+    "\\gamma = 1 \n",
+    "\\end{aligned} \n",
+    "$$ \n",
+    "\n",
+    "のとき，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned} \n",
+    "\\mathcal{L} & = \n",
+    "{\\bf w}^{\\rm T}{\\bf A}{\\bf w}\n",
+    "+ \\boldsymbol{\\beta}^{\\rm T}{\\bf w}\n",
+    "+ \\gamma \\\\ \n",
+    "&=\n",
+    "\\begin{bmatrix}\n",
+    "w_{1} & w_{2}\n",
+    "\\end{bmatrix}\n",
+    "\\begin{bmatrix}\n",
+    "1 & 2 \\\\\n",
+    "3 & 4\n",
+    "\\end{bmatrix}\n",
+    "\\begin{bmatrix}\n",
+    "w_{1} \\\\\n",
+    "w_{2}\n",
+    "\\end{bmatrix}\n",
+    "+\n",
+    "\\begin{bmatrix}\n",
+    "1 & 2\n",
+    "\\end{bmatrix}\n",
+    "\\begin{bmatrix} \n",
+    "w_{1} \\\\ \n",
+    "w_{2} \n",
+    "\\end{bmatrix}\n",
+    "+ 1 \\\\ \n",
+    "&=\n",
+    "\\begin{bmatrix} \n",
+    "w_{1} & w_{2} \n",
+    "\\end{bmatrix} \n",
+    "\\begin{bmatrix} \n",
+    "w_{1} + 2w_{2} \\\\ \n",
+    "3w_{1} + 4w_{2} \n",
+    "\\end{bmatrix}\n",
+    "+ w_{1}\n",
+    "+ 2 w_{2}\n",
+    "+ 1 \\\\ \n",
+    "&= w_{1} \\left( w_{1} + 2w_{2} \\right)\n",
+    "+ w_{2} \\left( 3w_{1} + 4w_{2} \\right)\n",
+    "+ w_{1}\n",
+    "+ 2w_{2}\n",
+    "+ 1 \\\\ \n",
+    "&= w^{2}_{1}\n",
+    "+ 5w_{1}w_{2}\n",
+    "+ 4w^{2}_{2}\n",
+    "+ w_{1}\n",
+    "+ 2w_{2}\n",
+    "+ 1 \\\\ \n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "となります．\n",
+    "さらに $w_{1}, w_{2}$ に関してそれぞれまとめると，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{L}\n",
+    "&= w^{2}_{1}\n",
+    "+ \\left( 5w_{2} + 1\\right) w_{1}\n",
+    "+ \\left( 4w^{2}_{2} + 2w_{2} + 1 \\right) \\\\ \n",
+    "&= 4w^{2}_{2}\n",
+    "+ \\left( 5w_{1} + 2 \\right) w_{2}\n",
+    "+ \\left( w^{2}_{1} + w_{1} + 1 \\right)\n",
+    "\\end{aligned} \n",
+    "$$\n",
+    "\n",
+    "となり，それぞれの二次関数であることがわかります．\n",
+    "\n",
+    "そして，二次関数であれば，下図のような形となります．\n",
+    "\n",
+    "![パラメータと目的関数の関係（2次元）](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png)\n",
+    "\n",
+    "これを3次元でイメージすると，下図のようになります．\n",
+    "\n",
+    "![パラメータと目的関数の関係（3次元）](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png)\n",
+    "\n",
+    "そして，目的関数である二乗誤差の総和が最小となる点では各変数で微分した時の傾きが0となります．\n",
+    "\n",
+    "![目的関数が最小となる点](https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png)\n",
+    "\n",
+    "この例では，$w_{1}$ と $w_{2}$ の２つのパラメータの場合で考えましたが，これは $w_{0}$, $w_{1}$, $w_{2}$, $\\ldots$, $w_{M}$ の場合でも同様に考えることができ，目的関数が最小となる点は\n",
+    "\n",
+    "$$\n",
+    "\\begin{cases}\n",
+    "\\dfrac {\\partial }{\\partial w_{0}}\\mathcal{L} = 0\\\\\n",
+    "\\dfrac {\\partial }{\\partial w_{1}}\\mathcal{L} = 0\\\\\n",
+    "\\ \\ \\ \\ \\ \\vdots \\\\\n",
+    "\\dfrac {\\partial }{\\partial w_{M}}\\mathcal{L} = 0\\\\\n",
+    "\\end{cases}\n",
+    "$$\n",
+    "\n",
+    "となり，これをまとめると，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\begin{bmatrix}\n",
+    "\\dfrac {\\partial}{\\partial w_{0}} \\mathcal{L} \\\\\n",
+    "\\dfrac {\\partial}{\\partial w_{1}} \\mathcal{L} \\\\\n",
+    "\\vdots  \\\\\n",
+    "\\dfrac {\\partial}{\\partial w_{M}} \\mathcal{L} \\\\\n",
+    "\\end{bmatrix}&=\\begin{bmatrix}\n",
+    "0 \\\\\n",
+    "0 \\\\\n",
+    "\\vdots  \\\\\n",
+    "0 \\\\\n",
+    "\\end{bmatrix} \\\\\n",
+    "\\Rightarrow \\dfrac {\\partial}{\\partial {\\bf w}} \\mathcal{L} &= \\boldsymbol{0} \\\\\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "のようにベクトルでの微分として表されます．\n",
+    "あとは，上式を満たす ${\\bf w}$ を決めます．\n",
+    "まずは ${\\bf w}$ が求めやすくなるように，代入と式変形を行います．\n",
+    "（下記の計算ではベクトルでの微分をはじめとして線形代数の章で学んだ内容を活用しているため，計算途中がわからなくなった場合には，線形代数の章を再度確認しながら進めてください．）\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\dfrac {\\partial }{\\partial {\\bf w}}\n",
+    "\\mathcal{L} =\n",
+    "\\dfrac {\\partial }{\\partial {\\bf w}}\n",
+    "\\left( \\gamma + \\boldsymbol{\\beta}^{\\rm T}{\\bf w} + {\\bf w}^{\\rm T}{\\bf A}{\\bf w} \\right)\n",
+    "= {\\bf 0} \\\\\n",
+    "\\dfrac {\\partial }{\\partial {\\bf w}}\n",
+    "\\left( \\gamma \\right)\n",
+    "+ \\dfrac {\\partial }{\\partial {\\bf w}} \\left( \\boldsymbol{\\beta}^{\\rm T}{\\bf w} \\right)\n",
+    "+ \\dfrac {\\partial }{\\partial {\\bf w}} \\left( {\\bf w}^{\\rm T}{\\bf A}{\\bf w} \\right)\n",
+    "= {\\bf 0} \\\\\n",
+    "{\\bf 0}\n",
+    "+ \\boldsymbol{\\beta}\n",
+    "+ \\left( {\\bf A}+{\\bf A}^{\\rm T} \\right) {\\bf w}\n",
+    "= {\\bf 0} \\\\\n",
+    "-2{\\bf X}^{\\rm T}{\\bf t}\n",
+    "+ \\left\\{ {\\bf X}^{\\rm T}{\\bf X} + \\left( {\\bf X}^{\\rm T}{\\bf X} \\right)^{\\rm T} \\right\\} {\\bf w}\n",
+    "= {\\bf 0} \\\\\n",
+    "-2{\\bf X}^{\\rm T}{\\bf t}+2{\\bf X}^{\\rm T}{\\bf X}{\\bf w}={\\bf 0}\\\\\n",
+    "{\\bf X}^{\\rm T}{\\bf X}{\\bf w}={\\bf X}^{\\rm T}{\\bf t}\\\\\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "ここで，${\\bf X}^{\\rm T} {\\bf X}$に逆行列が存在すると仮定して，両辺に左側から $\\left( {\\bf X}^{\\rm T}{\\bf X}\\right)^{-1}$ をかけると，\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\left( {\\bf X}^{\\rm T}{\\bf X}\\right)^{-1}{\\bf X}^{\\rm T}{\\bf X} {\\bf w} =\\left( {\\bf X}^{\\rm T}{\\bf X}\\right)^{-1}{\\bf X}^{\\rm T}{\\bf t} \\\\\n",
+    "{\\bf I}{\\bf w}=\\left( {\\bf X}^{\\rm T}{\\bf X}\\right)^{-1}{\\bf X}^{\\rm T}{\\bf t} \\\\\n",
+    "{\\bf w}=\\left( {\\bf X}^{\\rm T}{\\bf X}\\right)^{-1}{\\bf X}^{\\rm T}{\\bf t}\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "となり，与えられたデータセット ${\\bf X}, {\\bf t}$ から，最適なパラメータ ${\\bf w}$ が求まりました．ここで，${\\bf I}$ は単位行列です．また，式変形の際には，\n",
+    "\n",
+    "$$\n",
+    "{\\bf w} = \\dfrac{{\\bf X}^{\\rm T}{\\bf t}}{{\\bf X}^{\\rm T}{\\bf X}}\n",
+    "$$\n",
+    "\n",
+    "のような分数が表れないように注意してください．これは行列の計算には割り算が定義されていないためです．\n",
+    "そのため，逆行列を使って行列積のみで計算しています．\n",
+    "\n",
+    "また，もうひとつよくある間違いとして，${\\bf w}$ を求めるために以下のような式変形をしてしまう例が挙げられます．\n",
+    "\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "{\\bf X}^{\\rm T}{\\bf X}{\\bf w}\n",
+    "&= {\\bf X}^{\\rm T}{\\bf t} \\\\\n",
+    "\\left( {\\bf X}^{\\rm T} \\right)^{-1} {\\bf X}^{\\rm T}{\\bf X}{\\bf w}\n",
+    "&= \\left( {\\bf X}^{\\rm T} \\right)^{-1}{\\bf X}^{\\rm T}{\\bf t} \\\\\n",
+    "{\\bf X}{\\bf w}\n",
+    "&= {\\bf t} \\\\\n",
+    "{\\bf X}^{-1}{\\bf X}{\\bf w}\n",
+    "&= {\\bf X}^{-1}{\\bf t} \\\\\n",
+    "{\\bf w}\n",
+    "&= {\\bf X}^{-1}{\\bf t}\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "\n",
+    "しかし，これは一般には成立しません．\n",
+    "その理由は，逆行列を持つための条件の一つである**正方行列であること**を ${\\bf X}$ が常に満たすとは限らないためです．\n",
+    "サンプル数 $N$ と入力変数の数 $M+1$ が等しくない場合，${\\bf X} \\in \\mathcal{R}^{N \\times (M+1)}$ は正方行列ではなく，逆行列をもちません．\n",
+    "一方，${\\bf X}^{\\rm T} {\\bf X}$ は ${\\bf X}^{\\rm T}{\\bf X} \\in \\mathcal{R}^{(M+1) \\times (M+1)}$ であり，サンプル数 $N$ に依存することなく，常に正方行列となることに注目してください．（逆行列が求まるためにはもう少し厳密な条件がありますが，ここでは説明しません．）\n",
+    "\n",
+    "推論の際は学習で得られたパラメータを $\\hat{\\bf w}$ として\n",
+    "\n",
+    "$$\n",
+    "y_{q} = \\hat{\\bf w}^{\\rm T}{\\bf x}_{q}\n",
+    "$$\n",
+    "\n",
+    "のように計算することで予測値が得られます．\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "63jvxwSk2Y28",
+    "colab_type": "text"
+   },
+   "source": [
+    "で表されることが分かりました．この最適なパラメータを計算するために，以下の5つを扱います．\n",
+    "\n",
+    "- ベクトルの定義\n",
+    "- 行列の定義\n",
+    "- 転置\n",
+    "- 行列積\n",
+    "- 逆行列\n",
+    "\n",
+    "具体的に，以下のようなデータセットが与えられているケースを想定してみましょう．この例では，データのサンプル数$N$は$4$であり，入力データ$X$の変数の数は$2$です．そして$t$は教師データとなります．\n",
+    "\n",
+    "$$\n",
+    "\\boldsymbol{X} = \n",
+    "\\begin{bmatrix}\n",
+    "1 & 2 & 3 \\\\\n",
+    "1 & 2 & 5 \\\\\n",
+    "1 & 3 & 4 \\\\  \n",
+    "1 & 5 & 9 \n",
+    "\\end{bmatrix}, \\\n",
+    "\\boldsymbol{t} = \n",
+    "\\begin{bmatrix}\n",
+    "1 \\\\ 5 \\\\ 6 \\\\ 8\n",
+    "\\end{bmatrix}\n",
+    "$$\n",
+    "\n",
+    "ここで$\\boldsymbol{X}$は **パラメータ** $\\boldsymbol{w}$ **がバイアス** $\\boldsymbol{b}$ **を包含する** 形式を想定しており，従って入力データ$\\boldsymbol{X}$の1列目には$1$が格納されています．\n",
+    "\n",
+    "それでは実装方法について見ていきましょう．まずは，NumPyの読み込みから始めます．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "MkIlXuHg6cDz",
+    "colab_type": "text"
+   },
+   "source": [
+    "## NumPyによる実装\n",
+    "\n",
+    "それでは重回帰分析で行われる計算をPythonを用いてコンピュータに実行させてみましょう．\n",
+    "Pythonには**NumPy**とよばれる線形代数を簡単に扱えるライブラリが存在し，広く利用されています．\n",
+    "次の章で紹介するChainerの中でもNumPyは用いられており，様々なデータ解析・科学計算のライブラリで広く採用されているため，NumPyの使い方にある程度慣れ親しんでおくことは後々役立ちます．\n",
+    "\n",
+    "以下では，Pythonの基本的な文法はすでに理解していることを前提としています．\n",
+    "例えば，変数（数値・文字列，リスト，タプル，辞書），制御構文（for，if），関数，クラスを理解している必要があります．\n",
+    "\n",
+    "重回帰分析では，最終的に最適なパラメータ ${\\bf w}$ が\n",
+    "\n",
+    "$$\n",
+    "{\\bf w} = \\left( {\\bf X}^{\\rm T}{\\bf X}\\right)^{-1}{\\bf X}^{\\rm T}{\\bf t}\n",
+    "$$\n",
+    "\n",
+    "と閉じた形で求まりました．\n",
+    "この計算を行うために，これから以下の5つをNumPyを使って行います．\n",
+    "\n",
+    "- ベクトルの定義\n",
+    "- 行列の定義\n",
+    "- 転置\n",
+    "- 行列積\n",
+    "- 逆行列\n",
+    "\n",
+    "以下のようなデータセットが与えられているとします．\n",
+    "\n",
+    "$$\n",
+    "{\\bf X} = \\left[ \\begin{matrix}\n",
+    "1 & 2 & 3 \\\\\n",
+    "1 & 2 & 5 \\\\\n",
+    "1 & 3 & 4 \\\\\n",
+    "1 & 5 & 9\n",
+    "\\end{matrix} \\right], \\ \n",
+    "{\\bf t} = \\left[ \\begin{matrix}\n",
+    "1 \\\\ 5 \\\\ 6 \\\\ 8\n",
+    "\\end{matrix} \\right]\n",
+    "$$\n",
+    "\n",
+    "データ数 $N = 4$ であり，入力変数の数 $M = 2$ です．\n",
+    "それではこのデータセットにフィットするモデル $f({\\bf x}; {\\bf w}) = {\\bf x}^{\\rm T}{\\bf w}$ のパラメータ ${\\bf w}$ をNumPyを使って計算してみましょう．\n",
+    "\n",
+    "まずNumPyを読み込みます．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "vEy_FvRJ2Y2_",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "import numpy as np"
+   ],
+   "execution_count": 1,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "43TxMSHH2Y3C",
+    "colab_type": "text"
+   },
+   "source": [
+    "ベクトルの定義は以下のように行います．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "sQd-4mXv2Y3D",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "t = np.array([1, 5, 6, 8])"
+   ],
+   "execution_count": 2,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "W1eFys0AIIR8",
+    "colab_type": "text"
+   },
+   "source": [
+    "ベクトルを表示してみましょう．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "Z_fjFYsu2Y3H",
+    "colab_type": "code",
+    "outputId": "a6e05e07-e657-41c4-f743-91dc5920048b",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "print(t)"
+   ],
+   "execution_count": 3,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[1 5 6 8]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "lvE4dLpP2Y3P",
+    "colab_type": "text"
+   },
+   "source": [
+    "行列の定義も行い，表示してみましょう．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "wxbCgDEl2Y3R",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "X = np.array([\n",
+    "    [1, 2, 3],\n",
+    "    [1, 2, 5],\n",
+    "    [1, 3, 4],\n",
+    "    [1, 5, 9]\n",
+    "])"
+   ],
+   "execution_count": 4,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "UdFu-c3p2Y3W",
+    "colab_type": "code",
+    "outputId": "76152c56-1b9d-4895-c208-3f00c64970ec",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 89
+    }
+   },
+   "source": [
+    "print(X)"
+   ],
+   "execution_count": 5,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[[1 2 3]\n",
+      " [1 2 5]\n",
+      " [1 3 4]\n",
+      " [1 5 9]]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "3Dej1LjB2Y3f",
+    "colab_type": "text"
+   },
+   "source": [
+    "ここでは`np.array`という関数を用いて，PythonのリストからNumPyの多次元配列の形式(`np.ndarray`)への変換を行っています．\n",
+    "\n",
+    "次に，Xの転置を行ってみましょう．`np.ndarray`で定義されている場合，`.T`をつけるだけで転置することができます．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "Sc1SrowF2Y3g",
+    "colab_type": "code",
+    "outputId": "88df6426-d5f5-4dc3-86ae-25eae4ddc96c",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 71
+    }
+   },
+   "source": [
+    "print(X.T)"
+   ],
+   "execution_count": 6,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[[1 1 1 1]\n",
+      " [2 2 3 5]\n",
+      " [3 5 4 9]]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "gXWmTlNM2Y3n",
+    "colab_type": "text"
+   },
+   "source": [
+    "縦と横が入れ替わっていることを確認できます．\n",
+    "\n",
+    "行列積は以下のように `np.dot` によって実現できます．行列積を行う際には，一番目の行列の列数と，二番目の行列の行数が同じであることに注意して下さい．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "v5Qm-akG2Y3o",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "XX = np.dot(X.T, X)"
+   ],
+   "execution_count": 7,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "K2BpUnAW2Y3u",
+    "colab_type": "code",
+    "outputId": "6755d7e6-fe94-4236-de53-98f932b6deef",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 71
+    }
+   },
+   "source": [
+    "print(XX)"
+   ],
+   "execution_count": 8,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[[  4  12  21]\n",
+      " [ 12  42  73]\n",
+      " [ 21  73 131]]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "cwDD9lQc2Y34",
+    "colab_type": "text"
+   },
+   "source": [
+    "ここからさらに，${\\bf X}^{\\rm T}{\\bf X}$ に対する逆行列，$\\left( {\\bf X}^{\\rm T}{\\bf X} \\right)^{-1}$ を計算します．逆行列を求めるには，`np.linalg.inv` を用います．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "vTS7OiuF2Y36",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "XX_inv = np.linalg.inv(XX)"
+   ],
+   "execution_count": 9,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "yUFnXFgH2Y4B",
+    "colab_type": "code",
+    "outputId": "4358a9d1-5979-4a6b-cfd2-03ba0f87be34",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 71
+    }
+   },
+   "source": [
+    "print(XX_inv)"
+   ],
+   "execution_count": 10,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[[ 1.76530612 -0.39795918 -0.06122449]\n",
+      " [-0.39795918  0.84693878 -0.40816327]\n",
+      " [-0.06122449 -0.40816327  0.24489796]]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "S4UccbfX2Y4H",
+    "colab_type": "text"
+   },
+   "source": [
+    "\n",
+    "これで重回帰分析のために必要な演算が揃いました．\n",
+    "\n",
+    "最適なパラメータ $\\left({\\bf X}^{\\rm T}{\\bf X} \\right)^{-1} {\\bf X}^{\\rm T}{\\bf t}$ を求めると，"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "MUDf1lul2Y4I",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "Xt = np.dot(X.T, t)"
+   ],
+   "execution_count": 11,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "4woi1AWA2Y4P",
+    "colab_type": "code",
+    "outputId": "05fb3e2d-7c34-4160-f78c-63091026f0c1",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "print(Xt)"
+   ],
+   "execution_count": 12,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[ 20  70 124]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "E2PDggtE2Y4U",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "w = np.dot(XX_inv, Xt)"
+   ],
+   "execution_count": 13,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "f0ldbwNx2Y4Y",
+    "colab_type": "code",
+    "outputId": "94cd13b0-ee32-48a2-f789-b39156e8969f",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "print(w)"
+   ],
+   "execution_count": 14,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[-0.14285714  0.71428571  0.57142857]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "lwbp0Oe52Y4d",
+    "colab_type": "text"
+   },
+   "source": [
+    "このように求まりました．\n",
+    "NumPyを使って数式と同じ計算をプログラムに書き下せば，コンピュータに具体的な数値を使った計算を高速に行わせることができます．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "nOcnH9gD2Y4f",
+    "colab_type": "text"
+   },
+   "source": [
+    "## Scikit-learnによる機械学習アルゴリズムの実行"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "3U87Nhu12Y4h",
+    "colab_type": "text"
+   },
+   "source": [
+    "重回帰分析であればNumPyで比較的容易に実装することができましたが，実践的に使用する機械学習手法のアルゴリズムの多くは複雑であり，初学者が一から書くのは難しい場合も少なくありません．\n",
+    "Pythonには**Scikit-learn**と呼ばれる様々な機械学習手法の実装が含められたライブラリが公開されており，初学者でも簡単に扱うことができます．\n",
+    "\n",
+    "ここでは重回帰分析を**Scikit-learnを用いて行う方法**を紹介します．\n",
+    "データセットは先程と同様に ${\\bf X}$ と ${\\bf t}$ を使用しますが，Scikit-learnにおいては，**パラメータ** ${\\bf w}$ **がバイアス** ${\\bf b}$ **を包含しない** 形式を想定しており，入力データ ${\\bf X}$ の1列目から $1$ を取り除く必要があることに注意してください．\n",
+    "従って，\n",
+    "\n",
+    "$$\n",
+    "{\\bf X} = \n",
+    "\\begin{bmatrix}\n",
+    "2 & 3 \\\\\n",
+    "2 & 5 \\\\\n",
+    "3 & 4 \\\\  \n",
+    "5 & 9 \n",
+    "\\end{bmatrix}, \\\n",
+    "{\\bf t} = \n",
+    "\\begin{bmatrix}\n",
+    "1 \\\\ 5 \\\\ 6 \\\\ 8\n",
+    "\\end{bmatrix}\n",
+    "$$\n",
+    "\n",
+    "をデータセットとして準備します．\n",
+    "\n",
+    "### Scikit-learn 基礎編\n",
+    "\n",
+    "\n",
+    "Scikit-learnは`sklearn`という名前で読み込みます．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "PvEybj2F2Y4i",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "import sklearn"
+   ],
+   "execution_count": 15,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "i5a4UQLC2Y4n",
+    "colab_type": "text"
+   },
+   "source": [
+    "重回帰分析を使用する場合は以下の `LinearRegression` というクラスを読み込みます．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "JroSiyCK2Y4p",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "from sklearn.linear_model import LinearRegression"
+   ],
+   "execution_count": 16,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "4KGFnf-R2Y4v",
+    "colab_type": "text"
+   },
+   "source": [
+    "なお，使い方を調べる際には，[公式のリファレンス](http://scikit-learn.org/)に加えて，使用例を見るのも有用です（例えば検索エンジンで「重回帰分析 Scikit-learn」のようなキーワードで検索すればたくさんの使用例が見つかります）．\n",
+    "\n",
+    "`LinearRegression` クラスを利用するために，インスタンス化を行い，`model` と名付けます．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "r4423bMx2Y4y",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "model = LinearRegression()"
+   ],
+   "execution_count": 17,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "6BGDOxEL2Y42",
+    "colab_type": "text"
+   },
+   "source": [
+    "これで重回帰分析を行う準備が完了しました．\n",
+    "この `model` を使って，最適なパラメータを求めるには以下のようにします．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "zxe9Bd9_2Y44",
+    "colab_type": "code",
+    "outputId": "7aac8d8b-4bcd-40d9-b6fd-0d8000ac3f7b",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "# データセットの定義\n",
+    "X = np.array([\n",
+    "    [2, 3],\n",
+    "    [2, 5],\n",
+    "    [3, 4],\n",
+    "    [5, 9]\n",
+    "])\n",
+    "t = np.array([1, 5, 6, 8])\n",
+    "\n",
+    "# 最適なパラメータの計算\n",
+    "model.fit(X, t)"
+   ],
+   "execution_count": 18,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 18
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "iWySchd_2Y47",
+    "colab_type": "text"
+   },
+   "source": [
+    "求まったパラメータの検証結果を以下のようにして確認することができます．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "vn_lB9C_2Y48",
+    "colab_type": "code",
+    "outputId": "3327e9f7-7bc5-4760-88d7-22ca171870e6",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "model.score(X, t)"
+   ],
+   "execution_count": 19,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "0.6923076923076923"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 19
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "lzM69ESp2Y5E",
+    "colab_type": "text"
+   },
+   "source": [
+    "`LinearRegression` クラスのオブジェクトが持つ `score()` メソッドを呼ぶと，以下の式で示される，**決定係数**とよばれる指標が計算され，結果が返されます．\n",
+    "\n",
+    "$$\n",
+    "R^{2} = 1 - \\dfrac{\\sum_{i}\\left( t_{i} - y_{i} \\right)^{2}}{\\sum_{i}\\left( t_{i} - \\bar{t} \\right)^{2}}\n",
+    "$$\n",
+    "\n",
+    "Scikit-learnは，よく使う機械学習手法を簡単に切り替えて使えるよう，統一されたインターフェースで様々な機械学習手法が実装されています．\n",
+    "Scikit-learnが好まれる理由の一つには，様々なアルゴリズムが「`.fit()`で学習，`.score()`で検証」という同じインターフェースから利用できることが挙げられるでしょう．\n",
+    "\n",
+    "また，アルゴリズムによって内容は多少異なりますが，パラメータも `model` オブジェクトに属性として格納されているため，学習後に確認することができます．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "mkj5j0as2Y5F",
+    "colab_type": "code",
+    "outputId": "1cd7eb57-16b8-4cdc-94c8-1431b4e812aa",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "# パラメータw\n",
+    "model.coef_"
+   ],
+   "execution_count": 20,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "array([0.71428571, 0.57142857])"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 20
+    }
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "XUFluRmk2Y5L",
+    "colab_type": "code",
+    "outputId": "1e923583-08cc-460b-b8ea-c4a17e48f8c7",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "# バイアスb\n",
+    "model.intercept_"
+   ],
+   "execution_count": 21,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "-0.14285714285714235"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 21
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "ZXxRn6-G2Y5W",
+    "colab_type": "text"
+   },
+   "source": [
+    "### Scikit-learn 応用編\n",
+    "\n",
+    "Scikit-learnは機械学習の実装を支援する多くの機能を兼ね備えています．本節では，サンプルデータセットの使用方法，及びデータセットの分割方法について紹介していきます．\n",
+    "\n",
+    "#### サンプルデータセットの使用\n",
+    "\n",
+    "まずはじめにサンプルデータセットの取り扱いを紹介します．\n",
+    "Scikit-learnでは，幾つかのデータセットが提供されています．\n",
+    "今回はその中から，米国ボストン市郊外における地域別の物件価格のデータセットを使用することにします．\n",
+    "\n",
+    "このデータセットには 506 件のデータが登録されており，各サンプルには対象地域の平均物件価格と，それに紐づく情報として対象地域の平均的な物件情報（一戸あたりの部屋数，築年数，雇用施設からの距離など），人口統計情報（低所得者の割合，教師あたりの生徒数など），生活環境に関する情報（犯罪発生率など）などが含まれています．\n",
+    "このデータセットを利用して，物件や人口統計などの情報から，平均物件価格を予測するモデルを構築してみましょう．\n",
+    "\n",
+    "入力変数は全部で13種類あり，詳細は以下の通りです．\n",
+    "\n",
+    "* CRIM : 人口$1$人あたりの犯罪発生率\n",
+    "* ZN : $25,000$平方フィート以上の住宅区画が占める割合\n",
+    "* INDUS : 非小売業が占める面積の割合\n",
+    "* CHAS : チャールズ川に関するダミー変数 (1 : 川沿い，0 : それ以外)\n",
+    "* NOX : 窒素酸化物の濃度\n",
+    "* RM : 住居あたりの平均部屋数\n",
+    "* AGE : 1940年以前に建てられた物件の割合\n",
+    "* DIS : 5つのボストン雇用施設からの重み付き距離\n",
+    "* RAD : 都心部の幹線道路へのアクセス指数\n",
+    "* TAX : \\$ $10,000$あたりの固定資産税の割合\n",
+    "* PTRATIO : 教師1人あたりの生徒数\n",
+    "* B : 黒人の比率を表す指数\n",
+    "* LSTAT : 低所得者の割合\n",
+    "\n",
+    "それでは， `load_boston()` 関数を実行して，データセットを読み込みましょう．\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "pwlomQyI2Y5Y",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "from sklearn.datasets import load_boston"
+   ],
+   "execution_count": 22,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "LbYctuQb2Y5b",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "boston = load_boston()"
+   ],
+   "execution_count": 23,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "8dC8gbSa2Y5f",
+    "colab_type": "text"
+   },
+   "source": [
+    "`boston` はPythonの辞書と同じインターフェースが備わっており，`'data'` キーに入力値が，`'target'` キーに目標値が格納されています．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "A1_Sk-Zg2Y5h",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "X = boston['data']\n",
+    "t = boston['target']"
+   ],
+   "execution_count": 24,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "BOx8YETS2Y5o",
+    "colab_type": "code",
+    "outputId": "a8a38b75-e779-4f06-c1ff-8e7a88e270cc",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 143
+    }
+   },
+   "source": [
+    "print(X)"
+   ],
+   "execution_count": 25,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[[6.3200e-03 1.8000e+01 2.3100e+00 ... 1.5300e+01 3.9690e+02 4.9800e+00]\n",
+      " [2.7310e-02 0.0000e+00 7.0700e+00 ... 1.7800e+01 3.9690e+02 9.1400e+00]\n",
+      " [2.7290e-02 0.0000e+00 7.0700e+00 ... 1.7800e+01 3.9283e+02 4.0300e+00]\n",
+      " ...\n",
+      " [6.0760e-02 0.0000e+00 1.1930e+01 ... 2.1000e+01 3.9690e+02 5.6400e+00]\n",
+      " [1.0959e-01 0.0000e+00 1.1930e+01 ... 2.1000e+01 3.9345e+02 6.4800e+00]\n",
+      " [4.7410e-02 0.0000e+00 1.1930e+01 ... 2.1000e+01 3.9690e+02 7.8800e+00]]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "mEMzGp3p2Y5u",
+    "colab_type": "code",
+    "outputId": "26766589-d270-4386-c60b-97dba21b8b0a",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 683
+    }
+   },
+   "source": [
+    "print(t)"
+   ],
+   "execution_count": 26,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[24.  21.6 34.7 33.4 36.2 28.7 22.9 27.1 16.5 18.9 15.  18.9 21.7 20.4\n",
+      " 18.2 19.9 23.1 17.5 20.2 18.2 13.6 19.6 15.2 14.5 15.6 13.9 16.6 14.8\n",
+      " 18.4 21.  12.7 14.5 13.2 13.1 13.5 18.9 20.  21.  24.7 30.8 34.9 26.6\n",
+      " 25.3 24.7 21.2 19.3 20.  16.6 14.4 19.4 19.7 20.5 25.  23.4 18.9 35.4\n",
+      " 24.7 31.6 23.3 19.6 18.7 16.  22.2 25.  33.  23.5 19.4 22.  17.4 20.9\n",
+      " 24.2 21.7 22.8 23.4 24.1 21.4 20.  20.8 21.2 20.3 28.  23.9 24.8 22.9\n",
+      " 23.9 26.6 22.5 22.2 23.6 28.7 22.6 22.  22.9 25.  20.6 28.4 21.4 38.7\n",
+      " 43.8 33.2 27.5 26.5 18.6 19.3 20.1 19.5 19.5 20.4 19.8 19.4 21.7 22.8\n",
+      " 18.8 18.7 18.5 18.3 21.2 19.2 20.4 19.3 22.  20.3 20.5 17.3 18.8 21.4\n",
+      " 15.7 16.2 18.  14.3 19.2 19.6 23.  18.4 15.6 18.1 17.4 17.1 13.3 17.8\n",
+      " 14.  14.4 13.4 15.6 11.8 13.8 15.6 14.6 17.8 15.4 21.5 19.6 15.3 19.4\n",
+      " 17.  15.6 13.1 41.3 24.3 23.3 27.  50.  50.  50.  22.7 25.  50.  23.8\n",
+      " 23.8 22.3 17.4 19.1 23.1 23.6 22.6 29.4 23.2 24.6 29.9 37.2 39.8 36.2\n",
+      " 37.9 32.5 26.4 29.6 50.  32.  29.8 34.9 37.  30.5 36.4 31.1 29.1 50.\n",
+      " 33.3 30.3 34.6 34.9 32.9 24.1 42.3 48.5 50.  22.6 24.4 22.5 24.4 20.\n",
+      " 21.7 19.3 22.4 28.1 23.7 25.  23.3 28.7 21.5 23.  26.7 21.7 27.5 30.1\n",
+      " 44.8 50.  37.6 31.6 46.7 31.5 24.3 31.7 41.7 48.3 29.  24.  25.1 31.5\n",
+      " 23.7 23.3 22.  20.1 22.2 23.7 17.6 18.5 24.3 20.5 24.5 26.2 24.4 24.8\n",
+      " 29.6 42.8 21.9 20.9 44.  50.  36.  30.1 33.8 43.1 48.8 31.  36.5 22.8\n",
+      " 30.7 50.  43.5 20.7 21.1 25.2 24.4 35.2 32.4 32.  33.2 33.1 29.1 35.1\n",
+      " 45.4 35.4 46.  50.  32.2 22.  20.1 23.2 22.3 24.8 28.5 37.3 27.9 23.9\n",
+      " 21.7 28.6 27.1 20.3 22.5 29.  24.8 22.  26.4 33.1 36.1 28.4 33.4 28.2\n",
+      " 22.8 20.3 16.1 22.1 19.4 21.6 23.8 16.2 17.8 19.8 23.1 21.  23.8 23.1\n",
+      " 20.4 18.5 25.  24.6 23.  22.2 19.3 22.6 19.8 17.1 19.4 22.2 20.7 21.1\n",
+      " 19.5 18.5 20.6 19.  18.7 32.7 16.5 23.9 31.2 17.5 17.2 23.1 24.5 26.6\n",
+      " 22.9 24.1 18.6 30.1 18.2 20.6 17.8 21.7 22.7 22.6 25.  19.9 20.8 16.8\n",
+      " 21.9 27.5 21.9 23.1 50.  50.  50.  50.  50.  13.8 13.8 15.  13.9 13.3\n",
+      " 13.1 10.2 10.4 10.9 11.3 12.3  8.8  7.2 10.5  7.4 10.2 11.5 15.1 23.2\n",
+      "  9.7 13.8 12.7 13.1 12.5  8.5  5.   6.3  5.6  7.2 12.1  8.3  8.5  5.\n",
+      " 11.9 27.9 17.2 27.5 15.  17.2 17.9 16.3  7.   7.2  7.5 10.4  8.8  8.4\n",
+      " 16.7 14.2 20.8 13.4 11.7  8.3 10.2 10.9 11.   9.5 14.5 14.1 16.1 14.3\n",
+      " 11.7 13.4  9.6  8.7  8.4 12.8 10.5 17.1 18.4 15.4 10.8 11.8 14.9 12.6\n",
+      " 14.1 13.  13.4 15.2 16.1 17.8 14.9 14.1 12.7 13.5 14.9 20.  16.4 17.7\n",
+      " 19.5 20.2 21.4 19.9 19.  19.1 19.1 20.1 19.9 19.6 23.2 29.8 13.8 13.3\n",
+      " 16.7 12.  14.6 21.4 23.  23.7 25.  21.8 20.6 21.2 19.1 20.6 15.2  7.\n",
+      "  8.1 13.6 20.1 21.8 24.5 23.1 19.7 18.3 21.2 17.5 16.8 22.4 20.6 23.9\n",
+      " 22.  11.9]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "HSmYtyiW2Y53",
+    "colab_type": "text"
+   },
+   "source": [
+    "NumPyの形式で入力データと教師データが格納されているため，`.shape` を使うことで行と列の数を確認できます．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "vpihJ3YW2Y55",
+    "colab_type": "code",
+    "outputId": "946f4686-d965-4e91-c864-8bc6aad0a0c2",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "X.shape"
+   ],
+   "execution_count": 27,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "(506, 13)"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 27
+    }
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "DGTdy5F42Y5_",
+    "colab_type": "code",
+    "outputId": "164746d6-9551-46f9-a82a-918a7af5258a",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "t.shape"
+   ],
+   "execution_count": 28,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "(506,)"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 28
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "h8kyb0Dg2Y6F",
+    "colab_type": "text"
+   },
+   "source": [
+    "入力値 `X` には，506 件分のデータが格納されていることが分かりました．\n",
+    "各サンプルは 13 次元のベクトルとなっており，これはそれぞれが 13 種類の入力変数を持っていることを表しています．\n",
+    "目標値 `t` には，入力変数に対応する出力変数の値として，平均物件価格のスカラー値が 506 件分格納されています．\n",
+    "\n",
+    "#### データセットの分割\n",
+    "\n",
+    "つぎに，このデータセットを **訓練データセット** と **テストデータセット** に分割する方法をご紹介します．\n",
+    "モデルの性能の評価を訓練の時に使ったデータを使って行っても，**訓練中に見たことが無い未知のデータに対してもうまく働くかどうか**が分かりません．\n",
+    "多くの場合機械学習手法の目標は既知のデータから一般的な法則やパターンを見つけ出し，未知のデータに対しても正しく予測等が行えるようになることであるので，訓練済みモデルの評価は訓練には用いていない（モデルにとって）未知のデータ，**テストデータ**を使って行う必要があります．\n",
+    "訓練データとテストデータは，用意したデータセットを分割して作成することができます．\n",
+    "この方法を **ホールドアウト法** と呼びます．\n",
+    "\n",
+    "Scikit-learnではデータセットを訓練用とテスト用に分割するための機能が用意されています．\n",
+    "これを用いて上で読み込んだデータセットを２つに分割してみましょう．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "R5CU-k1T2Y6G",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "from sklearn.model_selection import train_test_split"
+   ],
+   "execution_count": 29,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "76dR6BcP2Y6K",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "X_train, X_test, t_train, t_test = train_test_split(X, t, test_size=0.3, random_state=0)"
+   ],
+   "execution_count": 30,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "pxBmPpxi2Y6R",
+    "colab_type": "code",
+    "outputId": "416a3093-671a-4924-c683-d5fe6686f757",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "X_train.shape"
+   ],
+   "execution_count": 31,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "(354, 13)"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 31
+    }
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "qyXYZGvv2Y6Y",
+    "colab_type": "code",
+    "outputId": "75f45a23-d247-4abe-a060-8259a3412b4c",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "X_test.shape"
+   ],
+   "execution_count": 32,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "(152, 13)"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 32
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "tJyIbtj42Y6b",
+    "colab_type": "text"
+   },
+   "source": [
+    "`train_test_split()` 関数の引数 `test_size` にはテスト用に使うデータ数のデータセット全体のデータ数に対する比率を指定します．\n",
+    "$0.3$ と指定すると全体の $30$% がテストデータセットが持つデータの数となります．\n",
+    "また，`random_state` は乱数のシードであり，これに与える値を固定すると，データセット中からどのデータを訓練用に割り振り，どのデータをテスト用に割り振るか，という選択が固定されます．\n",
+    "この選択はランダムに行われますが，乱数シードを固定すればそのランダムな選択を再現することができるためです．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "1kpXJt_-2Y6d",
+    "colab_type": "text"
+   },
+   "source": [
+    "それでは，訓練データを用いて学習を行います．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "wQ8SwP0q2Y6e",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "model = LinearRegression()"
+   ],
+   "execution_count": 33,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "PJlBMdGY2Y6i",
+    "colab_type": "code",
+    "outputId": "ad9917e0-1a7b-4967-fd80-7a85146b1938",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "model.fit(X_train, t_train)"
+   ],
+   "execution_count": 34,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 34
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "_BARQrTC2Y6q",
+    "colab_type": "text"
+   },
+   "source": [
+    "訓練が終了しました．\n",
+    "`score()` を用いたモデルの検証を訓練データとテストデータの両方に対して行ってみましょう．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "YQdUNZ6S2Y6r",
+    "colab_type": "code",
+    "outputId": "17689791-e3de-454c-dae8-0dc051c40ac9",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "# 訓練データ\n",
+    "model.score(X_train, t_train)"
+   ],
+   "execution_count": 35,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "0.7645451026942549"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 35
+    }
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "77Nms7tI2Y6u",
+    "colab_type": "code",
+    "outputId": "2193ce70-5b45-4525-e5dc-d59d820de7f3",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "# テストデータ\n",
+    "model.score(X_test, t_test)"
+   ],
+   "execution_count": 36,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "0.6733825506400171"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 36
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "XuMZqq_w2Y6y",
+    "colab_type": "text"
+   },
+   "source": [
+    "テストデータだけでなく，訓練データでもモデルの検証を行うことで良いモデルの獲得に失敗している場合はその原因について考察するのに役立つ情報を得ることができることがあります．\n",
+    "\n",
+    "#### アンダーフィッティングとオーバーフィッティング\n",
+    "\n",
+    "モデルが訓練データに対してすら良い精度で予測できないという状態は，**アンダーフィッティング**と呼ばれます．\n",
+    "アンダーフィッティングが起きている場合，現状の機械学習手法もしくはモデルではうまくデータの特徴を捉えられていないと考えられ，アルゴリズムを変更したり，入力データの特徴をより適切に表現できるような変換をモデルの訓練の前に施すことを考えるなど，新たな工夫を加える必要があります．\n",
+    "一方，訓練データに対しては良い精度で予測が行えるモデルになっているにも関わらず，テストデータに対してのパフォーマンスが良くない，という場合は，モデルが訓練データセットに**オーバーフィッティング**していると言います．\n",
+    "この場合，訓練データにあまりにも特化したモデルになってしまっている可能性があります．\n",
+    "この問題を避ける方法が現在も活発に研究されていますが，よく行われる対策としては正則化（パラメータが取りうる値に制約をもたせるなど）やモデルの自由度（パラメータ数など）の調整があります．\n",
+    "また，**ハイパーパラメータ**とよばれる各アルゴリズムの動作を制御するのに使われるパラメータ値を調整していくことも行われます．\n",
+    "このように，一口に望ましい結果が得られないといっても，原因としては様々なものがあり得るため，訓練データセットとテストデータセットの両方に対して訓練済みモデルの性能評価を行っておくことは，その原因を探るにあたって重要になります．"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "CbxSUdp7FtYa",
+    "colab_type": "text"
+   },
+   "source": [
+    "#### Scikit-learnを使った前処理\n",
+    "\n",
+    "Scikit-learnを用いると，データに対する前処理も簡単に行うことができます．\n",
+    "例えば，訓練データセットの入力値の集合が，平均0，標準偏差1となるように変換を行う場合は，以下のようにします．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "7nQiaY0-2Y6z",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "from sklearn.preprocessing import StandardScaler"
+   ],
+   "execution_count": 37,
+   "outputs": []
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "_h7JFA1n2Y62",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "# インスタンス化\n",
+    "scaler = StandardScaler()"
+   ],
+   "execution_count": 38,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "GMHDNYMtzaWF",
+    "colab_type": "text"
+   },
+   "source": [
+    "訓練データを用いて，平均と分散を計算します．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "qIm7zbMO2Y66",
+    "colab_type": "code",
+    "outputId": "e7f83d7d-1689-4573-c9ac-b50d738a53fe",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 35
+    }
+   },
+   "source": [
+    "# 平均と分散を計算\n",
+    "scaler.fit(X_train)"
+   ],
+   "execution_count": 39,
+   "outputs": [
+    {
+     "output_type": "execute_result",
+     "data": {
+      "text/plain": [
+       "StandardScaler(copy=True, with_mean=True, with_std=True)"
+      ]
+     },
+     "metadata": {
+      "tags": []
+     },
+     "execution_count": 39
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "8DYxLtVDzexf",
+    "colab_type": "text"
+   },
+   "source": [
+    "計算された平均，分散を用いて，訓練データ及びテストデータをスケーリングします．\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "hIERf0fi2Y7A",
+    "colab_type": "code",
+    "colab": {}
+   },
+   "source": [
+    "# 変換\n",
+    "X_train_s = scaler.transform(X_train)\n",
+    "X_test_s  = scaler.transform(X_test)"
+   ],
+   "execution_count": 40,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "vectWAXvzWC5",
+    "colab_type": "text"
+   },
+   "source": [
+    "テストデータをスケーリングする際にも，訓練データの平均・分散を利用していることに注意しましょう．\n",
+    "テストデータはモデルにとっては未知のデータセットでなければならないにも関わらず，訓練データとテストデータを合わせた全データの平均・分散を利用して訓練データのスケーリングを行ってしまうと，本来知りえないはずのテストデータの情報をモデルに間接的に与えてしまうことになります．\n",
+    "それを避けるために，訓練データのみを用いて統計値の計算を行い，これを用いてスケーリングを行っています．\n",
+    "\n",
+    "訓練データとテストデータでは平均・分散が異なるため，訓練データの平均・分散でスケーリングされたテストデータについては，その平均が$0$，分散が$1$になるとは限らないことに注意してください．"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "6sXWX8bm2Y7C",
+    "colab_type": "code",
+    "outputId": "7be3bff5-3bc0-4521-d5f6-b1043e04971f",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 251
+    }
+   },
+   "source": [
+    "print(X_train_s)"
+   ],
+   "execution_count": 41,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[[-0.20735619 -0.49997924  1.54801583 ...  1.2272573   0.42454294\n",
+      "   3.10807269]\n",
+      " [-0.38886492  0.34677427 -0.58974728 ...  0.05696346  0.40185312\n",
+      "  -0.66643035]\n",
+      " [-0.33573486 -0.49997924  1.54801583 ...  1.2272573   0.39846135\n",
+      "   0.63936662]\n",
+      " ...\n",
+      " [-0.38450355 -0.49997924 -0.15303077 ... -0.30312696  0.39659002\n",
+      "  -0.30284441]\n",
+      " [-0.37511786 -0.49997924 -0.59690657 ... -0.25811566  0.37588849\n",
+      "   0.89967717]\n",
+      " [-0.38592298 -0.49997924 -1.00641779 ... -0.84326258  0.42454294\n",
+      "   0.31822262]]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "code",
+   "metadata": {
+    "id": "MKqbj6if2Y7H",
+    "colab_type": "code",
+    "outputId": "1d3e3d1d-7447-4883-80b9-7ae2aa4ca095",
+    "colab": {
+     "base_uri": "https://localhost:8080/",
+     "height": 251
+    }
+   },
+   "source": [
+    "print(X_test_s)"
+   ],
+   "execution_count": 42,
+   "outputs": [
+    {
+     "output_type": "stream",
+     "text": [
+      "[[-0.39454262 -0.49997924 -1.12239824 ... -0.70822867  0.17086147\n",
+      "  -0.72160487]\n",
+      " [ 0.70419882 -0.49997924  1.00534187 ...  0.77714428  0.0648977\n",
+      "  -0.41177872]\n",
+      " [-0.38890688 -0.49997924  0.4025299  ... -0.93328518  0.38758427\n",
+      "  -0.27454978]\n",
+      " ...\n",
+      " [ 1.61285743 -0.49997924  1.00534187 ...  0.77714428  0.42454294\n",
+      "   2.59876943]\n",
+      " [-0.34350332 -0.49997924 -0.1687812  ... -0.03305915  0.42454294\n",
+      "  -1.11772962]\n",
+      " [-0.39902507 -0.49997924 -1.27417512 ...  0.10197476  0.39202867\n",
+      "  -1.02294263]]\n"
+     ],
+     "name": "stdout"
+    }
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "id": "T-_U59bUNgLB",
+    "colab_type": "text"
+   },
+   "source": [
+    "この他，Scikit-learnはロジスティック回帰やサポートベクターマシン，ランダムフォレストなど様々な機械学習手法をサポートしています．\n",
+    "\n",
+    "それらについても，前節までで紹介した重回帰分析を行う場合と同様に，モデルをインスタンス化し，学習データを引数に与えて `.fit()` 関数で訓練を行い，`.score()` 関数で結果を評価できるようになっています．\n",
+    "\n",
+    "より詳しく知りたい方は[Scikit-learn](https://scikit-learn.org/)サイトや解説サイトなどを参照してください．"
+   ]
+  }
+ ]
+}
