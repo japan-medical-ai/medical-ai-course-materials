@@ -42,6 +42,15 @@ docker pull mitmul/medical-ai-course-materials:build
 docker run -v $PWD/build.sh:/build.sh --rm -t mitmul/medical-ai-course-materials:build bash build.sh
 ```
 
+## ローカルで確認
+
+```bash
+cd docs
+python -m http.server
+```
+
+Then open http://0.0.0.0:8000/
+
 ## デプロイ
 
 ```bash
