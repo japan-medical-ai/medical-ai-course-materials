@@ -1,103 +1,58 @@
 
-
 <!DOCTYPE html>
+
 <!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>7. 実践編: ディープラーニングを使った配列解析 &mdash; メディカルAI専門コース オンライン講義資料  documentation</title>
-  
-
-  
-  
-  
-  
-
-  
-
-  
-  
-    
-
-  
-
-  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" href="08_Sequential_Data_Analysis_with_Deep_Learning.html" />
-    <link rel="prev" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" href="06_Blood_Cell_Detection.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
-  <script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>7. 実践編: ディープラーニングを使った配列解析 — メディカルAI専門コース オンライン講義資料  documentation</title>
+<link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="08_Sequential_Data_Analysis_with_Deep_Learning.html" rel="next" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析"/>
+<link href="06_Blood_Cell_Detection.html" rel="prev" title="6. 実践編: 血液の顕微鏡画像からの細胞検出"/>
+<script src="../_static/js/modernizr.min.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
+<script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
   
     gtag('config', 'UA-797798-11');
   </script>
-
-  <meta name="description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。">
-  <meta property="og:title" content="メディカルAI専門コース オンライン講義資料">
-  <meta property="og:description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://japan-medical-ai.github.io/medical-ai-course-materials/">
-  <meta property="og:image" content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@PreferredNetJP">
-  <meta name="twitter:creator" content="@PreferredNetJP">
-
+<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" name="description"/>
+<meta content="メディカルAI専門コース オンライン講義資料" property="og:title"/>
+<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://japan-medical-ai.github.io/medical-ai-course-materials/" property="og:url"/>
+<meta content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png" property="og:image"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="@PreferredNetJP" name="twitter:site"/>
+<meta content="@PreferredNetJP" name="twitter:creator"/>
 </head>
-
 <body class="wy-body-for-nav">
-
-   
-  <div class="wy-grid-for-nav">
-
-    
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
-          
-
-          
-            <a href="../index.html" class="icon icon-home"> メディカルAI専門コース オンライン講義資料
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a class="icon icon-home" href="../index.html"> メディカルAI専門コース オンライン講義資料
           
 
           
           </a>
-
-          
-            
-            
-          
-
-          
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
 </div>
-
-          
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <ul class="current">
+</div>
+<div aria-label="main navigation" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="01_Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_Introduction_to_Neural_Network.html">3. ニューラルネットワークの基礎</a></li>
@@ -118,76 +73,34 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="08_Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
 </ul>
-
-            
-          
-          <div style="padding-right:20px; bottom:10px;">
-            <a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
-              <img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png" />
-              <p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
-    
-      <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-      <li>7. 実践編: ディープラーニングを使った配列解析</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="../_sources/notebooks/07_DNA_Sequence_Data_Analysis.ipynb.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
-  
-  <hr/>
+<div style="padding-right:20px; bottom:10px;">
+<a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
+<img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png"/>
+<p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
+</a>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-            
-  
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
+<nav aria-label="top navigation" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="breadcrumbs navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a href="../index.html">Docs</a> »</li>
+<li>7. 実践編: ディープラーニングを使った配列解析</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/notebooks/07_DNA_Sequence_Data_Analysis.ipynb.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
 <style>
 /* CSS for nbsphinx extension */
 
@@ -410,7 +323,7 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <div class="section" id="実践編:-ディープラーニングを使った配列解析">
-<h1>7. 実践編: ディープラーニングを使った配列解析<a class="headerlink" href="#実践編:-ディープラーニングを使った配列解析" title="Permalink to this headline">¶</a></h1>
+<h1>7. 実践編: ディープラーニングを使った配列解析<a class="headerlink" href="#実践編:-ディープラーニングを使った配列解析" title="Permalink to this headline">¶</a></h1><p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/07_DNA_Sequence_Data_Analysis.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
 <p>近年，次世代シーケンサ（NGS; Next Generation Sequencer）の発展により，遺伝子の塩基配列が高速，大量，安価に読み取られるようになってきました．</p>
 <p>ここではディープラーニングを用いて，DNA配列からエピジェネティックな影響や転写制御を予測する問題に取り組みます．ディープラーニングは複雑なモデルを表現でき，遠距離の影響も考慮することができ，より高い精度で予測することが期待できます．</p>
 <div class="section" id="環境構築">
@@ -433,7 +346,7 @@ div.rendered_html tbody tr:hover {
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 
 <span class="n">chainer</span><span class="o">.</span><span class="n">print_runtime_info</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;matplotlib:&#39;</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'matplotlib:'</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -484,7 +397,7 @@ matplotlib: 3.1.1
 <h2>7.2. 配列解析について<a class="headerlink" href="#配列解析について" title="Permalink to this headline">¶</a></h2>
 <p>次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome Wide Association Study;
 ゲノムワイド関連解析）が広がってきました．しかし，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．</p>
-<p><img alt="エピゲノム解析概略図（Encode Projectより引用）" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png" /></p>
+<p><img alt="エピゲノム解析概略図（Encode Projectより引用）" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png"/></p>
 <p>例えば，ChIP-Seq（クロマチン免疫沈降シーケンス）は，ChIP（クロマチン免疫沈降）と高速DNAシーケンスを組み合わせることで，ヒストン修飾状況や転写調節因子の結合部位を網羅的（ゲノムワイド）に同定する手法です．これにより，転写調節機能を司るヒストン修飾やDNA結合タンパクの結合部位をゲノム全体で同定することができ，遺伝子変異だけでは説明しきれない細胞の表現型に関与する膨大な情報の取得が可能になります．</p>
 <p>そこで本節では，ChIP-Seqにより得られた転写調節因子の結合部位に当たるDNA塩基配列のパターンを深層学習により学習することで，任意のDNA塩基配列に対して特定の転写調節因子との結合可能性の予測を行います．このアプローチはゲノム全体のヒストン修飾部位の予測やオープンクロマチン領域の予測など幅広い生命現象を統一的に取り扱うことを可能とします。</p>
 <p>この課題を機械学習で取り扱う際の技術的な難しさの一つが，DNA塩基配列の長距離相互作用と呼ばれる現象です．これは，核内のDNAは複雑に折り畳まれた様式で存在しており，塩基配列上の並びとしては遠く離れた2つの領域が空間的には近い距離に位置し，転写調節因子の結合に影響を及ぼすことがあるということです．例えば，今回対象とする問題では10万bp (ベース・ペア：DNAを構成する塩基を数える単位)
@@ -565,7 +478,7 @@ drwxr-xr-x 1 root root 4.0K Dec 10 17:34 sample_data
 <span></span><span class="kn">import</span> <span class="nn">h5py</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;seq.h5&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'seq.h5'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">hf</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">hf</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">hf</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 </pre></div>
@@ -585,13 +498,13 @@ valid_in (500, 131072, 4) bool
 valid_out (500, 1024, 10) float16
 </pre></div></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;target_labels&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;S29&#39;</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;test_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&lt;f2&#39;</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;train_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&lt;f2&#39;</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_in&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">))</span>
-<span class="p">(</span><span class="sa">u</span><span class="s1">&#39;valid_out&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;&lt;f2&#39;</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="sa">u</span><span class="s1">'target_labels'</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'S29'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'test_in'</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'bool'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'test_out'</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'&lt;f2'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'train_in'</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'bool'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'train_out'</span><span class="p">,</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'&lt;f2'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'valid_in'</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">131072</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'bool'</span><span class="p">))</span>
+<span class="p">(</span><span class="sa">u</span><span class="s1">'valid_out'</span><span class="p">,</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">dtype</span><span class="p">(</span><span class="s1">'&lt;f2'</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>h5py形式のファイルをnumpyデータとして扱うには，コピーする必要があります．以下のコードは'train_in'というキーに対応するテンソルデータをnumpyデータとして読み出し，そのデータの一部を表示します．</p>
@@ -605,9 +518,9 @@ valid_out (500, 1024, 10) float16
 <span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;seq.h5&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">hf</span><span class="p">[</span><span class="s1">&#39;train_out&#39;</span><span class="p">][:</span><span class="mi">100</span><span class="p">]</span>
-    <span class="n">fig_size</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span>
+<span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'seq.h5'</span><span class="p">)</span> <span class="k">as</span> <span class="n">hf</span><span class="p">:</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">hf</span><span class="p">[</span><span class="s1">'train_out'</span><span class="p">][:</span><span class="mi">100</span><span class="p">]</span>
+    <span class="n">fig_size</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"figure.figsize"</span><span class="p">]</span>
     <span class="n">fig_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
     <span class="n">fig_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
@@ -619,7 +532,7 @@ valid_out (500, 1024, 10) float16
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_07_DNA_Sequence_Data_Analysis_13_0.png" src="../_images/notebooks_07_DNA_Sequence_Data_Analysis_13_0.png" />
+<img alt="../_images/notebooks_07_DNA_Sequence_Data_Analysis_13_0.png" src="../_images/notebooks_07_DNA_Sequence_Data_Analysis_13_0.png"/>
 </div>
 </div>
 </div>
@@ -637,11 +550,11 @@ valid_out (500, 1024, 10) float16
 <div class="section" id="Dilated-Convolution">
 <h3>7.4.2. Dilated Convolution<a class="headerlink" href="#Dilated-Convolution" title="Permalink to this headline">¶</a></h3>
 <p>従来の畳み込み層を使って配列解析をする場合を考えてみます． 以下の図のようにある位置の入力の情報は各層で隣接する位置からしか読み込まれません．どのくらい離れた位置から情報を取得するかはカーネルサイズによって決定され，カーネルサイズがKの時，Dだけ離れた距離にある情報を取得するためにはD/K層必要となります．今回の問題の場合Dは数百から数万，Kは3や5といった値ですので必要な層数も百から万といった数になってしまい現実的ではありません．</p>
-<p><img alt="従来の畳み込み層の計算イメージ" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png" /></p>
+<p><img alt="従来の畳み込み層の計算イメージ" src="http://musyoku.github.io/images/post/2016-09-17/naive_conv.png"/></p>
 <p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WaveNet: A Generative Model for Raw Audio</a>より引用</p>
 <p>それに対し，Dilated Convolution（atrous convolutionやconvolution weith holesともよばれます）は読み取る場所をずらしたところからうけとります．例えばDilation=4の場合，4だけ離れた位置から情報を受け取ります．このDilationを倍々にしていき，カーネルサイズを2とした場合，Dだけ離れた位置の情報を受取るには <span class="math">\(\log_2 D\)</span>層だけ必要になります．今回のDが数百から数万の場合，10から20層程度あれば済むことになります．</p>
 <p>今回はこのDilated Convolutionを使うことで遠距離にある情報を考慮できるモデルを作成します．</p>
-<p><img alt="Dilated Convolutionの計算イメージ" src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif" /></p>
+<p><img alt="Dilated Convolutionの計算イメージ" src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig2-Anim-160908-r01.gif"/></p>
 <p><a class="reference external" href="https://deepmind.com/blog/wavenet-generative-model-raw-audio/">WAVENET: A GENERATIVE MODEL FOR RAW AUDIO, blog</a>より</p>
 </div>
 <div class="section" id="ブロック">
@@ -694,11 +607,11 @@ valid_out (500, 1024, 10) float16
             <span class="n">in_ch</span> <span class="o">=</span> <span class="mi">4</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">squeeze_params</span><span class="p">):</span>
                 <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">do_rate</span> <span class="o">=</span> <span class="n">param</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;s_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">SqueezeBlock</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">do_rate</span><span class="p">))</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"s_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">SqueezeBlock</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">do_rate</span><span class="p">))</span>
                 <span class="n">in_ch</span> <span class="o">=</span> <span class="n">out_ch</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dilated_params</span><span class="p">):</span>
                 <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">dilated</span><span class="p">,</span> <span class="n">do_rate</span> <span class="o">=</span> <span class="n">param</span>
-                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;d_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">DilatedBlock</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">dilated</span><span class="p">,</span> <span class="n">do_rate</span><span class="p">))</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"d_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">DilatedBlock</span><span class="p">(</span><span class="n">in_ch</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">dilated</span><span class="p">,</span> <span class="n">do_rate</span><span class="p">))</span>
                 <span class="n">in_ch</span> <span class="o">+=</span> <span class="n">out_ch</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">l</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">ConvolutionND</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_targets</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
@@ -709,11 +622,11 @@ valid_out (500, 1024, 10) float16
         <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">xp</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_squeeze</span><span class="p">):</span>
-            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;s_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)](</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">"s_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)](</span><span class="n">h</span><span class="p">)</span>
 
         <span class="n">hs</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_dilated</span><span class="p">):</span>
-            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;d_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)](</span><span class="n">hs</span><span class="p">)</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">"d_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)](</span><span class="n">hs</span><span class="p">)</span>
             <span class="n">hs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
 
         <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">l</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
@@ -738,7 +651,7 @@ valid_out (500, 1024, 10) float16
 <span class="k">class</span> <span class="nc">WNConvolutionND</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">ConvolutionND</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">WNConvolutionND</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_param</span><span class="p">(</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_param</span><span class="p">(</span><span class="s1">'g'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="n">norm</span>
@@ -786,7 +699,7 @@ valid_out (500, 1024, 10) float16
 </pre></div>
 </div>
 </div>
-<p><img alt="ネットワーク構造" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/7/network.png" /></p>
+<p><img alt="ネットワーク構造" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/7/network.png"/></p>
 <p>WeightNormalization[2]はパラメータの表現を長さと向きに分解して表現する手法で，今回の系列問題のような場合に使われる正規化法です．コード中ではWeightNormalizationが適用された畳み込み層である<code class="docutils literal"><span class="pre">WNConvolutionND</span></code>が定義されています.</p>
 <p>SqueezeBlockは配列を縮めていき，長さが<span class="math">\(2^{17}\)</span>の配列を<span class="math">\(2^{10}\)</span>に縮めるためのブロックです（上図）． 1次元配列を扱うためWNConvolutionNDを使い，最初の引数で1次元配列であることを示す<code class="docutils literal"><span class="pre">1</span></code>を指定しています． また，活性化関数では<span class="math">\(h = Wx * sigmoid(Ux)\)</span>と表されるGated Linear
 Unit[3]を利用しています．計算では効率化のため，WxとUxを別々に計算するのではなく2倍の出力チャンネル数を持つConvolutionを適用した後に出力結果をチャンネル方向に２つに分割し<span class="math">\((Wx, Ux)\)</span>，片方にsigmoid関数を適用した後，それらを要素毎にかけ合わせます．</p>
@@ -857,7 +770,7 @@ CosineSchedulerはCosine関数の0度から90度までの変化のように学�
 
 <span class="k">class</span> <span class="nc">CosineScheduler</span><span class="p">(</span><span class="n">training</span><span class="o">.</span><span class="n">Extension</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="n">init_val</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">n_decays</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">n_warmups</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="o">=</span><span class="s1">'lr'</span><span class="p">,</span> <span class="n">init_val</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">n_decays</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">n_warmups</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span> <span class="o">=</span> <span class="n">attr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_target</span> <span class="o">=</span> <span class="n">target</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
@@ -880,7 +793,7 @@ CosineSchedulerはCosine関数の0度から90度までの変化のように学�
 
 
     <span class="k">def</span> <span class="nf">_get_optimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="ow">or</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="ow">or</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">'main'</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_update_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -937,16 +850,16 @@ CosineSchedulerはCosine関数の0度から90度までの変化のように学�
 <span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">training</span>
 <span class="kn">import</span> <span class="nn">h5py</span>
 
-<span class="n">ml_h5</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">&#39;seq.h5&#39;</span><span class="p">)</span>
+<span class="n">ml_h5</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="s1">'seq.h5'</span><span class="p">)</span>
 
-<span class="n">train_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">&#39;train_in&#39;</span><span class="p">]</span>
-<span class="n">train_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">&#39;train_out&#39;</span><span class="p">]</span>
+<span class="n">train_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'train_in'</span><span class="p">]</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'train_out'</span><span class="p">]</span>
 
-<span class="n">valid_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">&#39;valid_in&#39;</span><span class="p">]</span>
-<span class="n">valid_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">&#39;valid_out&#39;</span><span class="p">]</span>
+<span class="n">valid_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'valid_in'</span><span class="p">]</span>
+<span class="n">valid_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'valid_out'</span><span class="p">]</span>
 
-<span class="n">test_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">&#39;test_in&#39;</span><span class="p">]</span>
-<span class="n">test_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">&#39;test_out&#39;</span><span class="p">]</span>
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'test_in'</span><span class="p">]</span>
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">ml_h5</span><span class="p">[</span><span class="s1">'test_out'</span><span class="p">]</span>
 
 <span class="n">ratio</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">train_x</span> <span class="o">=</span> <span class="n">train_x</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">train_x</span><span class="p">)</span><span class="o">//</span><span class="n">ratio</span><span class="p">]</span>
@@ -977,16 +890,16 @@ CosineSchedulerはCosine関数の0度から90度までの変化のように学�
 
 <span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">n_warmups</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;out&quot;</span>
-<span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">n_epochs</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">CosineScheduler</span><span class="p">(</span><span class="n">attr</span><span class="o">=</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">init_val</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">n_decays</span><span class="o">=</span><span class="n">n_epochs</span><span class="p">,</span> <span class="n">n_warmups</span><span class="o">=</span><span class="n">n_warmups</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+<span class="n">out</span> <span class="o">=</span> <span class="s2">"out"</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">n_epochs</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">CosineScheduler</span><span class="p">(</span><span class="n">attr</span><span class="o">=</span><span class="s1">'alpha'</span><span class="p">,</span> <span class="n">init_val</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">n_decays</span><span class="o">=</span><span class="n">n_epochs</span><span class="p">,</span> <span class="n">n_warmups</span><span class="o">=</span><span class="n">n_warmups</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
 
 <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">val_iter</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="mi">0</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">)))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot_object</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">&#39;model_epoch_{.updater.epoch}&#39;</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">)))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot_object</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s1">'model_epoch_{.updater.epoch}'</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
 
 <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">(</span>
-          <span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;validation/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;elapsed_time&#39;</span><span class="p">]),</span> <span class="n">trigger</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+          <span class="p">[</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'validation/main/loss'</span><span class="p">,</span> <span class="s1">'elapsed_time'</span><span class="p">]),</span> <span class="n">trigger</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
 
 <span class="c1"># trainer.extend(extensions.ProgressBar())</span>
 
@@ -1093,9 +1006,9 @@ total 14172
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">model_n_epoch</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">out_dir</span> <span class="o">=</span> <span class="s1">&#39;out&#39;</span>
+<span class="n">out_dir</span> <span class="o">=</span> <span class="s1">'out'</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">Classifier</span><span class="p">(</span><span class="n">Net</span><span class="p">())</span>
-<span class="n">chainer</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/model_epoch_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">model_n_epoch</span><span class="p">),</span> <span class="n">model</span><span class="p">)</span>
+<span class="n">chainer</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="s1">'</span><span class="si">{}</span><span class="s1">/model_epoch_</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">model_n_epoch</span><span class="p">),</span> <span class="n">model</span><span class="p">)</span>
 <span class="n">predictor</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predictor</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test_x</span><span class="p">))</span>
@@ -1129,13 +1042,13 @@ variable([1.8674504  2.004048   1.68377    ... 0.81418294 0.7608197
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">y</span> <span class="o">=</span> <span class="n">test_y_estimated</span><span class="o">.</span><span class="n">data</span>
-<span class="n">fig_size</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span>
+<span class="n">fig_size</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"figure.figsize"</span><span class="p">]</span>
 <span class="n">fig_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
 <span class="n">fig_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">b1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,</span><span class="n">i</span><span class="p">])</span>
 <span class="n">b2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">test_y</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,</span><span class="n">i</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;estimated&#39;</span><span class="p">,</span> <span class="s1">&#39;observed&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">),</span> <span class="p">(</span><span class="s1">'estimated'</span><span class="p">,</span> <span class="s1">'observed'</span><span class="p">))</span>
 
 </pre></div>
 </div>
@@ -1153,62 +1066,41 @@ variable([1.8674504  2.004048   1.68377    ... 0.81418294 0.7608197
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_07_DNA_Sequence_Data_Analysis_43_1.png" src="../_images/notebooks_07_DNA_Sequence_Data_Analysis_43_1.png" />
+<img alt="../_images/notebooks_07_DNA_Sequence_Data_Analysis_43_1.png" src="../_images/notebooks_07_DNA_Sequence_Data_Analysis_43_1.png"/>
 </div>
 </div>
 <p>時間に余裕があれば学習のn_epochsを10から30~50程度に増やしたり，層数を増やしたり，チャンネル数を増やしたりして，より高精度なモデルが学習できるのかを調べてみましょう．</p>
 <ul class="simple">
-<li>[1] &quot;Sequential regulatory activity prediction across chromosomes with convolutional neural networks&quot;, D. R. Kelly and et al., Genome Res. 2018. 28: 739-750</li>
-<li>[2] &quot;Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks&quot;, T. Salimans and et al., arXiv:1602.07868</li>
-<li>[3] &quot;Language Modeling with Gated Convolutional Networks&quot;, Y. N. Dauphin and et al., arXiv:1612.08083</li>
-<li>[4] &quot;Densely Connected Convolutional Networks&quot;, G. Huang, and et al., CVPR 2017</li>
+<li>[1] "Sequential regulatory activity prediction across chromosomes with convolutional neural networks", D. R. Kelly and et al., Genome Res. 2018. 28: 739-750</li>
+<li>[2] "Weight Normalization: A Simple Reparameterization to Accelerate Training of Deep Neural Networks", T. Salimans and et al., arXiv:1602.07868</li>
+<li>[3] "Language Modeling with Gated Convolutional Networks", Y. N. Dauphin and et al., arXiv:1612.08083</li>
+<li>[4] "Densely Connected Convolutional Networks", G. Huang, and et al., CVPR 2017</li>
 </ul>
 </div>
 </div>
 </div>
-
-
-           </div>
-           
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="08_Sequential_Data_Analysis_with_Deep_Learning.html" class="btn btn-neutral float-right" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="06_Blood_Cell_Detection.html" class="btn btn-neutral" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
-        &copy; Copyright 2018, Preferred Networks &amp; キカガク
+</div>
+</div>
+<footer>
+<div aria-label="footer navigation" class="rst-footer-buttons" role="navigation">
+<a accesskey="n" class="btn btn-neutral float-right" href="08_Sequential_Data_Analysis_with_Deep_Learning.html" rel="next" title="8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析">Next <span class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="p" class="btn btn-neutral" href="06_Blood_Cell_Detection.html" rel="prev" title="6. 実践編: 血液の顕微鏡画像からの細胞検出"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>
+        © Copyright 2018, Preferred Networks &amp; キカガク
 
     </p>
-  </div>
+</div>
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-  
-
-
-  
-
-    
-    
-      <script type="text/javascript">
+</div>
+</div>
+</section>
+</div>
+<script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
               VERSION:'',
@@ -1219,23 +1111,17 @@ variable([1.8674504  2.004048   1.68377    ... 0.81418294 0.7608197
               SOURCELINK_SUFFIX: '.txt'
           };
       </script>
-        <script type="text/javascript" src="../_static/jquery.js"></script>
-        <script type="text/javascript" src="../_static/underscore.js"></script>
-        <script type="text/javascript" src="../_static/doctools.js"></script>
-        <script type="text/javascript" src="../_static/translations.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
-  <script type="text/javascript">
+<script src="../_static/jquery.js" type="text/javascript"></script>
+<script src="../_static/underscore.js" type="text/javascript"></script>
+<script src="../_static/doctools.js" type="text/javascript"></script>
+<script src="../_static/translations.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+<script src="../_static/js/theme.js" type="text/javascript"></script>
+<script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
-
+  </script>
 </body>
 </html>
