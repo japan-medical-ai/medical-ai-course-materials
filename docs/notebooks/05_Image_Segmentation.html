@@ -1,58 +1,103 @@
 
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>5. 実践編: MRI画像のセグメンテーション — メディカルAI専門コース オンライン講義資料  documentation</title>
-<link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../genindex.html" rel="index" title="Index"/>
-<link href="../search.html" rel="search" title="Search"/>
-<link href="06_Blood_Cell_Detection.html" rel="next" title="6. 実践編: 血液の顕微鏡画像からの細胞検出"/>
-<link href="04_Introduction_to_Chainer.html" rel="prev" title="4. Deep Learningフレームワークの基礎"/>
-<script src="../_static/js/modernizr.min.js"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
-<script>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>5. 実践編: MRI画像のセグメンテーション &mdash; メディカルAI専門コース オンライン講義資料  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" href="06_Blood_Cell_Detection.html" />
+    <link rel="prev" title="4. Deep Learningフレームワークの基礎" href="04_Introduction_to_Chainer.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
+  <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
   
     gtag('config', 'UA-797798-11');
   </script>
-<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" name="description"/>
-<meta content="メディカルAI専門コース オンライン講義資料" property="og:title"/>
-<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" property="og:description"/>
-<meta content="website" property="og:type"/>
-<meta content="https://japan-medical-ai.github.io/medical-ai-course-materials/" property="og:url"/>
-<meta content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png" property="og:image"/>
-<meta content="summary_large_image" name="twitter:card"/>
-<meta content="@PreferredNetJP" name="twitter:site"/>
-<meta content="@PreferredNetJP" name="twitter:creator"/>
+
+  <meta name="description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。">
+  <meta property="og:title" content="メディカルAI専門コース オンライン講義資料">
+  <meta property="og:description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://japan-medical-ai.github.io/medical-ai-course-materials/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@PreferredNetJP">
+  <meta name="twitter:creator" content="@PreferredNetJP">
+
 </head>
+
 <body class="wy-body-for-nav">
-<div class="wy-grid-for-nav">
-<nav class="wy-nav-side" data-toggle="wy-nav-shift">
-<div class="wy-side-scroll">
-<div class="wy-side-nav-search">
-<a class="icon icon-home" href="../index.html"> メディカルAI専門コース オンライン講義資料
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> メディカルAI専門コース オンライン講義資料
           
 
           
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
-<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
-<input name="check_keywords" type="hidden" value="yes"/>
-<input name="area" type="hidden" value="default"/>
-</form>
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-</div>
-<div aria-label="main navigation" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<ul class="current">
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="01_Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_Introduction_to_Neural_Network.html">3. ニューラルネットワークの基礎</a></li>
@@ -94,34 +139,76 @@
 <li class="toctree-l1"><a class="reference internal" href="07_DNA_Sequence_Data_Analysis.html">7. 実践編: ディープラーニングを使った配列解析</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
 </ul>
-<div style="padding-right:20px; bottom:10px;">
-<a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
-<img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png"/>
-<p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
-</a>
+
+            
+          
+          <div style="padding-right:20px; bottom:10px;">
+            <a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
+              <img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png" />
+              <p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>5. 実践編: MRI画像のセグメンテーション</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notebooks/05_Image_Segmentation.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
 </div>
-</div>
-</div>
-</nav>
-<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
-<nav aria-label="top navigation" class="wy-nav-top">
-<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
-<a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
-</nav>
-<div class="wy-nav-content">
-<div class="rst-content">
-<div aria-label="breadcrumbs navigation" role="navigation">
-<ul class="wy-breadcrumbs">
-<li><a href="../index.html">Docs</a> »</li>
-<li>5. 実践編: MRI画像のセグメンテーション</li>
-<li class="wy-breadcrumbs-aside">
-<a href="../_sources/notebooks/05_Image_Segmentation.ipynb.txt" rel="nofollow"> View page source</a>
-</li>
-</ul>
-<hr/>
-</div>
-<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
-<div itemprop="articleBody">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
 <style>
 /* CSS for nbsphinx extension */
 
@@ -344,12 +431,12 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <div class="section" id="実践編:-MRI画像のセグメンテーション">
-<h1>5. 実践編: MRI画像のセグメンテーション<a class="headerlink" href="#実践編:-MRI画像のセグメンテーション" title="Permalink to this headline">¶</a></h1><p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/05_Image_Segmentation.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
+<h1>5. 実践編: MRI画像のセグメンテーション<a class="headerlink" href="#実践編:-MRI画像のセグメンテーション" title="Permalink to this headline">¶</a></h1>
 <p>画像を対象とした深層学習の応用技術には様々なものがあります．例えば，画像の中の個別の物体の周りを矩形で囲むようにして検出する<strong>物体検出</strong>や，画像内で個別物体が占める領域を認識する<strong>画像セグメンテーション</strong>などがあります．</p>
 <p><strong>物体検出</strong>は，対象物体の<strong>「種類」と「位置」を認識する技術</strong>であるといえます．</p>
-<p><img alt="物体検出の例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/FasterRCNN-result.png"/> （上図：物体検出の例．矩形で対象物体を囲い，そのクラスを答えるタスク．元画像はPascal VOCデータセットより．これにChainerCVによるFaster R-CNN（両者とも後述）を適用した結果．）</p>
+<p><img alt="物体検出の例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/FasterRCNN-result.png" /> （上図：物体検出の例．矩形で対象物体を囲い，そのクラスを答えるタスク．元画像はPascal VOCデータセットより．これにChainerCVによるFaster R-CNN（両者とも後述）を適用した結果．）</p>
 <p><strong>画像セグメンテーション</strong>には2種類あります．1つは，個別の物体を区別するInstance-aware Segmentationです．もう一つは，同一クラスの物体であれば個を区別しないSemantic Segmentationです．今回は，後者を扱います．</p>
-<p><img alt="セグメンテーションの例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet-result.png"/> （上図：Semantic Segmentationの例．ピクセル単位でクラス分類を行うタスク．画像を，予め決められた数の色で塗り絵をするようなイメージ．図はCityscapesデータセットを用いて学習したあるセグメンテーションモデルの出力結果例．）</p>
+<p><img alt="セグメンテーションの例" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet-result.png" /> （上図：Semantic Segmentationの例．ピクセル単位でクラス分類を行うタスク．画像を，予め決められた数の色で塗り絵をするようなイメージ．図はCityscapesデータセットを用いて学習したあるセグメンテーションモデルの出力結果例．）</p>
 <p>画像セグメンテーションは，4章で扱った画像全体に対して一つのクラスを割り当てる分類問題とは異なり，画像内の全ピクセルを，ピクセルごとに分類していきます．そのため，Pixel labeling タスクとも呼ばれます．これは，対象物体の<strong>「種類」と「位置」と「形」を認識する技術</strong>であるといえるでしょう．</p>
 <p>今回は，深層学習フレームワークChainerを用いて，このSemantic Segmentationタスクに取り組んでみましょう．</p>
 <div class="section" id="環境構築">
@@ -400,8 +487,8 @@ Requirement already satisfied: filelock in /Users/shunta/.pyenv/versions/minicon
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 
 <span class="n">chainer</span><span class="o">.</span><span class="n">print_runtime_info</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'ChainerCV:'</span><span class="p">,</span> <span class="n">chainercv</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'matplotlib:'</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ChainerCV:&#39;</span><span class="p">,</span> <span class="n">chainercv</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;matplotlib:&#39;</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -439,8 +526,8 @@ matplotlib: 2.1.2
 <h2>5.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="Permalink to this headline">¶</a></h2>
 <p>これから使用するデータセットは，心臓MRI画像（短軸像）と，それに専門家がラベルを付けたものです．データについて詳しくはこちらをご参照ください[1, 2, 3]．</p>
 <p>[1] Sunnybrook cardiac images from earlier competition <a class="reference external" href="http://smial.sri.utoronto.ca/LV_Challenge/Data.html">http://smial.sri.utoronto.ca/LV_Challenge/Data.html</a></p>
-<p>[2] This "Sunnybrook Cardiac MR Database" is made available under the CC0 1.0 Universal license described above, and with more detail here: <a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a></p>
-<p>[3] Attribution: Radau P, Lu Y, Connelly K, Paul G, Dick AJ, Wright GA. "Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI." The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge, <a class="reference external" href="http://hdl.handle.net/10380/3070">http://hdl.handle.net/10380/3070</a></p>
+<p>[2] This &quot;Sunnybrook Cardiac MR Database&quot; is made available under the CC0 1.0 Universal license described above, and with more detail here: <a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a></p>
+<p>[3] Attribution: Radau P, Lu Y, Connelly K, Paul G, Dick AJ, Wright GA. &quot;Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI.&quot; The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge, <a class="reference external" href="http://hdl.handle.net/10380/3070">http://hdl.handle.net/10380/3070</a></p>
 <p>まずは，データをダウンロードします．これは配布元のデータセットを今回用いやすいように加工し終えたものです．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[3]:
@@ -466,15 +553,15 @@ matplotlib: 2.1.2
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span>
 
 <span class="c1"># PILライブラリで画像を読み込む</span>
-<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">'train/image/000.png'</span><span class="p">))</span>
-<span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">'train/label/000.png'</span><span class="p">))</span>
+<span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;train/image/000.png&#39;</span><span class="p">))</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;train/label/000.png&#39;</span><span class="p">))</span>
 
 <span class="c1"># matplotlibライブラリを使って2つの画像を並べて表示</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -483,7 +570,7 @@ matplotlib: 2.1.2
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_9_0.png" src="../_images/notebooks_05_Image_Segmentation_9_0.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_9_0.png" src="../_images/notebooks_05_Image_Segmentation_9_0.png" />
 </div>
 </div>
 <p>左側がMRI画像，右側がそれに対し専門家が作成した左心室の部分をマスクした画像となっています．右側のマスク画像のうち，<strong>白く塗りつぶされている領域が，今回見つけ出したい左心室の領域となっています</strong>．左心室の大きさは，画像ごとに異なっており，形もまた様々です．ただし，<strong>画像全体に対して左心室が占める領域は比較的小さい</strong>ということは共通しています．</p>
@@ -503,7 +590,7 @@ matplotlib: 2.1.2
 <li><code class="docutils literal"><span class="pre">Trainer</span></code>オブジェクトの作成（学習ループの管理）</li>
 </ol>
 <p><code class="docutils literal"><span class="pre">Trainer</span></code>に含まれるコンポーネントは，以下のような関係になっています．</p>
-<p><img alt="Trainer関連のコンポーネント間の関係" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/trainer.png"/></p>
+<p><img alt="Trainer関連のコンポーネント間の関係" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/trainer.png" /></p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">Updater</span></code>は，<code class="docutils literal"><span class="pre">Iterator</span></code>から<code class="docutils literal"><span class="pre">Dataset</span></code>にあるデータを指定したバッチサイズ数だけ取り出し，<code class="docutils literal"><span class="pre">Model</span></code>に与えて目的関数の値を計算し，<code class="docutils literal"><span class="pre">Optimizer</span></code>によってパラメータを更新する，という一連の作業（これが1 iterationになります）を隠蔽しています．</li>
 <li><code class="docutils literal"><span class="pre">Trainer</span></code>は<code class="docutils literal"><span class="pre">Extension</span></code>という拡張機能を使うことができ，指定したタイミング（毎iterationや，毎epoch）でログを取る，目的関数の値や精度のプロットを描画して保存，などを自動的に行うことができます．</li>
@@ -549,15 +636,15 @@ augmentationを簡単に実装することができます．</p>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">create_datasets</span><span class="p">():</span>
     <span class="c1"># Python標準のglobを使ってMRI画像ファイル名/ラベル画像ファイル名の一覧を取得</span>
-    <span class="n">train_img_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'train/image/*.png'</span><span class="p">))</span>
-    <span class="n">train_label_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'train/label/*.png'</span><span class="p">))</span>
+    <span class="n">train_img_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;train/image/*.png&#39;</span><span class="p">))</span>
+    <span class="n">train_label_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;train/label/*.png&#39;</span><span class="p">))</span>
 
     <span class="c1"># リストを渡して，データセットオブジェクト train を作成</span>
     <span class="n">train</span> <span class="o">=</span> <span class="n">create_dataset</span><span class="p">(</span><span class="n">train_img_filenames</span><span class="p">,</span> <span class="n">train_label_filenames</span><span class="p">)</span>
 
     <span class="c1"># 同様のことをvalidationデータに対しても行う</span>
-    <span class="n">val_img_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'val/image/*.png'</span><span class="p">))</span>
-    <span class="n">val_label_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'val/label/*.png'</span><span class="p">))</span>
+    <span class="n">val_img_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;val/image/*.png&#39;</span><span class="p">))</span>
+    <span class="n">val_label_filenames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;val/label/*.png&#39;</span><span class="p">))</span>
     <span class="n">val</span> <span class="o">=</span> <span class="n">create_dataset</span><span class="p">(</span><span class="n">val_img_filenames</span><span class="p">,</span> <span class="n">val_label_filenames</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span>
@@ -573,7 +660,7 @@ augmentationを簡単に実装することができます．</p>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">create_datasets</span><span class="p">()</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Dataset size:</span><span class="se">\n\t</span><span class="s1">train:</span><span class="se">\t</span><span class="si">{}</span><span class="se">\n\t</span><span class="s1">valid:</span><span class="se">\t</span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Dataset size:</span><span class="se">\n\t</span><span class="s1">train:</span><span class="se">\t</span><span class="si">{}</span><span class="se">\n\t</span><span class="s1">valid:</span><span class="se">\t</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -671,12 +758,12 @@ Dataset size:
     <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span>
 
     <span class="n">logging_attributes</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s1">'epoch'</span><span class="p">,</span> <span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'main/accuracy'</span><span class="p">,</span> <span class="s1">'val/main/loss'</span><span class="p">,</span> <span class="s1">'val/main/accuracy'</span><span class="p">]</span>
+        <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">]</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">logging_attributes</span><span class="p">))</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">(</span><span class="n">logging_attributes</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'val/main/loss'</span><span class="p">],</span> <span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'loss.png'</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/accuracy'</span><span class="p">,</span> <span class="s1">'val/main/accuracy'</span><span class="p">],</span> <span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'accuracy.png'</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">val_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">'val'</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;accuracy.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">val_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">trainer</span>
 </pre></div>
@@ -695,7 +782,7 @@ Dataset size:
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="o">%%time</span>
-<span class="n">trainer</span> <span class="o">=</span> <span class="n">create_trainer</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">create_trainer</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -738,7 +825,7 @@ Wall time: 26 s
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Image</span>
-<span class="n">Image</span><span class="p">(</span><span class="s1">'result/loss.png'</span><span class="p">)</span>
+<span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result/loss.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -747,7 +834,7 @@ Wall time: 26 s
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_31_0.png" src="../_images/notebooks_05_Image_Segmentation_31_0.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_31_0.png" src="../_images/notebooks_05_Image_Segmentation_31_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -755,7 +842,7 @@ Wall time: 26 s
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="s1">'result/accuracy.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result/accuracy.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -764,7 +851,7 @@ Wall time: 26 s
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_32_0.png" src="../_images/notebooks_05_Image_Segmentation_32_0.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_32_0.png" src="../_images/notebooks_05_Image_Segmentation_32_0.png" />
 </div>
 </div>
 <p>うまく学習が進んでいるようです．Training loss, Validation lossともにほぼ0近くまで下がっており，また両者のデータセットに対するAccuracyも最大の1に近づいていっています．</p>
@@ -782,7 +869,7 @@ Wall time: 26 s
 <p>です．では，改めてこの2つの値をValidationデータセットに対して，<strong>今学習したモデルを使って計算してみましょう．</strong></p>
 <p>今回は，これらの値を計算するために，<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a> [11]を用います．ChainerCVはコンピュータビジョンタスクで頻出する計算やモデル・データ等の扱いを統一的に行えるChainerの追加パッケージです．上の2つの指標をあらためて計算するために，ChainerCVが提供するSemantic Segmentationタスク用の評価指標計算のための関数を用いてみましょう．</p>
 <p>以下のセルを実行してください．</p>
-<p>[11] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, "ChainerCV: a Library for Deep Learning in Computer Vision", ACM Multimedia (ACMMM), Open Source Software Competition, 2017</p>
+<p>[11] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, &quot;ChainerCV: a Library for Deep Learning in Computer Vision&quot;, ACM Multimedia (ACMMM), Open Source Software Competition, 2017</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -793,7 +880,7 @@ Wall time: 26 s
 
 <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="c1"># Trainerオブジェクトから学習済みモデルを取り出す</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">'main'</span><span class="p">)</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">predictor</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">predictor</span>
 
     <span class="c1"># validationデータ全部に対して予測を行う</span>
     <span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
@@ -806,8 +893,8 @@ Wall time: 26 s
 
     <span class="c1"># 評価をして結果を表示</span>
     <span class="n">evals</span> <span class="o">=</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">eval_semantic_segmentation</span><span class="p">(</span><span class="n">pred_labels</span><span class="p">,</span> <span class="n">gt_labels</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'Pixel Accuracy:'</span><span class="p">,</span> <span class="n">evals</span><span class="p">[</span><span class="s1">'pixel_accuracy'</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'mIoU:'</span><span class="p">,</span> <span class="n">evals</span><span class="p">[</span><span class="s1">'miou'</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pixel Accuracy:&#39;</span><span class="p">,</span> <span class="n">evals</span><span class="p">[</span><span class="s1">&#39;pixel_accuracy&#39;</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mIoU:&#39;</span><span class="p">,</span> <span class="n">evals</span><span class="p">[</span><span class="s1">&#39;miou&#39;</span><span class="p">])</span>
 
 <span class="n">evaluate</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
@@ -823,11 +910,11 @@ mIoU: 0.6810346076820649
 </pre></div></div>
 </div>
 <p>2つの数字が表示されました．</p>
-<p>Pixel Accuracyの値は<code class="docutils literal"><span class="pre">PrintReport</span></code>が表示した val/main/accuracy と同じ値になっています．学習中に"accuracy"として表示していたものは，Pixel Accuracyと同じものでした．こちらは，とても高い値を示しています．最大値が1であるので0.98というのは高い数値です．</p>
+<p>Pixel Accuracyの値は<code class="docutils literal"><span class="pre">PrintReport</span></code>が表示した val/main/accuracy と同じ値になっています．学習中に&quot;accuracy&quot;として表示していたものは，Pixel Accuracyと同じものでした．こちらは，とても高い値を示しています．最大値が1であるので0.98というのは高い数値です．</p>
 <p>一方で，同じ最大値1の指標であるmIoU（<code class="docutils literal"><span class="pre">miou</span></code>）が思ったより低いことが分かります．なぜでしょうか．</p>
 <p>Pixel Accuracyは画像全体の画素数に対して，true positive + true negative（つまり，黒を黒，白を白と当てられた合計数） の割合を見るため，画像全体に対して negative ( 黒）が多い場合は true positive （白を当てられた数）が小さくてもtrue negativeが大きければ結果としてPixel Accuracyは高い値になります．つまり，<strong>class imbalance（白と黒の数が大きく違う）が起きている際に，少ないクラスへの予測誤差の影響が相対的に小さくなる</strong>ということです．</p>
 <p>一方，mIoU の場合は，予測と正解の両画像における「positiveとtrueの和領域」（白と予測した部分と，白が正解である領域の和）に対する「true positive」（白という予測が正解していた領域）の割合を見るので，画像全体の大きさに影響されません．わかりやすく図にすると，以下のようになります．</p>
-<p><img alt="IoUで求める領域" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/miou.png"/></p>
+<p><img alt="IoUで求める領域" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/miou.png" /></p>
 <p>この図の言葉で書くと，IoUは，</p>
 <div class="math">
 \[IoU = \frac{\rm true\_positive}{{\rm positive} + {\rm true} - {\rm true\_positive}}\]</div>
@@ -840,7 +927,7 @@ mIoU: 0.6810346076820649
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">def</span> <span class="nf">show_predicts</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_sample</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="c1"># Trainerオブジェクトから学習済みモデルを取り出す</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">'main'</span><span class="p">)</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">predictor</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">updater</span><span class="o">.</span><span class="n">get_optimizer</span><span class="p">(</span><span class="s1">&#39;main&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">predictor</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_sample</span><span class="p">):</span>
         <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
@@ -850,10 +937,10 @@ mIoU: 0.6810346076820649
         <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
         <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 
         <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">label</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
@@ -865,21 +952,21 @@ mIoU: 0.6810346076820649
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_37_0.png" src="../_images/notebooks_05_Image_Segmentation_37_0.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_37_0.png" src="../_images/notebooks_05_Image_Segmentation_37_0.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_37_1.png" src="../_images/notebooks_05_Image_Segmentation_37_1.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_37_1.png" src="../_images/notebooks_05_Image_Segmentation_37_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_37_2.png" src="../_images/notebooks_05_Image_Segmentation_37_2.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_37_2.png" src="../_images/notebooks_05_Image_Segmentation_37_2.png" />
 </div>
 </div>
 <p>左の列が予測ラベルで，右の列が正解ラベルです．3行目に顕著なように，予測のpositive領域（白い領域）は正解の領域に対して小さくなっています．Pixel Accuracyは大部分を占めている黒い部分も含めての正解率ですので，Pixel Accuracyは評価指標として今回のようなデータセットにはあまり合っていない可能性があります．それに対し<code class="docutils literal"><span class="pre">mIoU</span></code>は今回のような画像中の予測対象領域の割合が少ない場合に有効な指標となります．</p>
@@ -906,8 +993,8 @@ mIoU: 0.6810346076820649
 <li>出力サイズは，<span class="math">\({\rm stride} \times ({\rm input\_size} - 1) + {\rm ksize} - 2 \times {\rm pad}\)</span>となるので，目的の拡大後サイズになるようパラメータを調整する</li>
 </ul>
 <p>Deconvolution2Dにおいては，padが意味するものが少し直感的でないため，実際に行われる操作を説明した図を以下に用意しています．</p>
-<p><img alt="Deconvolution2Dの計算(pad=0の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-0.png"/></p>
-<p><img alt="Deconvolution2Dの計算(pad=1の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-1.png"/></p>
+<p><img alt="Deconvolution2Dの計算(pad=0の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-0.png" /></p>
+<p><img alt="Deconvolution2Dの計算(pad=1の場合)" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/deconv_pad-1.png" /></p>
 <p>気をつける点は，ksizeとstrideに従って配置・拡張したfeature mapの周囲を「削る量」がpadになっている点です．そのあと行われる演算自体はstride=1, pad=0のConvolutionと同じになります．</p>
 <p>こちらに，非常にわかりやすく各種Convolution/Deconvolutionの計算を表したGIFアニメがあるので，参考にしてください：<a class="reference external" href="https://github.com/vdumoulin/conv_arithmetic">Convolution arithmetic</a></p>
 </div>
@@ -924,8 +1011,8 @@ mIoU: 0.6810346076820649
 </ul>
 <p>と書き換えて，下のセルを実行してみましょう．入力チャンネル数は，<code class="docutils literal"><span class="pre">None</span></code>を与えておくと，実行時に自動的に決定してくれます．</p>
 <p>[4] <a class="reference external" href="http://fcn.berkeleyvision.org/">http://fcn.berkeleyvision.org/</a></p>
-<p>[5] Long, Shelhamer, Darrell; "Fully Convoutional Networks for Semantic Segmentation", CVPR 2015.</p>
-<p>[6] Zeiler, Krishnan, Taylor, Fergus; "Deconvolutional Networks", CVPR 2010.</p>
+<p>[5] Long, Shelhamer, Darrell; &quot;Fully Convoutional Networks for Semantic Segmentation&quot;, CVPR 2015.</p>
+<p>[6] Zeiler, Krishnan, Taylor, Fergus; &quot;Deconvolutional Networks&quot;, CVPR 2010.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -1019,9 +1106,9 @@ mIoU: 0.6810346076820649
         <span class="n">evals</span> <span class="o">=</span> <span class="n">evaluations</span><span class="o">.</span><span class="n">eval_semantic_segmentation</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 
         <span class="c1"># 学習中のログに出力</span>
-        <span class="n">reporter</span><span class="o">.</span><span class="n">report</span><span class="p">({</span><span class="s1">'loss'</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span>
-                         <span class="s1">'miou'</span><span class="p">:</span> <span class="n">evals</span><span class="p">[</span><span class="s1">'miou'</span><span class="p">],</span>
-                         <span class="s1">'pa'</span><span class="p">:</span> <span class="n">evals</span><span class="p">[</span><span class="s1">'pixel_accuracy'</span><span class="p">]},</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">reporter</span><span class="o">.</span><span class="n">report</span><span class="p">({</span><span class="s1">&#39;loss&#39;</span><span class="p">:</span> <span class="n">loss</span><span class="p">,</span>
+                         <span class="s1">&#39;miou&#39;</span><span class="p">:</span> <span class="n">evals</span><span class="p">[</span><span class="s1">&#39;miou&#39;</span><span class="p">],</span>
+                         <span class="s1">&#39;pa&#39;</span><span class="p">:</span> <span class="n">evals</span><span class="p">[</span><span class="s1">&#39;pixel_accuracy&#39;</span><span class="p">]},</span> <span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">loss</span>
 </pre></div>
 </div>
@@ -1037,7 +1124,7 @@ mIoU: 0.6810346076820649
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="k">def</span> <span class="nf">create_trainer</span><span class="p">(</span><span class="n">batchsize</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">log_trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">)):</span>
+<span></span><span class="k">def</span> <span class="nf">create_trainer</span><span class="p">(</span><span class="n">batchsize</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">device</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">log_trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">)):</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">FullyConvolutionalNetwork</span><span class="p">(</span><span class="n">out_h</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">out_w</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
     <span class="n">train_model</span> <span class="o">=</span> <span class="n">PixelwiseSigmoidClassifier</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
@@ -1049,18 +1136,18 @@ mIoU: 0.6810346076820649
 
     <span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span><span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
 
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">'result_fcn'</span><span class="p">)</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;result_fcn&#39;</span><span class="p">)</span>
 
     <span class="n">logging_attributes</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s1">'epoch'</span><span class="p">,</span> <span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'main/miou'</span><span class="p">,</span> <span class="s1">'main/pa'</span><span class="p">,</span>
-        <span class="s1">'val/main/loss'</span><span class="p">,</span> <span class="s1">'val/main/miou'</span><span class="p">,</span> <span class="s1">'val/main/pa'</span><span class="p">]</span>
+        <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/miou&#39;</span><span class="p">,</span> <span class="s1">&#39;main/pa&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;val/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/miou&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/pa&#39;</span><span class="p">]</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">(</span><span class="n">logging_attributes</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">log_trigger</span><span class="p">)</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">(</span><span class="n">logging_attributes</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">log_trigger</span><span class="p">)</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'val/main/loss'</span><span class="p">],</span> <span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'loss.png'</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/miou'</span><span class="p">,</span> <span class="s1">'val/main/miou'</span><span class="p">],</span> <span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'miou.png'</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/pa'</span><span class="p">,</span> <span class="s1">'val/main/pa'</span><span class="p">],</span> <span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'pa.png'</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">val_iter</span><span class="p">,</span> <span class="n">train_model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">'val'</span><span class="p">)</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">dump_graph</span><span class="p">(</span><span class="s1">'main/loss'</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/miou&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/miou&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;miou.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/pa&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/pa&#39;</span><span class="p">],</span> <span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;pa.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">val_iter</span><span class="p">,</span> <span class="n">train_model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">dump_graph</span><span class="p">(</span><span class="s1">&#39;main/loss&#39;</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">trainer</span>
 </pre></div>
 </div>
@@ -1074,7 +1161,7 @@ mIoU: 0.6810346076820649
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="o">%%time</span>
-<span class="n">trainer</span> <span class="o">=</span> <span class="n">create_trainer</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">log_trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">create_trainer</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">log_trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
 <span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1120,8 +1207,8 @@ Wall time: 5min 37s
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Image</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Loss'</span><span class="p">)</span>
-<span class="n">Image</span><span class="p">(</span><span class="s1">'result_fcn/loss.png'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result_fcn/loss.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1138,7 +1225,7 @@ Loss
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_54_1.png" src="../_images/notebooks_05_Image_Segmentation_54_1.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_54_1.png" src="../_images/notebooks_05_Image_Segmentation_54_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1146,8 +1233,8 @@ Loss
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'mean IoU'</span><span class="p">)</span>
-<span class="n">Image</span><span class="p">(</span><span class="s1">'result_fcn/miou.png'</span><span class="p">)</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;mean IoU&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result_fcn/miou.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1164,7 +1251,7 @@ mean IoU
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_55_1.png" src="../_images/notebooks_05_Image_Segmentation_55_1.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_55_1.png" src="../_images/notebooks_05_Image_Segmentation_55_1.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1172,8 +1259,8 @@ mean IoU
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Pixel Accuracy'</span><span class="p">)</span>
-<span class="n">Image</span><span class="p">(</span><span class="s1">'result_fcn/pa.png'</span><span class="p">)</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pixel Accuracy&#39;</span><span class="p">)</span>
+<span class="n">Image</span><span class="p">(</span><span class="s1">&#39;result_fcn/pa.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1190,7 +1277,7 @@ Pixel Accuracy
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_56_1.png" src="../_images/notebooks_05_Image_Segmentation_56_1.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_56_1.png" src="../_images/notebooks_05_Image_Segmentation_56_1.png" />
 </div>
 </div>
 <p>Pixel Accuracyが0.99以上であるだけでなく，mIoUも0.90近くまで上がっています．mIoUに注目すると，最初のモデル（0.68程度）と比べて随分精度が上がっていることがわかると思います．実際にvalidationデータに対して推論を行った際の予測ラベル画像を見て，結果を確認しましょう．以下のセルを実行してください．</p>
@@ -1217,21 +1304,21 @@ mIoU: 0.8948934203314065
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_58_1.png" src="../_images/notebooks_05_Image_Segmentation_58_1.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_58_1.png" src="../_images/notebooks_05_Image_Segmentation_58_1.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_58_2.png" src="../_images/notebooks_05_Image_Segmentation_58_2.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_58_2.png" src="../_images/notebooks_05_Image_Segmentation_58_2.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_05_Image_Segmentation_58_3.png" src="../_images/notebooks_05_Image_Segmentation_58_3.png"/>
+<img alt="../_images/notebooks_05_Image_Segmentation_58_3.png" src="../_images/notebooks_05_Image_Segmentation_58_3.png" />
 </div>
 </div>
 <p>一つ目のモデルの結果を確認した際と同じ画像が3つ並べられています．一つ目の結果よりも，特に3行目に注目すると，だいぶ正解ラベルに近い形のマスクを推定できていることがわかります．</p>
@@ -1246,22 +1333,22 @@ levelな情報（エッジ・局所的な画素値勾配のような情報，色
 <div class="section" id="SegNet-[8]">
 <h3>5.6.1. SegNet [8]<a class="headerlink" href="#SegNet-[8]" title="Permalink to this headline">¶</a></h3>
 <p>各層でMax Poolingを適用した際に「どのピクセルが最大値だったか（pooling indices) 」の情報をとっておき，後で画像を拡大していく時に記録しておいたpooling indicesを使ってUpsamplingする手法です．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されています．</p>
-<p><img alt="SegNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png"/></p>
+<p><img alt="SegNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png" /></p>
 </div>
 <div class="section" id="U-Net-[9]">
 <h3>5.6.2. U-Net [9]<a class="headerlink" href="#U-Net-[9]" title="Permalink to this headline">¶</a></h3>
-<p>下層の出力特徴マップを，上層の入力に結合することで活用する構造．全体がアルファベットの "U" のような形をしていることから「U-Net」とよばれます.セグメンテーションタスクで広く使われています.</p>
-<p><img alt="U-Net" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png"/></p>
+<p>下層の出力特徴マップを，上層の入力に結合することで活用する構造．全体がアルファベットの &quot;U&quot; のような形をしていることから「U-Net」とよばれます.セグメンテーションタスクで広く使われています.</p>
+<p><img alt="U-Net" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png" /></p>
 </div>
 <div class="section" id="PSPNet-[10]">
 <h3>5.6.3. PSPNet [10]<a class="headerlink" href="#PSPNet-[10]" title="Permalink to this headline">¶</a></h3>
 <p>異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet 2017 Scene Parsing Challengeで優勝したモデルです.</p>
-<p><img alt="PSPNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png"/></p>
+<p><img alt="PSPNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png" /></p>
 <p>この他にも様々な手法が提案されています．例えばクラス間のサンプル数の大小だけでなく，難しいクラスと簡単なクラスがある場合にそれらを考慮した損失関数を使うことで性能をあげることができます．</p>
 <p>また，今回は簡単のためtraining splitとvalidation splitのみを持つデータセットを使いましたが，本来はハイパーパラメータをvalidation splitでの検証結果を用いて調整したあと，最終的な性能を評価する段階でtest splitを使うべきです．</p>
-<p>[8] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation." PAMI, 2017</p>
-<p>[9] Olaf Ronneberger, Philipp Fischer, Thomas Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation", MICCAI 2015</p>
-<p>[10] Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang and Jiaya Jia, "Pyramid Scene Parsing Network", CVPR 2017</p>
+<p>[8] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla &quot;SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation.&quot; PAMI, 2017</p>
+<p>[9] Olaf Ronneberger, Philipp Fischer, Thomas Brox, &quot;U-Net: Convolutional Networks for Biomedical Image Segmentation&quot;, MICCAI 2015</p>
+<p>[10] Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang and Jiaya Jia, &quot;Pyramid Scene Parsing Network&quot;, CVPR 2017</p>
 </div>
 </div>
 <div class="section" id="その他の参考資料">
@@ -1277,28 +1364,49 @@ levelな情報（エッジ・局所的な画素値勾配のような情報，色
 </ul>
 </div>
 </div>
-</div>
-</div>
-<footer>
-<div aria-label="footer navigation" class="rst-footer-buttons" role="navigation">
-<a accesskey="n" class="btn btn-neutral float-right" href="06_Blood_Cell_Detection.html" rel="next" title="6. 実践編: 血液の顕微鏡画像からの細胞検出">Next <span class="fa fa-arrow-circle-right"></span></a>
-<a accesskey="p" class="btn btn-neutral" href="04_Introduction_to_Chainer.html" rel="prev" title="4. Deep Learningフレームワークの基礎"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-</div>
-<hr/>
-<div role="contentinfo">
-<p>
-        © Copyright 2018, Preferred Networks &amp; キカガク
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="06_Blood_Cell_Detection.html" class="btn btn-neutral float-right" title="6. 実践編: 血液の顕微鏡画像からの細胞検出" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="04_Introduction_to_Chainer.html" class="btn btn-neutral" title="4. Deep Learningフレームワークの基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Preferred Networks &amp; キカガク
 
     </p>
-</div>
+  </div>
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-</div>
-</div>
-</section>
-</div>
-<script type="text/javascript">
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
               VERSION:'',
@@ -1309,17 +1417,23 @@ levelな情報（エッジ・局所的な画素値勾配のような情報，色
               SOURCELINK_SUFFIX: '.txt'
           };
       </script>
-<script src="../_static/jquery.js" type="text/javascript"></script>
-<script src="../_static/underscore.js" type="text/javascript"></script>
-<script src="../_static/doctools.js" type="text/javascript"></script>
-<script src="../_static/translations.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-<script src="../_static/js/theme.js" type="text/javascript"></script>
-<script type="text/javascript">
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
+
 </body>
 </html>

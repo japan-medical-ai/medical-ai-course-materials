@@ -1,58 +1,103 @@
 
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>4. Deep Learningフレームワークの基礎 — メディカルAI専門コース オンライン講義資料  documentation</title>
-<link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../genindex.html" rel="index" title="Index"/>
-<link href="../search.html" rel="search" title="Search"/>
-<link href="05_Image_Segmentation.html" rel="next" title="5. 実践編: MRI画像のセグメンテーション"/>
-<link href="03_Introduction_to_Neural_Network.html" rel="prev" title="3. ニューラルネットワークの基礎"/>
-<script src="../_static/js/modernizr.min.js"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
-<script>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4. Deep Learningフレームワークの基礎 &mdash; メディカルAI専門コース オンライン講義資料  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. 実践編: MRI画像のセグメンテーション" href="05_Image_Segmentation.html" />
+    <link rel="prev" title="3. ニューラルネットワークの基礎" href="03_Introduction_to_Neural_Network.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
+  <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
   
     gtag('config', 'UA-797798-11');
   </script>
-<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" name="description"/>
-<meta content="メディカルAI専門コース オンライン講義資料" property="og:title"/>
-<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" property="og:description"/>
-<meta content="website" property="og:type"/>
-<meta content="https://japan-medical-ai.github.io/medical-ai-course-materials/" property="og:url"/>
-<meta content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png" property="og:image"/>
-<meta content="summary_large_image" name="twitter:card"/>
-<meta content="@PreferredNetJP" name="twitter:site"/>
-<meta content="@PreferredNetJP" name="twitter:creator"/>
+
+  <meta name="description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。">
+  <meta property="og:title" content="メディカルAI専門コース オンライン講義資料">
+  <meta property="og:description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://japan-medical-ai.github.io/medical-ai-course-materials/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@PreferredNetJP">
+  <meta name="twitter:creator" content="@PreferredNetJP">
+
 </head>
+
 <body class="wy-body-for-nav">
-<div class="wy-grid-for-nav">
-<nav class="wy-nav-side" data-toggle="wy-nav-shift">
-<div class="wy-side-scroll">
-<div class="wy-side-nav-search">
-<a class="icon icon-home" href="../index.html"> メディカルAI専門コース オンライン講義資料
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> メディカルAI専門コース オンライン講義資料
           
 
           
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
-<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
-<input name="check_keywords" type="hidden" value="yes"/>
-<input name="area" type="hidden" value="default"/>
-</form>
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-</div>
-<div aria-label="main navigation" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<ul class="current">
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="01_Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02_Introduction_to_ML_libs.html">2. 機械学習ライブラリの基礎</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03_Introduction_to_Neural_Network.html">3. ニューラルネットワークの基礎</a></li>
@@ -139,34 +184,76 @@
 <li class="toctree-l1"><a class="reference internal" href="07_DNA_Sequence_Data_Analysis.html">7. 実践編: ディープラーニングを使った配列解析</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
 </ul>
-<div style="padding-right:20px; bottom:10px;">
-<a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
-<img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png"/>
-<p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
-</a>
+
+            
+          
+          <div style="padding-right:20px; bottom:10px;">
+            <a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
+              <img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png" />
+              <p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>4. Deep Learningフレームワークの基礎</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notebooks/04_Introduction_to_Chainer.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
 </div>
-</div>
-</div>
-</nav>
-<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
-<nav aria-label="top navigation" class="wy-nav-top">
-<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
-<a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
-</nav>
-<div class="wy-nav-content">
-<div class="rst-content">
-<div aria-label="breadcrumbs navigation" role="navigation">
-<ul class="wy-breadcrumbs">
-<li><a href="../index.html">Docs</a> »</li>
-<li>4. Deep Learningフレームワークの基礎</li>
-<li class="wy-breadcrumbs-aside">
-<a href="../_sources/notebooks/04_Introduction_to_Chainer.ipynb.txt" rel="nofollow"> View page source</a>
-</li>
-</ul>
-<hr/>
-</div>
-<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
-<div itemprop="articleBody">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
 <style>
 /* CSS for nbsphinx extension */
 
@@ -389,7 +476,7 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <div class="section" id="Deep-Learningフレームワークの基礎">
-<h1>4. Deep Learningフレームワークの基礎<a class="headerlink" href="#Deep-Learningフレームワークの基礎" title="Permalink to this headline">¶</a></h1><p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/04_Introduction_to_Chainer.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
+<h1>4. Deep Learningフレームワークの基礎<a class="headerlink" href="#Deep-Learningフレームワークの基礎" title="Permalink to this headline">¶</a></h1>
 <p>ChainerはDeep Learningフレームワークの一つで，現在様々なDeep Learningフレームワーク（TensorFlow, PyTorch, etc.）でも採用され主要なニューラルネットワークの記法となっている<strong>Define-by-Run</strong>というアイデアを汎用的なDeep Learningフレームワークとしては初めて採用し，2015年からPreferred
 Networks社によって開発が続けられています．Define-by-Runとは，ニューラルネットワーク中の計算を行うコードを記述することでニューラルネットワークの構造を定義する考え方です．学習を行う前にネットワーク構造を定義しておき，そのネットワークに学習に用いるデータを入力するためのコードを別途書く必要がある方法はDefine-and-Runと呼ばれます．Define-by-Runは実行時にネットワーク構造が決定されるため，動的な構造を記述しやすいという特徴があります．</p>
 <p>ここでは，その<strong>柔軟性</strong>と<strong>直感的である</strong>ことを特徴とするこのChainerというフレームワークの基本的な使い方を解説します．</p>
@@ -435,7 +522,7 @@ graphviz is already the newest version (2.40.1-2).
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="o">!</span>python -c <span class="s1">'import chainer; chainer.print_runtime_info()'</span>
+<span></span><span class="o">!</span>python -c <span class="s1">&#39;import chainer; chainer.print_runtime_info()&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -503,10 +590,10 @@ Downloading from http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz...
 
 <span class="c1"># データの例示</span>
 <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">train_val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 0番目の (data, label) を取り出す</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'label:'</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;label:&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -514,7 +601,7 @@ Downloading from http://yann.lecun.com/exdb/mnist/t10k-labels-idx1-ubyte.gz...
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_10_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_10_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_10_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_10_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -546,8 +633,8 @@ label: 5
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Training dataset size:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Validation dataset size:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid</span><span class="p">))</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Training dataset size:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Validation dataset size:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">valid</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -600,7 +687,7 @@ Validation dataset size: 10000
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'batchsize:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">minibatch</span><span class="p">))</span>
+<span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;batchsize:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">minibatch</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -620,8 +707,8 @@ batchsize: 128
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">minibatch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'x:'</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'t:'</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;x:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;t:&#39;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -833,8 +920,8 @@ IDとして-1を指定すると，CPUを使用します．</p>
     <span class="k">if</span> <span class="n">train_iter</span><span class="o">.</span><span class="n">is_new_epoch</span><span class="p">:</span>  <span class="c1"># 1 epochが終わったら</span>
 
         <span class="c1"># 損失の表示</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'epoch:</span><span class="si">{:02d}</span><span class="s1"> train_loss:</span><span class="si">{:.4f}</span><span class="s1"> '</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">train_iter</span><span class="o">.</span><span class="n">epoch</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="p">))),</span> <span class="n">end</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;epoch:</span><span class="si">{:02d}</span><span class="s1"> train_loss:</span><span class="si">{:.4f}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">train_iter</span><span class="o">.</span><span class="n">epoch</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">to_cpu</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="p">))),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
         <span class="n">valid_losses</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">valid_accuracies</span> <span class="o">=</span> <span class="p">[]</span>
@@ -843,8 +930,8 @@ IDとして-1を指定すると，CPUを使用します．</p>
             <span class="n">x_valid</span><span class="p">,</span> <span class="n">t_valid</span> <span class="o">=</span> <span class="n">concat_examples</span><span class="p">(</span><span class="n">valid_batch</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">)</span>
 
             <span class="c1"># Validationデータをforward</span>
-            <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'train'</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> \
-                    <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'enable_backprop'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> \
+                    <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
                 <span class="n">y_valid</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x_valid</span><span class="p">)</span>
 
             <span class="c1"># 損失を計算</span>
@@ -860,7 +947,7 @@ IDとして-1を指定すると，CPUを使用します．</p>
                 <span class="n">valid_iter</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
                 <span class="k">break</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="s1">'val_loss:</span><span class="si">{:.4f}</span><span class="s1"> val_accuracy:</span><span class="si">{:.4f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;val_loss:</span><span class="si">{:.4f}</span><span class="s1"> val_accuracy:</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">valid_losses</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">valid_accuracies</span><span class="p">)))</span>
 
 <span class="c1"># テストデータでの評価</span>
@@ -870,8 +957,8 @@ IDとして-1を指定すると，CPUを使用します．</p>
     <span class="n">x_test</span><span class="p">,</span> <span class="n">t_test</span> <span class="o">=</span> <span class="n">concat_examples</span><span class="p">(</span><span class="n">test_batch</span><span class="p">,</span> <span class="n">gpu_id</span><span class="p">)</span>
 
     <span class="c1"># テストデータをforward</span>
-    <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'train'</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> \
-            <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'enable_backprop'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> \
+            <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
         <span class="n">y_test</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
 
     <span class="c1"># 精度を計算</span>
@@ -883,7 +970,7 @@ IDとして-1を指定すると，CPUを使用します．</p>
         <span class="n">test_iter</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
         <span class="k">break</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'test_accuracy:</span><span class="si">{:.4f}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_accuracies</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test_accuracy:</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_accuracies</span><span class="p">)))</span>
 </pre></div>
 </div>
 </div>
@@ -916,7 +1003,7 @@ test_accuracy:0.9237
 <h5>4.2.6.3.1. <code class="docutils literal"><span class="pre">chainer.using_config('train',</span> <span class="pre">False)</span></code><a class="headerlink" href="#chainer.using_config('train',-False)" title="Permalink to this headline">¶</a></h5>
 <p>先程の例では，学習時と推論時で動作が異なる関数は含まれていませんでしたが，Validationやテストのために推論を行うときは以下のように，<code class="docutils literal"><span class="pre">chainer.using_config('train',</span> <span class="pre">False)</span></code>をwith構文と共に使うことで，その中では<strong>対応する関数が推論モードとして動作</strong>することになります．これによって，学習時と推論時で挙動が異なる関数などが正しく推論のための動作をするようになります（例えば，<a class="reference external" href="https://en.wikipedia.org/wiki/Dropout_(neural_networks)">Dropout</a>など）．詳しくはこちらの <code class="docutils literal"><span class="pre">train</span></code>
 の項をお読みください：<a class="reference external" href="https://docs.chainer.org/en/stable/reference/configuration.html#configuration-keys">Configuration Keys</a>．</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span>with chainer.using_config('train', False):
+<div class="highlight-python"><div class="highlight"><pre><span></span>with chainer.using_config(&#39;train&#39;, False):
     --- 何か推論処理 ---
 </pre></div>
 </div>
@@ -941,7 +1028,7 @@ test_accuracy:0.9237
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">chainer</span> <span class="k">import</span> <span class="n">serializers</span>
 
-<span class="n">serializers</span><span class="o">.</span><span class="n">save_npz</span><span class="p">(</span><span class="s1">'my_mnist.model'</span><span class="p">,</span> <span class="n">net</span><span class="p">)</span>
+<span class="n">serializers</span><span class="o">.</span><span class="n">save_npz</span><span class="p">(</span><span class="s1">&#39;my_mnist.model&#39;</span><span class="p">,</span> <span class="n">net</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -976,7 +1063,7 @@ test_accuracy:0.9237
 <span class="n">infer_net</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span>
 
 <span class="c1"># そのオブジェクトに保存済みパラメータをロードする</span>
-<span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="s1">'my_mnist.model'</span><span class="p">,</span> <span class="n">infer_net</span><span class="p">)</span>
+<span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="s1">&#39;my_mnist.model&#39;</span><span class="p">,</span> <span class="n">infer_net</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -995,21 +1082,21 @@ test_accuracy:0.9237
 <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1">#  tは使わない</span>
 
 <span class="c1"># どんな画像か表示してみます</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="c1"># ミニバッチの形にする（複数の画像をまとめて推論に使いたい場合は，サイズnのミニバッチにしてまとめればよい）</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'元の形：'</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' -&gt; '</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;元の形：&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; -&gt; &#39;</span><span class="p">)</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'ミニバッチの形にしたあと：'</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ミニバッチの形にしたあと：&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
 <span class="c1"># ネットワークと同じデバイス上にデータを送る</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">infer_net</span><span class="o">.</span><span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 <span class="c1"># モデルのforward関数に渡す</span>
-<span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'train'</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'enable_backprop'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">infer_net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 <span class="c1"># Variable形式で出てくるので中身を取り出す</span>
@@ -1021,7 +1108,7 @@ test_accuracy:0.9237
 <span class="c1"># 予測確率の最大値のインデックスを見る</span>
 <span class="n">pred_label</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'ネットワークの予測:'</span><span class="p">,</span> <span class="n">pred_label</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ネットワークの予測:&#39;</span><span class="p">,</span> <span class="n">pred_label</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1029,7 +1116,7 @@ test_accuracy:0.9237
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_53_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_53_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_53_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_53_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1140,13 +1227,13 @@ iteration（1000回更新）で学習を終了してください，といった�
 
 <span class="c1"># TrainerにUpdaterを渡す</span>
 <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
-    <span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">max_epoch</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="s1">'results/mnist_result'</span><span class="p">)</span>
+    <span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">max_epoch</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;results/mnist_result&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <p><code class="docutils literal"><span class="pre">out</span></code>引数では，この次に説明する<code class="docutils literal"><span class="pre">Extension</span></code>を使って，ログファイルや損失の変化の過程を描画したグラフの画像ファイルなどを保存するディレクトリを指定しています．</p>
 <p>Trainerと，その内側にあるいろいろなオブジェクトの関係は，図にまとめると以下のようになっています．このイメージを持っておくと自分で部分的に改造したりする際に便利だと思います．</p>
-<p><img alt="Trainerに関連するオブジェクト間の関係図" src="https://qiita-image-store.s3.amazonaws.com/0/17934/a751df31-b999-f692-d839-488c26b1c48a.png"/></p>
+<p><img alt="Trainerに関連するオブジェクト間の関係図" src="https://qiita-image-store.s3.amazonaws.com/0/17934/a751df31-b999-f692-d839-488c26b1c48a.png" /></p>
 </div>
 <div class="section" id="TrainerにExtensionを追加">
 <h3>4.3.4. TrainerにExtensionを追加<a class="headerlink" href="#TrainerにExtensionを追加" title="Permalink to this headline">¶</a></h3>
@@ -1169,14 +1256,14 @@ iteration（1000回更新）で学習を終了してください，といった�
 <span></span><span class="kn">from</span> <span class="nn">chainer.training</span> <span class="k">import</span> <span class="n">extensions</span>
 
 <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">())</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'snapshot_epoch-{.updater.epoch}'</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">valid_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">'val'</span><span class="p">)</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">([</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'main/accuracy'</span><span class="p">,</span> <span class="s1">'val/main/loss'</span><span class="p">,</span> <span class="s1">'val/main/accuracy'</span><span class="p">,</span> <span class="s1">'l1/W/data/std'</span><span class="p">,</span> <span class="s1">'elapsed_time'</span><span class="p">]))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">ParameterStatistics</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">predictor</span><span class="o">.</span><span class="n">l1</span><span class="p">,</span> <span class="p">{</span><span class="s1">'std'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">}))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'l1/W/data/std'</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'std.png'</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'val/main/loss'</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'loss.png'</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/accuracy'</span><span class="p">,</span> <span class="s1">'val/main/accuracy'</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'accuracy.png'</span><span class="p">))</span>
-<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">dump_graph</span><span class="p">(</span><span class="s1">'main/loss'</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;snapshot_epoch-{.updater.epoch}&#39;</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">valid_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">([</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;l1/W/data/std&#39;</span><span class="p">,</span> <span class="s1">&#39;elapsed_time&#39;</span><span class="p">]))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">ParameterStatistics</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">predictor</span><span class="o">.</span><span class="n">l1</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">}))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;l1/W/data/std&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;std.png&#39;</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;accuracy.png&#39;</span><span class="p">))</span>
+<span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">dump_graph</span><span class="p">(</span><span class="s1">&#39;main/loss&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -1207,7 +1294,7 @@ iteration（1000回更新）で学習を終了してください，といった�
 <div class="section" id="ParameterStatistics">
 <h4>4.3.4.7. <code class="docutils literal"><span class="pre">ParameterStatistics</span></code><a class="headerlink" href="#ParameterStatistics" title="Permalink to this headline">¶</a></h4>
 <p>指定したレイヤ（Link）が持つパラメータの平均・分散・最小値・最大値などなどの統計情報を計算して，ログに保存します．パラメータが発散していないかなどをチェックするのに便利です．</p>
-<hr class="docutils"/>
+<hr class="docutils" />
 <p>これらの<code class="docutils literal"><span class="pre">Extension</span></code>は，ここで紹介した以外にも，例えば<code class="docutils literal"><span class="pre">trigger</span></code>によって個別に作動するタイミングを指定できるなどのいくつかのオプションを持っており，より柔軟に組み合わせることができます．詳しくは公式のドキュメントを見てください．</p>
 <ul class="simple">
 <li><a class="reference external" href="http://docs.chainer.org/en/stable/reference/extensions.html">ChainerのTrainer extension一覧</a></li>
@@ -1252,7 +1339,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="k">import</span> <span class="n">Image</span>
-<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/mnist_result/loss.png'</span><span class="p">)</span>
+<span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/mnist_result/loss.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1261,7 +1348,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_77_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_77_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_77_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_77_0.png" />
 </div>
 </div>
 <p>精度のグラフも見てみましょう．</p>
@@ -1270,7 +1357,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/mnist_result/accuracy.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/mnist_result/accuracy.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1279,7 +1366,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_79_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_79_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_79_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_79_0.png" />
 </div>
 </div>
 <p>もう少し学習を続ければ，さらに精度の向上が期待できそうです．</p>
@@ -1298,7 +1385,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/mnist_result/cg.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/mnist_result/cg.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1307,7 +1394,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_82_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_82_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_82_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_82_0.png" />
 </div>
 </div>
 <p>データやパラメータが関数に次々と渡され，損失が出力されるまでの一連の計算過程が確認できます．</p>
@@ -1322,7 +1409,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="n">test_evaluator</span> <span class="o">=</span> <span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">test_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">)</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">test_evaluator</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'Test accuracy:'</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">'main/accuracy'</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test accuracy:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1348,22 +1435,22 @@ Test accuracy: 0.92494065
 
 <span class="n">infer_net</span> <span class="o">=</span> <span class="n">MLP</span><span class="p">()</span>
 <span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span>
-    <span class="s1">'results/mnist_result/snapshot_epoch-10'</span><span class="p">,</span>
-    <span class="n">infer_net</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">'updater/model:main/predictor/'</span><span class="p">)</span>
+    <span class="s1">&#39;results/mnist_result/snapshot_epoch-10&#39;</span><span class="p">,</span>
+    <span class="n">infer_net</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;updater/model:main/predictor/&#39;</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="n">gpu_id</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">infer_net</span><span class="o">.</span><span class="n">to_gpu</span><span class="p">(</span><span class="n">gpu_id</span><span class="p">)</span>
 
 <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
 <span class="n">x</span> <span class="o">=</span> <span class="n">infer_net</span><span class="o">.</span><span class="n">xp</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
-<span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'train'</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'enable_backprop'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+<span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">infer_net</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">to_cpu</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">'予測ラベル:'</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;予測ラベル:&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1371,7 +1458,7 @@ Test accuracy: 0.92494065
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_87_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_87_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_87_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_87_0.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1390,16 +1477,16 @@ Test accuracy: 0.92494065
 <p>ここでは，MNISTデータセットではなくCIFAR10という32x32サイズの小さなカラー画像に10クラスのいずれかのラベルがついたデータセットを用いて，いろいろなモデルを自分で書いて試行錯誤する流れを体験してみます．</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="13%"/>
-<col width="15%"/>
-<col width="9%"/>
-<col width="8%"/>
-<col width="9%"/>
-<col width="8%"/>
-<col width="9%"/>
-<col width="10%"/>
-<col width="9%"/>
-<col width="10%"/>
+<col width="13%" />
+<col width="15%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="8%" />
+<col width="9%" />
+<col width="10%" />
+<col width="9%" />
+<col width="10%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">airplane</th>
@@ -1415,16 +1502,16 @@ Test accuracy: 0.92494065
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><img alt="Airplane" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/airplane4.png"/></td>
-<td><img alt="Automobile" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/automobile4.png"/></td>
-<td><img alt="Bird" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/bird4.png"/></td>
-<td><img alt="Cat" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/cat4.png"/></td>
-<td><img alt="Deer" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/deer4.png"/></td>
-<td><img alt="Dog" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/dog4.png"/></td>
-<td><img alt="Frog" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/frog4.png"/></td>
-<td><img alt="Horse" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/horse4.png"/></td>
-<td><img alt="Ship" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/ship4.png"/></td>
-<td><img alt="Truck" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/truck4.png"/></td>
+<tr class="row-even"><td><img alt="Airplane" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/airplane4.png" /></td>
+<td><img alt="Automobile" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/automobile4.png" /></td>
+<td><img alt="Bird" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/bird4.png" /></td>
+<td><img alt="Cat" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/cat4.png" /></td>
+<td><img alt="Deer" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/deer4.png" /></td>
+<td><img alt="Dog" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/dog4.png" /></td>
+<td><img alt="Frog" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/frog4.png" /></td>
+<td><img alt="Horse" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/horse4.png" /></td>
+<td><img alt="Ship" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/ship4.png" /></td>
+<td><img alt="Truck" src="https://www.cs.toronto.edu/~kriz/cifar-10-sample/truck4.png" /></td>
 </tr>
 </tbody>
 </table>
@@ -1481,7 +1568,7 @@ Test accuracy: 0.92494065
 <span></span><span class="kn">from</span> <span class="nn">chainer.datasets</span> <span class="k">import</span> <span class="n">cifar</span>
 
 
-<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">network_object</span><span class="p">,</span> <span class="n">batchsize</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">gpu_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">snapshot</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">network_object</span><span class="p">,</span> <span class="n">batchsize</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">gpu_id</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">test_dataset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">snapshot</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
     <span class="c1"># 1. Dataset</span>
     <span class="k">if</span> <span class="n">train_dataset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">valid_dataset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">test_dataset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1506,18 +1593,18 @@ Test accuracy: 0.92494065
     <span class="n">updater</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">StandardUpdater</span><span class="p">(</span><span class="n">train_iter</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">)</span>
 
     <span class="c1"># 6. Trainer</span>
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">max_epoch</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="s1">'results/</span><span class="si">{}</span><span class="s1">_cifar10_</span><span class="si">{}</span><span class="s1">result'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_object</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">postfix</span><span class="p">))</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">training</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="p">(</span><span class="n">max_epoch</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">out</span><span class="o">=</span><span class="s1">&#39;results/</span><span class="si">{}</span><span class="s1">_cifar10_</span><span class="si">{}</span><span class="s1">result&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">network_object</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">postfix</span><span class="p">))</span>
 
     <span class="c1"># 7. Trainer extensions</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">LogReport</span><span class="p">())</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">observe_lr</span><span class="p">())</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'snapshot_epoch_{.updater.epoch}'</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">valid_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">'val'</span><span class="p">)</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">([</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'main/accuracy'</span><span class="p">,</span> <span class="s1">'val/main/loss'</span><span class="p">,</span> <span class="s1">'val/main/accuracy'</span><span class="p">,</span> <span class="s1">'elapsed_time'</span><span class="p">,</span> <span class="s1">'lr'</span><span class="p">]))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/loss'</span><span class="p">,</span> <span class="s1">'val/main/loss'</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'loss.png'</span><span class="p">))</span>
-    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">'main/accuracy'</span><span class="p">,</span> <span class="s1">'val/main/accuracy'</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">'epoch'</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">'accuracy.png'</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">snapshot</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;snapshot_epoch_{.updater.epoch}&#39;</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">valid_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PrintReport</span><span class="p">([</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;elapsed_time&#39;</span><span class="p">,</span> <span class="s1">&#39;lr&#39;</span><span class="p">]))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/loss&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/loss&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;loss.png&#39;</span><span class="p">))</span>
+    <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">PlotReport</span><span class="p">([</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">,</span> <span class="s1">&#39;val/main/accuracy&#39;</span><span class="p">],</span> <span class="n">x_key</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;accuracy.png&#39;</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">lr_decay</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExponentialShift</span><span class="p">(</span><span class="s1">'lr'</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">lr_decay</span><span class="p">)</span>
+        <span class="n">trainer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">extensions</span><span class="o">.</span><span class="n">ExponentialShift</span><span class="p">(</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span> <span class="n">trigger</span><span class="o">=</span><span class="n">lr_decay</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">snapshot</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">chainer</span><span class="o">.</span><span class="n">serializers</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="n">snapshot</span><span class="p">,</span> <span class="n">trainer</span><span class="p">)</span>
     <span class="n">trainer</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
@@ -1527,7 +1614,7 @@ Test accuracy: 0.92494065
     <span class="n">test_iter</span> <span class="o">=</span> <span class="n">iterators</span><span class="o">.</span><span class="n">MultiprocessIterator</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="n">test_evaluator</span> <span class="o">=</span> <span class="n">extensions</span><span class="o">.</span><span class="n">Evaluator</span><span class="p">(</span><span class="n">test_iter</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">gpu_id</span><span class="p">)</span>
     <span class="n">results</span> <span class="o">=</span> <span class="n">test_evaluator</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'Test accuracy:'</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">'main/accuracy'</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test accuracy:&#39;</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;main/accuracy&#39;</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">net</span>
 </pre></div>
@@ -1585,7 +1672,7 @@ Test accuracy: 0.610265
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/MyNet_cifar10_result/loss.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/MyNet_cifar10_result/loss.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1594,7 +1681,7 @@ Test accuracy: 0.610265
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_96_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_96_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_96_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_96_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1602,7 +1689,7 @@ Test accuracy: 0.610265
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/MyNet_cifar10_result/accuracy.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/MyNet_cifar10_result/accuracy.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1611,7 +1698,7 @@ Test accuracy: 0.610265
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_97_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_97_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_97_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_97_0.png" />
 </div>
 </div>
 <p>学習データでの精度（<code class="docutils literal"><span class="pre">main/accuracy</span></code>)は77%程度まで到達していますが，テストデータでの損失（<code class="docutils literal"><span class="pre">val/main/loss</span></code>）は途中から下げ止まり，精度（<code class="docutils literal"><span class="pre">val/main/accuracy</span></code>）も60%前後で頭打ちになってしまっています．表示されたログの最後の行を確認すると，テストデータでの精度も同様に60%程度となっています．学習データでは精度が良いが， テストデータでは精度が良くない場合，<strong>モデルが学習データにオーバーフィッティングしている</strong>と考えられます．</p>
@@ -1624,20 +1711,20 @@ Test accuracy: 0.610265
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">cls_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'airplane'</span><span class="p">,</span> <span class="s1">'automobile'</span><span class="p">,</span> <span class="s1">'bird'</span><span class="p">,</span> <span class="s1">'cat'</span><span class="p">,</span> <span class="s1">'deer'</span><span class="p">,</span>
-             <span class="s1">'dog'</span><span class="p">,</span> <span class="s1">'frog'</span><span class="p">,</span> <span class="s1">'horse'</span><span class="p">,</span> <span class="s1">'ship'</span><span class="p">,</span> <span class="s1">'truck'</span><span class="p">]</span>
+<span></span><span class="n">cls_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;airplane&#39;</span><span class="p">,</span> <span class="s1">&#39;automobile&#39;</span><span class="p">,</span> <span class="s1">&#39;bird&#39;</span><span class="p">,</span> <span class="s1">&#39;cat&#39;</span><span class="p">,</span> <span class="s1">&#39;deer&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;dog&#39;</span><span class="p">,</span> <span class="s1">&#39;frog&#39;</span><span class="p">,</span> <span class="s1">&#39;horse&#39;</span><span class="p">,</span> <span class="s1">&#39;ship&#39;</span><span class="p">,</span> <span class="s1">&#39;truck&#39;</span><span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">image_id</span><span class="p">):</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">cifar</span><span class="o">.</span><span class="n">get_cifar10</span><span class="p">()</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">image_id</span><span class="p">]</span>
     <span class="n">net</span><span class="o">.</span><span class="n">to_cpu</span><span class="p">()</span>
-    <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'train'</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">'enable_backprop'</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="n">chainer</span><span class="o">.</span><span class="n">using_config</span><span class="p">(</span><span class="s1">&#39;enable_backprop&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">predictor</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'predicted_label:'</span><span class="p">,</span> <span class="n">cls_names</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">'answer:'</span><span class="p">,</span> <span class="n">cls_names</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;predicted_label:&#39;</span><span class="p">,</span> <span class="n">cls_names</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;answer:&#39;</span><span class="p">,</span> <span class="n">cls_names</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">):</span>
     <span class="n">predict</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
@@ -1648,7 +1735,7 @@ Test accuracy: 0.610265
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_0.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1664,7 +1751,7 @@ answer: airplane
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_2.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_2.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_2.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_2.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1680,7 +1767,7 @@ answer: truck
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_4.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_4.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_4.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_4.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1696,7 +1783,7 @@ answer: dog
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_6.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_6.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_6.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_6.png" />
 </div>
 </div>
 <div class="nboutput docutils container">
@@ -1712,7 +1799,7 @@ answer: horse
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_8.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_8.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_100_8.png" src="../_images/notebooks_04_Introduction_to_Chainer_100_8.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -1836,7 +1923,7 @@ averaging</a>)するような効果があると言われ，汎化性能が向上
 
 <span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">snapshot</span><span class="o">=</span><span class="s1">'DeepCNN_cifar10_snapshot_epoch_90.npz'</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">snapshot</span><span class="o">=</span><span class="s1">&#39;DeepCNN_cifar10_snapshot_epoch_90.npz&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1968,7 +2055,7 @@ Test accuracy: 0.8966574
 <p><strong>ゼロから学習する場合:</strong></p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>学習が終了しました．学習曲線と精度のグラフを見てみましょう．</p>
@@ -1977,7 +2064,7 @@ Test accuracy: 0.8966574
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_result/loss.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/DeepCNN_cifar10_result/loss.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1986,7 +2073,7 @@ Test accuracy: 0.8966574
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_115_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_115_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_115_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_115_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -1994,7 +2081,7 @@ Test accuracy: 0.8966574
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_result/accuracy.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/DeepCNN_cifar10_result/accuracy.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2003,7 +2090,7 @@ Test accuracy: 0.8966574
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_116_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_116_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_116_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_116_0.png" />
 </div>
 </div>
 <p>先程の浅い（層数の少ない）CNNを用いた際には60%前後だったValidationデータでの精度が，90%程度まで上がりました．また，テストデータを用いた精度も，およそ90%程度となっています．しかし最新の研究成果では97%以上まで達成されています．さらに精度を上げるには，今回行ったようなネットワークの構造自体の改良ももちろんのこと，学習データを擬似的に増やす操作（Data augmentation）や，複数のモデルの出力を一つの出力に統合する操作（Ensemble）などなど，いろいろな工夫が考えられます．</p>
@@ -2027,18 +2114,18 @@ Test accuracy: 0.8966574
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="k">class</span> <span class="nc">CIFAR10Augmented</span><span class="p">(</span><span class="n">chainer</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">DatasetMixin</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">'train'</span><span class="p">,</span> <span class="n">train_ratio</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">train_ratio</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
         <span class="n">train_val</span><span class="p">,</span> <span class="n">test_data</span> <span class="o">=</span> <span class="n">cifar</span><span class="o">.</span><span class="n">get_cifar10</span><span class="p">()</span>
         <span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_val</span><span class="p">)</span> <span class="o">*</span> <span class="n">train_ratio</span><span class="p">)</span>
         <span class="n">train_data</span><span class="p">,</span> <span class="n">valid_data</span> <span class="o">=</span> <span class="n">split_dataset_random</span><span class="p">(</span><span class="n">train_val</span><span class="p">,</span> <span class="n">train_size</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">'train'</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">train_data</span>
-        <span class="k">elif</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">'valid'</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;valid&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">valid_data</span>
-        <span class="k">elif</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">'test'</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">test_data</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"'split' argument should be either 'train', 'valid', or 'test'. But </span><span class="si">{}</span><span class="s2"> was given."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">split</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;split&#39; argument should be either &#39;train&#39;, &#39;valid&#39;, or &#39;test&#39;. But </span><span class="si">{}</span><span class="s2"> was given.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">split</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">=</span> <span class="n">split</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">random_crop</span> <span class="o">=</span> <span class="mi">4</span>
@@ -2048,7 +2135,7 @@ Test accuracy: 0.8966574
 
     <span class="k">def</span> <span class="nf">get_example</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">'train'</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">split</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
             <span class="n">x_offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">random_crop</span><span class="p">)</span>
@@ -2083,7 +2170,7 @@ Test accuracy: 0.8966574
 
 <span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(),</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(</span><span class="s1">'valid'</span><span class="p">),</span> <span class="n">test_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(</span><span class="s1">'test'</span><span class="p">),</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">'augmented_'</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">snapshot</span><span class="o">=</span><span class="s1">'DeepCNN_cifar10_augmented_snapshot_epoch_90.npz'</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(),</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(</span><span class="s1">&#39;valid&#39;</span><span class="p">),</span> <span class="n">test_dataset</span><span class="o">=</span><span class="n">CIFAR10Augmented</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">),</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">&#39;augmented_&#39;</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">snapshot</span><span class="o">=</span><span class="s1">&#39;DeepCNN_cifar10_augmented_snapshot_epoch_90.npz&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2219,7 +2306,7 @@ Test accuracy: 0.91702926
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_augmented_result/loss.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/DeepCNN_cifar10_augmented_result/loss.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2228,7 +2315,7 @@ Test accuracy: 0.91702926
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_125_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_125_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_125_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_125_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
@@ -2236,7 +2323,7 @@ Test accuracy: 0.91702926
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'results/DeepCNN_cifar10_augmented_result/accuracy.png'</span><span class="p">)</span>
+<span></span><span class="n">Image</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;results/DeepCNN_cifar10_augmented_result/accuracy.png&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2245,7 +2332,7 @@ Test accuracy: 0.91702926
 </pre></div>
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/notebooks_04_Introduction_to_Chainer_126_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_126_0.png"/>
+<img alt="../_images/notebooks_04_Introduction_to_Chainer_126_0.png" src="../_images/notebooks_04_Introduction_to_Chainer_126_0.png" />
 </div>
 </div>
 </div>
@@ -2395,7 +2482,7 @@ Successfully installed chainercv-0.12.0
 
 <span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">'augmented2_'</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">),</span> <span class="n">snapshot</span><span class="o">=</span><span class="s1">'DeepCNN_cifar10_augmented2_snapshot_epoch_90.npz'</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">train_dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="o">=</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">test_dataset</span><span class="o">=</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">postfix</span><span class="o">=</span><span class="s1">&#39;augmented2_&#39;</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;epoch&#39;</span><span class="p">),</span> <span class="n">snapshot</span><span class="o">=</span><span class="s1">&#39;DeepCNN_cifar10_augmented2_snapshot_epoch_90.npz&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2527,37 +2614,58 @@ Test accuracy: 0.9244462
 <p>わずかに精度が向上しました．他にも，ResNet [He 2016]と呼ばれる有名なネットワーク構造を採用して学習を行うなど，簡単に試せる改善方法がいくつかあります．ぜひ色々と試してみてください．</p>
 </div>
 </div>
-<hr class="docutils"/>
+<hr class="docutils" />
 <div class="section" id="参考文献">
 <h2>4.7. 参考文献<a class="headerlink" href="#参考文献" title="Permalink to this headline">¶</a></h2>
 <p>[Tokui 2015] Tokui, S., Oono, K., Hido, S. and Clayton, J., Chainer: a Next-Generation Open Source Framework for Deep Learning, Proceedings of Workshop on Machine Learning Systems(LearningSys) in The Twenty-ninth Annual Conference on Neural Information Processing Systems (NIPS), (2015)</p>
-<p>[Niitani 2017] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, "ChainerCV: a Library for Deep Learning in Computer Vision", ACM Multimedia (ACMMM), Open Source Software Competition, 2017</p>
+<p>[Niitani 2017] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, &quot;ChainerCV: a Library for Deep Learning in Computer Vision&quot;, ACM Multimedia (ACMMM), Open Source Software Competition, 2017</p>
 <p>[Hidaka 2017] Masatoshi Hidaka, Yuichiro Kikura, Yoshitaka Ushiku, Tatsuya Harada. WebDNN: Fastest DNN Execution Framework on Web Browser. ACM International Conference on Multimedia (ACMMM), Open Source Software Competition, pp.1213-1216, 2017.</p>
-<p>[He 2016] Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun, "Deep Residual Learning for Image Recognition", CVPR 2016</p>
+<p>[He 2016] Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun, &quot;Deep Residual Learning for Image Recognition&quot;, CVPR 2016</p>
 </div>
 </div>
-</div>
-</div>
-<footer>
-<div aria-label="footer navigation" class="rst-footer-buttons" role="navigation">
-<a accesskey="n" class="btn btn-neutral float-right" href="05_Image_Segmentation.html" rel="next" title="5. 実践編: MRI画像のセグメンテーション">Next <span class="fa fa-arrow-circle-right"></span></a>
-<a accesskey="p" class="btn btn-neutral" href="03_Introduction_to_Neural_Network.html" rel="prev" title="3. ニューラルネットワークの基礎"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-</div>
-<hr/>
-<div role="contentinfo">
-<p>
-        © Copyright 2018, Preferred Networks &amp; キカガク
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="05_Image_Segmentation.html" class="btn btn-neutral float-right" title="5. 実践編: MRI画像のセグメンテーション" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="03_Introduction_to_Neural_Network.html" class="btn btn-neutral" title="3. ニューラルネットワークの基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Preferred Networks &amp; キカガク
 
     </p>
-</div>
+  </div>
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-</div>
-</div>
-</section>
-</div>
-<script type="text/javascript">
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
               VERSION:'',
@@ -2568,17 +2676,23 @@ Test accuracy: 0.9244462
               SOURCELINK_SUFFIX: '.txt'
           };
       </script>
-<script src="../_static/jquery.js" type="text/javascript"></script>
-<script src="../_static/underscore.js" type="text/javascript"></script>
-<script src="../_static/doctools.js" type="text/javascript"></script>
-<script src="../_static/translations.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-<script src="../_static/js/theme.js" type="text/javascript"></script>
-<script type="text/javascript">
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
+
 </body>
 </html>

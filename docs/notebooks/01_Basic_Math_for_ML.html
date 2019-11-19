@@ -112,9 +112,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#線形代数とは">1.3.1. 線形代数とは</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#スカラー，ベクトル，行列，テンソル">1.3.2. スカラー，ベクトル，行列，テンソル</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#足し算・引き算">1.3.3. 足し算・引き算</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#内積">1.3.4. 内積</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#かけ算（行列積）">1.3.5. かけ算（行列積）</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#転置">1.3.6. 転置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#転置">1.3.4. 転置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#内積">1.3.5. 内積</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#掛け算（行列積）">1.3.6. 掛け算（行列積）</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#ベクトル，行列のサイズ">1.3.7. ベクトル，行列のサイズ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#単位行列">1.3.8. 単位行列</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#逆行列">1.3.9. 逆行列</a></li>
@@ -128,7 +128,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#尤度と最尤推定">1.4.3. 尤度と最尤推定</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#事後確率最大化推定(MAP推定)">1.4.4. 事後確率最大化推定(MAP推定)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#統計量">1.4.5. 統計量</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#正規分布と正規化">1.4.6. 正規分布と正規化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#正規分布">1.4.6. 正規分布</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#標準偏差を利用したスケーリング">1.4.7. 標準偏差を利用したスケーリング</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#外れ値除去">1.4.8. 外れ値除去</a></li>
 </ul>
@@ -242,29 +242,27 @@
 <div class="section" id="機械学習とは">
 <h2>1.1. 機械学習とは<a class="headerlink" href="#機械学習とは" title="Permalink to this headline">¶</a></h2>
 <p>機械学習は，コンピュータがデータから学習することで，そのデータに含まれる規則や判断基準などのパターンを抽出する関数を獲得し，その関数を用いて新たなデータについて予測を行う手法です．機械学習技術は現在では，画像認識，音声認識，文書分類，医療診断，迷惑メール検知，商品推薦など，幅広い分野に応用されています．</p>
-<p>ここで，学習によって獲得される関数（ <strong>モデル</strong>ともよばれます ）は多くの場合 <strong>パラメータ</strong> によって特徴づけられており，パラメータを決めればその関数の挙動が決まります．最も単純な例として直線の関数を考えると，これは傾き<span class="math">\(a\)</span>と切点<span class="math">\(b\)</span>の２つのパラメータで特徴づけられ，<span class="math">\(f(x; a, b) = ax + b\)</span>のように表記します．（ここで<span class="math">\(x\)</span> は関数の <strong>入力変数</strong> とよびます．また <span class="math">\(；\)</span>
-の後ろにパラメータを表記します）．機械学習の目標は，学習データを使ってこれらのパラメータを決定することです．</p>
-<p>機械学習は，<strong>目的関数</strong>を最小化（または最大化）することで学習，つまり望ましい挙動をするようなパラメータを決定します．そのため，目的関数はモデルの出力値が望ましい場合には小さな（または大きな）値をとり，そうでない場合は大きな（または小さな）値をとるように設計します．</p>
-<p>例えば，学習データとして入力と出力のペアからなるデータセット<span class="math">\(D=\left((x_1, y_1), (x_2, y_2), \ldots, (x_n, y_n) \right)\)</span>が与えられたとします．ここで，<span class="math">\(x_{i}\)</span>は<span class="math">\(i\)</span>番目のサンプルの入力，<span class="math">\(y_{i}\)</span>は<span class="math">\(i\)</span>番目のサンプルの出力を表します．これらの点の近くをできる限り通るような直線<span class="math">\(f(x; a, b) = ax + b\)</span>を学習したいとします．出力が実数値の場合，パラメータ<span class="math">\(\theta = (a, b)\)</span>とおいて，次のような目的関数がよく利用されます．</p>
+<p>ここで，学習によって獲得される関数（<strong>モデル</strong>ともよばれます）は多くの場合<strong>パラメータ</strong>によって特徴づけられており，パラメータを決めればその関数の挙動が決まります．最も単純な例として直線の関数を考えると，これは傾き<span class="math">\(a\)</span>と切片<span class="math">\(b\)</span>の2つのパラメータで特徴づけられ，<span class="math">\(f(x; a, b) = ax + b\)</span>のように表記します．（ここで<span class="math">\(x\)</span>は関数の<strong>入力変数</strong>とよびます．また<span class="math">\(；\)</span>の後ろにパラメータを表記します）．機械学習の目標は，データを使ってこれらのパラメータを決定することです．</p>
+<p>機械学習は，<strong>目的関数</strong>とよばれる関数を最小化（または最大化）することで学習，つまり望ましい挙動をするようなパラメータを決定します．そのため，目的関数はモデルの出力値が望ましい場合には小さな（または大きな）値をとり，そうでない場合は大きな（または小さな）値をとるように設計します．</p>
+<p>例えば，モデルの入力と出力のペアからなるデータセット<span class="math">\(D=\left((x_1, y_1), (x_2, y_2), \ldots, (x_n, y_n) \right)\)</span>が与えられたとします．ここで，<span class="math">\(x_{i}\)</span>は<span class="math">\(i\)</span>番目のサンプルの入力，<span class="math">\(y_{i}\)</span>は<span class="math">\(i\)</span>番目のサンプルの出力を表します．これらの点の近くをできる限り通るような直線<span class="math">\(f(x; a, b) = ax + b\)</span>を求めたいとします．出力が実数値の場合，パラメータ<span class="math">\(\theta = (a, b)\)</span>とおいて，次のような目的関数がよく利用されます．</p>
 <p><span class="math">\(L( \theta) = \sum_{i=1}^n (y_i - f(x_i; \theta))^2\)</span></p>
-<p>この関数を最小化することを考えます．上式では，モデルの予測値<span class="math">\(f(x_i; \theta)\)</span>と正解<span class="math">\(y_i\)</span>との二乗誤差を求め，その合計値を計算しています．全てのデータで予測と正解が一致する時だけ<span class="math">\(0\)</span>，それ以外は，大きく間違えるほど大きな正の値をとります．間違えた度合いを測る関数を，特に <strong>損失関数</strong> とよぶこともあります．また，与えられたデータセット全体に対するペナルティの合計値を求めるような目的関数は
-<strong>コスト関数</strong>ともよばれることもあります．目的関数の引数は<span class="math">\(\theta\)</span>となっており，目的関数を最小化する最適な<span class="math">\(\theta\)</span>を求めることで，データセット<span class="math">\(D\)</span>を精度良く予測する関数<span class="math">\(f(x; \theta)\)</span>が得られることになります</p>
-<p>目的関数の最小化問題を解くためには微分と線形代数の知識が必要になります．ただし，全ての微分と線形代数の知識は必要ありません．以降，機械学習の理解に必要な最低限の知識を説明します．</p>
+<p>この関数を最小化することを考えます．上式では，モデルの予測値<span class="math">\(f(x_i; \theta)\)</span>と正解<span class="math">\(y_i\)</span>との二乗誤差を求め，その合計値を計算しています．全てのデータで予測と正解が一致する時だけ<span class="math">\(0\)</span>，それ以外は，大きく間違えるほど大きな正の値をとります．間違えた度合いを測る関数を，特に<strong>損失関数</strong>とよぶこともあります．また，与えられたデータセット全体に対するペナルティの合計値を求めるような目的関数は<strong>コスト関数</strong>ともよばれることもあります．目的関数の引数は<span class="math">\(\theta\)</span>となっており，目的関数を最小化する最適な<span class="math">\(\theta\)</span>を求めることで，データセット<span class="math">\(D\)</span>を精度良く予測する関数<span class="math">\(f(x; \theta)\)</span>が得られることになります</p>
+<p>目的関数の最小化問題を解くためには微分と線形代数の知識が必要になります．ただし，微分と線形代数の全ての知識は必要ありません．以降，機械学習の理解に必要な最低限の知識を説明します．</p>
 </div>
 <div class="section" id="微分">
 <h2>1.2. 微分<a class="headerlink" href="#微分" title="Permalink to this headline">¶</a></h2>
-<p>関数の入力値における微分は，その点におけるグラフの <strong>接線の傾き</strong>に相当し，下図のように関数に接する直線として表すことができます．</p>
+<p>関数のある入力値における微分は，その点におけるグラフの<strong>接線の傾き</strong>に相当し，下図のように関数に接する直線として表すことができます．</p>
 <p><img alt="image0" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/01.png" /></p>
-<p>例えば上図の関数においては，<span class="math">\(a\)</span> の点における接線は赤い直線であり，その傾きは<span class="math">\(+3\)</span>となっています．右肩上がりな直線の傾きは正の値になります．</p>
+<p>例えば上図の関数においては，<span class="math">\(a\)</span>の点における接線は赤い直線であり，その傾きは<span class="math">\(+3\)</span>となっています．右肩上がりな直線の傾きは正の値になります．</p>
 <p><img alt="image1" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/02.png" /></p>
-<p>それに対し，次の図の <span class="math">\(b\)</span> の点においては，傾きは-1であり，接線は右肩下がりの直線となっています．</p>
+<p>それに対し，次の図の<span class="math">\(b\)</span>の点においては，傾きは<span class="math">\(-1\)</span>であり，接線は右肩下がりの直線となっています．</p>
 <p>もし目的関数の値が全てのパラメータについて計算できているならば，その中から目的関数の最小値を選び出すのは可能ですが，そのようなことは通常不可能です．しかし，ある点でのパラメータに関する微分を計算できれば，接線の傾きを求めることができ，パラメータ全域のグラフ形状がわからなくても，パラメータを変化させた時に目的関数がどう変化するのかが分かります．この情報に基づいて，目的関数を小さくするようにパラメータを更新することができます．</p>
 <p>再度，微分の説明に戻り，その定義や多変数入力，多変数出力の場合について詳しくみていきます．</p>
 <div class="section" id="2点間を通る直線の傾き">
 <h3>1.2.1. 2点間を通る直線の傾き<a class="headerlink" href="#2点間を通る直線の傾き" title="Permalink to this headline">¶</a></h3>
-<p>はじめに，微分の原理を理解していくために，下図に示す2点間を通る直線の傾き <span class="math">\(a\)</span> を求めてみましょう．</p>
+<p>はじめに，微分の原理を理解していくために，下図に示す2点間を通る直線の傾き<span class="math">\(a\)</span>を求めてみましょう．</p>
 <p><img alt="image2" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/04.png" /></p>
-<p>この時，傾き<span class="math">\(a\)</span> は，</p>
+<p>この時，傾き<span class="math">\(a\)</span>は，</p>
 <div class="math">
 \[a = \dfrac{f(x_{2}) - f(x_{1})}{x_{2}-x_{1}}\]</div>
 <p>と求まります．</p>
@@ -273,21 +271,22 @@
 <h3>1.2.2. 1点での接線の傾き<a class="headerlink" href="#1点での接線の傾き" title="Permalink to this headline">¶</a></h3>
 <p>次に，与えられた関数の接線の傾きを求めていきます．そのためには，<strong>極限</strong>の考えが必要になります．極限では，変数がある値に限りなく近づくとき，その変数によって記述される関数がどのような振る舞いをするか考えます．極限を表すために，<span class="math">\(\lim\)</span> という記号が一般的に用いられます．例えば，</p>
 <div class="math">
-\[ \begin{align}\begin{aligned}  \displaystyle \lim _{x\rightarrow 0}3x=3\times 0=0\\は，\ :math:`x`\ という変数を\ :math:`0`\ に近づけていったときに式の値がどのような値になるかを与えます．\end{aligned}\end{align} \]</div>
-<p>それでは，下図のある点 <span class="math">\(x\)</span> における接線の傾き<span class="math">\(a\)</span>を求めていきましょう．</p>
+\[\displaystyle \lim _{x\rightarrow 0}3x=3\times 0=0\]</div>
+<p>は，<span class="math">\(x\)</span>という変数を<span class="math">\(0\)</span>に近づけていったときに式の値がどのような値になるかを与えます．</p>
+<p>それでは，下図のある点<span class="math">\(x\)</span>における接線の傾き<span class="math">\(a\)</span>を求めていきましょう．</p>
 <p><img alt="image3" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/05.png" /></p>
 <p>さきほど考えた2点を通る直線と極限を組み合わせて，接線を求めることができます．</p>
 <p><img alt="image4" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/06.png" /></p>
-<p>はじめに，<span class="math">\(x\)</span> から <span class="math">\(h\)</span> だけ離れた点 <span class="math">\(x+h\)</span> を考え，2点を通る直線の傾きを求めてみます．次に<span class="math">\(h\)</span>を<span class="math">\(h \rightarrow 0\)</span> のように小さくしていけば，直線の開始点と終了点の2点が1点に収束し，1点での接線として考えることができます．これを式でみると</p>
+<p>はじめに，<span class="math">\(x\)</span>から<span class="math">\(h\)</span>だけ離れた点<span class="math">\(x+h\)</span>を考え，2点を通る直線の傾きを求めてみます．次に<span class="math">\(h\)</span>を<span class="math">\(h \rightarrow 0\)</span>のように小さくしていけば，直線の開始点と終了点の2点が1点に収束し，1点での接線として考えることができます．これを式でみると</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\left( x+h\right) -x}\\
+f'(x) &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\left( x+h\right) -x}\\
 &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{h}\\
 \end{aligned}\end{split}\]</div>
-<p>となります．上の式は<strong>導関数</strong>とよび，<span class="math">\(f'(x)\)</span> で表されます．また導関数を求めることを<strong>微分する</strong>といいます．また，記号の使い方として，</p>
+<p>となります．上の式を<strong>導関数</strong>とよびます．また導関数を求めることを<strong>微分する</strong>といいます．また，記号の使い方として，</p>
 <div class="math">
-\[(\cdot)' = \dfrac{d}{dx}(\cdot)\]</div>
-<p>のように表しても構いません．この<span class="math">\(d\)</span>という記号は微分（differentiation）を表しており，<span class="math">\(d(\cdot)\)</span>が対象の値の変化量，<span class="math">\(dx\)</span>が<span class="math">\(x\)</span>の変化量を表し，それらを小さくしていった時の極限を表します．この記法は煩雑ですが，変数が<span class="math">\(x\)</span>，<span class="math">\(y\)</span>など複数ある場合に，<span class="math">\(x\)</span>を微分しているか，<span class="math">\(y\)</span>を微分しているかが明確になるため，正確な表現をすることができます．</p>
+\[f'(x) = \dfrac{d}{dx} f(x)\]</div>
+<p>のように表しても構いません．この<span class="math">\(d\)</span>という記号はある変数における微小変化量を表しており，<span class="math">\(df(x)\)</span>が対象の値の変化量，<span class="math">\(dx\)</span>が<span class="math">\(x\)</span>の変化量を表し，それらを小さくしていった時の極限を表します．この記法は煩雑ですが，変数が<span class="math">\(x\)</span>，<span class="math">\(y\)</span>など複数ある場合に，<span class="math">\(x\)</span>で微分しているか，<span class="math">\(y\)</span>で微分しているかが明確になるため，正確な表現をすることができます．</p>
 </div>
 <div class="section" id="微分の公式">
 <h3>1.2.3. 微分の公式<a class="headerlink" href="#微分の公式" title="Permalink to this headline">¶</a></h3>
@@ -300,7 +299,7 @@ a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\le
 \left( x^{n} \right)^{'} &amp;=nx^{n-1} \\
 \left( f(x) + g(x) \right) ^{'} &amp;=f^{'}(x)+g^{'}(x) \\
 \left( f(x) g(x) \right) ^{'} &amp;= f^{'}(x)g(x) + f(x)g^{'}(x) \\
-\left( f(g(x)) \right) ^{'} &amp;= \frac{df(u)}{du}\frac{du}{dx}, u = g(x)
+\left( f(g(x)) \right) ^{'} &amp;= \frac{df(u)}{du}\frac{du}{dx} = f^{'}(g(x)) \cdot g^{'}(x) \\
 \end{align}\end{split}\]</div>
 <p>例えば，以下の微分を考えてみましょう．</p>
 <div class="math">
@@ -310,20 +309,19 @@ a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\le
 &amp;= 3 \times 2x + 4 \times 1 + 5 \times 0  \\
 &amp;= 6x + 4
 \end{aligned}\end{split}\]</div>
-<p>このように，各項の和に対する微分の計算は，各項に対して微分した後に和をとるようにしても等式の関係が成立します．また，各項の微分を行う際に，定数の係数（変数にかかる数）は微分演算の外側に出すことができます．これらは微分の <strong>線形性</strong> とよばれる性質であり，この性質を使うことで，微分を簡単に計算できるようになります．</p>
+<p>このように，各項の和に対する微分の計算は，各項に対して微分した後に和をとるようにしても等式の関係が成立します．また，各項の微分を行う際に，定数の係数（変数にかかる数）は微分演算の外側に出すことができます．これらは微分の<strong>線形性</strong>とよばれる性質であり，この性質を使うことで，微分を簡単に計算できるようになります．</p>
 </div>
 <div class="section" id="合成関数の微分">
 <h3>1.2.4. 合成関数の微分<a class="headerlink" href="#合成関数の微分" title="Permalink to this headline">¶</a></h3>
-<p>後の章で詳しく述べますが，一般的に機械学習においては複雑な <strong>合成関数の微分</strong> を考える必要が出てきます．簡単な例として，</p>
+<p>後の章で詳しく述べますが，一般的に機械学習においては複雑な<strong>合成関数の微分</strong>を考える必要が出てきます．簡単な例として，</p>
 <div class="math">
 \[\left\{ (3x + 4)^{2} \right\}'\]</div>
-<p>を計算することを考えます．この式は，<span class="math">\(3x+4\)</span> という内側の部分と <span class="math">\((\cdot)^{2}\)</span>
-という外側の部分で構成されています．この式を<span class="math">\((9x^2 + 24x + 16)'\)</span>のように展開してから微分を計算してもよいのですが，3乗や4乗となってくると展開するのも大変になります．ここで役に立つ考え方が合成関数の微分です．先程紹介した微分の公式の最後に登場していた式です．合成関数の微分は，内側の微分と外側の微分をそれぞれ行い，その結果をかけ合わせることで求めることができます．外側の微分の際には関数の引数を入力とみなし，その入力について微分をとります．</p>
+<p>を計算することを考えます．この式は<span class="math">\(3x+4\)</span>という内側の部分と<span class="math">\((\cdot)^{2}\)</span>という外側の部分で構成されています．この式を<span class="math">\((9x^2 + 24x + 16)'\)</span>のように展開してから微分を計算してもよいのですが，3乗や4乗となってくると展開するのも大変になります．ここで役に立つ考え方が合成関数の微分です．先程紹介した微分の公式の最後に登場していた式です．合成関数の微分は，内側の微分と外側の微分をそれぞれ行い，その結果をかけ合わせることで求めることができます．外側の微分の際には関数の引数を入力とみなし，その入力について微分をとります．</p>
 <p>それでは先程の<span class="math">\((3x+4)^2\)</span>という関数の微分を考えてみます．</p>
-<p>まず内側の関数を <span class="math">\(u = (3x+4)\)</span> とおいて，</p>
+<p>まず内側の関数を<span class="math">\(u = (3x+4)\)</span>とおいて，</p>
 <div class="math">
 \[\left\{ (3x + 4)^{2} \right\}' = (u^{2})'\]</div>
-<p>とします．ここで，<span class="math">\((\cdot)'\)</span> をもう少し厳密に考える必要が出てきます．今は，<span class="math">\(x\)</span> と <span class="math">\(u\)</span> の2つの変数が登場しており，<span class="math">\((\cdot)'\)</span> では，<span class="math">\(x\)</span> で微分しているのか <span class="math">\(u\)</span> で微分しているのかの区別がつきません．そこで，多少複雑に見えますが，先程紹介した<span class="math">\(d\)</span>を使った記法で微分する変数を厳密に記述すると，</p>
+<p>とします．ここで，<span class="math">\((\cdot)'\)</span> をもう少し厳密に考える必要が出てきます．今は<span class="math">\(x\)</span>と<span class="math">\(u\)</span>の2つの変数が登場しており，<span class="math">\((\cdot)'\)</span>では，<span class="math">\(x\)</span>で微分しているのか<span class="math">\(u\)</span>で微分しているのかの区別がつきません．そこで，多少複雑に見えますが，先程紹介した<span class="math">\(d\)</span>を使った記法で微分する変数を厳密に記述すると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \left\{ (3x + 4)^{2} \right\}' &amp;= \dfrac{d}{dx} \left\{ (3x + 4)^{2} \right\} \\
@@ -333,15 +331,14 @@ a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\le
 &amp;= 6u = 6(3x + 4) = 18x + 24 \\
 \end{aligned}\end{split}\]</div>
 <p>となります．</p>
-<p>ニューラルネットワークの学習では合成関数の微分を使用する場面が何度も登場するため，この計算方法をしっかりと覚えておきましょう．</p>
+<p>ニューラルネットワークを訓練する際には合成関数の微分を使用する場面が何度も登場するため，この計算方法をしっかりと覚えておきましょう．</p>
 </div>
 <div class="section" id="偏微分">
 <h3>1.2.5. 偏微分<a class="headerlink" href="#偏微分" title="Permalink to this headline">¶</a></h3>
-<p>機械学習では，1つの入力変数 <span class="math">\(x\)</span> から出力変数 <span class="math">\(y\)</span> を予測するケースは稀であり，基本的には，複数の入力変数 <span class="math">\(x_{1}\)</span>, <span class="math">\(x_{2}\)</span>, <span class="math">\(\ldots\)</span>, <span class="math">\(x_{M}\)</span> を用いて出力変数 <span class="math">\(y\)</span>
-を予測する多変数関数を扱います．例えば，家賃を予測する場合，部屋の広さだけではなく，駅からの距離や犯罪発生率なども考慮した方がより正確に予測できると期待されます．複数の入力<span class="math">\(x_1, x_2, \ldots, x_M\)</span>を考慮した関数<span class="math">\(f(x_1, x_2, \ldots, x_M)\)</span>を多変数関数とよびます．この多変数関数において，ある入力<span class="math">\(x_m\)</span>にのみ注目して微分することを <strong>偏微分</strong> とよび，</p>
+<p>機械学習では，1つの入力変数<span class="math">\(x\)</span>から出力変数<span class="math">\(y\)</span>を予測するケースは稀であり，基本的には，複数の入力変数<span class="math">\(x_{1}, x_{2}, \ldots, x_{M}\)</span>を用いて出力変数<span class="math">\(y\)</span>を予測する多変数関数を扱います．例えば，家賃を予測する場合，部屋の広さだけではなく，駅からの距離や犯罪発生率なども考慮した方がより正確に予測できると期待されます．複数の入力<span class="math">\(x_1, x_2, \ldots, x_M\)</span>を考慮した関数<span class="math">\(f(x_1, x_2, \ldots, x_M)\)</span>を多変数関数とよびます．この多変数関数において，ある入力<span class="math">\(x_m\)</span>にのみ注目して微分することを<strong>偏微分</strong>とよび，</p>
 <div class="math">
 \[\dfrac{\partial}{\partial x_{m}} f(x_{1}, x_{2}, \ldots, x_{M})\]</div>
-<p>のように表します．微分を表す記号が，<span class="math">\(d\)</span> から <span class="math">\(\partial\)</span> に変わり，計算としては <span class="math">\(\dfrac{\partial}{\partial x_{m}}\)</span> の場合は <span class="math">\(x_{m}\)</span> 以外は定数と考え，<span class="math">\(x_{m}\)</span> にのみ着目して微分を行います．（ただし，入力変数が他の入力変数と独立ではない場合は定数と考えることはできません．本講義ではそのようなケースは出てきません）．</p>
+<p>のように表します．微分を表す記号が，<span class="math">\(d\)</span>から<span class="math">\(\partial\)</span>に変わり，計算としては<span class="math">\(\dfrac{\partial}{\partial x_{m}}\)</span>の場合は<span class="math">\(x_{m}\)</span>以外は定数と考え<span class="math">\(x_{m}\)</span>にのみ着目して微分を行います．（ただし，入力変数が他の入力変数と独立ではない場合は定数と考えることはできません．本講義ではそのようなケースは出てきません）．</p>
 <p>例題で具体的な計算の流れを確認していきましょう．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -350,15 +347,15 @@ a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\le
 &amp;=3\times 1+4x_{2}\times 0\\
 &amp;= 3
 \end{aligned}\end{split}\]</div>
-<p>偏微分でも微分と同じ公式を適用できます．今回のケースでは，<span class="math">\(x_{1}\)</span> にだけ着目するため，<span class="math">\(x_{2}\)</span> は定数として扱うことを把握しておけば上記の計算の流れが理解できるはずです．</p>
+<p>偏微分でも微分と同じ公式を適用できます．今回のケースでは，<span class="math">\(x_{1}\)</span>にだけ着目するため，<span class="math">\(x_{2}\)</span>は定数として扱うことを把握しておけば上記の計算の流れが理解できるはずです．</p>
 </div>
 </div>
 <div class="section" id="線形代数">
 <h2>1.3. 線形代数<a class="headerlink" href="#線形代数" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="線形代数とは">
 <h3>1.3.1. 線形代数とは<a class="headerlink" href="#線形代数とは" title="Permalink to this headline">¶</a></h3>
-<p>次に，<strong>線形代数</strong> について解説します．ベクトル，行列，逆行列などが登場します．</p>
-<p>線形代数を導入することで，複数の変数間の関係をシンプルに記述可能となるため，機械学習の中でも度々登場してきます．大変重要な概念ですので，ぜひ身に着けていきましょう．</p>
+<p>次に，ベクトル，行列，逆行列などが登場する数学の一分野である<strong>線形代数</strong>について解説していきます．</p>
+<p>線形代数を導入することで，複数の変数間の関係をシンプルに記述可能となるため，機械学習の中でも度々登場してきます．ぜひ身に着けていきましょう．</p>
 </div>
 <div class="section" id="スカラー，ベクトル，行列，テンソル">
 <h3>1.3.2. スカラー，ベクトル，行列，テンソル<a class="headerlink" href="#スカラー，ベクトル，行列，テンソル" title="Permalink to this headline">¶</a></h3>
@@ -369,12 +366,12 @@ a &amp;=\lim _{h\rightarrow 0}\dfrac {f\left( x+h\right) -f\left( x\right) }{\le
 <p>のように表します．スカラーは例えば温度や身長といった単一の量を表すことに使われます．</p>
 <p><strong>ベクトル</strong>は，複数のスカラーを縦方向（もしくは横方向）に集めて並べたものであり，</p>
 <div class="math">
-\[\begin{split}\boldsymbol{x}=\begin{bmatrix}
+\[\begin{split}\bf{x}=\begin{bmatrix}
 x_{1} \\
 x_{2} \\
 x_{3}
 \end{bmatrix}, \
-\boldsymbol{y}=\begin{bmatrix}
+\bf{y}=\begin{bmatrix}
 y_{1} \\
 y_{2} \\
 \vdots \\
@@ -383,16 +380,17 @@ y_{N}
 <p>のように表します．ベクトルの表記は太文字とする場合が多く，スカラーかベクトルかを区別できるようにしています．ベクトルを表現する際，縦方向に並べたものを列ベクトル，横方向に並べたものを行ベクトルとよびます．数学や機械学習では列ベクトルを利用する論文や参考書が多いため，特に明示しない限り，単にベクトルと表現した場合には列ベクトルを指すこととします．</p>
 <p><strong>行列</strong>は複数の同じサイズのベクトルを並べたものであり，</p>
 <div class="math">
-\[\begin{split}\boldsymbol{X}=\begin{bmatrix}
+\[\begin{split}\bf{X}=\begin{bmatrix}
 x_{11} &amp; x_{12} \\
 x_{21} &amp; x_{22} \\
 x_{31} &amp; x_{32}
 \end{bmatrix}\end{split}\]</div>
-<p>のように表します．行列のサイズは行と列で表現します．例えば，この <span class="math">\(\boldsymbol{X}\)</span> は3行2列であり，サイズが(3, 2)の行列と言います．多くの場合，行列は大文字，または大文字の太文字で表記されます．</p>
+<p>のように表します．行列のサイズは行と列で表現します．例えば，この<span class="math">\(\bf{X}\)</span>は3行2列であり，サイズが(3, 2)の行列と言います．多くの場合，行列は大文字，または大文字の太文字で表記されます．</p>
 <p><strong>テンソル</strong>はベクトルや行列を一般化した概念であり，ベクトルは1階のテンソル，行列は2階のテンソルと表現することができます．また，図のように行列を奥行き方向にさらに並べたものは3階のテンソルとなります．例えば，カラー画像をデジタル表現する場合，画像を構成する各ピクセルはRGB (Red Green Blue)
 などの色空間を用いるのが一般的であり，（行番号，列番号，色）の3つの軸で1つの値を指定するため，3階のテンソルで表現されます．本講座を含めて，単にテンソルと表現されている場合には，3階以上のテンソルを指すことが多いので，注意してください．</p>
 <p><img alt="image5" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/07.png" /></p>
-<p>線形代数では <span class="math">\(\boldsymbol{y}\)</span> や <span class="math">\(\boldsymbol{X}\)</span> といった文字だけで式変形をしていくため，どのような形の数値が取り扱われているかわかりくいのですが，これはベクトルなどと常に意識しておくことでその形を見失わないように注意しましょう．</p>
+<p>線形代数では <span class="math">\(\bf{y}\)</span> や <span class="math">\(\bf{X}\)</span> といった文字だけで式変形をしていくため，どのような形の数値が取り扱われているかわかりくいのですが，これはベクトルなどと常に意識しておくことでその形を見失わないように注意しましょう．</p>
+<p>スカラー，ベクトル，行列，テンソルの一般的な記法をまとめると下表の通りです．本講座でもこの記法を用いています．</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="22%" />
@@ -419,7 +417,7 @@ x_{31} &amp; x_{32}
 </div>
 <div class="section" id="足し算・引き算">
 <h3>1.3.3. 足し算・引き算<a class="headerlink" href="#足し算・引き算" title="Permalink to this headline">¶</a></h3>
-<p>行列やベクトルの演算について覚えていきましょう．足し算は同じサイズの行列，ベクトル間だけで成立し，次のように定義されます．</p>
+<p>行列やベクトルの演算について覚えていきましょう．足し算は同じサイズの行列，ベクトル間だけで成立し，次のように計算されます．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}&amp;\begin{bmatrix}
 1 \\
@@ -453,8 +451,36 @@ x_{31} &amp; x_{32}
 \end{bmatrix}\end{aligned}\end{split}\]</div>
 <p>このように行列やベクトルの中の<strong>要素</strong>で対応する場所を足し合わせます．引き算も同様です．<strong>同じサイズでないと計算が成立しない</strong>ということを覚えておきましょう．</p>
 </div>
+<div class="section" id="転置">
+<h3>1.3.4. 転置<a class="headerlink" href="#転置" title="Permalink to this headline">¶</a></h3>
+<p>ベクトルは縦向きの列ベクトルを基本としていましたが，横向きのベクトルを使いたい場合もあります．そこで縦向きのベクトルを横向きのベクトルに，横向きのベクトルを縦向きのベクトルに入れ替える演算を<strong>転置（Transpose）</strong>とよび，<span class="math">\(T\)</span>で表記します．例えば，</p>
+<div class="math">
+\[\begin{split}\begin{aligned} \bf{x} &amp;= \begin{bmatrix}
+1 \\
+2 \\
+3
+\end{bmatrix}, \
+\bf{x}^{T}= \begin{bmatrix} 1 &amp; 2 &amp; 3 \\
+\end{bmatrix} \end{aligned}\end{split}\]</div>
+<p>のようになります． 行列に対する転置では，サイズが<span class="math">\((N, M)\)</span>から<span class="math">\((M, N)\)</span>になり，<span class="math">\(i\)</span>行<span class="math">\(j\)</span>列目の値が転置後には<span class="math">\(j\)</span>行<span class="math">\(i\)</span>列目の値になります．</p>
+<div class="math">
+\[\begin{split}\begin{aligned} \bf{X} &amp;= \begin{bmatrix}
+1 &amp; 4 \\
+2 &amp; 5 \\
+3 &amp; 6
+\end{bmatrix}, \
+\bf{X}^{T} = \begin{bmatrix}
+1 &amp; 2 &amp; 3 \\
+4 &amp; 5 &amp; 6
+\end{bmatrix} \end{aligned}\end{split}\]</div>
+<p>転置の公式として次を覚えておくとよいでしょう．</p>
+<div class="math">
+\[\begin{split}\begin{aligned}&amp; \left( 1 \right) \ \left( \bf{A}^{T} \right)^{T} = \bf{A}\\
+&amp;\left( 2 \right) \ \left( \bf{A} \bf{B} \right) ^{T}= \bf{B}^{T} \bf{A}^{T}\\
+&amp;\left( 3 \right) \ \left( \bf{A} \bf{B} \bf{C} \right) ^{T}= \bf{C}^{T} \bf{B}^{T} \bf{A}^{T} \end{aligned}\end{split}\]</div>
+</div>
 <div class="section" id="内積">
-<h3>1.3.4. 内積<a class="headerlink" href="#内積" title="Permalink to this headline">¶</a></h3>
+<h3>1.3.5. 内積<a class="headerlink" href="#内積" title="Permalink to this headline">¶</a></h3>
 <p>同じサイズのベクトル間では内積が定義できます．内積は同じ位置の対応する値同士を掛けていき，それらを足し合わせたものです．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}&amp; \begin{bmatrix}
@@ -465,16 +491,16 @@ x_{31} &amp; x_{32}
 6
  \end{bmatrix} = 1 \times 4 + 2 \times 5  + 3 \times 6 = 32 \end{aligned}\end{split}\]</div>
 </div>
-<div class="section" id="かけ算（行列積）">
-<h3>1.3.5. かけ算（行列積）<a class="headerlink" href="#かけ算（行列積）" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="掛け算（行列積）">
+<h3>1.3.6. 掛け算（行列積）<a class="headerlink" href="#掛け算（行列積）" title="Permalink to this headline">¶</a></h3>
 <p>行列の掛け算には，行列積，外積，要素積（アダマール積）など複数種あります．ここではそのうち最もよく使われる<strong>行列積</strong>について説明します．以降では明示しない限り行列の掛け算は行列積を指すこととします．</p>
 <p>行列<span class="math">\(A\)</span>と行列<span class="math">\(B\)</span>の行列積は<span class="math">\(A\)</span>の各行と<span class="math">\(B\)</span>の各列の内積を並べたものとして定義されます．例えば行列Aの2行目の行ベクトルと行列Bの3列目の列ベクトルの内積は結果の行列Cの2行3列目に対応します．</p>
 <p><img alt="image6" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/08.png" /></p>
 <p>そして，内積が定義される条件はベクトルのサイズが等しいということでしたが，ここでもそれが成り立つために，Aの行のサイズ（=Aの列数）とBの列のサイズ（=Bの行数）が一致する必要があります．また，結果はAの行数とBの列数からなる行列となります．</p>
 <p><img alt="image7" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/09.png" /></p>
 <p>また，行列積がスカラー積と大きく異なる性質のひとつとして，<span class="math">\(AB\)</span>と<span class="math">\(BA\)</span>が等しいとは限らないということが挙げられます．</p>
-<p>行列積は線形代数や機械学習の多くの問題で使われます．また，行列では割り算に相当する演算はありませんが，後述する逆行列を使って<span class="math">\(4 / 2 = 4 \times \dfrac{1}{2}\)</span> のように割り算を逆数（逆行列）の掛け算として記述します．</p>
-<p>それでは，計算条件の確認も踏まえて，下記の３つを練習問題として解いてください．</p>
+<p>行列積は線形代数や機械学習の多くの問題で使われます．また，行列では割り算に相当する演算はありませんが，後述する逆行列を使って<span class="math">\(4 / 2 = 4 \times \dfrac{1}{2}\)</span>のように割り算を逆数（逆行列）の掛け算として記述します．</p>
+<p>それでは，計算条件の確認も踏まえて，下記の3つを練習問題として解いてください．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 &amp;\left( 1\right)
@@ -552,32 +578,7 @@ x_{31} &amp; x_{32}
 = 1 \times 13 + 2 \times 21
 =55
 \end{aligned}\end{split}\]</div>
-<p>この形の計算は，機械学習においてよく登場してきます．行列積は，演算後に形が変わることを覚えておきましょう．</p>
-</div>
-<div class="section" id="転置">
-<h3>1.3.6. 転置<a class="headerlink" href="#転置" title="Permalink to this headline">¶</a></h3>
-<p>ベクトルは縦向きの列ベクトルを基本としていましたが，横向きのベクトルを使いたい場合もあります．そこで縦向きのベクトルを横向きのベクトルに，横向きのベクトルを縦向きのベクトルに入れ替える演算を<strong>転置Transpose）</strong> とよび，<span class="math">\(T\)</span>で表記します．例えば，</p>
-<div class="math">
-\[\begin{split}\begin{aligned}\boldsymbol{x}&amp;=\begin{bmatrix}
-1 \\
-2 \\
-3
-\end{bmatrix}, \
-\boldsymbol{x}^{T}=\begin{bmatrix} 1 &amp; 2 &amp; 3 \end{bmatrix} \\
-\boldsymbol{X}&amp;=\begin{bmatrix}
-1 &amp; 4 \\
-2 &amp; 5 \\
-3 &amp; 6
-\end{bmatrix}, \
-\boldsymbol{X}^{T}=\begin{bmatrix}
-1 &amp; 2 &amp; 3 \\
-4 &amp; 5 &amp; 6
-\end{bmatrix}\end{aligned}\end{split}\]</div>
-<p>のようになります．行列に対する転置では，サイズが<span class="math">\((N, M)\)</span>から<span class="math">\((M, N)\)</span>になり，<span class="math">\(i\)</span>行<span class="math">\(j\)</span>列目の値が転置後には<span class="math">\(j\)</span>行<span class="math">\(i\)</span>列目の値になります．転置の公式として次を覚えておくとよいでしょう．</p>
-<div class="math">
-\[\begin{split}\begin{aligned}&amp;\left( 1\right) \ \left( \boldsymbol{A}^{T}\right)^{T}=\boldsymbol{A}\\
-&amp;\left( 2\right) \ \left( \boldsymbol{A}\boldsymbol{B}\right) ^{T}=\boldsymbol{B}^{T}\boldsymbol{A}^{T}\\
-&amp;\left( 3\right) \ \left( \boldsymbol{A}\boldsymbol{B}\boldsymbol{C}\right) ^{T}=\boldsymbol{C}^{T}\boldsymbol{B}^{T}\boldsymbol{A}^{T}\end{aligned}\end{split}\]</div>
+<p>この形の計算は，機械学習においてよく登場してきます．行列積は，演算後に形が変わる場合があることを覚えておきましょう．</p>
 </div>
 <div class="section" id="ベクトル，行列のサイズ">
 <h3>1.3.7. ベクトル，行列のサイズ<a class="headerlink" href="#ベクトル，行列のサイズ" title="Permalink to this headline">¶</a></h3>
@@ -587,33 +588,33 @@ x_{31} &amp; x_{32}
 </div>
 <div class="section" id="単位行列">
 <h3>1.3.8. 単位行列<a class="headerlink" href="#単位行列" title="Permalink to this headline">¶</a></h3>
-<p>スカラー値の<span class="math">\(1\)</span>は，<span class="math">\(10 \times 1 = 10\)</span> といったように，その数を任意の数に乗じても変わらないという性質を持ちます．行列の演算において，これと同様の働きをする行列が<strong>単位行列</strong>です．</p>
+<p>スカラー値の<span class="math">\(1\)</span>は，<span class="math">\(10 \times 1 = 10\)</span>といったように，その数を任意の数に乗じても変わらないという性質を持ちます．行列の演算において，これと同様の働きをする行列が<strong>単位行列</strong>です．</p>
 <div class="math">
-\[\begin{split}\boldsymbol{I}=\begin{bmatrix}
+\[\begin{split}\bf{I}=\begin{bmatrix}
 1 &amp; 0 &amp; \ldots  &amp; 0 \\
 0 &amp; 1 &amp; \ldots  &amp; 0 \\
 \vdots &amp; \vdots  &amp; \ddots  &amp; \vdots  \\
 0 &amp; 0 &amp; \ldots  &amp; 1
 \end{bmatrix}\end{split}\]</div>
-<p>上記のような形をしており，記号 <span class="math">\(\boldsymbol{I}\)</span> で表されるのが一般的です．行列の斜めの要素を <strong>対角要素</strong> とよび，それ以外の要素を非対角要素とよびます．単位行列は，対角要素が1で，非対角要素が0であるような <strong>正方行列</strong> （行要素の数と列要素の数が一致する行列）です．例えば， 2x2行列の場合は，</p>
+<p>上記のような形をしており，記号<span class="math">\(\bf{I}\)</span>で表されるのが一般的です．行列の斜めの要素を<strong>対角要素</strong>とよび，それ以外の要素を非対角要素とよびます．単位行列は，対角要素が1で，非対角要素が0であるような<strong>正方行列</strong>（行要素の数と列要素の数が一致する行列）です．例えば， <span class="math">\(2 \times 2\)</span>行列の場合は，</p>
 <div class="math">
-\[\begin{split}\boldsymbol{I} =\begin{bmatrix}
+\[\begin{split}\bf{I} =\begin{bmatrix}
 1 &amp; 0 \\
 0 &amp; 1
 \end{bmatrix}\end{split}\]</div>
-<p>であり，3x3行列の場合は，</p>
+<p>であり，<span class="math">\(3 \times 3\)</span>行列の場合は，</p>
 <div class="math">
-\[\begin{split}\boldsymbol{I}=\begin{bmatrix}
+\[\begin{split}\bf{I}=\begin{bmatrix}
 1 &amp; 0 &amp; 0 \\
 0 &amp; 1 &amp; 0 \\
 0 &amp; 0 &amp; 1
 \end{bmatrix}\end{split}\]</div>
-<p>となります．行列のサイズを明示したい場合は，<span class="math">\(I_{n}\)</span> (<span class="math">\(n×n\)</span>行列の場合)と添字を付けて区別します．</p>
-<p>単位行列は任意の行列<span class="math">\(\boldsymbol{A}\)</span>に対し，以下が成立します．</p>
+<p>となります．行列のサイズを明示したい場合は，<span class="math">\(I_{n}\)</span> (<span class="math">\(n \times n\)</span>行列の場合)と添字を付けて区別します．</p>
+<p>単位行列は任意の正方行列<span class="math">\(\bf{A}\)</span>に対し，以下が成立します．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{A}\boldsymbol{I}&amp;=\boldsymbol{A}\\
-\boldsymbol{I}\boldsymbol{A}&amp;=\boldsymbol{A}
+\bf{A}\bf{I}&amp;=\bf{A}\\
+\bf{I}\bf{A}&amp;=\bf{A}
 \end{aligned}\end{split}\]</div>
 <p>先程説明したように，行列の掛け算が成立するためには，<span class="math">\(I\)</span>のサイズは<span class="math">\(A\)</span>と同じである必要があります．</p>
 <p>実際に計算して，元の行列と値が変わらないかを確認してみると，</p>
@@ -639,49 +640,49 @@ x_{31} &amp; x_{32}
 </div>
 <div class="section" id="逆行列">
 <h3>1.3.9. 逆行列<a class="headerlink" href="#逆行列" title="Permalink to this headline">¶</a></h3>
-<p><strong>逆行列</strong>とは，元の行列にかけると単位行列になるような行列であり，スカラーにおける逆数(<span class="math">\(2 \times 2^{-1} = 1\)</span>)に対応するような行列です．行列<span class="math">\(\boldsymbol{A}\)</span>に対し，その逆行列は<span class="math">\(\boldsymbol{A}^{-1}\)</span>のように表記します．</p>
+<p><strong>逆行列</strong>とは，元の正方行列にかけると単位行列になるような行列であり，スカラーにおける逆数(<span class="math">\(2 \times 2^{-1} = 1\)</span>)に対応するような行列です．行列<span class="math">\(\bf{A}\)</span>に対し，その逆行列は<span class="math">\(\bf{A}^{-1}\)</span>のように表記します．</p>
 <p>逆行列の定義を数式で表すと，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{A}\boldsymbol{A}^{-1}=\boldsymbol{I}\\
-\boldsymbol{A}^{-1}\boldsymbol{A}=\boldsymbol{I}
+\bf{A}\bf{A}^{-1}=\bf{I}\\
+\bf{A}^{-1}\bf{A}=\bf{I}
 \end{aligned}\end{split}\]</div>
-<p>となります．ここで，<span class="math">\(\boldsymbol{I}\)</span> は先程の単位行列です．サイズが<span class="math">\(2 \times 2\)</span> や <span class="math">\(3 \times 3\)</span> といった小さな行列の場合には，逆行列計算に公式がありますが，機械学習ではより大きなサイズの行列( <span class="math">\(1000 \times 1000\)</span> など)を扱う必要が出てくるため，逆行列を効率的に求める計算手法が提案されています．</p>
-<p>逆行列は常に存在するとは限りません．逆行列が存在するような行列のことを <strong>正則行列</strong> とよびます（行列が正則であるための条件については今回は説明しません）．</p>
+<p>となります．ここで，<span class="math">\(\bf{I}\)</span> は先程の単位行列です．サイズが<span class="math">\(2 \times 2\)</span>や<span class="math">\(3 \times 3\)</span>といった小さな行列の場合には，逆行列計算に公式がありますが，機械学習ではより大きなサイズの行列(<span class="math">\(1000 \times 1000\)</span>など)を扱う必要が出てくるため，逆行列を効率的に求める計算手法が提案されています．</p>
+<p>逆行列は常に存在するとは限りません．逆行列が存在するような行列のことを<strong>正則行列</strong>とよびます（行列が正則であるための条件については今回は説明しません）．</p>
 </div>
 <div class="section" id="線形結合と二次形式">
 <h3>1.3.10. 線形結合と二次形式<a class="headerlink" href="#線形結合と二次形式" title="Permalink to this headline">¶</a></h3>
-<p>機械学習の式によく出てくる形式として， <span class="math">\(\boldsymbol{b}^{T}\boldsymbol{x}\)</span> と <span class="math">\(\boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x}\)</span> の2つの形式があります．前者は<strong>線形結合</strong>もしくは<strong>一次結合</strong>，後者は<strong>二次形式</strong>とよばれています．スカラーの場合，一次式（<span class="math">\(ax+b\)</span>）や二次式（<span class="math">\(ax^2+bx+c\)</span>）がありますが，それをベクトルに拡張したものです．</p>
+<p>機械学習の式によく出てくる形式として，<span class="math">\(\bf{b}^{T}\bf{x}\)</span>と<span class="math">\(\bf{x}^{T}\bf{A}\bf{x}\)</span>の2つの形式があります．前者は<strong>線形結合</strong>もしくは<strong>一次結合</strong>，後者は<strong>二次形式</strong>とよばれています．スカラーの場合，一次式（<span class="math">\(ax+b\)</span>）や二次式（<span class="math">\(ax^2+bx+c\)</span>）がありますが，それをベクトルに拡張したものです．</p>
 <p>線形結合の計算の中身を見てみると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{b}&amp;=\begin{bmatrix}
+\bf{b}&amp;=\begin{bmatrix}
 1 \\
 2
 \end{bmatrix},\
-\boldsymbol{x}=\begin{bmatrix}
+\bf{x}=\begin{bmatrix}
 x_{1} \\
 x_{2}
 \end{bmatrix}\\
-\boldsymbol{b}^{T}\boldsymbol{x}&amp;=\begin{bmatrix}
+\bf{b}^{T}\bf{x}&amp;=\begin{bmatrix}
 1 &amp; 2
 \end{bmatrix}\begin{bmatrix}
 x_{1} \\
 x_{2}
 \end{bmatrix}=x_{1}+2x_{2}\end{aligned}\end{split}\]</div>
-<p>のように <span class="math">\(\boldsymbol{x}\)</span> の要素である <span class="math">\(x_{1}\)</span> もしくは <span class="math">\(x_{2}\)</span> に関して，一次式となっていることがわかります．</p>
+<p>のように<span class="math">\(\bf{x}\)</span>の要素である<span class="math">\(x_{1}\)</span>もしくは<span class="math">\(x_{2}\)</span>に関して，一次式となっていることがわかります．</p>
 <p>また，二次形式も同様に計算の中身を確認してみると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{A}&amp;=\begin{bmatrix}
+\bf{A}&amp;=\begin{bmatrix}
 1 &amp; 2 \\
 3 &amp; 4
 \end{bmatrix},\
-\boldsymbol{x}=\begin{bmatrix}
+\bf{x}=\begin{bmatrix}
 x_{1} \\
 x_{2}
 \end{bmatrix}\\
-\boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x}
+\bf{x}^{T}\bf{A}\bf{x}
 &amp;=\begin{bmatrix} x_{1} &amp; x_{2}\end{bmatrix}
 \begin{bmatrix}
 1 &amp; 2 \\
@@ -699,8 +700,8 @@ x_{1}+2x_{2} \\
 <p>となり，各要素において二次式となっていることがわかります．</p>
 <p>従って，任意の二次関数を</p>
 <div class="math">
-\[\boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x} + \boldsymbol{b}^{T}\boldsymbol{x} + c\]</div>
-<p>の形で表現できます．ここで，<span class="math">\(c\)</span> はスカラーの定数項です．</p>
+\[\bf{x}^{T}\bf{A}\bf{x} + \bf{b}^{T}\bf{x} + c\]</div>
+<p>の形で表現できます．ここで，<span class="math">\(c\)</span>はスカラーの定数項です．</p>
 </div>
 <div class="section" id="ベクトルによる微分と勾配">
 <h3>1.3.11. ベクトルによる微分と勾配<a class="headerlink" href="#ベクトルによる微分と勾配" title="Permalink to this headline">¶</a></h3>
@@ -708,28 +709,28 @@ x_{1}+2x_{2} \\
 <p>勾配の計算を紹介する前に，下記の例題を計算しましょう．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{b}&amp;=\begin{bmatrix}
+\bf{b}&amp;=\begin{bmatrix}
 3 \\
 4
 \end{bmatrix}, \
-\boldsymbol{x}=\begin{bmatrix}
+\bf{x}=\begin{bmatrix}
 x_{1} \\
 x_{2}
 \end{bmatrix}\\
-\boldsymbol{b}^{T}\boldsymbol{x}&amp;=\begin{bmatrix}
+\bf{b}^{T}\bf{x}&amp;=\begin{bmatrix}
 3 &amp; 4
 \end{bmatrix}\begin{bmatrix}
 x_{1} \\
 x_{2}
 \end{bmatrix}
 =3x_{1}+4x_{2}\end{aligned}\end{split}\]</div>
-<p>この <span class="math">\(\boldsymbol{b}^{T}\boldsymbol{x}\)</span> を ベクトル <span class="math">\(\boldsymbol{x}\)</span> で微分したものを，</p>
+<p>この<span class="math">\(\bf{b}^{T}\bf{x}\)</span>を ベクトル<span class="math">\(\bf{x}\)</span>で微分したものを，</p>
 <div class="math">
-\[\dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right)\]</div>
+\[\dfrac {\partial }{\partial \bf{x}}\left( \bf{b}^{T}\bf{x}\right)\]</div>
 <p>と表し．これを<strong>ベクトルで微分</strong>すると言います．今回の例では，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right) &amp;=\dfrac {\partial }{\partial \boldsymbol{x}}\left( 3x_{1}+4x_{2}\right) \\
+\dfrac {\partial }{\partial \bf{x}}\left( \bf{b}^{T}\bf{x}\right) &amp;=\dfrac {\partial }{\partial \bf{x}}\left( 3x_{1}+4x_{2}\right) \\
 &amp;=\begin{bmatrix}
 \dfrac {\partial }{\partial x_{1}} \left( 3x_{1}+4x_{2}\right)  \\
 \dfrac {\partial }{\partial x_{2}} \left( 3x_{1}+4x_{2}\right)
@@ -750,44 +751,44 @@ x_{2}
 <p>となり，下記の計算結果が得られます．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right)
+\dfrac {\partial }{\partial \bf{x}}\left( \bf{b}^{T}\bf{x}\right)
 &amp;=\begin{bmatrix}
 \dfrac {\partial }{\partial x_{1}} \left( 3x_{1}+4x_{2}\right)  \\
 \dfrac {\partial }{\partial x_{2}} \left( 3x_{1}+4x_{2}\right)
 \end{bmatrix} =\begin{bmatrix}
 3  \\
 4
-\end{bmatrix} = \boldsymbol{b}
+\end{bmatrix} = \bf{b}
 \end{aligned}\end{split}\]</div>
 <p>もう一問，以下の例題を考えましょう．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{b}&amp;=\begin{bmatrix}
+\bf{b}&amp;=\begin{bmatrix}
 3 \\
 4
 \end{bmatrix}, \
-\boldsymbol{x}=\begin{bmatrix}
+\bf{x}=\begin{bmatrix}
 x_{1} \\
 x_{2}
 \end{bmatrix}\\
-\dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}\right) &amp;=\begin{bmatrix}
+\dfrac {\partial }{\partial \bf{x}}\left( \bf{b}\right) &amp;=\begin{bmatrix}
 \dfrac {\partial }{\partial x_{1}}\left( 3 \right)  \\
 \dfrac {\partial }{\partial x_{2}}\left( 4 \right)
 \end{bmatrix}
 =\begin{bmatrix}
 0 \\
 0
-\end{bmatrix}=\boldsymbol{0}\end{aligned}\end{split}\]</div>
-<p>偏微分を行う対象の変数が含まれていない場合，その偏微分は <span class="math">\(0\)</span> となります．要素が <span class="math">\(0\)</span> のみで構成されたベクトルを <strong>零（ゼロ）ベクトル</strong> と言います．</p>
+\end{bmatrix}=\bf{0}\end{aligned}\end{split}\]</div>
+<p>偏微分を行う対象の変数が含まれていない場合，その偏微分は<span class="math">\(0\)</span>となります．要素が<span class="math">\(0\)</span>のみで構成されたベクトルを<strong>零（ゼロ）ベクトル</strong>と言います．</p>
 <p>これらを踏まえて，公式としてまとめておきましょう．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-&amp;\left( 1\right) \ \dfrac {\partial}{\partial \boldsymbol{x}}\left( \boldsymbol{c} \right) = \boldsymbol{0}\\
-&amp;\left( 2\right) \ \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{b}^{T}\boldsymbol{x}\right) = \boldsymbol{b}\\
-&amp;\left( 3\right) \ \dfrac {\partial }{\partial \boldsymbol{x}}\left( \boldsymbol{x}^{T}\boldsymbol{A}\boldsymbol{x}\right) =\left( \boldsymbol{A}+\boldsymbol{A}^{T}\right) \boldsymbol{x}\end{aligned}\end{split}\]</div>
+&amp;\left( 1\right) \ \dfrac {\partial}{\partial \bf{x}}\left( \bf{c} \right) = \bf{0}\\
+&amp;\left( 2\right) \ \dfrac {\partial }{\partial \bf{x}}\left( \bf{b}^{T}\bf{x}\right) = \bf{b}\\
+&amp;\left( 3\right) \ \dfrac {\partial }{\partial \bf{x}}\left( \bf{x}^{T}\bf{A}\bf{x}\right) =\left( \bf{A}+\bf{A}^{T}\right) \bf{x}\end{aligned}\end{split}\]</div>
 <p>(1)と(2) はすでに導出済みです．(3) は導出が少し複雑なので省略しますが，数値を代入して確認してみてください．この3つの公式は機械学習を学んでいく上で非常に重要な公式となりますので，必ず覚えておきましょう．</p>
 <p>こういった行列などにおける公式は他にもたくさんあり，論文などを読む際にはどういった公式があるのかを知っておくことも重要です．例えば，<a class="reference external" href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">The Matrix Cookbook</a>などを参考にしてみてください．</p>
-<p>また，今回は多入力単出力関数の微分として勾配まで紹介しましたが，多入力多出力関数の微分であるヤコビ行列（ヤコビアン）もニューラルネットワークの誤差逆伝播法を理解するために必要となります（ただし殆どの場合，行列を掛けた場合のヤコビ行列は，その転置行列だと覚えるだけで十分です）．さらに詳しく知りたい方は，例えば<a class="reference external" href="https://arxiv.org/abs/1802.01528">The Matrix Calculus You Need For Deep Learning</a>などを参考にしてみてください．</p>
+<p>また，今回は多入力単出力関数の微分として勾配まで紹介しましたが，多入力多出力関数の微分であるヤコビ行列（ヤコビアン）もニューラルネットワークの誤差逆伝播法を理解するために必要となります．さらに詳しく知りたい方は，例えば<a class="reference external" href="https://arxiv.org/abs/1802.01528">The Matrix Calculus You Need For Deep Learning</a>などを参考にしてみてください．</p>
 </div>
 </div>
 <div class="section" id="確率・統計">
@@ -795,19 +796,19 @@ x_{2}
 <div class="section" id="確率や統計は何に使えるのか">
 <h3>1.4.1. 確率や統計は何に使えるのか<a class="headerlink" href="#確率や統計は何に使えるのか" title="Permalink to this headline">¶</a></h3>
 <p>機械学習といえば確率や統計といったイメージで勉強する人も多いと思いますが，簡単なアルゴリズムであれば，微分と線形代数を理解しておくだけで説明することができ，確率や統計が出てくることはありません．それでは，確率，統計はなぜ必要なのでしょうか？</p>
-<p>機械学習はデータを扱う手法です．データは個別の事象の集まりですが，学習の目的はそのデータの背後にある普遍性，法則を捉えることです．確率はデータの分布や不確実性といった概念を数式化することができます．また統計によって，ある集団に対する様々な統計量を得ることができ，それらを使ってデータを学習しやすいように正規化したり，モデルが妥当なのか，各データが外れ値ではないのかといった判断をすることができます．</p>
+<p>機械学習の目的はそのデータの背後にある普遍性，法則を捉えることです．確率はデータの分布や不確実性といった概念を数式化することができます．また統計によって，ある集団に対する様々な統計量を得ることができ，それらを使ってデータを扱いやすいように正規化したり，モデルが妥当なのか，各データが外れ値ではないのかといった判断をすることができます．</p>
 </div>
 <div class="section" id="確率">
 <h3>1.4.2. 確率<a class="headerlink" href="#確率" title="Permalink to this headline">¶</a></h3>
-<p>確率は様々な可能性がある事象に対し，その事象が起こることが期待される度合いを表します．パラメータ推定の文脈では確率はどれくらい起きそうだという信念を表す場合もあります．確率は<span class="math">\(p(x)\)</span>のような関数の形で表し，<span class="math">\(x\)</span>を<strong>確率変数</strong>とよびます．確率変数は起きうる事象のいずれかの値をとるような変数です．さらに<span class="math">\(p(x=u)\)</span>を確率変数<span class="math">\(x\)</span>の値<span class="math">\(u\)</span>だった時の確率を表すものとします．これを省略した<span class="math">\(p(u)\)</span>の形で表します．確率は，「全ての事象の確率の和が<span class="math">\(1\)</span>になる」，「全ての事象の確率は<span class="math">\(0\)</span>以上である」という2つの制約を満たします．これを式で書くと，</p>
+<p>確率は様々な可能性がある事象に対し，その事象が起こることが期待される度合いを表します．パラメータ推定の文脈では確率はどれくらい起きそうだという信念を表す場合もあります．確率は<span class="math">\(p(x)\)</span>のような関数の形で表し，<span class="math">\(x\)</span>を<strong>確率変数</strong>とよびます．確率変数は起きうる事象のいずれかの値をとるような変数です．確率変数には離散型と連続型がありますが，本節では離散型の確率変数を扱います．確率変数<span class="math">\(x\)</span>の値が<span class="math">\(u\)</span>であった時の確率は<span class="math">\(p(x=u)\)</span>，もしくは<span class="math">\(p(u)\)</span>と省略して表わされます．確率は，「全ての事象の確率の和が<span class="math">\(1\)</span>になる」，「全ての事象の確率は<span class="math">\(0\)</span>以上である」という2つの制約を満たします．これを式で書くと，</p>
 <div class="math">
 \[\begin{split}\begin{align}
 \sum_{x } p(x) &amp;= 1 \\
 p(x) &amp; \geq  0
 \end{align}\end{split}\]</div>
 <p>となります．</p>
-<p>2つの事象が同時に起きる確率を<strong>同時確率</strong>とよび<span class="math">\(p(x, y)\)</span>のように表します．例えばサイコロを2回振り，1回目の目が<span class="math">\(0\)</span>，2回目の目が<span class="math">\(5\)</span>となる確率は同時確率で表すことができます．</p>
-<p>同時確率のうち，特定の確率変数のみに注目し，それ以外の確率変数について和を取って消去する操作を<strong>周辺化</strong>とよびます（周辺化という言葉は，行を１つ目の確率変数，列を二つ目の確率変数に対応させて同時確率を表で書いた場合，その行の合計，列の合計を表の周辺に書いたことからそうよばれています）．周辺化の結果は，注目した確率変数の確率に一致します．</p>
+<p>2つの事象が同時に起きる確率を<strong>同時確率</strong>とよび<span class="math">\(p(x, y)\)</span>のように表します．例えばサイコロを2回振り，1回目の目が<span class="math">\(1\)</span>，2回目の目が<span class="math">\(5\)</span>となる確率は同時確率で表すことができます．</p>
+<p>同時確率のうち，特定の確率変数のみに注目し，それ以外の確率変数について和を取って消去する操作を<strong>周辺化</strong>とよびます（周辺化という言葉は，行を1つ目の確率変数，列を2つ目の確率変数に対応させて同時確率を表で書いた場合，その行の合計，列の合計を表の周辺に書いたことからそうよばれています）．周辺化の結果は，注目した確率変数の確率に一致します．</p>
 <div class="math">
 \[\begin{split}p(x) = \sum_y p(x, y) \\
 p(y) = \sum_x p(x, y)\end{split}\]</div>
@@ -819,12 +820,11 @@ p(y) = \sum_x p(x, y)\end{split}\]</div>
 <div class="math">
 \[p(x|y) = \frac{p(x, y)}{p(y)} = \frac{p(y | x)p(x)}{p(y)}\]</div>
 <p>が得られます．これを<strong>ベイズの定理</strong>とよびます．重要な定理なので，ぜひ覚えておきましょう．</p>
-<p>例えば，ベイズの定理の応用事例として，スパム（迷惑）メールフィルターがあります．メールに単語<span class="math">\(i\)</span>が含むか否かを表す確率変数を <span class="math">\(x_{i}\)</span> ，メールがスパムであるか否かを表す確率変数を <span class="math">\(y\)</span> とおくと， <span class="math">\(p(x_{i}=1)\)</span> は「メールが単語<span class="math">\(i\)</span>を含む確率」， <span class="math">\(p(y=1)\)</span> は「メールがスパムである確率」， <span class="math">\(p(x_{i}=1|y=1)\)</span>
-は「メールがスパムであった場合に，その中に単語<span class="math">\(i\)</span>が含まれる確率」となります．受信済みの大量のメールからそれぞれの割合を集計して求め，ベイズの定理を適用することで， <span class="math">\(p(y=1|x_{i}=1)\)</span> として，「メールに単語<span class="math">\(i\)</span>が出現した場合に，そのメールがスパムである確率」を求めることができます．</p>
+<p>例えば，ベイズの定理の応用事例として，スパム（迷惑）メールフィルターがあります．メールに単語<span class="math">\(i\)</span>が含むか否かを表す確率変数を<span class="math">\(x_{i}\)</span>，メールがスパムであるか否かを表す確率変数を<span class="math">\(y\)</span>とおくと，<span class="math">\(p(x_{i}=1)\)</span>は「メールが単語<span class="math">\(i\)</span>を含む確率」，<span class="math">\(p(y=1)\)</span>は「メールがスパムである確率」，<span class="math">\(p(x_{i}=1|y=1)\)</span>は「メールがスパムであった場合に，その中に単語<span class="math">\(i\)</span>が含まれる確率」となります．受信済みの大量のメールからそれぞれの割合を集計して求め，ベイズの定理を適用することで，<span class="math">\(p(y=1|x_{i}=1)\)</span>として，「メールに単語<span class="math">\(i\)</span>が出現した場合に，そのメールがスパムである確率」を求めることができます．</p>
 </div>
 <div class="section" id="尤度と最尤推定">
 <h3>1.4.3. 尤度と最尤推定<a class="headerlink" href="#尤度と最尤推定" title="Permalink to this headline">¶</a></h3>
-<p>（パラメトリックな）確率モデル<span class="math">\(p(x; \theta)\)</span>はパラメータ<span class="math">\(\theta\)</span>で特徴付けられたような関数です．確率モデル<span class="math">\(p(x)\)</span>上で事象<span class="math">\(u\)</span>が観測される確率<span class="math">\(p(x=u; \theta)\)</span>を事象<span class="math">\(u\)</span>の <strong>尤度</strong> とよびます．尤度の尤は「尤（もっと）もらしい」という意味であり，その事象の起きやすさを表します．</p>
+<p>パラメータ<span class="math">\(\theta\)</span>で特徴付けられた確率モデルをパラメトリックなモデルとよび，<span class="math">\(p(x; \theta)\)</span>のように表記します．確率モデル<span class="math">\(p(x)\)</span>上で事象<span class="math">\(u\)</span>が観測される確率<span class="math">\(p(x=u; \theta)\)</span>を事象<span class="math">\(u\)</span>の<strong>尤度</strong>とよびます．尤度の尤は「尤（もっと）もらしい」という意味であり，その事象の起きやすさを表します．</p>
 <p>ここで，<span class="math">\(N\)</span>個のデータ<span class="math">\(X = \left( x^{(1)}, x^{(2)}, \ldots, x^{(N)} \right)\)</span>が与えられ，そのデータ<span class="math">\(X\)</span>を生成するような確率分布を推定する問題を考えます．この場合，<strong>最尤（さいゆう）推定</strong>とよばれる手法がよく使われます．最尤推定は観測データ<span class="math">\(X\)</span>を最も生成しそうなパラメータ<span class="math">\(\theta\)</span>を推定する手法です．観測するデータがそれぞれ独立に生成されている場合，その尤度は</p>
 <div class="math">
 \[L(\theta) = p(X; \theta) = \prod_{i=1}^N p(x^{(i)}; \theta)\]</div>
@@ -838,13 +838,15 @@ p(y) = \sum_x p(x, y)\end{split}\]</div>
 <p>すると，その尤度は，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-L(\theta) &amp;= \theta \cdot (1 - \theta) \cdot  \ldots  \cdot (1 - \theta) \cdot (1 - \theta) \\
+L(\theta) &amp;= \theta \cdot (1 - \theta) \cdot \theta \cdot \theta \cdot \theta \cdot (1 - \theta) \cdot (1 - \theta) \cdot \theta  \cdot (1 - \theta) \cdot (1 - \theta) \\
 &amp;= \theta^{5} \cdot (1 - \theta)^{5}
 \end{aligned}\end{split}\]</div>
 <p>と計算され，その対数尤度は，</p>
 <div class="math">
 \[\log L(\theta) = 5 \log \theta + 5 \log \left( 1 - \theta \right)\]</div>
-<p>となります．これを<span class="math">\(\theta\)</span>で微分して<span class="math">\(0\)</span>になる条件を求めると，</p>
+<p>となります．この関数は上に凸となっています．<span class="math">\(\theta\)</span>と<span class="math">\(\log L(\theta)\)</span>の関係を図示すると下図のようになります．</p>
+<p><img alt="image9" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/11.png" /></p>
+<p>これを<span class="math">\(\theta\)</span>で微分して<span class="math">\(0\)</span>になる条件を求めると，</p>
 <div class="math">
 \[\frac{5}{\theta} - \frac{5}{\left( 1 - \theta \right)} = 0\]</div>
 <p>より，<span class="math">\(\theta = 0.5\)</span>が最尤推定により得られます．</p>
@@ -854,8 +856,8 @@ L(\theta) &amp;= \theta \cdot (1 - \theta) \cdot  \ldots  \cdot (1 - \theta) \cd
 <h3>1.4.4. 事後確率最大化推定(MAP推定)<a class="headerlink" href="#事後確率最大化推定(MAP推定)" title="Permalink to this headline">¶</a></h3>
 <p>最尤推定は多くの場合有効ですが，求めるパラメータに何らかの事前情報がある場合，最尤推定ではその事前情報を扱うことができません．そのため，試行回数が少ない中でパラメータを推定しようとすると，最尤推定ではうまくいかない場合があります．</p>
 <p>先程と同様に，コインの表・裏が出る確率を推定する例を考えてみましょう．コインを<span class="math">\(5\)</span>回投げたところ，たまたま<span class="math">\(5\)</span>回とも表(<span class="math">\(x = 1\)</span>)が出たとします．この場合，最尤推定では，表が出る確率が<span class="math">\(100\)</span>%（裏が出る確率が<span class="math">\(0\)</span>%）であると推定してしまいます．しかし，明らかに裏が出る確率は<span class="math">\(0\)</span>よりも大きいはずという事前情報があれば，より良い推定ができそうです．</p>
-<p>このような場合に，事前情報も考慮しながら，観測データに基づいてパラメータを推定する方法が <strong>事後確率最大化(Maximum A Posteriori, MAP)推定</strong> です．MAP推定においては，パラメータ<span class="math">\(\theta\)</span>も確率変数であり，その分布（ <strong>事前確率</strong> ともよばれます）<span class="math">\(p\left( \theta \right)\)</span>が存在すると考えます．その上で，観測データ<span class="math">\(X\)</span>が与えられた条件での，パラメータ<span class="math">\(\theta\)</span>の条件付き確率（ <strong>事後確率</strong> ともよばれます） <span class="math">\(p\left( \theta|X\right)\)</span>
-を最大化するような<span class="math">\(\theta\)</span>を求めることになります．</p>
+<p>このような場合に，事前情報も考慮しながら，観測データに基づいてパラメータを推定する方法が<strong>事後確率最大化(Maximum A Posteriori,
+MAP)推定</strong>です．MAP推定においては，パラメータ<span class="math">\(\theta\)</span>も確率変数であり，その分布（<strong>事前確率</strong>ともよばれます）<span class="math">\(p\left( \theta \right)\)</span>が存在すると考えます．その上で，観測データ<span class="math">\(X\)</span>が与えられた条件での，パラメータ<span class="math">\(\theta\)</span>の条件付き確率（<strong>事後確率</strong>ともよばれます）<span class="math">\(p\left( \theta|X\right)\)</span>を最大化するような<span class="math">\(\theta\)</span>を求めることになります．</p>
 <p>ここでベイズの定理を思い出しましょう．ベイズの定理を用いると事後確率は，</p>
 <div class="math">
 \[p(\theta|X) = \frac{p(X|\theta)p(\theta)}{p(X)}\]</div>
@@ -867,6 +869,9 @@ L(\theta) &amp;= \theta \cdot (1 - \theta) \cdot  \ldots  \cdot (1 - \theta) \cd
 </div>
 <div class="section" id="統計量">
 <h3>1.4.5. 統計量<a class="headerlink" href="#統計量" title="Permalink to this headline">¶</a></h3>
+<p>本節では，データ解析を行う際によく用いられる基本的な統計量を紹介していきます．</p>
+<p>統計量を求める際には，<strong>母集団</strong>に対する解析か<strong>標本集団</strong>に対する解析かを意識することが重要です．母集団とは解析を行いたい想定の範囲に対して，すべてのデータが揃っている場合であり，標本集団はそのうちの一部を抽出する場合です．例えば，全国の小学生の身長と体重を集計する際，全国の小学生を一人の抜け漏れもなく集められれば母集団ですが，各都道府県で100人ずつ抜き出して集計すると，標本集団となります．母集団のデータを集めることは現実的に難しいことが多く，標本集団のデータから母集団の分布を推定することが一般的です．そうなると，基本的には母集団の統計量ではなく，標本集団向けの統計量を使用することになります．サンプル数<span class="math">\(N\)</span>が多い場合には，母集団の統計量と標本集団の統計量に差は殆どありませんが，サンプル数が小さい場合は大きな差となるので注意しましょう．</p>
+<p><img alt="image10" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/12.png" /></p>
 <p>ここでは，代表的な統計量である平均，分散，標準偏差について紹介していきます．</p>
 <p>最初は，<strong>平均</strong>を紹介します．たとえば，300円, 400円, 500円の平均は，</p>
 <div class="math">
@@ -875,22 +880,20 @@ L(\theta) &amp;= \theta \cdot (1 - \theta) \cdot  \ldots  \cdot (1 - \theta) \cd
 <div class="math">
 \[\begin{aligned}\overline {x}=\dfrac {x_{1}+x_{2}+\ldots +x_{N}}{N}
 =\dfrac {1}{N}\sum ^{N}_{n=1}x_{n}\end{aligned}\]</div>
-<p>のようになります．<span class="math">\(N\)</span> は<strong>サンプルの数</strong>を表します．平均は， <span class="math">\(\bar{x}\)</span> や <span class="math">\(\mu\)</span> といった記号で表わされるのが一般的です．データ分布において，平均はその重心に相当する値です．</p>
-<p>次に，<strong>分散</strong>を紹介します．分散の定義は</p>
+<p>のようになります．<span class="math">\(N\)</span>は<strong>サンプルの数</strong>を表します．平均は，<span class="math">\(\bar{x}\)</span>や<span class="math">\(\mu\)</span>といった記号で表わされるのが一般的です．データ分布において，平均はその重心に相当する値です．</p>
+<p>次に，<strong>分散</strong>を紹介します．分散はデータのばらつきを表す統計量であり，その定義は</p>
 <div class="math">
 \[\begin{aligned}\sigma ^{2}=\dfrac {1}{N}\sum ^{N}_{n=1}\left( x_{n}-\overline {x}\right) ^{2}\end{aligned}\]</div>
-<p>となります．各サンプルの平均 <span class="math">\(\bar{x}\)</span> からの差分 <span class="math">\(x- \bar{x}\)</span> を計算し，それらの二乗誤差の平均の値を計算します．分散にはもう一つ定義があり，</p>
+<p>となります．各サンプルの平均<span class="math">\(\bar{x}\)</span>からの差分<span class="math">\(x - \bar{x}\)</span>を計算し，それらの二乗誤差の平均の値を計算します．分散にはもう一つ定義があり，</p>
 <div class="math">
 \[\begin{aligned}
 \sigma ^{2}=\dfrac {1}{N-1}\sum ^{N}_{n=1}\left( x_{n}-\overline {x}\right) ^{2}
 \end{aligned}\]</div>
-<p>と表す場合もありあります．前者は<strong>標本分散</strong>といい，後者は<strong>不偏分散</strong>といいます．これらの式の導出は他書に譲るとして，ここではその使い分けについて説明します．</p>
-<p><img alt="image9" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/12.png" /></p>
-<p>データ解析を行う際に，<strong>母集団</strong>に対する解析か<strong>標本集団</strong>に対する解析かを意識することが重要です．母集団とは解析を行いたい想定の範囲に対して，すべてのデータが揃っている場合であり，標本集団はそのうちの一部を抽出する場合です．例えば，全国の小学生の身長と体重を集計する際，全国の小学生を一人の抜け漏れもなく集められれば母集団ですが，各都道府県で100人ずつ抜き出して集計すると，標本集団となります．母集団のデータを集めることは現実的に難しいことが多く，標本集団のデータから母集団の分布を推定することが一般的です．そうなると，基本的には標本集団向けである不偏分散を使用することになります．サンプル数<span class="math">\(N\)</span>が多い場合には，母分散と不偏分散の違いは殆どありませんが，サンプル数が小さい場合は大きな差となるので注意しましょう．</p>
-<p>分散を利用すると，データのばらつきを定量評価することができるようになります．例えば，実験を行った際に，結果にばらつきが多ければ，各実験で再現性が確保できていない可能性が考えられます．このように，多数の試行の結果がある値に集まっていることが望ましいような状況において，ばらつきの度合いを定量し評価することが重要となってきます．他に，データのばらつき具合にもよりますが，分散を使えばスケールの違いも評価することができます．</p>
-<p>最後に<strong>標準偏差</strong>を紹介します．分散では各サンプルの平均からの差の二乗の合計のため，単位は元の単位の二乗となっています．例えば元の単位がkgであれば，分散はkgの二乗という単位になります．そこで分散の平方根をとった<span class="math">\(\sigma\)</span>を用いることで，元の単位と等しくなり，解釈が容易になります．これを標準偏差とよびます．</p>
-<p>練習問題で具体的な計算手順の確認を行いましょう．以下の①と②のデータに対して，平均，分散，標準偏差を求めてください．ただし，今回は母分散を使用することとします．</p>
-<p><img alt="image10" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/13.png" /></p>
+<p>と表す場合もあります．前者は<strong>標本分散</strong>といい，後者は<strong>不偏分散</strong>といいます．これらの式の導出は他書に譲ることにします．</p>
+<p>例えば，実験を行った際に結果にばらつきが多ければ，各実験で再現性が確保できていない可能性が考えられるため，多数の試行結果がある値に集まっていることが望ましい状況において，分散を評価することが重要となってきます．他に，データのばらつき具合にもよりますが，分散を使えばスケールの違いも評価することができます．</p>
+<p>最後に<strong>標準偏差</strong>を紹介します．分散は各サンプルの平均からの差の二乗の平均であり，単位は元の単位の二乗となっています．例えば元の単位がkgであれば，分散はkgの二乗という単位になります．そこで分散の平方根をとった<span class="math">\(\sigma\)</span>を用いることで，元の単位と等しくなり，解釈が容易になります．これを標準偏差とよびます．</p>
+<p>練習問題で具体的な計算手順の確認を行いましょう．以下の①と②のデータに対して，平均，分散，標準偏差を求めてください．ただし，今回は標本分散を使用することとします．</p>
+<p><img alt="image11" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/13.png" /></p>
 <p>①の解答は以下の通りです．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -909,24 +912,24 @@ L(\theta) &amp;= \theta \cdot (1 - \theta) \cdot  \ldots  \cdot (1 - \theta) \cd
 \end{aligned}\end{split}\]</div>
 <p>これより，②のケースの方が分散が大きく，データのばらつきが大きいことがわかります．</p>
 </div>
-<div class="section" id="正規分布と正規化">
-<h3>1.4.6. 正規分布と正規化<a class="headerlink" href="#正規分布と正規化" title="Permalink to this headline">¶</a></h3>
-<p>ここでは，確率で度々登場する<strong>正規分布</strong>について紹介します．<strong>ガウス分布</strong>ともよばれています．平均<span class="math">\(\mu\)</span>，標準偏差<span class="math">\(\sigma\)</span>を持つ正規分布は以下のような形をしています．</p>
-<p><img alt="image11" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/14.png" /></p>
+<div class="section" id="正規分布">
+<h3>1.4.6. 正規分布<a class="headerlink" href="#正規分布" title="Permalink to this headline">¶</a></h3>
+<p>ここでは，確率で度々登場する<strong>正規分布</strong>について紹介します．正規分布は<strong>ガウス分布</strong>ともよばれます．横軸に確率変数，縦軸に確率密度をとって図示すると，平均<span class="math">\(\mu\)</span>，標準偏差<span class="math">\(\sigma\)</span>を持つ正規分布は以下のような形をしています．</p>
+<p><img alt="image12" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/14.png" /></p>
 <p>なぜこの正規分布がよく登場するのでしょうか．その理由として，以下のような物理的・数学的背景があります．</p>
 <ul class="simple">
-<li>独立で多数の因子の和で表される確率変数は正規分布に近似的に従う</li>
+<li>多数の独立な因子の和で表される確率変数は正規分布に近似的に従う</li>
 <li>数式が扱いやすい</li>
 </ul>
 <p>世の中でみられる多くのデータが正規分布に従うことが知られています（例えば，性年代別の身長，試験の点数，物理実験の測定誤差など）．一方で必ずしもデータは正規分布に従うとは限りません．正規分布ではないような分布に対し正規分布にあてはめて考えてしまい誤った結論を導く場合も多々あります．データの分布は図示化するなどして正規分布として扱ってよいかは常に考えましょう．</p>
-<p>正規分布では平均 <span class="math">\(\mu\)</span> と標準偏差 <span class="math">\(\sigma\)</span> に対して，何%がその分布に入っているかといった議論を良く行います．例えば，<span class="math">\(\mu \pm 3\sigma\)</span> の範囲内に，データの全体の99.7%が入るため，この <span class="math">\(\mu \pm 3 \sigma\)</span> に入らない領域を外れ値（他の値から大きく外れた値）として定義するといった使い方ができます．</p>
+<p>正規分布では平均<span class="math">\(\mu\)</span>と標準偏差<span class="math">\(\sigma\)</span>に対して，何%がその分布に入っているかといった議論を良く行います．例えば，<span class="math">\(\mu \pm 3\sigma\)</span>の範囲内に，データの全体の99.7%が入るため，この<span class="math">\(\mu \pm 3 \sigma\)</span>に入らない領域を外れ値（他の値から大きく外れた値）として定義するといった使い方ができます．</p>
 </div>
 <div class="section" id="標準偏差を利用したスケーリング">
 <h3>1.4.7. 標準偏差を利用したスケーリング<a class="headerlink" href="#標準偏差を利用したスケーリング" title="Permalink to this headline">¶</a></h3>
-<p>スケーリングは，大抵の機械学習アルゴリズムにおける前処理として重要です，</p>
-<p>なぜスケーリングが重要かを説明するために，2点間の距離を計算する例題を取りあげます．スケールが異なる変数 <span class="math">\(x_{1}\)</span> と <span class="math">\(x_{2}\)</span> があった場合に，下記の図のような状況になります．ここで，縦軸と横軸のスケールが大きく異なっていることに注意してください．</p>
-<p><img alt="image12" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/15.png" /></p>
-<p>この２点間の距離 <span class="math">\(d\)</span> を求めると，</p>
+<p>スケーリングは，大抵の機械学習手法における前処理として重要です，</p>
+<p>なぜスケーリングが重要かを説明するために，2点間の距離を計算する例題を取りあげます．スケールが異なる変数<span class="math">\(x_{1}\)</span>と<span class="math">\(x_{2}\)</span>があった場合に，下記の図のような状況になります．ここで，縦軸と横軸のスケールが大きく異なっていることに注意してください．</p>
+<p><img alt="image13" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/15.png" /></p>
+<p>この2点間の距離<span class="math">\(d\)</span>を求めると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 d&amp;=\sqrt {\left( 100-1000\right) ^{2}+\left( 0.1-1\right) ^{2}}\\
@@ -934,13 +937,13 @@ d&amp;=\sqrt {\left( 100-1000\right) ^{2}+\left( 0.1-1\right) ^{2}}\\
 &amp;= \sqrt {810000+0.81} \\
 &amp;= \sqrt {810000.81}
 \end{aligned}\end{split}\]</div>
-<p>のようになります．距離 <span class="math">\(d\)</span> の中で<span class="math">\(x_{1}\)</span>の影響量が大きく<span class="math">\(x_{2}\)</span> に関しては，スケールが小さいが故にほとんど影響を与えていません．これでは <span class="math">\(x_{2}\)</span> がデータの意味として重要な場合においても考慮できません．こうした問題を解決する方法の一つが，ここで紹介する<strong>スケーリング</strong>です．代表的なスケーリングの方法としては２つあります．</p>
-<p>１つ目が，サンプル集合を<strong>最小値0</strong>，<strong>最大値1</strong>にスケーリングする方法です．これを<strong>Min-Max スケーリング</strong>とよびます．この方法では，各変数ごとに最小値 <span class="math">\(x_{\min}\)</span> と最大値 <span class="math">\(x_{\max}\)</span> を求めておき，すべてのデータに対して，</p>
+<p>のようになります．距離<span class="math">\(d\)</span>の中で<span class="math">\(x_{1}\)</span>の影響量が大きく<span class="math">\(x_{2}\)</span> に関しては，スケールが小さいが故にほとんど影響を与えていません．これでは<span class="math">\(x_{2}\)</span>がデータの意味として重要な場合においても考慮できません．こうした問題を解決する方法の一つが，ここで紹介する<strong>スケーリング</strong>です．代表的なスケーリングの方法としては２つあります．</p>
+<p>1つ目が，サンプル集合を<strong>最小値0</strong>，<strong>最大値1</strong>にスケーリングする方法です．これを<strong>Min-Max スケーリング</strong>とよびます．この方法では，各変数ごとに最小値<span class="math">\(x_{\min}\)</span>と最大値<span class="math">\(x_{\max}\)</span>を求めておき，すべてのデータに対して，</p>
 <div class="math">
 \[\widetilde{x} = \dfrac{x - x_{\min}}{x_{\max} - x_{\min}}\]</div>
-<p>の計算を行います．Min-Maxスケーリングには計算が単純というメリットがある反面，下図の例ように<span class="math">\(x_1\)</span>で外れ値を持つデータ点が存在するような場合，<span class="math">\(x_{\max}\)</span> が外れ値に大きく引っ張られてしまうという弱点があります．</p>
-<p><img alt="image13" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/16.png" /></p>
-<p>もう１つのスケーリングの方法として，<strong>平均0</strong>，<strong>標準偏差1</strong> にスケーリングする方法があります．これは一般的に <strong>標準化（正規化）</strong> とよばれています．全てのデータから平均を引くと平均<span class="math">\(0\)</span>になり，標準偏差で割ると標準偏差は<span class="math">\(1\)</span>になります．</p>
+<p>の計算を行います．Min-Maxスケーリングには計算が単純というメリットがある反面，下図の例ように<span class="math">\(x_1\)</span>で外れ値を持つデータ点が存在するような場合，<span class="math">\(x_{\max}\)</span>が外れ値に大きく引っ張られてしまうという弱点があります．</p>
+<p><img alt="image14" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/16.png" /></p>
+<p>もうひとつのスケーリングの方法として，<strong>平均0</strong>，<strong>標準偏差1</strong>にスケーリングする方法があります．これは一般的に<strong>標準化（正規化）</strong>とよばれています．全てのデータから平均を引くと平均<span class="math">\(0\)</span>になり，標準偏差で割ると標準偏差は<span class="math">\(1\)</span>になります．</p>
 <div class="math">
 \[\widetilde{x}  = \dfrac{x - \bar{x}}{\sigma}\]</div>
 <p>分散を計算した例題の①に対して，このスケーリングを適用してみると，</p>
@@ -965,11 +968,10 @@ x_{5}&amp;=\dfrac {2-0}{\sqrt {2}}=\dfrac {2}{\sqrt {2}}
 <div class="section" id="外れ値除去">
 <h3>1.4.8. 外れ値除去<a class="headerlink" href="#外れ値除去" title="Permalink to this headline">¶</a></h3>
 <p>以下のように時間によって変動するようなデータを扱うとしましょう．例えば，横軸が時刻，縦軸が温度だとします．また，平均的な温度は一定であり，温度はランダムに変動しているものと仮定します．</p>
-<p><img alt="image14" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/17.png" /></p>
+<p><img alt="image15" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/17.png" /></p>
 <p>このデータに対して，温度計の異常や不具合による温度の異常（外れ値）を検出したい場合，どのようにこの外れ値を定義して検出すれば良いでしょうか．一つの方法として，値の<strong>頻度</strong>に着目する方法があります．</p>
-<p><img alt="image15" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/18.png" /></p>
-<p>上図のように，平均に対して線を引き，それぞれの値において頻度を算出してヒストグラムを描いてみると正規分布が現れます．ここでは，データが従う分布に正規性を仮定できるとします（データが正規分布に従うかどうかを統計的に確認したい場合は，正規性検定などの方法があります），外れ値を定義するために，データの平均 <span class="math">\(\mu\)</span> と標準偏差 <span class="math">\(\sigma\)</span>
-を計算し，<span class="math">\(\mu \pm 3\sigma\)</span>の値に線を引けば，外れ値除去を行うことができます．これを<strong>3σ法</strong>とよびます．ただし，外れ値の回数が多かったり，外れ値が極端な値を持つ場合には平均や標準偏差がその外れ値に引っ張られ，3σ法ではうまく対処できないことがあります．</p>
+<p><img alt="image16" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/1/18.png" /></p>
+<p>上図のように，平均に対して線を引き，それぞれの値において頻度を算出してヒストグラムを描いてみると正規分布が現れます．ここでは，データが従う分布に正規性を仮定できるとします（データが正規分布に従うかどうかを統計的に確認したい場合は，正規性検定などの方法があります）．外れ値を定義するために，データの平均<span class="math">\(\mu\)</span>と標準偏差<span class="math">\(\sigma\)</span>を計算し，<span class="math">\(\mu \pm 3\sigma\)</span>の値に線を引けば，外れ値除去を行うことができます．これを<strong>3σ法</strong>とよびます．ただし，外れ値の回数が多かったり，外れ値が極端な値を持つ場合には平均や標準偏差がその外れ値に引っ張られ，3σ法ではうまく対処できないことがあります．</p>
 <p>その場合には，データを大きい順に並べて上位5%，下位5%を取り除くといった処理をすることもできます．</p>
 </div>
 </div>

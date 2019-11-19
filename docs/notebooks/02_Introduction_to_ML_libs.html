@@ -1,58 +1,103 @@
 
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="ja" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ja"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="ja" > <!--<![endif]-->
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>2. 機械学習ライブラリの基礎 — メディカルAI専門コース オンライン講義資料  documentation</title>
-<link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../genindex.html" rel="index" title="Index"/>
-<link href="../search.html" rel="search" title="Search"/>
-<link href="03_Introduction_to_Neural_Network.html" rel="next" title="3. ニューラルネットワークの基礎"/>
-<link href="01_Basic_Math_for_ML.html" rel="prev" title="1. 機械学習に必要な数学の基礎"/>
-<script src="../_static/js/modernizr.min.js"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
-<script>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. 機械学習ライブラリの基礎 &mdash; メディカルAI専門コース オンライン講義資料  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. ニューラルネットワークの基礎" href="03_Introduction_to_Neural_Network.html" />
+    <link rel="prev" title="1. 機械学習に必要な数学の基礎" href="01_Basic_Math_for_ML.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-797798-11"></script>
+  <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
   
     gtag('config', 'UA-797798-11');
   </script>
-<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" name="description"/>
-<meta content="メディカルAI専門コース オンライン講義資料" property="og:title"/>
-<meta content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。" property="og:description"/>
-<meta content="website" property="og:type"/>
-<meta content="https://japan-medical-ai.github.io/medical-ai-course-materials/" property="og:url"/>
-<meta content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png" property="og:image"/>
-<meta content="summary_large_image" name="twitter:card"/>
-<meta content="@PreferredNetJP" name="twitter:site"/>
-<meta content="@PreferredNetJP" name="twitter:creator"/>
+
+  <meta name="description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。">
+  <meta property="og:title" content="メディカルAI専門コース オンライン講義資料">
+  <meta property="og:description" content="メディカルAI学会公認資格向けオンライン講義資料。機械学習に必要な数学の基礎の解説から深層学習（ディープラーニング）を用いた実践的な内容までGoogle Colaboratory上でGPUを用いて実際にコードを実行可能な形式にしオンライン資料として無料公開。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://japan-medical-ai.github.io/medical-ai-course-materials/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/japan-medical-ai/medical-ai-course-materials/master/notebooks/images/medical_ai.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@PreferredNetJP">
+  <meta name="twitter:creator" content="@PreferredNetJP">
+
 </head>
+
 <body class="wy-body-for-nav">
-<div class="wy-grid-for-nav">
-<nav class="wy-nav-side" data-toggle="wy-nav-shift">
-<div class="wy-side-scroll">
-<div class="wy-side-nav-search">
-<a class="icon icon-home" href="../index.html"> メディカルAI専門コース オンライン講義資料
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> メディカルAI専門コース オンライン講義資料
           
 
           
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
-<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
-<input name="check_keywords" type="hidden" value="yes"/>
-<input name="area" type="hidden" value="default"/>
-</form>
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-</div>
-<div aria-label="main navigation" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<ul class="current">
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="01_Basic_Math_for_ML.html">1. 機械学習に必要な数学の基礎</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. 機械学習ライブラリの基礎</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#単回帰分析">2.1. 単回帰分析</a><ul>
@@ -90,34 +135,76 @@
 <li class="toctree-l1"><a class="reference internal" href="07_DNA_Sequence_Data_Analysis.html">7. 実践編: ディープラーニングを使った配列解析</a></li>
 <li class="toctree-l1"><a class="reference internal" href="08_Sequential_Data_Analysis_with_Deep_Learning.html">8. 実践編: ディープラーニングを使ったモニタリングデータの時系列解析</a></li>
 </ul>
-<div style="padding-right:20px; bottom:10px;">
-<a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
-<img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png"/>
-<p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
-</a>
+
+            
+          
+          <div style="padding-right:20px; bottom:10px;">
+            <a href="https://short-term.kikagaku.co.jp/dnn-seminar/">
+              <img src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/img_handson.png" />
+              <p style="padding:5px; font-size:small; line-height: 150%">ディープラーニングの詳しい解説や画像・自然言語の取り扱い、クラウド上のGPUを使った実践的な演習をご希望の方はこちらがおすすめです</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>2. 機械学習ライブラリの基礎</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/notebooks/02_Introduction_to_ML_libs.ipynb.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
 </div>
-</div>
-</div>
-</nav>
-<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift">
-<nav aria-label="top navigation" class="wy-nav-top">
-<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
-<a href="../index.html">メディカルAI専門コース オンライン講義資料</a>
-</nav>
-<div class="wy-nav-content">
-<div class="rst-content">
-<div aria-label="breadcrumbs navigation" role="navigation">
-<ul class="wy-breadcrumbs">
-<li><a href="../index.html">Docs</a> »</li>
-<li>2. 機械学習ライブラリの基礎</li>
-<li class="wy-breadcrumbs-aside">
-<a href="../_sources/notebooks/02_Introduction_to_ML_libs.ipynb.txt" rel="nofollow"> View page source</a>
-</li>
-</ul>
-<hr/>
-</div>
-<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
-<div itemprop="articleBody">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
 <style>
 /* CSS for nbsphinx extension */
 
@@ -340,7 +427,7 @@ div.rendered_html tbody tr:hover {
 }
 </style>
 <div class="section" id="機械学習ライブラリの基礎">
-<h1>2. 機械学習ライブラリの基礎<a class="headerlink" href="#機械学習ライブラリの基礎" title="Permalink to this headline">¶</a></h1><p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/02_Introduction_to_ML_libs.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
+<h1>2. 機械学習ライブラリの基礎<a class="headerlink" href="#機械学習ライブラリの基礎" title="Permalink to this headline">¶</a></h1>
 <p>本章では，基礎的な機械学習手法として代表的な<strong>単回帰分析</strong>と<strong>重回帰分析</strong>の仕組みを、数式を用いて説明します． ここで単回帰分析と重回帰分析を紹介することには 2 つの理由があります． 1 つ目は，回帰分析と重回帰分析の数学がニューラルネットワーク含めたディープラーニングの数学の基礎となるためです． 2 つ目は，単回帰分析のアルゴリズムを通して微分，重回帰分析のアルゴリズムを通して線形代数に関する理解を深めることができるためです．</p>
 <div class="section" id="単回帰分析">
 <h2>2.1. 単回帰分析<a class="headerlink" href="#単回帰分析" title="Permalink to this headline">¶</a></h2>
@@ -365,12 +452,12 @@ div.rendered_html tbody tr:hover {
 <p>まずはじめに、入力変数 x と出力変数 y との関係をどのように定式化するかを決定します． この定式化したものを<strong>モデル</strong>もしくは<strong>数理モデル</strong>と呼びます．</p>
 <p>どのように定式化すれば，家賃をうまく予測することができるのでしょうか． このモデル設計は現在は人手で行うのが一般的であり，機械が自動的に決めてくれるわけではありません（ただし最近ではAutoMLなどモデルを自動決定するための研究も進展してきています）．</p>
 <p>例えば，家賃と部屋の広さの組で表されるデータを 3 つ集め，「家賃」を y 軸に，「部屋の広さ」を x 軸にとってそれらをプロットしたとき，次のようになっていたとします．</p>
-<p><img alt="家賃と部屋の広さの関係" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png"/></p>
+<p><img alt="家賃と部屋の広さの関係" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png" /></p>
 <p>この場合，部屋が広くなるほど，家賃が高くなるという関係が予想されます． また，この 2 変数間の関係性は直線によって表現を行うことができそうだと考えられます． そこで、2 つのパラメータ <span class="math">\(w\)</span> と <span class="math">\(b\)</span> によって特徴づけられる直線の方程式</p>
 <div class="math">
 \[f(x; w, b) = wx + b\]</div>
 <p>によって，部屋の広さと家賃の関係を表すことを考えます． ここで，<span class="math">\(w\)</span> は<strong>重み (weight)</strong>，<span class="math">\(b\)</span> は<strong>バイアス (bias)</strong>の頭文字を採用しています．</p>
-<p><img alt="直線式によるモデル化" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png"/></p>
+<p><img alt="直線式によるモデル化" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png" /></p>
 <p>単回帰分析では，このようにモデルとして直線 <span class="math">\(f(x; w, b) = wx + b\)</span> を用います． そして，2 つのパラメータ <span class="math">\(w\)</span> と <span class="math">\(b\)</span> を，直線がデータによくフィットするように調整します．</p>
 <p>パラメータで特徴づけられたモデルを用いる場合，与えられた<strong>データセット</strong>に適合するように最適なパラメータを求めることが目標となります． 今回はデータセットとして部屋の広さ <span class="math">\(x\)</span> と家賃 <span class="math">\(t\)</span> の組からなるデータの集合を用います． 全部で <span class="math">\(N\)</span> 個のデータがあり，<span class="math">\(n\)</span> 番目のデータが <span class="math">\((x^{(n)}, t^{(n)})\)</span> と表されるとき，データセットは</p>
 <div class="math">
@@ -381,9 +468,9 @@ div.rendered_html tbody tr:hover {
 <p>と表すことができます． これを用いて、新しい <span class="math">\(x\)</span> を入力すると，それに対応する <span class="math">\(t\)</span> を予測するモデルを訓練します．</p>
 <p>ここで，データセット中の入力値とのことを<strong>データ点（datum）</strong>ということがあることに注意してください． データ点とは，具体的には上の説明で登場した <span class="math">\(\mathcal{D}\)</span> 中の各 <span class="math">\((x^{(1)},t^{(1)})\)</span> などのことです．</p>
 <p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを紹介します． 部屋の広さと家賃は両方とも正の値であるため，各データ点をいくつかプロットすると，下図の左のグラフのようになります． 中心化では，各次元の<strong>平均が</strong> <span class="math">\(\boldsymbol{0}\)</span> となるよう全てのデータを同量平行移動します． 中心化はしばしば前処理として採用されます． 厳密には前章で紹介したスケーリング方法の一つである標準化（正規化）がよく用いられます．</p>
-<p><img alt="中心化処理" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png"/></p>
+<p><img alt="中心化処理" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png" /></p>
 <p>この処理を行うと，下図のように，バイアス <span class="math">\(b\)</span> を <span class="math">\(0\)</span> とおけるため，<span class="math">\(f_c(x; w) = wx_{c}\)</span> のように，モデルをバイアス成分なしで表現することができるようになります． これによって，調整すべきパラメータを減らすことができます．</p>
-<p><img alt="中心化後の直線式" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png"/></p>
+<p><img alt="中心化後の直線式" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png" /></p>
 <p>データの中心化は入出力の平均をデータの全体から引くことで実現されます． つまり，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -394,10 +481,10 @@ t^{(n)}_{c} &amp;= t^{(n)} - \bar{t}
 <p>例えば，具体的な数値で見ると，下の表のようになります．</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="8%"/>
-<col width="30%"/>
-<col width="30%"/>
-<col width="33%"/>
+<col width="8%" />
+<col width="30%" />
+<col width="30%" />
+<col width="33%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">n</th>
@@ -513,9 +600,9 @@ w &amp;= \dfrac
 <p>それでは，以下の数値例を使って実際にパラメータ <span class="math">\(w\)</span> を求めてみましょう．</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="12%"/>
-<col width="44%"/>
-<col width="44%"/>
+<col width="12%" />
+<col width="44%" />
+<col width="44%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">n</th>
@@ -871,11 +958,11 @@ w_{1} + 2w_{2} \\
 \end{aligned}\end{split}\]</div>
 <p>となり，それぞれの二次関数であることがわかります．</p>
 <p>そして，二次関数であれば，下図のような形となります．</p>
-<p><img alt="パラメータと目的関数の関係（2次元）" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png"/></p>
+<p><img alt="パラメータと目的関数の関係（2次元）" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png" /></p>
 <p>これを3次元でイメージすると，下図のようになります．</p>
-<p><img alt="パラメータと目的関数の関係（3次元）" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png"/></p>
+<p><img alt="パラメータと目的関数の関係（3次元）" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/08.png" /></p>
 <p>そして，目的関数である二乗誤差の総和が最小となる点では各変数で微分した時の傾きが0となります．</p>
-<p><img alt="目的関数が最小となる点" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png"/></p>
+<p><img alt="目的関数が最小となる点" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/07.png" /></p>
 <p>この例では，<span class="math">\(w_{1}\)</span> と <span class="math">\(w_{2}\)</span> の２つのパラメータの場合で考えましたが，これは <span class="math">\(w_{0}\)</span>, <span class="math">\(w_{1}\)</span>, <span class="math">\(w_{2}\)</span>, <span class="math">\(\ldots\)</span>, <span class="math">\(w_{M}\)</span> の場合でも同様に考えることができ，目的関数が最小となる点は</p>
 <div class="math">
 \[\begin{split}\begin{cases}
@@ -1405,8 +1492,8 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">X</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span>
-<span class="n">t</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">'target'</span><span class="p">]</span>
+<span></span><span class="n">X</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">boston</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1782,28 +1869,49 @@ w_{1} + 2w_{2} \\
 </div>
 </div>
 </div>
-</div>
-</div>
-<footer>
-<div aria-label="footer navigation" class="rst-footer-buttons" role="navigation">
-<a accesskey="n" class="btn btn-neutral float-right" href="03_Introduction_to_Neural_Network.html" rel="next" title="3. ニューラルネットワークの基礎">Next <span class="fa fa-arrow-circle-right"></span></a>
-<a accesskey="p" class="btn btn-neutral" href="01_Basic_Math_for_ML.html" rel="prev" title="1. 機械学習に必要な数学の基礎"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-</div>
-<hr/>
-<div role="contentinfo">
-<p>
-        © Copyright 2018, Preferred Networks &amp; キカガク
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="03_Introduction_to_Neural_Network.html" class="btn btn-neutral float-right" title="3. ニューラルネットワークの基礎" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="01_Basic_Math_for_ML.html" class="btn btn-neutral" title="1. 機械学習に必要な数学の基礎" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Preferred Networks &amp; キカガク
 
     </p>
-</div>
+  </div>
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-</div>
-</div>
-</section>
-</div>
-<script type="text/javascript">
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
               VERSION:'',
@@ -1814,17 +1922,23 @@ w_{1} + 2w_{2} \\
               SOURCELINK_SUFFIX: '.txt'
           };
       </script>
-<script src="../_static/jquery.js" type="text/javascript"></script>
-<script src="../_static/underscore.js" type="text/javascript"></script>
-<script src="../_static/doctools.js" type="text/javascript"></script>
-<script src="../_static/translations.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-<script src="../_static/js/theme.js" type="text/javascript"></script>
-<script type="text/javascript">
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/translations.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
+  </script> 
+
 </body>
 </html>
