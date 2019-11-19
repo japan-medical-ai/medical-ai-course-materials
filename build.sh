@@ -28,4 +28,8 @@ cd ..
 for fn in $(find docs/notebooks -name "*.html");
 do
     python3 scripts/insert_colab_link.py $fn ${OPEN_IN_COLAB_PREFIX} ${NOTEBOOK_DIR}
+<<<<<<< HEAD
 done
+=======
+done
+>>>>>>> fd1fb8090ad876e138e458d0ed23fbffffa171ba
