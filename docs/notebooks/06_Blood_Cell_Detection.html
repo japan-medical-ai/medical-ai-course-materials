@@ -351,7 +351,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="環境構築">
 <h2>6.1. 環境構築<a class="headerlink" href="#環境構築" title="Permalink to this headline">¶</a></h2>
 <p>まず環境構築のためColab上で以下のセルを実行してChainerCVのインストールを済ませましょう． これらのステップは前回までと同様です．</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
@@ -360,6 +360,33 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Collecting chainercv
+  Downloading https://files.pythonhosted.org/packages/e8/1c/1f267ccf5ebdf1f63f1812fa0d2d0e6e35f0d08f63d2dcdb1351b0e77d85/chainercv-0.13.1.tar.gz (260kB)
+     |████████████████████████████████| 266kB 3.3MB/s
+Requirement already satisfied: chainer&gt;=6.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (6.5.0)
+Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.3.0)
+Requirement already satisfied: typing&lt;=3.6.6 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (1.17.4)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.10.0)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.0.12)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (41.4.0)
+Requirement already satisfied: typing-extensions&lt;=3.6.6 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (1.12.0)
+Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
+Building wheels for collected packages: chainercv
+  Building wheel for chainercv (setup.py) ... done
+  Created wheel for chainercv: filename=chainercv-0.13.1-cp36-cp36m-linux_x86_64.whl size=537362 sha256=9f205b26c5c35c261e4e646f0e560aa291b63696df06fc76c56fb342dc9b7794
+  Stored in directory: /root/.cache/pip/wheels/ea/10/01/e221beaa4b3d8341aa819a39ab8d4677457c79c81f521f3a94
+Successfully built chainercv
+Installing collected packages: chainercv
+Successfully installed chainercv-0.13.1
+</pre></div></div>
+</div>
 <p>それでは，先程のセルの実行によって環境のセットアップが成功したことを以下のセルを実行して確認しましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[2]:
@@ -367,8 +394,13 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">chainer</span>
+<span class="kn">import</span> <span class="nn">cupy</span>
+<span class="kn">import</span> <span class="nn">chainercv</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
 
 <span class="n">chainer</span><span class="o">.</span><span class="n">print_runtime_info</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'ChainerCV:'</span><span class="p">,</span> <span class="n">chainercv</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'matplotlib:'</span><span class="p">,</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -377,19 +409,23 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
-Chainer: 5.0.0
-NumPy: 1.14.6
+Platform: Linux-4.14.137+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 6.5.0
+ChainerX: Not Available
+NumPy: 1.17.4
 CuPy:
-  CuPy Version          : 5.0.0
+  CuPy Version          : 6.5.0
   CUDA Root             : /usr/local/cuda
-  CUDA Build Version    : 9020
-  CUDA Driver Version   : 9020
-  CUDA Runtime Version  : 9020
-  cuDNN Build Version   : 7201
-  cuDNN Version         : 7201
-  NCCL Build Version    : 2213
+  CUDA Build Version    : 10000
+  CUDA Driver Version   : 10010
+  CUDA Runtime Version  : 10000
+  cuDNN Build Version   : 7603
+  cuDNN Version         : 7603
+  NCCL Build Version    : 2402
+  NCCL Runtime Version  : 2402
 iDeep: 2.0.0.post3
+ChainerCV: 0.13.1
+matplotlib: 3.1.1
 </pre></div></div>
 </div>
 </div>
@@ -424,15 +460,31 @@ stageタイプよりも処理速度は高速である一方，精度が低いと
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Cloning into 'BCCD_Dataset'...
-remote: Enumerating objects: 770, done.
-remote: Total 770 (delta 0), reused 0 (delta 0), pack-reused 770
-Receiving objects: 100% (770/770), 7.33 MiB | 9.58 MiB/s, done.
-Resolving deltas: 100% (367/367), done.
+remote: Enumerating objects: 786, done.
+remote: Total 786 (delta 0), reused 0 (delta 0), pack-reused 786
+Receiving objects: 100% (786/786), 7.34 MiB | 23.63 MiB/s, done.
+Resolving deltas: 100% (375/375), done.
 </pre></div></div>
 </div>
 <p>ダウンロードが完了したら，<code class="docutils literal"><span class="pre">BCCD_Dataset</span></code>ディレクトリ以下のファイル構成を見てみましょう．このデータセットは，以下のようなファイル構成で配布されています．</p>
-<p><code class="docutils literal"><span class="pre">BCCD</span>  <span class="pre">|--</span> <span class="pre">Annotations</span>  <span class="pre">|</span>   <span class="pre">|</span>  <span class="pre">|</span>   <span class="pre">`--</span> <span class="pre">BloodImage_00XYZ.xml</span> <span class="pre">(364</span> <span class="pre">items)</span>  <span class="pre">|</span>  <span class="pre">|--</span> <span class="pre">ImageSets</span>  <span class="pre">|</span>   <span class="pre">|</span>  <span class="pre">|</span>   <span class="pre">`--</span> <span class="pre">Main</span>  <span class="pre">|</span>       <span class="pre">|</span>  <span class="pre">|</span>       <span class="pre">|--</span> <span class="pre">test.txt</span>  <span class="pre">|</span>       <span class="pre">|--</span> <span class="pre">train.txt</span>  <span class="pre">|</span>       <span class="pre">`--</span> <span class="pre">val.txt</span>  <span class="pre">|</span>  <span class="pre">`--</span> <span class="pre">JPEGImages</span>    <span class="pre">|</span>     <span class="pre">`--</span> <span class="pre">BloodImage_00XYZ.jpg</span> <span class="pre">(364</span> <span class="pre">items)</span></code></p>
-<p>この構成は，長年物体検出の標準的ベンチマークデータセットとして用いられてきた<strong>Pascal VOCデータセット</strong>の形式に沿ったものとなっています．そのため，ChainerCVが用意しているPascal VOCデータセットを容易に扱えるようにするクラスをほとんどそのまま流用することが可能です．</p>
+<pre>
+| BCCD
+| |-- Annotations
+| |   |
+| |   `-- BloodImage_00XYZ.xml (364 items)
+| |
+| |-- ImageSets
+| |   |
+| |   `-- Main
+| |       |
+| |       |-- test.txt
+| |       |-- train.txt
+| |       `-- val.txt
+| |
+| `-- JPEGImages
+|    |
+|    `-- BloodImage_00XYZ.jpg (364 items)
+</pre><p>この構成は，長年物体検出の標準的ベンチマークデータセットとして用いられてきた<strong>Pascal VOCデータセット</strong>の形式に沿ったものとなっています．そのため，ChainerCVが用意しているPascal VOCデータセットを容易に扱えるようにするクラスをほとんどそのまま流用することが可能です．</p>
 <p>実際には他にもディレクトリがありますが，今回用いるのは上記のファイルツリーに含まれているものだけとなります．それぞれのディレクトリに含まれているものを説明します．</p>
 <ul class="simple">
 <li><strong>Annotationsディレクトリ：</strong>Pascal VOCデータセットと同様の形式で細胞画像それぞれに対して<strong>どの位置に何があるか</strong>という正解情報が格納されています．正解情報はXMLファイルとして格納されており，画像ファイルとの対応がわかりやすいように拡張子を除いて同一のファイル名で保存されています．</li>
@@ -444,7 +496,7 @@ Resolving deltas: 100% (367/367), done.
 <h3>6.3.2. データセットオブジェクト作成<a class="headerlink" href="#データセットオブジェクト作成" title="Permalink to this headline">¶</a></h3>
 <p>ChainerCVにはPascal
 VOCデータセットを簡単に読み込むための便利なクラスが用意されています．これを継承し，<code class="docutils literal"><span class="pre">_get_annotations</span></code>メソッドをオーバーライドして，今回使用するデータセットを読み込み可能にします．変更が必要な行は１行だけです．<a class="reference external" href="https://github.com/chainer/chainercv/blob/v0.10.0/chainercv/datasets/voc/voc_bbox_dataset.py#L90-L115">こちら</a>から該当するコード（<code class="docutils literal"><span class="pre">_get_annotations</span></code>メソッドの部分）をコピーしてきて，以下の変更を行い，<code class="docutils literal"><span class="pre">VOCBboxDataset</span></code>を継承する<code class="docutils literal"><span class="pre">BCCDDataset</span></code>クラスのメソッドとして追加してみましょう．
-（以下はdiff形式とよばれ-でははじまる行を削除し，+で始まる行を追加するという意味です）</p>
+（以下はdiff形式とよばれ，-でははじまる行を削除し，+で始まる行を追加するという意味です）</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">voc_utils</span><span class="o">.</span><span class="n">voc_bbox_label_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 <span class="o">+</span> <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bccd_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 </pre></div>
@@ -727,8 +779,8 @@ Number of images in "test" dataset: 72
 <h2>6.4. Single Shot Multibox Detector (SSD)<a class="headerlink" href="#Single-Shot-Multibox-Detector-(SSD)" title="Permalink to this headline">¶</a></h2>
 <p>データの準備が完了しました．</p>
 <p>次に今回訓練するモデルについて簡単に説明します．今回は，<a class="reference external" href="https://arxiv.org/abs/1512.02325">Single Shot MultiBox Detector (SSD)</a>という手法を使います．</p>
-<p>SSDは前述のようにsingle stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から<strong>特徴マップ</strong>を抽出します．そして特徴マップの位置毎に候補を用意します（SSD論文ではdefault boxと呼ばれていますが，anchorという呼び方がより一般的に用いられています）．各候補領域は異なる形（正方形，縦長，横長，それらの違うサイズなど）．例えば特徴マップの(x=0, y=0)の位置に16x16の候補，16x12の候補，12x16の候補を用意します．
-そして正解と最もあっている候補を求め，その<strong>正解のbounding boxから候補がどの程度ずれているか</strong>を計算し，このずれを最小化するように学習します．これと同時にそれぞれその領域内部に写っているものが<strong>どのクラスに属しているか</strong>も予測させ，この間違いも少なくするよう学習を行います．どの正解と一致しなかった候補は何もその位置にはなかったということを予測できるようにします．この処理について詳しく知りたい方は<a class="reference external" href="https://arxiv.org/abs/1512.02325">元論文</a>を参照してください．</p>
+<p>SSDは前述のようにsingle stageタイプと呼ばれる物体検出手法の一種で，まずVGGやResNetのような画像分類で大きな成果をあげたネットワーク構造を用いて画像から<strong>特徴マップ</strong>を抽出します．そして特徴マップの位置毎に候補を用意します（SSD論文ではdefault boxと呼ばれていますが，anchorという呼び方がより一般的に用いられています）．各候補領域は異なる形（正方形，縦長，横長，それらの違うサイズなど），例えば特徴マップの(x=0, y=0)の位置に16x16の候補，16x12の候補，12x16の候補を用意します．
+そして正解と最もあっている候補を求め，その<strong>正解のbounding boxから候補がどの程度ずれているか</strong>を計算し，このずれを最小化するように学習します．これと同時にそれぞれその領域内部に写っているものが<strong>どのクラスに属しているか</strong>も予測させ，この間違いも少なくするよう学習を行います．どの正解とも一致しなかった候補は何もその位置にはなかったということを予測できるようにします．この処理について詳しく知りたい方は<a class="reference external" href="https://arxiv.org/abs/1512.02325">元論文</a>を参照してください．</p>
 <p>一方，two stageタイプの手法，例えばFaster R-CNNでは，抽出された特徴マップに対してさらに別のネットワークが物体の候補領域（region proposal）を予測し，その結果を使って候補領域ごとの特徴ベクトルを作成し（RoI poolingと呼ばれる計算が用いられます），それらを<strong>クラス分類問題と候補領域の位置・大きさに対する修正量を求める回帰問題を解くための2つの異なる小さなネットワークにさらに渡す</strong>，という構造をとります．</p>
 <p>このため，一般にsingle stageタイプのネットワークの方が高速であると言われます．一方，two stageタイプのものの方が精度は高い，と言われます．このようなトレードオフについては，様々な物体検出手法を比較調査した論文（<a class="reference external" href="https://arxiv.org/abs/1611.10012">Speed/accuracy trade-offs for modern convolutional object detectors</a>）より，以下の図がしばしば参照されます．</p>
 <p><img alt="予測精度と実行速度の関係" src="https://github.com/mitmul/medical-ai-course-materials/raw/master/notebooks/images/speed-accuracy-tradeoffs.png"/></p>
@@ -800,7 +852,7 @@ modelは既に現実世界にある多様な画像特徴の大部分を抽出す
 <div class="section" id="Data-augmentationの実装">
 <h2>6.6. Data augmentationの実装<a class="headerlink" href="#Data-augmentationの実装" title="Permalink to this headline">¶</a></h2>
 <p>深層学習においては大量のデータを用意できるかどうかがモデルの汎化性能に大きな影響を与えます．<strong>データを擬似的に増やすようにデータの意味を変えずに様々な変換を画像とそれに付随するラベルに適用するテクニック（data augmentation）</strong>は，学習用データを水増しできる手法です．</p>
-<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり，水平方向に反転させたり，拡大，縮小したりします．それらの際には正解ラベルも適切に変換する必要があることに注意してください．例えば、水平方向に反転させる場合は，正解ラベルも水平方向に反転させたものを正解とします．また，画像の一部分をマスクし、隠すこと有効な手法です．これにより認識の際，一つの情報だけに依存せず様々な情報に基づいて認識できるようになります．</p>
+<p>以下に，学習データセット内のデータ点のそれぞれに適用したい変換処理を記述したクラスを定義しておきます．行われる変換は<code class="docutils literal"><span class="pre">__call__</span></code>メソッド内に記述されている5つとなります．例えば画像の意味を大きくかえない範囲で色を変えたり，水平方向に反転させたり，拡大，縮小したりします．それらの際には正解ラベルも適切に変換する必要があることに注意してください．例えば、水平方向に反転させる場合は，正解ラベルも水平方向に反転させたものを正解とします．また，画像の一部分をマスクし、隠すことも有効な手法です．これにより認識の際，一つの情報だけに依存せず様々な情報に基づいて認識できるようになります．</p>
 <p>以下のセルを実行しましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[14]:

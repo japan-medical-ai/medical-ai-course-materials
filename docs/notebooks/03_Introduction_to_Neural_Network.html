@@ -73,8 +73,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#ニューラルネットワークの最適化">3.3. ニューラルネットワークの最適化</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#パラメータ更新量の算出">3.3.1. パラメータ更新量の算出</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#パラメータ--の更新量">3.3.1.1. パラメータ <span class="math">\({\bf w}_2\)</span> の更新量</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#学習率（learning-rate）について">3.3.1.2. 学習率（learning rate）について</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#パラメータ--の更新量">3.3.1.3. パラメータ <span class="math">\({\bf w}_1\)</span> の更新量</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#パラメータ--の更新量">3.3.1.2. パラメータ <span class="math">\({\bf w}_1\)</span> の更新量</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#学習率（learning-rate）について">3.3.1.3. 学習率（learning rate）について</a></li>
 </ul>
 </li>
 </ul>
@@ -360,14 +360,14 @@ layer）</strong>と呼びます．このモデルは入力層，中間層，出
 <p><img alt="ニューラルネットワークの出力値" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/02.png"/></p>
 <p>まず，最終層にどのような値が入るのか，具体例を見てみましょう．例えば，年数が3年物でアルコール度数が14度，色合いが0.2，匂いが0.8で表されるワインがあるとします．内部の計算は後述するとして，このようなデータをニューラルネットワークに与えたときに結果として得られる値に着目してみましょう．上図では，白ワイン <span class="math">\(y_{1} = 0.15\)</span>, 赤ワイン <span class="math">\(y_{2}= 0.85\)</span>
 となっています．このとき，出力値の中で最も大きな値となっている変数に対応するクラス，すなわち今回の例では「赤ワイン」をこの分類問題におけるこのニューラルネットワークの<strong>予測結果</strong>とすることができます．</p>
-<p>ここで出力層のすべての値を合計してみると，1になっていることに気づきます．これは偶然ではなく，そうなるように出力層の値を計算しているためです* ．つまり，出力層のそれぞれのノードが持つ数値は，入力がそれぞれのクラスに属している確率を表していたのでした．そのため，カテゴリ数と同じ数だけ出力層にはノードが必要となります．</p>
+<p>ここで出力層の全ての値を合計してみると，1になっていることに気づきます．これは偶然ではなく，そうなるように出力層の値を計算しているためです* ．つまり，出力層のそれぞれのノードが持つ数値は，入力がそれぞれのクラスに属している確率を表していたのでした．そのため，カテゴリ数と同じ数だけ出力層にはノードが必要となります．</p>
 <p>それでは，ここからニューラルネットワークの内部で行われる計算を詳しく見ていきましょう．ニューラルネットワークの各層は，前の層の値に線形変換と非線形変換を順番に施すことで計算されています．まずは，ここで言う線形変換とは何を表すのか，から見ていきましょう．</p>
 <p>* 具体的には，Softmax関数という活性化関数（これも後述します）をニューラルネットワークの出力ベクトルに適用することで，出力層における全ノードの値の合計が1になるようにします．</p>
 <div class="section" id="線形変換">
 <h3>3.1.1. 線形変換<a class="headerlink" href="#線形変換" title="Permalink to this headline">¶</a></h3>
 <p>ここでは，ニューラルネットワークの各層で行われる線形変換について説明します．</p>
 <p><img alt="ニューラルネットワークの線形変換" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/linear_transformation.png"/></p>
-<p>ここで言う線形変換* とは，重み行列 (<span class="math">\(w\)</span>) <span class="math">\(\times\)</span> 入力ベクトル (<span class="math">\(h\)</span>) <span class="math">\(+\)</span> バイアスベクトル (<span class="math">\(b\)</span>) のような計算のことを指しています．このとき，この変換の入力が<span class="math">\(h\)</span>，パラメータが<span class="math">\(w\)</span>と<span class="math">\(b\)</span>となります．ここでの掛け算（<span class="math">\(\times\)</span>）は行列の掛け算であることに注意してください．また，これからは，<span class="math">\(h\)</span> が文字としてよく登場しますが，これは隠れ層 (hidden layer) の頭文字である <span class="math">\(h\)</span>
+<p>ここで言う線形変換* とは，重み行列 (<span class="math">\({\bf W}\)</span>) <span class="math">\(\times\)</span> 入力ベクトル (<span class="math">\({\bf h}\)</span>) <span class="math">\(+\)</span> バイアスベクトル (<span class="math">\({\bf b}\)</span>) のような計算のことを指しています．このとき，この変換の入力が<span class="math">\({\bf h}\)</span>，パラメータが<span class="math">\({\bf W}\)</span>と<span class="math">\({\bf b}\)</span>となります．ここでの掛け算（<span class="math">\(\times\)</span>）は行列の掛け算であることに注意してください．また，これからは，<span class="math">\(h\)</span> が文字としてよく登場しますが，これは隠れ層 (hidden layer) の頭文字である <span class="math">\(h\)</span>
 から来ています．ただし，表記を簡潔にするため以下では入力層（上図における <span class="math">\(x_1, x_2, x_3, x_4\)</span>）を<strong>0層目の隠れ層と考える</strong>ことにして， <span class="math">\(h_{01}, h_{02}, h_{03}, h_{04}\)</span> と表記します．では上図で表される計算を数式で記述してみましょう．</p>
 <p>（* 通常数学では線形変換とは <span class="math">\({\bf w} \times {\bf h}\)</span> のことを指し，この変換は厳密には「アファイン変換（もしくは アフィン変換）」と呼ばれるものです．しかし，深層学習の文脈ではこの変換も線形変換と呼ぶことも多いです．）</p>
 <div class="math">
@@ -476,7 +476,7 @@ h_{12} &amp;= \max(0, -14)  = 0
 <div class="section" id="ニューラルネットワークの最適化">
 <h2>3.3. ニューラルネットワークの最適化<a class="headerlink" href="#ニューラルネットワークの最適化" title="Permalink to this headline">¶</a></h2>
 <p>目的関数の値を最小にするようなパラメータの値を決定することが，ニューラルネットワークの学習の目的であるとわかりました．では，どのようにしてそのパラメータを探し当てればよいのでしょうか．ある目的関数が与えられたもとで，その目的関数が望ましい値をとるようにニューラルネットワークのパラメータを決定することを，ニューラルネットワークの最適化といいます．</p>
-<p>まず最適化の方法を考える前に，まず最適化の対象とはなんであったか，再度確認しましょう．「ニューラルネットワークを最適化する」とは，すなわち「ニューラルネットワークが内部で用いている全てのパラメータの値を適切に決定する」という意味です．では，ニューラルネットワークにおけるパラメータとは，何だったでしょうか．それは，ここまで紹介したシンプルな全結合型ニューラルネットワークの場合，各層の線形変換に用いられていた <span class="math">\({\bf W}\)</span> と <span class="math">\({\bf b}\)</span> のことを指します．</p>
+<p>最適化の方法を考える前に，まず最適化の対象とはなんであったか，再度確認しましょう．「ニューラルネットワークを最適化する」とは，すなわち「ニューラルネットワークが内部で用いている全てのパラメータの値を適切に決定する」という意味です．では，ニューラルネットワークにおけるパラメータとは，何だったでしょうか．それは，ここまで紹介したシンプルな全結合型ニューラルネットワークの場合，各層の線形変換に用いられていた <span class="math">\({\bf W}\)</span> と <span class="math">\({\bf b}\)</span> のことを指します．</p>
 <p>ニューラルネットワークの各パラメータを，目的関数に対する勾配を0とおいて解析的に解くことは，一般的には困難です．しかし，実データをニューラルネットワークに入力すれば，その入力の値における目的関数の勾配を数値的に求めることは可能です．この値が分かれば，パラメータをどのように変化させれば目的関数の値を小さくすることができるのかが分かります．そこで，この勾配を使ってパラメータを繰り返し少しずつ更新していくことで，ニューラルネットワークの最適化を行うことができるのです．この方法について順を追って考えていきましょう．</p>
 <p>まず，以下の図を見てください．図中の点線は，パラメータ <span class="math">\(w\)</span> を変化させた際の目的関数 <span class="math">\(\mathcal{L}\)</span> の値を表しています．この例では簡単のため二次関数の形になっていますが，ニューラルネットワークの目的関数は実際には多次元で，かつもっと複雑な形をしていることがほとんどでしょう．しかし，ここでは説明のためこのようにシンプルな形を想像してみましょう．さて，この目的関数が最小値を与えるような <span class="math">\(w\)</span> は，どのようにして発見できるでしょうか．</p>
 <p><img alt="パラメータと目的関数の関係（イメージ）" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/13.png"/></p>
@@ -495,7 +495,7 @@ h_{12} &amp;= \max(0, -14)  = 0
 <p>ただし，通常ニューラルネットワークを勾配降下法で最適化する場合は，データを一つ一つ用いてパラメータを更新するのではなく，いくつかのデータをまとめて入力し，それぞれの勾配を計算したあと，その勾配の平均値を用いてパラメータの更新を行う方法がよく行われます．これを <strong>ミニバッチ学習</strong> と呼びます．これは，学習データセットから一様ランダムに <span class="math">\(k (&gt;0)\)</span> 個のデータを抽出し，その <span class="math">\(k\)</span> 個のデータに対する目的関数の平均の値を小さくするようパラメータを更新することを，異なる <span class="math">\(k\)</span>
 個のデータの組み合わせに対して繰り返し行う方法です．結果的にはデータセットに含まれる全てのデータを使用していきますが，1度の更新に用いるデータは <span class="math">\(k\)</span> 個ずつということになります．実際の実装では，データセット内のサンプルのインデックスをまずランダムにシャッフルして並べた配列を作り，その配列の先頭から <span class="math">\(k\)</span>
 個ずつインデックスを取り出し，対応するデータを使ってミニバッチを構成します．こうして，全てのインデックスを使い切ること，すなわちデータセット内のデータを1度ずつ，すべてパラメータ更新に用い終えることを <strong>1エポックの学習</strong> と呼びます．そして，この <span class="math">\(k\)</span> をバッチサイズもしくはミニバッチサイズと呼び，このような学習方法を指して，<strong>確率的勾配降下法 (SGD: Stocastic Gradient Descent)</strong>
-という名前が用いられます．現在ほとんどすべてのニューラルネットワークの最適化手法はこのSGDをベースとした手法となっています．SGDを用いると，全体の計算時間が劇的に少なくできるだけでなく，下図のように目的関数が凸関数でなかったとしても，適当な条件のもとで“ほとんど確実に”局所最適解に収束することが知られています．</p>
+という名前が用いられます．現在ほとんど全てのニューラルネットワークの最適化手法はこのSGDをベースとした手法となっています．SGDを用いると，全体の計算時間が劇的に少なくできるだけでなく，下図のように目的関数が凸関数でなかったとしても，適当な条件のもとで“ほとんど確実に”局所最適解に収束することが知られています．</p>
 <p><img alt="局所最適解と大域最適解" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/14.png"/></p>
 <div class="section" id="パラメータ更新量の算出">
 <h3>3.3.1. パラメータ更新量の算出<a class="headerlink" href="#パラメータ更新量の算出" title="Permalink to this headline">¶</a></h3>
@@ -521,7 +521,7 @@ h_{12} &amp;= \max(0, -14)  = 0
 {\bf u}_1 &amp;= {\bf w}_1 {\bf x} + {\bf b}_1
 \end{aligned}\end{split}\]</div>
 <div class="section" id="パラメータ--の更新量">
-<h4>3.3.1.3. パラメータ <span class="math">\({\bf w}_2\)</span> の更新量<a class="headerlink" href="#パラメータ--の更新量" title="Permalink to this headline">¶</a></h4>
+<h4>3.3.1.2. パラメータ <span class="math">\({\bf w}_2\)</span> の更新量<a class="headerlink" href="#パラメータ--の更新量" title="Permalink to this headline">¶</a></h4>
 <p>それではまず，出力層に近い方のパラメータ，<span class="math">\({\bf w}_2\)</span> についての <span class="math">\(\mathcal{L}\)</span> の勾配を求めてみましょう．これは，合成関数の偏微分なので，連鎖律（chain rule）を用いて以下のように展開できます．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -535,13 +535,13 @@ h_{12} &amp;= \max(0, -14)  = 0
 \frac{\partial \mathcal{L}}{\partial {\bf y}}
 &amp;= -\frac{2}{N} ({\bf t} - {\bf y}) \\
 \frac{\partial {\bf y}}{\partial {\bf u}_2}
-&amp;= \frac{\partial a_2}{\partial {\bf u}_2} \\
+&amp;= \frac{\partial a_2({\bf u}_2)}{\partial {\bf u}_2} \\
 \frac{\partial {\bf u}_2}{\partial {\bf w}_2}
 &amp;= {\bf h}_1
 \end{aligned}\end{split}\]</div>
 <p>と求まります．ここで，活性化関数の入力に関する出力の勾配</p>
 <div class="math">
-\[\frac{\partial a_2}{\partial {\bf u}_2}\]</div>
+\[\frac{\partial a_2({\bf u}_2)}{\partial {\bf u}_2}\]</div>
 <p>が登場しました．これは，例えば活性化関数にシグモイド関数を用いる場合は，</p>
 <div class="math">
 \[a_2({\bf u}_2) = \frac{1}{1 + \exp(-{\bf u}_2)}\]</div>
@@ -668,12 +668,8 @@ h_{12} &amp;= \max(0, -14)  = 0
 \[{\bf w}_2 \leftarrow {\bf w}_2 - \eta \frac{\partial \mathcal{L}}{\partial {\bf w}_2}\]</div>
 <p>ここでは学習率を <span class="math">\(\eta\)</span> で表記しました．</p>
 </div>
-<div class="section" id="学習率（learning-rate）について">
-<h4>3.3.1.2. 学習率（learning rate）について<a class="headerlink" href="#学習率（learning-rate）について" title="Permalink to this headline">¶</a></h4>
-<p>学習率が大きすぎると，繰り返しパラメータ更新を行っていく中で目的関数の値が振動したり，発散したりしてしまいます．小さすぎると，収束に時間がかかってしまいます．そのため，この学習率を適切に決定することがニューラルネットワークの学習においては非常に重要となります．多くの場合，学習がきちんと進むもっとも大きな値を経験的に探すということが行われます．シンプルな画像認識のタスクなどでは大抵，0.1~0.01などが最初に用いられる場合が比較的多く見られます．</p>
-</div>
 <div class="section" id="パラメータ--の更新量">
-<h4>3.3.1.3. パラメータ <span class="math">\({\bf w}_1\)</span> の更新量<a class="headerlink" href="#パラメータ--の更新量" title="Permalink to this headline">¶</a></h4>
+<h4>3.3.1.2. パラメータ <span class="math">\({\bf w}_1\)</span> の更新量<a class="headerlink" href="#パラメータ--の更新量" title="Permalink to this headline">¶</a></h4>
 <p>次に，<span class="math">\({\bf w}_1\)</span> の更新量も求めてみましょう．そのためには，<span class="math">\({\bf w}_1\)</span> で目的関数 <span class="math">\(\mathcal{L}\)</span> を偏微分した値が必要です．これは以下のように計算できます．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
@@ -695,11 +691,9 @@ h_{12} &amp;= \max(0, -14)  = 0
 \frac{\partial {\bf h}_1}{\partial {\bf u}_1}
 \frac{\partial {\bf u}_1}{\partial {\bf w}_1}
 \end{aligned}\end{split}\]</div>
-<p>この5つの偏微分のうち初めの1つはすでに求めました．残りの3つは，それぞれ，</p>
+<p>この5つの偏微分のうち初めの2つはすでに求めました．残りの3つは，それぞれ，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\frac{\partial {\bf y}}{\partial {\bf u}_2}
-&amp;= {\bf y}(1 - {\bf y}) \\
 \frac{\partial {\bf u}_2}{\partial {\bf h}_1}
 &amp;= {\bf w}_2 \\
 \frac{\partial {\bf h}_1}{\partial {\bf u}_1}
@@ -713,8 +707,7 @@ h_{12} &amp;= \max(0, -14)  = 0
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">g_yu2</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">g_u2h1</span> <span class="o">=</span> <span class="n">w2</span>
+<span></span><span class="n">g_u2h1</span> <span class="o">=</span> <span class="n">w2</span>
 <span class="n">g_h1u1</span> <span class="o">=</span> <span class="n">h1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">h1</span><span class="p">)</span>
 <span class="n">g_u1w1</span> <span class="o">=</span> <span class="n">x</span>
 
@@ -744,6 +737,10 @@ h_{12} &amp;= \max(0, -14)  = 0
 <div class="math">
 \[{\bf w}_1 \leftarrow {\bf w}_1 - \eta \frac{\partial \mathcal{L}}{\partial {\bf w}_1}\]</div>
 </div>
+<div class="section" id="学習率（learning-rate）について">
+<h4>3.3.1.3. 学習率（learning rate）について<a class="headerlink" href="#学習率（learning-rate）について" title="Permalink to this headline">¶</a></h4>
+<p>学習率が大きすぎると，繰り返しパラメータ更新を行っていく中で目的関数の値が振動したり，発散したりしてしまいます．小さすぎると，収束に時間がかかってしまいます．そのため，この学習率を適切に決定することがニューラルネットワークの学習においては非常に重要となります．多くの場合，学習がきちんと進むもっとも大きな値を経験的に探すということが行われます．シンプルな画像認識のタスクなどでは大抵，0.1~0.01などが最初に用いられる場合が比較的多く見られます．</p>
+</div>
 </div>
 </div>
 <div class="section" id="誤差逆伝播法（バックプロパゲーション）">
@@ -768,7 +765,7 @@ f'\left( u\right) &amp;= f\left( u\right) \left( 1-f\left( u\right) \right)
 <p>さて，この導関数の値を入力変数に関してプロットしてみると，下記のようになります．</p>
 <p><img alt="シグモイド関数の導関数" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/3/09.png"/></p>
 <p>この図の上2つは，導関数を構成する2つの部分 <span class="math">\(f(u)\)</span> と <span class="math">\(1 - f(u)\)</span> の値を別々にプロットしたもので，中央下の図が実際の導関数の値となります．上図中央下の導関数の形を見ると，入力が原点から遠くなるにつれ勾配の値がどんどん減少し，0に漸近していくことが見て取れます．</p>
-<p>各パラメータの更新量を求めるには，前節で説明したように，<strong>そのパラメータよりも先のすべての関数の勾配を掛け合わせる</strong>必要がありました．このとき，活性化関数にシグモイド関数を用いていると，勾配は必ず<strong>最大でも0.25</strong>という値にしかなりません．すると，線形変換が計算グラフ中に現れるたびに，目的関数の勾配は，多くとも0.25倍されてしまいます．これは，層数が増えていけばいくほど，この最大でも0.25という値が繰り返し掛け合わされることになるため，入力に近い層に流れていく勾配がどんどん0に近づいていってしまいます．</p>
+<p>各パラメータの更新量を求めるには，前節で説明したように，<strong>そのパラメータよりも先の全ての関数の勾配を掛け合わせる</strong>必要がありました．このとき，活性化関数にシグモイド関数を用いていると，勾配は必ず<strong>最大でも0.25</strong>という値にしかなりません．すると，非線形変換が計算グラフ中に現れるたびに，目的関数の勾配は，多くとも0.25倍されてしまいます．これは，層数が増えていけばいくほど，この最大でも0.25という値が繰り返し掛け合わされることになるため，入力に近い層に流れていく勾配がどんどん0に近づいていってしまいます．</p>
 <p>具体例を見てみましょう．今回は3層のニューラルネットワークを用いて説明を行っていましたが，4層の場合を考えてみます，すると，一番入力に近い線形変換のパラメータの勾配は，多くとも目的関数の勾配を <span class="math">\(0.25 \times 0.25 = 0.0625\)</span> 倍したものということになります．層数が一つ増えるたびに，指数的に勾配が小さくなるということがよく分かります．</p>
 <p>ディープラーニングでは，4層よりもさらに多くの層を積み重ねたニューラルネットワークが用いられます．そうすると，活性化関数としてシグモイド関数を使用した場合，<strong>目的関数の勾配が入力に近い関数が持つパラメータへほぼ全く伝わらなくなってしまいます</strong>，あまりにも小さな勾配しか伝わってこなくなると，パラメータの更新量がほとんど0になるため，どんなに目的関数が大きな値になっていても，入力層に近い関数が持つパラメータは変化しなくなります．つまり初期化時からほとんど値が変わらなくなるということになり，学習が行われていないという状態になるわけです．これを
 <strong>勾配消失（vanishing gradient）</strong> と呼び，長らく深い（十数層を超える）ニューラルネットワークの学習が困難であった一つの要因でした．</p>

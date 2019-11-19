@@ -75,6 +75,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#Scikit-learn-応用編">2.4.2. Scikit-learn 応用編</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#サンプルデータセットの使用">2.4.2.1. サンプルデータセットの使用</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#データセットの分割">2.4.2.2. データセットの分割</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#アンダーフィッティングとオーバーフィッティング">2.4.2.3. アンダーフィッティングとオーバーフィッティング</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Scikit-learnを使った前処理">2.4.2.4. Scikit-learnを使った前処理</a></li>
 </ul>
 </li>
 </ul>
@@ -339,17 +341,18 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="機械学習ライブラリの基礎">
 <h1>2. 機械学習ライブラリの基礎<a class="headerlink" href="#機械学習ライブラリの基礎" title="Permalink to this headline">¶</a></h1><p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/02_Introduction_to_ML_libs.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
-<p>本章では，代表的な機械学習アルゴリズムの紹介とその使い方のポイントを数学的な背景と合わせて紹介していきます． 機械学習の考え方を身に着ける練習として，<strong>単回帰分析</strong>と<strong>重回帰分析</strong>のアルゴリズムを数式と一緒に考えていきましょう．これらを学ぶことで微分と線形代数，統計の使い方が見えてくると思います．重回帰分析は次章で紹介するニューラルネットワークでもその考え方のベースになるところが多いため，しっかりと数式を理解しておきましょう．</p>
+<p>本章では，基礎的な機械学習手法として代表的な<strong>単回帰分析</strong>と<strong>重回帰分析</strong>の仕組みを、数式を用いて説明します． ここで単回帰分析と重回帰分析を紹介することには 2 つの理由があります． 1 つ目は，回帰分析と重回帰分析の数学がニューラルネットワーク含めたディープラーニングの数学の基礎となるためです． 2 つ目は，単回帰分析のアルゴリズムを通して微分，重回帰分析のアルゴリズムを通して線形代数に関する理解を深めることができるためです．</p>
 <div class="section" id="単回帰分析">
 <h2>2.1. 単回帰分析<a class="headerlink" href="#単回帰分析" title="Permalink to this headline">¶</a></h2>
-<p>まずはじめに，機械学習アルゴリズムの中でも最も基礎的な手法のひとつである，単回帰分析について説明します．機械学習アルゴリズムは，<strong>教師あり学習</strong>と<strong>教師なし学習</strong>に大別され，単回帰分析は教師あり学習の一種です．教師あり学習の典型的な問題として，<span class="math">\(10\)</span>や<span class="math">\(0.1\)</span>のように数値（厳密には連続値）を予測する<strong>回帰</strong>と，赤ワイン or
-白ワインのようにカテゴリ値を予測する<strong>分類</strong>があります．単回帰分析はその名の通り，回帰を取り扱う手法で，ひとつの入力変数からひとつの出力変数を予測する機械学習アルゴリズムです．</p>
+<p>まずはじめに，単回帰分析について説明します． 機械学習手法は，<strong>教師あり学習 (supervised learning)</strong>，<strong>教師なし学習 (unsupervised learning)</strong>，<strong>強化学習 (reinforcement learning)</strong>に大別され，単回帰分析は教師あり学習に含まれます．</p>
+<p>教師あり学習の中でも典型的な問題設定は 2 つに大別されます． 与えられた入力変数から，<span class="math">\(10\)</span> や <span class="math">\(0.1\)</span> といった実数値を予測する<strong>回帰 (regression)</strong>と、「赤ワイン」，「白ワイン」といったカテゴリを予測する<strong>分類 (classification)</strong>の 2 つです．</p>
+<p>単回帰分析は回帰を行うための手法であり，1 つの入力変数から 1 つの出力変数を予測します． それに対し，重回帰分析は，複数の入力変数から 1 つの出力変数を予測します． この両手法は教師あり学習であるため，訓練の際には、入力変数 <span class="math">\(x\)</span> と目的変数 <span class="math">\(t\)</span> がペアで準備されている必要があります．</p>
 <div class="section" id="問題設定（単回帰分析）">
 <h3>2.1.1. 問題設定（単回帰分析）<a class="headerlink" href="#問題設定（単回帰分析）" title="Permalink to this headline">¶</a></h3>
-<p>機械学習では，データをもとに学習を行いますが，データに含まれる情報の中から何を利用し，何を予測させるかは人間が決める必要があります．</p>
-<p>ここでは例として，家賃を予測する問題を考えることにします．従って，家賃が <strong>出力変数</strong> <span class="math">\(y\)</span> となります．</p>
-<p>次に， <strong>入力変数</strong> として何を採用するかを考えます．家賃の予測では，たとえば部屋の広さ，駅からの距離，犯罪発生率などを入力変数として検討することができます．ここでは部屋の広さを入力変数 <span class="math">\(x\)</span> として採用することにしましょう．実際には，複数の入力変数候補があった際に，それらすべてを扱うことができるようなモデル化が一般的ですが，それは次の重回帰分析以降で紹介することにします．</p>
-<p>機械学習のアルゴリズムでは，どの手法も大きく分けて次の3ステップで成り立っています．</p>
+<p>まず，データに含まれる情報の中から何を利用し，何を予測させるかを決めます．</p>
+<p>ここでは例として，家賃を予測する問題を考えることにします． 従って，家賃が <strong>出力変数</strong> <span class="math">\(y\)</span> となります．</p>
+<p>次に， <strong>入力変数</strong> として何を採用するかを考えます． 家賃の予測には，部屋の広さ，駅からの距離，犯罪発生率などを考慮する必要があると思われます． ここでは部屋の広さを入力変数 <span class="math">\(x\)</span> として採用することにします． 複数の入力変数の候補がある場合に，それらを同時に扱う方法は，次の重回帰分析の説明の際に紹介します．</p>
+<p>多くの機械学習手法は，大きく分けて次の3ステップで構成されています．</p>
 <ul class="simple">
 <li>Step1: モデルを決める</li>
 <li>Step2: 目的関数を決める</li>
@@ -359,104 +362,189 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="section" id="Step1.-モデルを決める（単回帰分析）">
 <h3>2.1.2. Step1. モデルを決める（単回帰分析）<a class="headerlink" href="#Step1.-モデルを決める（単回帰分析）" title="Permalink to this headline">¶</a></h3>
-<p>まずStep1では<strong>モデル</strong>を決めます．モデルとは，出力変数 <span class="math">\(y\)</span> と入力変数 <span class="math">\(x\)</span> の関係性を<strong>定式化</strong>したものです．どのように定式化すれば，家賃をうまく予測することができるのでしょうか．このモデル設計は現在は人手で行うのが一般的であり，機械が自動的に決めてくれるわけではありません（最近ではAutoMLなど，モデルも自動決定する研究も進展してきています）．</p>
-<p>例えば，与えられたデータセットにおいて，家賃と部屋の広さの関係性が次のようになっていたとします．</p>
+<p>まずはじめに、入力変数 x と出力変数 y との関係をどのように定式化するかを決定します． この定式化したものを<strong>モデル</strong>もしくは<strong>数理モデル</strong>と呼びます．</p>
+<p>どのように定式化すれば，家賃をうまく予測することができるのでしょうか． このモデル設計は現在は人手で行うのが一般的であり，機械が自動的に決めてくれるわけではありません（ただし最近ではAutoMLなどモデルを自動決定するための研究も進展してきています）．</p>
+<p>例えば，家賃と部屋の広さの組で表されるデータを 3 つ集め，「家賃」を y 軸に，「部屋の広さ」を x 軸にとってそれらをプロットしたとき，次のようになっていたとします．</p>
 <p><img alt="家賃と部屋の広さの関係" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/01.png"/></p>
-<p>この場合，部屋が広くなるほど，家賃が高くなるという関係がみられ，直線を予測に用いるのが妥当にみえます．</p>
-<p><img alt="直線式によるモデル化" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png"/></p>
-<p>そこで今回は直線をモデルとして採用して，Step1のモデルを以下のように定式化します．</p>
+<p>この場合，部屋が広くなるほど，家賃が高くなるという関係が予想されます． また，この 2 変数間の関係性は直線によって表現を行うことができそうだと考えられます． そこで、2 つのパラメータ <span class="math">\(w\)</span> と <span class="math">\(b\)</span> によって特徴づけられる直線の方程式</p>
 <div class="math">
-\[y = wx + b\]</div>
-<p>ここで<span class="math">\(w\)</span>は傾き，<span class="math">\(b\)</span>は切片とよばれるパラメータです（機械学習では，傾きを<strong>重み (weight)</strong> <span class="math">\(w\)</span>, 切片を<strong>バイアス (bias)</strong> <span class="math">\(b\)</span> という記号で表現するのが一般的です）．</p>
-<p>単回帰分析では，このようにモデルを直線 <span class="math">\(y = wx + b\)</span> と決めて，重み<span class="math">\(w\)</span>とバイアス<span class="math">\(b\)</span>をデータにうまくフィットするように調整していきます．</p>
-<p>多くの機械学習ではこのようなパラメータで特徴付けられたモデルを使い，与えられた<strong>データセット</strong>に適合するように最適なパラメータを求めることが目標となります．ここでデータセットは，<strong>入力変数</strong>である部屋の広さ <span class="math">\(x\)</span> と，<strong>教師データ</strong>となる家賃 <span class="math">\(t\)</span> の組からなるデータの集合です（本解説では，機械学習による予測値を <span class="math">\(y\)</span> ，教師データとして与えるものを <span class="math">\(t\)</span> と使い分けています）．</p>
-<p>データセットは <span class="math">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span> として表されることもあります．ここで，添え字 <span class="math">\(n\)</span> (<span class="math">\(n=1,2,\ldots,N\)</span>) は <span class="math">\(n\)</span> 番目の物件という意味であり，<span class="math">\(N\)</span> は全体の物件数のことです．この <span class="math">\(N\)</span> は<strong>サンプル数</strong>とよばれています．</p>
-<p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを紹介します．下図に示すように，部屋の広さと家賃は両方とも正の値であるため，左のグラフのような形になります．中心化では，<strong>平均を</strong> <span class="math">\(\boldsymbol{0}\)</span>とした中央に配置するような変換の処理を施します．この中心化は多くのアルゴリズムで前処理として行うことが一般的です．厳密には前章で紹介した中心化込みのスケーリングがよく用いられます．</p>
-<p><img alt="中心化処理" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png"/></p>
-<p>この処理を行う理由の一つとして，下図のように，データの中心化によってバイアス <span class="math">\(b\)</span> が<span class="math">\(0\)</span>となり，<span class="math">\(y_{c} = wx_{c}\)</span> のように，モデルをバイアス成分なしで表現することができるということが挙げられます，これによって，調整すべきパラメータを減らすことができます．</p>
-<p><img alt="中心化後の直線式" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png"/></p>
-<p>データの中心化は入出力の平均をデータの全体から引くことで実現されます．つまり，</p>
+\[f(x; w, b) = wx + b\]</div>
+<p>によって，部屋の広さと家賃の関係を表すことを考えます． ここで，<span class="math">\(w\)</span> は<strong>重み (weight)</strong>，<span class="math">\(b\)</span> は<strong>バイアス (bias)</strong>の頭文字を採用しています．</p>
+<p><img alt="直線式によるモデル化" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/02.png"/></p>
+<p>単回帰分析では，このようにモデルとして直線 <span class="math">\(f(x; w, b) = wx + b\)</span> を用います． そして，2 つのパラメータ <span class="math">\(w\)</span> と <span class="math">\(b\)</span> を，直線がデータによくフィットするように調整します．</p>
+<p>パラメータで特徴づけられたモデルを用いる場合，与えられた<strong>データセット</strong>に適合するように最適なパラメータを求めることが目標となります． 今回はデータセットとして部屋の広さ <span class="math">\(x\)</span> と家賃 <span class="math">\(t\)</span> の組からなるデータの集合を用います． 全部で <span class="math">\(N\)</span> 個のデータがあり，<span class="math">\(n\)</span> 番目のデータが <span class="math">\((x^{(n)}, t^{(n)})\)</span> と表されるとき，データセットは</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-x_{c} &amp;= x - \bar{x} \\
-t_{c} &amp;= t - \bar{t}
+\mathcal{D} &amp;= \{(x^{(1)}, t^{(1)}), (x^{(2)}, t^{(2)}), \dots, (x^{(N)}, t^{(N)})\} \\
+&amp;= \{(x^{(n)}, t^{(n)}\}_{n=1}^N
 \end{aligned}\end{split}\]</div>
-<p>となります．例えば，具体的な数値で見ると，下図の通りです． <img alt="中心化前後の数値比較" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/05.png"/></p>
-<p>中心化後を示す添え字の <span class="math">\(c\)</span> に関しては表現が冗長となるため，今後はこの添え字を省略し，データの中心化を事前に行っていることを前提とします．この時，モデルは</p>
+<p>と表すことができます． これを用いて、新しい <span class="math">\(x\)</span> を入力すると，それに対応する <span class="math">\(t\)</span> を予測するモデルを訓練します．</p>
+<p>ここで，データセット中の入力値とのことを<strong>データ点（datum）</strong>ということがあることに注意してください． データ点とは，具体的には上の説明で登場した <span class="math">\(\mathcal{D}\)</span> 中の各 <span class="math">\((x^{(1)},t^{(1)})\)</span> などのことです．</p>
+<p>ここで，この後の計算を楽に進めるために，<strong>データの中心化</strong>というテクニックを紹介します． 部屋の広さと家賃は両方とも正の値であるため，各データ点をいくつかプロットすると，下図の左のグラフのようになります． 中心化では，各次元の<strong>平均が</strong> <span class="math">\(\boldsymbol{0}\)</span> となるよう全てのデータを同量平行移動します． 中心化はしばしば前処理として採用されます． 厳密には前章で紹介したスケーリング方法の一つである標準化（正規化）がよく用いられます．</p>
+<p><img alt="中心化処理" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/03.png"/></p>
+<p>この処理を行うと，下図のように，バイアス <span class="math">\(b\)</span> を <span class="math">\(0\)</span> とおけるため，<span class="math">\(f_c(x; w) = wx_{c}\)</span> のように，モデルをバイアス成分なしで表現することができるようになります． これによって，調整すべきパラメータを減らすことができます．</p>
+<p><img alt="中心化後の直線式" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/04.png"/></p>
+<p>データの中心化は入出力の平均をデータの全体から引くことで実現されます． つまり，</p>
 <div class="math">
-\[y = wx\]</div>
-<p>となり，単回帰分析の目標は，データセット <span class="math">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span> に基づいて，パラメータ <span class="math">\(w\)</span> を<strong>適切</strong>に調整することになります．</p>
+\[\begin{split}\begin{aligned}
+x^{(n)}_{c} &amp;= x^{(n)} - \bar{x} \\
+t^{(n)}_{c} &amp;= t^{(n)} - \bar{t}
+\end{aligned}\end{split}\]</div>
+<p>という変換を全ての <span class="math">\(n\)</span> について行います．</p>
+<p>例えば，具体的な数値で見ると，下の表のようになります．</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%"/>
+<col width="30%"/>
+<col width="30%"/>
+<col width="33%"/>
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">n</th>
+<th class="head"><span class="math">\(x^{(n)}\)</span></th>
+<th class="head"><span class="math">\(\bar{x}\)</span></th>
+<th class="head"><span class="math">\(x^{(n)}_c\)</span></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>1</td>
+<td>3</td>
+<td>-2</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>5</td>
+<td>3</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>中心化後を示す添え字の <span class="math">\(c\)</span> に関しては表現が冗長となるため，今後はこの添え字を省略し，データの中心化を事前に行っていることを前提とします． この時，モデルは</p>
+<div class="math">
+\[f(x; w) = wx\]</div>
+<p>となり，単回帰分析の目標は，データセット <span class="math">\(\mathcal{D} = \{ x^{(n)}, t^{(n)} \}_{n=1}^{N}\)</span> に基づいて，パラメータ <span class="math">\(w\)</span> を<strong>適切</strong>に調整することになります．</p>
 </div>
 <div class="section" id="Step2.-目的関数を決める（単回帰分析）">
 <h3>2.1.3. Step2. 目的関数を決める（単回帰分析）<a class="headerlink" href="#Step2.-目的関数を決める（単回帰分析）" title="Permalink to this headline">¶</a></h3>
-<p>1章で説明したように，教師あり学習では多くの場合，目的関数を設計し，その目的関数を最小化（または最大化）することでモデルの学習を行います．</p>
-<p>今回は教師データと予測値が一致することが目標であり，それを表す目的関数として教師データと予測値の二乗誤差を使います．二乗誤差が<span class="math">\(0\)</span>であるとき，またその時のみ<span class="math">\(t = y\)</span> となり，完璧な予測を達成しているといえます．<span class="math">\(n\)</span> 番目の物件に対する教師データ<span class="math">\(t_{n}\)</span> と予測値<span class="math">\(y_{n}\)</span>の二乗誤差は</p>
+<p>1章で説明したように，教師あり学習では多くの場合，目的関数を設計し，その目的関数を最小化（または最大化）することでモデルの訓練を行います．</p>
+<p>今回は教師データと予測値が一致することが目標であり，乖離度を表す最小化すべき目的関数として教師データと予測値の二乗誤差を使います． ここで，モデルの出力が予測値となります．すなわち，<span class="math">\(y = f(x; w)\)</span> です． 二乗誤差が <span class="math">\(0\)</span> であれば <span class="math">\(t = y\)</span> となり予測が完全に教師データと一致していることを意味します． <span class="math">\(n\)</span> 番目の物件に対する教師データ <span class="math">\(t^{(n)}\)</span> と予測値 <span class="math">\(y^{(n)} = f(x^{(n)}; w)\)</span> の二乗誤差は</p>
 <div class="math">
-\[(t_{n} - y_{n})^{2}\]</div>
-<p>となります．これを全物件で考慮する必要があるため，最終的な目的関数はその総和をとり，</p>
+\[(t^{(n)} - y^{(n)})^2\]</div>
+<p>です． 特定の物件についてだけ考慮するのではなく，データセット中の全ての物件の情報を考慮してモデルの訓練を行うために，上式で計算される各データ点における二乗誤差を全物件に対してそれぞれ計算して和をとったものを目的関数とします． すなわち，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\mathcal{L}&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + (t_{N}-y_{N})^{2} \\
-&amp;=\sum^{N}_{n=1}\left( t_{n}-y_{n}\right)^{2}\\
+\mathcal{L} &amp;=
+\left( t^{(1)} - y^{(1)} \right)^2 +
+\left( t^{(2)} - y^{(2)} \right)^2 +
+\dots +
+\left( t^{(N)} - y^{(N)} \right)^2 \\
+&amp;=
+\sum^{N}_{n=1} \left( t^{(n)} - y^{(n)} \right)^2 \\
 \end{aligned}\end{split}\]</div>
-<p>となります．また，Step1で決めたモデル</p>
+<p>です． また，Step1で決めたモデル</p>
 <div class="math">
-\[y_{n} = wx_{n}\]</div>
-<p>を代入すると，目的関数は</p>
+\[y^{(n)} = f(x^{(n)}; w) = wx^{(n)}\]</div>
+<p>をこれに代入すると，目的関数は</p>
 <div class="math">
-\[\mathcal{L}=\sum^{N}_{n=1}\left( t_{n}-wx_{n}\right)^{2}\]</div>
+\[\mathcal{L} = \sum^{N}_{n=1}\left( t^{(n)} - wx^{(n)} \right)^2\]</div>
 <p>とパラメータを含んだ形式で表現することができます．このような関数を損失関数とよぶことを思い出してください．</p>
 </div>
 <div class="section" id="Step3.-最適なパラメータを求める（単回帰分析）">
 <h3>2.1.4. Step3. 最適なパラメータを求める（単回帰分析）<a class="headerlink" href="#Step3.-最適なパラメータを求める（単回帰分析）" title="Permalink to this headline">¶</a></h3>
-<p>最後は目的関数を最小化するようなパラメータを求めます．ここで，ある関数を最小化する点を求める方法として，微分が使えることを既に学んでいます．今回のような差の二乗の場合，微分して「傾き0」となる点が損失が<span class="math">\(0\)</span>となる点です．目的関数の微分を求めると，次のようになります．</p>
+<p>次に目的関数を最小にするようなパラメータを求めます． 今回用いた目的関数は二次関数であるため，微分して求まる導関数を 0 とおいてそのときの x を求めれば，最小値を取る時の x が分かります． すなわち，目的関数の「傾きが0」となる点が値 <span class="math">\(0\)</span> をとる点です．</p>
+<p>それでは，目的関数を微分しましょう．</p>
+<div class="math">
+\[\begin{aligned}
+\dfrac{\partial }{\partial w} \mathcal{L} &amp;=
+\dfrac{\partial}{\partial w} { \sum^{N}_{n=1} ( t^{(n)}-wx^{(n)})^{2} }
+\end{aligned}\]</div>
+<p>微分という操作は<strong>線形性</strong>を持っているため，和の微分は，微分の和と等しくなります． これを利用して次を得ます．</p>
+<div class="math">
+\[\dfrac{\partial}{\partial w} \mathcal{L} =
+\sum^{N}_{n=1} \dfrac {\partial }{\partial w} \left( t^{(n)}-wx^{(n)} \right)^2\]</div>
+<p>パラメータ <span class="math">\(w\)</span> による微分を表す <span class="math">\(\dfrac {\partial }{\partial w}\)</span> と総和を表す <span class="math">\(\sum\)</span> が入れ替わっています． 次に和の各項を見ます．</p>
+<div class="math">
+\[\dfrac {\partial }{\partial w}\left( t^{(n)}-wx^{(n)} \right)^2\]</div>
+<p><span class="math">\(t^{(n)} - wx^{(n)}\)</span> と <span class="math">\((\cdot)^2\)</span> の<strong>合成関数</strong>になっています．</p>
+<p><span class="math">\(u^{(n)} = t^{(n)} - wx^{(n)}\)</span>, <span class="math">\(g(u^{(n)}; w) = (u^{(n)})^2\)</span> とおくと，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\dfrac{\partial }{\partial w} \mathcal{L}  &amp;= \dfrac{\partial}{\partial w} { \sum^{N}_{n=1} ( t_{n}-wx_{n})^{2} }\\
-\end{aligned}\end{split}\]</div>
-<p>ここで，微分は<strong>線形性</strong>の性質を持っており，特に和の微分は，微分の和であることを利用して次を得ます．</p>
-<div class="math">
-\[\dfrac{\partial}{\partial w} \mathcal{L}=\sum^{N}_{n=1}\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}\]</div>
-<p>ここで微分と総和 <span class="math">\(\sum\)</span> の記号が入れ替わっています．次に，和の各項をみると，</p>
-<div class="math">
-\[\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}\]</div>
-<p>の部分は<span class="math">\(t_n - wx_n\)</span>とその二乗の<strong>合成関数</strong>になっていることがわかります．<span class="math">\(u_{n} = t_{n} - wx_{n}\)</span>, <span class="math">\(f(u_{n}) = u_{n}^{2}\)</span> とおくと，</p>
-<div class="math">
-\[\begin{split}\begin{aligned}
-\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2} &amp;=  \dfrac {\partial }{\partial w} f(u_{n}) \\
-&amp;= \dfrac {\partial u_{n}}{\partial w} \dfrac{\partial f(u_{n})}{\partial u_{n}} \\
-&amp;=-x_{n} \times 2 u_{n}  \\
-&amp;= -2x_{n}( t_{n}-wx_{n} )
+\dfrac {\partial }{\partial w}
+\left(
+    t^{(n)} - wx^{(n)}
+\right)^2
+&amp;= \dfrac {\partial }{\partial w} g(u^{(n)}) \\
+&amp;= \dfrac {\partial u^{(n)}}{\partial w}
+\dfrac{\partial g(u^{(n)})}{\partial u^{(n)}} \\
+&amp;= -x^{(n)} \cdot (2 u^{(n)}) \\
+&amp;= -2x^{(n)}( t^{(n)} - wx^{(n)} )
 \end{aligned}\end{split}\]</div>
 <p>が得られます．これより，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \dfrac{\partial }{\partial w} \mathcal{L}
-&amp;=\sum^{N}_{n=1}\dfrac {\partial }{\partial w}\left( t_{n}-wx_{n}\right)^{2}
-\\&amp;=-\sum^{N}_{n=1}2x_{n}\left( t_{n}-wx_{n}\right)
+&amp;= \sum^{N}_{n=1}
+\dfrac {\partial }{\partial w}
+\left( t^{(n)} - wx^{(n)} \right)^2 \\
+&amp;= -\sum^{N}_{n=1} 2x^{(n)} \left( t^{(n)} - wx^{(n)} \right)
 \end{aligned}\end{split}\]</div>
-<p>となります．この微分の値が0となるように<span class="math">\(w\)</span>を求めていくと，</p>
+<p>となります．この微分の値を 0 とおいて <span class="math">\(w\)</span> について解くと，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\dfrac {\partial }{\partial w} \mathcal{L} &amp;=0\\
--2\sum^{N}_{n=1}x_{n}\left( t_{n}-wx_{n}\right) &amp;=0\\
--2 \sum^{N}_{n=1}x_{n}t_{n} + 2\sum^{N}_{n=1}wx^{2}_{n}&amp;=0\\
--2\sum^{N}_{n=1}x_{n}t_{n}+2w\sum^{N}_{n=1}x^{2}_{n}&amp;=0\\
-w\sum^{N}_{n=1}x^{2}_{n}&amp;=\sum^{N}_{n=1}x_{n}t_{n}\\
+\dfrac {\partial }{\partial w} \mathcal{L} &amp;= 0 \\
+-2 \sum^{N}_{n=1} x^{(n)} \left( t^{(n)} - wx^{(n)} \right) &amp;= 0 \\
+-2 \sum^{N}_{n=1} x^{(n)} t^{(n)} + 2 \sum^{N}_{n=1} w(x^{(n)})^2 &amp;= 0 \\
+-2 \sum^{N}_{n=1} x^{(n)} t^{(n)} + 2w \sum^{N}_{n=1} (x^{(n)})^2 &amp;= 0 \\
+w \sum^{N}_{n=1} (x^{(n)})^2 &amp;= \sum^{N}_{n=1} x^{(n)} t^{(n)}
 \end{aligned}\end{split}\]</div>
 <p>より，</p>
 <div class="math">
 \[\begin{aligned}
-w&amp;=\dfrac {\displaystyle  \sum^{N}_{n=1}x_{n}t_{n}}{\displaystyle  \sum^{N}_{n=1}x^{2}_{n}}
+w &amp;= \dfrac
+{\displaystyle \sum^{N}_{n=1} x^{(n)} t^{(n)}}
+{\displaystyle \sum^{N}_{n=1} (x^{(n)})^2}
 \end{aligned}\]</div>
-<p>と求まりました．この求まったパラメータ <span class="math">\(w\)</span> を確認すると，与えられたデータセット <span class="math">\(\mathcal{D} = \{x_n, t_n\}_{n=1}^{N}\)</span> のみから決定できていることがわかります．</p>
-<p>次に，例題にあげていた数値例でパラメータ <span class="math">\(w\)</span> を求めてみましょう．まずは，データの中心化を行うために，</p>
+<p>と求まります． この右辺に着目すると，与えられたデータセット <span class="math">\(\mathcal{D} = \{x^{(n)}, t^{(n)}\}_{n=1}^{N}\)</span> のみから決定されていることがわかります．</p>
+<p>それでは，以下の数値例を使って実際にパラメータ <span class="math">\(w\)</span> を求めてみましょう．</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%"/>
+<col width="44%"/>
+<col width="44%"/>
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">n</th>
+<th class="head"><span class="math">\(x^{(n)}\)</span></th>
+<th class="head"><span class="math">\(t^{(n)}\)</span></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>2</td>
+<td>3.9</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>3</td>
+<td>6.1</td>
+</tr>
+</tbody>
+</table>
+<p>まずは，データの中心化を行うために，平均を求めます．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \bar{x} &amp;= \dfrac{1}{3} (1 + 2 + 3) = 2 \\
 \bar{t} &amp;= \dfrac{1}{3}(2 + 3.9 + 6.1) = 4
 \end{aligned}\end{split}\]</div>
-<p>とそれぞれの平均を求め，各変数に対して前処理として，中心化の処理を施すと，</p>
+<p>各データ点からそれぞれの値を引きます．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 x_{1} &amp;= 1 - 2 = -1 \\
@@ -466,237 +554,287 @@ t_{1} &amp;= 2 - 4 = -2\\
 t_{2} &amp;= 3.9 - 4 = -0.1\\
 t_{3} &amp;= 6.1 - 4 = 2.1
 \end{aligned}\end{split}\]</div>
-<p>となります．そして，中心化後の値を用いて，最適なパラメータ<span class="math">\(w\)</span>を導出すると，</p>
+<p>それでは，中心化後の値を用いて，最適なパラメータ<span class="math">\(w\)</span> を計算します．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-w &amp;= \dfrac{\displaystyle \sum_{n=1}^{N}x_{n}t_{n}}{\displaystyle  \sum_{n=1}^{N}x_{n}^{2}} \\
-&amp;= \dfrac{x_{1}t_{1} + x_{2}t_{2} + x_{3}t_{3}}{x_{1}^{2} + x_{2}^{2} + x_{3}^{2}} \\
-&amp;= \dfrac{-1 \times (-2) + 0 \times 0.1 + 1 \times 2.1}{(-1)^{2} + 0^2 + 1^2} \\
+w &amp;= \dfrac
+{\displaystyle \sum_{n=1}^{N} x^{(n)} t^{(n)}}
+{\displaystyle  \sum_{n=1}^{N} (x^{(n)})^2} \\
+&amp;= \dfrac
+{ x^{(1)} t^{(1)} + x^{(2)} t^{(2)} + x^{(3)} t^{(3)} }
+{ (x^{(1)})^2 + (x^{(2)})^2 + (x^{(3)})^2 } \\
+&amp;= \dfrac
+{ -1 \times (-2) + 0 \times 0.1 + 1 \times 2.1 }{ (-1)^2 + 0^2 + 1^2 } \\
 &amp;= 2.05
 \end{aligned}\end{split}\]</div>
-<p>と求まりました．これで単回帰分析の学習が完了しました．この求まったパラメータを使用したモデルが<strong>学習済みモデル</strong>となります．</p>
-<p>続いて，このモデルを使って新しいサンプルに対する予測をしてみましょう．学習したモデルを使って新たな入力データについて予測値を計算する処理を <strong>推論</strong> とよびます．例えば，新しいサンプル <span class="math">\(x_{q}=1.5\)</span> に対する予測値は次のように求まります，</p>
+<p>これで単回帰分析の学習が完了しました． この求まったパラメータを <span class="math">\(\hat{w}\)</span> とすると，これを使用したモデル <span class="math">\(f(x; \hat{w})\)</span> が<strong>学習済みモデル</strong>となります．</p>
+<p>続いて，このモデルを使って新しいサンプルに対する予測をしてみましょう． 学習したモデルを使って新たな入力データについて予測値を計算する処理を<strong>推論 (inference)</strong>とよびます． 例えば，新しいサンプル <span class="math">\(x^{(q)}=1.5\)</span> に対する予測値は次のように求まります，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-y_{c} &amp;= wx_{c} \\
-y_{q} - \bar{t} &amp;= w(x_{q}-\bar{x}) \\
-\Rightarrow y_{q} &amp;= w(x_{q}-\bar{x}) + \bar{t} \\
+y^{(q)} - \bar{t} &amp;= \hat{w}(x^{(q)}-\bar{x}) \\
+\Rightarrow y^{(q)} &amp;= \hat{w}(x^{(q)}-\bar{x}) + \bar{t} \\
 &amp;= 2.05 \times (1.5 - 2) + 4 \\
 &amp;= 2.975
 \end{aligned}\end{split}\]</div>
-<p>モデルは中心化データを用いて学習を行ったので，実際の予測値は中心化したデータを元に戻すことを忘れないようにしましょう．</p>
+<p>モデルは中心化データを用いて学習を行ったので，推論の際にも入力値・予測値それぞれに同様の操作を行う必要があることに注意しましょう．</p>
 <p>以上が，単回帰分析の一連の手順となります．</p>
 </div>
 </div>
 <div class="section" id="重回帰分析">
 <h2>2.2. 重回帰分析<a class="headerlink" href="#重回帰分析" title="Permalink to this headline">¶</a></h2>
-<p>次に，多変数の入力変数を扱う重回帰分析を扱います．この重回帰分析を学ぶことで線形代数に関する知識が深まります．</p>
-<p>重回帰分析は単回帰分析と同様に教師あり学習の一種であり，回帰を取り扱う手法です．問題設定は，ほとんど単回帰分析と同じですが，重回帰分析では入力変数の数が複数となります．つまり，複数の入力変数から出力変数を予測できるような機械学習アルゴリズムです．</p>
+<p>次に，多変数の入力変数を扱う重回帰分析を扱います． この重回帰分析を学ぶことで線形代数に関する知識が深まります．</p>
+<p>重回帰分析は単回帰分析と同様に教師あり学習の一種であり，回帰を行う手法です． 問題設定はほとんど単回帰分析と同じですが，重回帰分析では入力変数の数が複数となります． つまり，複数の入力変数から出力変数を予測する機械学習手法の一つです．</p>
 <div class="section" id="問題設定（重回帰分析）">
 <h3>2.2.1. 問題設定（重回帰分析）<a class="headerlink" href="#問題設定（重回帰分析）" title="Permalink to this headline">¶</a></h3>
-<p>ここでは単回帰分析の場合と同様に家賃を予測する問題を考え，家賃を出力変数 <span class="math">\(y\)</span> とします．入力変数としては，単回帰分析では考慮しきれていなかった駅からの距離や犯罪発生率なども考慮していきます．例えば，部屋の広さ <span class="math">\(x_{1}\)</span>, 駅からの距離 <span class="math">\(x_{2}\)</span>, ..., 犯罪発生率 <span class="math">\(x_{M}\)</span> のように <span class="math">\(M\)</span> 個の入力変数があるとします（<span class="math">\(M=1\)</span>の場合，単回帰分析の問題に帰着されます）．</p>
-<p>単回帰分析と同様，以下の3ステップで学習していきます．</p>
+<p>ここでは単回帰分析の場合と同様に家賃を予測する問題を考え，家賃を出力変数 <span class="math">\(y\)</span> とします． 入力変数としては，単回帰分析では考慮しきれていなかった駅からの距離や犯罪発生率なども同時に考慮します． 例えば，部屋の広さ <span class="math">\(x_{1}\)</span>, 駅からの距離 <span class="math">\(x_{2}\)</span>, ..., 犯罪発生率 <span class="math">\(x_{M}\)</span> のように <span class="math">\(M\)</span> 個の入力変数があるとします（<span class="math">\(M=1\)</span>の場合，単回帰分析の問題に帰着されます）．</p>
+<p>単回帰分析と同様，以下の3ステップに従います．</p>
 <ul class="simple">
-<li>モデルを決める</li>
-<li>目的関数を決める</li>
-<li>最適なパラメータを求める</li>
+<li>Step1: モデルを決める</li>
+<li>Step2: 目的関数を決める</li>
+<li>Step3: 最適なパラメータを求める</li>
 </ul>
 </div>
 <div class="section" id="Step1.-モデルを決める（重回帰分析）">
 <h3>2.2.2. Step1. モデルを決める（重回帰分析）<a class="headerlink" href="#Step1.-モデルを決める（重回帰分析）" title="Permalink to this headline">¶</a></h3>
 <p>単回帰分析のモデルは，</p>
 <div class="math">
-\[y = wx + b\]</div>
-<p>であり，<span class="math">\(w\)</span> を重み（weight），<span class="math">\(b\)</span> をバイアス (bias) とよびました．重回帰分析では，この式を複数の入力変数へと拡張し，</p>
+\[f(x; w, b) = wx + b\]</div>
+<p>であり，<span class="math">\(w\)</span> を重み（weight），<span class="math">\(b\)</span> をバイアス (bias) とよびました． 重回帰分析では，この式を複数の入力変数へと拡張し，</p>
 <div class="math">
-\[y=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+b\]</div>
-<p>のような<strong>線形結合</strong>の形で表します．この場合，各入力変数は線形に出力変数に影響を与えることを仮定しており，かなり単純なモデル化といえます．実際には，入力変数間に非線形な依存関係が存在する場合には，そのことを考慮してモデル化を行う必要があります．それについては今後説明していきます．</p>
+\[f({\bf x}; {\bf w}, b) = w_{1}x_{1} + w_{2}x_{2} + \dots + w_{M}x_{M} + b\]</div>
+<p>のような<strong>線形結合</strong>の形で表します． ここで，太字の <span class="math">\({\bf x}, {\bf w}\)</span> はそれぞれベクトルを表し，それぞれの <span class="math">\(m\)</span> 番目の要素が <span class="math">\(w_m, x_m\)</span> で表されています．</p>
+<p>ここでは，各入力変数は出力変数に線形に影響を与えることが仮定されています． 一方，もし入力変数間に非線形な依存関係が想定される場合には，そのことを考慮したモデル化を行う必要があります． それについては後述します．</p>
 <p>重回帰分析のモデルは総和の記号を使って整理すると，</p>
 <div class="math">
-\[y = \sum_{m=1}^{M} w_{m} x_{m} + b\]</div>
+\[f({\bf x}; {\bf w}, b) = \sum_{m=1}^{M} w_{m} x_{m} + b\]</div>
 <p>のように書くことができます．さらにここで，<span class="math">\(x_0 = 1\)</span>，<span class="math">\(w_0 = b\)</span>とおくと，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-y&amp;=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+b\\
-&amp;=w_{1}x_{1}+w_{2}x_{2}+\ldots +w_{M}x_{M}+w_{0} x_{0}\\
-&amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
+f({\bf x}; {\bf w}, b)
+&amp;= w_{1}x_{1} + w_{2}x_{2} + \dots + w_{M}x_{M} + b\\
+&amp;= w_{1}x_{1} + w_{2}x_{2} + \dots + w_{M}x_{M} + w_{0}x_{0}\\
+&amp;= w_{0}x_{0} + w_{1}x_{1} + \dots + w_{M}x_{M} \\
+&amp;= \sum_{m=0}^M w_m x_m
 \end{aligned}\end{split}\]</div>
-<p>のようにバイアス <span class="math">\(b\)</span> を総和に包含することができます．そして，この式を整理していくと，</p>
+<p>のようにバイアス <span class="math">\(b\)</span> を総和記号の中に含めることができます． <span class="math">\(w_0\)</span> を含む <span class="math">\({\bf w}\)</span> を改めて <span class="math">\({\bf w}\)</span>，最初の要素 <span class="math">\(x_0\)</span> として <span class="math">\(1\)</span> を付け加えた入力ベクトルを改めて <span class="math">\({\bf x}\)</span> と定義しなおすと，このモデルはベクトルを用いて</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-y&amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
-&amp;=\begin{bmatrix}
-w_{0} &amp; w_{1} &amp; \ldots  &amp; w_{M}
-\end{bmatrix}\begin{bmatrix}
+f({\bf x}; {\bf w})
+&amp;= \begin{bmatrix}
+w_{0} &amp; w_{1} &amp; \dots  &amp; w_{M}
+\end{bmatrix}
+\begin{bmatrix}
 x_{0} \\
 x_{1} \\
 \vdots  \\
 x_{M}
-\end{bmatrix}\\
-&amp;=\boldsymbol{w}^{T}\boldsymbol{x}
+\end{bmatrix} \\
+&amp;= {\bf w}^{T} {\bf x} = {\bf x}^T {\bf w}
 \end{aligned}\end{split}\]</div>
-<p>のように，ベクトルの内積で表現することができます．また，今後取り扱う際には，<span class="math">\(\boldsymbol{x}\)</span> が前に来ているほうが計算上便利であるため，</p>
-<div class="math">
-\[\begin{split}\begin{aligned}
-y&amp;=w_{0}x_{0}+w_{1}x_{1}+\ldots +w_{M}x_{M}\\
-&amp;=\begin{bmatrix}
-x_{0} &amp; x_{1} &amp; \ldots  &amp; x_{M}
-\end{bmatrix}\begin{bmatrix}
-w_{0} \\
-w_{1} \\
-\vdots  \\
-w_{M}
-\end{bmatrix}\\
-&amp;=\boldsymbol{x}^{T}\boldsymbol{w}
-\end{aligned}\end{split}\]</div>
-<p>として表現します．これが重回帰分析のモデルです．今回はパラメータとして <span class="math">\(M+1\)</span> 個の重み <span class="math">\(\boldsymbol{w}\)</span> を求めていきます．</p>
+<p>と書けます． これで，ベクトルの内積を用いて表現することができました．</p>
+<p>これで重回帰分析を行うためのモデルが決定できました． このモデルはパラメータとして <span class="math">\(M+1\)</span> 個の重み <span class="math">\({\bf w}\)</span> を持っています．</p>
 </div>
 <div class="section" id="Step2.-目的関数を決める（重回帰分析）">
 <h3>2.2.3. Step2. 目的関数を決める（重回帰分析）<a class="headerlink" href="#Step2.-目的関数を決める（重回帰分析）" title="Permalink to this headline">¶</a></h3>
-<p>単回帰分析では，教師データ<span class="math">\(t\)</span>と予測値<span class="math">\(y\)</span>の二乗誤差が小さいほど良い予測であるとし，その総和を目的関数として定めました．重回帰分析でも，予測値<span class="math">\(y\)</span>を求めるということは同じであるため，次のような同じ目的関数を使います．</p>
+<p>単回帰分析では，目標値 <span class="math">\(t\)</span> と予測値 <span class="math">\(y\)</span> の二乗誤差が小さいほど良い予測であるとし，その総和を目的関数にしました． 重回帰分析でも，そのような予測値 <span class="math">\(y\)</span> を求めるというのは同じであるため，同じ目的関数を使います．</p>
+<p>ここで，<span class="math">\(n\)</span> 個目の入力値 <span class="math">\({\bf x}^{(n)}\)</span> に対する予測値 <span class="math">\(f({\bf x}^{(n)}; {\bf w})\)</span> を <span class="math">\(y^{(n)}\)</span>，目標値を <span class="math">\(t^{(n)}\)</span> とおくと，目的関数は</p>
 <div class="math">
 \[\begin{aligned}
-\mathcal{L}&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + \left( t_{N}-y_{N}\right)^{2}
+\mathcal{L}
+&amp;= \left( t^{(1)} - y^{(1)} \right)^2
++ \left( t^{(2)} - y^{(2)} \right)^2
++ \dots
++ \left( t^{(N)} - y^{(N)} \right)^2
 \end{aligned}\]</div>
-<p>このように，<strong>二乗誤差の総和</strong>を単回帰分析同様，目的関数として採用します．単回帰分析では，これを</p>
-<div class="math">
-\[\mathcal{L}=\sum^{N}_{n=1} ( t_{n} - y_{n})^{2}\]</div>
-<p>のように，総和の記号を使ってまとめていましたが，</p>
+<p>となります． 単回帰分析では，これを総和記号 <span class="math">\(\sum\)</span> を用いて表すことができましたが，これは以下のようにベクトル同士の内積を用いて表すこともできます．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\mathcal{L}&amp;=\left( t_{1}-y_{1}\right)^{2}+\left( t_{2}-y_{2}\right)^{2}+\ldots + \left( t_{N}-y_{N}\right)^{2}\\
-&amp;=\begin{bmatrix} t_{1} - y_{1} &amp; t_{2}-y_{2} &amp; \ldots &amp; t_{N}-y_{N} \end{bmatrix} \begin{bmatrix}
-t_{1}-y_{1} \\
-t_{2}-y_{2} \\
-\vdots \\
-t_{N}-y_{N}
-\end{bmatrix}\\
-&amp;=\left( \boldsymbol{t}-\boldsymbol{y}\right)^{T}\left( \boldsymbol{t}-\boldsymbol{y}\right)
-\end{aligned}\end{split}\]</div>
-<p>のようにベクトルを使って表現することもできます．また，<span class="math">\(\boldsymbol{y}\)</span> に関して，</p>
-<div class="math">
-\[\begin{split}\begin{aligned}
-\boldsymbol{y}=\begin{bmatrix}
-y_{1} \\
-y_{2} \\
-\vdots \\
-y_{N}
-\end{bmatrix}=\begin{bmatrix}
-\boldsymbol{x}_{1}^{T}\boldsymbol{w} \\
-\boldsymbol{x}_{2}^{T}\boldsymbol{w} \\
-\vdots  \\
-\boldsymbol{x}_{N}^{T}\boldsymbol{w}
+\mathcal{L}
+&amp;= \left( t^{(1)} - y^{(1)} \right)^2
++ \left( t^{(2)} - y^{(2)} \right)^2
++ \dots
++ \left( t^{(N)} - y^{(N)} \right)^2 \\
+&amp;= \begin{bmatrix}
+t^{(1)} - y^{(1)} &amp; t^{(2)} - y^{(2)} &amp; \dots &amp; t^{(N)} - y^{(N)}
 \end{bmatrix}
-=\begin{bmatrix}
-\boldsymbol{x}_{1}^{T} \\
-\boldsymbol{x}_{2}^{T} \\
-\vdots  \\
-\boldsymbol{x}_{N}^{T}
+\begin{bmatrix}
+t^{(1)} - y^{(1)} \\
+t^{(2)} - y^{(2)} \\
+\vdots \\
+t^{(N)} - y^{(N)}
+\end{bmatrix} \\
+&amp;= \left( {\bf t} - {\bf y} \right)^{\rm T}
+\left( {\bf t} - {\bf y} \right)
+\end{aligned}\end{split}\]</div>
+<p>また，<span class="math">\({\bf y}\)</span> は</p>
+<div class="math">
+\[\begin{split}\begin{aligned}
+{\bf y}
+=
+\begin{bmatrix}
+y^{(1)} \\
+y^{(2)} \\
+\vdots \\
+y^{(N)}
+\end{bmatrix}
+=
+\begin{bmatrix}
+({\bf x}^{(1)})^{\rm T} {\bf w} \\
+({\bf x}^{(2)})^{\rm T} {\bf w} \\
+\vdots \\
+({\bf x}^{(N)})^{\rm T} {\bf w}
+\end{bmatrix}
+=
+\begin{bmatrix}
+({\bf x}^{(1)})^{\rm T} \\
+({\bf x}^{(2)})^{\rm T} \\
+\vdots \\
+({\bf x}^{(N)})^{\rm T}
 \end{bmatrix}
 \boldsymbol{w}
 \end{aligned}\end{split}\]</div>
-<p>のように書くことができます．これを整理すると，</p>
+<p>のように書くことができます． ここで，<span class="math">\({\bf x}^{(n)}\)</span> の <span class="math">\(m\)</span> 番目の要素を <span class="math">\(x_{nm}\)</span> と書くことにすると，上式はさらに</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{y}&amp;=
+{\bf y}
+&amp;=
 \begin{bmatrix}
-x_{10} &amp; x_{11} &amp; x_{12} &amp; \ldots  &amp; x_{1M} \\
-x_{20} &amp; x_{21} &amp; x_{22} &amp; \ldots  &amp; x_{2M} \\
+x_{10} &amp; x_{11} &amp; x_{12} &amp; \dots  &amp; x_{1M} \\
+x_{20} &amp; x_{21} &amp; x_{22} &amp; \dots  &amp; x_{2M} \\
 \vdots  &amp; \vdots  &amp; \vdots  &amp; \ddots  \\
-x_{N0} &amp; x_{N1} &amp; x_{N{2}} &amp; \ldots  &amp; x_{NM}
-\end{bmatrix}\begin{bmatrix}
+x_{N0} &amp; x_{N1} &amp; x_{N{2}} &amp; \dots  &amp; x_{NM}
+\end{bmatrix}
+\begin{bmatrix}
 w_{0} \\
 w_{1} \\
 w_{2} \\
-\vdots  \\
+\vdots \\
 w_{M}
-\end{bmatrix}\\
-&amp;=\boldsymbol{X}\boldsymbol{w}
+\end{bmatrix} \\
+&amp;=
+{\bf X}{\bf w}
 \end{aligned}\end{split}\]</div>
-<p>と表記できます．ここで，行（横）方向がサンプルを表しており，例えば各物件に対応します．列（縦）方向が入力変数を表しており，例えば，部屋の広さや駅からの距離などに対応します．もう少し具体的な数値で考えると，部屋の広さ <span class="math">\(= 50m^{2}\)</span> ，駅からの距離 <span class="math">\(= 600 m\)</span> ，犯罪発生率 <span class="math">\(= 2\)</span>% のような <span class="math">\(n\)</span> 番目の物件の場合，入力変数の数<span class="math">\(M=3\)</span>であり，</p>
+<p>と表せます． <span class="math">\({\bf X}\)</span> の各行が各サンプルを表しており，各列が入力変数を表しています． つまり，各サンプルごとに <span class="math">\(M\)</span> 個の入力変数（<span class="math">\(x_{n0}\)</span> は常に <span class="math">\(1\)</span>）を持ちます．</p>
+<p>具体例を挙げてみます． 例えば，<span class="math">\(m=1\)</span> が部屋の広さ，<span class="math">\(m=2\)</span> が駅からの距離，<span class="math">\(m=3\)</span> が犯罪発生率に対応する入力変数だとして，<span class="math">\(n\)</span> 個目のデータ点が部屋の広さ <span class="math">\(= 50m^{2}\)</span> ，駅からの距離 <span class="math">\(= 600 m\)</span> ，犯罪発生率 <span class="math">\(= 2\)</span>% であるような物件を表している場合，これは</p>
 <div class="math">
-\[\boldsymbol{x}_{n}^{T} = \begin{bmatrix}
+\[{\bf x}_{n}^{T} =
+\begin{bmatrix}
 1 &amp; 50 &amp; 600 &amp; 0.02
 \end{bmatrix}\]</div>
-<p>のようにデータが行方向に格納されているイメージです．先頭の <span class="math">\(1\)</span> はバイアスを包含する際に使用している <span class="math">\(x_{0}\)</span> であることに注意してください．</p>
+<p>というベクトルになります． 今，3 つの入力変数を考えているので，<span class="math">\(M=3\)</span> ですが，入力ベクトル <span class="math">\({\bf x}_n\)</span> の１つ目の要素 <span class="math">\(x_{n1}\)</span> はバイアス <span class="math">\(w_0\)</span> に対応する要素で常に値は <span class="math">\(1\)</span> となることに注意してください．</p>
 </div>
 <div class="section" id="Step3.-パラメータを最適化する（重回帰分析）">
 <h3>2.2.4. Step3. パラメータを最適化する（重回帰分析）<a class="headerlink" href="#Step3.-パラメータを最適化する（重回帰分析）" title="Permalink to this headline">¶</a></h3>
-<p>それでは，Step2の目的関数を最小化する，モデルのパラメータ<span class="math">\(\boldsymbol{w}\)</span>を求めていきましょう．</p>
-<p><strong>※ここでは，式変形を駆使しながら最適パラメータの解析的な解を求めていきますが，導出過程が少々複雑であり，導出結果は次節(§2.3)で示されているので，興味のある方以外はスキップして次節に進んでいただいて構いません．</strong></p>
-<p>まずは目的関数に関して，パラメータ <span class="math">\(\boldsymbol{w}\)</span> で表現できるように式変形を行うと，</p>
+<p>それでは，目的関数を最小化するパラメータ <span class="math">\({\bf w}\)</span>を求めてみましょう．</p>
+<p><strong>※ここでは，式変形を駆使しながら最適パラメータの解析的な解を求めていきますが，導出過程が少々複雑になります．導出結果は次節(§2.3)で示されているので，導出に興味のある方以外は本節はスキップしていただいて構いません．</strong></p>
+<p>まずは目的関数をパラメータ <span class="math">\({\bf w}\)</span> を用いて表し直すと</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\mathcal{L}&amp;=\left( \boldsymbol{t}-\boldsymbol{y}\right)^{T}\left( \boldsymbol{t}-\boldsymbol{y}\right) \\
-&amp;=\left( \boldsymbol{t}-\boldsymbol{X}\boldsymbol{w}\right)^{T}\left( \boldsymbol{t}-\boldsymbol{X}\boldsymbol{w}\right) \\
-&amp;= \left\{ \boldsymbol{t}^{T}-(\boldsymbol{X}\boldsymbol{w})^{T}\right\}\left( \boldsymbol{t}-\boldsymbol{X}\boldsymbol{w}\right) \\
-&amp;=\left( \boldsymbol{t}^{T}-\boldsymbol{w}^{T}\boldsymbol{X}^{T}\right)\left( \boldsymbol{t}-\boldsymbol{X}\boldsymbol{w}\right)
+\mathcal{L}
+&amp;=
+\left( {\bf t} - {\bf y} \right)^{\rm T}
+\left( {\bf t} - {\bf y} \right) \\
+&amp;=
+\left( {\bf t} - {\bf X}{\bf w} \right)^{\rm T}
+\left( {\bf t} - {\bf X}{\bf w} \right) \\
+&amp;=
+\left\{ {\bf t}^{\rm T} - ({\bf X}{\bf w})^{\rm T} \right\}
+\left( {\bf t} - {\bf X}{\bf w} \right) \\
+&amp;=
+\left( {\bf t}^{\rm T} - {\bf w}^{\rm T}{\bf X}^{\rm T} \right)
+\left( {\bf t} - {\bf X}{\bf w} \right)
 \end{aligned}\end{split}\]</div>
-<p>となります．ここで，転置の公式 <span class="math">\((\boldsymbol{A}\boldsymbol{B})^{T} = \boldsymbol{B}^{T}\boldsymbol{A}^{T}\)</span> を使っていることに注意しましょう．さらに分配法則を使って展開を進めていくと，</p>
+<p>となります． ここで，転置の公式 <span class="math">\(({\bf A}{\bf B})^{\rm T} = {\bf B}^{\rm T}{\bf A}^{\rm T}\)</span> を使っていることに注意しましょう． さらに分配法則を使って展開すると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\mathcal{L}&amp;=\boldsymbol{t}^{T}\boldsymbol{t}-\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}-\boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{t} + \boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}\\
+\mathcal{L}
+&amp;=
+{\bf t}^{\rm T}{\bf t}
+- {\bf t}^{\rm T}{\bf X}{\bf w}
+- {\bf w}^{\rm T}{\bf X}^{\rm T}{\bf t}
++ {\bf w}^{\rm T}{\bf X}^{\rm T}{\bf X}{\bf w} \\
 \end{aligned}\end{split}\]</div>
-<p>となります．この目的関数に対しパラメータの<span class="math">\(w\)</span>について偏微分をとりたいわけですが，その前にこの式はもう少し整理することができます．はじめに，</p>
+<p>となります． この目的関数に対しパラメータの <span class="math">\(w\)</span> についての偏微分を計算します． その前にこの式はもう少し整理することができます． はじめに，</p>
 <div class="math">
 \[(1)^T = 1\]</div>
-<p>というように，スカラーは転置しても変化しません．上式の中で出てくる <span class="math">\(\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}\)</span> はスカラーなので，</p>
+<p>のようにスカラは転置しても変化しません． 上式の中で出てくる <span class="math">\({\bf t}^{\rm T}{\bf X}{\bf w}\)</span> はスカラなので，</p>
 <div class="math">
-\[(\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w})^{T} = \boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}\]</div>
-<p>が成り立ちます．さらに，転置の公式 <span class="math">\((\boldsymbol{A}\boldsymbol{B}\boldsymbol{C})^T = \boldsymbol{C}^T\boldsymbol{B}^T\boldsymbol{A}^T\)</span> より，</p>
+\[({\bf t}^{\rm T}{\bf X}{\bf w})^{\rm T} =
+{\bf t}^{\rm T}{\bf X}{\bf w}\]</div>
+<p>が成り立ちます． さらに，転置の公式 <span class="math">\(({\bf A}{\bf B}{\bf C})^{\rm T} = {\bf C}^{\rm T}{\bf B}^{\rm T}{\bf A}^{\rm T}\)</span> より，</p>
 <div class="math">
-\[(\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w})^T = \boldsymbol{w}^{T} \boldsymbol{X}^{T} \boldsymbol{t}\]</div>
+\[({\bf t}^{\rm T}{\bf X}{\bf w})^{\rm T}
+= {\bf w}^{\rm T}{\bf X}^{\rm T}{\bf t}\]</div>
 <p>も成り立ちます．これより，</p>
 <div class="math">
-\[(\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w})^{T} = \boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w} = \boldsymbol{w}^{T} \boldsymbol{X}^{T} \boldsymbol{t}\]</div>
-<p>を導くことができます．目的関数を <span class="math">\(\mathcal{L}\)</span> とおくと，上の式を利用して，</p>
+\[({\bf t}^{\rm T}{\bf X}{\bf w})^{\rm T}
+= {\bf t}^{\rm T}{\bf X}{\bf w}
+= {\bf w}^{\rm T}{\bf X}^{\rm T}{\bf t}\]</div>
+<p>を導くことができます． 目的関数を <span class="math">\(\mathcal{L}\)</span> とおくと，上の式を利用して，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\mathcal{L}=\boldsymbol{t}^{T}\boldsymbol{t}-2\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w} + \boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}\\
+\mathcal{L}
+= {\bf t}^{\rm T}{\bf t}
+- 2 {\bf t}^{\rm T}{\bf X}{\bf w}
++ {\bf w}^{\rm T}{\bf X}^{\rm T}{\bf X}{\bf w} \\
 \end{aligned}\end{split}\]</div>
-<p>とまとめることができます．ここで， <span class="math">\(\boldsymbol{w}\)</span> に関する偏微分を行っていくため， <span class="math">\(\boldsymbol{w}\)</span> 以外の定数項をまとめていくと，</p>
+<p>とまとめることができます．ここで， <span class="math">\({\bf w}\)</span> について偏微分を行いやすくするため， <span class="math">\({\bf w}\)</span> 以外の定数項をまとめると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\mathcal{L}&amp;=\boldsymbol{t}^{T}\boldsymbol{t}-2\boldsymbol{t}^{T}\boldsymbol{X}\boldsymbol{w}+\boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}\\
-&amp;=\boldsymbol{t}^{T}\boldsymbol{t}-2\left( \boldsymbol{X}^{T}\boldsymbol{t}\right)^{T} \boldsymbol{w}+\boldsymbol{w}^{T}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w} \\
-&amp;= \gamma + \boldsymbol{\beta}^{T}\boldsymbol{w} + \boldsymbol{w}^{T}\boldsymbol{A}\boldsymbol{w}
+\mathcal{L}
+&amp;= {\bf t}^{\rm T}{\bf t}
+- 2 {\bf t}^{\rm T}{\bf X}{\bf w}
++ {\bf w}^{\rm T}{\bf X}^{\rm T}{\bf X}{\bf w} \\
+&amp;= {\bf t}^{\rm T}{\bf t}
+- 2 \left( {\bf X}^{\rm T}{\bf t} \right)^{\rm T}{\bf w}
++ {\bf w}^{\rm T}{\bf X}^{\rm T}{\bf X}{\bf w} \\
+&amp;= \gamma + \boldsymbol{\beta}^{\rm T}{\bf w} + {\bf w}^{\rm T}{\bf A}{\bf w}
 \end{aligned}\end{split}\]</div>
-<p>のように，線形代数で学んだ <span class="math">\(\boldsymbol{w}\)</span> に関する二次形式（二次関数）で表現することができました．ここで，<span class="math">\(\boldsymbol{A}= \boldsymbol{X}^{T}\boldsymbol{X}, \ \boldsymbol{\beta} =-2 \boldsymbol{X}^{T}\boldsymbol{t}, \ \gamma = \boldsymbol{t}^{T}\boldsymbol{t}\)</span> であり，<span class="math">\(\boldsymbol{\beta}\)</span> を転置の形式にした理由は，線形代数で学んだベクトルで微分の公式の形式に合わせるための工夫です．</p>
-<p>それでは，目的関数を最小化することができるパラメータ <span class="math">\(\boldsymbol{w}\)</span> の求め方を考えましょう．先述の通り，目的関数はパラメータ <span class="math">\(\boldsymbol{w}\)</span>に関して二次関数です．例えば，</p>
+<p>となります． 線形代数の章で学んだような <span class="math">\({\bf w}\)</span> に関する二次形式（二次関数）で表現することができました． ここで，<span class="math">\({\bf A}= {\bf X}^{\rm T}{\bf X}, \ \boldsymbol{\beta} =-2 {\bf X}^{\rm T}{\bf t}, \ \gamma = {\bf t}^{\rm T}{\bf t}\)</span> です． また，<span class="math">\(\boldsymbol{\beta}\)</span> を転置の形式にした理由は，線形代数の章で学んだベクトルで微分するための公式集にある形式に合わせるためです．</p>
+<p>それでは，この目的関数を最小化するパラメータ <span class="math">\({\bf w}\)</span> の求め方を考えましょう． 前述の通り，目的関数はパラメータ <span class="math">\({\bf w}\)</span> に関しては二次関数になっています． 例えば，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{w} = \begin{bmatrix}
+{\bf w} = \begin{bmatrix}
 w_{1} \\ w_{2}
 \end{bmatrix},
-\boldsymbol{A}=\begin{bmatrix}
+{\bf A} = \begin{bmatrix}
 1 &amp; 2 \\
 3 &amp; 4
-\end{bmatrix},\boldsymbol{\beta}=\begin{bmatrix}
+\end{bmatrix},
+\boldsymbol{\beta} = \begin{bmatrix}
 1 \\
 2
-\end{bmatrix}, \gamma = 1
+\end{bmatrix},
+\gamma = 1
 \end{aligned}\end{split}\]</div>
-<p>のように具体的な数値例で考えてみると，</p>
+<p>のとき，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \mathcal{L} &amp; =
-\boldsymbol{w}^{T}\boldsymbol{A}\boldsymbol{w} + \boldsymbol{\beta}^{T}\boldsymbol{w} + \gamma \\
+{\bf w}^{\rm T}{\bf A}{\bf w}
++ \boldsymbol{\beta}^{\rm T}{\bf w}
++ \gamma \\
 &amp;=
 \begin{bmatrix}
 w_{1} &amp; w_{2}
-\end{bmatrix}\begin{bmatrix}
+\end{bmatrix}
+\begin{bmatrix}
 1 &amp; 2 \\
 3 &amp; 4
-\end{bmatrix}\begin{bmatrix}
+\end{bmatrix}
+\begin{bmatrix}
 w_{1} \\
 w_{2}
 \end{bmatrix}
-+\begin{bmatrix}
++
+\begin{bmatrix}
 1 &amp; 2
-\end{bmatrix} \begin{bmatrix}
+\end{bmatrix}
+\begin{bmatrix}
 w_{1} \\
 w_{2}
-\end{bmatrix} + 1 \\
+\end{bmatrix}
++ 1 \\
 &amp;=
 \begin{bmatrix}
 w_{1} &amp; w_{2}
@@ -704,18 +842,34 @@ w_{1} &amp; w_{2}
 \begin{bmatrix}
 w_{1} + 2w_{2} \\
 3w_{1} + 4w_{2}
-\end{bmatrix} + w_{1} + 2w_{2} + 1 \\
-&amp;=w_{1}\left( w_{1} + 2w_{2}\right) + w_{2}\left( 3w_{1} + 4w_{2}\right) + w_{1} + 2w_{2} + 1 \\
-&amp;=w^{2}_{1} + 5w_{1}w_{2} + 4w^{2}_{2} + w_{1} + 2w_{2}+1 \\
+\end{bmatrix}
++ w_{1}
++ 2 w_{2}
++ 1 \\
+&amp;= w_{1} \left( w_{1} + 2w_{2} \right)
++ w_{2} \left( 3w_{1} + 4w_{2} \right)
++ w_{1}
++ 2w_{2}
++ 1 \\
+&amp;= w^{2}_{1}
++ 5w_{1}w_{2}
++ 4w^{2}_{2}
++ w_{1}
++ 2w_{2}
++ 1 \\
 \end{aligned}\end{split}\]</div>
-<p>となり，<span class="math">\(w_{1}, w_{2}\)</span>に関してそれぞれまとめると，</p>
+<p>となります． さらに <span class="math">\(w_{1}, w_{2}\)</span> に関してそれぞれまとめると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
 \mathcal{L}
-&amp;= w^{2}_{1} + \left( 5w_{2} + 1\right) w_{1} +
-\left( 4w^{2}_{2}+2w_{2}+1\right) \\
-&amp;=4w^{2}_{2} + \left(5w_{1} + 2\right) w_{2} + \left( w^{2}_{1} + w_{1} + 1\right) \end{aligned}\end{split}\]</div>
-<p>のようにそれぞれの二次関数であることがわかります．</p>
+&amp;= w^{2}_{1}
++ \left( 5w_{2} + 1\right) w_{1}
++ \left( 4w^{2}_{2} + 2w_{2} + 1 \right) \\
+&amp;= 4w^{2}_{2}
++ \left( 5w_{1} + 2 \right) w_{2}
++ \left( w^{2}_{1} + w_{1} + 1 \right)
+\end{aligned}\end{split}\]</div>
+<p>となり，それぞれの二次関数であることがわかります．</p>
 <p>そして，二次関数であれば，下図のような形となります．</p>
 <p><img alt="パラメータと目的関数の関係（2次元）" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/2/06.png"/></p>
 <p>これを3次元でイメージすると，下図のようになります．</p>
@@ -725,10 +879,10 @@ w_{1} + 2w_{2} \\
 <p>この例では，<span class="math">\(w_{1}\)</span> と <span class="math">\(w_{2}\)</span> の２つのパラメータの場合で考えましたが，これは <span class="math">\(w_{0}\)</span>, <span class="math">\(w_{1}\)</span>, <span class="math">\(w_{2}\)</span>, <span class="math">\(\ldots\)</span>, <span class="math">\(w_{M}\)</span> の場合でも同様に考えることができ，目的関数が最小となる点は</p>
 <div class="math">
 \[\begin{split}\begin{cases}
-\dfrac {\partial }{\partial w_{0}}\mathcal{L}=0\\
-\dfrac {\partial }{\partial w_{1}}\mathcal{L}=0\\
+\dfrac {\partial }{\partial w_{0}}\mathcal{L} = 0\\
+\dfrac {\partial }{\partial w_{1}}\mathcal{L} = 0\\
 \ \ \ \ \ \vdots \\
-\dfrac {\partial }{\partial w_{M}}\mathcal{L}=0\\
+\dfrac {\partial }{\partial w_{M}}\mathcal{L} = 0\\
 \end{cases}\end{split}\]</div>
 <p>となり，これをまとめると，</p>
 <div class="math">
@@ -744,56 +898,62 @@ w_{1} + 2w_{2} \\
 \vdots  \\
 0 \\
 \end{bmatrix} \\
-\Rightarrow \dfrac {\partial}{\partial \boldsymbol{w}} \mathcal{L} &amp;= \boldsymbol{0} \\
+\Rightarrow \dfrac {\partial}{\partial {\bf w}} \mathcal{L} &amp;= \boldsymbol{0} \\
 \end{aligned}\end{split}\]</div>
-<p>のようにベクトルでの微分として表されます．あとは，上式を満たすように <span class="math">\(\boldsymbol{w}\)</span> を決めていきます．まずは<span class="math">\(\boldsymbol{w}\)</span>を求めやすくなるように，代入と式変形を行います．（下記の計算にはベクトルでの微分をはじめとして，線形代数で学んだ内容を活用しているため，計算途中がわからなくなった場合には，線形代数のパートを確認しながら進めてみてください．）</p>
+<p>のようにベクトルでの微分として表されます． あとは，上式を満たす <span class="math">\({\bf w}\)</span> を決めます． まずは <span class="math">\({\bf w}\)</span> が求めやすくなるように，代入と式変形を行います． （下記の計算ではベクトルでの微分をはじめとして線形代数の章で学んだ内容を活用しているため，計算途中がわからなくなった場合には，線形代数の章を再度確認しながら進めてください．）</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\dfrac {\partial }{\partial \boldsymbol{w}}\mathcal{L} =\dfrac {\partial }{\partial \boldsymbol{w}}\left( \gamma + \boldsymbol{\beta}^{T}\boldsymbol{w} + \boldsymbol{w}^{T}\boldsymbol{A}\boldsymbol{w}\right)
-= \boldsymbol{0}\\
-\dfrac {\partial }{\partial \boldsymbol{w}}\left( \gamma\right) +\dfrac {\partial }{\partial \boldsymbol{w}}\left( \boldsymbol{\beta}^{T}\boldsymbol{w}\right) +\dfrac {\partial }{\partial \boldsymbol{w}}\left( \boldsymbol{w}^{T}\boldsymbol{A}\boldsymbol{w}\right)
-=\boldsymbol{0}\\
-\boldsymbol{0}+\boldsymbol{\beta}+\left( \boldsymbol{A}+\boldsymbol{A}^{T}\right) \boldsymbol{w} =\boldsymbol{0}\\
--2\boldsymbol{X}^{T}\boldsymbol{t}+\left\{ \boldsymbol{X}^{T}\boldsymbol{X} + \left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{T}\right\} \boldsymbol{w}
-=\boldsymbol{0}\\
--2\boldsymbol{X}^{T}\boldsymbol{t}+2\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}=\boldsymbol{0}\\
-\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}=\boldsymbol{X}^{T}\boldsymbol{t}\\
+\dfrac {\partial }{\partial {\bf w}}
+\mathcal{L} =
+\dfrac {\partial }{\partial {\bf w}}
+\left( \gamma + \boldsymbol{\beta}^{\rm T}{\bf w} + {\bf w}^{\rm T}{\bf A}{\bf w} \right)
+= {\bf 0} \\
+\dfrac {\partial }{\partial {\bf w}}
+\left( \gamma \right)
++ \dfrac {\partial }{\partial {\bf w}} \left( \boldsymbol{\beta}^{\rm T}{\bf w} \right)
++ \dfrac {\partial }{\partial {\bf w}} \left( {\bf w}^{\rm T}{\bf A}{\bf w} \right)
+= {\bf 0} \\
+{\bf 0}
++ \boldsymbol{\beta}
++ \left( {\bf A}+{\bf A}^{\rm T} \right) {\bf w}
+= {\bf 0} \\
+-2{\bf X}^{\rm T}{\bf t}
++ \left\{ {\bf X}^{\rm T}{\bf X} + \left( {\bf X}^{\rm T}{\bf X} \right)^{\rm T} \right\} {\bf w}
+= {\bf 0} \\
+-2{\bf X}^{\rm T}{\bf t}+2{\bf X}^{\rm T}{\bf X}{\bf w}={\bf 0}\\
+{\bf X}^{\rm T}{\bf X}{\bf w}={\bf X}^{\rm T}{\bf t}\\
 \end{aligned}\end{split}\]</div>
-<p>ここで，<span class="math">\(\boldsymbol{X}^{T} \boldsymbol{X}\)</span>に逆行列が存在すると仮定して，両辺に左側から <span class="math">\(\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\)</span> をかけると，</p>
+<p>ここで，<span class="math">\({\bf X}^{\rm T} {\bf X}\)</span>に逆行列が存在すると仮定して，両辺に左側から <span class="math">\(\left( {\bf X}^{\rm T}{\bf X}\right)^{-1}\)</span> をかけると，</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{X} \boldsymbol{w} =\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t} \\
-\boldsymbol{I}\boldsymbol{w}=\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t} \\
-\boldsymbol{w}=\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t}
+\left( {\bf X}^{\rm T}{\bf X}\right)^{-1}{\bf X}^{\rm T}{\bf X} {\bf w} =\left( {\bf X}^{\rm T}{\bf X}\right)^{-1}{\bf X}^{\rm T}{\bf t} \\
+{\bf I}{\bf w}=\left( {\bf X}^{\rm T}{\bf X}\right)^{-1}{\bf X}^{\rm T}{\bf t} \\
+{\bf w}=\left( {\bf X}^{\rm T}{\bf X}\right)^{-1}{\bf X}^{\rm T}{\bf t}
 \end{aligned}\end{split}\]</div>
-<p>となり，与えられたデータセット <span class="math">\(\boldsymbol{X}, \boldsymbol{t}\)</span> から，最適なパラメータ <span class="math">\(\boldsymbol{w}\)</span> が求まりました．ここで，<span class="math">\(\boldsymbol{I}\)</span> は単位行列です．また，式変形の際には，</p>
+<p>となり，与えられたデータセット <span class="math">\({\bf X}, {\bf t}\)</span> から，最適なパラメータ <span class="math">\({\bf w}\)</span> が求まりました．ここで，<span class="math">\({\bf I}\)</span> は単位行列です．また，式変形の際には，</p>
 <div class="math">
-\[\boldsymbol{w} = \dfrac{\boldsymbol{X}^{T}\boldsymbol{t}}{\boldsymbol{X}^{T}\boldsymbol{X}}\]</div>
-<p>のような分数が表れないように注意してください．これは行列の計算には割り算がないためです．そのため，逆行列を使って行列積のみで計算しています．</p>
-<p>また，もうひとつよくある間違いとして，<span class="math">\(\boldsymbol{w}\)</span>を求めるために以下のような式変形をしてしまう例が挙げられます．</p>
+\[{\bf w} = \dfrac{{\bf X}^{\rm T}{\bf t}}{{\bf X}^{\rm T}{\bf X}}\]</div>
+<p>のような分数が表れないように注意してください．これは行列の計算には割り算が定義されていないためです． そのため，逆行列を使って行列積のみで計算しています．</p>
+<p>また，もうひとつよくある間違いとして，<span class="math">\({\bf w}\)</span> を求めるために以下のような式変形をしてしまう例が挙げられます．</p>
 <div class="math">
 \[\begin{split}\begin{aligned}
-\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}&amp;=\boldsymbol{X}^{T}\boldsymbol{t}\\
-\left( \boldsymbol{X}^{T}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{X}\boldsymbol{w}&amp;=\left( \boldsymbol{X}^{T}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t}\\
-\boldsymbol{X}\boldsymbol{w}&amp;=\boldsymbol{t}\\
-\boldsymbol{X}^{-1}\boldsymbol{X}\boldsymbol{w}&amp;=\boldsymbol{X}^{-1}\boldsymbol{t}\\
-\boldsymbol{w}&amp;=\boldsymbol{X}^{-1}\boldsymbol{t}
+{\bf X}^{\rm T}{\bf X}{\bf w}
+&amp;= {\bf X}^{\rm T}{\bf t} \\
+\left( {\bf X}^{\rm T} \right)^{-1} {\bf X}^{\rm T}{\bf X}{\bf w}
+&amp;= \left( {\bf X}^{\rm T} \right)^{-1}{\bf X}^{\rm T}{\bf t} \\
+{\bf X}{\bf w}
+&amp;= {\bf t} \\
+{\bf X}^{-1}{\bf X}{\bf w}
+&amp;= {\bf X}^{-1}{\bf t} \\
+{\bf w}
+&amp;= {\bf X}^{-1}{\bf t}
 \end{aligned}\end{split}\]</div>
-<p>しかし，これは一般的には成立しません．その理由は，逆行列を持つための条件として，<strong>正方行列であること</strong>を満たしていないためです．一般的に，サンプル数 <span class="math">\(N\)</span> と入力変数の数 <span class="math">\(M+1\)</span> は等しくないため，<span class="math">\(\boldsymbol{X} \in \mathcal{R}^{N \times (M+1)}\)</span> は正方行列ではなく，逆行列をもちません．それに対し， <span class="math">\(\boldsymbol{X}^{T} \boldsymbol{X}\)</span> は <span class="math">\(\boldsymbol{X}^{T}\boldsymbol{X} \in \mathcal{R}^{(M+1) \times (M+1)}\)</span> となり，サンプル数 <span class="math">\(N\)</span>
-に依存することなく，常に正方行列となります．（逆行列が求まるためにはもう少し厳密な条件がありますが，ここでは説明しません．）</p>
-<p>推論の際は学習で得られたパラメータ <span class="math">\(\boldsymbol{w}\)</span> を用いて，</p>
+<p>しかし，これは一般には成立しません． その理由は，逆行列を持つための条件の一つである<strong>正方行列であること</strong>を <span class="math">\({\bf X}\)</span> が常に満たすとは限らないためです． サンプル数 <span class="math">\(N\)</span> と入力変数の数 <span class="math">\(M+1\)</span> が等しくない場合，<span class="math">\({\bf X} \in \mathcal{R}^{N \times (M+1)}\)</span> は正方行列ではなく，逆行列をもちません． 一方，<span class="math">\({\bf X}^{\rm T} {\bf X}\)</span> は <span class="math">\({\bf X}^{\rm T}{\bf X} \in \mathcal{R}^{(M+1) \times (M+1)}\)</span> であり，サンプル数 <span class="math">\(N\)</span>
+に依存することなく，常に正方行列となることに注目してください．（逆行列が求まるためにはもう少し厳密な条件がありますが，ここでは説明しません．）</p>
+<p>推論の際は学習で得られたパラメータを <span class="math">\(\hat{\bf w}\)</span> として</p>
 <div class="math">
-\[y_{q} = \boldsymbol{w}^{T}\boldsymbol{x}_{q}\]</div>
+\[y_{q} = \hat{\bf w}^{\rm T}{\bf x}_{q}\]</div>
 <p>のように計算することで予測値が得られます．</p>
-</div>
-</div>
-<div class="section" id="NumPyによる実装">
-<h2>2.3. NumPyによる実装<a class="headerlink" href="#NumPyによる実装" title="Permalink to this headline">¶</a></h2>
-<p>それでは重回帰分析を例に，Pythonで線形代数を用いた実装を行っていきましょう．Pythonには<strong>NumPy</strong>とよばれる線形代数を簡単に扱えるライブラリが存在し，広く利用されています．次の章で紹介するChainerの中でもNumPyは多用されており，ディープラーニングを学ぶための第一歩として，まずはNumPyの使い方を習得することが重要です．</p>
-<p>Pythonの文法に関しては把握していることを前提に進めています．具体的には，変数（数値・文字列，リスト，タプル，辞書），制御構文（for，if），関数，クラスを理解している必要があります．</p>
-<p>重回帰分析では，最終的に最適なパラメータ <span class="math">\(\boldsymbol{w}\)</span> が</p>
-<div class="math">
-\[\boldsymbol{w}=\left( \boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t}\]</div>
 <p>で表されることが分かりました．この最適なパラメータを計算するために，以下の5つを扱います．</p>
 <ul class="simple">
 <li>ベクトルの定義</li>
@@ -817,6 +977,36 @@ w_{1} + 2w_{2} \\
 \end{bmatrix}\end{split}\]</div>
 <p>ここで<span class="math">\(\boldsymbol{X}\)</span>は <strong>パラメータ</strong> <span class="math">\(\boldsymbol{w}\)</span> <strong>がバイアス</strong> <span class="math">\(\boldsymbol{b}\)</span> <strong>を包含する</strong> 形式を想定しており，従って入力データ<span class="math">\(\boldsymbol{X}\)</span>の1列目には<span class="math">\(1\)</span>が格納されています．</p>
 <p>それでは実装方法について見ていきましょう．まずは，NumPyの読み込みから始めます．</p>
+</div>
+</div>
+<div class="section" id="NumPyによる実装">
+<h2>2.3. NumPyによる実装<a class="headerlink" href="#NumPyによる実装" title="Permalink to this headline">¶</a></h2>
+<p>それでは重回帰分析で行われる計算をPythonを用いてコンピュータに実行させてみましょう． Pythonには<strong>NumPy</strong>とよばれる線形代数を簡単に扱えるライブラリが存在し，広く利用されています． 次の章で紹介するChainerの中でもNumPyは用いられており，様々なデータ解析・科学計算のライブラリで広く採用されているため，NumPyの使い方にある程度慣れ親しんでおくことは後々役立ちます．</p>
+<p>以下では，Pythonの基本的な文法はすでに理解していることを前提としています． 例えば，変数（数値・文字列，リスト，タプル，辞書），制御構文（for，if），関数，クラスを理解している必要があります．</p>
+<p>重回帰分析では，最終的に最適なパラメータ <span class="math">\({\bf w}\)</span> が</p>
+<div class="math">
+\[{\bf w} = \left( {\bf X}^{\rm T}{\bf X}\right)^{-1}{\bf X}^{\rm T}{\bf t}\]</div>
+<p>と閉じた形で求まりました． この計算を行うために，これから以下の5つをNumPyを使って行います．</p>
+<ul class="simple">
+<li>ベクトルの定義</li>
+<li>行列の定義</li>
+<li>転置</li>
+<li>行列積</li>
+<li>逆行列</li>
+</ul>
+<p>以下のようなデータセットが与えられているとします．</p>
+<div class="math">
+\[\begin{split}{\bf X} = \left[ \begin{matrix}
+1 &amp; 2 &amp; 3 \\
+1 &amp; 2 &amp; 5 \\
+1 &amp; 3 &amp; 4 \\
+1 &amp; 5 &amp; 9
+\end{matrix} \right], \
+{\bf t} = \left[ \begin{matrix}
+1 \\ 5 \\ 6 \\ 8
+\end{matrix} \right]\end{split}\]</div>
+<p>データ数 <span class="math">\(N = 4\)</span> であり，入力変数の数 <span class="math">\(M = 2\)</span> です． それではこのデータセットにフィットするモデル <span class="math">\(f({\bf x}; {\bf w}) = {\bf x}^{\rm T}{\bf w}\)</span> のパラメータ <span class="math">\({\bf w}\)</span> をNumPyを使って計算してみましょう．</p>
+<p>まずNumPyを読み込みます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -940,7 +1130,7 @@ w_{1} + 2w_{2} \\
  [ 21  73 131]]
 </pre></div></div>
 </div>
-<p>ここからさらに，<span class="math">\(\boldsymbol{X}^{T}\boldsymbol{X}\)</span>に対する逆行列，<span class="math">\(\left(\boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\)</span>を計算します．逆行列を求めるには，<code class="docutils literal"><span class="pre">np.linalg.inv</span></code> を用います．</p>
+<p>ここからさらに，<span class="math">\({\bf X}^{\rm T}{\bf X}\)</span> に対する逆行列，<span class="math">\(\left( {\bf X}^{\rm T}{\bf X} \right)^{-1}\)</span> を計算します．逆行列を求めるには，<code class="docutils literal"><span class="pre">np.linalg.inv</span></code> を用います．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
@@ -970,7 +1160,7 @@ w_{1} + 2w_{2} \\
 </pre></div></div>
 </div>
 <p>これで重回帰分析のために必要な演算が揃いました．</p>
-<p>最適なパラメータ<span class="math">\(\left(\boldsymbol{X}^{T}\boldsymbol{X}\right)^{-1}\boldsymbol{X}^{T}\boldsymbol{t}\)</span>を求めると，</p>
+<p>最適なパラメータ <span class="math">\(\left({\bf X}^{\rm T}{\bf X} \right)^{-1} {\bf X}^{\rm T}{\bf t}\)</span> を求めると，</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -1023,28 +1213,28 @@ w_{1} + 2w_{2} \\
 [-0.14285714  0.71428571  0.57142857]
 </pre></div></div>
 </div>
-<p>このようにパラメータ <span class="math">\(\boldsymbol{w}\)</span> が求まりました．NumPyを使うことで，数式をそのままプログラム上で書くことができます．</p>
+<p>このように求まりました． NumPyを使って数式と同じ計算をプログラムに書き下せば，コンピュータに具体的な数値を使った計算を高速に行わせることができます．</p>
 </div>
 <div class="section" id="Scikit-learnによる機械学習アルゴリズムの実行">
 <h2>2.4. Scikit-learnによる機械学習アルゴリズムの実行<a class="headerlink" href="#Scikit-learnによる機械学習アルゴリズムの実行" title="Permalink to this headline">¶</a></h2>
-<p>重回帰分析であればNumPyで比較的容易に実装することができましたが，実践的に使用する機械学習アルゴリズムの多くは複雑であり，初学者が一から書くには難しい場合も少なくありません．そこで，Pythonでは<strong>Scikit-learn</strong>とよばれる機械学習用のフレームワークが公開されており，初学者でも簡単に様々な機械学習アルゴリズムを扱うことができます．</p>
-<p>ここでは重回帰分析の，<strong>Scikit-learnを用いた実装方法</strong>を紹介します．データセットは先程と同様に<span class="math">\(\boldsymbol{X}\)</span>と<span class="math">\(\boldsymbol{t}\)</span>を使用しますが，Scikit-learnにおいては， <strong>パラメータ</strong> <span class="math">\(\boldsymbol{w}\)</span> <strong>がバイアス</strong> <span class="math">\(\boldsymbol{b}\)</span> <strong>を包含しない</strong> 形式を想定しており，入力データ<span class="math">\(\boldsymbol{X}\)</span>の1列目から<span class="math">\(1\)</span>を取り除くのが一般的です．従って，</p>
+<p>重回帰分析であればNumPyで比較的容易に実装することができましたが，実践的に使用する機械学習手法のアルゴリズムの多くは複雑であり，初学者が一から書くのは難しい場合も少なくありません． Pythonには<strong>Scikit-learn</strong>と呼ばれる様々な機械学習手法の実装が含められたライブラリが公開されており，初学者でも簡単に扱うことができます．</p>
+<p>ここでは重回帰分析を<strong>Scikit-learnを用いて行う方法</strong>を紹介します． データセットは先程と同様に <span class="math">\({\bf X}\)</span> と <span class="math">\({\bf t}\)</span> を使用しますが，Scikit-learnにおいては，<strong>パラメータ</strong> <span class="math">\({\bf w}\)</span> <strong>がバイアス</strong> <span class="math">\({\bf b}\)</span> <strong>を包含しない</strong> 形式を想定しており，入力データ <span class="math">\({\bf X}\)</span> の1列目から <span class="math">\(1\)</span> を取り除く必要があることに注意してください． 従って，</p>
 <div class="math">
-\[\begin{split}\boldsymbol{X} =
+\[\begin{split}{\bf X} =
 \begin{bmatrix}
 2 &amp; 3 \\
 2 &amp; 5 \\
 3 &amp; 4 \\
 5 &amp; 9
 \end{bmatrix}, \
-\boldsymbol{t} =
+{\bf t} =
 \begin{bmatrix}
 1 \\ 5 \\ 6 \\ 8
 \end{bmatrix}\end{split}\]</div>
-<p>が与えられているとします．</p>
+<p>をデータセットとして準備します．</p>
 <div class="section" id="Scikit-learn-基礎編">
 <h3>2.4.1. Scikit-learn 基礎編<a class="headerlink" href="#Scikit-learn-基礎編" title="Permalink to this headline">¶</a></h3>
-<p>Scikit-learnは<code class="docutils literal"><span class="pre">sklearn</span></code>という名前で呼び出すことができます．</p>
+<p>Scikit-learnは<code class="docutils literal"><span class="pre">sklearn</span></code>という名前で読み込みます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -1054,7 +1244,7 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p>重回帰分析を使用する場合は以下のように呼び出します．</p>
+<p>重回帰分析を使用する場合は以下の <code class="docutils literal"><span class="pre">LinearRegression</span></code> というクラスを読み込みます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
@@ -1064,8 +1254,8 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p>なお，使い方を調べる際には，<a class="reference external" href="http://scikit-learn.org/">公式のリファレンス</a>に加えて，実際のコード例を見るのも有用です（例えば検索エンジンで「重回帰分析 Scikit-learn」のようなキーワードで検索すればたくさんのコード例が見つかります）．</p>
-<p>重回帰分析のアルゴリズムはクラスとして定義されており，実際のモデルを利用するにはインスタンス化する必要があります． インスタンス化はクラス名の後に<code class="docutils literal"><span class="pre">()</span></code>をつければ行えます．</p>
+<p>なお，使い方を調べる際には，<a class="reference external" href="http://scikit-learn.org/">公式のリファレンス</a>に加えて，使用例を見るのも有用です（例えば検索エンジンで「重回帰分析 Scikit-learn」のようなキーワードで検索すればたくさんの使用例が見つかります）．</p>
+<p><code class="docutils literal"><span class="pre">LinearRegression</span></code> クラスを利用するために，インスタンス化を行い，<code class="docutils literal"><span class="pre">model</span></code> と名付けます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
@@ -1075,13 +1265,14 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p>これだけで，重回帰分析を使用するための準備が完了です．このモデルを使って，パラメータの学習は以下のように行います．</p>
+<p>これで重回帰分析を行う準備が完了しました． この <code class="docutils literal"><span class="pre">model</span></code> を使って，最適なパラメータを求めるには以下のようにします．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
-<span></span><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+<span></span><span class="c1"># データセットの定義</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
     <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
     <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
@@ -1089,6 +1280,7 @@ w_{1} + 2w_{2} \\
 <span class="p">])</span>
 <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span>
 
+<span class="c1"># 最適なパラメータの計算</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1098,11 +1290,11 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+<span></span>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)
 </pre></div>
 </div>
 </div>
-<p>結果の検証は，次のように行います．</p>
+<p>求まったパラメータの検証結果を以下のようにして確認することができます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
@@ -1121,11 +1313,11 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p>回帰の場合は，以下の式で示される，<strong>決定係数</strong>とよばれる指標が自動的に計算されるようになっています．</p>
+<p><code class="docutils literal"><span class="pre">LinearRegression</span></code> クラスのオブジェクトが持つ <code class="docutils literal"><span class="pre">score()</span></code> メソッドを呼ぶと，以下の式で示される，<strong>決定係数</strong>とよばれる指標が計算され，結果が返されます．</p>
 <div class="math">
 \[R^{2} = 1 - \dfrac{\sum_{i}\left( t_{i} - y_{i} \right)^{2}}{\sum_{i}\left( t_{i} - \bar{t} \right)^{2}}\]</div>
-<p>このように，Scikit-learnでは，簡単なインターフェースでやり取りができるようになっています．Scikit-learnの良い点は，最初にアルゴリズムを決めてしまえば，どのアルゴリズムでも，<code class="docutils literal"><span class="pre">.fit()</span></code>で学習，<code class="docutils literal"><span class="pre">.score()</span></code>で検証が行える点です．</p>
-<p>また，アルゴリズムによって内容は多少異なりますが，パラメータもインスタンス変数として格納されているため，学習後に確認することができます．</p>
+<p>Scikit-learnは，よく使う機械学習手法を簡単に切り替えて使えるよう，統一されたインターフェースで様々な機械学習手法が実装されています． Scikit-learnが好まれる理由の一つには，様々なアルゴリズムが「<code class="docutils literal"><span class="pre">.fit()</span></code>で学習，<code class="docutils literal"><span class="pre">.score()</span></code>で検証」という同じインターフェースから利用できることが挙げられるでしょう．</p>
+<p>また，アルゴリズムによって内容は多少異なりますが，パラメータも <code class="docutils literal"><span class="pre">model</span></code> オブジェクトに属性として格納されているため，学習後に確認することができます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
@@ -1160,7 +1352,7 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>-0.14285714285714501
+<span></span>-0.14285714285714235
 </pre></div>
 </div>
 </div>
@@ -1170,9 +1362,9 @@ w_{1} + 2w_{2} \\
 <p>Scikit-learnは機械学習の実装を支援する多くの機能を兼ね備えています．本節では，サンプルデータセットの使用方法，及びデータセットの分割方法について紹介していきます．</p>
 <div class="section" id="サンプルデータセットの使用">
 <h4>2.4.2.1. サンプルデータセットの使用<a class="headerlink" href="#サンプルデータセットの使用" title="Permalink to this headline">¶</a></h4>
-<p>まずはじめにサンプルデータセットの取り扱いを紹介します．Scikit-learnでは，幾つかのデータセットが提供されています．今回はその中から，米国ボストン市郊外における地域別の物件価格のデータセットを使用することにします．</p>
-<p>このデータセットには<span class="math">\(506\)</span>件のデータが登録されており，各サンプルには対象地域の平均物件価格と，それに紐づく情報として対象地域の平均的な物件情報（一戸あたりの部屋数，築年数，雇用施設からの距離など），人口統計情報（低所得者の割合，教師あたりの生徒数など），生活環境に関する情報（犯罪発生率など）などが含まれています．このデータセットを利用する目的は，物件や人口統計などの情報を入力変数として，出力変数である平均物件価格を予測するモデルを構築することです．
-入力変数は全部で13種類あり，詳細は以下の通りです．</p>
+<p>まずはじめにサンプルデータセットの取り扱いを紹介します． Scikit-learnでは，幾つかのデータセットが提供されています． 今回はその中から，米国ボストン市郊外における地域別の物件価格のデータセットを使用することにします．</p>
+<p>このデータセットには 506 件のデータが登録されており，各サンプルには対象地域の平均物件価格と，それに紐づく情報として対象地域の平均的な物件情報（一戸あたりの部屋数，築年数，雇用施設からの距離など），人口統計情報（低所得者の割合，教師あたりの生徒数など），生活環境に関する情報（犯罪発生率など）などが含まれています． このデータセットを利用して，物件や人口統計などの情報から，平均物件価格を予測するモデルを構築してみましょう．</p>
+<p>入力変数は全部で13種類あり，詳細は以下の通りです．</p>
 <ul class="simple">
 <li>CRIM : 人口<span class="math">\(1\)</span>人あたりの犯罪発生率</li>
 <li>ZN : <span class="math">\(25,000\)</span>平方フィート以上の住宅区画が占める割合</li>
@@ -1188,7 +1380,7 @@ w_{1} + 2w_{2} \\
 <li>B : 黒人の比率を表す指数</li>
 <li>LSTAT : 低所得者の割合</li>
 </ul>
-<p>それでは， <code class="docutils literal"><span class="pre">load_boston()</span></code> 関数を実行して，データセットを読み込んでみましょう．</p>
+<p>それでは， <code class="docutils literal"><span class="pre">load_boston()</span></code> 関数を実行して，データセットを読み込みましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
@@ -1207,7 +1399,7 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p>変数の<code class="docutils literal"><span class="pre">boston</span></code>には辞書型で格納されており，変数の中身を見ながら入力データと出力データに対応するものを見つけていきます．今回は<code class="docutils literal"><span class="pre">data</span></code>が入力であり，<code class="docutils literal"><span class="pre">target</span></code>が出力に対応します．</p>
+<p><code class="docutils literal"><span class="pre">boston</span></code> はPythonの辞書と同じインターフェースが備わっており，<code class="docutils literal"><span class="pre">'data'</span></code> キーに入力値が，<code class="docutils literal"><span class="pre">'target'</span></code> キーに目標値が格納されています．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
@@ -1294,7 +1486,7 @@ w_{1} + 2w_{2} \\
  22.  11.9]
 </pre></div></div>
 </div>
-<p>NumPyの形式で入力データと教師データが格納されており，<code class="docutils literal"><span class="pre">.shape</span></code>を使うことで行と列の数を確認できます．</p>
+<p>NumPyの形式で入力データと教師データが格納されているため，<code class="docutils literal"><span class="pre">.shape</span></code> を使うことで行と列の数を確認できます．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
@@ -1331,12 +1523,13 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p>入力データの配列<span class="math">\(X\)</span>には，<span class="math">\(506\)</span>件分のデータが格納されています．各サンプルは<span class="math">\(13\)</span>次元ベクトルとして表現されており，これはそれぞれ<span class="math">\(13\)</span>種類の入力変数を表しています．教師データ<span class="math">\(t\)</span>には，入力変数に対応する出力変数として，平均物件価格のスカラー値が格納されています．</p>
+<p>入力値 <code class="docutils literal"><span class="pre">X</span></code> には，506 件分のデータが格納されていることが分かりました． 各サンプルは 13 次元のベクトルとなっており，これはそれぞれが 13 種類の入力変数を持っていることを表しています． 目標値 <code class="docutils literal"><span class="pre">t</span></code> には，入力変数に対応する出力変数の値として，平均物件価格のスカラー値が 506 件分格納されています．</p>
 </div>
 <div class="section" id="データセットの分割">
 <h4>2.4.2.2. データセットの分割<a class="headerlink" href="#データセットの分割" title="Permalink to this headline">¶</a></h4>
-<p>つぎに，この学習データを <strong>訓練データ</strong> と <strong>テストデータ</strong> に分割する方法をご紹介します．もし，学習の時に使ったデータを使ってモデルの性能を評価した場合，学習データの性能が高くても学習中に見たことが無い（同じような分布からとられた）未知のデータはうまくいかない場合があります．これを <strong>過学習</strong> とよびます．機械学習ではこれを防ぐために学習データと別に性能を評価するテストデータを分けて評価します．このように分割して検証することを <strong>ホールドアウト法</strong> とよびます．</p>
-<p>Scikit-learnでは訓練用とテスト用を分割する機能が用意されています．</p>
+<p>つぎに，このデータセットを <strong>訓練データセット</strong> と <strong>テストデータセット</strong> に分割する方法をご紹介します． モデルの性能の評価を訓練の時に使ったデータを使って行っても，<strong>訓練中に見たことが無い未知のデータに対してもうまく働くかどうか</strong>が分かりません．
+多くの場合機械学習手法の目標は既知のデータから一般的な法則やパターンを見つけ出し，未知のデータに対しても正しく予測等が行えるようになることであるので，訓練済みモデルの評価は訓練には用いていない（モデルにとって）未知のデータ，<strong>テストデータ</strong>を使って行う必要があります． 訓練データとテストデータは，用意したデータセットを分割して作成することができます． この方法を <strong>ホールドアウト法</strong> と呼びます．</p>
+<p>Scikit-learnではデータセットを訓練用とテスト用に分割するための機能が用意されています． これを用いて上で読み込んだデータセットを２つに分割してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
@@ -1391,7 +1584,8 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p><code class="docutils literal"><span class="pre">train_test_split()</span></code> 関数の引数<code class="docutils literal"><span class="pre">test_size</span></code>は検証用に使うデータの比率であり，<span class="math">\(0.3\)</span>と指定すると全体の<span class="math">\(30\)</span>%がテストデータとなります．また，<code class="docutils literal"><span class="pre">random_state</span></code>は乱数のシードであり，固定のシード値を与えると，分割の再現性を確保することができます．なぜ乱数が登場するかというと，前から<span class="math">\(70\)</span>%を訓練用，残りをテスト用とするのではなく，全体からランダムに選択した<span class="math">\(70\)</span>%を訓練用，残り<span class="math">\(30\)</span>%をテスト用と選択しているためです．</p>
+<p><code class="docutils literal"><span class="pre">train_test_split()</span></code> 関数の引数 <code class="docutils literal"><span class="pre">test_size</span></code> にはテスト用に使うデータ数のデータセット全体のデータ数に対する比率を指定します． <span class="math">\(0.3\)</span> と指定すると全体の <span class="math">\(30\)</span>% がテストデータセットが持つデータの数となります． また，<code class="docutils literal"><span class="pre">random_state</span></code> は乱数のシードであり，これに与える値を固定すると，データセット中からどのデータを訓練用に割り振り，どのデータをテスト用に割り振るか，という選択が固定されます．
+この選択はランダムに行われますが，乱数シードを固定すればそのランダムな選択を再現することができるためです．</p>
 <p>それでは，訓練データを用いて学習を行います．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[33]:
@@ -1416,11 +1610,11 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=1, normalize=False)
+<span></span>LinearRegression(copy_X=True, fit_intercept=True, n_jobs=None, normalize=False)
 </pre></div>
 </div>
 </div>
-<p>検証を行う場合は，訓練データとテストデータの両方に対してチェックしておくと良いでしょう．</p>
+<p>訓練が終了しました． <code class="docutils literal"><span class="pre">score()</span></code> を用いたモデルの検証を訓練データとテストデータの両方に対して行ってみましょう．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
@@ -1436,7 +1630,7 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>0.7644563391821222
+<span></span>0.7645451026942549
 </pre></div>
 </div>
 </div>
@@ -1455,13 +1649,21 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 <div class="output_area highlight-none"><div class="highlight"><pre>
-<span></span>0.673528086534723
+<span></span>0.6733825506400171
 </pre></div>
 </div>
 </div>
-<p>テストデータだけでなく，訓練データでも検証することで学習に失敗している場合の問題を切り分けることができます．</p>
-<p>モデルが訓練データに対して良い精度で予測できない状態を<strong>アンダーフィッティング</strong>といいます．アンダーフィッティングが起きている場合，現状の機械学習アルゴリズムでうまくデータの特徴を捉えられていないと考えられ，アルゴリズムを変更したり，入力データの特徴をより適切に表現できるような変換を考えたりするなどして改善を試みます．逆に<strong>オーバーフィッティング（過学習）</strong>の場合，アルゴリズムでデータの特徴をある程度捉えられていることは確認できているので，モデルが過学習しないように対策していきます．代表的な方法として，<strong>ハイパーパラメータ</strong>とよばれる各アルゴリズムのパラメータ学習に使われるパラメータ値を調整していくことで解決できる場合があります．このように，望ましい結果が得られない中にも，それぞれの状況を把握することで次に打つべき対策が変わってくるため，訓練データとテストデータの両方に対する検証を行うことは重要であることが分かります．</p>
-<p>また，Scikit-learnでは，スケーリングも行うことができます．例えば，平均0，標準偏差1に変換するデータ正規化を行う場合の手順は以下の通りです．</p>
+<p>テストデータだけでなく，訓練データでもモデルの検証を行うことで良いモデルの獲得に失敗している場合はその原因について考察するのに役立つ情報を得ることができることがあります．</p>
+</div>
+<div class="section" id="アンダーフィッティングとオーバーフィッティング">
+<h4>2.4.2.3. アンダーフィッティングとオーバーフィッティング<a class="headerlink" href="#アンダーフィッティングとオーバーフィッティング" title="Permalink to this headline">¶</a></h4>
+<p>モデルが訓練データに対してすら良い精度で予測できないという状態は，<strong>アンダーフィッティング</strong>と呼ばれます． アンダーフィッティングが起きている場合，現状の機械学習手法もしくはモデルではうまくデータの特徴を捉えられていないと考えられ，アルゴリズムを変更したり，入力データの特徴をより適切に表現できるような変換をモデルの訓練の前に施すことを考えるなど，新たな工夫を加える必要があります．
+一方，訓練データに対しては良い精度で予測が行えるモデルになっているにも関わらず，テストデータに対してのパフォーマンスが良くない，という場合は，モデルが訓練データセットに<strong>オーバーフィッティング</strong>していると言います． この場合，訓練データにあまりにも特化したモデルになってしまっている可能性があります． この問題を避ける方法が現在も活発に研究されていますが，よく行われる対策としては正則化（パラメータが取りうる値に制約をもたせるなど）やモデルの自由度（パラメータ数など）の調整があります．
+また，<strong>ハイパーパラメータ</strong>とよばれる各アルゴリズムの動作を制御するのに使われるパラメータ値を調整していくことも行われます． このように，一口に望ましい結果が得られないといっても，原因としては様々なものがあり得るため，訓練データセットとテストデータセットの両方に対して訓練済みモデルの性能評価を行っておくことは，その原因を探るにあたって重要になります．</p>
+</div>
+<div class="section" id="Scikit-learnを使った前処理">
+<h4>2.4.2.4. Scikit-learnを使った前処理<a class="headerlink" href="#Scikit-learnを使った前処理" title="Permalink to this headline">¶</a></h4>
+<p>Scikit-learnを用いると，データに対する前処理も簡単に行うことができます． 例えば，訓練データセットの入力値の集合が，平均0，標準偏差1となるように変換を行う場合は，以下のようにします．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
@@ -1513,7 +1715,7 @@ w_{1} + 2w_{2} \\
 </pre></div>
 </div>
 </div>
-<p>テストデータをスケーリングする際にも，訓練データの平均・分散を利用していることに注意しましょう．テストデータはモデルにとっては未知のデータセットであるため，訓練データとテストデータを合わせた全データの平均・分散を利用すると，それは本来知りえないテストデータの情報をモデルに与えてしまうことになります．そこで，モデルが利用可能な訓練データのみを用いてスケーリングが行われます．</p>
+<p>テストデータをスケーリングする際にも，訓練データの平均・分散を利用していることに注意しましょう． テストデータはモデルにとっては未知のデータセットでなければならないにも関わらず，訓練データとテストデータを合わせた全データの平均・分散を利用して訓練データのスケーリングを行ってしまうと，本来知りえないはずのテストデータの情報をモデルに間接的に与えてしまうことになります． それを避けるために，訓練データのみを用いて統計値の計算を行い，これを用いてスケーリングを行っています．</p>
 <p>訓練データとテストデータでは平均・分散が異なるため，訓練データの平均・分散でスケーリングされたテストデータについては，その平均が<span class="math">\(0\)</span>，分散が<span class="math">\(1\)</span>になるとは限らないことに注意してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[41]:
@@ -1529,18 +1731,18 @@ w_{1} + 2w_{2} \\
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[[-0.20416267 -0.49997924  1.54801583 ...  1.2272573   0.42454294
+[[-0.20735619 -0.49997924  1.54801583 ...  1.2272573   0.42454294
    3.10807269]
- [-0.38584317  0.34677427 -0.58974728 ...  0.05696346  0.40185312
+ [-0.38886492  0.34677427 -0.58974728 ...  0.05696346  0.40185312
   -0.66643035]
- [-0.33266283 -0.49997924  1.54801583 ...  1.2272573   0.39846135
+ [-0.33573486 -0.49997924  1.54801583 ...  1.2272573   0.39846135
    0.63936662]
  ...
- [-0.38147768 -0.49997924 -0.15303077 ... -0.30312696  0.39659002
+ [-0.38450355 -0.49997924 -0.15303077 ... -0.30312696  0.39659002
   -0.30284441]
- [-0.3720831  -0.49997924 -0.59690657 ... -0.25811566  0.37588849
+ [-0.37511786 -0.49997924 -0.59690657 ... -0.25811566  0.37588849
    0.89967717]
- [-0.38289844 -0.49997924 -1.00641779 ... -0.84326258  0.42454294
+ [-0.38592298 -0.49997924 -1.00641779 ... -0.84326258  0.42454294
    0.31822262]]
 </pre></div></div>
 </div>
@@ -1558,23 +1760,23 @@ w_{1} + 2w_{2} \\
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[[-0.39152624 -0.49997924 -1.12239824 ... -0.70822867  0.17086147
+[[-0.39454262 -0.49997924 -1.12239824 ... -0.70822867  0.17086147
   -0.72160487]
- [ 0.70825498 -0.49997924  1.00534187 ...  0.77714428  0.0648977
+ [ 0.70419882 -0.49997924  1.00534187 ...  0.77714428  0.0648977
   -0.41177872]
- [-0.38588517 -0.49997924  0.4025299  ... -0.93328518  0.38758427
+ [-0.38890688 -0.49997924  0.4025299  ... -0.93328518  0.38758427
   -0.27454978]
  ...
- [ 1.6177735  -0.49997924  1.00534187 ...  0.77714428  0.42454294
+ [ 1.61285743 -0.49997924  1.00534187 ...  0.77714428  0.42454294
    2.59876943]
- [-0.34043865 -0.49997924 -0.1687812  ... -0.03305915  0.42454294
+ [-0.34350332 -0.49997924 -0.1687812  ... -0.03305915  0.42454294
   -1.11772962]
- [-0.39601293 -0.49997924 -1.27417512 ...  0.10197476  0.39202867
+ [-0.39902507 -0.49997924 -1.27417512 ...  0.10197476  0.39202867
   -1.02294263]]
 </pre></div></div>
 </div>
-<p>この他，Scikit-learnはロジスティック回帰やサポートベクターマシン，ランダムフォレストなど様々な機械学習アルゴリズムをサポートしています．</p>
-<p>これらについても，重回帰分析と同様にモデルをインスタンス化し，学習データを引数として<code class="docutils literal"><span class="pre">.fit()</span></code>関数で学習し，<code class="docutils literal"><span class="pre">.score()</span></code>関数で評価できるようになっています．</p>
+<p>この他，Scikit-learnはロジスティック回帰やサポートベクターマシン，ランダムフォレストなど様々な機械学習手法をサポートしています．</p>
+<p>それらについても，前節までで紹介した重回帰分析を行う場合と同様に，モデルをインスタンス化し，学習データを引数に与えて <code class="docutils literal"><span class="pre">.fit()</span></code> 関数で訓練を行い，<code class="docutils literal"><span class="pre">.score()</span></code> 関数で結果を評価できるようになっています．</p>
 <p>より詳しく知りたい方は<a class="reference external" href="https://scikit-learn.org/">Scikit-learn</a>サイトや解説サイトなどを参照してください．</p>
 </div>
 </div>

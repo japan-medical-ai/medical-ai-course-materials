@@ -390,12 +390,12 @@ div.rendered_html tbody tr:hover {
 </style>
 <div class="section" id="Deep-Learningフレームワークの基礎">
 <h1>4. Deep Learningフレームワークの基礎<a class="headerlink" href="#Deep-Learningフレームワークの基礎" title="Permalink to this headline">¶</a></h1><p><a class="reference external" href="https://colab.research.google.com/github/japan-medical-ai/medical-ai-course-materials/blob/master/notebooks/04_Introduction_to_Chainer.ipynb"><img alt="colab-logo" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
-<p>Chainerは，現在様々なDeep Learningフレームワーク（TensorFlow, PyTorch, etc.）でも採用され主要なニューラルネットワークの記法となっている<strong>Define-by-Run</strong>というアイデアを汎用的なDeep Learningフレームワークとしては初めて採用し，2015年からPreferred
+<p>ChainerはDeep Learningフレームワークの一つで，現在様々なDeep Learningフレームワーク（TensorFlow, PyTorch, etc.）でも採用され主要なニューラルネットワークの記法となっている<strong>Define-by-Run</strong>というアイデアを汎用的なDeep Learningフレームワークとしては初めて採用し，2015年からPreferred
 Networks社によって開発が続けられています．Define-by-Runとは，ニューラルネットワーク中の計算を行うコードを記述することでニューラルネットワークの構造を定義する考え方です．学習を行う前にネットワーク構造を定義しておき，そのネットワークに学習に用いるデータを入力するためのコードを別途書く必要がある方法はDefine-and-Runと呼ばれます．Define-by-Runは実行時にネットワーク構造が決定されるため，動的な構造を記述しやすいという特徴があります．</p>
 <p>ここでは，その<strong>柔軟性</strong>と<strong>直感的である</strong>ことを特徴とするこのChainerというフレームワークの基本的な使い方を解説します．</p>
 <div class="section" id="環境構築">
 <h2>4.1. 環境構築<a class="headerlink" href="#環境構築" title="Permalink to this headline">¶</a></h2>
-<p>まずはColab上で以下のセルを実行し，必要なライブラリをインストールしましょう．ここでは同時に<code class="docutils literal"><span class="pre">graphviz</span></code>というソフトウェアをインストールしています．これは，後にニューラルネットワークのアーキテクチャをグラフ構造として可視化するために使用します．</p>
+<p>まずはColab上で以下のセルを実行し，必要なライブラリをインストールしましょう．ここでは<code class="docutils literal"><span class="pre">graphviz</span></code>というソフトウェアをインストールしています．これは，後にニューラルネットワークのアーキテクチャをグラフ構造として可視化するために使用します．Google Colab上には，ChainerやCuPyは予めインストールされています．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -773,7 +773,7 @@ IDとして-1を指定すると，CPUを使用します．</p>
 </div>
 <div class="section" id="学習の開始">
 <h3>4.2.6. 学習の開始<a class="headerlink" href="#学習の開始" title="Permalink to this headline">¶</a></h3>
-<p>今回は0〜9の数字を区別する分類問題なので，<code class="docutils literal"><span class="pre">softmax_cross_entropy</span></code>という損失関数を使って最小化すべき損失を計算します．Softmax関数は，<span class="math">\(d\)</span>次元のベクトル<span class="math">\({\bf y} \in \mathbb{R}^d\)</span>が与えられたとき，その書く次元の値の合計が1になるように正規化することができます．すなわち，確率分布のような出力を任意の実数ベクトルから作ることができます．<span class="math">\({\bf y}\)</span>の<span class="math">\(i\)</span>番目の次元を<span class="math">\(y_i\)</span>と書くと，Softmax関数は</p>
+<p>今回は0〜9の数字を区別する分類問題なので，<code class="docutils literal"><span class="pre">softmax_cross_entropy</span></code>という損失関数を使って最小化すべき損失を計算します．Softmax関数は，<span class="math">\(d\)</span>次元のベクトル<span class="math">\({\bf y} \in \mathbb{R}^d\)</span>が与えられたとき，その各次元の値の合計が1になるように正規化することができます．すなわち，確率分布のような出力を任意の実数ベクトルから作ることができます．<span class="math">\({\bf y}\)</span>の<span class="math">\(i\)</span>番目の次元を<span class="math">\(y_i\)</span>と書くと，Softmax関数は</p>
 <div class="math">
 \[p_i = \frac{\exp(y_i)}{\sum_{j=1}^d \exp(y_j)}\]</div>
 <p>と表せます．これによって正規化された出力ベクトルを入力が各クラスに所属する確率を表しているものと考え，正解の1-hotベクトルとの間で前章で説明した交差エントロピーを計算するのが <code class="docutils literal"><span class="pre">softmax_cross_entropy</span></code> 関数です．</p>
@@ -1121,7 +1121,7 @@ test_accuracy:0.9237
 </div>
 <div class="section" id="損失計算のためのChain">
 <h4>4.3.2.1. 損失計算のためのChain<a class="headerlink" href="#損失計算のためのChain" title="Permalink to this headline">¶</a></h4>
-<p>ここでは，ネットワークを<code class="docutils literal"><span class="pre">L.Classifier</span></code>で包んでいます．<code class="docutils literal"><span class="pre">L.Classifier</span></code>は，渡されたネットワーク自体を<code class="docutils literal"><span class="pre">predictor</span></code>というattributeに持ち，<strong>損失計算を行う機能を追加してくれます</strong>．こうすることで，<code class="docutils literal"><span class="pre">net()</span></code>はデータ<code class="docutils literal"><span class="pre">x</span></code>だけでなくラベル<code class="docutils literal"><span class="pre">t</span></code>も取るようになり，受け取ったデータを<code class="docutils literal"><span class="pre">predictor</span></code>に通して予測値を計算し，正解ラベル<code class="docutils literal"><span class="pre">t</span></code>と比較して<strong>損失のVariableを返します．</strong>損失関数として何を用いるかはデフォルトでは<code class="docutils literal"><span class="pre">F.softmax_cross_entropy</span></code>となっていますが，<code class="docutils literal"><span class="pre">L.Classifier</span></code>の引数<code class="docutils literal"><span class="pre">lossfunc</span></code>に損失計算を行う関数を渡してやれば変更することができ，（Classifierという名前ながら）回帰問題などの損失計算機能の追加にも使うことができます．（<code class="docutils literal"><span class="pre">L.Classifier(net,</span> <span class="pre">lossfun=L.mean_squared_error,</span> <span class="pre">compute_accuracy=False)</span></code>のようにする）</p>
+<p>ここでは，ネットワークを<code class="docutils literal"><span class="pre">L.Classifier</span></code>で包んでいます．<code class="docutils literal"><span class="pre">L.Classifier</span></code>は，渡されたネットワーク自体を<code class="docutils literal"><span class="pre">predictor</span></code>というattributeに持ち，<strong>損失計算を行う機能を追加してくれます</strong>．こうすることで，<code class="docutils literal"><span class="pre">net()</span></code>はデータ<code class="docutils literal"><span class="pre">x</span></code>だけでなくラベル<code class="docutils literal"><span class="pre">t</span></code>も取るようになり，受け取ったデータを<code class="docutils literal"><span class="pre">predictor</span></code>に通して予測値を計算し，正解ラベル<code class="docutils literal"><span class="pre">t</span></code>と比較して<strong>損失のVariableを返します．</strong>損失関数として何を用いるかはデフォルトでは<code class="docutils literal"><span class="pre">F.softmax_cross_entropy</span></code>となっていますが，<code class="docutils literal"><span class="pre">L.Classifier</span></code>の引数<code class="docutils literal"><span class="pre">lossfun</span></code>に損失計算を行う関数を渡してやれば変更することができ，（Classifierという名前ながら）回帰問題などの損失計算機能の追加にも使うことができます．（<code class="docutils literal"><span class="pre">L.Classifier(net,</span> <span class="pre">lossfun=L.mean_squared_error,</span> <span class="pre">compute_accuracy=False)</span></code>のようにする）</p>
 <p><code class="docutils literal"><span class="pre">StandardUpdater</span></code>は前述のような<code class="docutils literal"><span class="pre">Updater</span></code>の担当する処理を遂行するための最もシンプルなクラスです．この他にも複数のGPUを用いるための<code class="docutils literal"><span class="pre">ParallelUpdater</span></code>などが用意されています．</p>
 </div>
 </div>
@@ -1194,7 +1194,7 @@ iteration（1000回更新）で学習を終了してください，といった�
 </div>
 <div class="section" id="Evaluator">
 <h4>4.3.4.4. <code class="docutils literal"><span class="pre">Evaluator</span></code><a class="headerlink" href="#Evaluator" title="Permalink to this headline">¶</a></h4>
-<p>評価用のデータセットの<code class="docutils literal"><span class="pre">Iterator</span></code>と，学習に使うモデルのオブジェクトを渡しておくことで，学習中のモデルを指定されたタイミングで評価用データセットを用いて評価します．内部では，<code class="docutils literal"><span class="pre">chainer.config.using_config('train',</span> <span class="pre">False)</span></code>が自動的に行われます．<code class="docutils literal"><span class="pre">backprop_enable</span></code>を<code class="docutils literal"><span class="pre">False</span></code>にすることは行われないため，メモリ使用効率はデフォルトでは最適ではありませんが，基本的には<code class="docutils literal"><span class="pre">Evaluator</span></code>を使えば評価を行うという点において問題はありません．</p>
+<p>評価用のデータセットの<code class="docutils literal"><span class="pre">Iterator</span></code>と，学習に使うモデルのオブジェクトを渡しておくことで，学習中のモデルを指定されたタイミングで評価用データセットを用いて評価します．内部では，<code class="docutils literal"><span class="pre">chainer.config.using_config('train',</span> <span class="pre">False)</span></code>が自動的に行われます．<code class="docutils literal"><span class="pre">backprop_enable</span></code>を<code class="docutils literal"><span class="pre">False</span></code>にすることは行われないため，メモリ使用効率はデフォルトでは最適ではありませんが，基本的には<code class="docutils literal"><span class="pre">Evaluator</span></code>を使えば評価を行えるという点において問題はありません．</p>
 </div>
 <div class="section" id="PrintReport">
 <h4>4.3.4.5. <code class="docutils literal"><span class="pre">PrintReport</span></code><a class="headerlink" href="#PrintReport" title="Permalink to this headline">¶</a></h4>
@@ -1472,7 +1472,7 @@ Test accuracy: 0.92494065
 </ul>
 <p>などを渡すと，内部で<code class="docutils literal"><span class="pre">Trainer</span></code>を用いて渡されたデータセットを使ってネットワークを訓練し，学習が終了した状態のネットワークを返してくれる関数です．<code class="docutils literal"><span class="pre">Trainer.run()</span></code>が終了した後に，テストデータセットを使って評価まで行ってくれます．先程のMNISTでの例と違い，最適化手法にはMomentumSGDを用い，<code class="docutils literal"><span class="pre">ExponentialShift</span></code>という<code class="docutils literal"><span class="pre">Extention</span></code>を使って，指定したタイミングごとに学習率を減衰させるようにしてみます．</p>
 <p>また，ここでは<code class="docutils literal"><span class="pre">cifar.get_cifar10()</span></code>が返す学習用データセットのうち9割のデータを<code class="docutils literal"><span class="pre">train</span></code>，残りの1割を<code class="docutils literal"><span class="pre">valid</span></code>として使うようにしています．</p>
-<p>この<code class="docutils literal"><span class="pre">train</span></code>関数を用いて，上で定義した<code class="docutils literal"><span class="pre">MyModel</span></code>モデルを訓練してみます．</p>
+<p>この<code class="docutils literal"><span class="pre">train</span></code>関数を用いて，上で定義した<code class="docutils literal"><span class="pre">MyNet</span></code>モデルを訓練してみます．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
@@ -1773,7 +1773,7 @@ answer: truck
 </div>
 </div>
 <p><code class="docutils literal"><span class="pre">ConvBlock</span></code>は<code class="docutils literal"><span class="pre">Chain</span></code>を継承した小さなネットワークとして定義されており，一つの畳み込み層とBatch Normalization層で構成されます．Batch Normalization層は，ネットワークの学習プロセスを安定させるために広く利用されている手法の一つで，例えば今回のように，畳み込み層の直後に挿入する形で利用されます．<code class="docutils literal"><span class="pre">forward</span></code>メソッドでは，これらにデータを渡しつつ，活性化関数ReLUを適用して，さらに<code class="docutils literal"><span class="pre">pool_drop</span></code>引数が<code class="docutils literal"><span class="pre">True</span></code>であれば，Max
-PoolingとDropoutを適用するような順伝播の計算が行われます．Dropoutは，ネットワークの過学習を避けて汎化性能を上げる目的で利用される手法の一つで，層の中のノードの内，一定割合（dropout ratioと呼ばれる）をランダムに無効にしながら学習を行います（無効にする割合は<code class="docutils literal"><span class="pre">ratio</span></code>という引数で指定でき，何も指定しなければ50%が無効化されます）．推論時は，dropout
+PoolingとDropoutを適用するような順伝播の計算が行われます．Dropoutは，ネットワークの過学習を避けて汎化性能を上げる目的で利用される手法の一つで，層の中のノードのうち，一定割合（dropout ratioと呼ばれる）をランダムに無効にしながら学習を行います（無効にする割合は<code class="docutils literal"><span class="pre">ratio</span></code>という引数で指定でき，何も指定しなければ50%が無効化されます）．推論時は，dropout
 ratioを<span class="math">\(p\)</span>とすると，Dropout層への入力をただ<span class="math">\(p\)</span>倍して出力するだけの層として働きます．これによって，擬似的に複数のネットワークの学習結果をアンサンブル（参考：<a class="reference external" href="https://en.wikipedia.org/wiki/Ensemble_averaging_(machine_learning)">Ensemble
 averaging</a>)するような効果があると言われ，汎化性能が向上する場合があります．最適化の際にモデルのパラメータに何らかの制約を与えて汎化性能を向上させるための工夫は正則化（regularization）と呼ばれ，このDropoutやパラメータの絶対値が大きくなりすぎないようにするWeight decayなどの方法が知られています．</p>
 <p>Chainerでは，Pythonを使って書いたforward計算のコード自体がネットワークの構造を表します．すなわち，実行時にデータがどの層を通過していったか，によってネットワークそのものが定義されます．この性質によって，上記のような分岐などを含むネットワークも簡単に記述でき，柔軟かつシンプルで可読性の高いネットワーク定義が可能になります．これが<strong>Define-by-Run</strong>の大きな特徴となっています．</p>
@@ -1804,14 +1804,13 @@ averaging</a>)するような効果があると言われ，汎化性能が向上
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">():</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">x</span>
 </pre></div>
 </div>
 </div>
 <p>ここで，<code class="docutils literal"><span class="pre">ChainList</span></code>というクラスが利用されています．このクラスは<code class="docutils literal"><span class="pre">Chain</span></code>を継承したクラスで，いくつもの<code class="docutils literal"><span class="pre">Link</span></code>や<code class="docutils literal"><span class="pre">Chain</span></code>を順次呼び出していくようなネットワークを定義するときに便利です．<code class="docutils literal"><span class="pre">ChainList</span></code>を継承して定義されるモデルは，親クラスのコンストラクタを呼び出す際に，キーワード引数ではなく通常の引数として<code class="docutils literal"><span class="pre">Link</span></code>もしくは<code class="docutils literal"><span class="pre">Chain</span></code>オブジェクトを渡すことができ，<code class="docutils literal"><span class="pre">self.children()</span></code>メソッドによって<strong>登録した順番に</strong>取り出すことができます．この特徴を使うと，forward計算が上記のように簡単に記述可能となります．</p>
-<p>それでは，学習を回してみます．今回はパラメータ数も多いので，学習を停止するエポック数を100に設定します．また，学習率を0.1から始めて，30エポックごとに10分の1にするように設定します．</p>
 </div>
 <div class="section" id="高速化のTIPS">
 <h4>4.4.4.3. 高速化のTIPS<a class="headerlink" href="#高速化のTIPS" title="Permalink to this headline">¶</a></h4>
@@ -1826,13 +1825,8 @@ averaging</a>)するような効果があると言われ，汎化性能が向上
 </pre></div>
 </div>
 </div>
-<p>それでは，学習を開始してみましょう．本来は，以下の2行を実行することで乱数シードを固定し，100エポック分上で定義した <code class="docutils literal"><span class="pre">DeepCNN</span></code> というクラスが表すモデルの学習ができるのですが，これは40分以上の時間を要するので，今回は事前に90エポックまで学習を進めておいた重みを読み込んで，90エポック終了時点から学習を再開し，最後の10エポックだけ実際にここで学習を回すことにします．</p>
-<p><strong>ゼロから学習する場合:</strong></p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
-</pre></div>
-</div>
+<p>それでは，学習を回してみます．今回はパラメータ数も多いので，学習を停止するエポック数を100に設定します．また，学習率を0.1から始めて，30エポックごとに10分の1にするように設定します．</p>
+<p>本来は，以下の2行を実行することで乱数シードを固定し，100エポック分上で定義した <code class="docutils literal"><span class="pre">DeepCNN</span></code> というクラスが表すモデルの学習ができるのですが，これは40分以上の時間を要するので，今回は事前に90エポックまで学習を進めておいた重みを読み込んで，90エポック終了時点から学習を再開し，最後の10エポックだけ実際にここで学習を回すことにします．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
@@ -1970,6 +1964,12 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed
 100         0.00551732  0.998624       0.462727       0.901367           2693.44       0.0001
 Test accuracy: 0.8966574
 </pre></div></div>
+</div>
+<p><strong>ゼロから学習する場合:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">reset_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">DeepCNN</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">base_lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lr_decay</span><span class="o">=</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="s1">'epoch'</span><span class="p">))</span>
+</pre></div>
 </div>
 <p>学習が終了しました．学習曲線と精度のグラフを見てみましょう．</p>
 <div class="nbinput docutils container">
@@ -2330,11 +2330,11 @@ Successfully installed chainercv-0.12.0
 <li><a class="reference external" href="http://chainercv.readthedocs.io/en/stable/reference/transforms.html#image">ChainerCVで使える画像変換一覧</a></li>
 </ul>
 <p>例えば，上でNumPyを使って書いていたランダムクロップやランダム左右反転は，<code class="docutils literal"><span class="pre">chainercv.transforms</span></code>モジュールを使うと，それぞれ以下のように1行で書くことができます：</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">random_crop</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>  <span class="c1"># ランダムクロップ</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">chainercv</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">random_crop</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>  <span class="c1"># ランダムクロップ</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">chainercv</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">random_flip</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># ランダム左右反転</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">chainercv.transforms</span></code>モジュールを使って，<code class="docutils literal"><span class="pre">transform</span></code>関数をアップデートしてみましょう．ちなみに，<code class="docutils literal"><span class="pre">get_cifar10()</span></code>で得られるデータセットでは，デフォルトで画像の画素値の範囲が<code class="docutils literal"><span class="pre">[0,</span> <span class="pre">1]</span></code>にスケールされています．しかし，<code class="docutils literal"><span class="pre">get_cifar10()</span></code>に<code class="docutils literal"><span class="pre">scale=255.</span></code>を渡しておくと，値の範囲をもともとの<code class="docutils literal"><span class="pre">[0,</span> <span class="pre">255]</span></code>のままにできます．今回<code class="docutils literal"><span class="pre">transform</span></code>の中で行う処理は，以下の5つです：</p>
+<p><code class="docutils literal"><span class="pre">chainercv.transforms</span></code>モジュールを使って，<code class="docutils literal"><span class="pre">transform</span></code>関数をアップデートしてみましょう．ちなみに，<code class="docutils literal"><span class="pre">get_cifar10()</span></code>で得られるデータセットでは，デフォルトで画像の画素値の範囲が<code class="docutils literal"><span class="pre">[0,</span> <span class="pre">1]</span></code>にスケールされています．しかし，<code class="docutils literal"><span class="pre">get_cifar10()</span></code>に<code class="docutils literal"><span class="pre">scale=255.</span></code>を渡しておくと，値の範囲をもともとの<code class="docutils literal"><span class="pre">[0,</span> <span class="pre">255]</span></code>のままにできます．今回行われる処理は，以下の5つです：</p>
 <ol class="arabic simple">
 <li>PCA lighting: 先行研究(AlexNet)の学習で使われていた方法で，色を変化させる変換処理を行います．</li>
 <li>Standardization: 訓練用データセット全体からチャンネルごとの画素値の平均・標準偏差を求めて標準化をします</li>
@@ -2358,7 +2358,7 @@ Successfully installed chainercv-0.12.0
 <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">train_dataset</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="n">img</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">inputs</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
@@ -2378,9 +2378,9 @@ Successfully installed chainercv-0.12.0
 
     <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span>
 
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
