@@ -39,7 +39,7 @@ https://japan-medical-ai.github.io/medical-ai-course-materials/
 
 ```bash
 docker pull mitmul/medical-ai-course-materials:build
-docker run -v "$PWD:/medical" --rm -t mitmul/medical-ai-course-materials:build bash -c "cd /medical && bash build.sh"
+docker run -v $PWD/build.sh:/build.sh --rm -t mitmul/medical-ai-course-materials:build bash build.sh
 ```
 
 ## デプロイ
