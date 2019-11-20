@@ -359,7 +359,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3"><div class="highlight"><pre>
 <span></span><span class="o">!</span>apt -y -q install tree
-<span class="o">!</span>pip install <span class="nv">wfdb</span><span class="o">==</span><span class="m">2</span>.2.1
+<span class="o">!</span>pip install <span class="nv">wfdb</span><span class="o">==</span><span class="m">2</span>.2.1 scikit-learn<span class="o">==</span><span class="m">0</span>.20.1 imbalanced-learn<span class="o">==</span><span class="m">0</span>.4.3
 </pre></div>
 </div>
 </div>
@@ -439,7 +439,7 @@ Imbalanced-learn:  0.4.3
 </div>
 <div class="section" id="心電図(ECG)と不整脈診断について">
 <h2>8.2. 心電図(ECG)と不整脈診断について<a class="headerlink" href="#心電図(ECG)と不整脈診断について" title="Permalink to this headline">¶</a></h2>
-<p><strong>心電図(Electrocardiogram, ECG)</strong>は，心筋を協調的，律動的に動かすために刺激伝導系で伝達される電気信号を体表から記録したものであり，心電図検査は不整脈や虚血性心疾患の診断において広く用いられる検査です[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>, <a class="reference external" href="https://www.ningen-dock.jp/wp/wp-content/uploads/2013/09/d4bb55fcf01494e251d315b76738ab40.pdf">文献2</a>]．</p>
+<p><strong>心電図(Electrocardiogram, ECG)</strong>は，心筋を協調的，律動的に動かすために刺激伝導系で伝達される電気信号を体表から記録したものであり，心電図検査は不整脈や虚血性心疾患の診断において広く用いられる検査です[<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">1</a>, <a class="reference external" href="https://www.ningen-dock.jp/wp/wp-content/uploads/2013/09/d4bb55fcf01494e251d315b76738ab40.pdf">2</a>]．</p>
 <p>標準的な心電図は，手足からとる心電図（四肢誘導）として，双極誘導（<span class="math">\(Ⅰ\)</span>，<span class="math">\(Ⅱ\)</span>，<span class="math">\(Ⅲ\)</span>），及び単極誘導（<span class="math">\(aV_R\)</span>，<span class="math">\(aV_L\)</span>，<span class="math">\(aV_F\)</span>）の6誘導，胸部からとる心電図（胸部誘導）として，<span class="math">\(V_1\)</span>，<span class="math">\(V_2\)</span>，<span class="math">\(V_3\)</span>，<span class="math">\(V_4\)</span>，<span class="math">\(V_5\)</span>，<span class="math">\(V_6\)</span>の6誘導，計12誘導から成ります．このうち，特に不整脈のスクリーニングを行う際には，<span class="math">\(Ⅱ\)</span>誘導と<span class="math">\(V_1\)</span>誘導に注目して診断が行われるのが一般的とされています．</p>
 <p>心臓が正常な状態では，ECGにおいては規則的な波形が観測され，これを<strong>正常洞調律 (Normal sinus rhythm, NSR)</strong>といいます．</p>
 <p>具体的には，以下の3つの主要な波形で構成されており，</p>
@@ -450,7 +450,7 @@ Imbalanced-learn:  0.4.3
 </ol>
 <p>の順番で，下図のような波形が観測されます．</p>
 <p><img alt="正常心電図の概略図" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/sinus_rhythm.png"/></p>
-<p>([<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">文献1</a>]より引用)</p>
+<p>([<a class="reference external" href="https://en.wikipedia.org/wiki/Electrocardiography">1</a>]より引用)</p>
 <p>こうした規則的な波形に乱れが生じ，調律に異常があると判断された場合，不整脈などの疑いがあるため，診断が行われることになります．</p>
 </div>
 <div class="section" id="使用するデータセット">
@@ -527,7 +527,7 @@ Finished downloading files
 <li>ID = （201, 202）は同一の患者から得られたデータのため，202を除外します．</li>
 </ul>
 </li>
-<li>上記を除く計42レコードを，学習用とテスト用に分割します（分割方法は[<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">文献3</a>]を参考）．</li>
+<li>上記を除く計42レコードを，学習用とテスト用に分割します（分割方法は[<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">3</a>]を参考）．</li>
 </ul>
 </li>
 <li>シグナルファイル (.dat) の読み込み<ul>
@@ -552,9 +552,9 @@ Finished downloading files
 </ul>
 </li>
 </ol>
-<p>※ Association for the Advancement of Medical Instrumentation (AAMI)が推奨している基準([<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">文献3</a>])で，5種類に大別して整理されています．</p>
+<p>※ Association for the Advancement of Medical Instrumentation (AAMI)が推奨している基準([<a class="reference external" href="https://ieeexplore.ieee.org/document/1306572">3</a>])で，5種類に大別して整理されています．</p>
 <p><img alt="AAMIの分類基準" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/aami_standard.png"/></p>
-<p>([<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]より引用)</p>
+<p>([<a class="reference external" href="https://arxiv.org/abs/1810.04121">4</a>]より引用)</p>
 <p>まずは以下のセルを実行して，データ前処理クラスを定義しましょう．</p>
 <p>前処理クラス内では，以下のメンバ関数を定義しています．</p>
 <ul class="simple">
@@ -909,7 +909,7 @@ y_test count each labels:  {0: 42149, 1: 3200}
 </div>
 </div>
 <p>続いて，学習（＋予測）に利用するネットワーク構造を定義します．</p>
-<p>今回は，画像認識タスクで有名な，CNNベースの<strong>ResNet34</strong>と同様のネットワーク構造を利用します．[<a class="reference external" href="https://arxiv.org/abs/1512.03385">文献5</a>]</p>
+<p>今回は，画像認識タスクで有名な，CNNベースの<strong>ResNet34</strong>と同様のネットワーク構造を利用します．[<a class="reference external" href="https://arxiv.org/abs/1512.03385">5</a>]</p>
 <p>ただし，入力シグナルは1次元配列であることから，ここでは画像解析等で一般的に利用される2D Convolutionではなく，前章の遺伝子解析と同様，1D Convolutionを利用します．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[18]:
@@ -1289,6 +1289,12 @@ Wall time: 18.3 s
 <li>F1値 (F1-score) : 適合率と再現率の調和平均</li>
 <li>正解率 (Accuracy) : 全ての診断結果 (Normal and VEB) のうち，正しく予測できていた（予測も同じ診断結果であった）割合</li>
 </ul>
+<p>また，クラスごとのスコアの下に，複数の平均スコアが表示されていますが，それぞれの意味は以下の通りです．</p>
+<ul class="simple">
+<li>マイクロ平均 (micro avg) : 各クラスを区別せずに，混同行列全体からスコアを算出．計算結果はいずれも正解率と一致</li>
+<li>マクロ平均 (macro avg) : クラスごとに算出されたスコアの単純平均</li>
+<li>重み付き平均 (weighted avg) : クラスごとに算出されたスコアをサンプル数の比率で重み付けした加重平均</li>
+</ul>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
@@ -1524,13 +1530,13 @@ accuracy:  0.9144854351804891
 <div class="section" id="損失関数の変更">
 <h4>8.6.1.2. 損失関数の変更<a class="headerlink" href="#損失関数の変更" title="Permalink to this headline">¶</a></h4>
 <p>続いて，<strong>損失関数を変更</strong>することで，少数の異常サンプルに対して精度向上させる方法を検討します．少数クラスの予測精度向上に注目した損失関数はこれまでに幾つも提案されていますが，今回はその中で，<strong>Focal loss</strong> という損失関数を利用します．</p>
-<p>Focal lossは，画像の物体検知手法の研究論文 [<a class="reference external" href="https://arxiv.org/abs/1708.02002">文献6</a>] の中で提案された損失関数です．One-stage物体検知手法において，大量の候補領域の中で実際に物体が存在する領域はたかだか数個であることが多く，クラス不均衡なタスクになっており，学習がうまく進まないという問題があります．こうした問題に対処するために提案されたのがfocal lossであり，以下の式によって記述されます．</p>
+<p>Focal lossは，画像の物体検知手法の研究論文 [<a class="reference external" href="https://arxiv.org/abs/1708.02002">6</a>] の中で提案された損失関数です．One-stage物体検知手法において，大量の候補領域の中で実際に物体が存在する領域はたかだか数個であることが多く，クラス不均衡なタスクになっており，学習がうまく進まないという問題があります．こうした問題に対処するために提案されたのがfocal lossであり，以下の式によって記述されます．</p>
 <div class="math">
 \[FL(p_t) = - (1 - p_t)^{\gamma}\log(p_t)\]</div>
 <p>ここで<span class="math">\(p_t\)</span>はSoftmax関数の出力（確率値）です．<span class="math">\(\gamma = 0\)</span>の場合，通常のSoftmax cross-entorpy lossと等しくなりますが，<span class="math">\(\gamma &gt; 0\)</span>の場合，明確に分類可能な（識別が簡単な）サンプルに対して，相対損失を小さくする効果があります．その結果，分類が難しいサンプルにより注目して学習が進んでいくことが期待されます．</p>
 <p>下図は，正解クラスの予測確率値と，その際の損失の関係をプロットしており，<span class="math">\(\gamma\)</span>の値を変化させた場合に，相対損失がどのように下がっていくかを示しています．</p>
 <p><img alt="正解予測確率と損失の関係" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/focal_plot.png"/></p>
-<p>([<a class="reference external" href="https://arxiv.org/abs/1708.02002">文献6</a>]より引用)</p>
+<p>([<a class="reference external" href="https://arxiv.org/abs/1708.02002">6</a>]より引用)</p>
 <p>それでは実際に，Focal loss関数を定義してみましょう．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[34]:
@@ -1695,7 +1701,7 @@ accuracy:  0.9456437848684646
 </ul>
 </li>
 <li>最終層の手前に全結合層を追加し，<strong>Dropout</strong>を適用<ul>
-<li>Dropoutを行うことで，学習器の汎化性能が向上することを期待します．ただし複数の先行研究([<a class="reference external" href="https://arxiv.org/abs/1506.02158v6">文献7</a>]など)において，単純に畳み込み層の直後にDropoutを適用するだけでは汎化性能の向上が期待出来ないと報告されていることから，今回は全結合層に適用することにします．</li>
+<li>Dropoutを行うことで，学習器の汎化性能が向上することを期待します．ただし複数の先行研究([<a class="reference external" href="https://arxiv.org/abs/1506.02158v6">7</a>]など)において，単純に畳み込み層の直後にDropoutを適用するだけでは汎化性能の向上が期待出来ないと報告されていることから，今回は全結合層に適用することにします．</li>
 </ul>
 </li>
 </ol>
@@ -1909,7 +1915,7 @@ accuracy:  0.9553683653443296
 <div class="section" id="ノイズ除去の効果検証">
 <h3>8.6.3. ノイズ除去の効果検証<a class="headerlink" href="#ノイズ除去の効果検証" title="Permalink to this headline">¶</a></h3>
 <p>最後に，心電図に含まれる<strong>ノイズの除去</strong>について検討します．</p>
-<p>心電図波形には，以下のような外部ノイズが含まれている可能性があります．[<a class="reference external" href="http://www.iosrjournals.org/iosr-jece/papers/ICETEM/Vol.%201%20Issue%201/ECE%2006-40-44.pdf">文献8</a>]</p>
+<p>心電図波形には，以下のような外部ノイズが含まれている可能性があります．[<a class="reference external" href="http://www.iosrjournals.org/iosr-jece/papers/ICETEM/Vol.%201%20Issue%201/ECE%2006-40-44.pdf">8</a>]</p>
 <ul class="simple">
 <li>高周波<ul>
 <li><strong>筋電図ノイズ</strong> (Electromyogram noise)<ul>
@@ -2041,7 +2047,7 @@ accuracy:  0.9553683653443296
 <li><strong>バンドパスフィルタ(Band-pass filter)</strong> : 特定の帯域成分のみ通過 (低周波，高周波成分を遮断)</li>
 </ul>
 <p><img alt="線形フィルタの周波数特性による分類" src="https://github.com/japan-medical-ai/medical-ai-course-materials/raw/master/notebooks/images/monitoring/band_form.png"/></p>
-<p>([<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_%28signal_processing%29">文献9</a>] より引用)</p>
+<p>([<a class="reference external" href="https://en.wikipedia.org/wiki/Filter_%28signal_processing%29">9</a>] より引用)</p>
 <p>mitdbでは，予め0.1 Hz 以下の低周波と，100 Hz 以上の高周波をバンドパスフィルタによって除去済みであるため，ここではさらに，25 Hz のローパス・バターワースフィルタによって高周波ノイズを取り除きます．</p>
 <p>それでは，ノイズ除去オプションを有効にして，前処理を実行してみましょう．</p>
 <div class="nbinput nblast docutils container">
@@ -2220,17 +2226,17 @@ accuracy:  0.9632185935742795
 <p>さらなる取り組みとしては，例えば下記内容を検討する余地があります．</p>
 <ul class="simple">
 <li>情報の追加<ul>
-<li><span class="math">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math">\(V_1\)</span>誘導シグナルも同時に入力として与えます．([<a class="reference external" href="https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf">文献10</a>]などで実施)</li>
+<li><span class="math">\(Ⅱ\)</span>誘導シグナルに加えて，<span class="math">\(V_1\)</span>誘導シグナルも同時に入力として与えます．([<a class="reference external" href="https://www.kdd.org/kdd2018/files/deep-learning-day/DLDay18_paper_16.pdf">10</a>]などで実施)</li>
 </ul>
 </li>
 <li>前処理の工夫<ul>
 <li>セグメント長の変更<ul>
-<li>より長時間のセグメントを入力とすることで，長期的な波形情報を抽出．([<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]では10秒のセグメントを解析に利用)</li>
+<li>より長時間のセグメントを入力とすることで，長期的な波形情報を抽出．([<a class="reference external" href="https://arxiv.org/abs/1810.04121">4</a>]では10秒のセグメントを解析に利用)</li>
 <li>入力情報が増えることで，却って学習が難しくなってしまう可能性あり．</li>
 </ul>
 </li>
 <li>リサンプリング<ul>
-<li>サンプリング周波数を下げることで，長期的な波形情報を抽出．([<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]では180 Hzにダウンサンプリング)<ul>
+<li>サンプリング周波数を下げることで，長期的な波形情報を抽出．([<a class="reference external" href="https://arxiv.org/abs/1810.04121">4</a>]では180 Hzにダウンサンプリング)<ul>
 <li>波形が粗くなることで学習に影響する可能性あり．</li>
 <li>適切な前処理を行わないと，折り返し雑音と呼ばれる歪みが発生．</li>
 <li>（モデルに入力する前に情報を縮小する処理は，画像解析などの分野では一般的）</li>
@@ -2249,15 +2255,16 @@ accuracy:  0.9632185935742795
 </ul>
 </li>
 <li>モデルの変更<ul>
-<li>長期的な特徴を抽出するために，CNNの後段にRNNベースの構造(LSTMなど)を組み込む ([<a class="reference external" href="https://arxiv.org/abs/1810.04121">文献4</a>]などで実施)．</li>
+<li>ResNet50，ResNet101，DenseNet121など，より深いネットワーク構造や他のネットワーク構造を利用する．</li>
+<li>長期的な特徴を抽出するために，CNNの後段にRNNベースの構造(LSTMなど)を組み込む ([<a class="reference external" href="https://arxiv.org/abs/1810.04121">4</a>]などで実施)．</li>
 </ul>
 </li>
 </ul>
 <p>余力がある方は，是非チャレンジしてみてください．</p>
 <p>また，最近では独自に収集した大規模なモニタリングデータを対象として，研究成果を発表する事例も幾つか出てきています．</p>
 <ul class="simple">
-<li>Cardiogram社とカリフォルニア大学の共同研究で，活動量計から心拍数データを収集し，深層学習を用いて糖尿病予備群を予測するDeepHeartを発表[<a class="reference external" href="https://arxiv.org/abs/1802.02511">文献11</a>]．</li>
-<li>スタンフォード大学のAndrew Ng.の研究室でも，独自に収集したECGレコードから<span class="math">\(14\)</span>種類の波形クラス分類を予測するモデルを構築し，医師と比較実験を実施[<a class="reference external" href="https://arxiv.org/abs/1707.01836">文献12</a>]．</li>
+<li>Cardiogram社とカリフォルニア大学の共同研究で，活動量計から心拍数データを収集し，深層学習を用いて糖尿病予備群を予測するDeepHeartを発表[<a class="reference external" href="https://arxiv.org/abs/1802.02511">11</a>]．</li>
+<li>スタンフォード大学のAndrew Ng.の研究室でも，独自に収集したECGレコードから<span class="math">\(14\)</span>種類の波形クラス分類を予測するモデルを構築し，医師と比較実験を実施[<a class="reference external" href="https://arxiv.org/abs/1707.01836">12</a>]．</li>
 </ul>
 <p>デバイスの進歩によって簡単に精緻な情報が収集可能になってきていることから，こうした研究は今後益々盛んになっていくと考えられます．</p>
 <p>以上で，モニタリングデータの時系列解析の章は終了となります．お疲れ様でした．</p>
