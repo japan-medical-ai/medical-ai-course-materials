@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd medical-ai-course-materials
+
 git config user.email "shunta@preferred.jp"
 git config user.name "Shunta Saito"
 
