@@ -82,12 +82,13 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#さらなる精度向上へのヒント">5.6. さらなる精度向上へのヒント</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#SegNet-[8]">5.6.1. SegNet [8]</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#U-Net-[9]">5.6.2. U-Net [9]</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#PSPNet-[10]">5.6.3. PSPNet [10]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#SegNet-[9]">5.6.1. SegNet [9]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#U-Net-[10]">5.6.2. U-Net [10]</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#PSPNet-[11]">5.6.3. PSPNet [11]</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#その他の参考資料">5.7. その他の参考資料</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#参考文献">5.8. 参考文献</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="06_Blood_Cell_Detection.html">6. 実践編: 血液の顕微鏡画像からの細胞検出</a></li>
@@ -361,7 +362,7 @@ div.rendered_html tbody tr:hover {
 <li>ChainerCV</li>
 <li>matplotlib</li>
 </ul>
-<p>です．Google ColabではChainerとCuPyはすでにインストールされているため，残りのライブラリを以下のようにしてインストールします．以下のセルを実行してください．</p>
+<p>です．Google ColabではChainer, CuPy, matplotlibはすでにインストールされているため，ChainerCVを以下のようにしてインストールします．以下のセルを実行してください．</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
@@ -376,16 +377,26 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Requirement already satisfied: chainercv in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (0.13.1)
-Requirement already satisfied: Pillow in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainercv) (6.1.0)
-Requirement already satisfied: chainer&gt;=6.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainercv) (6.5.0)
-Requirement already satisfied: six&gt;=1.9.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (1.12.0)
-Requirement already satisfied: typing-extensions&lt;=3.6.6 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
-Requirement already satisfied: numpy&gt;=1.9.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (1.17.0)
-Requirement already satisfied: protobuf&gt;=3.0.0 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (3.9.1)
-Requirement already satisfied: setuptools in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (41.0.1)
-Requirement already satisfied: typing&lt;=3.6.6 in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
-Requirement already satisfied: filelock in /Users/shunta/.pyenv/versions/miniconda3-latest/lib/python3.7/site-packages (from chainer&gt;=6.0-&gt;chainercv) (3.0.12)
+Collecting chainercv
+  Downloading https://files.pythonhosted.org/packages/e8/1c/1f267ccf5ebdf1f63f1812fa0d2d0e6e35f0d08f63d2dcdb1351b0e77d85/chainercv-0.13.1.tar.gz (260kB)
+     |████████████████████████████████| 266kB 6.4MB/s
+Requirement already satisfied: chainer&gt;=6.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (6.5.0)
+Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.3.0)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.0.12)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (1.12.0)
+Requirement already satisfied: typing&lt;=3.6.6 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.10.0)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (41.6.0)
+Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (1.17.4)
+Requirement already satisfied: typing-extensions&lt;=3.6.6 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
+Building wheels for collected packages: chainercv
+  Building wheel for chainercv (setup.py) ... done
+  Created wheel for chainercv: filename=chainercv-0.13.1-cp36-cp36m-linux_x86_64.whl size=537352 sha256=1834a92c8ca4cbada5e34af649c0f4f5437722a0889aeca40924e27eace9bdf8
+  Stored in directory: /root/.cache/pip/wheels/ea/10/01/e221beaa4b3d8341aa819a39ab8d4677457c79c81f521f3a94
+Successfully built chainercv
+Installing collected packages: chainercv
+Successfully installed chainercv-0.13.1
 </pre></div></div>
 </div>
 <p>インストールが完了したら，以下のセルを実行して，各ライブラリのバージョンなどを確認します．</p>
@@ -410,21 +421,23 @@ Requirement already satisfied: filelock in /Users/shunta/.pyenv/versions/minicon
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Platform: Linux-4.14.65+-x86_64-with-Ubuntu-18.04-bionic
-Chainer: 5.0.0
-NumPy: 1.14.6
+Platform: Linux-4.14.137+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 6.5.0
+ChainerX: Not Available
+NumPy: 1.17.4
 CuPy:
-  CuPy Version          : 5.0.0
+  CuPy Version          : 6.5.0
   CUDA Root             : /usr/local/cuda
-  CUDA Build Version    : 9020
-  CUDA Driver Version   : 9020
-  CUDA Runtime Version  : 9020
-  cuDNN Build Version   : 7201
-  cuDNN Version         : 7201
-  NCCL Build Version    : 2213
+  CUDA Build Version    : 10010
+  CUDA Driver Version   : 10010
+  CUDA Runtime Version  : 10010
+  cuDNN Build Version   : 7603
+  cuDNN Version         : 7603
+  NCCL Build Version    : 2402
+  NCCL Runtime Version  : 2402
 iDeep: 2.0.0.post3
-ChainerCV: 0.11.0
-matplotlib: 2.1.2
+ChainerCV: 0.13.1
+matplotlib: 3.1.1
 </pre></div></div>
 </div>
 </div>
@@ -438,9 +451,6 @@ matplotlib: 2.1.2
 <div class="section" id="使用するデータセット">
 <h2>5.3. 使用するデータセット<a class="headerlink" href="#使用するデータセット" title="Permalink to this headline">¶</a></h2>
 <p>これから使用するデータセットは，心臓MRI画像（短軸像）と，それに専門家がラベルを付けたものです．データについて詳しくはこちらをご参照ください[1, 2, 3]．</p>
-<p>[1] Sunnybrook cardiac images from earlier competition <a class="reference external" href="http://smial.sri.utoronto.ca/LV_Challenge/Data.html">http://smial.sri.utoronto.ca/LV_Challenge/Data.html</a></p>
-<p>[2] This "Sunnybrook Cardiac MR Database" is made available under the CC0 1.0 Universal license described above, and with more detail here: <a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a></p>
-<p>[3] Attribution: Radau P, Lu Y, Connelly K, Paul G, Dick AJ, Wright GA. "Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI." The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge, <a class="reference external" href="http://hdl.handle.net/10380/3070">http://hdl.handle.net/10380/3070</a></p>
 <p>まずは，データをダウンロードします．これは配布元のデータセットを今回用いやすいように加工し終えたものです．</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[3]:
@@ -487,10 +497,9 @@ matplotlib: 2.1.2
 </div>
 </div>
 <p>左側がMRI画像，右側がそれに対し専門家が作成した左心室の部分をマスクした画像となっています．右側のマスク画像のうち，<strong>白く塗りつぶされている領域が，今回見つけ出したい左心室の領域となっています</strong>．左心室の大きさは，画像ごとに異なっており，形もまた様々です．ただし，<strong>画像全体に対して左心室が占める領域は比較的小さい</strong>ということは共通しています．</p>
-<p>今回は，MRI画像データを，提供元が配布している形式（DICOM形式）から扱いやすいよう一般的な画像フォーマット（PNG）に変換して用いますが，そのための作業については説明しません．もし今回用いるMRI画像群のデータ整形の方法について興味をお持ちの方は，以前行われたKaggleのコンペティションに関連して提供されているこちらのチュートリアルをご参照ください：<a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">Kaggle competition: Second Annual Data Science Bowl</a> [7]）</p>
+<p>今回は，MRI画像データを，提供元が配布している形式（DICOM形式）から扱いやすいよう一般的な画像フォーマット（PNG）に変換して用いますが，そのための作業については説明しません．もし今回用いるMRI画像群のデータ整形の方法について興味をお持ちの方は，以前行われたKaggleのコンペティションに関連して提供されているこちらのチュートリアルをご参照ください：<a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">Kaggle competition: Second Annual Data Science Bowl</a> [4]）</p>
 <p>今回用いるデータセットの元となったデータは，医療画像では一般的な画像フォーマットである <a class="reference external" href="https://en.wikipedia.org/wiki/DICOM">DICOM</a> 形式で配布されており，画像サイズは 256 x 256
 のグレースケール画像になっています．今回は，これをあらかじめPNG画像に変換してあります．ラベル画像は，同じ大きさの二値画像となっており，<strong>左心室の領域内部のピクセルは画素値として1を持ち，それ以外のピクセルは0で埋められています</strong>．今回用いる学習用データセットは234枚の画像ペア（グレースケールのMRI画像と，対応する二値のラベル画像のペア）からなり．検証用データは，26枚の画像からなります．検証用データは学習用データとは別に用意されたものです．</p>
-<p>[7] <a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial</a></p>
 <div class="section" id="Chainerを用いた学習の流れ">
 <h3>5.3.1. Chainerを用いた学習の流れ<a class="headerlink" href="#Chainerを用いた学習の流れ" title="Permalink to this headline">¶</a></h3>
 <p>今回は，4章で扱ったChainerを使ってSemantic Segmentationに取り組みます．画像から画像を出力するネットワークを記述します． 4章でも述べたように，Chainerには，学習ループ抽象化のためのクラスである<code class="docutils literal"><span class="pre">Trainer</span></code>が用意されています．これを用いて，左心室であるかそれ以外かの2クラスにすべてのピクセルを分類するSemantic Segmentationタスクに取り組みます．<code class="docutils literal"><span class="pre">Trainer</span></code>を使って学習を行う際にユーザがする必要がある準備について再度復習しましょう．</p>
@@ -706,28 +715,28 @@ Dataset size:
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy
-1           1.07581     0.516798       0.834639       0.543843
-2           0.761529    0.56239        0.682265       0.589279
-3           0.666893    0.602783       0.653431       0.619897
-4           0.637235    0.638585       0.603788       0.671883
-5           0.580645    0.694309       0.53242        0.732497
-6           0.509947    0.749273       0.460417       0.782581
-7           0.421605    0.80748        0.351002       0.84777
-8           0.309099    0.869414       0.240649       0.902411
-9           0.216996    0.913866       0.170115       0.93487
-10          0.142725    0.947233       0.101438       0.963847
-11          0.0836528   0.970636       0.062417       0.977995
-12          0.0588484   0.979699       0.0471966      0.983107
-13          0.0425286   0.984605       0.0371721      0.985732
-14          0.0355021   0.986212       0.0327444      0.98684
-15          0.0333073   0.986946       0.0311622      0.987126
-16          0.0310483   0.987274       0.0300719      0.987187
-17          0.0302659   0.987217       0.0294418      0.987269
-18          0.0292555   0.987502       0.0291003      0.987321
-19          0.0292788   0.987296       0.0287308      0.987367
-20          0.0287091   0.987648       0.0286519      0.987243
-CPU times: user 20.7 s, sys: 6.38 s, total: 27.1 s
-Wall time: 26 s
+1           1.06459     0.514054       0.763243       0.541347
+2           0.766642    0.557265       0.678482       0.58342
+3           0.669491    0.596515       0.661777       0.625739
+4           0.64059     0.640895       0.605858       0.675552
+5           0.576377    0.700222       0.520871       0.7438
+6           0.498939    0.761138       0.443727       0.795278
+7           0.400396    0.820358       0.324807       0.860446
+8           0.28312     0.882238       0.213901       0.914947
+9           0.190724    0.925966       0.147691       0.944379
+10          0.123899    0.954501       0.0877821      0.968398
+11          0.0746379   0.973691       0.0553097      0.980432
+12          0.0512983   0.981973       0.0431525      0.984157
+13          0.040367    0.985149       0.0354616      0.985986
+14          0.0341428   0.986499       0.0321402      0.986762
+15          0.0327328   0.986677       0.0307444      0.987055
+16          0.0299803   0.987462       0.0296306      0.987203
+17          0.0301438   0.987283       0.0292037      0.9872
+18          0.0289293   0.98721        0.0289427      0.987285
+19          0.028623    0.987605       0.0286088      0.987439
+20          0.0282504   0.987593       0.0282954      0.987482
+CPU times: user 31.7 s, sys: 1.92 s, total: 33.6 s
+Wall time: 38.1 s
 </pre></div></div>
 </div>
 <p>大体,学習に40秒程度かると思います.この時表示されたのは<code class="docutils literal"><span class="pre">PrintReport</span></code>というExtensionが出力したログの情報です．現在のエポック数，目的関数の値，精度（学習データセットに対してのものは<code class="docutils literal"><span class="pre">main/loss</span></code>, <code class="docutils literal"><span class="pre">main/accuracy</span></code>，検証データセットに対してのものは<code class="docutils literal"><span class="pre">val/main/loss</span></code>, <code class="docutils literal"><span class="pre">val/main/accuracy</span></code>）が表示されています．</p>
@@ -780,9 +789,8 @@ Wall time: 26 s
 <div class="math">
 \[{\rm mIoU} = \frac{1}{k} \sum_{i=1}^k \frac{N_{ii}}{\sum_{j=1}^k N_{ij} + \sum_{j=1}^k N_{ji} - N_{ii}}\]</div>
 <p>です．では，改めてこの2つの値をValidationデータセットに対して，<strong>今学習したモデルを使って計算してみましょう．</strong></p>
-<p>今回は，これらの値を計算するために，<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a> [11]を用います．ChainerCVはコンピュータビジョンタスクで頻出する計算やモデル・データ等の扱いを統一的に行えるChainerの追加パッケージです．上の2つの指標をあらためて計算するために，ChainerCVが提供するSemantic Segmentationタスク用の評価指標計算のための関数を用いてみましょう．</p>
+<p>今回は，これらの値を計算するために，<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a> [5]を用います．ChainerCVはコンピュータビジョンタスクで頻出する計算やモデル・データ等の扱いを統一的に行えるChainerの追加パッケージです．上の2つの指標をあらためて計算するために，ChainerCVが提供するSemantic Segmentationタスク用の評価指標計算のための関数を用いてみましょう．</p>
 <p>以下のセルを実行してください．</p>
-<p>[11] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, "ChainerCV: a Library for Deep Learning in Computer Vision", ACM Multimedia (ACMMM), Open Source Software Competition, 2017</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
@@ -818,8 +826,8 @@ Wall time: 26 s
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Pixel Accuracy: 0.9872430654672476
-mIoU: 0.6810346076820649
+Pixel Accuracy: 0.9874819242037259
+mIoU: 0.693485709625507
 </pre></div></div>
 </div>
 <p>2つの数字が表示されました．</p>
@@ -913,7 +921,7 @@ mIoU: 0.6810346076820649
 </div>
 <div class="section" id="全畳込みネットワーク">
 <h3>5.5.3. 全畳込みネットワーク<a class="headerlink" href="#全畳込みネットワーク" title="Permalink to this headline">¶</a></h3>
-<p>それではConvolution層とDeconvolution層からなるネットワークをChainerで書いてみます．以下のモデルは，Fully Convolutional Networkと呼ばれるネットワークに類似したものです．詳しくはこちらの文献を参照してください [4], [5], [6]．</p>
+<p>それではConvolution層とDeconvolution層からなるネットワークをChainerで書いてみます．以下のモデルは，Fully Convolutional Networkと呼ばれるネットワークに類似したものです．詳しくはこちらの文献を参照してください [6, 7, 8]．</p>
 <p>以下のFullyConvolutionalNetworkというモデルの定義には，FIXME_1 ~ FIXME_5まで，5つの定数が含まれていますが，値が与えられていません．それぞれは，Convolutionの出力側のチャンネル数になります．試しにこれを，</p>
 <ul class="simple">
 <li>FIXME_1 = 64</li>
@@ -923,9 +931,6 @@ mIoU: 0.6810346076820649
 <li>FIXME_5 = 128</li>
 </ul>
 <p>と書き換えて，下のセルを実行してみましょう．入力チャンネル数は，<code class="docutils literal"><span class="pre">None</span></code>を与えておくと，実行時に自動的に決定してくれます．</p>
-<p>[4] <a class="reference external" href="http://fcn.berkeleyvision.org/">http://fcn.berkeleyvision.org/</a></p>
-<p>[5] Long, Shelhamer, Darrell; "Fully Convoutional Networks for Semantic Segmentation", CVPR 2015.</p>
-<p>[6] Zeiler, Krishnan, Taylor, Fergus; "Deconvolutional Networks", CVPR 2010.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
@@ -1085,28 +1090,28 @@ mIoU: 0.6810346076820649
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/miou   main/pa     val/main/loss  val/main/miou  val/main/pa
-10          0.234251    0.491308    0.982615    0.210242       0.491116       0.982231
-20          0.0734951   0.491697    0.983393    0.0785704      0.491152       0.982304
-30          0.0437268   0.494095    0.984806    0.0551604      0.491449       0.982302
-40          0.0408295   0.594572    0.98537     0.0461075      0.529961       0.98318
-50          0.0365125   0.688635    0.988101    0.040564       0.574938       0.984732
-60          0.027403    0.695415    0.989981    0.0332343      0.642126       0.987183
-70          0.0217707   0.759634    0.991624    0.0270782      0.76395        0.989708
-80          0.0176617   0.799277    0.993182    0.0199791      0.812472       0.992117
-90          0.0161867   0.80881     0.993526    0.0177032      0.833391       0.992866
-100         0.0130744   0.844841    0.994593    0.0153165      0.849115       0.993659
-110         0.0118144   0.858881    0.995321    0.0134715      0.848127       0.994422
-120         0.0116768   0.869053    0.995233    0.0148684      0.859756       0.993897
-130         0.00874199  0.890274    0.996529    0.0119417      0.877572       0.995053
-140         0.0094416   0.877748    0.995952    0.0108778      0.884067       0.995451
-150         0.00775642  0.90301     0.996792    0.0104386      0.886378       0.995703
-160         0.00732858  0.921296    0.997036    0.0102071      0.890742       0.995758
-170         0.00690384  0.915666    0.99711     0.0110711      0.888528       0.995451
-180         0.00575131  0.931005    0.997664    0.00980079     0.895453       0.995955
-190         0.00626531  0.916989    0.99736     0.00958781     0.897156       0.996084
-200         0.00600236  0.923304    0.997401    0.0103913      0.894893       0.995797
-CPU times: user 4min 52s, sys: 1min 52s, total: 6min 44s
-Wall time: 5min 37s
+10          0.217319    0.49158     0.983161    0.203718       0.491125       0.982249
+20          0.0616517   0.491819    0.983639    0.0719857      0.491152       0.982304
+30          0.0461788   0.493983    0.982984    0.0525315      0.492035       0.982315
+40          0.0406598   0.588519    0.98567     0.047224       0.600972       0.984296
+50          0.0339304   0.686925    0.989066    0.0408804      0.562657       0.984478
+60          0.0257464   0.701245    0.989779    0.0302204      0.684284       0.988242
+70          0.0197137   0.764356    0.992181    0.0229083      0.782138       0.991027
+80          0.0231423   0.725282    0.991338    0.0245496      0.801205       0.990292
+90          0.0135091   0.842669    0.994562    0.0156175      0.84005        0.993563
+100         0.0111497   0.880008    0.995718    0.0139815      0.845988       0.994134
+110         0.00964575  0.892643    0.996156    0.0126476      0.861745       0.994719
+120         0.00856779  0.896131    0.996531    0.0118676      0.871221       0.99504
+130         0.0076486   0.904866    0.996839    0.0113571      0.87839        0.995318
+140         0.00667165  0.923679    0.997336    0.0115666      0.883627       0.995331
+150         0.00640179  0.926811    0.997414    0.0107191      0.887169       0.99569
+160         0.00542098  0.932314    0.997756    0.0105103      0.891736       0.995831
+170         0.00514952  0.932478    0.997895    0.0103055      0.894193       0.995951
+180         0.00542594  0.927573    0.997637    0.0107345      0.897242       0.995891
+190         0.00521717  0.934435    0.997714    0.011302       0.896472       0.995793
+200         0.00415518  0.945518    0.998277    0.0100966      0.902488       0.996249
+CPU times: user 4min 16s, sys: 35 s, total: 4min 51s
+Wall time: 5min 18s
 </pre></div></div>
 </div>
 <p>学習が終了しました．<code class="docutils literal"><span class="pre">PrintReport</span></code>が出力した経過の値を見る限り，mIoUが少なくとも0.90近くまで到達していることがわかります．</p>
@@ -1209,8 +1214,8 @@ Pixel Accuracy
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Pixel Accuracy: 0.9957967904897836
-mIoU: 0.8948934203314065
+Pixel Accuracy: 0.9962486853966346
+mIoU: 0.9024884891819902
 </pre></div></div>
 </div>
 <div class="nboutput docutils container">
@@ -1243,25 +1248,22 @@ mIoU: 0.8948934203314065
 <p>今回のモデルでも十分うまくいっているようにみえますがまだ性能改善の余地があります.Semantic Segmentationでは，どうやって入力画像における広い範囲の情報を1つのピクセルの予測に役立てるか，どうやって複数の解像度における予測結果を考慮するか，などが重要な問題意識となります．また，ニューラルネットワークでは一般に，レイヤを重ねれば重ねるほど，特徴量の抽象度が上がっていくとされています．しかし，Semantic Segmentationでは，正確に対象物体の輪郭を表すマスク画像を出力したいので，low
 levelな情報（エッジ・局所的な画素値勾配のような情報，色の一貫性など）も考慮して最終的な予測結果を作りたくなります．そのために，ネットワークの出力に近いレイヤでどうやって入力に近いレイヤで取り出された特徴を活用すればよいか，が重要になってきます．</p>
 <p>これらの視点からいくつもの新しいモデルが提案されています．代表的なものを挙げると，例えば以下のようなものがあります．</p>
-<div class="section" id="SegNet-[8]">
-<h3>5.6.1. SegNet [8]<a class="headerlink" href="#SegNet-[8]" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="SegNet-[9]">
+<h3>5.6.1. SegNet [9]<a class="headerlink" href="#SegNet-[9]" title="Permalink to this headline">¶</a></h3>
 <p>各層でMax Poolingを適用した際に「どのピクセルが最大値だったか（pooling indices) 」の情報をとっておき，後で画像を拡大していく時に記録しておいたpooling indicesを使ってUpsamplingする手法です．<a class="reference external" href="https://github.com/chainer/chainercv">ChainerCV</a>にてChainerで実装されたモデル及び完全な再現実験を含むコードが公開されています．</p>
 <p><img alt="SegNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/SegNet.png"/></p>
 </div>
-<div class="section" id="U-Net-[9]">
-<h3>5.6.2. U-Net [9]<a class="headerlink" href="#U-Net-[9]" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="U-Net-[10]">
+<h3>5.6.2. U-Net [10]<a class="headerlink" href="#U-Net-[10]" title="Permalink to this headline">¶</a></h3>
 <p>下層の出力特徴マップを，上層の入力に結合することで活用する構造．全体がアルファベットの "U" のような形をしていることから「U-Net」とよばれます.セグメンテーションタスクで広く使われています.</p>
 <p><img alt="U-Net" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/U-Net.png"/></p>
 </div>
-<div class="section" id="PSPNet-[10]">
-<h3>5.6.3. PSPNet [10]<a class="headerlink" href="#PSPNet-[10]" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="PSPNet-[11]">
+<h3>5.6.3. PSPNet [11]<a class="headerlink" href="#PSPNet-[11]" title="Permalink to this headline">¶</a></h3>
 <p>異なる大きさのsub-regionごとの特徴を大域的なコンテキストを考慮するために活用することで，ImageNet 2017 Scene Parsing Challengeで優勝したモデルです.</p>
 <p><img alt="PSPNet" src="https://github.com/mitmul/chainer-handson/raw/master/segmentation-handson/PSPNet.png"/></p>
 <p>この他にも様々な手法が提案されています．例えばクラス間のサンプル数の大小だけでなく，難しいクラスと簡単なクラスがある場合にそれらを考慮した損失関数を使うことで性能をあげることができます．</p>
 <p>また，今回は簡単のためtraining splitとvalidation splitのみを持つデータセットを使いましたが，本来はハイパーパラメータをvalidation splitでの検証結果を用いて調整したあと，最終的な性能を評価する段階でtest splitを使うべきです．</p>
-<p>[8] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation." PAMI, 2017</p>
-<p>[9] Olaf Ronneberger, Philipp Fischer, Thomas Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation", MICCAI 2015</p>
-<p>[10] Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang and Jiaya Jia, "Pyramid Scene Parsing Network", CVPR 2017</p>
 </div>
 </div>
 <div class="section" id="その他の参考資料">
@@ -1275,6 +1277,20 @@ levelな情報（エッジ・局所的な画素値勾配のような情報，色
 <ul class="simple">
 <li><a class="reference external" href="https://arxiv.org/abs/1704.06857">A Review on Deep Learning Techniques Applied to Semantic Segmentation</a></li>
 </ul>
+</div>
+<div class="section" id="参考文献">
+<h2>5.8. 参考文献<a class="headerlink" href="#参考文献" title="Permalink to this headline">¶</a></h2>
+<p>[1] Sunnybrook cardiac images from earlier competition <a class="reference external" href="http://smial.sri.utoronto.ca/LV_Challenge/Data.html">http://smial.sri.utoronto.ca/LV_Challenge/Data.html</a></p>
+<p>[2] This "Sunnybrook Cardiac MR Database" is made available under the CC0 1.0 Universal license described above, and with more detail here: <a class="reference external" href="http://creativecommons.org/publicdomain/zero/1.0/">http://creativecommons.org/publicdomain/zero/1.0/</a></p>
+<p>[3] Attribution: Radau P, Lu Y, Connelly K, Paul G, Dick AJ, Wright GA. "Evaluation Framework for Algorithms Segmenting Short Axis Cardiac MRI." The MIDAS Journal -Cardiac MR Left Ventricle Segmentation Challenge, <a class="reference external" href="http://hdl.handle.net/10380/3070">http://hdl.handle.net/10380/3070</a></p>
+<p>[4] <a class="reference external" href="https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial">https://www.kaggle.com/c/second-annual-data-science-bowl/details/deep-learning-tutorial</a></p>
+<p>[5] Yusuke Niitani, Toru Ogawa, Shunta Saito, Masaki Saito, "ChainerCV: a Library for Deep Learning in Computer Vision", ACM Multimedia (ACMMM), Open Source Software Competition, 2017</p>
+<p>[6] <a class="reference external" href="http://fcn.berkeleyvision.org/">http://fcn.berkeleyvision.org/</a></p>
+<p>[7] Long, Shelhamer, Darrell; "Fully Convoutional Networks for Semantic Segmentation", CVPR 2015.</p>
+<p>[8] Zeiler, Krishnan, Taylor, Fergus; "Deconvolutional Networks", CVPR 2010.</p>
+<p>[9] Vijay Badrinarayanan, Alex Kendall and Roberto Cipolla "SegNet: A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation." PAMI, 2017</p>
+<p>[10] Olaf Ronneberger, Philipp Fischer, Thomas Brox, "U-Net: Convolutional Networks for Biomedical Image Segmentation", MICCAI 2015</p>
+<p>[11] Hengshuang Zhao, Jianping Shi, Xiaojuan Qi, Xiaogang Wang and Jiaya Jia, "Pyramid Scene Parsing Network", CVPR 2017</p>
 </div>
 </div>
 </div>
