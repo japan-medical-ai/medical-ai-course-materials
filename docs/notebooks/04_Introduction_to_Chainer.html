@@ -410,23 +410,21 @@ Networks社によって開発が続けられています．Define-by-Runとは�
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  1580  100  1580    0     0  12440      0 --:--:-- --:--:-- --:--:-- 12440
-+ apt -y -q install cuda-libraries-dev-10-0
-Reading package lists...
-Building dependency tree...
-Reading state information...
-cuda-libraries-dev-10-0 is already the newest version (10.0.130-1).
-0 upgraded, 0 newly installed, 0 to remove and 10 not upgraded.
-+ pip install -q cupy-cuda100  chainer
-+ set +ex
-Installation succeeded!
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
 graphviz is already the newest version (2.40.1-2).
-0 upgraded, 0 newly installed, 0 to remove and 10 not upgraded.
+The following packages were automatically installed and are no longer required:
+  cuda-cufft-10-1 cuda-cufft-dev-10-1 cuda-curand-10-1 cuda-curand-dev-10-1
+  cuda-cusolver-10-1 cuda-cusolver-dev-10-1 cuda-cusparse-10-1
+  cuda-cusparse-dev-10-1 cuda-license-10-2 cuda-npp-10-1 cuda-npp-dev-10-1
+  cuda-nsight-10-1 cuda-nsight-compute-10-1 cuda-nsight-systems-10-1
+  cuda-nvgraph-10-1 cuda-nvgraph-dev-10-1 cuda-nvjpeg-10-1
+  cuda-nvjpeg-dev-10-1 cuda-nvrtc-10-1 cuda-nvrtc-dev-10-1 cuda-nvvp-10-1
+  libcublas10 libnvidia-common-430 nsight-compute-2019.5.0
+  nsight-systems-2019.5.2
+Use 'apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 5 not upgraded.
 </pre></div></div>
 </div>
 <p>それでは，以下のコマンドをターミナルで実行し，Chainerや，ChainerでGPUを活用するために必要となるCuPyというパッケージが正しくインストールされているかどうかを確認してみましょう．</p>
@@ -444,18 +442,20 @@ graphviz is already the newest version (2.40.1-2).
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Platform: Linux-4.14.79+-x86_64-with-Ubuntu-18.04-bionic
-Chainer: 5.0.0
-NumPy: 1.14.6
+Platform: Linux-4.14.137+-x86_64-with-Ubuntu-18.04-bionic
+Chainer: 6.5.0
+ChainerX: Not Available
+NumPy: 1.17.4
 CuPy:
-  CuPy Version          : 5.2.0
+  CuPy Version          : 6.5.0
   CUDA Root             : /usr/local/cuda
-  CUDA Build Version    : 10000
-  CUDA Driver Version   : 10000
-  CUDA Runtime Version  : 10000
-  cuDNN Build Version   : 7301
-  cuDNN Version         : 7301
-  NCCL Build Version    : 2307
+  CUDA Build Version    : 10010
+  CUDA Driver Version   : 10010
+  CUDA Runtime Version  : 10010
+  cuDNN Build Version   : 7603
+  cuDNN Version         : 7603
+  NCCL Build Version    : 2402
+  NCCL Runtime Version  : 2402
 iDeep: 2.0.0.post3
 </pre></div></div>
 </div>
@@ -892,17 +892,17 @@ IDとして-1を指定すると，CPUを使用します．</p>
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-epoch:01 train_loss:0.9390 val_loss:0.9743 val_accuracy:0.7948
-epoch:02 train_loss:0.5398 val_loss:0.5335 val_accuracy:0.8634
-epoch:03 train_loss:0.4008 val_loss:0.4232 val_accuracy:0.8846
-epoch:04 train_loss:0.3328 val_loss:0.3744 val_accuracy:0.8944
-epoch:05 train_loss:0.4598 val_loss:0.3458 val_accuracy:0.9002
-epoch:06 train_loss:0.2478 val_loss:0.3276 val_accuracy:0.9073
-epoch:07 train_loss:0.3308 val_loss:0.3110 val_accuracy:0.9118
-epoch:08 train_loss:0.3792 val_loss:0.2991 val_accuracy:0.9146
-epoch:09 train_loss:0.2978 val_loss:0.2887 val_accuracy:0.9178
-epoch:10 train_loss:0.3221 val_loss:0.2804 val_accuracy:0.9204
-test_accuracy:0.9237
+epoch:01 train_loss:0.9100 val_loss:0.9743 val_accuracy:0.8018
+epoch:02 train_loss:0.5396 val_loss:0.5336 val_accuracy:0.8645
+epoch:03 train_loss:0.4012 val_loss:0.4230 val_accuracy:0.8847
+epoch:04 train_loss:0.3329 val_loss:0.3741 val_accuracy:0.8941
+epoch:05 train_loss:0.4588 val_loss:0.3455 val_accuracy:0.9002
+epoch:06 train_loss:0.2481 val_loss:0.3274 val_accuracy:0.9074
+epoch:07 train_loss:0.3306 val_loss:0.3109 val_accuracy:0.9118
+epoch:08 train_loss:0.3801 val_loss:0.2990 val_accuracy:0.9145
+epoch:09 train_loss:0.2974 val_loss:0.2886 val_accuracy:0.9180
+epoch:10 train_loss:0.3216 val_loss:0.2803 val_accuracy:0.9204
+test_accuracy:0.9234
 </pre></div></div>
 </div>
 <p><code class="docutils literal"><span class="pre">val_accuracy</span></code>に着目してみると，最終的におよそ92%程度の精度で手書きの数字が分類できるようになりました．ここで言う精度とは，Validationデータセット中に <span class="math">\(N\)</span> 個のデータがあり分類結果が正しかったものが <span class="math">\(M\)</span> 個あるとすると <span class="math">\(M/N\)</span>
@@ -960,7 +960,7 @@ test_accuracy:0.9237
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
--rw-r--r-- 1 root root 333955 Mar  1 04:58 my_mnist.model
+-rw-r--r-- 1 root root 334084 Dec  9 11:13 my_mnist.model
 </pre></div></div>
 </div>
 </div>
@@ -1232,16 +1232,16 @@ iteration（1000回更新）で学習を終了してください，といった�
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/data/std  elapsed_time
-1           1.66917     0.599884       0.93892        0.806764           0.0359232      5.61012
-2           0.673347    0.843211       0.519291       0.86699            0.0366054      9.98746
-3           0.459921    0.878686       0.414858       0.887658           0.037035       14.3671
-4           0.389535    0.893262       0.370489       0.896855           0.037301       18.7945
-5           0.353169    0.901255       0.342332       0.904569           0.03749        23.344
-6           0.330151    0.90609        0.32213        0.909711           0.037639       27.7571
-7           0.312338    0.910846       0.306804       0.91337            0.0377671      32.1619
-8           0.298136    0.914663       0.295119       0.915843           0.0378811      36.614
-9           0.285837    0.917559       0.284161       0.918513           0.0379865      41.0422
-10          0.275229    0.921116       0.27476        0.921776           0.0380852      45.5019
+1           1.66917     0.599904       0.938911       0.806764           0.0359232      4.00874
+2           0.673337    0.843211       0.519283       0.86699            0.0366054      6.59789
+3           0.459913    0.878686       0.414855       0.887757           0.0370351      9.17739
+4           0.38953     0.893262       0.370488       0.896855           0.037301       11.7382
+5           0.353165    0.901215       0.342328       0.90447            0.03749        14.4128
+6           0.33014     0.90609        0.32212        0.90981            0.037639       17.1353
+7           0.312328    0.910906       0.30679        0.913172           0.0377671      19.834
+8           0.298127    0.914704       0.295095       0.915744           0.0378811      22.4303
+9           0.28583     0.917659       0.284156       0.918513           0.0379864      25.0918
+10          0.275227    0.921096       0.274761       0.921677           0.0380852      27.7848
 </pre></div></div>
 </div>
 <p>学習ループを自分で書いた場合よりも遥かに簡単に，同様の結果を得ることができました．さらに，<code class="docutils literal"><span class="pre">Extension</span></code>の機能を利用することで，様々なスコアや，学習曲線の可視化も自動で出力されます．</p>
@@ -1331,7 +1331,7 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  l1/W/da
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Test accuracy: 0.92494065
+Test accuracy: 0.9250395
 </pre></div></div>
 </div>
 </div>
@@ -1556,27 +1556,27 @@ Downloading from https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz...
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed_time  lr
-1           1.92585     0.305797       1.72163        0.396484           7.3936        0.01
-2           1.60847     0.422763       1.5302         0.460547           14.2303       0.01
-3           1.47251     0.469529       1.4811         0.477148           21.6122       0.01
-4           1.39214     0.500067       1.38733        0.501562           28.7671       0.01
-5           1.32752     0.526019       1.37848        0.508789           35.8871       0.01
-6           1.26747     0.548118       1.35386        0.518555           42.9225       0.01
-7           1.21334     0.568176       1.25658        0.563281           49.9933       0.01
-8           1.16389     0.584029       1.2344         0.566406           57.0437       0.01
-9           1.12069     0.601873       1.23561        0.566016           63.9649       0.01
-10          1.07164     0.618122       1.22468        0.558008           71.202        0.01
-11          1.02903     0.636319       1.18382        0.579883           78.7195       0.01
-12          0.981194    0.651821       1.19487        0.583398           85.8101       0.01
-13          0.9353      0.668879       1.15842        0.599609           92.8278       0.01
-14          0.901667    0.680533       1.20374        0.583203           99.7852       0.01
-15          0.853855    0.697621       1.19961        0.59082            106.747       0.01
-16          0.809625    0.713987       1.1916         0.594141           113.789       0.01
-17          0.765904    0.73109        1.20508        0.598047           120.85        0.01
-18          0.722185    0.744074       1.23998        0.579883           127.871       0.01
-19          0.669985    0.764579       1.22414        0.597461           135           0.01
-20          0.620186    0.782338       1.2336         0.597461           141.864       0.01
-Test accuracy: 0.610265
+1           1.92583     0.305065       1.72466        0.39668            4.88937       0.01
+2           1.60857     0.423007       1.53026        0.463281           9.25879       0.01
+3           1.47209     0.46964        1.48127        0.478125           13.5662       0.01
+4           1.39223     0.499911       1.39299        0.499609           18.0876       0.01
+5           1.32882     0.526197       1.3789         0.511719           22.5673       0.01
+6           1.26765     0.547852       1.35271        0.516406           27.1432       0.01
+7           1.21327     0.568999       1.25582        0.560547           31.8979       0.01
+8           1.16433     0.583984       1.22899        0.570508           36.4486       0.01
+9           1.12036     0.602384       1.23554        0.565039           40.9875       0.01
+10          1.07057     0.61899        1.21995        0.56543            45.5839       0.01
+11          1.02992     0.636808       1.1724         0.585938           50.4524       0.01
+12          0.98116     0.653112       1.19605        0.579883           55.0429       0.01
+13          0.938254    0.667392       1.159          0.59375            59.4494       0.01
+14          0.901819    0.681067       1.20838        0.579492           64.0684       0.01
+15          0.855333    0.698287       1.19485        0.585938           68.5982       0.01
+16          0.810262    0.714321       1.19381        0.583984           73.0674       0.01
+17          0.764117    0.731423       1.21938        0.587109           77.5318       0.01
+18          0.72205     0.743697       1.20823        0.585742           81.9437       0.01
+19          0.666414    0.764712       1.23899        0.593164           86.2922       0.01
+20          0.620457    0.782715       1.24922        0.597461           90.6681       0.01
+Test accuracy: 0.6065071
 </pre></div></div>
 </div>
 <p>学習が20エポックまで終わりました．損失と精度のプロットを見てみましょう．</p>
@@ -1840,27 +1840,45 @@ averaging</a>)するような効果があると言われ，汎化性能が向上
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2019-12-09 11:16:00--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/DeepCNN_cifar10_snapshot_epoch_90.npz
+Resolving github.com (github.com)... 13.250.177.223
+Connecting to github.com (github.com)|13.250.177.223|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/4fcc1200-eeb7-11e8-8ca0-9095e5bca078?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20191209%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20191209T111601Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=f2d9063e8a6ec0edd8567b4ae8caeebbd09f2d1e6eabc59db80bcd2c519f2787&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream [following]
+--2019-12-09 11:16:01--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/4fcc1200-eeb7-11e8-8ca0-9095e5bca078?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20191209%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20191209T111601Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=f2d9063e8a6ec0edd8567b4ae8caeebbd09f2d1e6eabc59db80bcd2c519f2787&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.164.75
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.164.75|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 56889445 (54M) [application/octet-stream]
+Saving to: ‘DeepCNN_cifar10_snapshot_epoch_90.npz’
+
+DeepCNN_cifar10_sna 100%[===================&gt;]  54.25M  12.5MB/s    in 5.4s
+
+2019-12-09 11:16:07 (10.1 MB/s) - ‘DeepCNN_cifar10_snapshot_epoch_90.npz’ saved [56889445/56889445]
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.6/dist-packages/chainer/training/triggers/interval_trigger.py:92: UserWarning: The previous value of iteration is not saved. IntervalTrigger guesses it using current iteration. If this trigger is not called at every iteration, it may not work correctly.
+  'The previous value of iteration is not saved. '
+/usr/local/lib/python3.6/dist-packages/chainer/training/triggers/interval_trigger.py:104: UserWarning: The previous value of epoch_detail is not saved. IntervalTrigger uses the value of trainer.updater.previous_epoch_detail. If this trigger is not called at every iteration, it may not work correctly.
+  'The previous value of epoch_detail is not saved. '
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2019-03-01 05:02:34--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/DeepCNN_cifar10_snapshot_epoch_90.npz
-Resolving github.com (github.com)... 192.30.253.113, 192.30.253.112
-Connecting to github.com (github.com)|192.30.253.113|:443... connected.
-HTTP request sent, awaiting response... 302 Found
-Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/4fcc1200-eeb7-11e8-8ca0-9095e5bca078?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20190301%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20190301T050234Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=fb98973babee987108b54426e32251b5541de0666a6c1a7ba3bc4a476ab0a852&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream [following]
---2019-03-01 05:02:34--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/4fcc1200-eeb7-11e8-8ca0-9095e5bca078?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20190301%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20190301T050234Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=fb98973babee987108b54426e32251b5541de0666a6c1a7ba3bc4a476ab0a852&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream
-Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.97.131
-Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.97.131|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 56889445 (54M) [application/octet-stream]
-Saving to: ‘DeepCNN_cifar10_snapshot_epoch_90.npz’
-
-DeepCNN_cifar10_sna 100%[===================&gt;]  54.25M  75.9MB/s    in 0.7s
-
-2019-03-01 05:02:35 (75.9 MB/s) - ‘DeepCNN_cifar10_snapshot_epoch_90.npz’ saved [56889445/56889445]
-
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed_time  lr
 1           2.62849     0.144931       2.22525        0.15625            27.9748       0.1
 2           2.11316     0.210804       1.97533        0.266406           54.5483       0.1
@@ -1952,16 +1970,16 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed
 88          0.00719447  0.997847       0.463587       0.899609           2371.48       0.001
 89          0.00638493  0.998335       0.465655       0.901367           2398.08       0.001
 90          0.0061445   0.998286       0.464918       0.900586           2424.59       0.001
-91          0.00582547  0.99838        0.46484        0.900977           2453.48       0.0001
-92          0.00602775  0.998331       0.461773       0.901367           2480.1        0.0001
-93          0.00597373  0.998491       0.464172       0.900195           2506.88       0.0001
-94          0.00619669  0.99813        0.464461       0.900391           2533.49       0.0001
-95          0.0054557   0.998557       0.466652       0.900977           2560.12       0.0001
-96          0.0061331   0.998308       0.465332       0.900781           2586.61       0.0001
-97          0.00541795  0.998624       0.465642       0.900586           2613.27       0.0001
-98          0.00512301  0.998801       0.467119       0.900781           2639.95       0.0001
-99          0.00562213  0.998576       0.464967       0.901367           2666.67       0.0001
-100         0.00551732  0.998624       0.462727       0.901367           2693.44       0.0001
+91          0.00582547  0.99838        0.46484        0.900977           2439.32       0.0001
+92          0.00602776  0.998331       0.461773       0.901367           2452.62       0.0001
+93          0.00597372  0.998491       0.464172       0.900195           2466.17       0.0001
+94          0.00619668  0.99813        0.46446        0.900391           2479.48       0.0001
+95          0.00545569  0.998557       0.466654       0.900977           2492.64       0.0001
+96          0.00613322  0.998308       0.465335       0.900781           2505.78       0.0001
+97          0.0054181   0.998624       0.465642       0.900586           2518.9        0.0001
+98          0.00512285  0.998801       0.467116       0.900781           2532.13       0.0001
+99          0.00562234  0.998576       0.464966       0.901367           2545.35       0.0001
+100         0.00551726  0.998624       0.462725       0.901367           2558.63       0.0001
 Test accuracy: 0.8966574
 </pre></div></div>
 </div>
@@ -2087,27 +2105,45 @@ Test accuracy: 0.8966574
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2019-12-09 11:18:31--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/DeepCNN_cifar10_augmented_snapshot_epoch_90.npz
+Resolving github.com (github.com)... 52.74.223.119
+Connecting to github.com (github.com)|52.74.223.119|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/5064a880-eeb7-11e8-95bf-80b5d9533256?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20191209%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20191209T111832Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=1dc193a84a383234eb92fd9c7cb0db88c9ad7dad53e4e9a32d06f33a3825b832&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_augmented_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream [following]
+--2019-12-09 11:18:32--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/5064a880-eeb7-11e8-95bf-80b5d9533256?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20191209%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20191209T111832Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=1dc193a84a383234eb92fd9c7cb0db88c9ad7dad53e4e9a32d06f33a3825b832&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_augmented_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.241.116
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.241.116|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 56730280 (54M) [application/octet-stream]
+Saving to: ‘DeepCNN_cifar10_augmented_snapshot_epoch_90.npz’
+
+DeepCNN_cifar10_aug 100%[===================&gt;]  54.10M  12.6MB/s    in 5.1s
+
+2019-12-09 11:18:38 (10.5 MB/s) - ‘DeepCNN_cifar10_augmented_snapshot_epoch_90.npz’ saved [56730280/56730280]
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.6/dist-packages/chainer/training/triggers/interval_trigger.py:92: UserWarning: The previous value of iteration is not saved. IntervalTrigger guesses it using current iteration. If this trigger is not called at every iteration, it may not work correctly.
+  'The previous value of iteration is not saved. '
+/usr/local/lib/python3.6/dist-packages/chainer/training/triggers/interval_trigger.py:104: UserWarning: The previous value of epoch_detail is not saved. IntervalTrigger uses the value of trainer.updater.previous_epoch_detail. If this trigger is not called at every iteration, it may not work correctly.
+  'The previous value of epoch_detail is not saved. '
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2019-03-01 05:07:14--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/DeepCNN_cifar10_augmented_snapshot_epoch_90.npz
-Resolving github.com (github.com)... 192.30.253.112, 192.30.253.113
-Connecting to github.com (github.com)|192.30.253.112|:443... connected.
-HTTP request sent, awaiting response... 302 Found
-Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/5064a880-eeb7-11e8-95bf-80b5d9533256?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20190301%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20190301T050714Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=744aa53cbf9b34edc8a35fd65be24578b4cc00399a3382452d09082d34504194&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_augmented_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream [following]
---2019-03-01 05:07:14--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/5064a880-eeb7-11e8-95bf-80b5d9533256?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20190301%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20190301T050714Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=744aa53cbf9b34edc8a35fd65be24578b4cc00399a3382452d09082d34504194&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_augmented_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream
-Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.237.155
-Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.237.155|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 56730280 (54M) [application/octet-stream]
-Saving to: ‘DeepCNN_cifar10_augmented_snapshot_epoch_90.npz’
-
-DeepCNN_cifar10_aug 100%[===================&gt;]  54.10M  21.5MB/s    in 2.5s
-
-2019-03-01 05:07:17 (21.5 MB/s) - ‘DeepCNN_cifar10_augmented_snapshot_epoch_90.npz’ saved [56730280/56730280]
-
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed_time  lr
 1           2.5875      0.156405       2.11656        0.203125           24.1767       0.1
 2           1.99359     0.233842       1.84577        0.304492           47.9466       0.1
@@ -2199,17 +2235,17 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed
 88          0.0526632   0.982156       0.318594       0.920703           2122.46       0.001
 89          0.0528096   0.981445       0.309017       0.92207            2146.21       0.001
 90          0.0499371   0.982928       0.313269       0.920508           2169.92       0.001
-91          0.0454926   0.984797       0.313569       0.919141           2195.11       0.0001
-92          0.0448548   0.984375       0.308275       0.921289           2218.89       0.0001
-93          0.0444652   0.98473        0.309395       0.921094           2242.73       0.0001
-94          0.0438955   0.984687       0.310709       0.92168            2266.55       0.0001
-95          0.0448537   0.984486       0.310669       0.920313           2290.63       0.0001
-96          0.0446187   0.984731       0.311206       0.921289           2314.31       0.0001
-97          0.0454414   0.984553       0.311353       0.921484           2338.06       0.0001
-98          0.0435442   0.985019       0.309628       0.920117           2361.82       0.0001
-99          0.0427361   0.985777       0.309663       0.921875           2385.53       0.0001
-100         0.0407838   0.986084       0.314156       0.920313           2409.44       0.0001
-Test accuracy: 0.91702926
+91          0.046129    0.984375       0.312747       0.919141           2182.89       0.0001
+92          0.0442634   0.984642       0.308682       0.921484           2195.39       0.0001
+93          0.0456881   0.98422        0.308501       0.920898           2208.13       0.0001
+94          0.0450576   0.984553       0.311052       0.921484           2220.46       0.0001
+95          0.0450287   0.985152       0.310078       0.920117           2232.59       0.0001
+96          0.0444907   0.984486       0.312837       0.921289           2244.59       0.0001
+97          0.0439379   0.985418       0.310588       0.92168            2256.65       0.0001
+98          0.0430186   0.985352       0.310459       0.920508           2268.82       0.0001
+99          0.0419429   0.985288       0.310179       0.92168            2281.02       0.0001
+100         0.0421573   0.985574       0.31397        0.920898           2293.27       0.0001
+Test accuracy: 0.917227
 </pre></div></div>
 </div>
 <p>先程のData augmentationなしの場合は90%程度だったテスト精度が，学習データにaugmentationを施すことでおよそ1.8%程度向上していることが分かりました．</p>
@@ -2307,22 +2343,25 @@ Visionに特化した機能が豊富に追加された，Chainerの補助パッ�
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 Collecting chainercv
-  Downloading https://files.pythonhosted.org/packages/e0/b9/02d9eb0ff60db1b9e5ffb1d89f8ee26764784a0f9f37a7342cb665e8de38/chainercv-0.12.0.tar.gz (239kB)
-    100% |████████████████████████████████| 245kB 8.0MB/s
-Requirement already satisfied: chainer&gt;=5.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (5.0.0)
-Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.0.0)
-Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.0.10)
-Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (1.14.6)
-Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (3.6.1)
-Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=5.0-&gt;chainercv) (1.11.0)
+  Downloading https://files.pythonhosted.org/packages/e8/1c/1f267ccf5ebdf1f63f1812fa0d2d0e6e35f0d08f63d2dcdb1351b0e77d85/chainercv-0.13.1.tar.gz (260kB)
+     |████████████████████████████████| 266kB 35.5MB/s
+Requirement already satisfied: chainer&gt;=6.0 in /usr/local/lib/python3.6/dist-packages (from chainercv) (6.5.0)
+Requirement already satisfied: Pillow in /usr/local/lib/python3.6/dist-packages (from chainercv) (4.3.0)
+Requirement already satisfied: protobuf&gt;=3.0.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.10.0)
+Requirement already satisfied: six&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (1.12.0)
+Requirement already satisfied: filelock in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.0.12)
+Requirement already satisfied: typing-extensions&lt;=3.6.6 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: typing&lt;=3.6.6 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (3.6.6)
+Requirement already satisfied: numpy&gt;=1.9.0 in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (1.17.4)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from chainer&gt;=6.0-&gt;chainercv) (42.0.1)
 Requirement already satisfied: olefile in /usr/local/lib/python3.6/dist-packages (from Pillow-&gt;chainercv) (0.46)
-Requirement already satisfied: setuptools in /usr/local/lib/python3.6/dist-packages (from protobuf&gt;=3.0.0-&gt;chainer&gt;=5.0-&gt;chainercv) (40.8.0)
 Building wheels for collected packages: chainercv
   Building wheel for chainercv (setup.py) ... done
-  Stored in directory: /root/.cache/pip/wheels/48/34/47/ace83b5217d8cd49bd017951c776588fd4a7d8a1bf8817141a
+  Created wheel for chainercv: filename=chainercv-0.13.1-cp36-cp36m-linux_x86_64.whl size=537355 sha256=fc0aaac281e6d6effbb0699ea77604eacc16f6683691d9463803c54c192a746b
+  Stored in directory: /root/.cache/pip/wheels/ea/10/01/e221beaa4b3d8341aa819a39ab8d4677457c79c81f521f3a94
 Successfully built chainercv
 Installing collected packages: chainercv
-Successfully installed chainercv-0.12.0
+Successfully installed chainercv-0.13.1
 </pre></div></div>
 </div>
 <p><a class="reference external" href="http://chainercv.readthedocs.io/en/stable">ChainerCV</a>には，画像に対する様々な変換があらかじめ用意されています．</p>
@@ -2378,9 +2417,9 @@ Successfully installed chainercv-0.12.0
 
     <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">label</span>
 
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-<span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">valid_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TransformDataset</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="n">std</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -2399,27 +2438,45 @@ Successfully installed chainercv-0.12.0
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+--2019-12-09 11:21:16--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/DeepCNN_cifar10_augmented2_snapshot_epoch_90.npz
+Resolving github.com (github.com)... 13.229.188.59
+Connecting to github.com (github.com)|13.229.188.59|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/5064a880-eeb7-11e8-8e8b-fddbe76ecd56?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20191209%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20191209T112116Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=bf6cac01b9855110a9abeb2df76a65e697c6226c2353f102c24da044d69f80ef&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_augmented2_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream [following]
+--2019-12-09 11:21:16--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/5064a880-eeb7-11e8-8e8b-fddbe76ecd56?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20191209%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20191209T112116Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=bf6cac01b9855110a9abeb2df76a65e697c6226c2353f102c24da044d69f80ef&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_augmented2_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream
+Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 52.216.20.243
+Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|52.216.20.243|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 56734002 (54M) [application/octet-stream]
+Saving to: ‘DeepCNN_cifar10_augmented2_snapshot_epoch_90.npz’
+
+DeepCNN_cifar10_aug 100%[===================&gt;]  54.11M  11.5MB/s    in 6.0s
+
+2019-12-09 11:21:23 (8.96 MB/s) - ‘DeepCNN_cifar10_augmented2_snapshot_epoch_90.npz’ saved [56734002/56734002]
+
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/usr/local/lib/python3.6/dist-packages/chainer/training/triggers/interval_trigger.py:92: UserWarning: The previous value of iteration is not saved. IntervalTrigger guesses it using current iteration. If this trigger is not called at every iteration, it may not work correctly.
+  'The previous value of iteration is not saved. '
+/usr/local/lib/python3.6/dist-packages/chainer/training/triggers/interval_trigger.py:104: UserWarning: The previous value of epoch_detail is not saved. IntervalTrigger uses the value of trainer.updater.previous_epoch_detail. If this trigger is not called at every iteration, it may not work correctly.
+  'The previous value of epoch_detail is not saved. '
+</pre></div></div>
+</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
---2019-03-01 05:11:46--  https://github.com/japan-medical-ai/medical-ai-course-materials/releases/download/v0.1/DeepCNN_cifar10_augmented2_snapshot_epoch_90.npz
-Resolving github.com (github.com)... 192.30.253.112, 192.30.253.113
-Connecting to github.com (github.com)|192.30.253.112|:443... connected.
-HTTP request sent, awaiting response... 302 Found
-Location: https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/5064a880-eeb7-11e8-8e8b-fddbe76ecd56?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20190301%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20190301T051146Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=4b1a98d2f1ff9902c4f33dd783aa737871f83399dafac87402f8f6cde804c803&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_augmented2_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream [following]
---2019-03-01 05:11:46--  https://github-production-release-asset-2e65be.s3.amazonaws.com/153412006/5064a880-eeb7-11e8-8e8b-fddbe76ecd56?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20190301%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20190301T051146Z&amp;X-Amz-Expires=300&amp;X-Amz-Signature=4b1a98d2f1ff9902c4f33dd783aa737871f83399dafac87402f8f6cde804c803&amp;X-Amz-SignedHeaders=host&amp;actor_id=0&amp;response-content-disposition=attachment%3B%20filename%3DDeepCNN_cifar10_augmented2_snapshot_epoch_90.npz&amp;response-content-type=application%2Foctet-stream
-Resolving github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)... 54.231.41.19
-Connecting to github-production-release-asset-2e65be.s3.amazonaws.com (github-production-release-asset-2e65be.s3.amazonaws.com)|54.231.41.19|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 56734002 (54M) [application/octet-stream]
-Saving to: ‘DeepCNN_cifar10_augmented2_snapshot_epoch_90.npz’
-
-DeepCNN_cifar10_aug 100%[===================&gt;]  54.11M  59.2MB/s    in 0.9s
-
-2019-03-01 05:11:47 (59.2 MB/s) - ‘DeepCNN_cifar10_augmented2_snapshot_epoch_90.npz’ saved [56734002/56734002]
-
 epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed_time  lr
 1           2.64248     0.137296       2.15132        0.175              23.5716       0.1
 2           2.09025     0.202814       1.90949        0.248633           47.2547       0.1
@@ -2511,17 +2568,17 @@ epoch       main/loss   main/accuracy  val/main/loss  val/main/accuracy  elapsed
 88          0.215969    0.925138       0.255438       0.921094           2121.65       0.001
 89          0.217307    0.92294        0.253423       0.920313           2145.48       0.001
 90          0.217241    0.925058       0.254931       0.919922           2169.54       0.001
-91          0.211696    0.926869       0.250793       0.922852           2194.26       0.0001
-92          0.202627    0.929688       0.248774       0.923242           2218          0.0001
-93          0.210399    0.927046       0.249476       0.923242           2241.84       0.0001
-94          0.204141    0.929754       0.248579       0.923633           2265.62       0.0001
-95          0.197843    0.931596       0.249407       0.924805           2289.48       0.0001
-96          0.200821    0.930889       0.2483         0.922656           2313.26       0.0001
-97          0.204194    0.9284         0.248897       0.923633           2337.15       0.0001
-98          0.204944    0.928644       0.250977       0.922852           2360.91       0.0001
-99          0.201082    0.931001       0.249237       0.923633           2384.56       0.0001
-100         0.202857    0.930353       0.253938       0.923047           2408.31       0.0001
-Test accuracy: 0.9244462
+91          0.210398    0.926336       0.248383       0.924023           2182.44       0.0001
+92          0.202761    0.929131       0.248566       0.923828           2195.01       0.0001
+93          0.202395    0.930686       0.248684       0.923633           2207.6        0.0001
+94          0.205619    0.926794       0.25063        0.921875           2219.81       0.0001
+95          0.207099    0.929088       0.251314       0.922852           2231.86       0.0001
+96          0.198571    0.932692       0.250731       0.92168            2243.82       0.0001
+97          0.200812    0.930331       0.250747       0.921875           2255.85       0.0001
+98          0.204992    0.928689       0.250508       0.92207            2267.96       0.0001
+99          0.203764    0.92922        0.248585       0.921289           2280.19       0.0001
+100         0.202649    0.930331       0.25095        0.923047           2292.4        0.0001
+Test accuracy: 0.92523736
 </pre></div></div>
 </div>
 <p>わずかに精度が向上しました．他にも，ResNet [He 2016]と呼ばれる有名なネットワーク構造を採用して学習を行うなど，簡単に試せる改善方法がいくつかあります．ぜひ色々と試してみてください．</p>
