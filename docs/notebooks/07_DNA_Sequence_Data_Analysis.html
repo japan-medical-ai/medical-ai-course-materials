@@ -397,7 +397,8 @@ matplotlib: 3.1.1
 <h2>7.2. 配列解析について<a class="headerlink" href="#配列解析について" title="Permalink to this headline">¶</a></h2>
 <p>次世代シーケンサの発展・普及とともに，大量の遺伝子配列が読み取られるようになりました．そうした中で，塩基配列で表現された遺伝子型と病気や形態などの表現型との関係を推定するようなGWAS（Genome Wide Association Study;
 ゲノムワイド関連解析）が広がってきました．しかし，遺伝子の変異だけでは全ての表現型の変化を説明できないことがわかってきました．特に，非翻訳領域が遺伝子発現に影響を与え，表現型の変化を生じさせていることが様々な実験結果からわかってきています．遺伝子発現時に周辺領域がどのように影響を与えているのかを調べるために様々な手法が提案されています．</p>
-<p><img alt="エピゲノム解析概略図（Encode Projectより引用）" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png"/> 引用元 : <a class="reference external" href="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png">https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png</a></p>
+<p><img alt="エピゲノム解析概略図（Encode Projectより引用）" src="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png"/></p>
+<p>引用元 : <a class="reference external" href="https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png">https://www.encodeproject.org/images/c45f4d8c-0340-4fcb-abe3-e4ff0bb919be/download/attachment/EncodeDatatypes2013-7.png</a></p>
 <p>例えば，ChIP-seq（クロマチン免疫沈降シーケンス）は，ChIP（クロマチン免疫沈降）と高速DNAシーケンスを組み合わせることで，ヒストン修飾状況や転写調節因子の結合部位を網羅的（ゲノムワイド）に同定する手法です．これにより，転写調節機能を司るヒストン修飾やDNA結合タンパクの結合部位をゲノム全体で同定することができ，遺伝子変異だけでは説明しきれない細胞の表現型に関与する膨大な情報の取得が可能になります．</p>
 <p>そこで本節では，ChIP-seqにより得られた転写調節因子の結合部位に当たるDNA塩基配列のパターンを深層学習により学習することで，任意のDNA塩基配列に対して特定の転写調節因子との結合可能性の予測を行います．このアプローチはゲノム全体のヒストン修飾部位の予測やオープンクロマチン領域の予測など幅広い生命現象を統一的に取り扱うことを可能とします。</p>
 <p>この課題を機械学習で取り扱う際の技術的な難しさの一つが，DNA塩基配列の長距離相互作用と呼ばれる現象です．これは，核内のDNAは複雑に折り畳まれた様式で存在しており，塩基配列上の並びとしては遠く離れた2つの領域が空間的には近い距離に位置し，転写調節因子の結合に影響を及ぼすことがあるということです．例えば，今回対象とする問題では10万bp (ベース・ペア：DNAを構成する塩基を数える単位)
